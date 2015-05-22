@@ -1,0 +1,8 @@
+<?php include 'header.php'; ?>
+<body>
+	<main>
+		<h1>404</h1>
+		<h2>Page Not Found</h2>
+	</main>
+</body>
+</html>

@@ -1,0 +1,66 @@
+.media-wrap {
+	text-align:center;
+	margin:0 auto;
+}
+
+.media {
+	position:relative;
+	vertical-align:top;
+	display:inline-block;
+	text-align:center;
+	width:220px;
+	height:319px;
+	margin:0.25em;
+}
+	.media > img {
+		border-radius:0.25em;
+	}
+
+	.name, .media_type, .airing_status, .user_rating, .completion {
+		background: rgba(0, 0, 0, 0.45);
+		color: #fff;
+		padding:0.25em;
+		text-align:right;
+	}
+
+	.media > .media_metadata {
+		position:absolute;
+		bottom:0;
+		right:0;
+	}
+
+		.media > .media_metadata > .media_type {
+			border-top-left-radius: 0.25em;
+			border-top-right-radius: 0.25em;
+		}
+
+		.media > .media_metadata > .completion {
+			border-bottom-left-radius: 0.25em;
+			border-bottom-right-radius: 0.25em;
+		}
+
+	.media > .name {
+		border-radius:0.25em;
+		position:absolute;
+		top: 0;
+	}
+
+		.media > .name:hover {
+			background:rgba(0,0,0,0.9);
+		}
+
+		.media > .name > a {
+			text-align:justify;
+			background:none;
+			color:#fff;
+			text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
+		}
+
+.user_rating::before {
+	content: "Rating: ";
+}
+
+.completion::before {
+	content: "Episodes: ";
+}
+
