@@ -1,3 +1,7 @@
+body {
+	margin: 0.5em;
+}
+
 .media-wrap {
 	text-align:center;
 	margin:0 auto;
@@ -59,8 +63,3 @@
 .user_rating::before {
 	content: "Rating: ";
 }
-
-.completion::before {
-	content: "Episodes: ";
-}
-

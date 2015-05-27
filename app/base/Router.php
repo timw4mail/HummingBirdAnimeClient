@@ -20,8 +20,8 @@ class Router {
 	 */
 	public function get_route()
 	{
-		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-		$route = $this->router->match($path, $_SERVER);
+		//$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+		$route = $this->router->match($_SERVER['REQUEST_URI'], $_SERVER);
 
 		return $route;
 	}
@@ -34,6 +34,8 @@ class Router {
 	 */
 	public function dispatch($route = NULL)
 	{
+		global $defaultHandler;
+
 		if (is_null($route))
 		{
 			$route = $this->get_route();
@@ -41,6 +43,9 @@ class Router {
 
 		if ( ! $route)
 		{
+			$failure = $this->router->getFailedRoute();
+			$defaultHandler->addDataTable('failed_route', (array)$failure);
+
 			$controller_name = 'BaseController';
 			$action_method = 'outputHTML';
 			$params = [
@@ -49,6 +54,7 @@ class Router {
 					'title' => 'Page Not Found'
 				]
 			];
+			
 		}
 		else
 		{
@@ -66,18 +72,22 @@ class Router {
 	private function _setup_routes()
 	{
 		$host = $_SERVER['HTTP_HOST'];
-		$controller_class = ($host == "anime.timshomepage.net") ? "AnimeController" : "MangaController";
+		$route_type = "";
+		switch($host)
+		{
+			case "anime.timshomepage.net":
+				$route_type = "anime";
+			break;
+
+			case "manga.timshomepage.net":
+				$route_type = "manga";
+			break;
+		}
 
 		$routes = require __DIR__ . '/../config/routes.php';
 
-		// Add the default route
-		$this->router->add('home', '/')->addValues([
-			'controller' => $controller_class,
-			'action' => 'index'
-		]);
-
 		// Add routes by the configuration file
-		foreach($routes as $name => $route)
+		foreach($routes[$route_type] as $name => $route)
 		{
 			$path = $route['path'];
 			unset($route['path']);

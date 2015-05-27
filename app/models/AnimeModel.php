@@ -23,10 +23,10 @@ class AnimeModel extends BaseModel {
 	{
 		$output = [
 			'Watching' => [],
-			'Completed' => [],
 			'Plan to Watch' => [],
 			'On Hold' => [],
-			'Dropped' => []
+			'Dropped' => [],
+			'Completed' => [],
 		];
 
 		$data = $this->_get_list();
@@ -76,10 +76,10 @@ class AnimeModel extends BaseModel {
 	{
 		$map = [
 			'currently-watching' => 'Watching',
-			'completed' => 'Completed',
 			'plan-to-watch' => 'Plan to Watch',
 			'on-hold' => 'On Hold',
-			'dropped' => 'Dropped'
+			'dropped' => 'Dropped',
+			'completed' => 'Completed',
 		];
 
 		$data = $this->_get_list($type);

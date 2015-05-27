@@ -3,6 +3,8 @@
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/app/base/autoloader.php';
 
+session_start();
+
 use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;
 

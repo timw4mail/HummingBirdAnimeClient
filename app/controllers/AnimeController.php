@@ -37,5 +37,11 @@ class AnimeController extends BaseController {
 			'sections' => $data
 		]);
 	}
+
+	public function login()
+	{
+		$data = $this->model->authenticate();
+		//print_r($data);
+	}
 }
 // End of AnimeController.php

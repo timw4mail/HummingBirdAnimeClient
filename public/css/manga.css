@@ -1,0 +1,13 @@
+.media {
+	position:relative;
+	vertical-align:top;
+	display:inline-block;
+	text-align:center;
+	width:200px;
+	height:290px;
+	margin:0.25em;
+}
+
+.completion::before {
+	content: "";
+}
