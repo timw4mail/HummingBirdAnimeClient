@@ -17,14 +17,19 @@ body {
 	margin:0.25em;
 }
 	.media > img {
-		border-radius:0.25em;
+		border-radius:0.5em;
 	}
 
-	.name, .media_type, .airing_status, .user_rating, .completion {
+	.name, .media_type, .airing_status, .user_rating, .completion, .age_rating {
+		text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
 		background: rgba(0, 0, 0, 0.45);
 		color: #fff;
 		padding:0.25em;
 		text-align:right;
+	}
+	
+	.media_type, .age_rating {
+		text-align:left;
 	}
 
 	.media > .media_metadata {
@@ -32,19 +37,29 @@ body {
 		bottom:0;
 		right:0;
 	}
+	
+	.media > .medium_metadata {
+		position:absolute;
+		bottom: 0;
+		left:0;
+	}
 
-		.media > .media_metadata > .media_type {
-			border-top-left-radius: 0.25em;
-			border-top-right-radius: 0.25em;
+		.media > .media_metadata > .airing_status,
+		.media > .medium_metadata > .media_type
+		{
+			border-top-left-radius: 0.5em;
+			border-top-right-radius: 0.5em;
 		}
 
-		.media > .media_metadata > .completion {
-			border-bottom-left-radius: 0.25em;
-			border-bottom-right-radius: 0.25em;
+		.media > .media_metadata > .completion,
+		.media > .medium_metadata > .age_rating
+		{
+			border-bottom-left-radius: 0.5em;
+			border-bottom-right-radius: 0.5em;
 		}
 
 	.media > .name {
-		border-radius:0.25em;
+		border-radius:0.5em;
 		position:absolute;
 		top: 0;
 	}

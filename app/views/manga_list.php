@@ -22,7 +22,6 @@
 							<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
 						</a></div>
 						<div class="media_metadata">
-							<div class="media_type"><?= $item['manga']['manga_type'] ?></div>
 							<?php /*<div class="airing_status"><?= $item['manga']['status'] ?></div>*/ ?>
 							<div class="user_rating"><?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</div>
 							<div class="completion">
@@ -30,6 +29,9 @@
 								Volumes: <?= $item['volumes_read'] ?> / <?= ($item['manga']['volume_count'] > 0) ? $item['manga']['volume_count'] : "-" ?>*/ ?>
 							</div>
 						</div>
+						<?php /*<div class="medium_metadata">
+							<div class="media_type"><?= $item['manga']['manga_type'] ?></div>
+						</div> */ ?>
 					</article>
 					<?php endforeach ?>
 				</section>

@@ -1,8 +1,19 @@
+.media, 
+.media > .name,
+.media > img,
+.media > .media_metadata > .user_rating, 
+.media > .media_metadata > .completion 
+{
+	border-radius: 0;
+}
+
+.media > .name {
+	padding:0.5em;
+	margin:1em;
+}
+
 .media {
-	position:relative;
-	vertical-align:top;
-	display:inline-block;
-	text-align:center;
+	border:1px solid #ddd;
 	width:200px;
 	height:290px;
 	margin:0.25em;
@@ -10,4 +21,9 @@
 
 .completion::before {
 	content: "";
+}
+
+.media_metadata {
+	padding: 0.25em;
+	margin: 0.75em;
 }

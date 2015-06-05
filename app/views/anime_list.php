@@ -15,10 +15,13 @@
 							<?= ($item['anime']['alternate_title'] != "") ? "<br />({$item['anime']['alternate_title']})" : ""; ?>
 						</a></div>
 						<div class="media_metadata">
-							<div class="media_type"><?= $item['anime']['show_type'] ?></div>
 							<div class="airing_status"><?= $item['anime']['status'] ?></div>
 							<div class="user_rating"><?= (int)($item['rating']['value'] * 2) ?> / 10</div>
 							<div class="completion">Episodes: <?= $item['episodes_watched'] ?> / <?= $item['anime']['episode_count'] ?></div>
+						</div>
+						<div class="medium_metadata">
+							<div class="media_type"><?= $item['anime']['show_type'] ?></div>
+							<div class="age_rating"><?= $item['anime']['age_rating'] ?></div>
 						</div>
 					</article>
 					<?php endforeach ?>
