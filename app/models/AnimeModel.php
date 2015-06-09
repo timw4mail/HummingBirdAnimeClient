@@ -116,7 +116,14 @@ class AnimeModel extends BaseModel {
 			throw new Exception($response->getEffectiveUrl());
 		}
 
-		return $response->json();
+		$output = $response->json();
+
+		foreach($output as &$row)
+		{
+			$row['anime']['cover_image'] = $this->get_cached_image($row['anime']['cover_image'], $row['anime']['slug'], 'anime');
+		}
+
+		return $output;
 	}
 
 	private function sort_by_name(&$array)

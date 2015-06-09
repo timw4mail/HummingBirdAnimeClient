@@ -22,12 +22,12 @@ class MangaModel extends BaseModel {
 	public function get_all_lists()
 	{
 		$data = $this->_get_list();
-		
+
 		foreach ($data as $key => &$val)
 		{
 			$this->sort_by_name($val);
 		}
-		
+
 		return $data;
 	}
 
@@ -40,7 +40,7 @@ class MangaModel extends BaseModel {
 	public function get_list($type)
 	{
 		$data = $this->_get_list($type);
-		
+
 		$this->sort_by_name($data);
 
 		return $data;
@@ -68,7 +68,7 @@ class MangaModel extends BaseModel {
 
 		// Reorganize data to be more usable
 		$raw_data = $response->json();
-		
+
 		$data = [
 			'Reading' => [],
 			'Plan to Read' => [],
@@ -77,16 +77,19 @@ class MangaModel extends BaseModel {
 			'Completed' => [],
 		];
 		$manga_data = [];
-		
+
 		foreach($raw_data['manga'] as $manga)
 		{
 			$manga_data[$manga['id']] = $manga;
 		}
-		
-		foreach($raw_data['manga_library_entries'] as $entry)
+
+		foreach($raw_data['manga_library_entries'] as &$entry)
 		{
 			$entry['manga'] = $manga_data[$entry['manga_id']];
-			
+
+			// Cache poster images
+			$entry['manga']['poster_image'] = $this->get_cached_image($entry['manga']['poster_image'], $entry['manga_id'], 'manga');
+
 			switch($entry['status'])
 			{
 				case "Plan to Read":
@@ -104,14 +107,14 @@ class MangaModel extends BaseModel {
 				case "Currently Reading":
 					$data['Reading'][] = $entry;
 				break;
-				
+
 				case "Completed":
 				default:
 					$data['Completed'][] = $entry;
 				break;
 			}
 		}
-		
+
 		return (array_key_exists($type, $data)) ? $data[$type] : $data;
 	}
 
