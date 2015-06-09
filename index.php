@@ -13,6 +13,8 @@ function is_selected($a, $b)
 	return ($a === $b) ? 'selected' : '';
 }
 
+$config = require_once(__DIR__ . '/app/config/config.php');
+
 // -----------------------------------------------------------------------------
 // Setup error handling
 // -----------------------------------------------------------------------------
@@ -34,7 +36,7 @@ $whoops->register();
 // -----------------------------------------------------------------------------
 
 $router = new Router();
-$defaultHandler->addDataTable('route', (array)$router->get_route());
+//$defaultHandler->addDataTable('route', (array)$router->get_route());
 $router->dispatch();
 
 // End of index.php

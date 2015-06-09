@@ -10,11 +10,6 @@ class MangaController extends BaseController {
 		$this->model = new MangaModel();
 	}
 
-	public function __destruct()
-	{
-		parent::__destruct();
-	}
-
 	public function index()
 	{
 		$this->manga_list('Reading');

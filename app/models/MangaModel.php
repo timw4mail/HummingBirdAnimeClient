@@ -34,25 +34,33 @@ class MangaModel extends BaseModel {
 	/**
 	 * Get a category out of the full list
 	 *
-	 * @param string $type
+	 * @param string $status
 	 * @return array
 	 */
-	public function get_list($type)
+	public function get_list($status)
 	{
-		$data = $this->_get_list($type);
+		$data = $this->_get_list($status);
 
 		$this->sort_by_name($data);
 
 		return $data;
 	}
 
-	private function _get_list($type="all")
+	/**
+	 * Massage the list of manga entries into something more usable
+	 *
+	 * @param string $status
+	 * @return array
+	 */
+	private function _get_list($status="all")
 	{
 		global $defaultHandler;
 
+		$cache_file = __DIR__ . "/../cache/manga.json";
+
 		$config = [
 			'query' => [
-				'user_id' => 'timw4mail',
+				'user_id' => $this->config->hummingbird_username
 			],
 			'allow_redirects' => false
 		];
@@ -63,11 +71,23 @@ class MangaModel extends BaseModel {
 
 		if ($response->getStatusCode() != 200)
 		{
-			throw new Exception($response->getEffectiveUrl());
+			if ( ! file_exists($cache_file))
+			{
+				throw new Exception($response->getEffectiveUrl());
+			}
+			else
+			{
+				$raw_data = json_decode(file_get_contents($cache_file), TRUE);
+			}
 		}
+		else
+		{
+			// Reorganize data to be more usable
+			$raw_data = $response->json();
 
-		// Reorganize data to be more usable
-		$raw_data = $response->json();
+			// Cache data in case of downtime
+			file_put_contents($cache_file, json_encode($raw_data));
+		}
 
 		$data = [
 			'Reading' => [],
@@ -78,11 +98,13 @@ class MangaModel extends BaseModel {
 		];
 		$manga_data = [];
 
+		// Massage the two lists into one
 		foreach($raw_data['manga'] as $manga)
 		{
 			$manga_data[$manga['id']] = $manga;
 		}
 
+		// Filter data by status
 		foreach($raw_data['manga_library_entries'] as &$entry)
 		{
 			$entry['manga'] = $manga_data[$entry['manga_id']];
@@ -115,9 +137,15 @@ class MangaModel extends BaseModel {
 			}
 		}
 
-		return (array_key_exists($type, $data)) ? $data[$type] : $data;
+		return (array_key_exists($status, $data)) ? $data[$status] : $data;
 	}
 
+	/**
+	 * Sort the manga entries by their title
+	 *
+	 * @param array $array
+	 * @return void
+	 */
 	private function sort_by_name(&$array)
 	{
 		$sort = array();

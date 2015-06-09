@@ -43,6 +43,12 @@ return [
 				'type' => 'completed'
 			]
 		],
+		'collection' => [
+			'path' => '/collection',
+			'controller' => 'AnimeController',
+			'action' => 'collection',
+			'params' => []
+		],
 		'anime_login' => [
 			'path' => '/login',
 			'controller' => 'AnimeController',

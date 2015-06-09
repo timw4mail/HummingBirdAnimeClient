@@ -5,6 +5,7 @@
 			<li class="<?= is_selected('/on_hold', $route_path) ?>"><a href="/on_hold">On Hold</a></li>
 			<li class="<?= is_selected('/dropped', $route_path) ?>"><a href="/dropped">Dropped</a></li>
 			<li class="<?= is_selected('/completed', $route_path) ?>"><a href="/completed">Completed</a></li>
+			<?php /*<li class="<?= is_selected('/collection', $route_path) ?>"><a href="/collection">Collection</a></li> */ ?>
 			<li class="<?= is_selected('/all', $route_path) ?>"><a href="/all">All</a></li>
 		</ul>
 	</nav>

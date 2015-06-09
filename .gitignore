@@ -1,0 +1,4 @@
+vendor
+app/cache/*
+public/images/*
+composer.lock

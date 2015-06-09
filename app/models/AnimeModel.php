@@ -4,7 +4,6 @@
  * Model for handling requests dealing with the anime list
  */
 class AnimeModel extends BaseModel {
-
 	protected $client;
 	protected $cookieJar;
 	protected $base_url = "https://hummingbird.me/api/v1";
@@ -69,10 +68,10 @@ class AnimeModel extends BaseModel {
 	/**
 	 * Get a category out of the full list
 	 *
-	 * @param string $type
+	 * @param string $status
 	 * @return array
 	 */
-	public function get_list($type)
+	public function get_list($status)
 	{
 		$map = [
 			'currently-watching' => 'Watching',
@@ -82,41 +81,65 @@ class AnimeModel extends BaseModel {
 			'completed' => 'Completed',
 		];
 
-		$data = $this->_get_list($type);
+		$data = $this->_get_list($status);
 		$this->sort_by_name($data);
 
 		$output = [];
-		$output[$map[$type]] = $data;
+		$output[$map[$status]] = $data;
 
 		return $output;
 	}
 
-	private function _get_list($type="all")
+	/**
+	 * Actually retreive the data from the api
+	 *
+	 * @param string $status - Status to filter by
+	 * @return array
+	 */
+	private function _get_list($status="all")
 	{
 		global $defaultHandler;
 
+		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
+
 		$config = [
 			'query' => [
-				'username' => 'timw4mail',
+				'username' => $this->config->hummingbird_username,
 			],
 			'allow_redirects' => false
 		];
 
-		if ($type != "all")
+		if ($status != "all")
 		{
-			$config['query']['status'] = $type;
+			$config['query']['status'] = $status;
 		}
 
-		$response = $this->client->get($this->_url('/users/timw4mail/library'), $config);
+		$response = $this->client->get($this->_url('/users/' . $this->config->hummingbird_username . '/library'), $config);
 
-		$defaultHandler->addDataTable('response', (array)$response);
+		$defaultHandler->addDataTable('anime_list_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
 		{
-			throw new Exception($response->getEffectiveUrl());
+			if ( ! file_exists($cache_file))
+			{
+				throw new Exception($response->getEffectiveUrl());
+			}
+			else
+			{
+				$output = json_decode(file_get_contents($cache_file), TRUE);
+			}
 		}
-
-		$output = $response->json();
+		else
+		{
+			$output = $response->json();
+			$output_json = json_encode($output);
+			
+			if (file_get_contents($cache_file) !== $output_json)
+			{
+				// Cache the call in case of downtime
+				file_put_contents($cache_file, json_encode($output));
+			}
+		}
 
 		foreach($output as &$row)
 		{
@@ -126,6 +149,39 @@ class AnimeModel extends BaseModel {
 		return $output;
 	}
 
+	/**
+	 * Search for anime by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		global $defaultHandler;
+
+		$config = [
+			'query' => [
+				'query' => $name
+			]
+		];
+
+		$response = $this->client->get($this->_url('/search/anime'), $config);
+		$defaultHandler->addDataTable('anime_search_response', (array)$response);
+
+		if ($response->getStatusCode() != 200)
+		{
+			throw new Exception($response->getEffectiveUrl());
+		}
+
+		return $response->json();
+	}
+
+	/**
+	 * Sort the list by title
+	 *
+	 * @param array &$array
+	 * @return void
+	 */
 	private function sort_by_name(&$array)
 	{
 		$sort = array();

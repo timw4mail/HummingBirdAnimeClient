@@ -6,10 +6,14 @@ use \GuzzleHttp\Cookie\CookieJar;
 class BaseModel {
 
 	protected $client;
+	protected $config;
 	protected $cookieJar;
 
 	public function __construct()
 	{
+		global $config;
+
+		$this->config = $config;
 		$this->cookieJar = new CookieJar();
 		$this->client = new Client([
 			'base_url' => $this->base_url,
@@ -53,7 +57,7 @@ class BaseModel {
 		$ext = end($ext_parts);
 
 		$cached_image = "{$series_slug}.{$ext}";
-		$cached_path = __DIR__ . "/../../public/cache/{$type}/{$cached_image}";
+		$cached_path = "{$this->config->img_cache_path}/{$type}/{$cached_image}";
 
 		// Cache the file if it doesn't already exist
 		if ( ! file_exists($cached_path))
@@ -80,7 +84,7 @@ class BaseModel {
 			}
 		}
 
-		return "/public/cache/{$type}/{$cached_image}";
+		return "/public/images/{$type}/{$cached_image}";
 	}
 }
 // End of BaseModel.php

@@ -2,29 +2,12 @@
 
 class BaseController {
 
+	protected $config;
+
 	public function __construct()
 	{
-
-	}
-
-	public function __destruct()
-	{
-
-	}
-
-	public function login()
-	{
-
-	}
-
-	public function logout()
-	{
-
-	}
-
-	public function search()
-	{
-
+		global $config;
+		$this->config = $config;
 	}
 
 	/**
