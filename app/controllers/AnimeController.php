@@ -37,18 +37,12 @@ class AnimeController extends BaseController {
 
 	public function collection()
 	{
-		$this->collection_model->get_collection_seed();
+		$data = $this->collection_model->get_collection();
 
-		$this->outputHTML('anime_list', [
+		$this->outputHTML('anime_collection', [
 			'title' => "Tim's Anime Collection",
-			'sections' => []
+			'sections' => $data
 		]);
-	}
-
-	public function login()
-	{
-		$data = $this->model->authenticate();
-		//print_r($data);
 	}
 }
 // End of AnimeController.php

@@ -133,7 +133,7 @@ class AnimeModel extends BaseModel {
 		{
 			$output = $response->json();
 			$output_json = json_encode($output);
-			
+
 			if (file_get_contents($cache_file) !== $output_json)
 			{
 				// Cache the call in case of downtime
@@ -147,6 +147,25 @@ class AnimeModel extends BaseModel {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get information about an anime from its id
+	 *
+	 * @param string $anime_id
+	 * @return array
+	 */
+	public function get_anime($anime_id)
+	{
+		$config = [
+			'query' => [
+				'id' => $anime_id
+			]
+		];
+
+		$response = $this->client->get($this->_url("/anime/{$anime_id}"), $config);
+
+		return $response->json();
 	}
 
 	/**
