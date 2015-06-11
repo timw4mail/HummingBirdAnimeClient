@@ -1,42 +1,56 @@
 <?php
 
+/**
+ * Controller for manga list
+ */
 class MangaController extends BaseController {
 
+	/**
+	 * The manga model
+	 * @var object $model
+	 */
 	private $model;
 
+	/**
+	 * Route mapping for main navigation
+	 * @var array $nav_routes
+	 */
+	private $nav_routes = [
+		'Reading' => '/',
+		'Plan to Read' => '/plan_to_read',
+		'On Hold' => '/on_hold',
+		'Dropped' => '/dropped',
+		'Completed' => '/completed',
+		'All' => '/all'
+	];
+
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->model = new MangaModel();
 	}
 
-	public function index()
+	/**
+	 * Get a section of the manga list
+	 *
+	 * @param string $status
+	 * @param string $title
+	 * @return void
+	 */
+	public function manga_list($status, $title)
 	{
-		$this->manga_list('Reading');
-	}
+		$data = ($status !== 'all')
+			? [$status => $this->model->get_list($status)]
+			: $this->model->get_all_lists();
 
-	public function all()
-	{
-		$data = $this->model->get_all_lists();
-		$this->outputHTML('manga_list', [
-			'title' => "Tim's Manga List &middot; All",
+		$this->outputHTML('manga/list', [
+			'title' => $title,
+			'nav_routes' => $this->nav_routes,
 			'sections' => $data
 		]);
-	}
-
-	public function manga_list($type, $title="Tim's Manga List")
-	{
-		$data = $this->model->get_list($type);
-		$this->outputHTML('manga_list', [
-			'title' => $title,
-			'sections' => [$type => $data]
-		]);
-	}
-
-	public function login()
-	{
-		$data = $this->model->authenticate();
-		//print_r($data);
 	}
 }
 // End of MangaController.php

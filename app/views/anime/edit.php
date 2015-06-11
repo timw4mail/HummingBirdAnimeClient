@@ -1,5 +1,5 @@
 <body>
-	<?php include 'anime_nav.php' ?>
+	<?php include 'nav.php' ?>
 	<main>
 		<form action="<?= $action ?>" method="post">
 		</form>

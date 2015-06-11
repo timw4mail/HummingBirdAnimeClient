@@ -2,6 +2,22 @@ body {
 	margin: 0.5em;
 }
 
+.round_all {
+	border-radius:0.5em;
+}
+
+.round_top {
+	border-radius: 0;
+	border-top-right-radius:0.5em;
+	border-top-left-radius:0.5em;
+}
+
+.round_bottom {
+	border-radius: 0;
+	border-bottom-right-radius:0.5em;
+	border-bottom-left-radius:0.5em;
+}
+
 .media-wrap {
 	text-align:center;
 	margin:0 auto;
@@ -16,9 +32,6 @@ body {
 	height:319px;
 	margin:0.25em;
 }
-	.media > img {
-		border-radius:0.5em;
-	}
 
 	.name, .media_type, .airing_status, .user_rating, .completion, .age_rating {
 		text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
@@ -27,7 +40,7 @@ body {
 		padding:0.25em;
 		text-align:right;
 	}
-	
+
 	.media_type, .age_rating {
 		text-align:left;
 	}
@@ -37,34 +50,22 @@ body {
 		bottom:0;
 		right:0;
 	}
-	
+
 	.media > .medium_metadata {
 		position:absolute;
 		bottom: 0;
 		left:0;
 	}
 
-		.media > .media_metadata > .airing_status,
-		.media > .medium_metadata > .media_type
-		{
-			border-top-left-radius: 0.5em;
-			border-top-right-radius: 0.5em;
-		}
-
-		.media > .media_metadata > .completion,
-		.media > .medium_metadata > .age_rating
-		{
-			border-bottom-left-radius: 0.5em;
-			border-bottom-right-radius: 0.5em;
-		}
-
 	.media > .name {
-		border-radius:0.5em;
 		position:absolute;
 		top: 0;
 	}
 
-		.media > .name:hover {
+		.media:hover > .name,
+		.media:hover > .media_metadata > div,
+		.media:hover > .medium_metadata > div
+		{
 			background:rgba(0,0,0,0.9);
 		}
 
@@ -77,4 +78,29 @@ body {
 
 .user_rating::before {
 	content: "Rating: ";
+}
+
+/* -----------------------------------------------------------------------------
+	Manga-list-specific styles
+------------------------------------------------------------------------------*/
+
+.manga .media > .name {
+	padding:0.5em;
+	margin:1em;
+}
+
+.manga .media {
+	border:1px solid #ddd;
+	width:200px;
+	height:290px;
+	margin:0.25em;
+}
+
+.manga .completion::before {
+	content: "";
+}
+
+.manga .media_metadata {
+	padding: 0.25em;
+	margin: 0.75em;
 }

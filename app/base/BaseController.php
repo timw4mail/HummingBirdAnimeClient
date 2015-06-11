@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * Base class for controllers, defines output methods
+ */
 class BaseController {
 
+	/**
+	 * The global configuration object
+	 * @var object $config
+	 */
 	protected $config;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		global $config;
@@ -23,7 +33,7 @@ class BaseController {
 		$route = $router->get_route();
 		$data['route_path'] = ($route) ? $router->get_route()->path : "";
 
-		$path = realpath(__DIR__ . "/../views/{$template}.php");
+		$path = _dir(APP_DIR, 'views', "{$template}.php");
 
 		if ( ! is_file($path))
 		{
@@ -32,6 +42,7 @@ class BaseController {
 
 		ob_start();
 		extract($data);
+		include _dir(APP_DIR, 'views', 'header.php');
 		include $path;
 		$buffer = ob_get_contents();
 		ob_end_clean();
@@ -58,3 +69,4 @@ class BaseController {
 		echo $data;
 	}
 }
+// End of BaseController.php

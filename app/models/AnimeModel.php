@@ -3,11 +3,16 @@
 /**
  * Model for handling requests dealing with the anime list
  */
-class AnimeModel extends BaseModel {
-	protected $client;
-	protected $cookieJar;
+class AnimeModel extends BaseApiModel {
+	/**
+	 * The base url for api requests
+	 * @var string $base_url
+	 */
 	protected $base_url = "https://hummingbird.me/api/v1";
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -134,7 +139,7 @@ class AnimeModel extends BaseModel {
 			$output = $response->json();
 			$output_json = json_encode($output);
 
-			if (file_get_contents($cache_file) !== $output_json)
+			if (( ! file_exists($cache_file)) || file_get_contents($cache_file) !== $output_json)
 			{
 				// Cache the call in case of downtime
 				file_put_contents($cache_file, json_encode($output));

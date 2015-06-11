@@ -1,14 +1,17 @@
 <?php
-
 /**
  * Model for handling requests dealing with the manga list
  */
-class MangaModel extends BaseModel {
+class MangaModel extends BaseApiModel {
 
-	protected $client;
-	protected $cookieJar;
+	/**
+	 * @var string $base_url - The base url for api requests
+	 */
 	protected $base_url = "https://hummingbird.me";
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -56,7 +59,7 @@ class MangaModel extends BaseModel {
 	{
 		global $defaultHandler;
 
-		$cache_file = __DIR__ . "/../cache/manga.json";
+		$cache_file = _dir($this->config->data_cache_path, 'manga.json');
 
 		$config = [
 			'query' => [

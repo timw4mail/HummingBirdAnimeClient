@@ -1,4 +1,3 @@
-<?php include 'header.php'; ?>
 <body>
 	<main>
 		<h1>404</h1>

@@ -1,19 +1,46 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/app/base/autoloader.php';
+/**
+ * Joins paths together. Variadic to take an
+ * arbitrary number of arguments
+ *
+ * @return string
+ */
+function _dir() { return implode(DIRECTORY_SEPARATOR, func_get_args()); }
+
+// Base paths
+define('ROOT_DIR', __DIR__);
+define('APP_DIR', _dir(ROOT_DIR, 'app'));
+define('CONF_DIR', _dir(APP_DIR, 'config'));
+define('BASE_DIR', _dir(APP_DIR, 'base'));
+
+// Who's list is it?
+define('WHOSE', "Tim's");
+
+// Load config and global functions
+$config = require _dir(APP_DIR, '/config/config.php');
+require _dir(BASE_DIR, '/functions.php');
+
+// Setup autoloaders
+require _dir(ROOT_DIR, '/vendor/autoload.php');
+spl_autoload_register(function ($class) {
+	$dirs = ["base", "controllers", "models"];
+
+	foreach($dirs as $dir)
+	{
+		$file = _dir(APP_DIR, $dir, "{$class}.php");
+		if (file_exists($file))
+		{
+			require_once $file;
+			return;
+		}
+	}
+});
 
 session_start();
 
 use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;
-
-function is_selected($a, $b)
-{
-	return ($a === $b) ? 'selected' : '';
-}
-
-$config = require_once(__DIR__ . '/app/config/config.php');
 
 // -----------------------------------------------------------------------------
 // Setup error handling
@@ -36,7 +63,7 @@ $whoops->register();
 // -----------------------------------------------------------------------------
 
 $router = new Router();
-//$defaultHandler->addDataTable('route', (array)$router->get_route());
+$defaultHandler->addDataTable('route', (array)$router->get_route());
 $router->dispatch();
 
 // End of index.php

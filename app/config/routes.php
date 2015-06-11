@@ -2,21 +2,31 @@
 
 return [
 	'anime' => [
-		'index' => [
-			'path' => '/',
-			'controller' => 'AnimeController'
-		],
 		'all' => [
 			'path' => '/all',
 			'controller' => 'AnimeController',
-			'action' => 'all'
+			'action' => 'anime_list',
+			'params' => [
+				'type' => 'all',
+				'title' => WHOSE . " Anime List &middot All"
+			]
+		],
+		'index' => [
+			'path' => '/',
+			'controller' => 'AnimeController',
+			'action' => 'anime_list',
+			'params' => [
+				'type' => 'currently-watching',
+				'title' => WHOSE . " Anime List &middot Watching"
+			]
 		],
 		'plan_to_watch' => [
 			'path' => '/plan_to_watch',
 			'controller' => 'AnimeController',
 			'action' => 'anime_list',
 			'params' => [
-				'type' => 'plan-to-watch'
+				'type' => 'plan-to-watch',
+				'title' => WHOSE . " Anime List &middot Plan to Watch"
 			]
 		],
 		'on_hold' => [
@@ -24,7 +34,8 @@ return [
 			'controller' => 'AnimeController',
 			'action' => 'anime_list',
 			'params' => [
-				'type' => 'on-hold'
+				'type' => 'on-hold',
+				'title' => WHOSE . " Anime List &middot On Hold"
 			]
 		],
 		'dropped' => [
@@ -32,7 +43,8 @@ return [
 			'controller' => 'AnimeController',
 			'action' => 'anime_list',
 			'params' => [
-				'type' => 'dropped'
+				'type' => 'dropped',
+				'title' => WHOSE . " Anime List &middot Dropped"
 			]
 		],
 		'completed' => [
@@ -40,7 +52,8 @@ return [
 			'controller' => 'AnimeController',
 			'action' => 'anime_list',
 			'params' => [
-				'type' => 'completed'
+				'type' => 'completed',
+				'title' => WHOSE . " Anime List &middot Completed"
 			]
 		],
 		'collection' => [
@@ -48,29 +61,34 @@ return [
 			'controller' => 'AnimeController',
 			'action' => 'collection',
 			'params' => []
-		],
-		'anime_login' => [
-			'path' => '/login',
-			'controller' => 'AnimeController',
-			'action' => 'login'
 		]
 	],
 	'manga' => [
-		'index' => [
-			'path' => '/',
-			'controller' => 'MangaController'
-		],
 		'all' => [
 			'path' => '/all',
 			'controller' => 'MangaController',
-			'action' => 'all'
+			'action' => 'manga_list',
+			'params' => [
+				'type' => 'all',
+				'title' => WHOSE . " Manga List &middot; All"
+			]
+		],
+		'index' => [
+			'path' => '/',
+			'controller' => 'MangaController',
+			'action' => 'manga_list',
+			'params' => [
+				'type' => 'Reading',
+				'title' => WHOSE . " Manga List &middot; Reading"
+			]
 		],
 		'plan_to_read' => [
 			'path' => '/plan_to_read',
 			'controller' => 'MangaController',
 			'action' => 'manga_list',
 			'params' => [
-				'type' => 'Plan to Read'
+				'type' => 'Plan to Read',
+				'title' => WHOSE . " Manga List &middot; Plan to Read"
 			]
 		],
 		'on_hold' => [
@@ -78,7 +96,8 @@ return [
 			'controller' => 'MangaController',
 			'action' => 'manga_list',
 			'params' => [
-				'type' => 'On Hold'
+				'type' => 'On Hold',
+				'title' => WHOSE . " Manga List &middot; On Hold"
 			]
 		],
 		'dropped' => [
@@ -86,7 +105,8 @@ return [
 			'controller' => 'MangaController',
 			'action' => 'manga_list',
 			'params' => [
-				'type' => 'Dropped'
+				'type' => 'Dropped',
+				'title' => WHOSE . " Manga List &middot; Dropped"
 			]
 		],
 		'completed' => [
@@ -94,7 +114,8 @@ return [
 			'controller' => 'MangaController',
 			'action' => 'manga_list',
 			'params' => [
-				'type' => 'Completed'
+				'type' => 'Completed',
+				'title' => WHOSE . " Manga List &middot; Completed"
 			]
 		],
 	]

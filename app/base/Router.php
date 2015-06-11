@@ -2,10 +2,31 @@
 
 use Aura\Router\RouterFactory;
 
+/**
+ * Basic routing/ dispatch
+ */
 class Router {
 
+	/**
+	 * The route-matching object
+	 * @var object $router
+	 */
+	protected $router;
+
+	/**
+	 * The global configuration object
+	 * @var object $config
+	 */
+	protected $config;
+
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
+		global $config;
+		$this->config = $config;
+
 		$router_factory = new RouterFactory();
 		$router = $router_factory->newInstance();
 		$this->router = $router_factory->newInstance();
@@ -20,8 +41,17 @@ class Router {
 	 */
 	public function get_route()
 	{
-		//$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-		$route = $this->router->match($_SERVER['REQUEST_URI'], $_SERVER);
+		global $defaultHandler;
+
+		$raw_route = $_SERVER['REQUEST_URI'];
+		$route_path = str_replace([$this->config->anime_path, $this->config->manga_path], '', $raw_route);
+		$route_path = "/" . trim($route_path, '/');
+
+		$defaultHandler->addDataTable('Route Info', [
+			'route_path' => $route_path
+		]);
+
+		$route = $this->router->match($route_path, $_SERVER);
 
 		return $route;
 	}
@@ -54,7 +84,6 @@ class Router {
 					'title' => 'Page Not Found'
 				]
 			];
-			
 		}
 		else
 		{
@@ -69,22 +98,25 @@ class Router {
 		call_user_func_array([$controller, $action_method], $params);
 	}
 
+	/**
+	 * Select controller based on the current url, and apply its relevent routes
+	 *
+	 * @return void
+	 */
 	private function _setup_routes()
 	{
-		$host = $_SERVER['HTTP_HOST'];
-		$route_type = "";
-		switch($host)
-		{
-			case "anime.timshomepage.net":
-				$route_type = "anime";
-			break;
+		$route_type = "anime";
 
-			case "manga.timshomepage.net":
-				$route_type = "manga";
-			break;
+		if ($this->config->manga_host !== "" && strpos($_SERVER['HTTP_HOST'], $this->config->manga_host) !== FALSE)
+		{
+			$route_type = "manga";
+		}
+		else if ($this->config->manga_path !== "" && strpos($_SERVER['REQUEST_URI'], $this->config->manga_path) !== FALSE)
+		{
+			$route_type = "manga";
 		}
 
-		$routes = require __DIR__ . '/../config/routes.php';
+		$routes = $this->config->routes;
 
 		// Add routes by the configuration file
 		foreach($routes[$route_type] as $name => $route)
