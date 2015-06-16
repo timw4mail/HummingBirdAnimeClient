@@ -4,6 +4,11 @@
  */
 
 /**
+ * Well, whose list is it?
+ */
+define('WHOSE', "Tim's");
+
+/**
  * Joins paths together. Variadic to take an
  * arbitrary number of arguments
  *
@@ -11,16 +16,10 @@
  */
 function _dir() { return implode(DIRECTORY_SEPARATOR, func_get_args()); }
 
-
 define('ROOT_DIR', __DIR__);
 define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('BASE_DIR', _dir(APP_DIR, 'base'));
-
-/**
- * Well, whose list is it?
- */
-define('WHOSE', "Tim's");
 
 // Load config and global functions
 $config = require _dir(APP_DIR, '/config/config.php');
