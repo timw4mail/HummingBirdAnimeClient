@@ -1,4 +1,7 @@
 <?php
+/**
+ * Base DB model
+ */
 
 /**
  * Base model for database interaction

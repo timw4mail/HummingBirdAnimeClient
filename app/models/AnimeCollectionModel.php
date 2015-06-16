@@ -1,4 +1,7 @@
 <?php
+/**
+ * Anime Collection DB Model
+ */
 
 /**
  * Model for getting anime collection data

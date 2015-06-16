@@ -1,4 +1,7 @@
 <?php
+/**
+ * Base for base models
+ */
 
 /**
  * Common base for all Models
@@ -35,6 +38,12 @@ class BaseModel {
 		$path = current($path_parts);
 		$ext_parts = explode('.', $path);
 		$ext = end($ext_parts);
+		
+		// Workaround for some broken extensions
+		if ($ext == "jjpg") $ext = "jpg";
+		
+		// Failsafe for weird urls
+		if (strlen($ext) > 3) return $api_path;
 
 		$cached_image = "{$series_slug}.{$ext}";
 		$cached_path = "{$this->config->img_cache_path}/{$type}/{$cached_image}";

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Routing logic
+ */
 
 use Aura\Router\RouterFactory;
 
@@ -90,11 +93,23 @@ class Router {
 			$controller_name = $route->params['controller'];
 			$action_method = $route->params['action'];
 			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
+
+			if ( ! empty($route->tokens))
+			{
+				foreach($route->tokens as $key => $v)
+				{
+					if (array_key_exists($key, $route->params))
+					{
+						$params[$key] = $route->params[$key];
+					}
+				}
+			}
 		}
 
 		$controller = new $controller_name();
 
 		// Run the appropriate controller method
+		$defaultHandler->addDataTable('controller_args', $params);
 		call_user_func_array([$controller, $action_method], $params);
 	}
 
@@ -123,7 +138,20 @@ class Router {
 		{
 			$path = $route['path'];
 			unset($route['path']);
-			$this->router->add($name, $path)->addValues($route);
+
+			if ( ! array_key_exists('tokens', $route))
+			{
+				$this->router->add($name, $path)->addValues($route);
+			}
+			else
+			{
+				$tokens = $route['tokens'];
+				unset($route['tokens']);
+
+				$this->router->add($name, $path)
+					->addValues($route)
+					->addTokens($tokens);
+			}
 		}
 	}
 }

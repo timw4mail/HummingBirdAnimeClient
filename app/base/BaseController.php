@@ -1,4 +1,7 @@
 <?php
+/**
+ * Base Controller
+ */
 
 /**
  * Base class for controllers, defines output methods
@@ -24,26 +27,30 @@ class BaseController {
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @param string $template
-	 * @param array/object $data
+	 * @param array|object $data
 	 * @return void
 	 */
 	public function outputHTML($template, $data=[])
 	{
-		global $router;
+		global $router, $defaultHandler;
 		$route = $router->get_route();
 		$data['route_path'] = ($route) ? $router->get_route()->path : "";
 
-		$path = _dir(APP_DIR, 'views', "{$template}.php");
+		$defaultHandler->addDataTable('Template Data', $data);
 
-		if ( ! is_file($path))
+		$template_path = _dir(APP_DIR, 'views', "{$template}.php");
+
+		if ( ! is_file($template_path))
 		{
 			throw new Exception("Invalid template : {$path}");
+			die();
 		}
 
 		ob_start();
 		extract($data);
 		include _dir(APP_DIR, 'views', 'header.php');
-		include $path;
+		include $template_path;
+		include _dir(APP_DIR, 'views', 'footer.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
@@ -55,7 +62,7 @@ class BaseController {
 	/**
 	 * Output json with the proper content type
 	 *
-	 * @param mixed data
+	 * @param mixed $data
 	 * @return void
 	 */
 	public function outputJSON($data)
@@ -67,6 +74,28 @@ class BaseController {
 
 		header("Content-type: application/json");
 		echo $data;
+	}
+
+	/**
+	 * Redirect to the selected page
+	 *
+	 * @param string $url
+	 * @param int $code
+	 * @return void
+	 */
+	public function redirect($url, $code, $type="anime")
+	{
+		$url = full_url($url, $type);
+
+		$codes = [
+			301 => 'Moved Permanently',
+			302 => 'Found',
+			303 => 'See Other'
+		];
+
+		header("HTTP/1.1 {$code} {$codes[$code]}");
+		header("Location: {$url}");
+		die();
 	}
 }
 // End of BaseController.php

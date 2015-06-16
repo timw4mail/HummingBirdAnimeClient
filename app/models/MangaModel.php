@@ -1,5 +1,9 @@
 <?php
 /**
+ * Manga API Model
+ */
+
+/**
  * Model for handling requests dealing with the manga list
  */
 class MangaModel extends BaseApiModel {

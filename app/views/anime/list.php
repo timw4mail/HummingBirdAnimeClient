@@ -1,34 +1,42 @@
-<body class="anime list">
-	<h1><?= WHOSE ?> Anime List [<a href="<?= full_url('', 'manga') ?>">Manga List</a>]</h1>
-	<?php include 'nav.php' ?>
-	<main>
-		<?php foreach ($sections as $name => $items): ?>
-			<section class="status">
-				<h2><?= $name ?></h2>
-				<section class="media-wrap">
-					<?php foreach($items as $item): ?>
+<main>
+	<?php foreach ($sections as $name => $items): ?>
+	<h2><?= $name ?></h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Alternate Title</th>
+				<th>Airing Status</th>
+				<th>Score</th>
+				<th>Type</th>
+				<th>Progress</th>
+				<th>Rated</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($items as $item): ?>
+			<tr id="a-<?= $item['anime']['id'] ?>">
+				<td class="align_left">
 					<a href="<?= $item['anime']['url'] ?>">
-					<article class="media" id="a-<?= $item['anime']['id'] ?>">
-						<img class="round_all" src="<?= $item['anime']['cover_image'] ?>" />
-						<div class="round_all name">
-							<?= $item['anime']['title'] ?>
-							<?= ($item['anime']['alternate_title'] != "") ? "<br />({$item['anime']['alternate_title']})" : ""; ?>
-						</div>
-						<div class="media_metadata">
-							<div class="round_top airing_status"><?= $item['anime']['status'] ?></div>
-							<div class="user_rating"><?= (int)($item['rating']['value'] * 2) ?> / 10</div>
-							<div class="round_bottom completion">Episodes: <?= $item['episodes_watched'] ?> / <?= $item['anime']['episode_count'] ?></div>
-						</div>
-						<div class="medium_metadata">
-							<div class="round_top media_type"><?= $item['anime']['show_type'] ?></div>
-							<div class="round_bottom age_rating"><?= $item['anime']['age_rating'] ?></div>
-						</div>
-					</article>
+						<?= $item['anime']['title'] ?>
 					</a>
-					<?php endforeach ?>
-				</section>
-			</section>
-		<?php endforeach ?>
-	</main>
-</body>
-</html>
+				</td>
+				<td class="align_left"><?= $item['anime']['alternate_title'] ?></td>
+				<td class="align_left"><?= $item['anime']['status'] ?></td>
+				<td><?= (int)($item['rating']['value'] * 2) ?> / 10 </td>
+				<td><?= $item['anime']['show_type'] ?></td>
+				<td>Episodes: <?= $item['episodes_watched'] ?> / <?= $item['anime']['episode_count'] ?></td>
+				<td><?= $item['anime']['age_rating'] ?></td>
+			</tr>
+			<?php endforeach ?>
+		</tbody>
+	</table>
+	<?php endforeach ?>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/public/js/table_sorter/jquery.tablesorter.min.js"></script>
+<script>
+$(function() {
+	$('table').tablesorter();
+});
+</script>

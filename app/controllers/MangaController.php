@@ -1,4 +1,7 @@
 <?php
+/**
+ * Manga Controller
+ */
 
 /**
  * Controller for manga list
@@ -16,12 +19,12 @@ class MangaController extends BaseController {
 	 * @var array $nav_routes
 	 */
 	private $nav_routes = [
-		'Reading' => '/',
-		'Plan to Read' => '/plan_to_read',
-		'On Hold' => '/on_hold',
-		'Dropped' => '/dropped',
-		'Completed' => '/completed',
-		'All' => '/all'
+		'Reading' => '/reading{/view}',
+		'Plan to Read' => '/plan_to_read{/view}',
+		'On Hold' => '/on_hold{/view}',
+		'Dropped' => '/dropped{/view}',
+		'Completed' => '/completed{/view}',
+		'All' => '/all{/view}'
 	];
 
 	/**
@@ -38,15 +41,23 @@ class MangaController extends BaseController {
 	 *
 	 * @param string $status
 	 * @param string $title
+	 * @param string $view
 	 * @return void
 	 */
-	public function manga_list($status, $title)
+	public function manga_list($status, $title, $view)
 	{
+		$view_map = [
+			'' => 'cover',
+			'list' => 'list'
+		];
+
 		$data = ($status !== 'all')
 			? [$status => $this->model->get_list($status)]
 			: $this->model->get_all_lists();
 
-		$this->outputHTML('manga/list', [
+		$this->outputHTML('manga/' . $view_map[$view], [
+			'url_type' => 'manga',
+			'other_type' => 'anime',
 			'title' => $title,
 			'nav_routes' => $this->nav_routes,
 			'sections' => $data

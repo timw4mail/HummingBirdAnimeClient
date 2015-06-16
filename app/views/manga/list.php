@@ -1,35 +1,40 @@
-<body class="manga list">
-	<h1><?= WHOSE ?> Manga List [<a href="<?= full_url("", "anime") ?>">Anime List</a>]</h1>
-	<?php include 'nav.php' ?>
-	<main>
-		<?php foreach ($sections as $name => $items): ?>
-			<section class="status">
-				<h2><?= $name ?></h2>
-				<section class="media-wrap">
-					<?php foreach($items as $item): ?>
+<main>
+	<?php foreach ($sections as $name => $items): ?>
+	<h2><?= $name ?></h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Alternate Title</th>
+				<th>Rating</th>
+				<th>Chapters</th>
+				<!-- <th>Volumes</th> -->
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($items as $item): ?>
+			<tr id="manga-<?= $item['manga']['id'] ?>">
+				<td class="align_left">
 					<a href="https://hummingbird.me/manga/<?= $item['manga']['id'] ?>">
-					<article class="media" id="manga-<?= $item['manga']['id'] ?>">
-						<img src="<?= $item['manga']['poster_image'] ?>" />
-						<div class="name">
-							<?= $item['manga']['romaji_title'] ?>
-							<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
-						</div>
-						<div class="media_metadata">
-							<div class="user_rating"><?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</div>
-							<div class="completion">
-								Chapters: <?= $item['chapters_read'] ?> / <?= ($item['manga']['chapter_count'] > 0) ? $item['manga']['chapter_count'] : "-" ?><?php /*<br />
-								Volumes: <?= $item['volumes_read'] ?> / <?= ($item['manga']['volume_count'] > 0) ? $item['manga']['volume_count'] : "-" ?>*/ ?>
-							</div>
-						</div>
-						<?php /*<div class="medium_metadata">
-							<div class="media_type"><?= $item['manga']['manga_type'] ?></div>
-						</div> */ ?>
-					</article>
+					<?= $item['manga']['romaji_title'] ?>
 					</a>
-					<?php endforeach ?>
-				</section>
-			</section>
-		<?php endforeach ?>
-	</main>
-</body>
-</html>
+				</td>
+				<td class="align_left"><?= (array_key_exists('english_title', $item['manga'])) ? $item['manga']['english_title'] : "" ?></td>
+				<td><?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</td>
+				<td><?= $item['chapters_read'] ?> / <?= ($item['manga']['chapter_count'] > 0) ? $item['manga']['chapter_count'] : "-" ?></td>
+				<!-- <td><?= $item['volumes_read'] ?> / <?= ($item['manga']['volume_count'] > 0) ? $item['manga']['volume_count'] : "-" ?></td> -->
+				<td><?= $item['manga']['manga_type'] ?></td>
+			</tr>
+			<?php endforeach ?>
+		</tbody>
+	</table>
+	<?php endforeach ?>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/public/js/table_sorter/jquery.tablesorter.min.js"></script>
+<script>
+$(function() {
+	$('table').tablesorter();
+});
+</script>

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Base API Model
+ */
 
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Cookie\CookieJar;

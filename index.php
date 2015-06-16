@@ -1,4 +1,7 @@
 <?php
+/**
+ * Here begins everything!
+ */
 
 /**
  * Joins paths together. Variadic to take an
@@ -8,13 +11,15 @@
  */
 function _dir() { return implode(DIRECTORY_SEPARATOR, func_get_args()); }
 
-// Base paths
+
 define('ROOT_DIR', __DIR__);
 define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('BASE_DIR', _dir(APP_DIR, 'base'));
 
-// Who's list is it?
+/**
+ * Well, whose list is it?
+ */
 define('WHOSE', "Tim's");
 
 // Load config and global functions

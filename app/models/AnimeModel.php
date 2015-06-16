@@ -1,4 +1,7 @@
 <?php
+/**
+ * Anime API Model
+ */
 
 /**
  * Model for handling requests dealing with the anime list
@@ -203,7 +206,7 @@ class AnimeModel extends BaseApiModel {
 	/**
 	 * Sort the list by title
 	 *
-	 * @param array &$array
+	 * @param array $array
 	 * @return void
 	 */
 	private function sort_by_name(&$array)

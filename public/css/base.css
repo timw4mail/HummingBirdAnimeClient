@@ -2,6 +2,23 @@ body {
 	margin: 0.5em;
 }
 
+table {
+	width:85%;
+	margin: 0 auto;
+}
+
+tbody > tr:nth-child(odd) {
+	background: #ddd;
+}
+
+.align_left {
+	text-align:left;
+}
+
+.align_right {
+	text-align:right;
+}
+
 .round_all {
 	border-radius:0.5em;
 }

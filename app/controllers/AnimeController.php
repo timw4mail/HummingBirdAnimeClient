@@ -1,4 +1,7 @@
 <?php
+/**
+ * Anime Controller
+ */
 
 /**
  * Controller for Anime-related pages
@@ -18,17 +21,23 @@ class AnimeController extends BaseController {
 	private $collection_model;
 
 	/**
+	 * Data to ve sent to all routes in this controller
+	 * @var array $base_data
+	 */
+	private $base_data;
+
+	/**
 	 * Route mapping for main navigation
 	 * @var array $nav_routes
 	 */
 	private $nav_routes = [
-		'Watching' => '/',
-		'Plan to Watch' => '/plan_to_watch',
-		'On Hold' => '/on_hold',
-		'Dropped' => '/dropped',
-		'Completed' => '/completed',
-		'Collection' => '/collection',
-		'All' => '/all'
+		'Watching' => '/watching{/view}',
+		'Plan to Watch' => '/plan_to_watch{/view}',
+		'On Hold' => '/on_hold{/view}',
+		'Dropped' => '/dropped{/view}',
+		'Completed' => '/completed{/view}',
+		'Collection' => '/collection{/view}',
+		'All' => '/all{/view}'
 	];
 
 	/**
@@ -39,6 +48,12 @@ class AnimeController extends BaseController {
 		parent::__construct();
 		$this->model = new AnimeModel();
 		$this->collection_model = new AnimeCollectionModel();
+
+		$this->base_data = [
+			'url_type' => 'anime',
+			'other_type' => 'manga',
+			'nav_routes' => $this->nav_routes,
+		];
 	}
 
 	/**
@@ -48,17 +63,21 @@ class AnimeController extends BaseController {
 	 * @param string $title - The title of the page
 	 * @return void
 	 */
-	public function anime_list($type, $title)
+	public function anime_list($type, $title, $view)
 	{
+		$view_map = [
+			'' => 'cover',
+			'list' => 'list'
+		];
+
 		$data = ($type != 'all')
 			? $this->model->get_list($type)
 			: $this->model->get_all_lists();
 
-		$this->outputHTML('anime/list', [
+		$this->outputHTML('anime/' . $view_map[$view], array_merge($this->base_data, [
 			'title' => $title,
-			'nav_routes' => $this->nav_routes,
 			'sections' => $data
-		]);
+		]));
 	}
 
 	/**
@@ -66,15 +85,19 @@ class AnimeController extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function collection()
+	public function collection($view)
 	{
+		$view_map = [
+			'' => 'collection',
+			'list' => 'collection_list'
+		];
+
 		$data = $this->collection_model->get_collection();
 
-		$this->outputHTML('anime/collection', [
+		$this->outputHTML('anime/' . $view_map[$view], array_merge($this->base_data, [
 			'title' => WHOSE . " Anime Collection",
-			'nav_routes' => $this->nav_routes,
 			'sections' => $data
-		]);
+		]));
 	}
 }
 // End of AnimeController.php
