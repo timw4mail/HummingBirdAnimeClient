@@ -46,9 +46,14 @@ class AnimeController extends BaseController {
 	public function __construct()
 	{
 		parent::__construct();
+
+		if ($this->config->show_anime_collection === FALSE)
+		{
+			unset($this->nav_routes['Collection']);
+		}
+
 		$this->model = new AnimeModel();
 		$this->collection_model = new AnimeCollectionModel();
-
 		$this->base_data = [
 			'url_type' => 'anime',
 			'other_type' => 'manga',
