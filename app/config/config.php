@@ -10,7 +10,7 @@ return (object)[
 	// ----------------------------------------------------------------------------
 
 	// do you wish to show the anime collection tab?
-	'show_anime_collection' => FALSE,
+	'show_anime_collection' => TRUE,
 
 	// ----------------------------------------------------------------------------
 	// Routing

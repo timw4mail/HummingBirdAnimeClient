@@ -15,6 +15,12 @@ class AnimeCollectionModel extends BaseDBModel {
 	private $anime_model;
 
 	/**
+	 * Whether the database is valid for querying
+	 * @var bool
+	 */
+	private $valid_database = FALSE;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -23,6 +29,12 @@ class AnimeCollectionModel extends BaseDBModel {
 
 		$this->db = Query($this->db_config['collection']);
 		$this->anime_model = new AnimeModel();
+
+		// Is database valid? If not, set a flag so the
+		// app can be run without a valid database
+		$db_file = file_get_contents($this->db_config['collection']['file']);
+		$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
+
 
 		// Do an import if an import file exists
 		$this->json_import();
@@ -61,6 +73,8 @@ class AnimeCollectionModel extends BaseDBModel {
 	 */
 	private function _get_collection()
 	{
+		if ( ! $this->valid_database) return [];
+
 		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type, age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
 			->from('anime_set a')
 			->join('media', 'media.id=a.media_id', 'inner')
@@ -79,6 +93,7 @@ class AnimeCollectionModel extends BaseDBModel {
 	private function json_import()
 	{
 		if ( ! file_exists('import.json')) return;
+		if ( ! $this->valid_database) return;
 
 		$anime = json_decode(file_get_contents("import.json"));
 

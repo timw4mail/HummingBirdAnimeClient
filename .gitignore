@@ -2,3 +2,6 @@ vendor
 app/cache/*
 public/images/*
 composer.lock
+*.sqlite
+*.db
+*.sqlite3
