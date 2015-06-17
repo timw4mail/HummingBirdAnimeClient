@@ -11,7 +11,7 @@ class AnimeModel extends BaseApiModel {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $base_url = "https://hummingbird.me/api/v1";
+	protected $base_url = "https://hummingbird.me/api/v1/";
 
 	/**
 	 * Constructor
@@ -19,6 +19,31 @@ class AnimeModel extends BaseApiModel {
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	/**
+	 * Attempt login via the api
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	public function authenticate($username, $password)
+	{
+		$result = $this->client->post('users/authenticate', [
+			'form_params' => [
+				'username' => $this->config->hummingbird_username,
+				'password' => $password
+			]
+		]);
+
+		if ($response->getStatusCode() === 201)
+		{
+			$_SESSION['hummingbird_anime_token'] = $response->json();
+			return TRUE;
+		}
+
+		return FALSE;
 	}
 
 	/**
@@ -111,9 +136,9 @@ class AnimeModel extends BaseApiModel {
 		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
 
 		$config = [
-			'query' => [
+			/*'query' => [
 				'username' => $this->config->hummingbird_username,
-			],
+			],*/
 			'allow_redirects' => false
 		];
 
@@ -122,7 +147,7 @@ class AnimeModel extends BaseApiModel {
 			$config['query']['status'] = $status;
 		}
 
-		$response = $this->client->get($this->_url('/users/' . $this->config->hummingbird_username . '/library'), $config);
+		$response = $this->client->get("users/{$this->config->hummingbird_username}/library", $config);
 
 		$defaultHandler->addDataTable('anime_list_response', (array)$response);
 
@@ -171,7 +196,7 @@ class AnimeModel extends BaseApiModel {
 			]
 		];
 
-		$response = $this->client->get($this->_url("/anime/{$anime_id}"), $config);
+		$response = $this->client->get("anime/{$anime_id}", $config);
 
 		return $response->json();
 	}
@@ -192,7 +217,7 @@ class AnimeModel extends BaseApiModel {
 			]
 		];
 
-		$response = $this->client->get($this->_url('/search/anime'), $config);
+		$response = $this->client->get('search/anime', $config);
 		$defaultHandler->addDataTable('anime_search_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)

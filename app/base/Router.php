@@ -90,8 +90,7 @@ class Router {
 		}
 		else
 		{
-			$controller_name = $route->params['controller'];
-			$action_method = $route->params['action'];
+			list($controller_name, $action_method) = $route->params['action'];
 			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
 
 			if ( ! empty($route->tokens))
@@ -133,7 +132,7 @@ class Router {
 
 		$routes = $this->config->routes;
 
-		// Add routes by the configuration file
+		// Add routes for the current controller
 		foreach($routes[$route_type] as $name => $route)
 		{
 			$path = $route['path'];
@@ -151,6 +150,21 @@ class Router {
 				$this->router->add($name, $path)
 					->addValues($route)
 					->addTokens($tokens);
+			}
+		}
+
+		// Add routes by required http verb
+		foreach(['get', 'post'] as $verb)
+		{
+			$add = "add" . ucfirst($verb);
+
+			foreach($routes[$verb] as $name => $route)
+			{
+				$path = $route['path'];
+				unset($route['path']);
+
+				$this->router->$add($name, $path)
+					->addValues($route);
 			}
 		}
 	}

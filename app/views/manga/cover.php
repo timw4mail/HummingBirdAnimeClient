@@ -12,7 +12,7 @@
 						<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
 					</div>
 					<div class="media_metadata">
-						<div class="user_rating"><?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</div>
+						<div class="user_rating">Rating: <?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</div>
 						<div class="completion">
 							Chapters: <?= $item['chapters_read'] ?> / <?= ($item['manga']['chapter_count'] > 0) ? $item['manga']['chapter_count'] : "-" ?><?php /*<br />
 							Volumes: <?= $item['volumes_read'] ?> / <?= ($item['manga']['volume_count'] > 0) ? $item['manga']['volume_count'] : "-" ?>*/ ?>

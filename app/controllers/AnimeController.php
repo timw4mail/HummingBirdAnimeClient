@@ -104,5 +104,30 @@ class AnimeController extends BaseController {
 			'sections' => $data
 		]));
 	}
+
+	/**
+	 * Show the login form
+	 *
+	 * @return void
+	 */
+	public function login()
+	{
+		$this->outputHTML('login', array_merge($this->base_data, [
+			'title' => 'Api login'
+		]));
+	}
+
+	/**
+	 * Attempt to log in with the api
+	 *
+	 * @return void
+	 */
+	public function login_action()
+	{
+		if ($this->model->authenticate($this->config->hummingbird_username, $_POST['password']))
+		{
+			$this->redirect('');
+		}
+	}
 }
 // End of AnimeController.php

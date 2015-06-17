@@ -11,7 +11,7 @@ class MangaModel extends BaseApiModel {
 	/**
 	 * @var string $base_url - The base url for api requests
 	 */
-	protected $base_url = "https://hummingbird.me";
+	protected $base_url = "https://hummingbird.me/";
 
 	/**
 	 * Constructor
@@ -72,7 +72,7 @@ class MangaModel extends BaseApiModel {
 			'allow_redirects' => false
 		];
 
-		$response = $this->client->get($this->_url('/manga_library_entries'), $config);
+		$response = $this->client->get('manga_library_entries', $config);
 
 		$defaultHandler->addDataTable('response', (array)$response);
 

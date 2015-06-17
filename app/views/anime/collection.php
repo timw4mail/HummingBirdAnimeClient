@@ -11,13 +11,14 @@
 						<?= $item['title'] ?>
 						<?= ($item['alternate_title'] != "") ? "<br />({$item['alternate_title']})" : ""; ?>
 					</div>
-					<div class="media_metadata">
-						<div class="completion">Episodes: <?= $item['episode_count'] ?></div>
+					<div class="table">
+						<div class="row">
+							<div class="completion">Episodes: <?= $item['episode_count'] ?></div>
+							<div class="media_type"><?= $item['show_type'] ?></div>
+							<div class="age_rating"><?= $item['age_rating'] ?></div>
+						</div>
 					</div>
-					<div class="medium_metadata">
-						<div class="media_type"><?= $item['show_type'] ?></div>
-						<div class="age_rating"><?= $item['age_rating'] ?></div>
-					</div>
+					
 				</article>
 				</a>
 				<?php endforeach ?>

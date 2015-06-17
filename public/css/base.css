@@ -50,6 +50,8 @@ tbody > tr:nth-child(odd) {
 	margin:0.25em;
 }
 
+	
+
 	.name, .media_type, .airing_status, .user_rating, .completion, .age_rating {
 		text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
 		background: rgba(0, 0, 0, 0.45);
@@ -81,9 +83,10 @@ tbody > tr:nth-child(odd) {
 
 		.media:hover > .name,
 		.media:hover > .media_metadata > div,
-		.media:hover > .medium_metadata > div
+		.media:hover > .medium_metadata > div,
+		.media:hover > .table .row
 		{
-			background:rgba(0,0,0,0.9);
+			background:rgba(0,0,0,0.75);
 		}
 
 		.media > .name > a {
@@ -93,8 +96,42 @@ tbody > tr:nth-child(odd) {
 			text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
 		}
 
-.user_rating::before {
-	content: "Rating: ";
+
+/* -----------------------------------------------------------------------------
+	Anime-list-specific styles
+------------------------------------------------------------------------------*/
+.anime .name {width:100%;}
+
+.anime .media_type, 
+.anime .airing_status,
+.anime .user_rating, 
+.anime .completion, 
+.anime .age_rating {
+	background: none;
+	text-align:center;
+}
+
+
+.anime .table {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+}
+
+.anime .row {
+	width:100%;
+	background: rgba(0, 0, 0, 0.45);
+	display:table;
+	text-align:center;
+	padding:0 inherit;
+}
+
+.anime .row > div {
+	font-size:0.8em;
+	display:table-cell;
+	text-align:center;
+	vertical-align:middle;
 }
 
 /* -----------------------------------------------------------------------------

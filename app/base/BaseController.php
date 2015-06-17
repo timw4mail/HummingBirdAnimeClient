@@ -97,5 +97,16 @@ class BaseController {
 		header("Location: {$url}");
 		die();
 	}
+
+	/**
+	 * Clear the api session
+	 *
+	 * @return void
+	 */
+	public function logout()
+	{
+		session_destroy();
+		$this->redirect('');
+	}
 }
 // End of BaseController.php

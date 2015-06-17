@@ -44,17 +44,5 @@ class BaseApiModel extends BaseModel {
 			]
 		]);
 	}
-
-	/**
-	 * Get the full url path, since the base_url in Guzzle doesn't work correctly
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	protected function _url($path)
-	{
-		return "{$this->base_url}{$path}";
-	}
-
 }
 // End of BaseApiModel.php
