@@ -36,6 +36,11 @@ tbody > tr:nth-child(odd) {
 }
 
 .media-wrap {
+	display:flex;
+	justify-content: center;
+	align-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;
 	text-align:center;
 	margin:0 auto;
 }
@@ -49,8 +54,6 @@ tbody > tr:nth-child(odd) {
 	height:319px;
 	margin:0.25em;
 }
-
-	
 
 	.name, .media_type, .airing_status, .user_rating, .completion, .age_rating {
 		text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
@@ -100,12 +103,16 @@ tbody > tr:nth-child(odd) {
 /* -----------------------------------------------------------------------------
 	Anime-list-specific styles
 ------------------------------------------------------------------------------*/
-.anime .name {width:100%;}
+.anime .name {
+	text-align:center;
+	width:100%;
+	padding:0.5em 0.6em;;
+}
 
-.anime .media_type, 
+.anime .media_type,
 .anime .airing_status,
-.anime .user_rating, 
-.anime .completion, 
+.anime .user_rating,
+.anime .completion,
 .anime .age_rating {
 	background: none;
 	text-align:center;
@@ -123,13 +130,17 @@ tbody > tr:nth-child(odd) {
 	width:100%;
 	background: rgba(0, 0, 0, 0.45);
 	display:table;
+	display:flex;
+	align-content:center;
+	justify-content: space-around;
 	text-align:center;
 	padding:0 inherit;
 }
 
 .anime .row > div {
 	font-size:0.8em;
-	display:table-cell;
+	display:flex-item;
+	align-self:center;
 	text-align:center;
 	vertical-align:middle;
 }

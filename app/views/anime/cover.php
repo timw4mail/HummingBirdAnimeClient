@@ -13,7 +13,7 @@
 					</div>
 					<div class="table">
 						<div class="row">
-							<div class="user_rating">Rating: <?= (int)($item['rating']['value'] * 2) ?> / 10</div>
+							<div class="user_rating">Rating: <?= ($item['rating']['value'] > 0) ? (int)($item['rating']['value'] * 2) : " - " ?> / 10</div>
 							<div class="completion">Episodes: <?= $item['episodes_watched'] ?>&nbsp;/&nbsp;<?= ($item['anime']['episode_count'] != 0) ? $item['anime']['episode_count'] : "-" ?></div>
 						</div>
 						<div class="row">
