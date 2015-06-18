@@ -4,6 +4,7 @@
 		"filp/whoops": "1.1.*",
 		"aura/router": "2.2.*",
 		"aviat4ion/query": "2.0.*",
-		"robmorgan/phinx": "*"
+		"robmorgan/phinx": "*",
+		"abeautifulsite/simpleimage": "*"
 	}
 }

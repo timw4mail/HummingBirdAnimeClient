@@ -1,112 +1,125 @@
 body {
-	margin: 0.5em;
+  margin: 0.5em;
 }
 
 table {
-	width:85%;
-	margin: 0 auto;
+  width: 85%;
+  margin: 0 auto;
 }
 
 tbody > tr:nth-child(odd) {
-	background: #ddd;
+  background: #ddd;
 }
 
 .align_left {
-	text-align:left;
+  text-align: left;
 }
 
 .align_right {
-	text-align:right;
+  text-align: right;
 }
 
 .round_all {
-	border-radius:0.5em;
+  border-radius: 0.5em;
 }
 
 .round_top {
-	border-radius: 0;
-	border-top-right-radius:0.5em;
-	border-top-left-radius:0.5em;
+  border-radius: 0;
+  border-top-right-radius: 0.5em;
+  border-top-left-radius: 0.5em;
 }
 
 .round_bottom {
-	border-radius: 0;
-	border-bottom-right-radius:0.5em;
-	border-bottom-left-radius:0.5em;
+  border-radius: 0;
+  border-bottom-right-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
 }
 
 .media-wrap {
-	display:flex;
-	justify-content: center;
-	align-content: space-around;
-	align-items: center;
-	flex-wrap: wrap;
-	text-align:center;
-	margin:0 auto;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: space-around;
+  -ms-flex-line-pack: distribute;
+  align-content: space-around;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .media {
-	position:relative;
-	vertical-align:top;
-	display:inline-block;
-	text-align:center;
-	width:220px;
-	height:319px;
-	margin:0.25em;
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  width: 220px;
+  height: 319px;
+  margin: 0.25em;
 }
 
-	.name, .media_type, .airing_status, .user_rating, .completion, .age_rating {
-		text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
-		background: rgba(0, 0, 0, 0.45);
-		color: #fff;
-		padding:0.25em;
-		text-align:right;
-	}
+.name,
+.media_metadata > div,
+.medium_metadata > div,
+.row {
+  text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  padding: 0.25em;
+  text-align: right;
+}
 
-	.media_type, .age_rating {
-		text-align:left;
-	}
+.media_type,
+.age_rating {
+  text-align: left;
+}
 
-	.media > .media_metadata {
-		position:absolute;
-		bottom:0;
-		right:0;
-	}
+.media > .media_metadata {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 
-	.media > .medium_metadata {
-		position:absolute;
-		bottom: 0;
-		left:0;
-	}
+.media > .medium_metadata {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 
-	.media > .name {
-		position:absolute;
-		top: 0;
-	}
+.media > .name {
+  position: absolute;
+  top: 0;
+}
 
-		.media:hover > .name,
-		.media:hover > .media_metadata > div,
-		.media:hover > .medium_metadata > div,
-		.media:hover > .table .row
-		{
-			background:rgba(0,0,0,0.75);
-		}
+.media:hover > .name,
+.media:hover > .media_metadata > div,
+.media:hover > .medium_metadata > div,
+.media:hover > .table .row {
+  background: rgba(0,0,0,0.75);
+}
 
-		.media > .name > a {
-			text-align:justify;
-			background:none;
-			color:#fff;
-			text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
-		}
-
+.media > .name > a {
+  text-align: justify;
+  background: none;
+  color: #fff;
+  text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
+}
 
 /* -----------------------------------------------------------------------------
 	Anime-list-specific styles
 ------------------------------------------------------------------------------*/
+
 .anime .name {
-	text-align:center;
-	width:100%;
-	padding:0.5em 0.6em;;
+  text-align: center;
+  width: 100%;
+  padding: 0.5em 0.6em;
 }
 
 .anime .media_type,
@@ -114,35 +127,42 @@ tbody > tr:nth-child(odd) {
 .anime .user_rating,
 .anime .completion,
 .anime .age_rating {
-	background: none;
-	text-align:center;
+  background: none;
+  text-align: center;
 }
 
-
 .anime .table {
-	position:absolute;
-	bottom:0;
-	left:0;
-	width:100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 .anime .row {
-	width:100%;
-	background: rgba(0, 0, 0, 0.45);
-	display:table;
-	display:flex;
-	align-content:center;
-	justify-content: space-around;
-	text-align:center;
-	padding:0 inherit;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: table;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  text-align: center;
+  padding: 0 inherit;
 }
 
 .anime .row > div {
-	font-size:0.8em;
-	display:flex-item;
-	align-self:center;
-	text-align:center;
-	vertical-align:middle;
+  font-size: 0.8em;
+  display: flex-item;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* -----------------------------------------------------------------------------
@@ -150,22 +170,18 @@ tbody > tr:nth-child(odd) {
 ------------------------------------------------------------------------------*/
 
 .manga .media > .name {
-	padding:0.5em;
-	margin:1em;
+  padding: 0.5em;
+  margin: 1em;
 }
 
 .manga .media {
-	border:1px solid #ddd;
-	width:200px;
-	height:290px;
-	margin:0.25em;
-}
-
-.manga .completion::before {
-	content: "";
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 290px;
+  margin: 0.25em;
 }
 
 .manga .media_metadata {
-	padding: 0.25em;
-	margin: 0.75em;
+  padding: 0.25em;
+  margin: 0.75em;
 }

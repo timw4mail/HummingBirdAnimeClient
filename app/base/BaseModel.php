@@ -3,6 +3,8 @@
  * Base for base models
  */
 
+use abeautifulsite\SimpleImage;
+
 /**
  * Common base for all Models
  */
@@ -34,14 +36,16 @@ class BaseModel {
 	 */
 	public function get_cached_image($api_path, $series_slug, $type="anime")
 	{
+		$api_path = str_replace("jjpg", "jpg", $api_path);
 		$path_parts = explode('?', basename($api_path));
 		$path = current($path_parts);
 		$ext_parts = explode('.', $path);
 		$ext = end($ext_parts);
-		
+		/*$ext = $ext = strtolower(pathinfo($api_path, PATHINFO_EXTENSION));*/
+
 		// Workaround for some broken extensions
 		if ($ext == "jjpg") $ext = "jpg";
-		
+
 		// Failsafe for weird urls
 		if (strlen($ext) > 3) return $api_path;
 
@@ -71,9 +75,30 @@ class BaseModel {
 			{
 				throw new Exception("Couldn't cache images because they couldn't be downloaded.");
 			}
+
+			// Resize the image
+			if ($type == 'anime')
+			{
+				$resize_width = 220;
+				$resize_height = 319;
+				$this->_resize($cached_path, $resize_width, $resize_height);
+			}
 		}
 
 		return "/public/images/{$type}/{$cached_image}";
+	}
+
+	/**
+	 * Resize an image
+	 *
+	 * @param string $path
+	 * @param string $width
+	 * @param string $height
+	 */
+	private function _resize($path, $width, $height)
+	{
+		$img = new SimpleImage($path);
+		$img->resize($width,$height)->save();
 	}
 }
 // End of BaseModel.php

@@ -1,0 +1,177 @@
+:root {
+	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
+	--title-overlay: rgba(0, 0, 0, 0.45);
+	--text-color: #ffffff;
+	--normal-padding: 0.25em;
+}
+
+body {
+	margin: 0.5em;
+}
+
+table {
+	width:85%;
+	margin: 0 auto;
+}
+
+tbody > tr:nth-child(odd) {
+	background: #ddd;
+}
+
+.align_left {
+	text-align:left;
+}
+
+.align_right {
+	text-align:right;
+}
+
+.round_all {
+	border-radius:0.5em;
+}
+
+.round_top {
+	border-radius: 0;
+	border-top-right-radius:0.5em;
+	border-top-left-radius:0.5em;
+}
+
+.round_bottom {
+	border-radius: 0;
+	border-bottom-right-radius:0.5em;
+	border-bottom-left-radius:0.5em;
+}
+
+.media-wrap {
+	display:flex;
+	justify-content: center;
+	align-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;
+	text-align:center;
+	margin:0 auto;
+}
+
+.media {
+	position:relative;
+	vertical-align:top;
+	display:inline-block;
+	text-align:center;
+	width:220px;
+	height:319px;
+	margin: var(--normal-padding);
+}
+
+	.name,
+	.media_metadata > div,
+	.medium_metadata > div,
+	.row {
+		text-shadow: var(--shadow);
+		background: var(--title-overlay);
+		color: var(--text-color);
+		padding: var(--normal-padding);
+		text-align:right;
+	}
+
+	.media_type, .age_rating {
+		text-align:left;
+	}
+
+	.media > .media_metadata {
+		position:absolute;
+		bottom:0;
+		right:0;
+	}
+
+	.media > .medium_metadata {
+		position:absolute;
+		bottom: 0;
+		left:0;
+	}
+
+	.media > .name {
+		position:absolute;
+		top: 0;
+	}
+
+		.media:hover > .name,
+		.media:hover > .media_metadata > div,
+		.media:hover > .medium_metadata > div,
+		.media:hover > .table .row
+		{
+			background:rgba(0,0,0,0.75);
+		}
+
+		.media > .name > a {
+			text-align:justify;
+			background:none;
+			color:#fff;
+			text-shadow: var(--shadow);
+		}
+
+
+/* -----------------------------------------------------------------------------
+	Anime-list-specific styles
+------------------------------------------------------------------------------*/
+.anime .name {
+	text-align:center;
+	width:100%;
+	padding:0.5em 0.6em;;
+}
+
+.anime .media_type,
+.anime .airing_status,
+.anime .user_rating,
+.anime .completion,
+.anime .age_rating {
+	background: none;
+	text-align:center;
+}
+
+
+.anime .table {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+}
+
+.anime .row {
+	width:100%;
+	background: var(--title-overlay);
+	display:table;
+	display: flex;
+	align-content:center;
+	justify-content: space-around;
+	text-align:center;
+	padding:0 inherit;
+}
+
+.anime .row > div {
+	font-size:0.8em;
+	display:flex-item;
+	align-self:center;
+	text-align:center;
+	vertical-align:middle;
+}
+
+/* -----------------------------------------------------------------------------
+	Manga-list-specific styles
+------------------------------------------------------------------------------*/
+
+.manga .media > .name {
+	padding:0.5em;
+	margin:1em;
+}
+
+.manga .media {
+	border:1px solid #ddd;
+	width:200px;
+	height:290px;
+	margin:0.25em;
+}
+
+.manga .media_metadata {
+	padding: var(--normal-padding);
+	margin: 0.75em;
+}
