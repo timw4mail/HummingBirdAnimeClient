@@ -119,6 +119,10 @@ class Router {
 	 */
 	private function _setup_routes()
 	{
+		$route_map = [
+			'anime' => 'AnimeController',
+			'manga' => 'MangaController',
+		];
 		$route_type = "anime";
 
 		if ($this->config->manga_host !== "" && strpos($_SERVER['HTTP_HOST'], $this->config->manga_host) !== FALSE)
@@ -132,39 +136,33 @@ class Router {
 
 		$routes = $this->config->routes;
 
-		// Add routes for the current controller
-		foreach($routes[$route_type] as $name => $route)
+		// Add routes
+		foreach(['common', $route_type] as $key)
 		{
-			$path = $route['path'];
-			unset($route['path']);
-
-			if ( ! array_key_exists('tokens', $route))
-			{
-				$this->router->add($name, $path)->addValues($route);
-			}
-			else
-			{
-				$tokens = $route['tokens'];
-				unset($route['tokens']);
-
-				$this->router->add($name, $path)
-					->addValues($route)
-					->addTokens($tokens);
-			}
-		}
-
-		// Add routes by required http verb
-		foreach(['get', 'post'] as $verb)
-		{
-			$add = "add" . ucfirst($verb);
-
-			foreach($routes[$verb] as $name => $route)
+			foreach($routes[$key] as $name => &$route)
 			{
 				$path = $route['path'];
 				unset($route['path']);
 
-				$this->router->$add($name, $path)
-					->addValues($route);
+				// Prepend the controller to the route parameters
+				array_unshift($route['action'], $route_map[$route_type]);
+
+				// Select the appropriate router method based on the http verb
+				$add = (array_key_exists('verb', $route)) ? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
+
+				if ( ! array_key_exists('tokens', $route))
+				{
+					$this->router->$add($name, $path)->addValues($route);
+				}
+				else
+				{
+					$tokens = $route['tokens'];
+					unset($route['tokens']);
+
+					$this->router->$add($name, $path)
+						->addValues($route)
+						->addTokens($tokens);
+				}
 			}
 		}
 	}

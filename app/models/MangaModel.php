@@ -22,6 +22,25 @@ class MangaModel extends BaseApiModel {
 	}
 
 	/**
+	 * Update the selected manga
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function update($data)
+	{
+		$id = $data['id'];
+		unset($data['id']);
+
+		$result = $this->client->put("manga_library_entries/{$id}", [
+			'cookies' => ['token' => $_SESSION['hummingbird_anime_token']],
+			'json' => ['manga_library_entry' => $data]
+		]);
+
+		return $result->json();
+	}
+
+	/**
 	 * Get the full set of anime lists
 	 *
 	 * @return array
@@ -143,6 +162,8 @@ class MangaModel extends BaseApiModel {
 				break;
 			}
 		}
+
+		//file_put_contents(_dir($this->config->data_cache_path, "manga-processed.json"), json_encode($data, JSON_PRETTY_PRINT));
 
 		return (array_key_exists($status, $data)) ? $data[$status] : $data;
 	}

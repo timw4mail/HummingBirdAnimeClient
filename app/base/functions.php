@@ -5,6 +5,16 @@
  */
 
 /**
+ * Check if the user is currently logged in
+ *
+ * @return bool
+ */
+function is_logged_in()
+{
+	return array_key_exists('hummingbird_anime_token', $_SESSION);
+}
+
+/**
  * HTML selection helper function
  *
  * @param string $a - First item to compare
@@ -29,6 +39,44 @@ function is_not_selected($a, $b)
 }
 
 /**
+ * Get the base url for css/js/images
+ *
+ * @param string $type - (optional) The controller
+ * @return string
+ */
+ function asset_url(/*$type="anime"*,...*/)
+ {
+	 global $config;
+
+	 $args = func_get_args();
+	 $base_url = rtrim($config->asset_path, '/');
+
+	 array_unshift($args, $base_url);
+
+	 return implode("/", $args);
+ }
+
+/**
+ * Get the base url from the config
+ *
+ * @param string $type - (optional) The controller
+ * @return string
+ */
+function base_url($type="anime")
+{
+	global $config;
+
+	$config_path = trim($config->{"{$type}_path"}, "/");
+	$config_host = $config->{"{$type}_host"};
+
+	// Set the appropriate HTTP host
+	$host = ($config_host !== '') ? $config_host : $_SERVER['HTTP_HOST'];
+	$path = ($config_path !== '') ? $config_path : "";
+
+	return implode("/", ['/', $host, $path]);
+}
+
+/**
  * Generate full url path from the route path based on config
  *
  * @param string $path - (optional) The route path
@@ -39,7 +87,7 @@ function full_url($path="", $type="anime")
 {
 	global $config;
 
-	$config_path = $config->{"{$type}_path"};
+	$config_path = trim($config->{"{$type}_path"}, "/");
 	$config_host = $config->{"{$type}_host"};
 	$config_default_route = $config->{"default_{$type}_path"};
 
@@ -50,15 +98,15 @@ function full_url($path="", $type="anime")
 	// Remove any optional parameters from the route
 	$path = preg_replace('`{/.*?}`i', '', $path);
 
+	// Set the appropriate HTTP host
+	$host = ($config_host !== '') ? $config_host : $_SERVER['HTTP_HOST'];
+
 	// Set the default view
 	if ($path === '')
 	{
 		$path .= trim($config_default_route, '/');
 		if ($config->default_to_list_view) $path .= '/list';
 	}
-
-	// Set the appropriate HTTP host
-	$host = ($config_host !== '') ? $config_host : $_SERVER['HTTP_HOST'];
 
 	// Set an leading folder
 	if ($config_path !== '')

@@ -12,6 +12,9 @@ return (object)[
 	// do you wish to show the anime collection tab?
 	'show_anime_collection' => TRUE,
 
+	// path to public directory
+	'asset_path' => '//' . $_SERVER['HTTP_HOST'] . '/public',
+
 	// ----------------------------------------------------------------------------
 	// Routing
 	//

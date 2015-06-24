@@ -24,7 +24,7 @@ class AnimeController extends BaseController {
 	 * Data to ve sent to all routes in this controller
 	 * @var array $base_data
 	 */
-	private $base_data;
+	protected $base_data;
 
 	/**
 	 * Route mapping for main navigation
@@ -55,6 +55,7 @@ class AnimeController extends BaseController {
 		$this->model = new AnimeModel();
 		$this->collection_model = new AnimeCollectionModel();
 		$this->base_data = [
+			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
 			'nav_routes' => $this->nav_routes,
@@ -79,10 +80,10 @@ class AnimeController extends BaseController {
 			? $this->model->get_list($type)
 			: $this->model->get_all_lists();
 
-		$this->outputHTML('anime/' . $view_map[$view], array_merge($this->base_data, [
+		$this->outputHTML('anime/' . $view_map[$view], [
 			'title' => $title,
 			'sections' => $data
-		]));
+		]);
 	}
 
 	/**
@@ -99,35 +100,20 @@ class AnimeController extends BaseController {
 
 		$data = $this->collection_model->get_collection();
 
-		$this->outputHTML('anime/' . $view_map[$view], array_merge($this->base_data, [
+		$this->outputHTML('anime/' . $view_map[$view], [
 			'title' => WHOSE . " Anime Collection",
 			'sections' => $data
-		]));
+		]);
 	}
 
 	/**
-	 * Show the login form
+	 * Update an anime item
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function login()
+	public function update()
 	{
-		$this->outputHTML('login', array_merge($this->base_data, [
-			'title' => 'Api login'
-		]));
-	}
-
-	/**
-	 * Attempt to log in with the api
-	 *
-	 * @return void
-	 */
-	public function login_action()
-	{
-		if ($this->model->authenticate($this->config->hummingbird_username, $_POST['password']))
-		{
-			$this->redirect('');
-		}
+		print_r($this->model->update($this->request->post->get()));
 	}
 }
 // End of AnimeController.php

@@ -3,6 +3,7 @@
 	--title-overlay: rgba(0, 0, 0, 0.45);
 	--text-color: #ffffff;
 	--normal-padding: 0.25em;
+	--radius: 0.5em;
 }
 
 body {
@@ -27,27 +28,22 @@ tbody > tr:nth-child(odd) {
 }
 
 .round_all {
-	border-radius:0.5em;
+	border-radius:var(--radius);
 }
 
 .round_top {
 	border-radius: 0;
-	border-top-right-radius:0.5em;
-	border-top-left-radius:0.5em;
+	border-top-right-radius:var(--radius);
+	border-top-left-radius:var(--radius);
 }
 
 .round_bottom {
 	border-radius: 0;
-	border-bottom-right-radius:0.5em;
-	border-bottom-left-radius:0.5em;
+	border-bottom-right-radius:var(--radius);
+	border-bottom-left-radius:var(--radius);
 }
 
 .media-wrap {
-	display:flex;
-	justify-content: center;
-	align-content: space-around;
-	align-items: center;
-	flex-wrap: wrap;
 	text-align:center;
 	margin:0 auto;
 }
@@ -60,6 +56,11 @@ tbody > tr:nth-child(odd) {
 	width:220px;
 	height:319px;
 	margin: var(--normal-padding);
+}
+
+button {
+	background:rgba(255,255,255,0.65);
+	margin: 0;
 }
 
 	.name,
@@ -102,6 +103,12 @@ tbody > tr:nth-child(odd) {
 			background:rgba(0,0,0,0.75);
 		}
 
+		.media:hover > button[hidden],
+		.media:hover > .edit_buttons[hidden]
+		{
+			display:block;
+		}
+
 		.media > .name > a {
 			text-align:justify;
 			background:none;
@@ -109,15 +116,67 @@ tbody > tr:nth-child(odd) {
 			text-shadow: var(--shadow);
 		}
 
+/* -----------------------------------------------------------------------------
+	Message boxes
+------------------------------------------------------------------------------*/
+
+.message{
+	position:relative;
+	margin:0.5em auto;
+	padding:0.5em;
+	width:95%;
+}
+
+.message .close{
+	width:1em;
+	height:1em;
+	position:absolute;
+	right:0.5em;
+	top:0.5em;
+	text-align:center;
+	vertical-align:middle;
+	line-height:1em;
+}
+
+.message .close:hover {
+	cursor:pointer;
+}
+
+.message .icon{
+	left:0.5em;
+	top:0.5em;
+	margin-right:1em;
+}
+
+.message.error{
+	border:1px solid #924949;
+	background: #f3e6e6;
+}
+
+.message.success{
+	border:1px solid #1f8454;
+	background: #70dda9;
+}
+
+.message.info{
+	border:1px solid #bfbe3a;
+	background: #FFFFCC;
+}
 
 /* -----------------------------------------------------------------------------
 	Anime-list-specific styles
 ------------------------------------------------------------------------------*/
-.anime .name {
+.anime .name, .manga .name {
 	text-align:center;
 	width:100%;
-	padding:0.5em 0.6em;;
+	padding:0.5em 0;
 }
+
+	.anime .name > a {
+		text-align:center;
+		width:100%;
+		padding:0.5em 1em;
+	}
 
 .anime .media_type,
 .anime .airing_status,
@@ -129,25 +188,24 @@ tbody > tr:nth-child(odd) {
 }
 
 
-.anime .table {
+.anime .table, .manga .table {
 	position:absolute;
 	bottom:0;
 	left:0;
 	width:100%;
 }
 
-.anime .row {
+.anime .row, .manga .row {
 	width:100%;
 	background: var(--title-overlay);
-	display:table;
 	display: flex;
-	align-content:center;
+	align-content: space-around;
 	justify-content: space-around;
 	text-align:center;
 	padding:0 inherit;
 }
 
-.anime .row > div {
+.anime .row > div, .manga .row > div {
 	font-size:0.8em;
 	display:flex-item;
 	align-self:center;
@@ -155,15 +213,15 @@ tbody > tr:nth-child(odd) {
 	vertical-align:middle;
 }
 
+.anime .media > button.plus_one {
+	position:absolute;
+	top: calc(50% - (43px / 2));
+	left: calc(50% - (97px / 2 + 18));
+}
+
 /* -----------------------------------------------------------------------------
 	Manga-list-specific styles
 ------------------------------------------------------------------------------*/
-
-.manga .media > .name {
-	padding:0.5em;
-	margin:1em;
-}
-
 .manga .media {
 	border:1px solid #ddd;
 	width:200px;
@@ -171,7 +229,8 @@ tbody > tr:nth-child(odd) {
 	margin:0.25em;
 }
 
-.manga .media_metadata {
-	padding: var(--normal-padding);
-	margin: 0.75em;
+.manga .media > .edit_buttons {
+	position:absolute;
+	top: calc(50% - (85px / 2));
+	left: calc(50% - (163px / 2));
 }

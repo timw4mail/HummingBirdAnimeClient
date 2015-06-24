@@ -44,5 +44,30 @@ class BaseApiModel extends BaseModel {
 			]
 		]);
 	}
+
+	/**
+	 * Attempt login via the api
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	public function authenticate($username, $password)
+	{
+		$result = $this->client->post('https://hummingbird.me/api/v1/users/authenticate', [
+			'body' => [
+				'username' => $this->config->hummingbird_username,
+				'password' => $password
+			]
+		]);
+
+		if ($result->getStatusCode() === 201)
+		{
+			$_SESSION['hummingbird_anime_token'] = $result->json();
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 }
 // End of BaseApiModel.php

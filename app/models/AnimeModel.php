@@ -22,28 +22,20 @@ class AnimeModel extends BaseApiModel {
 	}
 
 	/**
-	 * Attempt login via the api
+	 * Update the selected anime
 	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return bool
+	 * @param array $data
+	 * @return array
 	 */
-	public function authenticate($username, $password)
+	public function update($data)
 	{
-		$result = $this->client->post('users/authenticate', [
-			'form_params' => [
-				'username' => $this->config->hummingbird_username,
-				'password' => $password
-			]
+		$data['auth_token'] = $_SESSION['hummingbird_anime_token'];
+
+		$result = $this->client->post("libraries/{$data['id']}", [
+			'body' => $data
 		]);
 
-		if ($response->getStatusCode() === 201)
-		{
-			$_SESSION['hummingbird_anime_token'] = $response->json();
-			return TRUE;
-		}
-
-		return FALSE;
+		return $result->json();
 	}
 
 	/**
@@ -124,6 +116,52 @@ class AnimeModel extends BaseApiModel {
 	}
 
 	/**
+	 * Get information about an anime from its id
+	 *
+	 * @param string $anime_id
+	 * @return array
+	 */
+	public function get_anime($anime_id)
+	{
+		$config = [
+			'query' => [
+				'id' => $anime_id
+			]
+		];
+
+		$response = $this->client->get("anime/{$anime_id}", $config);
+
+		return $response->json();
+	}
+
+	/**
+	 * Search for anime by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		global $defaultHandler;
+
+		$config = [
+			'query' => [
+				'query' => $name
+			]
+		];
+
+		$response = $this->client->get('search/anime', $config);
+		$defaultHandler->addDataTable('anime_search_response', (array)$response);
+
+		if ($response->getStatusCode() != 200)
+		{
+			throw new Exception($response->getEffectiveUrl());
+		}
+
+		return $response->json();
+	}
+
+	/**
 	 * Actually retreive the data from the api
 	 *
 	 * @param string $status - Status to filter by
@@ -180,52 +218,6 @@ class AnimeModel extends BaseApiModel {
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Get information about an anime from its id
-	 *
-	 * @param string $anime_id
-	 * @return array
-	 */
-	public function get_anime($anime_id)
-	{
-		$config = [
-			'query' => [
-				'id' => $anime_id
-			]
-		];
-
-		$response = $this->client->get("anime/{$anime_id}", $config);
-
-		return $response->json();
-	}
-
-	/**
-	 * Search for anime by name
-	 *
-	 * @param string $name
-	 * @return array
-	 */
-	public function search($name)
-	{
-		global $defaultHandler;
-
-		$config = [
-			'query' => [
-				'query' => $name
-			]
-		];
-
-		$response = $this->client->get('search/anime', $config);
-		$defaultHandler->addDataTable('anime_search_response', (array)$response);
-
-		if ($response->getStatusCode() != 200)
-		{
-			throw new Exception($response->getEffectiveUrl());
-		}
-
-		return $response->json();
 	}
 
 	/**

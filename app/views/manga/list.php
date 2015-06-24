@@ -31,10 +31,4 @@
 	</table>
 	<?php endforeach ?>
 </main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="/public/js/table_sorter/jquery.tablesorter.min.js"></script>
-<script>
-$(function() {
-	$('table').tablesorter();
-});
-</script>
+<script src="<?= asset_url('js.php?g=table') ?>"></script>

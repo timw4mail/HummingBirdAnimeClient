@@ -1,10 +1,33 @@
 <?php
 
 return [
+	// Routes on all controllers
+	'common' => [
+		'update' => [
+			'path' => '/update',
+			'action' => ['update'],
+			'verb' => 'post'
+		],
+		'login_form' => [
+			'path' => '/login',
+			'action' => ['login'],
+			'verb' => 'get'
+		],
+		'login_action' => [
+			'path' => '/login',
+			'action' => ['login_action'],
+			'verb' => 'post'
+		],
+		'logout' => [
+			'path' => '/logout',
+			'action' => ['logout']
+		],
+	],
+	// Routes on anime controller
 	'anime' => [
 		'index' => [
 			'path' => '/',
-			'action' => ['AnimeController', 'redirect'],
+			'action' => ['redirect'],
 			'params' => [
 				'url' => '', // Determined by config
 				'code' => '301'
@@ -12,7 +35,7 @@ return [
 		],
 		'all' => [
 			'path' => '/all{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'all',
 				'title' => WHOSE . " Anime List &middot; All"
@@ -23,7 +46,7 @@ return [
 		],
 		'watching' => [
 			'path' => '/watching{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'currently-watching',
 				'title' => WHOSE . " Anime List &middot; Watching"
@@ -34,7 +57,7 @@ return [
 		],
 		'plan_to_watch' => [
 			'path' => '/plan_to_watch{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'plan-to-watch',
 				'title' => WHOSE . " Anime List &middot; Plan to Watch"
@@ -45,7 +68,7 @@ return [
 		],
 		'on_hold' => [
 			'path' => '/on_hold{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'on-hold',
 				'title' => WHOSE . " Anime List &middot; On Hold"
@@ -56,7 +79,7 @@ return [
 		],
 		'dropped' => [
 			'path' => '/dropped{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'dropped',
 				'title' => WHOSE . " Anime List &middot; Dropped"
@@ -67,7 +90,7 @@ return [
 		],
 		'completed' => [
 			'path' => '/completed{/view}',
-			'action' => ['AnimeController', 'anime_list'],
+			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'completed',
 				'title' => WHOSE . " Anime List &middot; Completed"
@@ -78,7 +101,7 @@ return [
 		],
 		'collection' => [
 			'path' => '/collection{/view}',
-			'action' => ['AnimeController', 'collection'],
+			'action' => ['collection'],
 			'params' => [],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -88,7 +111,7 @@ return [
 	'manga' => [
 		'index' => [
 			'path' => '/',
-			'action' => ['MangaController', 'redirect'],
+			'action' => ['redirect'],
 			'params' => [
 				'url' => '', // Determined by config
 				'code' => '301',
@@ -97,7 +120,7 @@ return [
 		],
 		'all' => [
 			'path' => '/all{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'all',
 				'title' => WHOSE . " Manga List &middot; All"
@@ -108,7 +131,7 @@ return [
 		],
 		'reading' => [
 			'path' => '/reading{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Reading',
 				'title' => WHOSE . " Manga List &middot; Reading"
@@ -119,7 +142,7 @@ return [
 		],
 		'plan_to_read' => [
 			'path' => '/plan_to_read{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Plan to Read',
 				'title' => WHOSE . " Manga List &middot; Plan to Read"
@@ -130,7 +153,7 @@ return [
 		],
 		'on_hold' => [
 			'path' => '/on_hold{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'On Hold',
 				'title' => WHOSE . " Manga List &middot; On Hold"
@@ -141,7 +164,7 @@ return [
 		],
 		'dropped' => [
 			'path' => '/dropped{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Dropped',
 				'title' => WHOSE . " Manga List &middot; Dropped"
@@ -152,7 +175,7 @@ return [
 		],
 		'completed' => [
 			'path' => '/completed{/view}',
-			'action' => ['MangaController', 'manga_list'],
+			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Completed',
 				'title' => WHOSE . " Manga List &middot; Completed"
@@ -160,23 +183,6 @@ return [
 			'tokens' => [
 				'view' => '[a-z_]+'
 			]
-		],
-	],
-	// These routes are limited to a specific HTTP verb
-	'get' => [
-		'login_form' => [
-			'path' => '/login',
-			'action' => ['AnimeController', 'login'],
-		],
-		'logout' => [
-			'path' => '/logout',
-			'action' => ['BaseController', 'logout']
-		]
-	],
-	'post' => [
-		'login_action' => [
-			'path' => '/login',
-			'action' => ['AnimeController', 'login_action'],
 		]
 	]
 ];

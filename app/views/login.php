@@ -1,4 +1,5 @@
 <main>
+	<?= $message ?>
 	<aside>
 		<form method="post" action="<?= full_url('/login', $url_type) ?>">
 		<dl>

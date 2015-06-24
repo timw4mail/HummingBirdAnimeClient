@@ -12,7 +12,14 @@ class MangaController extends BaseController {
 	 * The manga model
 	 * @var object $model
 	 */
-	private $model;
+	protected $model;
+
+	/**
+	 * Data to ve sent to all routes in this controller
+	 * @var array $base_data
+	 */
+	protected $base_data;
+
 
 	/**
 	 * Route mapping for main navigation
@@ -34,6 +41,21 @@ class MangaController extends BaseController {
 	{
 		parent::__construct();
 		$this->model = new MangaModel();
+		$this->base_data = [
+			'url_type' => 'manga',
+			'other_type' => 'anime',
+			'nav_routes' => $this->nav_routes
+		];
+	}
+
+	/**
+	 * Update an anime item
+	 *
+	 * @return bool
+	 */
+	public function update()
+	{
+		$this->outputJSON($this->model->update($this->request->post->get()));
 	}
 
 	/**
@@ -56,10 +78,7 @@ class MangaController extends BaseController {
 			: $this->model->get_all_lists();
 
 		$this->outputHTML('manga/' . $view_map[$view], [
-			'url_type' => 'manga',
-			'other_type' => 'anime',
 			'title' => $title,
-			'nav_routes' => $this->nav_routes,
 			'sections' => $data
 		]);
 	}

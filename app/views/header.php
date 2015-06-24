@@ -2,8 +2,12 @@
 <html lang="en">
 <head>
 	<title><?= $title ?></title>
-	<link rel="stylesheet" href="/public/css/marx.css" />
-	<link rel="stylesheet" href="/public/css/base.css" />
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="<?= asset_url('css.php?g=base') ?>" />
+	<script>
+		var BASE_URL = "<?= base_url($url_type) ?>";
+		var CONTROLLER = "<?= $url_type ?>";
+	</script>
 </head>
 <body class="<?= $url_type ?> list">
 	<h1><?= WHOSE ?> <?= ucfirst($url_type) ?> <?= (strpos($route_path, 'collection') !== FALSE) ? 'Collection' : 'List' ?> [<a href="<?= full_url("", $other_type) ?>"><?= ucfirst($other_type) ?> List</a>]</h1>
