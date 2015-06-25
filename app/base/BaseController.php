@@ -216,18 +216,18 @@ class BaseController {
 	private function output()
 	{
 		// send status
-		header($this->response->status->get(), true, $this->response->status->getCode());
+		@header($this->response->status->get(), true, $this->response->status->getCode());
 
 		// headers
 		foreach($this->response->headers->get() as $label => $value)
 		{
-			header("{$label}: {$value}");
+			@header("{$label}: {$value}");
 		}
 
 		// cookies
 		foreach($this->response->cookies->get() as $name => $cookie)
 		{
-			setcookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
+			@setcookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
 		}
 
 		// send the actual response

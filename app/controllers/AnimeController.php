@@ -12,7 +12,7 @@ class AnimeController extends BaseController {
 	 * The anime list model
 	 * @var object $model
 	 */
-	private $model;
+	protected $model;
 
 	/**
 	 * The anime collection model

@@ -1,6 +1,7 @@
 vendor
 app/cache/*
 public/images/*
+public/js/cache/*
 composer.lock
 *.sqlite
 *.db
