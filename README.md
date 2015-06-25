@@ -2,6 +2,8 @@
 
 A self-hosted client that allows custom formatting of data from the hummingbird api
 
+[![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
+
 [[Hosted Example](https://anime.timshomepage.net)]
 
 ## Features
@@ -37,6 +39,11 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 1. Install dependencies via composer: `composer install`
 2. Change the `WHOSE` constant declaration in `index.php` to your name
 3. Configure settings in `app/config/config.php` to your liking
+4. Create the following directories if they don't exist, and make sure they are world writable
+	* app/cache
+	* public/images/manga
+	* public/images/anime
+	* public/js/cache
 
 #### Anime Collection Additional Installation
 * Run `php /vendor/bin/phinx migrate -e development` to create the database tables
