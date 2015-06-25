@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<title>Hummingbird Anime Client</title>
+	<parser>
+		<target>docs</target>
+	</parser>
+	<transformer>
+		<target>docs</target>
+	</transformer>
+	<transformations>
+        <template name="clean" />
+    </transformations>
+	<files>
+		<directory>.</directory>
+		<directory>app</directory>
+		<ignore>public/*</ignore>
+		<ignore>app/views/*</ignore>
+		<ignore>app/config/*</ignore>
+		<ignore>migrations/*</ignore>
+		<ignore>tests/*</ignore>
+		<ignore>vendor/*</ignore>
+	</files>
+</phpdoc>

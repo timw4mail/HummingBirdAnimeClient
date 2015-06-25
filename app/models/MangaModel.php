@@ -115,6 +115,9 @@ class MangaModel extends BaseApiModel {
 			file_put_contents($cache_file, json_encode($raw_data));
 		}
 
+		// Bail out early if there isn't any manga data
+		if (empty($raw_data)) return [];
+
 		$data = [
 			'Reading' => [],
 			'Plan to Read' => [],

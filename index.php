@@ -3,43 +3,38 @@
  * Here begins everything!
  */
 
+// -----------------------------------------------------------------------------
+// ! Start config
+// -----------------------------------------------------------------------------
+
 /**
  * Well, whose list is it?
  */
 define('WHOSE', "Tim's");
 
-/**
- * Joins paths together. Variadic to take an
- * arbitrary number of arguments
- *
- * @return string
- */
-function _dir() { return implode(DIRECTORY_SEPARATOR, func_get_args()); }
+// -----------------------------------------------------------------------------
+// ! End config
+// -----------------------------------------------------------------------------
+
+// Work around the silly timezone error
+$timezone = ini_get('date.timezone');
+if ($timezone === '' || $timezone === FALSE)
+{
+	ini_set('date.timezone', 'GMT');
+}
 
 define('ROOT_DIR', __DIR__);
-define('APP_DIR', _dir(ROOT_DIR, 'app'));
-define('CONF_DIR', _dir(APP_DIR, 'config'));
-define('BASE_DIR', _dir(APP_DIR, 'base'));
+define('APP_DIR', ROOT_DIR . DIRECTORY_SEPARATOR . 'app');
+define('CONF_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'config');
+define('BASE_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'base');
+require BASE_DIR . DIRECTORY_SEPARATOR . 'pre_conf_functions.php';
 
 // Load config and global functions
 $config = require _dir(APP_DIR, '/config/config.php');
 require _dir(BASE_DIR, '/functions.php');
 
 // Setup autoloaders
-require _dir(ROOT_DIR, '/vendor/autoload.php');
-spl_autoload_register(function ($class) {
-	$dirs = ["base", "controllers", "models"];
-
-	foreach($dirs as $dir)
-	{
-		$file = _dir(APP_DIR, $dir, "{$class}.php");
-		if (file_exists($file))
-		{
-			require_once $file;
-			return;
-		}
-	}
-});
+_setup_autoloaders();
 
 session_start();
 

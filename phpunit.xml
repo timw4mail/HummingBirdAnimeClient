@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	colors="true"
+	stopOnFailure="false"
+	bootstrap="tests/bootstrap.php">
+	<filter>
+		<whitelist>
+			<directory suffix=".php">app</directory>
+		</whitelist>
+	</filter>
+	<testsuites>
+		<testsuite name="BaseTests">
+			<directory>tests/base</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

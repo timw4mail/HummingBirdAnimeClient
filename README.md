@@ -30,6 +30,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 
 * PHP 5.4+
 * PDO SQLite (For collection tab)
+* GD
 
 ### Installation
 
