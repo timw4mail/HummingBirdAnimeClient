@@ -19,6 +19,16 @@ tbody > tr:nth-child(odd) {
 	background: #ddd;
 }
 
+.grow-1 {flex-grow: 1}
+.flex-wrap {flex-wrap: wrap}
+.flex-no-wrap {flex-wrap: nowrap}
+.flex-align-end {align-items: flex-end}
+.flex {display: flex}
+
+.small-font {
+	font-size:1.6rem;
+}
+
 .align_left {
 	text-align:left;
 }
@@ -61,6 +71,10 @@ tbody > tr:nth-child(odd) {
 button {
 	background:rgba(255,255,255,0.65);
 	margin: 0;
+}
+
+.media .edit_buttons > button {
+	margin:0.5em auto;
 }
 
 	.name,
@@ -231,6 +245,6 @@ button {
 
 .manga .media > .edit_buttons {
 	position:absolute;
-	top: calc(50% - (85px / 2));
-	left: calc(50% - (163px / 2));
+	top: calc(50% - (117px / 2));
+	left: calc(50% - (190px / 2));
 }
