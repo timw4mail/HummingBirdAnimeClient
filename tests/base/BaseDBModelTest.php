@@ -1,5 +1,7 @@
 <?php
 
+use \AnimeClient\BaseDBModel;
+
 class BaseDBModelTest extends AnimeClient_TestCase {
 
 	public function testBaseDBModelSanity()

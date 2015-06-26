@@ -3,6 +3,8 @@
  * Here begins everything!
  */
 
+namespace AnimeClient;
+
 // -----------------------------------------------------------------------------
 // ! Start config
 // -----------------------------------------------------------------------------
@@ -36,7 +38,7 @@ _setup_autoloaders();
 $config = new Config();
 require _dir(BASE_DIR, '/functions.php');
 
-session_start();
+\session_start();
 
 use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;

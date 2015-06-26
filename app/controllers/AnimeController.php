@@ -3,6 +3,8 @@
  * Anime Controller
  */
 
+namespace AnimeClient;
+
 /**
  * Controller for Anime-related pages
  */

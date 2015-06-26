@@ -2,6 +2,7 @@
 /**
  * Base API Model
  */
+namespace AnimeClient;
 
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Cookie\CookieJar;
@@ -63,7 +64,7 @@ class BaseApiModel extends BaseModel {
 	{
 		$result = $this->client->post('https://hummingbird.me/api/v1/users/authenticate', [
 			'body' => [
-				'username' => $this->config->hummingbird_username,
+				'username' => $username,
 				'password' => $password
 			]
 		]);

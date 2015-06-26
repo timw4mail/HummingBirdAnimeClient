@@ -35,6 +35,10 @@ tbody > tr:nth-child(odd) {
   align-items: flex-end;
 }
 
+.flex-justify-space-around {
+  jusify-content: space-around;
+}
+
 .flex {
   display: -webkit-flex;
   display: -ms-flexbox;

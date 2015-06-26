@@ -23,6 +23,7 @@ tbody > tr:nth-child(odd) {
 .flex-wrap {flex-wrap: wrap}
 .flex-no-wrap {flex-wrap: nowrap}
 .flex-align-end {align-items: flex-end}
+.flex-justify-space-around {jusify-content: space-around}
 .flex {display: flex}
 
 .small-font {

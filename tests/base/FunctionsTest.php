@@ -1,5 +1,7 @@
 <?php
 
+use \AnimeClient\Config;
+
 class FunctionsTest extends AnimeClient_TestCase {
 
 	public function setUp()

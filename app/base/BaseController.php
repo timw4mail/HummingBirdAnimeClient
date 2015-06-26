@@ -2,6 +2,7 @@
 /**
  * Base Controller
  */
+namespace AnimeClient;
 
 use Aura\Web\WebFactory;
 
@@ -27,6 +28,18 @@ class BaseController {
 	 * @var object $response
 	 */
 	protected $response;
+
+	/**
+	 * The api model for the current controller
+	 * @var object
+	 */
+	protected $model;
+
+	/**
+	 * Common data to be sent to views
+	 * @var array
+	 */
+	protected $base_data = [];
 
 	/**
 	 * Constructor
@@ -77,7 +90,6 @@ class BaseController {
 		if ( ! is_file($template_path))
 		{
 			throw new Exception("Invalid template : {$path}");
-			die();
 		}
 
 		ob_start();
@@ -198,10 +210,14 @@ class BaseController {
 	 */
 	public function login_action()
 	{
-		if ($this->model->authenticate($this->config->hummingbird_username, $this->request->post->get('password')))
+		if (
+			$this->model->authenticate(
+				$this->config->hummingbird_username,
+				$this->request->post->get('password')
+			)
+		)
 		{
 			$this->response->redirect->afterPost(full_url('', $this->base_data['url_type']));
-			$this->output();
 			return;
 		}
 
@@ -227,7 +243,15 @@ class BaseController {
 		// cookies
 		foreach($this->response->cookies->get() as $name => $cookie)
 		{
-			@setcookie($name, $cookie['value'], $cookie['expire'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
+			@setcookie(
+				$name,
+				$cookie['value'],
+				$cookie['expire'],
+				$cookie['path'],
+				$cookie['domain'],
+				$cookie['secure'],
+				$cookie['httponly']
+			);
 		}
 
 		// send the actual response

@@ -3,6 +3,8 @@
  * Routing logic
  */
 
+namespace AnimeClient;
+
 use Aura\Router\RouterFactory;
 
 /**
@@ -120,8 +122,8 @@ class Router {
 	private function _setup_routes()
 	{
 		$route_map = [
-			'anime' => 'AnimeController',
-			'manga' => 'MangaController',
+			'anime' => '\\AnimeClient\\AnimeController',
+			'manga' => '\\AnimeClient\\MangaController',
 		];
 		$route_type = "anime";
 

@@ -2,6 +2,7 @@
 /**
  * Manga API Model
  */
+namespace AnimeClient;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -9,17 +10,11 @@
 class MangaModel extends BaseApiModel {
 
 	/**
-	 * @var string $base_url - The base url for api requests
+	 * The base url for api requests
+	 * @var string
 	 */
 	protected $base_url = "https://hummingbird.me/";
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
 
 	/**
 	 * Update the selected manga
@@ -112,9 +107,9 @@ class MangaModel extends BaseApiModel {
 			$raw_data = $response->json();
 
 			// Attempt to create the cache dir if it doesn't exist
-			if ( ! is_dir($config->data_cache_path))
+			if ( ! is_dir($this->config->data_cache_path))
 			{
-				mkdir($config->data_cache_path);
+				mkdir($this->config->data_cache_path);
 			}
 
 			// Cache data in case of downtime

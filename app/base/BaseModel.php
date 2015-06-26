@@ -2,6 +2,7 @@
 /**
  * Base for base models
  */
+namespace AnimeClient;
 
 use abeautifulsite\SimpleImage;
 

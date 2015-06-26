@@ -1,5 +1,7 @@
 <?php
 
+use \AnimeClient\BaseApiModel;
+
 class MockBaseApiModel extends BaseApiModel {
 
 	public function __construct()
@@ -20,8 +22,8 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 		$baseApiModel = new MockBaseApiModel();
 
 		// Some basic type checks for class memebers
-		$this->assertInstanceOf('BaseModel', $baseApiModel);
-		$this->assertInstanceOf('BaseApiModel', $baseApiModel);
+		$this->assertInstanceOf('\AnimeClient\BaseModel', $baseApiModel);
+		$this->assertInstanceOf('\AnimeClient\BaseApiModel', $baseApiModel);
 
 		$this->assertInstanceOf('\GuzzleHttp\Client', $baseApiModel->client);
 		$this->assertInstanceOf('\GuzzleHttp\Cookie\CookieJar', $baseApiModel->cookieJar);

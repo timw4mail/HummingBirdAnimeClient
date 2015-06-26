@@ -2,6 +2,7 @@
 /**
  * Manga Controller
  */
+namespace AnimeClient;
 
 /**
  * Controller for manga list

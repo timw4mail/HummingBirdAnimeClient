@@ -3,6 +3,8 @@
  * Anime Collection DB Model
  */
 
+namespace AnimeClient;
+
 /**
  * Model for getting anime collection data
  */
@@ -27,7 +29,7 @@ class AnimeCollectionModel extends BaseDBModel {
 	{
 		parent::__construct();
 
-		$this->db = Query($this->db_config['collection']);
+		$this->db = \Query($this->db_config['collection']);
 		$this->anime_model = new AnimeModel();
 
 		// Is database valid? If not, set a flag so the
@@ -82,7 +84,7 @@ class AnimeCollectionModel extends BaseDBModel {
 			->order_by('title')
 			->get();
 
-		return $query->fetchAll(PDO::FETCH_ASSOC);
+		return $query->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**

@@ -3,6 +3,8 @@
  * Anime API Model
  */
 
+namespace AnimeClient;
+
 /**
  * Model for handling requests dealing with the anime list
  */

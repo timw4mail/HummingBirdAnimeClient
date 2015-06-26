@@ -2,6 +2,7 @@
 /**
  * Base DB model
  */
+namespace AnimeClient;
 
 /**
  * Base model for database interaction

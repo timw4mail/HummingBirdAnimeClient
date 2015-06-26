@@ -25,6 +25,9 @@ function _setup_autoloaders()
 {
 	require _dir(ROOT_DIR, '/vendor/autoload.php');
 	spl_autoload_register(function ($class) {
+		$class_parts = explode('\\', $class);
+		$class = end($class_parts);
+
 		$dirs = ["base", "controllers", "models"];
 
 		foreach($dirs as $dir)
