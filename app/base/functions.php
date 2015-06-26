@@ -41,10 +41,9 @@ function is_not_selected($a, $b)
 /**
  * Get the base url for css/js/images
  *
- * @param string $type - (optional) The controller
  * @return string
  */
- function asset_url(/*$type="anime"*,...*/)
+ function asset_url(/*...*/)
  {
 	 global $config;
 

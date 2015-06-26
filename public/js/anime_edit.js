@@ -41,7 +41,7 @@
 		$.post(BASE_URL + 'update', data, function(res) {
 			if (res.status === 'completed')
 			{
-				parent_sel.hide();
+				this_sel.parent('article').hide();
 			}
 
 			add_message('success', "Sucessfully updated " + title);

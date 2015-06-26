@@ -29,12 +29,12 @@ define('CONF_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'config');
 define('BASE_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'base');
 require BASE_DIR . DIRECTORY_SEPARATOR . 'pre_conf_functions.php';
 
-// Load config and global functions
-$config = require _dir(APP_DIR, '/config/config.php');
-require _dir(BASE_DIR, '/functions.php');
-
 // Setup autoloaders
 _setup_autoloaders();
+
+// Load config and global functions
+$config = new Config();
+require _dir(BASE_DIR, '/functions.php');
 
 session_start();
 

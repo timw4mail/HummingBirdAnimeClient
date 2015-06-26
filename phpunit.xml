@@ -5,7 +5,9 @@
 	bootstrap="tests/bootstrap.php">
 	<filter>
 		<whitelist>
-			<directory suffix=".php">app</directory>
+			<directory suffix=".php">app/base</directory>
+			<directory suffix=".php">app/controllers</directory>
+			<directory suffix=".php">app/models</directory>
 		</whitelist>
 	</filter>
 	<testsuites>
@@ -13,4 +15,7 @@
 			<directory>tests/base</directory>
 		</testsuite>
 	</testsuites>
+	<php>
+		<server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0" />
+	</php>
 </phpunit>

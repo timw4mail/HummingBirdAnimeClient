@@ -29,6 +29,7 @@ class BaseModel {
 	 * Get the path of the cached version of the image. Create the cached image
 	 * if the file does not already exist
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $api_path - The original image url
 	 * @param string $series_slug - The part of the url with the series name, becomes the image name
 	 * @param string $type - Anime or Manga, controls cache path
@@ -41,7 +42,6 @@ class BaseModel {
 		$path = current($path_parts);
 		$ext_parts = explode('.', $path);
 		$ext = end($ext_parts);
-		/*$ext = $ext = strtolower(pathinfo($api_path, PATHINFO_EXTENSION));*/
 
 		// Workaround for some broken extensions
 		if ($ext == "jjpg") $ext = "jpg";
@@ -91,6 +91,7 @@ class BaseModel {
 	/**
 	 * Resize an image
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $path
 	 * @param string $width
 	 * @param string $height

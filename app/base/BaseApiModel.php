@@ -12,14 +12,20 @@ use \GuzzleHttp\Cookie\CookieJar;
 class BaseApiModel extends BaseModel {
 
 	/**
+	 * Base url for making api requests
+	 * @var string
+	 */
+	protected $base_url = '';
+
+	/**
 	 * The Guzzle http client object
-	 * @var object $client
+	 * @var object
 	 */
 	protected $client;
 
 	/**
 	 * Cookie jar object for api requests
-	 * @var object $cookieJar
+	 * @var object
 	 */
 	protected $cookieJar;
 
@@ -48,6 +54,7 @@ class BaseApiModel extends BaseModel {
 	/**
 	 * Attempt login via the api
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $username
 	 * @param string $password
 	 * @return bool

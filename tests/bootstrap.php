@@ -20,7 +20,21 @@ $defaultHandler = new MockErrorHandler();
 /**
  * Base class for TestCases
  */
-class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {}
+class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		global $config;
+		$config = new Config([
+			'config' => [],
+			'base_config' => [
+				'databaase' => []
+			]
+		]);
+	}
+}
 
 // -----------------------------------------------------------------------------
 // Autoloaders
@@ -35,5 +49,10 @@ define('BASE_DIR', _dir(APP_DIR, 'base'));
 
 // Setup autoloaders
 _setup_autoloaders();
+require(_dir(BASE_DIR, 'functions.php'));
+
+// Pre-define some superglobals
+$_SESSION = [];
+$_COOKIE = [];
 
 // End of bootstrap.php

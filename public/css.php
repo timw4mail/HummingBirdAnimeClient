@@ -13,10 +13,10 @@
 // --------------------------------------------------------------------------
 
 //Get config files
-require('./config/config.php');
+require('../app/config/minify_config.php');
 
 //Include the css groups
-$groups = require("./config/css_groups.php");
+$groups = require("../app/config/minify_css_groups.php");
 
 //Function for compressing the CSS as tightly as possible
 function compress($buffer) {
@@ -116,11 +116,6 @@ if($last_modified === $requested_time)
 {
 	header("HTTP/1.1 304 Not Modified");
 	exit();
-}
-else // Re-compress after running myth
-{
-	$cmd = "/usr/bin/myth -c {$css_root}base.myth.css {$css_root}base.css";
-	exec($cmd);
 }
 
 //This GZIPs the CSS for transmission to the user

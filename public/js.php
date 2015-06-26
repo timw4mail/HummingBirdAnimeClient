@@ -13,14 +13,14 @@
 // --------------------------------------------------------------------------
 
 //Get config files
-require('./config/config.php');
+require('../app/config/minify_config.php');
 
 //Include the js groups
-$groups_file = "./config/js_groups.php";
+$groups_file = "../app/config/minify_js_groups.php";
 $groups = require($groups_file);
 
 //The name of this file
-$this_file = basename(__FILE__);
+$this_file = __FILE__;
 
 // --------------------------------------------------------------------------
 
@@ -96,6 +96,10 @@ $modified = array();
 //Aggregate the last modified times of the files
 if(isset($groups[$_GET['g']]))
 {
+	if ( ! is_dir($js_root . 'cache'))
+	{
+		mkdir($js_root . 'cache');
+	}
 	$cache_file = $js_root.'cache/'.$_GET['g'];
 
 	foreach($groups[$_GET['g']] as $file)
@@ -145,10 +149,9 @@ if($last_modified === $requested_time)
 if($cache_modified < $last_modified)
 {
 	$js = google_min(get_files());
-	$cs = file_put_contents($cache_file, $js);
 
 	//Make sure cache file gets created/updated
-	if($cs === FALSE)
+	if(file_put_contents($cache_file, $js) === FALSE)
 	{
 		die("Cache file was not created. Make sure you have the correct folder permissions.");
 	}

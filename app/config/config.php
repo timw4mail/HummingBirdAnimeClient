@@ -1,5 +1,5 @@
 <?php
-return (object)[
+$config = [
 	// ----------------------------------------------------------------------------
 	// Username for anime and manga lists
 	// ----------------------------------------------------------------------------
@@ -14,6 +14,9 @@ return (object)[
 
 	// path to public directory
 	'asset_path' => '//' . $_SERVER['HTTP_HOST'] . '/public',
+
+	// path to public directory on the server
+	'asset_dir' => __DIR__ . '/../../public',
 
 	// ----------------------------------------------------------------------------
 	// Routing
@@ -34,18 +37,4 @@ return (object)[
 
 	// Default to list view?
 	'default_to_list_view' => FALSE,
-
-	// ----------------------------------------------------------------------------
-	// Lower level configuration
-	//
-	// You shouldn't generally need to change anything below this line
-	// ----------------------------------------------------------------------------
-
-	// Cache paths
-	'data_cache_path' => _dir(APP_DIR, 'cache'),
-	'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
-
-	// Included config files
-	'routes' => require _dir(CONF_DIR, 'routes.php'),
-	'database' => require _dir(CONF_DIR, 'database.php'),
 ];
