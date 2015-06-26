@@ -111,6 +111,12 @@ class MangaModel extends BaseApiModel {
 			// Reorganize data to be more usable
 			$raw_data = $response->json();
 
+			// Attempt to create the cache dir if it doesn't exist
+			if ( ! is_dir($config->data_cache_path))
+			{
+				mkdir($config->data_cache_path);
+			}
+
 			// Cache data in case of downtime
 			file_put_contents($cache_file, json_encode($raw_data));
 		}

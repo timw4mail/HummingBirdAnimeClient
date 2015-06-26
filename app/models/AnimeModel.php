@@ -174,9 +174,6 @@ class AnimeModel extends BaseApiModel {
 		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
 
 		$config = [
-			/*'query' => [
-				'username' => $this->config->hummingbird_username,
-			],*/
 			'allow_redirects' => false
 		];
 
@@ -207,6 +204,11 @@ class AnimeModel extends BaseApiModel {
 
 			if (( ! file_exists($cache_file)) || file_get_contents($cache_file) !== $output_json)
 			{
+				// Attempt to create the cache folder if it doesn't exist
+				if ( ! is_dir($this->config->data_cache_path))
+				{
+					mkdir($this->config->data_cache_path);
+				}
 				// Cache the call in case of downtime
 				file_put_contents($cache_file, json_encode($output));
 			}
