@@ -43,27 +43,29 @@ function is_not_selected($a, $b)
  *
  * @return string
  */
- function asset_url(/*...*/)
- {
-	 global $config;
+function asset_url(/*...*/)
+{
+	global $config;
 
-	 $args = func_get_args();
-	 $base_url = rtrim($config->asset_path, '/');
+	$args = func_get_args();
+	$base_url = rtrim($config->asset_path, '/');
 
-	 array_unshift($args, $base_url);
+	array_unshift($args, $base_url);
 
-	 return implode("/", $args);
- }
+	return implode("/", $args);
+}
 
 /**
  * Get the base url from the config
  *
  * @param string $type - (optional) The controller
+ # @param object $config - (optional) Config
  * @return string
  */
-function base_url($type="anime")
+function base_url($type="anime", $config=NULL)
 {
-	global $config;
+	if (is_null($config)) global $config;
+
 
 	$config_path = trim($config->{"{$type}_path"}, "/");
 	$config_host = $config->{"{$type}_host"};
@@ -80,11 +82,12 @@ function base_url($type="anime")
  *
  * @param string $path - (optional) The route path
  * @param string $type - (optional) The controller (anime or manga), defaults to anime
+ # @param object $config - (optional) Config
  * @return string
  */
-function full_url($path="", $type="anime")
+function full_url($path="", $type="anime", $config=NULL)
 {
-	global $config;
+	if (is_null($config)) global $config;
 
 	$config_path = trim($config->{"{$type}_path"}, "/");
 	$config_host = $config->{"{$type}_host"};

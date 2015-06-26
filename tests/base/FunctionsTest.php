@@ -2,6 +2,21 @@
 
 class FunctionsTest extends AnimeClient_TestCase {
 
+	public function setUp()
+	{
+		parent::setUp();
+
+		global $config;
+		$config = new Config([
+			'config' => [
+				'asset_path' => '//localhost/assets/'
+			],
+			'base_config' => [
+
+			]
+		]);
+	}
+
 	/**
 	 * Basic sanity test for _dir function
 	 */
@@ -32,18 +47,12 @@ class FunctionsTest extends AnimeClient_TestCase {
 	{
 		return [
 			'single argument' => [
-				'config' => (object)[
-					'asset_path' => '//localhost/assets/'
-				],
 				'args' => [
 					'images'
 				],
 				'expected' => '//localhost/assets/images',
 			],
 			'multiple arguments' => [
-				'config' => (object)[
-					'asset_path' => '//localhost/assets/'
-				],
 				'args' => [
 					'images', 'anime', 'foo.png'
 				],
@@ -55,11 +64,8 @@ class FunctionsTest extends AnimeClient_TestCase {
 	/**
 	 * @dataProvider assetUrlProvider
 	 */
-	public function testAssetUrl($config, $args, $expected)
+	public function testAssetUrl($args, $expected)
 	{
-		global $config;
-		$config = func_get_arg(0);
-
 		$result = call_user_func_array('asset_url', $args);
 
 		$this->assertEquals($expected, $result);
