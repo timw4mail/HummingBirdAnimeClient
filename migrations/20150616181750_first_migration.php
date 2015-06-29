@@ -2,8 +2,7 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class FirstMigration extends AbstractMigration
-{
+class FirstMigration extends AbstractMigration {
 	/**
 	 * Migrate up
 	 */

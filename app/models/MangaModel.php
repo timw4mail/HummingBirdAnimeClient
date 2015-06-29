@@ -83,7 +83,7 @@ class MangaModel extends BaseApiModel {
 			'query' => [
 				'user_id' => $this->config->hummingbird_username
 			],
-			'allow_redirects' => false
+			'allow_redirects' => FALSE
 		];
 
 		$response = $this->client->get('manga_library_entries', $config);

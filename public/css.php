@@ -19,6 +19,9 @@ require('../app/config/minify_config.php');
 $groups = require("../app/config/minify_css_groups.php");
 
 //Function for compressing the CSS as tightly as possible
+/**
+ * @param string $buffer
+ */
 function compress($buffer) {
 
     //Remove CSS comments

@@ -176,7 +176,7 @@ class AnimeModel extends BaseApiModel {
 		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
 
 		$config = [
-			'allow_redirects' => false
+			'allow_redirects' => FALSE
 		];
 
 		if ($status != "all")
