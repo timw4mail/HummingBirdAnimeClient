@@ -44,20 +44,13 @@ class BaseController {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config, Array $web)
 	{
-		global $config;
 		$this->config = $config;
 
-		$web_factory = new WebFactory([
-			'_GET' => $_GET,
-			'_POST' => $_POST,
-			'_COOKIE' => $_COOKIE,
-			'_SERVER' => $_SERVER,
-			'_FILES' => $_FILES
-		]);
-		$this->request = $web_factory->newRequest();
-		$this->response = $web_factory->newResponse();
+		list($request, $response) = $web;
+		$this->request = $request;
+		$this->response = $response;
 	}
 
 	public function __destruct()

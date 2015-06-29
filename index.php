@@ -18,6 +18,8 @@ define('WHOSE', "Tim's");
 // ! End config
 // -----------------------------------------------------------------------------
 
+\session_start();
+
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
 if ($timezone === '' || $timezone === FALSE)
@@ -25,6 +27,7 @@ if ($timezone === '' || $timezone === FALSE)
 	ini_set('date.timezone', 'GMT');
 }
 
+// Define base directories
 define('ROOT_DIR', __DIR__);
 define('APP_DIR', ROOT_DIR . DIRECTORY_SEPARATOR . 'app');
 define('CONF_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'config');
@@ -34,37 +37,7 @@ require BASE_DIR . DIRECTORY_SEPARATOR . 'pre_conf_functions.php';
 // Setup autoloaders
 _setup_autoloaders();
 
-// Load config and global functions
-$config = new Config();
-require _dir(BASE_DIR, '/functions.php');
-
-\session_start();
-
-use \Whoops\Handler\PrettyPageHandler;
-use \Whoops\Handler\JsonResponseHandler;
-
-// -----------------------------------------------------------------------------
-// Setup error handling
-// -----------------------------------------------------------------------------
-$whoops = new \Whoops\Run();
-
-// Set up default handler for general errors
-$defaultHandler = new PrettyPageHandler();
-$whoops->pushHandler($defaultHandler);
-
-// Set up json handler for ajax errors
-$jsonHandler = new JsonResponseHandler();
-$jsonHandler->onlyForAjaxRequests(true);
-$whoops->pushHandler($jsonHandler);
-
-$whoops->register();
-
-// -----------------------------------------------------------------------------
-// Router
-// -----------------------------------------------------------------------------
-
-$router = new Router();
-$defaultHandler->addDataTable('route', (array)$router->get_route());
-$router->dispatch();
+// Do dependency injection, and go!
+require _dir(APP_DIR, 'bootstrap.php');
 
 // End of index.php

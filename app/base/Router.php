@@ -5,8 +5,6 @@
 
 namespace AnimeClient;
 
-use Aura\Router\RouterFactory;
-
 /**
  * Basic routing/ dispatch
  */
@@ -25,16 +23,21 @@ class Router {
 	protected $config;
 
 	/**
-	 * Constructor
+	 * Array containing request and response objects
+	 * @var array $web
 	 */
-	public function __construct()
-	{
-		global $config;
-		$this->config = $config;
+	protected $web;
 
-		$router_factory = new RouterFactory();
-		$router = $router_factory->newInstance();
-		$this->router = $router_factory->newInstance();
+	/**
+	 * Constructor
+	 *
+	 * @param
+	 */
+	public function __construct(Config $config, \Aura\Router\Router $router, \Aura\Web\Request $request, \Aura\Web\Response $response)
+	{
+		$this->config = $config;
+		$this->router = $router;
+		$this->web = [$request, $response];
 
 		$this->_setup_routes();
 	}
@@ -107,7 +110,7 @@ class Router {
 			}
 		}
 
-		$controller = new $controller_name();
+		$controller = new $controller_name($this->config, $this->web);
 
 		// Run the appropriate controller method
 		$defaultHandler->addDataTable('controller_args', $params);

@@ -12,7 +12,7 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected $config;
+	protected $config = [];
 
 	/**
 	 * Constructor

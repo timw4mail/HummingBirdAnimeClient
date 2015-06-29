@@ -45,9 +45,9 @@ class AnimeController extends BaseController {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config, Array $web)
 	{
-		parent::__construct();
+		parent::__construct($config, $web);
 
 		if ($this->config->show_anime_collection === FALSE)
 		{
