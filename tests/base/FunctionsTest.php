@@ -24,7 +24,7 @@ class FunctionsTest extends AnimeClient_TestCase {
 	 */
 	public function testDir()
 	{
-		$this->assertEquals('foo'.DIRECTORY_SEPARATOR.'bar', _dir('foo', 'bar'));
+		$this->assertEquals('foo' . DIRECTORY_SEPARATOR . 'bar', _dir('foo', 'bar'));
 	}
 
 	public function testIsSelected()
