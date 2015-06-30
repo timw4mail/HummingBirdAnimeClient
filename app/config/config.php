@@ -22,10 +22,11 @@ $config = [
 	// Routing
 	//
 	// Route by path, or route by domain. To route by path, set the _host suffixed
-	// options to an empty string. To route by host, set the _path suffixed options
-	// to an empty string
+	// options to an empty string, and set 'route_by' to 'path'. To route by host, set
+	// the _path suffixed options to an empty string, and set 'route_by' to 'host'.
 	// ----------------------------------------------------------------------------
 
+	'route_by' => 'host', // host or path
 	'anime_host' => 'anime.timshomepage.net',
 	'manga_host' => 'manga.timshomepage.net',
 	'anime_path' => '',

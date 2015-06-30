@@ -54,8 +54,8 @@ class AnimeController extends BaseController {
 			unset($this->nav_routes['Collection']);
 		}
 
-		$this->model = new AnimeModel();
-		$this->collection_model = new AnimeCollectionModel();
+		$this->model = new AnimeModel($config);
+		$this->collection_model = new AnimeCollectionModel($config);
 		$this->base_data = [
 			'message' => '',
 			'url_type' => 'anime',

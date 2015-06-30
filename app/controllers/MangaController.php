@@ -41,7 +41,7 @@ class MangaController extends BaseController {
 	public function __construct(Config $config, Array $web)
 	{
 		parent::__construct($config, $web);
-		$this->model = new MangaModel();
+		$this->model = new MangaModel($config);
 		$this->base_data = [
 			'url_type' => 'manga',
 			'other_type' => 'anime',

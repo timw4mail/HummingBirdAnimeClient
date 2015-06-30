@@ -18,9 +18,9 @@ class AnimeModel extends BaseApiModel {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config)
 	{
-		parent::__construct();
+		parent::__construct($config);
 	}
 
 	/**

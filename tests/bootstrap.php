@@ -24,23 +24,34 @@ $defaultHandler = new MockErrorHandler();
  */
 class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 
+	protected $config;
+
 	public function setUp()
 	{
 		parent::setUp();
 
 		global $config;
-		$config = new Config([
+		$this->config = new Config([
 			'config' => [],
 			'base_config' => [
-				'databaase' => []
+				'databaase' => [],
+				'routes' => [
+					'common' => [],
+					'anime' => [],
+					'manga' => []
+				]
 			]
 		]);
+		$config =& $this->config;
 	}
 }
 
 // -----------------------------------------------------------------------------
 // Autoloaders
 // -----------------------------------------------------------------------------
+
+// Define WHOSE constant
+define('WHOSE', "Foo's");
 
 // Define base path constants
 define('ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . "/../"));

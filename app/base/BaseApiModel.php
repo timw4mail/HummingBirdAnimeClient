@@ -33,9 +33,9 @@ class BaseApiModel extends BaseModel {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config)
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		$this->cookieJar = new CookieJar();
 		$this->client = new Client([
