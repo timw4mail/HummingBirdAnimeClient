@@ -15,6 +15,13 @@ class MangaModel extends BaseApiModel {
 	 */
 	protected $base_url = "https://hummingbird.me/";
 
+	/**
+	 * Constructor
+	 */
+	public function __construct(Config $config)
+	{
+		parent::__construct($config);
+	}
 
 	/**
 	 * Update the selected manga

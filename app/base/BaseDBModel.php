@@ -23,9 +23,9 @@ class BaseDBModel extends BaseModel {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config)
 	{
-		parent::__construct();
+		parent::__construct($config);
 		$this->db_config = $this->config->database;
 	}
 }

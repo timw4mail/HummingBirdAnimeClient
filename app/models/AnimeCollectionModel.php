@@ -25,12 +25,12 @@ class AnimeCollectionModel extends BaseDBModel {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config $config)
 	{
-		parent::__construct();
+		parent::__construct($config);
 
 		$this->db = \Query($this->db_config['collection']);
-		$this->anime_model = new AnimeModel();
+		$this->anime_model = new AnimeModel($config);
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database

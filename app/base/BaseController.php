@@ -39,12 +39,19 @@ class BaseController {
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $base_data = [];
+	protected $base_data = [
+		'url_type' => 'anime',
+		'other_type' => 'manga',
+		'nav_routes' => []
+	];
 
 	/**
 	 * Constructor
+	 *
+	 * @param \AnimeClient\Client $config
+	 * @param array $web
 	 */
-	public function __construct(Config $config, Array $web)
+	public function __construct(Config &$config, Array $web)
 	{
 		$this->config = $config;
 
@@ -53,6 +60,11 @@ class BaseController {
 		$this->response = $response;
 	}
 
+	/**
+	 * Destructor
+	 *
+	 * @codeCoverageIgnore
+	 */
 	public function __destruct()
 	{
 		$this->output();
@@ -61,6 +73,7 @@ class BaseController {
 	/**
 	 * Get the string output of a partial template
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $template
 	 * @param array|object $data
 	 * @return string
@@ -99,6 +112,7 @@ class BaseController {
 	/**
 	 * Output a template to HTML, using the provided data
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $template
 	 * @param array|object $data
 	 * @return void
@@ -131,6 +145,7 @@ class BaseController {
 	/**
 	 * Redirect to the selected page
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $url
 	 * @param int $code
 	 * @return void
@@ -152,6 +167,7 @@ class BaseController {
 	/**
 	 * Add a message box to the page
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $type
 	 * @param string $message
 	 * @return string
@@ -167,6 +183,7 @@ class BaseController {
 	/**
 	 * Clear the api session
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	public function logout()
@@ -178,6 +195,7 @@ class BaseController {
 	/**
 	 * Show the login form
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @return void
 	 */
@@ -220,6 +238,7 @@ class BaseController {
 	/**
 	 * Send the appropriate response
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	private function output()

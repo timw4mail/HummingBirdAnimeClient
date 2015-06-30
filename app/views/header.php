@@ -11,7 +11,11 @@
 </head>
 <body class="<?= $url_type ?> list">
 	<h1 class="flex flex-align-end flex-wrap">
-		<span class="flex-no-wrap grow-1"><?= WHOSE ?> <?= ucfirst($url_type) ?> <?= (strpos($route_path, 'collection') !== FALSE) ? 'Collection' : 'List' ?> [<a href="<?= full_url("", $other_type) ?>"><?= ucfirst($other_type) ?> List</a>]</span>
+		<span class="flex-no-wrap grow-1">
+			<a href="<?= full_url("", $url_type) ?>">
+				<?= WHOSE ?> <?= ucfirst($url_type) ?> <?= (strpos($route_path, 'collection') !== FALSE) ? 'Collection' : 'List' ?>
+			</a> [<a href="<?= full_url("", $other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
+		</span>
 		<span class="flex-no-wrap small-font">
 			<?php if (is_logged_in()): ?>
 			[<a href="<?= full_url("/logout", $url_type) ?>">Logout</a>]
@@ -20,6 +24,7 @@
 			<?php endif ?>
 		</span>
 	</h1>
+	<?php if ( ! empty($nav_routes)): ?>
 	<nav>
 		<ul>
 			<?php foreach($nav_routes as $title => $nav_path): ?>
@@ -33,3 +38,4 @@
 		</ul>
 	</nav>
 	<br />
+	<?php endif ?>

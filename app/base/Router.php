@@ -23,10 +23,22 @@ class Router {
 	protected $config;
 
 	/**
+	 * Class wrapper for input superglobals
+	 * @var object
+	 */
+	protected $request;
+
+	/**
 	 * Array containing request and response objects
 	 * @var array $web
 	 */
 	protected $web;
+
+	/**
+	 * Routes added to router
+	 * @var array $output_routes
+	 */
+	protected $output_routes;
 
 	/**
 	 * Constructor
@@ -37,9 +49,10 @@ class Router {
 	{
 		$this->config = $config;
 		$this->router = $router;
+		$this->request = $request;
 		$this->web = [$request, $response];
 
-		$this->_setup_routes();
+		$this->output_routes = $this->_setup_routes();
 	}
 
 	/**
@@ -51,7 +64,7 @@ class Router {
 	{
 		global $defaultHandler;
 
-		$raw_route = $_SERVER['REQUEST_URI'];
+		$raw_route = $this->request->server->get('REQUEST_URI');
 		$route_path = str_replace([$this->config->anime_path, $this->config->manga_path], '', $raw_route);
 		$route_path = "/" . trim($route_path, '/');
 
@@ -65,8 +78,19 @@ class Router {
 	}
 
 	/**
+	 * Get list of routes applied
+	 *
+	 * @return array
+	 */
+	public function get_output_routes()
+	{
+		return $this->output_routes;
+	}
+
+	/**
 	 * Handle the current route
 	 *
+	 * @codeCoverageIgnore
 	 * @param [object] $route
 	 * @return void
 	 */
@@ -84,7 +108,7 @@ class Router {
 			$failure = $this->router->getFailedRoute();
 			$defaultHandler->addDataTable('failed_route', (array)$failure);
 
-			$controller_name = 'BaseController';
+			$controller_name = '\\AnimeClient\\BaseController';
 			$action_method = 'outputHTML';
 			$params = [
 				'template' => '404',
@@ -118,58 +142,100 @@ class Router {
 	}
 
 	/**
+	 * Get the type of route, to select the current controller
+	 *
+	 * @return string
+	 */
+	public function get_route_type()
+	{
+		$route_type = "";
+
+		$host = $this->request->server->get("HTTP_HOST");
+		$request_uri = $this->request->server->get('REQUEST_URI');
+
+		// Host-based controller selection
+		if ($this->config->route_by === "host")
+		{
+			if (strtolower($host) === strtolower($this->config->anime_host))
+			{
+				$route_type = "anime";
+			}
+
+			if (strtolower($host) === strtolower($this->config->manga_host))
+			{
+				$route_type = "manga";
+			}
+		}
+
+		// Path-based controller selection
+		if ($this->config->route_by === "path")
+		{
+			$path = trim($request_uri, '/');
+
+			if (stripos($path, trim($this->config->anime_path, '/')) === 0)
+			{
+				$route_type = "anime";
+			}
+
+			if (stripos($path, trim($this->config->manga_path, '/')) === 0)
+			{
+				$route_type = "manga";
+			}
+		}
+
+		return $route_type;
+	}
+
+	/**
 	 * Select controller based on the current url, and apply its relevent routes
 	 *
-	 * @return void
+	 * @return array
 	 */
-	private function _setup_routes()
+	public function _setup_routes()
 	{
 		$route_map = [
 			'anime' => '\\AnimeClient\\AnimeController',
 			'manga' => '\\AnimeClient\\MangaController',
 		];
-		$route_type = "anime";
 
-		if ($this->config->manga_host !== "" && strpos($_SERVER['HTTP_HOST'], $this->config->manga_host) !== FALSE)
-		{
-			$route_type = "manga";
-		}
-		else if ($this->config->manga_path !== "" && strpos($_SERVER['REQUEST_URI'], $this->config->manga_path) !== FALSE)
-		{
-			$route_type = "manga";
-		}
+		$output_routes = [];
 
-		$routes = $this->config->routes;
+		$route_type = $this->get_route_type();
+
+		// Return early if invalid route array
+		if ( ! array_key_exists($route_type, $this->config->routes)) return [];
+
+		$applied_routes = array_merge($this->config->routes['common'], $this->config->routes[$route_type]);
 
 		// Add routes
-		foreach(['common', $route_type] as $key)
+		foreach($applied_routes as $name => &$route)
 		{
-			foreach($routes[$key] as $name => &$route)
+			$path = $route['path'];
+			unset($route['path']);
+
+			// Prepend the controller to the route parameters
+			array_unshift($route['action'], $route_map[$route_type]);
+
+			// Select the appropriate router method based on the http verb
+			$add = (array_key_exists('verb', $route)) ? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
+
+			// Add the route to the router object
+			if ( ! array_key_exists('tokens', $route))
 			{
-				$path = $route['path'];
-				unset($route['path']);
+				$output_routes[] = $this->router->$add($name, $path)->addValues($route);
+			}
+			else
+			{
+				$tokens = $route['tokens'];
+				unset($route['tokens']);
 
-				// Prepend the controller to the route parameters
-				array_unshift($route['action'], $route_map[$route_type]);
-
-				// Select the appropriate router method based on the http verb
-				$add = (array_key_exists('verb', $route)) ? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
-
-				if ( ! array_key_exists('tokens', $route))
-				{
-					$this->router->$add($name, $path)->addValues($route);
-				}
-				else
-				{
-					$tokens = $route['tokens'];
-					unset($route['tokens']);
-
-					$this->router->$add($name, $path)
-						->addValues($route)
-						->addTokens($tokens);
-				}
+				$output_routes[] = $this->router->$add($name, $path)
+					->addValues($route)
+					->addTokens($tokens);
 			}
 		}
+
+		return $output_routes;
 	}
 }
 // End of Router.php

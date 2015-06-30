@@ -6,7 +6,7 @@ class BaseModelTest extends AnimeClient_TestCase {
 
 	public function testBaseModelSanity()
 	{
-		$baseModel = new BaseModel();
+		$baseModel = new BaseModel($this->config);
 		$this->assertTrue(is_object($baseModel));
 	}
 }

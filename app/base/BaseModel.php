@@ -20,9 +20,8 @@ class BaseModel {
 	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct(Config &$config)
 	{
-		global $config;
 		$this->config = $config;
 	}
 

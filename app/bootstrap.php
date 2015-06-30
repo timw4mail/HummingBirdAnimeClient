@@ -6,8 +6,6 @@ use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
-use \GuzzleHttp\Client;
-use \GuzzleHttp\Cookie\CookieJar;
 
 // -----------------------------------------------------------------------------
 // Setup error handling

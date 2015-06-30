@@ -4,9 +4,9 @@ use \AnimeClient\BaseApiModel;
 
 class MockBaseApiModel extends BaseApiModel {
 
-	public function __construct()
+	public function __construct(\AnimeClient\Config $config)
 	{
-		parent::__construct();
+		parent::__construct($config);
 	}
 
 	public function __get($key)
@@ -19,7 +19,7 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 
 	public function testBaseApiModelSanity()
 	{
-		$baseApiModel = new MockBaseApiModel();
+		$baseApiModel = new MockBaseApiModel($this->config);
 
 		// Some basic type checks for class memebers
 		$this->assertInstanceOf('\AnimeClient\BaseModel', $baseApiModel);
