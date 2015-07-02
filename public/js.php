@@ -40,7 +40,7 @@ function get_files()
 	foreach($groups[$_GET['g']] as $file)
 	{
 		$new_file = realpath($js_root.$file);
-		$js .= file_get_contents($new_file);
+		$js .= file_get_contents($new_file) . "\n\n";
 	}
 
 	return $js;
@@ -57,14 +57,32 @@ function get_files()
  */
 function google_min($new_file)
 {
+	$options = [
+		'output_info' => 'compiled_code',
+		'output_format' => 'json',
+		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+		'js_code' => urlencode($new_file),
+		'warning_level' => 'QUIET',
+		'language' => 'ECMASCRIPT5'
+	];
+
+	$option_pairs = [];
+	foreach($options as $key => $value)
+	{
+		$option_pairs[] = "{$key}={$value}";
+	}
+	$option_string = implode("&", $option_pairs);
+
 	//Get a much-minified version from Google's closure compiler
 	$ch = curl_init('http://closure-compiler.appspot.com/compile');
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, 'output_info=compiled_code&output_format=text&compilation_level=SIMPLE_OPTIMIZATIONS&js_code=' . urlencode($new_file));
-	$output = curl_exec($ch);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $option_string);
+	$json = curl_exec($ch);
 	curl_close($ch);
-	return $output;
+
+	$obj = json_decode($json);
+	return $obj->compiledCode;
 }
 
 // --------------------------------------------------------------------------
@@ -146,7 +164,12 @@ if($last_modified === $requested_time)
 // --------------------------------------------------------------------------
 
 //Determine what to do: rebuild cache, send files as is, or send cache.
-if($cache_modified < $last_modified)
+// If debug is set, just concatenate
+if(isset($_GET['debug']))
+{
+	$js = get_files();
+}
+else if($cache_modified < $last_modified)
 {
 	$js = google_min(get_files());
 
@@ -155,11 +178,6 @@ if($cache_modified < $last_modified)
 	{
 		die("Cache file was not created. Make sure you have the correct folder permissions.");
 	}
-}
-// If debug is set, just concatenate
-else if(isset($_GET['debug']))
-{
-	$js = get_files();
 }
 // Otherwise, send the cached file
 else

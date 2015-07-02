@@ -1,4 +1,7 @@
 <main>
+<?php if (empty($sections)): ?>
+<h3>There's nothing here!</h3>
+<?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
 	<h2><?= $name ?></h2>
 	<table>
@@ -29,5 +32,6 @@
 		</tbody>
 	</table>
 	<?php endforeach ?>
+<?php endif ?>
 </main>
-<script src="<?= asset_url('js.php?g=table') ?>"></script>
+<script src="<?= $config->asset_url('js.php?g=table') ?>"></script>

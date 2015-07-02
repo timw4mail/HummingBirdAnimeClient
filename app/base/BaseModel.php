@@ -73,7 +73,7 @@ class BaseModel {
 			}
 			else
 			{
-				throw new Exception("Couldn't cache images because they couldn't be downloaded.");
+				throw new DomainException("Couldn't cache images because they couldn't be downloaded.");
 			}
 
 			// Resize the image

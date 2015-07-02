@@ -157,7 +157,7 @@ class AnimeModel extends BaseApiModel {
 
 		if ($response->getStatusCode() != 200)
 		{
-			throw new Exception($response->getEffectiveUrl());
+			throw new RuntimeException($response->getEffectiveUrl());
 		}
 
 		return $response->json();
@@ -192,7 +192,7 @@ class AnimeModel extends BaseApiModel {
 		{
 			if ( ! file_exists($cache_file))
 			{
-				throw new Exception($response->getEffectiveUrl());
+				throw new DomainException($response->getEffectiveUrl());
 			}
 			else
 			{

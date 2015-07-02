@@ -1,7 +1,7 @@
 <main>
 	<?= $message ?>
 	<aside>
-		<form method="post" action="<?= full_url('/login', $url_type) ?>">
+		<form method="post" action="<?= $config->full_url('/login', $url_type) ?>">
 		<dl>
 			<?php /*<dt><label for="username">Username: </label></dt>
 			<dd><input type="text" id="username" name="username" required="required" /></dd>*/ ?>
@@ -10,7 +10,7 @@
 			<dd><input type="password" id="password" name="password" required="required" /></dd>
 
 			<dt>&nbsp;</dt>
-			<dd><input type="submit" value="Login" /></dd>
+			<dd><button type="submit">Login</button></dd>
 		</dl>
 		</form>
 	</aside>

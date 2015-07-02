@@ -33,6 +33,10 @@ return [
 				'code' => '301'
 			]
 		],
+		'search' => [
+			'path' => '/search',
+			'action' => ['search'],
+		],
 		'all' => [
 			'path' => '/all{/view}',
 			'action' => ['anime_list'],
@@ -99,14 +103,36 @@ return [
 				'view' => '[a-z_]+'
 			]
 		],
+		'collection_add_form' => [
+			'path' => '/collection/add',
+			'action' => ['collection_form'],
+			'params' => [],
+		],
+		'collection_edit_form' => [
+			'path' => '/collection/edit/{id}',
+			'action' => ['collection_form'],
+			'tokens' => [
+				'id' => '[0-9]+'
+			]
+		],
+		'collection_add' => [
+			'path' => '/collection/add',
+			'action' => ['collection_add'],
+			'verb' => 'post'
+		],
+		'collection_edit' => [
+			'path' => '/collection/edit',
+			'action' => ['collection_edit'],
+			'verb' => 'post'
+		],
 		'collection' => [
-			'path' => '/collection{/view}',
+			'path' => '/collection/view{/view}',
 			'action' => ['collection'],
 			'params' => [],
 			'tokens' => [
 				'view' => '[a-z_]+'
 			]
-		]
+		],
 	],
 	'manga' => [
 		'index' => [

@@ -2,26 +2,27 @@
 <main>
 	<form action="<?= $action_url ?>" method="post">
 	<dl>
-		<h2><?= $item['title'] ?></h2>
-		<h3><?= $item['alternate_title'] ?></h3>
+		<dt>Series</dt>
+		<dd><label>Search for anime name: <input type="search" id="search" /></label></dd>
+		<dd>
+			<section id="series_list" class="media-wrap">
+			</section>
+		</dd>
 
 		<dt><label for="media_id">Media</label></dt>
 		<dd>
 			<select name="media_id" id="media_id">
 			<?php foreach($media_items as $id => $name): ?>
-				<option <?= $item['media_id'] == $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+				<option value="<?= $id ?>"><?= $name ?></option>
 			<?php endforeach ?>
 			</select>
 		</dd>
 
 		<dt><label for="notes">Notes</label></dt>
-		<dd><textarea id="notes" name="notes"><?= $item['notes'] ?></textarea></dd>
+		<dd><textarea id="notes" name="notes"></textarea></dd>
 
 		<dt>&nbsp;</dt>
 		<dd>
-			<?php if($action === 'Edit'): ?>
-			<input type="hidden" name="hummingbird_id" value="<?= $item['hummingbird_id'] ?>" />
-			<?php endif ?>
 			<button type="submit">Save</button>
 		</dd>
 	</dl>

@@ -54,6 +54,7 @@ class BaseController {
 	public function __construct(Config &$config, Array $web)
 	{
 		$this->config = $config;
+		$this->base_data['config'] = $config;
 
 		list($request, $response) = $web;
 		$this->request = $request;
@@ -68,6 +69,24 @@ class BaseController {
 	public function __destruct()
 	{
 		$this->output();
+	}
+
+	/**
+	 * Get a class member
+	 *
+	 * @param string $key
+	 * @return object
+	 */
+	public function __get($key)
+	{
+		$allowed = ['request', 'response', 'config'];
+
+		if (in_array($key, $allowed))
+		{
+			return $this->$key;
+		}
+
+		return NULL;
 	}
 
 	/**
@@ -95,7 +114,7 @@ class BaseController {
 
 		if ( ! is_file($template_path))
 		{
-			throw new Exception("Invalid template : {$path}");
+			throw new InvalidArgumentException("Invalid template : {$path}");
 		}
 
 		ob_start();
@@ -152,16 +171,9 @@ class BaseController {
 	 */
 	public function redirect($url, $code, $type="anime")
 	{
-		$url = full_url($url, $type);
+		$url = $this->config->full_url($url, $type);
 
-		$codes = [
-			301 => 'Moved Permanently',
-			302 => 'Found',
-			303 => 'See Other'
-		];
-
-		header("HTTP/1.1 {$code} {$codes[$code]}");
-		header("Location: {$url}");
+		$this->response->redirect->to($url, $code);
 	}
 
 	/**
@@ -189,7 +201,7 @@ class BaseController {
 	public function logout()
 	{
 		session_destroy();
-		$this->response->redirect->seeOther(full_url(''));
+		$this->response->redirect->seeOther($this->config->full_url(''));
 	}
 
 	/**
@@ -228,7 +240,7 @@ class BaseController {
 			)
 		)
 		{
-			$this->response->redirect->afterPost(full_url('', $this->base_data['url_type']));
+			$this->response->redirect->afterPost($this->config->full_url('', $this->base_data['url_type']));
 			return;
 		}
 

@@ -1,4 +1,7 @@
 <main>
+<?php if (empty($sections)): ?>
+<h3>There's nothing here!</h3>
+<?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
 		<section class="status">
 			<h2><?= $name ?></h2>
@@ -34,7 +37,8 @@
 			</section>
 		</section>
 	<?php endforeach ?>
+<?php endif ?>
 </main>
 <?php if (is_logged_in()): ?>
-<script src="<?= asset_url('js.php?g=edit') ?>"></script>
+<script src="<?= $config->asset_url('js.php?g=edit') ?>"></script>
 <?php endif ?>

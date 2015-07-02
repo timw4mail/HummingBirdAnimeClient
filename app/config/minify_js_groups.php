@@ -34,6 +34,12 @@ return [
 		'show_message.js',
 		'anime_edit.js',
 		'manga_edit.js'
+	],
+	'collection' => [
+		'lib/jquery.min.js',
+		'lib/jquery.throttle-debounce.js',
+		'lib/jsrender.js',
+		'collection.js'
 	]
 ];
 
