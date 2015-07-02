@@ -101,7 +101,7 @@ class MangaModel extends BaseApiModel {
 		{
 			if ( ! file_exists($cache_file))
 			{
-				throw new Exception($response->getEffectiveUrl());
+				throw new DomainException($response->getEffectiveUrl());
 			}
 			else
 			{
@@ -124,7 +124,7 @@ class MangaModel extends BaseApiModel {
 		}
 
 		// Bail out early if there isn't any manga data
-		if (empty($raw_data)) return [];
+		if ( ! array_key_exists('manga', $raw_data)) return [];
 
 		$data = [
 			'Reading' => [],
@@ -173,8 +173,6 @@ class MangaModel extends BaseApiModel {
 				break;
 			}
 		}
-
-		//file_put_contents(_dir($this->config->data_cache_path, "manga-processed.json"), json_encode($data, JSON_PRETTY_PRINT));
 
 		return (array_key_exists($status, $data)) ? $data[$status] : $data;
 	}

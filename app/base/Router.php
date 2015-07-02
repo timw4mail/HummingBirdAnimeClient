@@ -64,7 +64,7 @@ class Router {
 	{
 		global $defaultHandler;
 
-		$raw_route = $this->request->server->get('REQUEST_URI');
+		$raw_route = parse_url($this->request->server->get('REQUEST_URI'), \PHP_URL_PATH);
 		$route_path = str_replace([$this->config->anime_path, $this->config->manga_path], '', $raw_route);
 		$route_path = "/" . trim($route_path, '/');
 
@@ -108,14 +108,14 @@ class Router {
 			$failure = $this->router->getFailedRoute();
 			$defaultHandler->addDataTable('failed_route', (array)$failure);
 
-			$controller_name = '\\AnimeClient\\BaseController';
+			/*$controller_name = '\\AnimeClient\\BaseController';
 			$action_method = 'outputHTML';
 			$params = [
 				'template' => '404',
 				'data' => [
 					'title' => 'Page Not Found'
 				]
-			];
+			];*/
 		}
 		else
 		{
@@ -148,7 +148,7 @@ class Router {
 	 */
 	public function get_route_type()
 	{
-		$route_type = "";
+		$route_type = $this->config->default_list;
 
 		$host = $this->request->server->get("HTTP_HOST");
 		$request_uri = $this->request->server->get('REQUEST_URI');

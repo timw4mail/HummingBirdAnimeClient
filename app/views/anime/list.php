@@ -1,4 +1,7 @@
 <main>
+<?php if (empty($sections)): ?>
+<h3>There's nothing here!</h3>
+<?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
 	<h2><?= $name ?></h2>
 	<table>
@@ -11,6 +14,7 @@
 				<th>Type</th>
 				<th>Progress</th>
 				<th>Rated</th>
+				<th>Genres</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,10 +31,17 @@
 				<td><?= $item['anime']['show_type'] ?></td>
 				<td>Episodes: <?= $item['episodes_watched'] ?> / <?= $item['anime']['episode_count'] ?></td>
 				<td><?= $item['anime']['age_rating'] ?></td>
+				<td class="flex flex-justify-space-around align-left">
+					<?php sort($item['anime']['genres']) ?>
+					<?php foreach($item['anime']['genres'] as $genre): ?>
+						<span><?= $genre['name'] ?></span>
+					<?php endforeach ?>
+				</td>
 			</tr>
 			<?php endforeach ?>
 		</tbody>
 	</table>
 	<?php endforeach ?>
+<?php endif ?>
 </main>
-<script src="<?= asset_url('js.php?g=table') ?>"></script>
+<script src="<?= $config->asset_url('js.php?g=table') ?>"></script>

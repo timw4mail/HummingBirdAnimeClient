@@ -1,3 +1,7 @@
+template {
+  display: none;
+}
+
 body {
   margin: 0.5em;
 }
@@ -35,8 +39,22 @@ tbody > tr:nth-child(odd) {
   align-items: flex-end;
 }
 
+.flex-align-space-around {
+  -webkit-align-content: space-around;
+  -ms-flex-line-pack: distribute;
+  align-content: space-around;
+}
+
 .flex-justify-space-around {
-  jusify-content: space-around;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+}
+
+.flex-self-center {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
 .flex {
@@ -49,28 +67,16 @@ tbody > tr:nth-child(odd) {
   font-size: 1.6rem;
 }
 
+.align_center {
+  text-align: center;
+}
+
 .align_left {
   text-align: left;
 }
 
 .align_right {
   text-align: right;
-}
-
-.round_all {
-  border-radius: 0.5em;
-}
-
-.round_top {
-  border-radius: 0;
-  border-top-right-radius: 0.5em;
-  border-top-left-radius: 0.5em;
-}
-
-.round_bottom {
-  border-radius: 0;
-  border-bottom-right-radius: 0.5em;
-  border-bottom-left-radius: 0.5em;
 }
 
 .media-wrap {

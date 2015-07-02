@@ -32,6 +32,9 @@ $config = [
 	'anime_path' => '',
 	'manga_path' => '',
 
+	// Which list should be the default?
+	'default_list' => 'anime', // anime or manga
+
 	// Default pages for anime/manga
 	'default_anime_path' => '/watching',
 	'default_manga_path' => '/all',

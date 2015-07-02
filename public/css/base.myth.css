@@ -3,12 +3,11 @@
 	--title-overlay: rgba(0, 0, 0, 0.45);
 	--text-color: #ffffff;
 	--normal-padding: 0.25em;
-	--radius: 0.5em;
 }
 
-body {
-	margin: 0.5em;
-}
+template {display:none}
+
+body {margin: 0.5em;}
 
 table {
 	width:85%;
@@ -23,36 +22,18 @@ tbody > tr:nth-child(odd) {
 .flex-wrap {flex-wrap: wrap}
 .flex-no-wrap {flex-wrap: nowrap}
 .flex-align-end {align-items: flex-end}
-.flex-justify-space-around {jusify-content: space-around}
+.flex-align-space-around {align-content: space-around}
+.flex-justify-space-around {justify-content: space-around}
+.flex-self-center {align-self:center}
 .flex {display: flex}
 
 .small-font {
 	font-size:1.6rem;
 }
 
-.align_left {
-	text-align:left;
-}
-
-.align_right {
-	text-align:right;
-}
-
-.round_all {
-	border-radius:var(--radius);
-}
-
-.round_top {
-	border-radius: 0;
-	border-top-right-radius:var(--radius);
-	border-top-left-radius:var(--radius);
-}
-
-.round_bottom {
-	border-radius: 0;
-	border-bottom-right-radius:var(--radius);
-	border-bottom-left-radius:var(--radius);
-}
+.align_center {text-align:center}
+.align_left {text-align:left;}
+.align_right {text-align:right;}
 
 .media-wrap {
 	text-align:center;

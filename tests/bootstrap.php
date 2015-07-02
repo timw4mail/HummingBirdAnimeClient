@@ -32,7 +32,9 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 
 		global $config;
 		$this->config = new Config([
-			'config' => [],
+			'config' => [
+				'asset_path' => '//localhost/assets/'
+			],
 			'base_config' => [
 				'databaase' => [],
 				'routes' => [

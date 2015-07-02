@@ -34,6 +34,34 @@ class RouterTest extends AnimeClient_TestCase {
 		$this->assertTrue(is_object($this->router));
 	}
 
+	protected function _set_up($config, $uri, $host)
+	{
+		$this->config = new Config($config);
+
+		// Set up the environment
+		$_SERVER = array_merge($_SERVER, [
+			'REQUEST_METHOD' => 'GET',
+			'REQUEST_URI' => $uri,
+			'HTTP_HOST' => $host,
+			'SERVER_NAME' => $host
+		]);
+
+		$router_factory = new RouterFactory();
+		$this->aura_router = $router_factory->newInstance();
+
+		// Create Request/Response Objects
+		$web_factory = new WebFactory([
+			'_GET' => [],
+			'_POST' => [],
+			'_COOKIE' => [],
+			'_SERVER' => $_SERVER,
+			'_FILES' => []
+		]);
+		$this->request = $web_factory->newRequest();
+		$this->response = $web_factory->newResponse();
+		$this->router = new Router($this->config, $this->aura_router, $this->request, $this->response);
+	}
+
 	public function RouteTestProvider()
 	{
 		return [
@@ -45,6 +73,7 @@ class RouterTest extends AnimeClient_TestCase {
 						'anime_path' => 'anime',
 						'manga_path' => 'manga',
 						'route_by' => 'path',
+						'default_list' => 'anime'
 					],
 					'base_config' => []
 				),
@@ -61,6 +90,7 @@ class RouterTest extends AnimeClient_TestCase {
 						'anime_path' => '',
 						'manga_path' => '',
 						'route_by' => 'host',
+						'default_list' => 'anime'
 					],
 					'base_config' => []
 				),
@@ -77,6 +107,7 @@ class RouterTest extends AnimeClient_TestCase {
 						'anime_path' => 'anime',
 						'manga_path' => 'manga',
 						'route_by' => 'path',
+						'default_list' => 'manga'
 					],
 					'base_config' => [
 						'routes' => []
@@ -95,6 +126,7 @@ class RouterTest extends AnimeClient_TestCase {
 						'anime_path' => '',
 						'manga_path' => '',
 						'route_by' => 'host',
+						'default_list' => 'manga'
 					],
 					'base_config' => []
 				),
@@ -102,7 +134,7 @@ class RouterTest extends AnimeClient_TestCase {
 				'host' => 'anime.host.me',
 				'uri' => '/watching',
 				'check_var' => 'anime_host'
-			)
+			),
 		];
 	}
 
@@ -147,30 +179,7 @@ class RouterTest extends AnimeClient_TestCase {
 			]
 		];
 
-		$this->config = new Config($config);
-
-		// Set up the environment
-		$_SERVER = array_merge($_SERVER, [
-			'REQUEST_METHOD' => 'GET',
-			'REQUEST_URI' => $uri,
-			'HTTP_HOST' => $host,
-			'SERVER_NAME' => $host
-		]);
-
-		$router_factory = new RouterFactory();
-		$this->aura_router = $router_factory->newInstance();
-
-		// Create Request/Response Objects
-		$web_factory = new WebFactory([
-			'_GET' => [],
-			'_POST' => [],
-			'_COOKIE' => [],
-			'_SERVER' => $_SERVER,
-			'_FILES' => []
-		]);
-		$this->request = $web_factory->newRequest();
-		$this->response = $web_factory->newResponse();
-		$this->router = new Router($this->config, $this->aura_router, $this->request, $this->response);
+		$this->_set_up($config, $uri, $host);
 
 		// Check route setup
 		$this->assertEquals($config['base_config']['routes'], $this->config->routes);
@@ -189,4 +198,53 @@ class RouterTest extends AnimeClient_TestCase {
 		$route = $this->router->get_route();
 		$this->assertInstanceOf('Aura\\Router\\Route', $route, "Route is valid, and matched");
 	}
+
+	/*public function testDefaultRoute()
+	{
+		$config = [
+			'config' => [
+				'anime_host' => '',
+				'manga_host' => '',
+				'anime_path' => 'anime',
+				'manga_path' => 'manga',
+				'route_by' => 'host',
+				'default_list' => 'manga'
+			],
+			'base_config' => [
+				'routes' => [
+					'common' => [
+						'login_form' => [
+							'path' => '/login',
+							'action' => ['login'],
+							'verb' => 'get'
+						],
+					],
+					'anime' => [
+						'index' => [
+							'path' => '/',
+							'action' => ['redirect'],
+							'params' => [
+								'url' => '', // Determined by config
+								'code' => '301'
+							]
+						],
+					],
+					'manga' => [
+						'index' => [
+							'path' => '/',
+							'action' => ['redirect'],
+							'params' => [
+								'url' => '', // Determined by config
+								'code' => '301',
+								'type' => 'manga'
+							]
+						],
+					]
+				]
+			]
+		];
+
+		$this->_set_up($config, "/", "localhost");
+		$this->assertEquals($this->config->full_url('', 'manga'), $this->response->headers->get('location'));
+	}*/
 }

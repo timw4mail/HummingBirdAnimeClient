@@ -9,6 +9,7 @@
 	$(".media button.plus_one").on("click", function(e) {
 		e.stopPropagation();
 
+		var self = this;
 		var this_sel = $(this);
 		var parent_sel = $(this).closest("article");
 		var self = this;
@@ -41,7 +42,7 @@
 		$.post(BASE_URL + 'update', data, function(res) {
 			if (res.status === 'completed')
 			{
-				this_sel.parent('article').hide();
+				$(self).closest('article').hide();
 			}
 
 			add_message('success', "Sucessfully updated " + title);
