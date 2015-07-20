@@ -26,11 +26,11 @@ $config = [
 	// the _path suffixed options to an empty string, and set 'route_by' to 'host'.
 	// ----------------------------------------------------------------------------
 
-	'route_by' => 'host', // host or path
-	'anime_host' => 'anime.timshomepage.net',
-	'manga_host' => 'manga.timshomepage.net',
-	'anime_path' => '',
-	'manga_path' => '',
+	'route_by' => 'path', // host or path
+	'anime_host' => '',
+	'manga_host' => '',
+	'anime_path' => 'anime',
+	'manga_path' => 'manga',
 
 	// Which list should be the default?
 	'default_list' => 'anime', // anime or manga
