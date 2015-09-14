@@ -48,12 +48,12 @@ class Manga extends Controller {
 		parent::__construct($container);
 		$config = $container->get('config');
 		$this->model = new MangaModel($container);
-		$this->base_data = [
+		$this->base_data = array_merge($this->base_data, [
 			'config' => $this->config,
 			'url_type' => 'manga',
 			'other_type' => 'anime',
 			'nav_routes' => $this->nav_routes
-		];
+		]);
 	}
 
 	/**

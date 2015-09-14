@@ -1,6 +1,6 @@
 <?php
 
-namespace Animeclient\Base;
+namespace AnimeClient\Base;
 
 /**
  * Wrapper of Aura container to be in the anime client namespace

@@ -64,13 +64,13 @@ class Anime extends BaseController {
 
 		$this->model = new AnimeModel($container);
 		$this->collection_model = new AnimeCollectionModel($container);
-		$this->base_data = [
+		$this->base_data = array_merge($this->base_data, [
 			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
 			'nav_routes' => $this->nav_routes,
 			'config' => $this->config,
-		];
+		]);
 	}
 
 	/**
@@ -106,82 +106,6 @@ class Anime extends BaseController {
 			'title' => $title,
 			'sections' => $data
 		]);
-	}
-
-	/**
-	 * Show the anime collection page
-	 *
-	 * @return void
-	 */
-	public function collection($view)
-	{
-		$view_map = [
-			'' => 'collection',
-			'list' => 'collection_list'
-		];
-
-		$data = $this->collection_model->get_collection();
-
-		$this->outputHTML('anime/' . $view_map[$view], [
-			'title' => WHOSE . " Anime Collection",
-			'sections' => $data,
-			'genres' => $this->collection_model->get_genre_list()
-		]);
-	}
-
-	/**
-	 * Show the anime collection add/edit form
-	 *
-	 * @param int $id
-	 * @return void
-	 */
-	public function collection_form($id=NULL)
-	{
-		$action = (is_null($id)) ? "Add" : "Edit";
-
-		$this->outputHTML('anime/collection_' . strtolower($action), [
-			'action' => $action,
-			'action_url' => $this->config->full_url("collection/" . strtolower($action)),
-			'title' => WHOSE . " Anime Collection &middot; {$action}",
-			'media_items' => $this->collection_model->get_media_type_list(),
-			'item' => ($action === "Edit") ? $this->collection_model->get($id) : []
-		]);
-	}
-
-	/**
-	 * Update a collection item
-	 *
-	 * @return void
-	 */
-	public function collection_edit()
-	{
-		$data = $this->request->post->get();
-		if ( ! array_key_exists('hummingbird_id', $data))
-		{
-			$this->redirect("collection/view", 303, "anime");
-		}
-
-		$this->collection_model->update($data);
-
-		$this->redirect("collection/view", 303, "anime");
-	}
-
-	/**
-	 * Add a collection item
-	 *
-	 * @return void
-	 */
-	public function collection_add()
-	{
-		$data = $this->request->post->get();
-		if ( ! array_key_exists('id', $data))
-		{
-			$this->redirect("collection/view", 303, "anime");
-		}
-
-		$this->collection_model->add($data);
-
-		$this->redirect("collection/view", 303, "anime");
 	}
 
 	/**

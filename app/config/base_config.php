@@ -10,6 +10,6 @@ $base_config = [
 	'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
 
 	// Included config files
-	'routes' => require _dir(CONF_DIR, 'routes.php'),
-	'database' => require _dir(CONF_DIR, 'database.php'),
+	'routes' => require __DIR__ . '/routes.php',
+	'database' => require __DIR__ . '/database.php',
 ];

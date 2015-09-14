@@ -10,19 +10,13 @@ use \Aura\Web\Response;
 /**
  * Basic routing/ dispatch
  */
-class Router {
+class Router extends RoutingBase {
 
 	/**
 	 * The route-matching object
 	 * @var object $router
 	 */
 	protected $router;
-
-	/**
-	 * The global configuration object
-	 * @var object $config
-	 */
-	protected $config;
 
 	/**
 	 * Class wrapper for input superglobals
@@ -43,12 +37,6 @@ class Router {
 	protected $output_routes;
 
 	/**
-	 * Injection Container
-	 * @var Container $container
-	 */
-	protected $container;
-
-	/**
 	 * Constructor
 	 *
 	 * @param Config $config
@@ -58,14 +46,12 @@ class Router {
 	 */
 	public function __construct(Container $container)
 	{
-		$this->config = $container->get('config');
+		parent::__construct($container);
 		$this->router = $container->get('aura-router');
 		$this->request = $container->get('request');
 		$this->web = [$this->request, $container->get('response')];
 
 		$this->output_routes = $this->_setup_routes();
-
-		$this->container = $container;
 	}
 
 	/**
@@ -141,7 +127,6 @@ class Router {
 		$controller = new $controller_name($this->container);
 
 		// Run the appropriate controller method
-
 		$error_handler->addDataTable('controller_args', $params);
 		call_user_func_array([$controller, $action_method], $params);
 	}
@@ -153,29 +138,20 @@ class Router {
 	 */
 	public function get_controller()
 	{
-		$route_type = $this->config->default_list;
+		$error_handler = $this->container->get('error-handler');
+		$route_type = $this->__get('default_list');
 
 		$host = $this->request->server->get("HTTP_HOST");
 		$request_uri = $this->request->server->get('PATH_INFO');
 
 		$path = trim($request_uri, '/');
 
-		$route_type_map = [
-			$this->config->anime_path => 'anime',
-			$this->config->manga_path => 'manga',
-			$this->config->collection_path => 'collection',
-			$this->config->stats_path => 'stats'
-		];
-
 		$segments = explode('/', $path);
-		$controller = array_shift($segments);
+		$controller = reset($segments);
 
-		if (array_key_exists($controller, array_keys($route_type_map)))
-		{
-			return $route_type_map[$controller];
-		}
+		//$controller_class = '\\AnimeClient\\Controller\\' . ucfirst($controller);
 
-		return $route_type;
+		return $controller;
 	}
 
 	/**
@@ -190,9 +166,9 @@ class Router {
 		$route_type = $this->get_controller();
 
 		// Return early if invalid route array
-		if ( ! array_key_exists($route_type, $this->config->routes)) return [];
+		if ( ! array_key_exists($route_type, $this->routes)) return [];
 
-		$applied_routes = array_merge($this->config->routes[$route_type], $this->config->routes['common']);
+		$applied_routes = array_merge($this->routes[$route_type], $this->routes['common']);
 
 		// Add routes
 		foreach($applied_routes as $name => &$route)

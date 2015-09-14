@@ -39,7 +39,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 
 1. Install dependencies via composer: `composer install`
 2. Change the `WHOSE` constant declaration in `index.php` to your name
-3. Configure settings in `app/config/config.php` to your liking
+3. Configure settings in `app/config/config.php` and `app/config/routing.php` to your liking
 4. Create the following directories if they don't exist, and make sure they are world writable
 	* app/cache
 	* public/images/manga

@@ -11,7 +11,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="a-<?= $item['hummingbird_id'] ?>">
-					<img src="<?= $config->asset_url('images', 'anime', basename($item['cover_image'])) ?>" />
+					<img src="<?= $urlGenerator->asset_url('images', 'anime', basename($item['cover_image'])) ?>" />
 					<div class="name">
 						<a href="https://hummingbird.me/anime/<?= $item['slug'] ?>">
 						<?= $item['title'] ?>
@@ -28,7 +28,7 @@
 				</article>
 
 				<?php if (is_logged_in()): ?>
-					<span>[<a href="<?= $config->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
+					<span>[<a href="<?= $urlGenerator->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
 					<?php endif ?>
 				<?php endforeach ?>
 			</section>

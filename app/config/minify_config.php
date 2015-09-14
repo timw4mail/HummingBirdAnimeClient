@@ -14,8 +14,6 @@
 
 /* $config = */require 'config.php';
 
-$config = (object)$config;
-
 // Should we use myth to preprocess?
 $use_myth = FALSE;
 
@@ -27,7 +25,7 @@ $use_myth = FALSE;
 | The folder where css files exist, in relation to the document root
 |
 */
-$css_root = $config->asset_dir. '/css/';
+$css_root = $config['asset_dir'] . '/css/';
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +55,4 @@ $path_to = '';
 | The folder where javascript files exist, in relation to the document root
 |
 */
-$js_root = $config->asset_dir. '/js/';
+$js_root = $config['asset_dir'] . '/js/';
