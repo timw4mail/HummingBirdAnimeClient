@@ -205,5 +205,6 @@ class RouterTest extends AnimeClient_TestCase {
 		$this->_set_up($config, "/", "localhost");
 		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
 		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
+		$this->assertEquals('', $this->urlGenerator->default_url('foo'), "Incorrect default url");
 	}
 }
