@@ -1,11 +1,17 @@
 {
+	"name": "timw4mail/hummingbird-anime-client",
+	"description": "A self-hosted anime/manga client for hummingbird.",
+	"license":"MIT",
 	"require": {
 		"guzzlehttp/guzzle": "5.3.*",
-		"filp/whoops": "1.1.*",
+		"filp/whoops": "dev-php7#fe32a402b086b21360e82013e8a0355575c7c6f4",
 		"aura/router": "2.2.*",
 		"aura/web": "2.0.*",
-		"aviat4ion/query": "2.0.*",
-		"robmorgan/phinx": "*",
-		"abeautifulsite/simpleimage": "*"
+		"aura/html": "2.*",
+		"aura/session": "2.*",
+		"aviat4ion/query": "2.5.*",
+		"robmorgan/phinx": "0.4.*",
+		"abeautifulsite/simpleimage": "2.5.*",
+		"szymach/c-pchart": "1.*"
 	}
 }
