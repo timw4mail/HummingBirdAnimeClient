@@ -1,6 +1,6 @@
 <main>
 <?php if (is_logged_in()): ?>
-[<a href="<?= $config->full_url('collection/add', 'anime') ?>">Add Item</a>]
+[<a href="<?= $urlGenerator->full_url('collection/add', 'anime') ?>">Add Item</a>]
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -43,7 +43,7 @@
 				<td><?= $item['age_rating'] ?></td>
 				<td class="align_left"><?= $item['notes'] ?></td>
 				<?php if (is_logged_in()): ?>
-				<td>[<a href="<?= $config->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</td>
+				<td>[<a href="<?= $urlGenerator->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</td>
 				<?php endif ?>
 			</tr>
 		<?php endforeach ?>
@@ -53,4 +53,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script src="<?= $config->asset_url('js.php?g=table') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php?g=table') ?>"></script>

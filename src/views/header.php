@@ -18,9 +18,9 @@
 		</span>
 		<span class="flex-no-wrap small-font">
 			<?php if (is_logged_in()): ?>
-			[<a href="<?= $urlGenerator->full_url("/logout", $url_type) ?>">Logout</a>]
+			[<a href="<?= $urlGenerator->url("/{$url_type}/logout", $url_type) ?>">Logout</a>]
 			<?php else: ?>
-			[<a href="<?= $urlGenerator->full_url("/login", $url_type) ?>"><?= WHOSE ?> Login</a>]
+			[<a href="<?= $urlGenerator->url("/{$url_type}/login", $url_type) ?>"><?= WHOSE ?> Login</a>]
 			<?php endif ?>
 		</span>
 	</h1>

@@ -149,7 +149,10 @@ class Router extends RoutingBase {
 		$segments = explode('/', $path);
 		$controller = reset($segments);
 
-		//$controller_class = '\\AnimeClient\\Controller\\' . ucfirst($controller);
+		if (empty($controller))
+		{
+			$controller = $route_type;
+		}
 
 		return $controller;
 	}
