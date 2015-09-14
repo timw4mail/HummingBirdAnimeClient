@@ -1,6 +1,6 @@
 <?php
 
-namespace AnimeClient\Model;
+namespace Aviat\AnimeClient\Model;
 
 use CpChart\Services\pChartFactory;
 

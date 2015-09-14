@@ -1,9 +1,9 @@
 <?php
 
-namespace AnimeClient\Base;
+namespace Aviat\Ion\Base;
 
 /**
- * Wrapper of Aura container to be in the anime client namespace
+ * Dependency container
  */
 class Container {
 

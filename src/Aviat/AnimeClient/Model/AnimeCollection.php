@@ -3,11 +3,11 @@
  * Anime Collection DB Model
  */
 
-namespace AnimeClient\Model;
+namespace Aviat\AnimeClient\Model;
 
-use AnimeClient\Base\Model\DB;
-use \AnimeClient\Base\Container;
-use AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Base\Model\DB;
+use \Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 /**
  * Model for getting anime collection data

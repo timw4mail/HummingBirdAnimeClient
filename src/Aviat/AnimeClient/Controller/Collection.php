@@ -3,13 +3,13 @@
  * Anime Collection Controller
  */
 
-namespace AnimeClient\Controller;
+namespace Aviat\AnimeClient\Controller;
 
-use AnimeClient\Base\Container;
-use AnimeClient\Base\Controller as BaseController;
-use AnimeClient\Base\Config;
-use AnimeClient\Model\Anime as AnimeModel;
-use AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
+use Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Base\Controller as BaseController;
+use Aviat\AnimeClient\Base\Config;
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
 /**
  * Controller for Anime collection pages
@@ -44,6 +44,8 @@ class Collection extends BaseController {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
@@ -78,6 +80,7 @@ class Collection extends BaseController {
 	/**
 	 * Show the anime collection page
 	 *
+	 * @param string $view
 	 * @return void
 	 */
 	public function index($view)

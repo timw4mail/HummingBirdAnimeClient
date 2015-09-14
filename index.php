@@ -54,7 +54,6 @@ function _setup_autoloaders()
 	require _dir(ROOT_DIR, '/vendor/autoload.php');
 	spl_autoload_register(function ($class) {
 		$class_parts = explode('\\', $class);
-		array_shift($class_parts);
 		$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
 
 		if (file_exists($ns_path))

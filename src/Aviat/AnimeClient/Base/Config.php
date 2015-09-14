@@ -3,7 +3,7 @@
  * Base Configuration class
  */
 
-namespace AnimeClient\Base;
+namespace Aviat\AnimeClient\Base;
 
 /**
  * Wrapper for configuration values

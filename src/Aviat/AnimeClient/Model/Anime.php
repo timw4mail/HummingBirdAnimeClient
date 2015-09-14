@@ -3,9 +3,9 @@
  * Anime API Model
  */
 
-namespace AnimeClient\Model;
+namespace Aviat\AnimeClient\Model;
 
-use AnimeClient\Base\Model\API;
+use Aviat\AnimeClient\Base\Model\API;
 
 /**
  * Model for handling requests dealing with the anime list

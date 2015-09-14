@@ -70,25 +70,6 @@ return [
 				'code' => '301'
 			]
 		],
-		'login_form' => [
-			'path' => '/anime/login',
-			'action' => ['login'],
-			'verb' => 'get'
-		],
-		'login_action' => [
-			'path' => '/anime/login',
-			'action' => ['login_action'],
-			'verb' => 'post'
-		],
-		'logout' => [
-			'path' => '/anime/logout',
-			'action' => ['logout']
-		],
-		'update' => [
-			'path' => '/anime/update',
-			'action' => ['update'],
-			'verb' => 'post'
-		],
 		'search' => [
 			'path' => '/anime/search',
 			'action' => ['search'],

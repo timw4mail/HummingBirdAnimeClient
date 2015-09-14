@@ -3,10 +3,10 @@
  * Anime API Model
  */
 
-namespace AnimeClient\Model;
+namespace Aviat\AnimeClient\Model;
 
-use AnimeClient\Base\Model\DB;
-use AnimeClient\Base\Container;
+use Aviat\AnimeClient\Base\Model\DB;
+use Aviat\AnimeClient\Base\Container;
 
 use StatsChartsTrait;
 

@@ -1,5 +1,5 @@
 <?php
-use \AnimeClient\Base\Controller;
+use \Aviat\AnimeClient\Base\Controller;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
 
