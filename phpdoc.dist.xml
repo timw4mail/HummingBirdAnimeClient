@@ -11,13 +11,7 @@
         <template name="clean" />
     </transformations>
 	<files>
-		<directory>.</directory>
-		<directory>app</directory>
-		<ignore>public/*</ignore>
-		<ignore>app/views/*</ignore>
-		<ignore>app/config/*</ignore>
-		<ignore>migrations/*</ignore>
-		<ignore>tests/*</ignore>
-		<ignore>vendor/*</ignore>
+		<directory>src</directory>
+		<ignore>src/views/*</ignore>
 	</files>
 </phpdoc>

@@ -23,6 +23,43 @@ return [
 			'action' => ['logout']
 		],
 	],
+	// Routes on collection controller
+	'collection' => [
+		'collection_add_form' => [
+			'path' => '/collection/add',
+			'action' => ['form'],
+			'params' => [],
+		],
+		'collection_edit_form' => [
+			'path' => '/collection/edit/{id}',
+			'action' => ['form'],
+			'tokens' => [
+				'id' => '[0-9]+'
+			]
+		],
+		'collection_add' => [
+			'path' => '/collection/add',
+			'action' => ['add'],
+			'verb' => 'post'
+		],
+		'collection_edit' => [
+			'path' => '/collection/edit',
+			'action' => ['edit'],
+			'verb' => 'post'
+		],
+		'collection' => [
+			'path' => '/collection/view{/view}',
+			'action' => ['index'],
+			'params' => [],
+			'tokens' => [
+				'view' => '[a-z_]+'
+			]
+		],
+	],
+	// Routes on stats controller
+	'stats' => [
+
+	],
 	// Routes on anime controller
 	'anime' => [
 		'index' => [
@@ -34,11 +71,11 @@ return [
 			]
 		],
 		'search' => [
-			'path' => '/search',
+			'path' => '/anime/search',
 			'action' => ['search'],
 		],
 		'all' => [
-			'path' => '/all{/view}',
+			'path' => '/anime/all{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'all',
@@ -49,7 +86,7 @@ return [
 			]
 		],
 		'watching' => [
-			'path' => '/watching{/view}',
+			'path' => '/anime/watching{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'currently-watching',
@@ -60,7 +97,7 @@ return [
 			]
 		],
 		'plan_to_watch' => [
-			'path' => '/plan_to_watch{/view}',
+			'path' => '/anime/plan_to_watch{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'plan-to-watch',
@@ -71,7 +108,7 @@ return [
 			]
 		],
 		'on_hold' => [
-			'path' => '/on_hold{/view}',
+			'path' => '/anime/on_hold{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'on-hold',
@@ -82,7 +119,7 @@ return [
 			]
 		],
 		'dropped' => [
-			'path' => '/dropped{/view}',
+			'path' => '/anime/dropped{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'dropped',
@@ -93,42 +130,12 @@ return [
 			]
 		],
 		'completed' => [
-			'path' => '/completed{/view}',
+			'path' => '/anime/completed{/view}',
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'completed',
 				'title' => WHOSE . " Anime List &middot; Completed"
 			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'collection_add_form' => [
-			'path' => '/collection/add',
-			'action' => ['collection_form'],
-			'params' => [],
-		],
-		'collection_edit_form' => [
-			'path' => '/collection/edit/{id}',
-			'action' => ['collection_form'],
-			'tokens' => [
-				'id' => '[0-9]+'
-			]
-		],
-		'collection_add' => [
-			'path' => '/collection/add',
-			'action' => ['collection_add'],
-			'verb' => 'post'
-		],
-		'collection_edit' => [
-			'path' => '/collection/edit',
-			'action' => ['collection_edit'],
-			'verb' => 'post'
-		],
-		'collection' => [
-			'path' => '/collection/view{/view}',
-			'action' => ['collection'],
-			'params' => [],
 			'tokens' => [
 				'view' => '[a-z_]+'
 			]
@@ -145,7 +152,7 @@ return [
 			]
 		],
 		'all' => [
-			'path' => '/all{/view}',
+			'path' => '/manga/all{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'all',
@@ -156,7 +163,7 @@ return [
 			]
 		],
 		'reading' => [
-			'path' => '/reading{/view}',
+			'path' => '/manga/reading{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Reading',
@@ -167,7 +174,7 @@ return [
 			]
 		],
 		'plan_to_read' => [
-			'path' => '/plan_to_read{/view}',
+			'path' => '/manga/plan_to_read{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Plan to Read',
@@ -178,7 +185,7 @@ return [
 			]
 		],
 		'on_hold' => [
-			'path' => '/on_hold{/view}',
+			'path' => '/manga/on_hold{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'On Hold',
@@ -189,7 +196,7 @@ return [
 			]
 		],
 		'dropped' => [
-			'path' => '/dropped{/view}',
+			'path' => '/manga/dropped{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Dropped',
@@ -200,7 +207,7 @@ return [
 			]
 		],
 		'completed' => [
-			'path' => '/completed{/view}',
+			'path' => '/manga/completed{/view}',
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'Completed',

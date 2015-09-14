@@ -5,15 +5,18 @@
 	bootstrap="tests/bootstrap.php">
 	<filter>
 		<whitelist>
-			<directory suffix=".php">app/base</directory>
-			<directory suffix=".php">app/controllers</directory>
-			<directory suffix=".php">app/models</directory>
+			<directory suffix=".php">src/Base</directory>
+			<directory suffix=".php">src/Controller</directory>
+			<directory suffix=".php">src/Model</directory>
 		</whitelist>
 	</filter>
 	<testsuites>
 		<testsuite name="BaseTests">
-			<directory>tests/base</directory>
+			<directory>tests</directory>
+			<directory>tests/Base</directory>
 		</testsuite>
+		<testsuite name="ModelTests"><directory>tests/Model</directory></testsuite>
+		<testsuite name="ControllerTests"><directory>tests/Controller</directory></testsuite>
 	</testsuites>
 	<php>
 		<server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0" />

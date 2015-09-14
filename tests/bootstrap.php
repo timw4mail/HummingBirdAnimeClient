@@ -3,7 +3,8 @@
  * Global setup for unit tests
  */
 
-use \AnimeClient\Config;
+use AnimeClient\Base\Config;
+use AnimeClient\Base\Container;
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -23,28 +24,27 @@ $defaultHandler = new MockErrorHandler();
  * Base class for TestCases
  */
 class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
-
-	protected $config;
+	protected $container;
 
 	public function setUp()
 	{
 		parent::setUp();
 
-		global $config;
-		$this->config = new Config([
-			'config' => [
-				'asset_path' => '//localhost/assets/'
-			],
-			'base_config' => [
-				'databaase' => [],
-				'routes' => [
-					'common' => [],
-					'anime' => [],
-					'manga' => []
-				]
+		$config = new Config([
+			'asset_path' => '//localhost/assets/',
+			'databaase' => [],
+			'routes' => [
+				'common' => [],
+				'anime' => [],
+				'manga' => []
 			]
 		]);
-		$config =& $this->config;
+
+		$container = new Container([
+			'config' => $config
+		]);
+
+		$this->container = $container;
 	}
 }
 
@@ -57,14 +57,48 @@ define('WHOSE', "Foo's");
 
 // Define base path constants
 define('ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . "/../"));
-require ROOT_DIR . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR . 'pre_conf_functions.php';
+
+/**
+ * Joins paths together. Variadic to take an
+ * arbitrary number of arguments
+ *
+ * @return string
+ */
+function _dir()
+{
+	return implode(DIRECTORY_SEPARATOR, func_get_args());
+}
+
 define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
-define('BASE_DIR', _dir(APP_DIR, 'base'));
+define('SRC_DIR', _dir(ROOT_DIR, 'src'));
+define('BASE_DIR', _dir(SRC_DIR, 'Base'));
+
+/**
+ * Set up autoloaders
+ *
+ * @codeCoverageIgnore
+ * @return void
+ */
+function _setup_autoloaders()
+{
+	require _dir(ROOT_DIR, '/vendor/autoload.php');
+	spl_autoload_register(function ($class) {
+		$class_parts = explode('\\', $class);
+		array_shift($class_parts);
+		$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+
+		if (file_exists($ns_path))
+		{
+			require_once($ns_path);
+			return;
+		}
+	});
+}
 
 // Setup autoloaders
 _setup_autoloaders();
-require(_dir(BASE_DIR, 'functions.php'));
+require(_dir(SRC_DIR, 'functions.php'));
 
 // Pre-define some superglobals
 $_SESSION = [];
