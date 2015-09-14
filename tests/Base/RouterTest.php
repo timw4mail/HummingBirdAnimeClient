@@ -3,6 +3,7 @@
 use AnimeClient\Base\Router;
 use AnimeClient\Base\Config;
 use AnimeClient\Base\Container;
+use AnimeClient\Base\UrlGenerator;
 use Aura\Web\WebFactory;
 use Aura\Router\RouterFactory;
 
@@ -43,6 +44,8 @@ class RouterTest extends AnimeClient_TestCase {
 
 		$this->router = new Router($this->container);
 		$this->config = $this->container->get('config');
+		$this->urlGenerator = new UrlGenerator($this->container);
+		$this->container->set('url-generator', $this->urlGenerator);
 	}
 
 	public function testRouterSanity()
@@ -54,6 +57,41 @@ class RouterTest extends AnimeClient_TestCase {
 	public function dataRoute()
 	{
 		$default_config = array(
+			'routes' => [
+				'common' => [
+					'login_form' => [
+						'path' => '/login',
+						'action' => ['login'],
+						'verb' => 'get'
+					],
+				],
+				'anime' => [
+					'watching' => [
+						'path' => '/anime/watching{/view}',
+						'action' => ['anime_list'],
+						'params' => [
+							'type' => 'currently-watching',
+							'title' => WHOSE . " Anime List &middot; Watching"
+						],
+						'tokens' => [
+							'view' => '[a-z_]+'
+						]
+					],
+				],
+				'manga' => [
+					'plan_to_read' => [
+						'path' => '/manga/plan_to_read{/view}',
+						'action' => ['manga_list'],
+						'params' => [
+							'type' => 'Plan to Read',
+							'title' => WHOSE . " Manga List &middot; Plan to Read"
+						],
+						'tokens' => [
+							'view' => '[a-z_]+'
+						]
+					],
+				]
+			],
 			'routing' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
@@ -62,21 +100,34 @@ class RouterTest extends AnimeClient_TestCase {
 		);
 
 		$data = [
-			'manga_path_routing' => array(
+			'anime_default_routing_manga' => array(
 				'config' => $default_config,
-				'type' => 'manga',
+				'controller' => 'manga',
 				'host' => "localhost",
 				'uri' => "/manga/plan_to_read",
 			),
-			'anime_path_routing' => array(
+			'manga_default_routing_anime' => array(
 				'config' => $default_config,
-				'type' => 'anime',
+				'controller' => 'anime',
 				'host' => "localhost",
 				'uri' => "/anime/watching",
+			),
+			'anime_default_routing_anime' => array(
+				'config' => $default_config,
+				'controller' => 'anime',
+				'host' => 'localhost',
+				'uri' => '/anime/watching',
+			),
+			'manga_default_routing_manga' => array(
+				'config' => $default_config,
+				'controller' => 'manga',
+				'host' => 'localhost',
+				'uri' => '/manga/plan_to_read'
 			)
 		];
 
-		$data['anime_path_routing']['config']['routing']['default_list'] = 'manga';
+		$data['manga_default_routing_anime']['config']['routing']['default_list'] = 'manga';
+		$data['manga_default_routing_manga']['config']['routing']['default_list'] = 'manga';
 
 		return $data;
 	}
@@ -84,52 +135,16 @@ class RouterTest extends AnimeClient_TestCase {
 	/**
 	 * @dataProvider dataRoute
 	 */
-	public function testRoute($config, $type, $host, $uri)
+	public function testRoute($config, $controller, $host, $uri)
 	{
-		$check_var = "{$type}_path";
-		$config['base_config']['routes'] = [
-			'common' => [
-				'login_form' => [
-					'path' => '/login',
-					'action' => ['login'],
-					'verb' => 'get'
-				],
-			],
-			'anime' => [
-				'watching' => [
-					'path' => '/anime/watching{/view}',
-					'action' => ['anime_list'],
-					'params' => [
-						'type' => 'currently-watching',
-						'title' => WHOSE . " Anime List &middot; Watching"
-					],
-					'tokens' => [
-						'view' => '[a-z_]+'
-					]
-				],
-			],
-			'manga' => [
-				'plan_to_read' => [
-					'path' => '/manga/plan_to_read{/view}',
-					'action' => ['manga_list'],
-					'params' => [
-						'type' => 'Plan to Read',
-						'title' => WHOSE . " Manga List &middot; Plan to Read"
-					],
-					'tokens' => [
-						'view' => '[a-z_]+'
-					]
-				],
-			]
-		];
-
 		$this->_set_up($config, $uri, $host);
 
 		$request = $this->container->get('request');
 		$aura_router = $this->container->get('aura-router');
 
+
 		// Check route setup
-		$this->assertEquals($config['base_config']['routes'], $this->config->routes, "Incorrect route path");
+		$this->assertEquals($config['routes'], $this->config->routes, "Incorrect route path");
 		$this->assertTrue(is_array($this->router->get_output_routes()));
 
 		// Check environment variables
@@ -138,8 +153,7 @@ class RouterTest extends AnimeClient_TestCase {
 
 		// Make sure the route is an anime type
 		$this->assertTrue($aura_router->count() > 0, "0 routes");
-		$this->assertTrue($this->config->$check_var !== '', "Check variable is empty");
-		$this->assertEquals($type, $this->router->get_controller(), "Incorrect Route type");
+		$this->assertEquals($controller, $this->router->get_controller(), "Incorrect Route type");
 
 		// Make sure the route matches, by checking that it is actually an object
 		$route = $this->router->get_route();
@@ -152,6 +166,8 @@ class RouterTest extends AnimeClient_TestCase {
 			'routing' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
+				'default_anime_path' => "/anime/watching",
+				'default_manga_path' => '/manga/all',
 				'default_list' => 'manga'
 			],
 			'routes' => [
@@ -187,7 +203,7 @@ class RouterTest extends AnimeClient_TestCase {
 		];
 
 		$this->_set_up($config, "/", "localhost");
-		//$this->assertEquals($this->config->full_url('', 'manga'), $this->response->headers->get('location'));
-		$this->assertEquals('//localhost/manga/', $this->config->full_url('', 'manga'), "Incorrect default url");
+		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
+		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
 	}
 }

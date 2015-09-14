@@ -5,44 +5,7 @@ namespace AnimeClient\Base;
 /**
  * UrlGenerator class.
  */
-class UrlGenerator {
-
-	/**
-	 * Config Object
-	 * @var Config
-	 */
-	protected $config;
-
-	/**
-	 * Constructor
-	 *
-	 * @param Container $container
-	 */
-	public function __construct(Container $container)
-	{
-		$this->config = $container->get('config');
-	}
-
-	/**
-	 * Retreive the appropriate value for the routing key
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	protected function __get($key)
-	{
-		$routing_config = $this->config->__get('routing');
-
-		if (array_key_exists($key, $routing_config))
-		{
-			return $routing_config[$key];
-		}
-	}
-
-	public function __invoke()
-	{
-		$args = func_get_args();
-	}
+class UrlGenerator extends RoutingBase {
 
 	/**
 	 * Get the base url for css/js/images
@@ -52,7 +15,9 @@ class UrlGenerator {
 	public function asset_url(/*...*/)
 	{
 		$args = func_get_args();
-		$base_url = rtrim($this->__get('asset_path'), '/');
+		$base_url = rtrim($this->url(""), '/');
+
+		$base_url = "{$base_url}" . $this->__get("asset_path");
 
 		array_unshift($args, $base_url);
 
@@ -95,6 +60,12 @@ class UrlGenerator {
 		return "//{$host}/{$path}";
 	}
 
+	/**
+	 * Full default path for the list pages
+	 *
+	 * @param string $type
+	 * @return string
+	 */
 	public function default_url($type)
 	{
 		$type = trim($type);

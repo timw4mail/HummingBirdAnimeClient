@@ -34,6 +34,12 @@ class Controller {
 	protected $model;
 
 	/**
+	 * Url generatation class
+	 * @var UrlGenerator
+	 */
+	protected $urlGenerator;
+
+	/**
 	 * Common data to be sent to views
 	 * @var array
 	 */
@@ -46,16 +52,19 @@ class Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
+	 * @param Container $container
 	 * @param array $web
 	 */
 	public function __construct(Container $container)
 	{
 		$this->config = $container->get('config');
 		$this->base_data['config'] = $this->config;
+		$this->base_data['urlGenerator'] = $container->get('url-generator');
 
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
+
+		$this->urlGenerator = $container->get('url-generator');
 	}
 
 	/**
@@ -169,7 +178,7 @@ class Controller {
 	 */
 	public function redirect($url, $code, $type="anime")
 	{
-		$url = $this->config->full_url($url, $type);
+		$url = $this->urlGenerator->full_url($url, $type);
 
 		$this->response->redirect->to($url, $code);
 	}
@@ -199,7 +208,7 @@ class Controller {
 	public function logout()
 	{
 		session_destroy();
-		$this->response->redirect->seeOther($this->config->full_url(''));
+		$this->response->redirect->seeOther($this->urlGenerator->full_url(''));
 	}
 
 	/**
@@ -238,7 +247,7 @@ class Controller {
 			)
 		)
 		{
-			$this->response->redirect->afterPost($this->config->full_url('', $this->base_data['url_type']));
+			$this->response->redirect->afterPost($this->urlGenerator->full_url('', $this->base_data['url_type']));
 			return;
 		}
 

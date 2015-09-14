@@ -64,6 +64,8 @@ $container->set('response', $web_factory->newResponse());
 // -----------------------------------------------------------------------------
 // Router
 // -----------------------------------------------------------------------------
+$container->set('url-generator', new Base\UrlGenerator($container));
+
 $router = new Base\Router($container);
 $router->dispatch();
 

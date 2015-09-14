@@ -54,14 +54,14 @@ class Collection extends BaseController {
 			unset($this->nav_routes['Collection']);
 		}
 
-		$this->collection_model = new AnimeCollectionModel($this->config);
-		$this->base_data = [
+		$this->collection_model = new AnimeCollectionModel($container);
+		$this->base_data = array_merge($this->base_data, [
 			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
 			'nav_routes' => $this->nav_routes,
 			'config' => $this->config,
-		];
+		]);
 	}
 
 	/**
