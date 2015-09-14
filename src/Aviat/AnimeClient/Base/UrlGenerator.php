@@ -1,6 +1,8 @@
 <?php
-
-namespace AnimeClient\Base;
+/**
+ * Generate full urls from fragments
+ */
+namespace Aviat\AnimeClient\Base;
 
 /**
  * UrlGenerator class.

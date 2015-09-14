@@ -2,7 +2,7 @@
 /**
  * Base Controller
  */
-namespace AnimeClient\Base;
+namespace Aviat\AnimeClient\Base;
 
 /**
  * Base class for controllers, defines output methods
@@ -116,7 +116,7 @@ class Controller {
 
 		$defaultHandler->addDataTable('Template Data', $data);
 
-		$template_path = _dir(SRC_DIR, 'views', "{$template}.php");
+		$template_path = _dir(APP_DIR, 'views', "{$template}.php");
 
 		if ( ! is_file($template_path))
 		{
@@ -125,9 +125,9 @@ class Controller {
 
 		ob_start();
 		extract($data);
-		include _dir(SRC_DIR, 'views', 'header.php');
+		include _dir(APP_DIR, 'views', 'header.php');
 		include $template_path;
-		include _dir(SRC_DIR, 'views', 'footer.php');
+		include _dir(APP_DIR, 'views', 'footer.php');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 

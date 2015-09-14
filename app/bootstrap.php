@@ -3,7 +3,7 @@
  * Bootstrap / Dependency Injection
  */
 
-namespace AnimeClient;
+namespace Aviat\AnimeClient;
 
 use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;

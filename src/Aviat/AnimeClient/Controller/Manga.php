@@ -2,12 +2,12 @@
 /**
  * Manga Controller
  */
-namespace AnimeClient\Controller;
+namespace Aviat\AnimeClient\Controller;
 
-use AnimeClient\Base\Container;
-use AnimeClient\Base\Controller;
-use AnimeClient\Base\Config;
-use AnimeClient\Model\Manga as MangaModel;
+use Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Base\Controller;
+use Aviat\AnimeClient\Base\Config;
+use Aviat\AnimeClient\Model\Manga as MangaModel;
 
 /**
  * Controller for manga list
@@ -42,6 +42,8 @@ class Manga extends Controller {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{

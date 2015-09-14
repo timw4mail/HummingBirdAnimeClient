@@ -1,6 +1,6 @@
 <?php
 
-use AnimeClient\Base\Model\DB as BaseDBModel;
+use Aviat\AnimeClient\Base\Model\DB as BaseDBModel;
 
 class BaseDBModelTest extends AnimeClient_TestCase {
 

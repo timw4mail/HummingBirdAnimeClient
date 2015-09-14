@@ -2,16 +2,16 @@
 /**
  * Base API Model
  */
-namespace AnimeClient\Base\Model;
+namespace Aviat\AnimeClient\Base\Model;
 
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Cookie\CookieJar;
-use \AnimeClient\Base\Container;
+use \Aviat\AnimeClient\Base\Container;
 
 /**
  * Base model for api interaction
  */
-class API extends \AnimeClient\Base\Model {
+class API extends \Aviat\AnimeClient\Base\Model {
 
 	/**
 	 * Base url for making api requests

@@ -2,10 +2,10 @@
 /**
  * Routing logic
  */
-namespace AnimeClient\Base;
+namespace Aviat\AnimeClient\Base;
 
-use \Aura\Web\Request;
-use \Aura\Web\Response;
+use Aura\Web\Request;
+use Aura\Web\Response;
 
 /**
  * Basic routing/ dispatch
@@ -39,10 +39,7 @@ class Router extends RoutingBase {
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
-	 * @param Router $router
-	 * @param Request $request
-	 * @param Response $response
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
@@ -179,7 +176,7 @@ class Router extends RoutingBase {
 			$path = $route['path'];
 			unset($route['path']);
 
-			$controller_class = '\\AnimeClient\\Controller\\' . ucfirst($route_type);
+			$controller_class = '\\Aviat\\AnimeClient\\Controller\\' . ucfirst($route_type);
 
 			// Prepend the controller to the route parameters
 			array_unshift($route['action'], $controller_class);

@@ -2,7 +2,7 @@
 /**
  * Base for base models
  */
-namespace AnimeClient\Base;
+namespace Aviat\AnimeClient\Base;
 
 use abeautifulsite\SimpleImage;
 
