@@ -3,8 +3,8 @@
  * Global setup for unit tests
  */
 
-use Aviat\AnimeClient\Base\Config;
-use Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Config;
+use Aviat\AnimeClient\Container;
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler

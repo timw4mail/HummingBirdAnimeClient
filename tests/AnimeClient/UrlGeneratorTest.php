@@ -1,8 +1,8 @@
 <?php
 
-use Aviat\AnimeClient\Base\Config;
-use Aviat\AnimeClient\Base\Container;
-use Aviat\AnimeClient\Base\UrlGenerator;
+use Aviat\AnimeClient\Config;
+use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\UrlGenerator;
 
 class UrlGeneratorTest extends AnimeClient_TestCase {
 

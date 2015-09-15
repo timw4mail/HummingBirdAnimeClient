@@ -2,8 +2,8 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Base\Container;
-use Aviat\AnimeClient\Base\Controller;
+use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\Controller;
 
 class Stats extends Controller {
 

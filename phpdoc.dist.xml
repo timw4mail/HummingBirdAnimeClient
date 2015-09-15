@@ -12,6 +12,5 @@
     </transformations>
 	<files>
 		<directory>src</directory>
-		<ignore>src/views/*</ignore>
 	</files>
 </phpdoc>

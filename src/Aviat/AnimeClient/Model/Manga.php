@@ -4,7 +4,7 @@
  */
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Base\Model\API;
+use Aviat\AnimeClient\Model\API;
 
 /**
  * Model for handling requests dealing with the manga list

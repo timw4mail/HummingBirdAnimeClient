@@ -5,8 +5,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Base\Model\DB;
-use \Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Model\DB;
+use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 /**

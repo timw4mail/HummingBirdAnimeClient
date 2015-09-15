@@ -4,9 +4,9 @@
  */
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Base\Container;
-use Aviat\AnimeClient\Base\Controller;
-use Aviat\AnimeClient\Base\Config;
+use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\Controller;
+use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 
 /**
