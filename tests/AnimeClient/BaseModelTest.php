@@ -1,7 +1,7 @@
 <?php
 
-use Aviat\AnimeClient\Base\Model as BaseModel;
-use Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Model as BaseModel;
+use Aviat\AnimeClient\Container;
 
 class BaseModelTest extends AnimeClient_TestCase {
 

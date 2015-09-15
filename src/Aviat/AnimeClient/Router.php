@@ -2,7 +2,7 @@
 /**
  * Routing logic
  */
-namespace Aviat\AnimeClient\Base;
+namespace Aviat\AnimeClient;
 
 use Aura\Web\Request;
 use Aura\Web\Response;

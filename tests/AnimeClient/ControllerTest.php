@@ -1,9 +1,9 @@
 <?php
-use \Aviat\AnimeClient\Base\Controller;
+use \Aviat\AnimeClient\Controller;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
 
-class BaseControllerTest extends AnimeClient_TestCase {
+class ControllerTest extends AnimeClient_TestCase {
 
 	public function setUp()
 	{

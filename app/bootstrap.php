@@ -17,7 +17,7 @@ require _dir(SRC_DIR, '/functions.php');
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-$container = new Base\Container();
+$container = new Container();
 
 // -----------------------------------------------------------------------------
 // Setup error handling
@@ -42,7 +42,7 @@ $container->set('error-handler', $defaultHandler);
 // -----------------------------------------------------------------------------
 
 // Create Config Object
-$config = new Base\Config();
+$config = new Config();
 $container->set('config', $config);
 
 // Create Aura Router Object
@@ -64,9 +64,9 @@ $container->set('response', $web_factory->newResponse());
 // -----------------------------------------------------------------------------
 // Router
 // -----------------------------------------------------------------------------
-$container->set('url-generator', new Base\UrlGenerator($container));
+$container->set('url-generator', new UrlGenerator($container));
 
-$router = new Base\Router($container);
+$router = new Router($container);
 $router->dispatch();
 
 // End of bootstrap.php

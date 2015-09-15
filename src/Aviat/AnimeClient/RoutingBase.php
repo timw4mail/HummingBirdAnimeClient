@@ -3,7 +3,7 @@
  * Base class for routing to make namespaced config settings
  * easier to work with
  */
-namespace Aviat\AnimeClient\Base;
+namespace Aviat\AnimeClient;
 
 /**
  * Base for routing/url classes

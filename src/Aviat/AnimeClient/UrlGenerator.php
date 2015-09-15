@@ -2,7 +2,7 @@
 /**
  * Generate full urls from fragments
  */
-namespace Aviat\AnimeClient\Base;
+namespace Aviat\AnimeClient;
 
 /**
  * UrlGenerator class.

@@ -2,7 +2,7 @@
 /**
  * Base Controller
  */
-namespace Aviat\AnimeClient\Base;
+namespace Aviat\AnimeClient;
 
 /**
  * Base class for controllers, defines output methods

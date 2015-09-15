@@ -1,7 +1,7 @@
 <?php
 
-use Aviat\AnimeClient\Base\Container;
-use Aviat\AnimeClient\Base\Model\API as BaseApiModel;
+use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\Model\API as BaseApiModel;
 
 class MockBaseApiModel extends BaseApiModel {
 
@@ -23,8 +23,8 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 		$baseApiModel = new MockBaseApiModel($this->container);
 
 		// Some basic type checks for class memebers
-		$this->assertInstanceOf('\Aviat\AnimeClient\Base\Model', $baseApiModel);
-		$this->assertInstanceOf('\Aviat\AnimeClient\Base\Model\API', $baseApiModel);
+		$this->assertInstanceOf('\Aviat\AnimeClient\Model', $baseApiModel);
+		$this->assertInstanceOf('\Aviat\AnimeClient\Model\API', $baseApiModel);
 
 		$this->assertInstanceOf('\GuzzleHttp\Client', $baseApiModel->client);
 		$this->assertInstanceOf('\GuzzleHttp\Cookie\CookieJar', $baseApiModel->cookieJar);

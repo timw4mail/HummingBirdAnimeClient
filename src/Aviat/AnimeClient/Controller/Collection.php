@@ -5,9 +5,9 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Base\Container;
-use Aviat\AnimeClient\Base\Controller as BaseController;
-use Aviat\AnimeClient\Base\Config;
+use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 

@@ -2,14 +2,14 @@
 /**
  * Base DB model
  */
-namespace Aviat\AnimeClient\Base\Model;
+namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Base\Container;
+use Aviat\AnimeClient\Container;
 
 /**
  * Base model for database interaction
  */
-class DB extends \Aviat\AnimeClient\Base\Model {
+class DB extends \Aviat\AnimeClient\Model {
 	/**
 	 * The query builder object
 	 * @var object $db

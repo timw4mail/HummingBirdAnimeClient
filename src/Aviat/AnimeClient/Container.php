@@ -1,6 +1,6 @@
 <?php
 
-namespace Aviat\AnimeClient\Base;
+namespace Aviat\AnimeClient;
 
 /**
  * Dependency container
