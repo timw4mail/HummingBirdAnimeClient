@@ -28,6 +28,8 @@ class AnimeCollection extends DB {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{

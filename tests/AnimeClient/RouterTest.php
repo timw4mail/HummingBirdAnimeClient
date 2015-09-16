@@ -58,6 +58,9 @@ class RouterTest extends AnimeClient_TestCase {
 	{
 		$default_config = array(
 			'routes' => [
+				'convention' => [
+					'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+				],
 				'common' => [
 					'login_form' => [
 						'path' => '/login',
@@ -171,6 +174,9 @@ class RouterTest extends AnimeClient_TestCase {
 				'default_list' => 'manga'
 			],
 			'routes' => [
+				'convention' => [
+					'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+				],
 				'common' => [
 					'login_form' => [
 						'path' => '/login',
@@ -206,5 +212,59 @@ class RouterTest extends AnimeClient_TestCase {
 		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
 		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
 		$this->assertEquals('', $this->urlGenerator->default_url('foo'), "Incorrect default url");
+	}
+
+	public function dataGetControllerList()
+	{
+		return array(
+			'controller_list_sanity_check' => [
+				'config' => [
+					'routing' => [
+						'anime_path' => 'anime',
+						'manga_path' => 'manga',
+						'default_anime_path' => "/anime/watching",
+						'default_manga_path' => '/manga/all',
+						'default_list' => 'manga'
+					],
+					'routes' => [
+						'convention' => [
+							'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+						]
+					]
+				],
+				'expected' => [
+					'anime' => 'Aviat\AnimeClient\Controller\Anime',
+					'manga' => 'Aviat\AnimeClient\Controller\Manga',
+					'collection' => 'Aviat\AnimeClient\Controller\Collection',
+					'stats' => 'Aviat\AnimeClient\Controller\Stats'
+				]
+			],
+			'empty_controller_list' => [
+				'config' => [
+					'routing' => [
+						'anime_path' => 'anime',
+						'manga_path' => 'manga',
+						'default_anime_path' => "/anime/watching",
+						'default_manga_path' => '/manga/all',
+						'default_list' => 'manga'
+					],
+					'routes' => [
+						'convention' => [
+							'default_namespace' => '\\Aviat\\Ion\\Controller'
+						]
+					]
+				],
+				'expected' => []
+			]
+		);
+	}
+
+	/**
+	 * @dataProvider dataGetControllerList
+	 */
+	public function testGetControllerList($config, $expected)
+	{
+		$this->_set_up($config, '/', 'localhost');
+		$this->assertEquals($expected, $this->router->get_controller_list());
 	}
 }

@@ -72,19 +72,29 @@ class Manga extends Controller {
 	 * Get a section of the manga list
 	 *
 	 * @param string $status
-	 * @param string $title
 	 * @param string $view
 	 * @return void
 	 */
-	public function manga_list($status, $title, $view)
+	public function manga_list($status, $view)
 	{
+		$map = [
+			'all' => 'All',
+			'plan_to_read' => 'Plan to Read',
+			'reading' => 'Reading',
+			'completed' => 'Completed',
+			'dropped' => 'Dropped',
+			'on_hold' => 'On Hold'
+		];
+
+		$title = $this->config->whose_list . "' Manga List &middot; {$map[$status]}";
+
 		$view_map = [
 			'' => 'cover',
 			'list' => 'list'
 		];
 
 		$data = ($status !== 'all')
-			? [$status => $this->model->get_list($status)]
+			? [$map[$status] => $this->model->get_list($map[$status])]
 			: $this->model->get_all_lists();
 
 		$this->outputHTML('manga/' . $view_map[$view], [

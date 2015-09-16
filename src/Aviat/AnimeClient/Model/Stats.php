@@ -15,7 +15,7 @@ class Stats extends DB {
 	/**
 	 * Constructor
 	 *
-	 * @param Config $config
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{

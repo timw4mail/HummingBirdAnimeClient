@@ -8,12 +8,16 @@ namespace Aviat\Ion\Base;
 class Container {
 
 	/**
+	 * Array with class instances
+	 *
 	 * @var array
 	 */
 	protected $container = [];
 
 	/**
 	 * Constructor
+	 *
+	 * @param array $values (optional)
 	 */
 	public function __construct(array $values = [])
 	{

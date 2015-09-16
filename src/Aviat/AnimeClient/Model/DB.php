@@ -24,6 +24,8 @@ class DB extends \Aviat\AnimeClient\Model {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{

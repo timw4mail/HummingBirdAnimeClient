@@ -50,6 +50,8 @@ class Anime extends BaseController {
 
 	/**
 	 * Constructor
+	 *
+	 * @param Container $container
 	 */
 	public function __construct(Container $container)
 	{
@@ -89,17 +91,38 @@ class Anime extends BaseController {
 	 *
 	 * @param string $type - The section of the list
 	 * @param string $title - The title of the page
+	 * @param string $view - List or cover view
 	 * @return void
 	 */
-	public function anime_list($type, $title, $view)
+	public function anime_list($type, $view)
 	{
+		$type_title_map = [
+			'all' => 'All',
+			'watching' => 'Currently Watching',
+			'plan_to_watch' => 'Plan to Watch',
+			'on_hold' => 'On Hold',
+			'dropped' => 'Dropped',
+			'completed' => 'Completed'
+		];
+
+		$model_map = [
+			'watching' => 'currently-watching',
+			'plan_to_watch' => 'plan-to-watch',
+			'on_hold' => 'on-hold',
+			'all' => 'all',
+			'dropped' => 'dropped',
+			'completed' => 'completed'
+		];
+
+		$title = $this->config->whose_list . "'s Anime List &middot; {$type_title_map[$type]}";
+
 		$view_map = [
 			'' => 'cover',
 			'list' => 'list'
 		];
 
 		$data = ($type != 'all')
-			? $this->model->get_list($type)
+			? $this->model->get_list($model_map[$type])
 			: $this->model->get_all_lists();
 
 		$this->outputHTML('anime/' . $view_map[$view], [

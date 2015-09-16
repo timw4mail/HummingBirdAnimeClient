@@ -3,20 +3,7 @@
  * Here begins everything!
  */
 
-// -----------------------------------------------------------------------------
-// ! Start config
-// -----------------------------------------------------------------------------
-
-/**
- * Well, whose list is it?
- */
-define('WHOSE', "Tim's");
-
-// -----------------------------------------------------------------------------
-// ! End config
-// -----------------------------------------------------------------------------
-
-\session_start();
+session_start();
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -43,29 +30,25 @@ function _dir()
 	return implode(DIRECTORY_SEPARATOR, func_get_args());
 }
 
+// Set up composer autoloader
+require _dir(ROOT_DIR, '/vendor/autoload.php');
+
 /**
  * Set up autoloaders
  *
  * @codeCoverageIgnore
  * @return void
  */
-function _setup_autoloaders()
-{
-	require _dir(ROOT_DIR, '/vendor/autoload.php');
-	spl_autoload_register(function ($class) {
-		$class_parts = explode('\\', $class);
-		$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+spl_autoload_register(function ($class) {
+	$class_parts = explode('\\', $class);
+	$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
 
-		if (file_exists($ns_path))
-		{
-			require_once($ns_path);
-			return;
-		}
-	});
-}
-
-// Setup autoloaders
-_setup_autoloaders();
+	if (file_exists($ns_path))
+	{
+		require_once($ns_path);
+		return;
+	}
+});
 
 // Do dependency injection, and go!
 require _dir(APP_DIR, 'bootstrap.php');
