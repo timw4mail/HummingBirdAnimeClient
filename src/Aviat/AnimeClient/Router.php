@@ -25,12 +25,6 @@ class Router extends RoutingBase {
 	protected $request;
 
 	/**
-	 * Array containing request and response objects
-	 * @var array $web
-	 */
-	protected $web;
-
-	/**
 	 * Routes added to router
 	 * @var array $output_routes
 	 */
@@ -46,7 +40,6 @@ class Router extends RoutingBase {
 		parent::__construct($container);
 		$this->router = $container->get('aura-router');
 		$this->request = $container->get('request');
-		$this->web = [$this->request, $container->get('response')];
 
 		$this->output_routes = $this->_setup_routes();
 	}
@@ -155,6 +148,35 @@ class Router extends RoutingBase {
 	}
 
 	/**
+	 * Get the list of controllers in the default namespace
+	 *
+	 * @return array
+	 */
+	public function get_controller_list()
+	{
+		$convention_routing = $this->routes['convention'];
+		$default_namespace = $convention_routing['default_namespace'];
+		$path = str_replace('\\', '/', $default_namespace);
+		$path = trim($path, '/');
+		$actual_path = \_dir(SRC_DIR, $path);
+
+		$class_files = glob("{$actual_path}/*.php");
+
+		$controllers = [];
+
+		foreach($class_files as $file)
+		{
+			$raw_class_name = basename(str_replace(".php", "", $file));
+			$path = strtolower(basename($raw_class_name));
+			$class_name = trim($default_namespace . '\\' . $raw_class_name, '\\');
+
+			$controllers[$path] = $class_name;
+		}
+
+		return $controllers;
+	}
+
+	/**
 	 * Select controller based on the current url, and apply its relevent routes
 	 *
 	 * @return array
@@ -176,7 +198,8 @@ class Router extends RoutingBase {
 			$path = $route['path'];
 			unset($route['path']);
 
-			$controller_class = '\\Aviat\\AnimeClient\\Controller\\' . ucfirst($route_type);
+			$controller_map = $this->get_controller_list();
+			$controller_class = $controller_map[$route_type];
 
 			// Prepend the controller to the route parameters
 			array_unshift($route['action'], $controller_class);

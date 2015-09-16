@@ -8,6 +8,7 @@ namespace Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Config;
+use Aviat\AnimeClient\UrlGenerator;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
@@ -27,6 +28,12 @@ class Collection extends BaseController {
 	 * @var array $base_data
 	 */
 	protected $base_data;
+
+	/**
+	 * Url Generator class
+	 * @var UrlGenerator
+	 */
+	protected $urlGenerator;
 
 	/**
 	 * Route mapping for main navigation
@@ -56,6 +63,7 @@ class Collection extends BaseController {
 			unset($this->nav_routes['Collection']);
 		}
 
+		$this->urlGenerator = $container->get('url-generator');
 		$this->collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
 			'message' => '',
@@ -93,7 +101,7 @@ class Collection extends BaseController {
 		$data = $this->collection_model->get_collection();
 
 		$this->outputHTML('collection/' . $view_map[$view], [
-			'title' => WHOSE . " Anime Collection",
+			'title' => $this->config->whose_list . "'s Anime Collection",
 			'sections' => $data,
 			'genres' => $this->collection_model->get_genre_list()
 		]);
@@ -111,8 +119,8 @@ class Collection extends BaseController {
 
 		$this->outputHTML('collection/'. strtolower($action), [
 			'action' => $action,
-			'action_url' => $this->config->full_url("collection/" . strtolower($action)),
-			'title' => WHOSE . " Anime Collection &middot; {$action}",
+			'action_url' => $this->urlGenerator->full_url("collection/" . strtolower($action)),
+			'title' => $this->config->whose_list . " Anime Collection &middot; {$action}",
 			'media_items' => $this->collection_model->get_media_type_list(),
 			'item' => ($action === "Edit") ? $this->collection_model->get($id) : []
 		]);

@@ -53,7 +53,6 @@ class Controller {
 	 * Constructor
 	 *
 	 * @param Container $container
-	 * @param array $web
 	 */
 	public function __construct(Container $container)
 	{
@@ -148,23 +147,6 @@ class Controller {
 
 		$this->response->content->setType('text/html');
 		$this->response->content->set($buffer);
-	}
-
-	/**
-	 * Output json with the proper content type
-	 *
-	 * @param mixed $data
-	 * @return void
-	 */
-	public function outputJSON($data)
-	{
-		if ( ! is_string($data))
-		{
-			$data = json_encode($data);
-		}
-
-		$this->response->content->setType('application/json');
-		$this->response->content->set($data);
 	}
 
 	/**

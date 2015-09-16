@@ -1,6 +1,14 @@
 <?php
 
 return [
+	'convention' => [
+		'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
+		'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
+		'default_method' => 'index'
+	],
+	'configuration' => [
+
+	],
 	// Routes on all controllers
 	'common' => [
 		'update' => [
@@ -56,10 +64,6 @@ return [
 			]
 		],
 	],
-	// Routes on stats controller
-	'stats' => [
-
-	],
 	// Routes on anime controller
 	'anime' => [
 		'index' => [
@@ -79,7 +83,6 @@ return [
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'all',
-				'title' => WHOSE . " Anime List &middot; All"
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -89,8 +92,7 @@ return [
 			'path' => '/anime/watching{/view}',
 			'action' => ['anime_list'],
 			'params' => [
-				'type' => 'currently-watching',
-				'title' => WHOSE . " Anime List &middot; Watching"
+				'type' => 'watching',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -100,8 +102,7 @@ return [
 			'path' => '/anime/plan_to_watch{/view}',
 			'action' => ['anime_list'],
 			'params' => [
-				'type' => 'plan-to-watch',
-				'title' => WHOSE . " Anime List &middot; Plan to Watch"
+				'type' => 'plan_to_watch',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -111,8 +112,7 @@ return [
 			'path' => '/anime/on_hold{/view}',
 			'action' => ['anime_list'],
 			'params' => [
-				'type' => 'on-hold',
-				'title' => WHOSE . " Anime List &middot; On Hold"
+				'type' => 'on_hold',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -123,7 +123,6 @@ return [
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'dropped',
-				'title' => WHOSE . " Anime List &middot; Dropped"
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -134,7 +133,6 @@ return [
 			'action' => ['anime_list'],
 			'params' => [
 				'type' => 'completed',
-				'title' => WHOSE . " Anime List &middot; Completed"
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -156,7 +154,6 @@ return [
 			'action' => ['manga_list'],
 			'params' => [
 				'type' => 'all',
-				'title' => WHOSE . " Manga List &middot; All"
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -166,8 +163,7 @@ return [
 			'path' => '/manga/reading{/view}',
 			'action' => ['manga_list'],
 			'params' => [
-				'type' => 'Reading',
-				'title' => WHOSE . " Manga List &middot; Reading"
+				'type' => 'reading',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -177,8 +173,7 @@ return [
 			'path' => '/manga/plan_to_read{/view}',
 			'action' => ['manga_list'],
 			'params' => [
-				'type' => 'Plan to Read',
-				'title' => WHOSE . " Manga List &middot; Plan to Read"
+				'type' => 'plan_to_read',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -188,8 +183,7 @@ return [
 			'path' => '/manga/on_hold{/view}',
 			'action' => ['manga_list'],
 			'params' => [
-				'type' => 'On Hold',
-				'title' => WHOSE . " Manga List &middot; On Hold"
+				'type' => 'on_hold',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -199,8 +193,7 @@ return [
 			'path' => '/manga/dropped{/view}',
 			'action' => ['manga_list'],
 			'params' => [
-				'type' => 'Dropped',
-				'title' => WHOSE . " Manga List &middot; Dropped"
+				'type' => 'dropped',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
@@ -210,8 +203,7 @@ return [
 			'path' => '/manga/completed{/view}',
 			'action' => ['manga_list'],
 			'params' => [
-				'type' => 'Completed',
-				'title' => WHOSE . " Manga List &middot; Completed"
+				'type' => 'completed',
 			],
 			'tokens' => [
 				'view' => '[a-z_]+'
