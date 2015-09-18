@@ -5,6 +5,8 @@
  */
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\Di\ContainerInterface;
+
 /**
  * Base for routing/url classes
  */
@@ -32,7 +34,7 @@ class RoutingBase {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');

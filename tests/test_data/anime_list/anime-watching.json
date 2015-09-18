@@ -1,0 +1,797 @@
+[
+    {
+        "id": 9131610,
+        "episodes_watched": 2,
+        "last_watched": "2015-09-17T16:52:19.028Z",
+        "updated_at": "2015-09-17T16:52:19.029Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 7190,
+            "mal_id": 14967,
+            "slug": "boku-wa-tomodachi-ga-sukunai-next",
+            "status": "Finished Airing",
+            "url": "https://hummingbird.me/anime/boku-wa-tomodachi-ga-sukunai-next",
+            "title": "Boku wa Tomodachi ga Sukunai NEXT",
+            "alternate_title": "Haganai NEXT",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/007/190/large/0.jpg?1417468876",
+            "synopsis": "The Neighbor's Club—a club founded for the purpose of making friends,where misfortunate boys and girls with few friends live out their regrettable lives.\r\nAlthough Yozora Mikazuki faced a certain incident at the end of summer,the daily life of the Neighbor's Club goes on as usual.A strange nun,members of the student council and other new faces make an appearance,causing Kodaka Hasegawa's life to grow even busier.\r\nWhile they all enjoy going to the amusement park,playing games,celebrating birthdays,and challenging the\"school festival\"—a symbol of the school life normal people live—the relations amongst the members slowly begins to change...\r\nLet the next stage begin,on this unfortunate coming-of-age love comedy!!\r\n(Source:ANN)",
+            "show_type": "TV",
+            "started_airing": "2013-01-11",
+            "finished_airing": "2013-03-29",
+            "community_rating": 3.8820340732555,
+            "age_rating": "R17+",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "School"
+                },
+                {
+                    "name": "Harem"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": null
+        }
+    },
+    {
+        "id": 10177172,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-14T23:49:37.044Z",
+        "updated_at": "2015-09-14T23:49:37.045Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10350,
+            "mal_id": 29785,
+            "slug": "jitsu-wa-watashi-wa",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/jitsu-wa-watashi-wa",
+            "title": "Jitsu wa Watashi wa",
+            "alternate_title": "Actually, I Am…",
+            "episode_count": 13,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/350/large/ndmkhu.jpg?1431603318",
+            "synopsis": "Asahi Kuromine has a crush on a cute girl named Youko Shiragami. Shiragami just happens to be a vampire. Asahi cannot keep a secret, but he is determined to keep Shiragami's secret anyway.\r\n\r\n(Source: ANN)",
+            "show_type": "TV",
+            "started_airing": "2015-07-07",
+            "finished_airing": null,
+            "community_rating": 3.768867119294,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Fantasy"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "School"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 9131615,
+        "episodes_watched": 8,
+        "last_watched": "2015-09-12T18:14:16.370Z",
+        "updated_at": "2015-09-12T18:14:16.371Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 9095,
+            "mal_id": 27525,
+            "slug": "fate-kaleid-liner-prisma-illya-2wei-herz",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/fate-kaleid-liner-prisma-illya-2wei-herz",
+            "title": "Fate/kaleid liner Prisma☆Illya 2wei Herz!",
+            "alternate_title": null,
+            "episode_count": 10,
+            "episode_length": 23,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/009/095/large/Q0l30yH.jpg?1427031275",
+            "synopsis": "Third season of Fate/kaleid Liner Prisma Illya.",
+            "show_type": "TV",
+            "started_airing": "2015-07-24",
+            "finished_airing": null,
+            "community_rating": 3.7841266617022,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Action"
+                },
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Magic"
+                },
+                {
+                    "name": "Fantasy"
+                },
+                {
+                    "name": "Mahou Shoujo"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.5"
+        }
+    },
+    {
+        "id": 10426033,
+        "episodes_watched": 8,
+        "last_watched": "2015-08-01T23:26:21.869Z",
+        "updated_at": "2015-08-01T23:26:21.870Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 475,
+            "mal_id": 516,
+            "slug": "keroro-gunsou",
+            "status": "Finished Airing",
+            "url": "https://hummingbird.me/anime/keroro-gunsou",
+            "title": "Keroro Gunsou",
+            "alternate_title": "Sergeant Frog",
+            "episode_count": 358,
+            "episode_length": 23,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/000/475/large/475.jpg?1416242348",
+            "synopsis": "Keroro is a frog-like alien sent from his home planet on a mission to conquer Earth. But when his cover is blown, his battalion abandons him and he ends up in the home of the Hinata family. There, he's forced to do household chores and sleep in a dark basement that was once supposedly a prison cell haunted by the ghost of an innocent girl. He even spends his free time assembling Gundam model kits. During his stay, Keroro meets up with subordinates who were also stranded during their failed invasion. \n(Source: ANN)",
+            "show_type": "TV",
+            "started_airing": "2004-04-03",
+            "finished_airing": "2011-04-04",
+            "community_rating": 3.8815806455204,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Sci-Fi"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "3.5"
+        }
+    },
+    {
+        "id": 10299917,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-14T23:55:59.297Z",
+        "updated_at": "2015-09-14T23:55:59.298Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10352,
+            "mal_id": 29786,
+            "slug": "shimoneta-to-iu-gainen-ga-sonzai-shinai-taikutsu-na-sekai",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/shimoneta-to-iu-gainen-ga-sonzai-shinai-taikutsu-na-sekai",
+            "title": "Shimoneta to Iu Gainen ga Sonzai Shinai Taikutsu na Sekai",
+            "alternate_title": "SHIMONETA: A Boring World Where the Concept of Dirty Jokes Doesn't Exist",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/352/large/shimoneta02.jpg?1433942845",
+            "synopsis": "Who is the panty-masked villainess spreading obscenity in a country where even the mildest off-color musing can land you in jail?\r\n\r\nWhen the student council president of the most elite public morals school in the country has a feeling that the lewd is coming from within the walls, she recruits Tanukichi, a recent transfer student, to her upstanding moral squad.\r\n\r\nLittle does she know he’s already been blackmailed by Ayame, her own vice president who is secretly the panty-masked bandit, into committing mass acts of public obscenity in the name of SOX—a brigade of sorts—dedicated to spreading the good news of being lewd.\r\n\r\n(Source: FUNimation)",
+            "show_type": "TV",
+            "started_airing": "2015-07-04",
+            "finished_airing": null,
+            "community_rating": 4.0207233212975,
+            "age_rating": "R17+",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "School"
+                },
+                {
+                    "name": "Ecchi"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10299832,
+        "episodes_watched": 10,
+        "last_watched": "2015-09-14T01:56:45.778Z",
+        "updated_at": "2015-09-14T01:56:45.778Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10621,
+            "mal_id": 30123,
+            "slug": "akagami-no-shirayuki-hime",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/akagami-no-shirayuki-hime",
+            "title": "Akagami no Shirayuki-hime",
+            "alternate_title": "Snow White with the Red Hair",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/621/large/e5ac7bdd2b175b6aee20d8f8528147731432360559_full.jpg?1432401413",
+            "synopsis": "In the kingdom of Tanbarun lives Shirayuki, an independent and strong-willed young woman. Her resourceful intelligence has led her become a skilled pharmacist, but her most defining trait is her shock of beautiful apple-red hair. Her dazzling mane gets her noticed by the prince of the kingdom, but instead of romancing her, he demands she be his concubine. Shirayuki refuses, chops off her lovely locks, and runs away to the neighboring kingdom of Clarines. There, she befriends a young man named Zen, who, SURPRISE, is also a prince, although with a much better temperament than the previous one. Watch as Shirayuki finds her place in the new kingdom, and in Zen’s heart.\r\n\r\n(Source: FUNimation)",
+            "show_type": "TV",
+            "started_airing": "2015-07-07",
+            "finished_airing": "2015-09-22",
+            "community_rating": 4.1011684647044,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Drama"
+                },
+                {
+                    "name": "Fantasy"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "Historical"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10299826,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-12T13:36:42.211Z",
+        "updated_at": "2015-09-12T13:36:42.212Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10069,
+            "mal_id": 28819,
+            "slug": "oku-sama-ga-seito-kaichou",
+            "status": "Finished Airing",
+            "url": "https://hummingbird.me/anime/oku-sama-ga-seito-kaichou",
+            "title": "Oku-sama ga Seito Kaichou!",
+            "alternate_title": "My Wife is the Student Council President!",
+            "episode_count": 12,
+            "episode_length": 8,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/069/large/173744.jpg?1432381972",
+            "synopsis": "The story begins with Izumi Hayato running to be student body president. But when a beautiful girl swings in promising the liberalization of love while flinging condoms into the audience, he ends up losing to her and becoming the vice president. At the student council meeting, the newly-elected president invites herself over to Izumi's house, where she promptly announces she is to become Izumi's wife thanks to an agreement—facilitated by alcohol—made between their parents when they were only 3.\r\n\r\n(Source: MAL Scanlations)",
+            "show_type": "TV",
+            "started_airing": "2015-07-02",
+            "finished_airing": "2015-09-17",
+            "community_rating": 3.3822121645568,
+            "age_rating": "R17+",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "School"
+                },
+                {
+                    "name": "Ecchi"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10271011,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-14T01:26:22.895Z",
+        "updated_at": "2015-09-14T01:26:22.895Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10029,
+            "mal_id": 28497,
+            "slug": "rokka-no-yuusha",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/rokka-no-yuusha",
+            "title": "Rokka no Yuusha",
+            "alternate_title": "Rokka: Braves of the Six Flowers",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/029/large/rokkanoyuusha.jpg?1436386289",
+            "synopsis": "Legend says, when the Evil God awakens from the deepest of darkness, the god of fate will summon Six Braves and grant them with the power to save the world. \r\n \r\nAdlet, who claims to be the strongest on the face of this earth, is chosen as one of the “Brave Six Flowers,” and sets out on a battle to prevent the resurrection of the Evil God. However, it turns out that there are Seven Braves who gathered at the promised land... \r\n \r\nThe Seven Braves notice there must be one enemy among themselves, and feelings of suspicion toward each other spreads throughout the group, with Adlet being the one who gets suspected first and foremost. \r\n \r\nThus begins an overwhelming fantasy adventure that brings upon mystery after mystery!\r\n\r\n(Source: Crunchyroll)",
+            "show_type": "TV",
+            "started_airing": "2015-07-05",
+            "finished_airing": "2015-09-20",
+            "community_rating": 3.9872922407283,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Action"
+                },
+                {
+                    "name": "Adventure"
+                },
+                {
+                    "name": "Mystery"
+                },
+                {
+                    "name": "Magic"
+                },
+                {
+                    "name": "Fantasy"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10296163,
+        "episodes_watched": 10,
+        "last_watched": "2015-09-12T18:38:06.334Z",
+        "updated_at": "2015-09-12T18:38:06.335Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 9726,
+            "mal_id": 27831,
+            "slug": "durarara-x2-ten",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/durarara-x2-ten",
+            "title": "Durarara!!x2 Ten",
+            "alternate_title": "Durarara!! x2 The Second Arc",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/009/726/large/durararax2tenv2.jpg?1435341790",
+            "synopsis": "Ikebukuro, a city teeming with the most peculiar characters and the twisted schemes they indulge in. In the aftermath of the assault against the information broker, signs of new disorder begin to develop like ripples across the water. Holding his own ideals, the young man who gains the powers of both the “Dollars” and the “Blue Squares” treads the path to total annihilation. Someone struggles to save their best friend while a psychopath creeps up on a popular idol. Slowly but surely a new threat gains power within the city’s shadows…\n\nPaths cross and trouble brews as the plot thickens in this complicated web of conspiracies.\n\n(Source: Aniplex USA)",
+            "show_type": "TV",
+            "started_airing": "2015-07-04",
+            "finished_airing": "2015-09-26",
+            "community_rating": 4.3105326468495,
+            "age_rating": "R17+",
+            "genres": [
+                {
+                    "name": "Action"
+                },
+                {
+                    "name": "Mystery"
+                },
+                {
+                    "name": "Supernatural"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10295958,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-17T01:54:16.472Z",
+        "updated_at": "2015-09-17T01:54:16.472Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10748,
+            "mal_id": 30307,
+            "slug": "monster-musume-no-iru-nichijou",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/monster-musume-no-iru-nichijou",
+            "title": "Monster Musume no Iru Nichijou",
+            "alternate_title": "Everyday Life with Monster Girls",
+            "episode_count": 12,
+            "episode_length": 23,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/748/large/hcxfyjp1_l-anime-monster-musume-no-iru-nichijou-en-promotion-video.jpg?1434653745",
+            "synopsis": "Monsters—they're real, and they want to date us! Three years ago, the world learned that harpies, centaurs, catgirls, and all manners of fabulous creatures are not merely fiction; they are flesh and blood—not to mention scale, feather, horn, and fang. Thanks to the \"Cultural Exchange Between Species Act,\" these once-mythical creatures have assimilated into society, or at least, they're trying.\r\n\r\nWhen a hapless human named Kurusu Kimihito is inducted as a \"volunteer\" into the government exchange program, his world is turned upside down. A snake-like lamia named Miia comes to live with him, and it is Kurusu's job to take care of her and make sure she integrates into his everyday life. Unfortunately for Kurusu, Miia is undeniably sexy, and the law against interspecies breeding is very strict. Even worse, when a ravishing centaur girl and a flirtatious harpy move in, what's a full-blooded young man with raging hormones to do?!\r\n\r\n(Source: Seven Seas Entertainment)",
+            "show_type": "TV",
+            "started_airing": "2015-07-08",
+            "finished_airing": "2015-09-23",
+            "community_rating": 3.8451747238313,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Fantasy"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "Ecchi"
+                },
+                {
+                    "name": "Harem"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "3.5"
+        }
+    },
+    {
+        "id": 10295719,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-12T14:20:43.922Z",
+        "updated_at": "2015-09-12T14:20:43.923Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10085,
+            "mal_id": 28907,
+            "slug": "gate-jieitai-kanochi-nite-kaku-tatakaeri",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/gate-jieitai-kanochi-nite-kaku-tatakaeri",
+            "title": "Gate: Jieitai Kanochi nite, Kaku Tatakaeri",
+            "alternate_title": "GATE",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/085/large/85a5d8cc2972ae422158be7069076be41435868848_full.jpg?1435924413",
+            "synopsis": "In August of 20XX, a portal to a parallel world, known as the \"Gate,\" suddenly appeared in Ginza, Tokyo. Monsters and troops poured out of the portal, turning the shopping district into a bloody inferno.\r\n\r\nThe Japan Ground-Self Defence Force immediately took action and pushed the fantasy creatures back to the \"Gate.\" To facilitate negotiations and prepare for future fights, the JGSDF dispatched the Third Reconnaissance Team to the \"Special Region\" at the other side of the Gate.\r\n\r\nYouji Itami, a JSDF officer as well as a 33-year-old otaku, was appointed as the leader of the Team. Amid attacks from enemy troops the team visited a variety of places and learnt a lot about the local culture and geography.\r\n\r\nThanks to their efforts in humanitarian relief, although with some difficulties they were gradually able to reach out to the locals. They even had a cute elf, a sorceress and a demigoddess in their circle of new friends. On the other hand, the major powers outside the Gate such as the United States, China, and Russia were extremely interested in the abundant resources available in the Special Region. They began to exert diplomatic pressure over Japan.\r\n\r\nA suddenly appearing portal to an unknown world—to the major powers it may be no more than a mere asset for toppling the international order. But to our protagonists it is an invaluable opportunity to broaden knowledge, friendship, and ultimately their perspective towards the world.\r\n\r\n(Source: Baka-Tsuki)",
+            "show_type": "TV",
+            "started_airing": "2015-07-04",
+            "finished_airing": null,
+            "community_rating": 4.10315369511,
+            "age_rating": null,
+            "genres": [
+                {
+                    "name": "Action"
+                },
+                {
+                    "name": "Adventure"
+                },
+                {
+                    "name": "Fantasy"
+                },
+                {
+                    "name": "Military"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.5"
+        }
+    },
+    {
+        "id": 10215731,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-12T13:45:12.780Z",
+        "updated_at": "2015-09-12T13:45:12.780Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10765,
+            "mal_id": 30384,
+            "slug": "miss-monochrome-the-animation-2nd-season",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/miss-monochrome-the-animation-2nd-season",
+            "title": "Miss Monochrome: The Animation 2nd Season",
+            "alternate_title": null,
+            "episode_count": 13,
+            "episode_length": 8,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/765/large/20150511_summer02.jpg?1432381052",
+            "synopsis": "The Ultra Super Pictures Special Stage event announced at AnimeJapan 2015 on Saturday that the Miss Monochrome television anime series will receive a second season. The season will run within the 30-minute Ultra Super Anime Time block beginning on July 3, 2015.\r\n\r\n(Source: ANN)",
+            "show_type": "TV",
+            "started_airing": "2015-07-03",
+            "finished_airing": null,
+            "community_rating": 3.6555205723713,
+            "age_rating": "G",
+            "genres": [
+                {
+                    "name": "Slice of Life"
+                },
+                {
+                    "name": "Music"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 10177163,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-12T17:47:16.672Z",
+        "updated_at": "2015-09-12T17:47:16.672Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10782,
+            "mal_id": 30383,
+            "slug": "classroom-crisis",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/classroom-crisis",
+            "title": "Classroom☆Crisis",
+            "alternate_title": "",
+            "episode_count": 12,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/782/large/gUUHG7u.jpg?1432480149",
+            "synopsis": "Fourth Tokyo--one of Japan’s new prefectures on Mars. Kirishina City, Fourth Tokyo’s special economic zone, is home to the Kirishina Corporation, an elite corporation renowned for its aerospace business. The company has been expanding its market share in various industries, while also running a private school, the Kirishina Science and Technology Academy High School. That alone would make it unique, but there’s also a high-profile class on campus. \r\n \r\nDevoting themselves to their studies during the day, they then report to the company after school to take part in a crucial project, the development of prototype variants for rockets. This is the Kirishina Corporation’s Advanced Technological Development Department, Educational Development Class, a.k.a. A-TEC. A-TEC’s chief, the young engineering genius, Kaito Sera, is also the homeroom teacher of the A- TEC students attending the academy, affectionately (?) known as the Raving Rocket Teacher. \r\n \r\nThe story begins with the arrival of a transfer student to A-TEC. \r\n \r\nThe A-TEC members are ready to welcome their new classmate, but the student in question is kidnapped en route to Mars. Determining that they themselves will have to be the ones to overcome this crisis, Kaito and the A-TEC students embark on an unprecedented rescue mission.\r\n\r\n(Source: Aniplex USA)",
+            "show_type": "TV",
+            "started_airing": "2015-07-04",
+            "finished_airing": null,
+            "community_rating": 3.3777667556786,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Sci-Fi"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "Slice of Life"
+                },
+                {
+                    "name": "School"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.5"
+        }
+    },
+    {
+        "id": 10177168,
+        "episodes_watched": 11,
+        "last_watched": "2015-09-14T01:01:35.226Z",
+        "updated_at": "2015-09-14T01:01:35.227Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10103,
+            "mal_id": 28999,
+            "slug": "charlotte",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/charlotte",
+            "title": "Charlotte",
+            "alternate_title": "",
+            "episode_count": 13,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/103/large/charlotte.jpg?1434903194",
+            "synopsis": "In a world where children have a chance to develop special powers upon reaching puberty. Otosaka Yuu is one such child, choosing to live a relatively normal, satisfying life despite possessing an ability to control others’ bodies for a short period of time. One day, Yuu is suddenly approached by Tomori Nao, another child with special powers. Their meeting sets the stage for a story about growth, their many experiences, and a cruel fate that links the two. A routine life changes to one filled with the unexpected, a promise to return home becoming their only guide down an uncertain road. \r\n\r\n(Source: Aniplex of America)",
+            "show_type": "TV",
+            "started_airing": "2015-07-05",
+            "finished_airing": "2015-09-27",
+            "community_rating": 4.0201120371147,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Drama"
+                },
+                {
+                    "name": "Super Power"
+                },
+                {
+                    "name": "School"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 9131652,
+        "episodes_watched": 12,
+        "last_watched": "2015-09-12T20:06:39.355Z",
+        "updated_at": "2015-09-12T20:06:39.355Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 8712,
+            "mal_id": 25879,
+            "slug": "working-3",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/working-3",
+            "title": "Working!!!",
+            "alternate_title": "Wagnaria!!!",
+            "episode_count": 13,
+            "episode_length": 23,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/008/712/large/Working-Saison-3-Visual-Art.jpg?1427928008",
+            "synopsis": "The third season of the Working!! series.",
+            "show_type": "TV",
+            "started_airing": "2015-07-05",
+            "finished_airing": null,
+            "community_rating": 4.2499808378722,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Slice of Life"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.5"
+        }
+    },
+    {
+        "id": 9719799,
+        "episodes_watched": 23,
+        "last_watched": "2015-09-12T13:02:56.219Z",
+        "updated_at": "2015-09-12T13:02:56.220Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 10016,
+            "mal_id": 28297,
+            "slug": "ore-monogatari",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/ore-monogatari",
+            "title": "Ore Monogatari!!",
+            "alternate_title": "My Love Story!!",
+            "episode_count": 24,
+            "episode_length": 22,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/010/016/large/98d170b9e221550a05ea0309462510041423372549_full.jpg?1429885511",
+            "synopsis": "Gouda Takeo is a freshman in high school. (Both estimates) Weight: 120kg, Height: 2 meters. He spends his days peacefully with his super-popular-with-girls, yet insensitive childhood friend, Sunakawa. One morning, on the train to school, Takeo saves a girl, Yamato, from being molested by a pervert. Could this be the beginning of spring for Takeo?\n\n(Source: MU)",
+            "show_type": "TV",
+            "started_airing": "2015-04-09",
+            "finished_airing": "2015-09-24",
+            "community_rating": 4.2192057339959,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Comedy"
+                },
+                {
+                    "name": "Romance"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.0"
+        }
+    },
+    {
+        "id": 9131608,
+        "episodes_watched": 24,
+        "last_watched": "2015-09-13T11:36:06.608Z",
+        "updated_at": "2015-09-13T11:36:06.609Z",
+        "rewatched_times": 0,
+        "notes": null,
+        "notes_present": null,
+        "status": "currently-watching",
+        "private": false,
+        "rewatching": false,
+        "anime": {
+            "id": 9142,
+            "mal_id": 27663,
+            "slug": "baby-steps-2",
+            "status": "Currently Airing",
+            "url": "https://hummingbird.me/anime/baby-steps-2",
+            "title": "Baby Steps 2nd Season",
+            "alternate_title": "",
+            "episode_count": 0,
+            "episode_length": 24,
+            "cover_image": "https://static.hummingbird.me/anime/poster_images/000/009/142/large/0WCindC.jpg?1428540276",
+            "synopsis": "Season 2 of Baby Steps. ",
+            "show_type": "TV",
+            "started_airing": "2015-04-05",
+            "finished_airing": null,
+            "community_rating": 4.2037554731763,
+            "age_rating": "PG13",
+            "genres": [
+                {
+                    "name": "Sports"
+                },
+                {
+                    "name": "Romance"
+                },
+                {
+                    "name": "School"
+                }
+            ]
+        },
+        "rating": {
+            "type": "advanced",
+            "value": "4.5"
+        }
+    }
+]

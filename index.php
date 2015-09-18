@@ -2,7 +2,6 @@
 /**
  * Here begins everything!
  */
-
 session_start();
 
 // Work around the silly timezone error
@@ -30,9 +29,6 @@ function _dir()
 	return implode(DIRECTORY_SEPARATOR, func_get_args());
 }
 
-// Set up composer autoloader
-require _dir(ROOT_DIR, '/vendor/autoload.php');
-
 /**
  * Set up autoloaders
  *
@@ -50,7 +46,8 @@ spl_autoload_register(function ($class) {
 	}
 });
 
-// Do dependency injection, and go!
+// Dependency setup
+require _dir(ROOT_DIR, '/vendor/autoload.php');
 require _dir(APP_DIR, 'bootstrap.php');
 
 // End of index.php

@@ -5,6 +5,7 @@
 
 use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Container;
+use Aviat\AnimeClient\UrlGenerator;
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -13,8 +14,6 @@ use Aviat\AnimeClient\Container;
 class MockErrorHandler {
 	public function addDataTable($name, Array $values) {}
 }
-
-$defaultHandler = new MockErrorHandler();
 
 // -----------------------------------------------------------------------------
 // Define a base testcase class
@@ -41,8 +40,11 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		]);
 
 		$container = new Container([
-			'config' => $config
+			'config' => $config,
+			'error-handler' => new MockErrorHandler()
 		]);
+
+		$container->set('url-generator', new UrlGenerator($container));
 
 		$this->container = $container;
 	}
@@ -51,12 +53,6 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 // -----------------------------------------------------------------------------
 // Autoloaders
 // -----------------------------------------------------------------------------
-
-// Define WHOSE constant
-define('WHOSE', "Foo's");
-
-// Define base path constants
-define('ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . "/../"));
 
 /**
  * Joins paths together. Variadic to take an
@@ -69,10 +65,14 @@ function _dir()
 	return implode(DIRECTORY_SEPARATOR, func_get_args());
 }
 
+// Define base path constants
+define('ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . "/../"));
 define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('SRC_DIR', _dir(ROOT_DIR, 'src'));
 define('BASE_DIR', _dir(SRC_DIR, 'Base'));
+require _dir(ROOT_DIR, '/vendor/autoload.php');
+require _dir(SRC_DIR, 'functions.php');
 
 /**
  * Set up autoloaders
@@ -80,24 +80,16 @@ define('BASE_DIR', _dir(SRC_DIR, 'Base'));
  * @codeCoverageIgnore
  * @return void
  */
-function _setup_autoloaders()
-{
-	require _dir(ROOT_DIR, '/vendor/autoload.php');
-	spl_autoload_register(function ($class) {
-		$class_parts = explode('\\', $class);
-		$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+spl_autoload_register(function ($class) {
+	$class_parts = explode('\\', $class);
+	$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
 
-		if (file_exists($ns_path))
-		{
-			require_once($ns_path);
-			return;
-		}
-	});
-}
-
-// Setup autoloaders
-_setup_autoloaders();
-require(_dir(SRC_DIR, 'functions.php'));
+	if (file_exists($ns_path))
+	{
+		require_once($ns_path);
+		return;
+	}
+});
 
 // Pre-define some superglobals
 $_SESSION = [];

@@ -1,5 +1,5 @@
-<div class="message <?= $stat_class ?>">
+<div class="message <?= $escape->attr($stat_class) ?>">
 	<span class="icon"></span>
-	<?= $message ?>
+	<?= $escape->html($message) ?>
 	<span class="close" onclick="this.parentElement.style.display='none'">x</span>
 </div>

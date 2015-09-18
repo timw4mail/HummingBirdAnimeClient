@@ -76,7 +76,7 @@ class Manga extends API {
 	 */
 	private function _get_list($status="all")
 	{
-		global $defaultHandler;
+		$errorHandler = $this->container->get('error-handler');
 
 		$cache_file = _dir($this->config->data_cache_path, 'manga.json');
 
@@ -89,7 +89,7 @@ class Manga extends API {
 
 		$response = $this->client->get('manga_library_entries', $config);
 
-		$defaultHandler->addDataTable('response', (array)$response);
+		$errorHandler->addDataTable('response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
 		{

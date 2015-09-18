@@ -3,16 +3,16 @@
 <head>
 	<title><?= $title ?></title>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php?g=base') ?>" />
+	<link rel="stylesheet" href="<?= $escape->attr($urlGenerator->asset_url('css.php?g=base')) ?>" />
 	<script>
 		var BASE_URL = "<?= $urlGenerator->base_url($url_type) ?>";
 		var CONTROLLER = "<?= $url_type ?>";
 	</script>
 </head>
-<body class="<?= $url_type ?> list">
+<body class="<?= $escape->attr($url_type) ?> list">
 	<h1 class="flex flex-align-end flex-wrap">
 		<span class="flex-no-wrap grow-1">
-			<a href="<?= $urlGenerator->default_url($url_type) ?>">
+			<a href="<?= $escape->attr($urlGenerator->default_url($url_type)) ?>">
 				<?= $config->whose_list ?>'s <?= ucfirst($url_type) ?> <?= (strpos($route_path, 'collection') !== FALSE) ? 'Collection' : 'List' ?>
 			</a> [<a href="<?= $urlGenerator->default_url($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
 		</span>

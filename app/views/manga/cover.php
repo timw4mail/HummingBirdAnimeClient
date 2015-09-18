@@ -4,7 +4,7 @@
 <?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
 		<section class="status">
-			<h2><?= $name ?></h2>
+			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="manga-<?= $item['id'] ?>">
@@ -14,10 +14,10 @@
 						<button class="plus_one_volume">+1 Volume</button>
 					</div>
 					<?php endif ?>
-					<img src="<?= $item['manga']['poster_image'] ?>" />
+					<img src="<?= $escape->attr($item['manga']['poster_image']) ?>" />
 					<div class="name">
 						<a href="https://hummingbird.me/manga/<?= $item['manga_id'] ?>">
-						<?= $item['manga']['romaji_title'] ?>
+						<?= $escape->html($item['manga']['romaji_title']) ?>
 						<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
 						</a>
 					</div>
@@ -38,9 +38,6 @@
 							</div>
 						</div>
 					</div>
-					<?php /*<div class="medium_metadata">
-						<div class="media_type"><?= $item['manga']['manga_type'] ?></div>
-					</div> */ ?>
 				</article>
 				<?php endforeach ?>
 			</section>
@@ -49,5 +46,5 @@
 <?php endif ?>
 </main>
 <?php if (is_logged_in()): ?>
-<script src="<?= $config->asset_url('js.php?g=edit') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php?g=edit') ?>"></script>
 <?php endif ?>

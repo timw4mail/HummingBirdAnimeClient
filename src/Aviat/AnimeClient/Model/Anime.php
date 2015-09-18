@@ -138,7 +138,7 @@ class Anime extends API {
 	 */
 	public function search($name)
 	{
-		global $defaultHandler;
+		$errorHandler = $this->container->get('error-handler');
 
 		$config = [
 			'query' => [
@@ -147,7 +147,7 @@ class Anime extends API {
 		];
 
 		$response = $this->client->get('search/anime', $config);
-		$defaultHandler->addDataTable('anime_search_response', (array)$response);
+		$errorHandler->addDataTable('anime_search_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
 		{
@@ -165,7 +165,7 @@ class Anime extends API {
 	 */
 	private function _get_list($status="all")
 	{
-		global $defaultHandler;
+		$errorHandler = $this->container->get('error-handler');
 
 		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
 
@@ -180,7 +180,7 @@ class Anime extends API {
 
 		$response = $this->client->get("users/{$this->config->hummingbird_username}/library", $config);
 
-		$defaultHandler->addDataTable('anime_list_response', (array)$response);
+		$errorHandler->addDataTable('anime_list_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
 		{
