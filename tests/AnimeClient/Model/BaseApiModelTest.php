@@ -1,11 +1,12 @@
 <?php
 
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\Model\API as BaseApiModel;
 
 class MockBaseApiModel extends BaseApiModel {
 
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 	}

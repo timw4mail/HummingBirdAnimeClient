@@ -5,19 +5,22 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Avait\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model\DB;
-use Aviat\AnimeClient\Container;
 
-use StatsChartsTrait;
-
+/**
+ * Base Model for stats about lists and collection(s)
+ */
 class Stats extends DB {
+
+	use StatsChartsTrait;
 
 	/**
 	 * Constructor
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$this->chartSetup();

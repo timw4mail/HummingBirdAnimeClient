@@ -5,9 +5,8 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Container;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
@@ -53,11 +52,9 @@ class Anime extends BaseController {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-
-		$config = $container->get('config');
 
 		if ($this->config->show_anime_collection === FALSE)
 		{

@@ -74,7 +74,6 @@ class RouterTest extends AnimeClient_TestCase {
 						'action' => ['anime_list'],
 						'params' => [
 							'type' => 'currently-watching',
-							'title' => WHOSE . " Anime List &middot; Watching"
 						],
 						'tokens' => [
 							'view' => '[a-z_]+'
@@ -87,7 +86,6 @@ class RouterTest extends AnimeClient_TestCase {
 						'action' => ['manga_list'],
 						'params' => [
 							'type' => 'Plan to Read',
-							'title' => WHOSE . " Manga List &middot; Plan to Read"
 						],
 						'tokens' => [
 							'view' => '[a-z_]+'

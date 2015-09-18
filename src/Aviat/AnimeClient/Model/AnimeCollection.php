@@ -5,8 +5,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model\DB;
-use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 /**
@@ -31,7 +31,7 @@ class AnimeCollection extends DB {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 

@@ -6,12 +6,13 @@ namespace Aviat\AnimeClient\Model;
 
 use \GuzzleHttp\Client;
 use \GuzzleHttp\Cookie\CookieJar;
-use \Aviat\AnimeClient\Container;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\AnimeClient\Model as BaseModel;
 
 /**
  * Base model for api interaction
  */
-class API extends \Aviat\AnimeClient\Model {
+class API extends BaseModel {
 
 	/**
 	 * Base url for making api requests
@@ -36,7 +37,7 @@ class API extends \Aviat\AnimeClient\Model {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$this->cookieJar = new CookieJar();

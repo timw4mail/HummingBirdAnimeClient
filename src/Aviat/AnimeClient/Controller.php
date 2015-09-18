@@ -4,22 +4,25 @@
  */
 namespace Aviat\AnimeClient;
 
+use Aura\Web\ResponseSender;
+
+use \Aviat\Ion\Di\ContainerInterface;
+use \Aviat\Ion\View\HttpView;
+use \Aviat\Ion\View\HtmlView;
+use \Aviat\Ion\View\JsonView;
+
 /**
- * Base class for controllers, defines output methods
+ * Controller base, defines output methods
  */
 class Controller {
+
+	use \Aviat\Ion\Di\ContainerAware;
 
 	/**
 	 * The global configuration object
 	 * @var object $config
 	 */
 	protected $config;
-
-	/**
-	 * Request object
-	 * @var object $request
-	 */
-	protected $request;
 
 	/**
 	 * Response object
@@ -54,26 +57,15 @@ class Controller {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
+		$this->setContainer($container);
+		$urlGenerator = $container->get('url-generator');
 		$this->config = $container->get('config');
-		$this->base_data['config'] = $this->config;
-		$this->base_data['urlGenerator'] = $container->get('url-generator');
-
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-
-		$this->urlGenerator = $container->get('url-generator');
-	}
-
-	/**
-	 * Destructor
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function __destruct()
-	{
-		$this->output();
+		$this->base_data['urlGenerator'] = $urlGenerator;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -84,7 +76,7 @@ class Controller {
 	 */
 	public function __get($key)
 	{
-		$allowed = ['request', 'response', 'config'];
+		$allowed = ['response', 'config'];
 
 		if (in_array($key, $allowed))
 		{
@@ -97,78 +89,94 @@ class Controller {
 	/**
 	 * Get the string output of a partial template
 	 *
-	 * @codeCoverageIgnore
+	 * @param HTMLView $view
 	 * @param string $template
 	 * @param array|object $data
 	 * @return string
 	 */
-	public function load_partial($template, $data=[])
+	public function load_partial($view, $template, $data=[])
 	{
+		$errorHandler = $this->container->get('error-handler');
+		$router = $this->container->get('router');
+
 		if (isset($this->base_data))
 		{
 			$data = array_merge($this->base_data, $data);
 		}
 
-		global $router, $defaultHandler;
 		$route = $router->get_route();
 		$data['route_path'] = ($route) ? $router->get_route()->path : "";
 
-		$defaultHandler->addDataTable('Template Data', $data);
-
-		$template_path = _dir(APP_DIR, 'views', "{$template}.php");
+		$errorHandler->addDataTable('Template Data', $data);
+		$template_path = _dir($this->config->__get('view_path'), "{$template}.php");
 
 		if ( ! is_file($template_path))
 		{
-			throw new \InvalidArgumentException("Invalid template : {$path}");
+			throw new \InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		ob_start();
-		extract($data);
-		include _dir(APP_DIR, 'views', 'header.php');
-		include $template_path;
-		include _dir(APP_DIR, 'views', 'footer.php');
-		$buffer = ob_get_contents();
-		ob_end_clean();
+		return $view->render_template($template_path, $data);
+	}
 
-		return $buffer;
+	/**
+	 * Render a template with header and footer
+	 *
+	 * @param HTMLView $view
+	 * @param string $template
+	 * @param array|object $data
+	 * @return void
+	 */
+	public function render_full_page($view, $template, $data)
+	{
+		$view->appendOutput($this->load_partial($view, 'header', $data));
+		$view->appendOutput($this->load_partial($view, $template, $data));
+		$view->appendOutput($this->load_partial($view, 'footer', $data));
 	}
 
 	/**
 	 * Output a template to HTML, using the provided data
 	 *
-	 * @codeCoverageIgnore
 	 * @param string $template
 	 * @param array|object $data
 	 * @return void
 	 */
 	public function outputHTML($template, $data=[])
 	{
-		$buffer = $this->load_partial($template, $data);
+		$view = new HtmlView($this->container);
+		$this->render_full_page($view, $template, $data);
+	}
 
-		$this->response->content->setType('text/html');
-		$this->response->content->set($buffer);
+	/**
+	 * Output a JSON Response
+	 *
+	 * @param mixed $data
+	 * @return void
+	 */
+	public function outputJSON($data=[])
+	{
+		$view = new JsonView($this->container);
+		$view->setOutput($data);
 	}
 
 	/**
 	 * Redirect to the selected page
 	 *
-	 * @codeCoverageIgnore
-	 * @param string $url
+	 * @param string $path
 	 * @param int $code
 	 * @param string $type
 	 * @return void
 	 */
-	public function redirect($url, $code, $type="anime")
+	public function redirect($path, $code, $type="anime")
 	{
-		$url = $this->urlGenerator->full_url($url, $type);
-
-		$this->response->redirect->to($url, $code);
+		$url = $this->urlGenerator->full_url($path, $type);
+		$http = new HttpView($this->container);
+		
+		$http->redirect($url, $code);
 	}
 
 	/**
 	 * Add a message box to the page
 	 *
-	 * @codeCoverageIgnore
 	 * @param string $type
 	 * @param string $message
 	 * @return string
@@ -184,7 +192,6 @@ class Controller {
 	/**
 	 * Clear the api session
 	 *
-	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	public function logout()
@@ -196,7 +203,6 @@ class Controller {
 	/**
 	 * Show the login form
 	 *
-	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @return void
 	 */
@@ -222,53 +228,22 @@ class Controller {
 	 */
 	public function login_action()
 	{
+		$request = $this->container->get('request');
+
 		if (
 			$this->model->authenticate(
 				$this->config->hummingbird_username,
-				$this->request->post->get('password')
+				$request->post->get('password')
 			)
 		)
 		{
-			$this->response->redirect->afterPost($this->urlGenerator->full_url('', $this->base_data['url_type']));
+			$this->response->redirect->afterPost(
+				$this->urlGenerator->full_url('', $this->base_data['url_type'])
+			);
 			return;
 		}
 
 		$this->login("Invalid username or password.");
-	}
-
-	/**
-	 * Send the appropriate response
-	 *
-	 * @codeCoverageIgnore
-	 * @return void
-	 */
-	private function output()
-	{
-		// send status
-		@header($this->response->status->get(), true, $this->response->status->getCode());
-
-		// headers
-		foreach($this->response->headers->get() as $label => $value)
-		{
-			@header("{$label}: {$value}");
-		}
-
-		// cookies
-		foreach($this->response->cookies->get() as $name => $cookie)
-		{
-			@setcookie(
-				$name,
-				$cookie['value'],
-				$cookie['expire'],
-				$cookie['path'],
-				$cookie['domain'],
-				$cookie['secure'],
-				$cookie['httponly']
-			);
-		}
-
-		// send the actual response
-		echo $this->response->content->get();
 	}
 }
 // End of BaseController.php

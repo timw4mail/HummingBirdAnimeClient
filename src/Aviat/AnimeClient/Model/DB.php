@@ -4,12 +4,13 @@
  */
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Container;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\AnimeClient\Model as BaseModel;
 
 /**
  * Base model for database interaction
  */
-class DB extends \Aviat\AnimeClient\Model {
+class DB extends BaseModel {
 	/**
 	 * The query builder object
 	 * @var object $db
@@ -27,7 +28,7 @@ class DB extends \Aviat\AnimeClient\Model {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$this->db_config = $this->config->database;

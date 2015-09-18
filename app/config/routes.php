@@ -6,9 +6,6 @@ return [
 		'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
 		'default_method' => 'index'
 	],
-	'configuration' => [
-
-	],
 	// Routes on all controllers
 	'common' => [
 		'update' => [
@@ -71,70 +68,19 @@ return [
 			'action' => ['redirect'],
 			'params' => [
 				'url' => '', // Determined by config
-				'code' => '301'
+				'code' => '301',
+				'type' => 'anime'
 			]
 		],
 		'search' => [
 			'path' => '/anime/search',
 			'action' => ['search'],
 		],
-		'all' => [
-			'path' => '/anime/all{/view}',
+		'anime_list' => [
+			'path' => '/anime/{type}{/view}',
 			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'all',
-			],
 			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'watching' => [
-			'path' => '/anime/watching{/view}',
-			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'watching',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'plan_to_watch' => [
-			'path' => '/anime/plan_to_watch{/view}',
-			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'plan_to_watch',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'on_hold' => [
-			'path' => '/anime/on_hold{/view}',
-			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'on_hold',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'dropped' => [
-			'path' => '/anime/dropped{/view}',
-			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'dropped',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'completed' => [
-			'path' => '/anime/completed{/view}',
-			'action' => ['anime_list'],
-			'params' => [
-				'type' => 'completed',
-			],
-			'tokens' => [
+				'type' => '[a-z_]+',
 				'view' => '[a-z_]+'
 			]
 		],
@@ -149,63 +95,11 @@ return [
 				'type' => 'manga'
 			]
 		],
-		'all' => [
-			'path' => '/manga/all{/view}',
+		'manga_list' => [
+			'path' => '/manga/{type}{/view}',
 			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'all',
-			],
 			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'reading' => [
-			'path' => '/manga/reading{/view}',
-			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'reading',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'plan_to_read' => [
-			'path' => '/manga/plan_to_read{/view}',
-			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'plan_to_read',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'on_hold' => [
-			'path' => '/manga/on_hold{/view}',
-			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'on_hold',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'dropped' => [
-			'path' => '/manga/dropped{/view}',
-			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'dropped',
-			],
-			'tokens' => [
-				'view' => '[a-z_]+'
-			]
-		],
-		'completed' => [
-			'path' => '/manga/completed{/view}',
-			'action' => ['manga_list'],
-			'params' => [
-				'type' => 'completed',
-			],
-			'tokens' => [
+				'type' => '[a-z_]+',
 				'view' => '[a-z_]+'
 			]
 		]

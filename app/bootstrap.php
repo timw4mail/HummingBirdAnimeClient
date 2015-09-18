@@ -9,64 +9,74 @@ use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
-use \Aura\Di\Container as DiContainer;
-use \Aura\Di\Factory as DiFactory;
+use \Aura\Session\SessionFactory;
+
+use Aviat\Ion\Di\Container;
 
 require _dir(SRC_DIR, '/functions.php');
 
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-$container = new Container();
+$di = function() {
+	$container = new Container();
 
-// -----------------------------------------------------------------------------
-// Setup error handling
-// -----------------------------------------------------------------------------
-$whoops = new \Whoops\Run();
+	// -------------------------------------------------------------------------
+	// Setup error handling
+	// -------------------------------------------------------------------------
+	$whoops = new \Whoops\Run();
 
-// Set up default handler for general errors
-$defaultHandler = new PrettyPageHandler();
-$whoops->pushHandler($defaultHandler);
+	// Set up default handler for general errors
+	$defaultHandler = new PrettyPageHandler();
+	$whoops->pushHandler($defaultHandler);
 
-// Set up json handler for ajax errors
-$jsonHandler = new JsonResponseHandler();
-$jsonHandler->onlyForAjaxRequests(true);
-$whoops->pushHandler($jsonHandler);
+	// Set up json handler for ajax errors
+	$jsonHandler = new JsonResponseHandler();
+	$jsonHandler->onlyForAjaxRequests(true);
+	$whoops->pushHandler($jsonHandler);
 
-$whoops->register();
+	//$whoops->register();
 
-$container->set('error-handler', $defaultHandler);
+	$container->set('error-handler', $defaultHandler);
 
-// -----------------------------------------------------------------------------
-// Injected Objects
-// -----------------------------------------------------------------------------
+	// -------------------------------------------------------------------------
+	// Injected Objects
+	// -------------------------------------------------------------------------
 
-// Create Config Object
-$config = new Config();
-$container->set('config', $config);
+	// Create Config Object
+	$config = new Config();
+	$container->set('config', $config);
 
-// Create Aura Router Object
-$router_factory = new RouterFactory();
-$aura_router = $router_factory->newInstance();
-$container->set('aura-router', $aura_router);
+	// Create Aura Router Object
+	$aura_router = (new RouterFactory())->newInstance();
+	$container->set('aura-router', $aura_router);
 
-// Create Request/Response Objects
-$web_factory = new WebFactory([
-	'_GET' => $_GET,
-	'_POST' => $_POST,
-	'_COOKIE' => $_COOKIE,
-	'_SERVER' => $_SERVER,
-	'_FILES' => $_FILES
-]);
-$container->set('request', $web_factory->newRequest());
-$container->set('response', $web_factory->newResponse());
+	// Create Request/Response Objects
+	$web_factory = new WebFactory([
+		'_GET' => $_GET,
+		'_POST' => $_POST,
+		'_COOKIE' => $_COOKIE,
+		'_SERVER' => $_SERVER,
+		'_FILES' => $_FILES
+	]);
+	$container->set('request', $web_factory->newRequest());
+	$container->set('response', $web_factory->newResponse());
 
-// -----------------------------------------------------------------------------
-// Router
-// -----------------------------------------------------------------------------
-$container->set('url-generator', new UrlGenerator($container));
+	// Create session Object
+	$session = (new SessionFactory())->newInstance($_COOKIE);
+	$container->set('session', $session);
 
-$router = new Router($container);
-$router->dispatch();
+	$container->set('url-generator', new UrlGenerator($container));
+
+	// -------------------------------------------------------------------------
+	// Router
+	// -------------------------------------------------------------------------
+	$router = new Router($container);
+	$container->set('router', $router);
+
+	return $container;
+};
+
+$di()->get('router')->dispatch();
 
 // End of bootstrap.php

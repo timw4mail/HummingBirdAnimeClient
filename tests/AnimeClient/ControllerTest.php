@@ -31,9 +31,6 @@ class ControllerTest extends AnimeClient_TestCase {
 	public function dataGet()
 	{
 		return [
-			'request' => [
-				'key' => 'request',
-			],
 			'response' => [
 				'key' => 'response',
 			],

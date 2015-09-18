@@ -4,6 +4,7 @@
  */
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\Di\ContainerInterface;
 use abeautifulsite\SimpleImage;
 
 /**
@@ -28,7 +29,7 @@ class Model {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');

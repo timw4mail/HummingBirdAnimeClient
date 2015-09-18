@@ -7,6 +7,8 @@ namespace Aviat\AnimeClient;
 use Aura\Web\Request;
 use Aura\Web\Response;
 
+use Aviat\Ion\Di\ContainerInterface;
+
 /**
  * Basic routing/ dispatch
  */
@@ -35,7 +37,7 @@ class Router extends RoutingBase {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$this->router = $container->get('aura-router');
@@ -100,6 +102,12 @@ class Router extends RoutingBase {
 		else
 		{
 			list($controller_name, $action_method) = $route->params['action'];
+			
+			if (is_null($controller_name))
+			{
+				throw new \LogicException("Missing controller");
+			}
+			
 			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
 
 			if ( ! empty($route->tokens))
@@ -205,7 +213,8 @@ class Router extends RoutingBase {
 			array_unshift($route['action'], $controller_class);
 
 			// Select the appropriate router method based on the http verb
-			$add = (array_key_exists('verb', $route)) ? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
+			$add = (array_key_exists('verb', $route))
+				? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
 
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))

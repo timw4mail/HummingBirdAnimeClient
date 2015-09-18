@@ -4,17 +4,17 @@
 <?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
 		<section class="status">
-			<h2><?= $name ?></h2>
+			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="a-<?= $item['anime']['id'] ?>">
 					<?php if (is_logged_in()): ?>
 					<button class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
-					<img src="<?= $item['anime']['cover_image'] ?>" />
+					<?= $helper->img($item['anime']['cover_image']); ?>
 					<div class="name">
-						<a href="<?= $item['anime']['url'] ?>">
-						<?= $item['anime']['title'] ?>
+						<a href="<?= $escape->attr($item['anime']['url']) ?>">
+						<?= $escape->html($item['anime']['title']) ?>
 						<?= ($item['anime']['alternate_title'] != "") ? "<br />({$item['anime']['alternate_title']})" : ""; ?>
 						</a>
 					</div>
@@ -27,9 +27,9 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="media_type"><?= $item['anime']['show_type'] ?></div>
-							<div class="airing_status"><?= $item['anime']['status'] ?></div>
-							<div class="age_rating"><?= $item['anime']['age_rating'] ?></div>
+							<div class="media_type"><?= $escape->html($item['anime']['show_type']) ?></div>
+							<div class="airing_status"><?= $escape->html($item['anime']['status']) ?></div>
+							<div class="age_rating"><?= $escape->html($item['anime']['age_rating']) ?></div>
 						</div>
 					</div>
 				</article>

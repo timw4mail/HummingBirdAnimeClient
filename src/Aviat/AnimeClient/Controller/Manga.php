@@ -4,7 +4,7 @@
  */
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Container;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
@@ -45,7 +45,7 @@ class Manga extends Controller {
 	 *
 	 * @param Container $container
 	 */
-	public function __construct(Container $container)
+	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$config = $container->get('config');
@@ -86,7 +86,7 @@ class Manga extends Controller {
 			'on_hold' => 'On Hold'
 		];
 
-		$title = $this->config->whose_list . "' Manga List &middot; {$map[$status]}";
+		$title = $this->config->whose_list . "'s Manga List &middot; {$map[$status]}";
 
 		$view_map = [
 			'' => 'cover',
@@ -99,7 +99,7 @@ class Manga extends Controller {
 
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
-			'sections' => $data
+			'sections' => $data,
 		]);
 	}
 }
