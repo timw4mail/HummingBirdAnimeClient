@@ -3,8 +3,6 @@
 namespace Aviat\Ion\Di;
 
 use ArrayObject;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Dependency container
@@ -50,7 +48,7 @@ class Container implements ContainerInterface {
 			return $this->container[$id];
 		}
 
-		throw new Exception\NotFoundException("Item {$id} does not exist in container.");
+		throw new Exception\NotFoundException("Item '{$id}' does not exist in container.");
 	}
 
 	/**
