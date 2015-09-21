@@ -5,6 +5,7 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
+use Aviat\AnimeClient\Transformer\Hummingbird;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -127,21 +128,15 @@ class Manga extends API {
 			'Dropped' => [],
 			'Completed' => [],
 		];
-		$manga_data = [];
 
 		// Massage the two lists into one
-		foreach($raw_data['manga'] as $manga)
-		{
-			$manga_data[$manga['id']] = $manga;
-		}
+		$manga_data = $this->zipper_lists($raw_data);
 
 		// Filter data by status
-		foreach($raw_data['manga_library_entries'] as &$entry)
+		foreach($manga_data as &$entry)
 		{
-			$entry['manga'] = $manga_data[$entry['manga_id']];
-
 			// Cache poster images
-			$entry['manga']['poster_image'] = $this->get_cached_image($entry['manga']['poster_image'], $entry['manga_id'], 'manga');
+			$entry['manga']['poster_image'] = $this->get_cached_image($entry['manga']['poster_image'], $entry['manga']['id'], 'manga');
 
 			switch($entry['status'])
 			{
@@ -169,6 +164,17 @@ class Manga extends API {
 		}
 
 		return (array_key_exists($status, $data)) ? $data[$status] : $data;
+	}
+
+	/**
+	 * Combine the two manga lists into one
+	 * @param  array $raw_data
+	 * @return array
+	 */
+	private function zipper_lists($raw_data)
+	{
+		$zipper = new Hummingbird\MangaListsZipper($raw_data);
+		return $zipper->transform();
 	}
 
 	/**
