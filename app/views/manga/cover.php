@@ -16,7 +16,7 @@
 					<?php endif ?>
 					<img src="<?= $escape->attr($item['manga']['poster_image']) ?>" />
 					<div class="name">
-						<a href="https://hummingbird.me/manga/<?= $item['manga_id'] ?>">
+						<a href="https://hummingbird.me/manga/<?= $item['manga']['id'] ?>">
 						<?= $escape->html($item['manga']['romaji_title']) ?>
 						<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
 						</a>
