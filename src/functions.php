@@ -5,16 +5,6 @@
  */
 
 /**
- * Check if the user is currently logged in
- *
- * @return bool
- */
-function is_logged_in()
-{
-	return array_key_exists('hummingbird_anime_token', $_SESSION);
-}
-
-/**
  * HTML selection helper function
  *
  * @param string $a - First item to compare

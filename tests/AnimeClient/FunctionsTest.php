@@ -29,13 +29,4 @@ class FunctionsTest extends AnimeClient_TestCase {
 		// Matches
 		$this->assertEquals('', is_not_selected('foo', 'foo'));
 	}
-
-	public function testIsLoggedIn()
-	{
-		$this->assertFalse(is_logged_in());
-
-		$_SESSION['hummingbird_anime_token'] = 'foobarbadsessionid';
-
-		$this->assertTrue(is_logged_in());
-	}
 }
