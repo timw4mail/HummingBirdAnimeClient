@@ -1,8 +1,8 @@
 <?php
 
+use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Router;
 use Aviat\AnimeClient\Config;
-use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\UrlGenerator;
 use Aura\Web\WebFactory;
 use Aura\Router\RouterFactory;

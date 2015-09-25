@@ -9,8 +9,8 @@ class MangaListsZipperTest extends AnimeClient_TestCase {
 
 	public function setUp()
 	{
-		$this->start_file = __DIR__ . '/../../test_data/manga_list/manga.json';
-		$this->res_file = __DIR__ . '/../../test_data/manga_list/manga-zippered.json';
+		$this->start_file = __DIR__ . '/../../../test_data/manga_list/manga.json';
+		$this->res_file = __DIR__ . '/../../../test_data/manga_list/manga-zippered.json';
 
 		$json = json_decode(file_get_contents($this->start_file), TRUE);
 		$this->mangaListsZipper = new MangaListsZipper($json);

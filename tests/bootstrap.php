@@ -4,7 +4,7 @@
  */
 
 use Aviat\AnimeClient\Config;
-use Aviat\AnimeClient\Container;
+use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\UrlGenerator;
 
 // -----------------------------------------------------------------------------
@@ -66,7 +66,7 @@ function _dir()
 }
 
 // Define base path constants
-define('ROOT_DIR', realpath(__DIR__ . DIRECTORY_SEPARATOR . "/../"));
+define('ROOT_DIR', realpath(_dir(__DIR__, "/../")));
 define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('SRC_DIR', _dir(ROOT_DIR, 'src'));
