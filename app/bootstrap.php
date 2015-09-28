@@ -35,7 +35,7 @@ $di = function() {
 	$jsonHandler->onlyForAjaxRequests(true);
 	$whoops->pushHandler($jsonHandler);
 
-	//$whoops->register();
+	$whoops->register();
 
 	$container->set('error-handler', $defaultHandler);
 

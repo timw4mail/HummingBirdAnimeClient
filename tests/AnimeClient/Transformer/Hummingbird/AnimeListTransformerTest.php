@@ -44,6 +44,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 		$json = json_decode(file_get_contents($this->start_file), TRUE);
 		$expected = json_decode(file_get_contents($this->res_file), TRUE);
 		$actual = $this->transformer->transform_collection($json);
+//file_put_contents($this->res_file, json_encode($actual));
 		$this->assertEquals($expected, $actual);
 	}
 }

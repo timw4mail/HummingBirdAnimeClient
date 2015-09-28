@@ -8,12 +8,12 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="manga-<?= $item['id'] ?>">
-					<?php if (is_logged_in()): ?>
+					<?php /*if (is_logged_in()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
 						<button class="plus_one_volume">+1 Volume</button>
 					</div>
-					<?php endif ?>
+					<?php endif*/ ?>
 					<img src="<?= $escape->attr($item['manga']['poster_image']) ?>" />
 					<div class="name">
 						<a href="https://hummingbird.me/manga/<?= $item['manga']['id'] ?>">
@@ -45,6 +45,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if (is_logged_in()): ?>
+<?php /*if (is_logged_in()): ?>
 <script src="<?= $urlGenerator->asset_url('js.php?g=edit') ?>"></script>
-<?php endif ?>
+<?php endif*/ ?>

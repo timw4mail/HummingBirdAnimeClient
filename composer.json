@@ -13,7 +13,6 @@
 		"aviat4ion/query": "2.5.*",
 		"robmorgan/phinx": "0.4.*",
 		"abeautifulsite/simpleimage": "2.5.*",
-		"szymach/c-pchart": "1.*",
-		"league/fractal": "0.12.0"
+		"szymach/c-pchart": "1.*"
 	}
 }
