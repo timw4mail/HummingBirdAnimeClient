@@ -1,7 +1,7 @@
 <main>
-<?php if (is_logged_in()): ?>
+<?php /*if (is_logged_in()): ?>
 [<a href="<?= $config->full_url('collection/add', 'anime') ?>">Add Item</a>]
-<?php endif ?>
+<?php endif*/ ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
@@ -27,9 +27,9 @@
 					</div>
 				</article>
 
-				<?php if (is_logged_in()): ?>
+				<?php /*if (is_logged_in()): ?>
 					<span>[<a href="<?= $urlGenerator->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
-					<?php endif ?>
+					<?php endif*/ ?>
 				<?php endforeach ?>
 			</section>
 		</section>

@@ -17,11 +17,11 @@
 			</a> [<a href="<?= $urlGenerator->default_url($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
 		</span>
 		<span class="flex-no-wrap small-font">
-			<?php if (is_logged_in()): ?>
+			<?php /*if (is_logged_in()): ?>
 			[<a href="<?= $urlGenerator->url("/{$url_type}/logout", $url_type) ?>">Logout</a>]
 			<?php else: ?>
 			[<a href="<?= $urlGenerator->url("/{$url_type}/login", $url_type) ?>"><?= $config->whose_list ?>'s Login</a>]
-			<?php endif ?>
+			<?php endif */ ?>
 		</span>
 	</h1>
 	<?php if ( ! empty($nav_routes)): ?>
