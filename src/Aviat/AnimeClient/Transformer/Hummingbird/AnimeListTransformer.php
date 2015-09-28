@@ -25,7 +25,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		if ($item['rating']['type'] === 'advanced')
 		{
 			$rating = (is_numeric($item['rating']['value']))
-				? 2 * $item['rating']['value']
+				? intval(2 * $item['rating']['value'])
 				: '-';
 		}
 
@@ -55,6 +55,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'ended' => $anime['finished_airing']
 			],
 			'anime' => [
+				'age_rating' => $anime['age_rating'],
 				'title' => $anime['title'],
 				'alternate_title' => $alternate_title,
 				'slug' => $anime['slug'],
