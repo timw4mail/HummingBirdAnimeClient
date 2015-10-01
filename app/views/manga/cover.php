@@ -14,27 +14,27 @@
 						<button class="plus_one_volume">+1 Volume</button>
 					</div>
 					<?php endif*/ ?>
-					<img src="<?= $escape->attr($item['manga']['poster_image']) ?>" />
+					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
 					<div class="name">
-						<a href="https://hummingbird.me/manga/<?= $item['manga']['id'] ?>">
-						<?= $escape->html($item['manga']['romaji_title']) ?>
-						<?= (isset($item['manga']['english_title'])) ? "<br />({$item['manga']['english_title']})" : ""; ?>
+						<a href="<?= $item['manga']['url'] ?>">
+						<?= $escape->html($item['manga']['title']) ?>
+						<?= (isset($item['manga']['alternate_title'])) ? "<br />({$item['manga']['alternate_title']})" : ""; ?>
 						</a>
 					</div>
 					<div class="table">
 						<div class="row">
-							<div class="user_rating">Rating: <?= ($item['rating'] > 0) ? (int)($item['rating'] * 2) : '-' ?> / 10</div>
+							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
 						<div class="row">
 							<div class="chapter_completion">
-								Chapters: <span class="chapters_read"><?= $item['chapters_read'] ?></span> /
-									<span class="chapter_count"><?= ($item['manga']['chapter_count'] > 0) ? $item['manga']['chapter_count'] : "-" ?></span>
+								Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /
+									<span class="chapter_count"><?= $item['chapters']['total'] ?></span>
 							</div>
 						</div>
 						<div class="row">
 							<div class="volume_completion">
-								Volumes: <span class="volumes_read"><?= $item['volumes_read'] ?></span> /
-									<span class="volume_count"><?= ($item['manga']['volume_count'] > 0) ? $item['manga']['volume_count'] : "-" ?></span>
+								Volumes: <span class="volumes_read"><?= $item['volumes']['read'] ?></span> /
+									<span class="volume_count"><?= $item['volumes']['total'] ?></span>
 							</div>
 						</div>
 					</div>
