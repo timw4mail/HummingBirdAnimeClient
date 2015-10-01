@@ -18,6 +18,7 @@ trait StaticInstance {
 	 * Call methods protected to allow for
 	 * static and instance calling
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $method
 	 * @param array $args
 	 * @retun mixed

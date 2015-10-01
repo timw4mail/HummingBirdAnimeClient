@@ -4,6 +4,8 @@ namespace Aviat\Ion\Transformer;
 
 abstract class AbstractTransformer implements TransformerInterface {
 
+	use \Aviat\Ion\StringWrapper;
+
 	/**
 	 * Mutate the data structure
 	 *

@@ -17,7 +17,7 @@ class MangaListTransformer extends AbstractTransformer {
 		$manga =& $item['manga'];
 
 		$rating = (is_numeric($item['rating']))
-			? 2 * $item['rating']
+			? intval(2 * $item['rating'])
 			: '-';
 
 		$total_chapters = ($manga['chapter_count'] > 0)
