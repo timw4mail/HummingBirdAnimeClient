@@ -1,7 +1,7 @@
 <main>
-<?php if (is_logged_in()): ?>
+<?php /* if (is_logged_in()): ?>
 [<a href="<?= $urlGenerator->full_url('collection/add', 'anime') ?>">Add Item</a>]
-<?php endif ?>
+<?php endif */ ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
@@ -17,9 +17,9 @@
 				<th>Show Type</th>
 				<th>Age Rating</th>
 				<th>Notes</th>
-				<?php if (is_logged_in()): ?>
+				<?php /*if (is_logged_in()): ?>
 				<th>&nbsp;</th>
-				<?php endif ?>
+				<?php endif*/ ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,9 +42,9 @@
 				<td><?= $item['show_type'] ?></td>
 				<td><?= $item['age_rating'] ?></td>
 				<td class="align_left"><?= $item['notes'] ?></td>
-				<?php if (is_logged_in()): ?>
+				<?php /* if (is_logged_in()): ?>
 				<td>[<a href="<?= $urlGenerator->full_url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</td>
-				<?php endif ?>
+				<?php endif */ ?>
 			</tr>
 		<?php endforeach ?>
 		</tbody>

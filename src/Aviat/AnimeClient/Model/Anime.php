@@ -6,11 +6,21 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
+use Aviat\AnimeClient\Enum\Hummingbird\AnimeWatchingStatus;
+use Aviat\AnimeClient\Transformer\Hummingbird\AnimeListTransformer;
 
 /**
  * Model for handling requests dealing with the anime list
  */
 class Anime extends API {
+
+	// Display constants
+	const WATCHING = 'Watching';
+	const PLAN_TO_WATCH = 'Plan to Watch';
+	const DROPPED = 'Dropped';
+	const ON_HOLD = 'On Hold';
+	const COMPLETED = 'Completed';
+
 	/**
 	 * The base url for api requests
 	 * @var string $base_url
@@ -42,11 +52,11 @@ class Anime extends API {
 	public function get_all_lists()
 	{
 		$output = [
-			'Watching' => [],
-			'Plan to Watch' => [],
-			'On Hold' => [],
-			'Dropped' => [],
-			'Completed' => [],
+			self::WATCHING => [],
+			self::PLAN_TO_WATCH => [],
+			self::ON_HOLD => [],
+			self::DROPPED => [],
+			self::COMPLETED => [],
 		];
 
 		$data = $this->_get_list();
@@ -55,24 +65,24 @@ class Anime extends API {
 		{
 			switch($datum['status'])
 			{
-				case "completed":
-					$output['Completed'][] = $datum;
+				case AnimeWatchingStatus::COMPLETED:
+					$output[self::COMPLETED][] = $datum;
 				break;
 
-				case "plan-to-watch":
-					$output['Plan to Watch'][] = $datum;
+				case AnimeWatchingStatus::PLAN_TO_WATCH:
+					$output[self::PLAN_TO_WATCH][] = $datum;
 				break;
 
-				case "dropped":
-					$output['Dropped'][] = $datum;
+				case AnimeWatchingStatus::DROPPED:
+					$output[self::DROPPED][] = $datum;
 				break;
 
-				case "on-hold":
-					$output['On Hold'][] = $datum;
+				case AnimeWatchingStatus::ON_HOLD:
+					$output[self::ON_HOLD][] = $datum;
 				break;
 
-				case "currently-watching":
-					$output['Watching'][] = $datum;
+				case AnimeWatchingStatus::WATCHING:
+					$output[self::WATCHING][] = $datum;
 				break;
 			}
 		}
@@ -95,14 +105,14 @@ class Anime extends API {
 	public function get_list($status)
 	{
 		$map = [
-			'currently-watching' => 'Watching',
-			'plan-to-watch' => 'Plan to Watch',
-			'on-hold' => 'On Hold',
-			'dropped' => 'Dropped',
-			'completed' => 'Completed',
+			AnimeWatchingStatus::WATCHING => self::WATCHING,
+			AnimeWatchingStatus::PLAN_TO_WATCH => self::PLAN_TO_WATCH,
+			AnimeWatchingStatus::ON_HOLD => self::ON_HOLD,
+			AnimeWatchingStatus::DROPPED => self::DROPPED,
+			AnimeWatchingStatus::COMPLETED => self::COMPLETED,
 		];
 
-		$data = $this->_get_list($status);
+		$data = $this->_get_list_From_api($status);
 		$this->sort_by_name($data);
 
 		$output = [];
@@ -158,17 +168,13 @@ class Anime extends API {
 	}
 
 	/**
-	 * Actually retreive the data from the api
+	 * Retrieve data from the api
 	 *
-	 * @param string $status - Status to filter by
+	 * @param string $status
 	 * @return array
 	 */
-	private function _get_list($status="all")
+	private function _get_list_from_api($status="all")
 	{
-		$errorHandler = $this->container->get('error-handler');
-
-		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
-
 		$config = [
 			'allow_redirects' => FALSE
 		];
@@ -179,43 +185,43 @@ class Anime extends API {
 		}
 
 		$response = $this->client->get("users/{$this->config->hummingbird_username}/library", $config);
-
-		$errorHandler->addDataTable('anime_list_response', (array)$response);
-
-		if ($response->getStatusCode() != 200)
-		{
-			if ( ! file_exists($cache_file))
-			{
-				throw new DomainException($response->getEffectiveUrl());
-			}
-			else
-			{
-				$output = json_decode(file_get_contents($cache_file), TRUE);
-			}
-		}
-		else
-		{
-			$output = $response->json();
-			$output_json = json_encode($output);
-
-			if (( ! file_exists($cache_file)) || file_get_contents($cache_file) !== $output_json)
-			{
-				// Attempt to create the cache folder if it doesn't exist
-				if ( ! is_dir($this->config->data_cache_path))
-				{
-					mkdir($this->config->data_cache_path);
-				}
-				// Cache the call in case of downtime
-				file_put_contents($cache_file, json_encode($output));
-			}
-		}
+		$output = $this->_check_cache($status, $response);
 
 		foreach($output as &$row)
 		{
-			$row['anime']['cover_image'] = $this->get_cached_image($row['anime']['cover_image'], $row['anime']['slug'], 'anime');
+			$row['anime']['image'] = $this->get_cached_image($row['anime']['image'], $row['anime']['slug'], 'anime');
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Handle caching of transformed api data
+	 *
+	 * @param string $status
+	 * @param \GuzzleHttp\Message\Response
+	 * @return array
+	 */
+	private function _check_cache($status, $response)
+	{
+		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
+		$transformed_cache_file = "{$this->config->data_cache_path}/anime-{$status}-transformed.json";
+
+		$cached = json_decode(file_get_contents($cache_file), TRUE);
+		$api = $response->json();
+
+		if ($api !== $cached)
+		{
+			file_put_contents($cache_file, json_encode($api));
+			$transformer = new AnimeListTransformer();
+			$transformed = $transformer->transform_collection($api);
+			file_put_contents($transformed_cache_file, json_encode($transformed));
+			return $transformed;
+		}
+		else
+		{
+			return json_decode(file_get_contents($transformed_cache_file),TRUE);
+		}
 	}
 
 	/**

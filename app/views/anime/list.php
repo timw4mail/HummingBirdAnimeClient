@@ -14,6 +14,7 @@
 				<th>Type</th>
 				<th>Progress</th>
 				<th>Rated</th>
+				<th>Notes</th>
 				<th>Genres</th>
 			</tr>
 		</thead>
@@ -26,15 +27,16 @@
 					</a>
 				</td>
 				<td class="align_left"><?= $item['anime']['alternate_title'] ?></td>
-				<td class="align_left"><?= $item['anime']['status'] ?></td>
-				<td><?= (int)($item['rating']['value'] * 2) ?> / 10 </td>
-				<td><?= $item['anime']['show_type'] ?></td>
-				<td>Episodes: <?= $item['episodes_watched'] ?> / <?= $item['anime']['episode_count'] ?></td>
+				<td class="align_left"><?= $item['airing']['status'] ?></td>
+				<td><?= $item['user_rating'] ?> / 10 </td>
+				<td><?= $item['anime']['type'] ?></td>
+				<td>Episodes: <?= $item['episodes']['watched'] ?> / <?= $item['episodes']['total'] ?></td>
 				<td><?= $item['anime']['age_rating'] ?></td>
+				<td><?= $item['notes'] ?></td>
 				<td class="flex flex-justify-space-around align-left">
 					<?php sort($item['anime']['genres']) ?>
 					<?php foreach($item['anime']['genres'] as $genre): ?>
-						<span><?= $genre['name'] ?></span>
+						<span><?= $genre ?></span>
 					<?php endforeach ?>
 				</td>
 			</tr>
