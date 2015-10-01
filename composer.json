@@ -3,16 +3,17 @@
 	"description": "A self-hosted anime/manga client for hummingbird.",
 	"license":"MIT",
 	"require": {
-		"container-interop/container-interop": "1.*",
-		"guzzlehttp/guzzle": "5.3.*",
-		"filp/whoops": "dev-php7#fe32a402b086b21360e82013e8a0355575c7c6f4",
-		"aura/router": "2.2.*",
-		"aura/web": "2.0.*",
-		"aura/html": "2.*",
-		"aura/session": "2.*",
-		"aviat4ion/query": "2.5.*",
-		"robmorgan/phinx": "0.4.*",
 		"abeautifulsite/simpleimage": "2.5.*",
+		"aura/html": "2.*",
+		"aura/router": "2.2.*",
+		"aura/session": "2.*",
+		"aura/web": "2.0.*",
+		"aviat4ion/query": "2.5.*",
+		"container-interop/container-interop": "1.*",
+		"danielstjules/stringy": "~2.1",
+		"filp/whoops": "dev-php7#fe32a402b086b21360e82013e8a0355575c7c6f4",
+		"guzzlehttp/guzzle": "6.*",
+		"robmorgan/phinx": "0.4.*",
 		"szymach/c-pchart": "1.*"
 	}
 }
