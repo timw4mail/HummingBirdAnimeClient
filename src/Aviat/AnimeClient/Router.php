@@ -44,6 +44,31 @@ class Router extends RoutingBase {
 		$this->request = $container->get('request');
 
 		$this->output_routes = $this->_setup_routes();
+		$this->generate_convention_routes();
+	}
+
+	/**
+	 * Generate routes based on controller methods
+	 *
+	 * @return [type] [description]
+	 */
+	protected function generate_convention_routes()
+	{
+		$this->output_routes[] = $this->router->add('list', '/{controller}/{type}{/view}')
+			->setValues([
+				'controller' => $this->routes['convention']['default_controller'],
+				'action' => $this->routes['convention']['default_method'],
+			])->setTokens([
+				'type' => '[a-z_]+',
+				'view' => '[a-z_]+'
+			]);
+
+		$this->output_routes[] = $this->router->add('generic', '{/controller,action,view}')
+			->setValues([
+				'controller' => $this->routes['convention']['default_controller'],
+				'action' => $this->routes['convention']['default_method'],
+				'view' => '',
+			]);
 	}
 
 	/**
@@ -101,13 +126,20 @@ class Router extends RoutingBase {
 		}
 		else
 		{
-			list($controller_name, $action_method) = $route->params['action'];
-			
+			$controller_name = $route->params['controller'];
+			$action_method = $route->params['action'];
+
 			if (is_null($controller_name))
 			{
 				throw new \LogicException("Missing controller");
 			}
-			
+
+			if (strpos($controller_name, '\\') === FALSE)
+			{
+				$map = $this->get_controller_list();
+				$controller_name = $map[$controller_name];
+			}
+
 			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
 
 			if ( ! empty($route->tokens))
@@ -210,7 +242,7 @@ class Router extends RoutingBase {
 			$controller_class = $controller_map[$route_type];
 
 			// Prepend the controller to the route parameters
-			array_unshift($route['action'], $controller_class);
+			$route['controller'] = $controller_class;
 
 			// Select the appropriate router method based on the http verb
 			$add = (array_key_exists('verb', $route))
