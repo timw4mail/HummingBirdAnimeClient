@@ -29,6 +29,10 @@ class AnimeListTransformer extends AbstractTransformer {
 				: '-';
 		}
 
+		$total_episodes = (is_numeric($anime['episode_count']))
+			? $anime['episode_count']
+			: '-';
+
 		$alternate_title = NULL;
 		if (array_key_exists('alternate_title', $anime))
 		{
@@ -46,7 +50,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		return [
 			'episodes' => [
 				'watched' => $item['episodes_watched'],
-				'total' => $anime['episode_count'],
+				'total' => $total_episodes,
 				'length' => $anime['episode_length'],
 			],
 			'airing' => [

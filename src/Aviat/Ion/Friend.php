@@ -13,8 +13,8 @@ use BadMethodCallException;
  */
 class Friend {
 
-	protected $_friend_object_;
-	protected $_reflection_friend_;
+	private $_friend_object_;
+	private $_reflection_friend_;
 
 	/**
 	 * Create a friend object
@@ -87,26 +87,19 @@ class Friend {
 	/**
 	 * Iterates over parent classes to get a ReflectionProperty
 	 *
+	 * @codeCoverageIgnore
 	 * @param  string $name
 	 * @return ReflectionProperty|null
 	 */
-	protected function _get_property($name)
+	private function _get_property($name)
 	{
-		$class = $this->_reflection_friend_;
-
-		while($class)
+		try
 		{
-			try
-			{
-				$property = $class->getProperty($name);
-				$property->setAccessible(TRUE);
-				return $property;
-			}
-			catch(\ReflectionException $e) {}
-
-			// Property in a parent class
-			$class = $class->getParentClass();
+			$property = $this->_reflection_friend_->getProperty($name);
+			$property->setAccessible(TRUE);
+			return $property;
 		}
+		catch(\Exception $e) {}
 
 		return NULL;
 	}

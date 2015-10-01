@@ -59,19 +59,21 @@ class RouterTest extends AnimeClient_TestCase {
 		$default_config = array(
 			'routes' => [
 				'convention' => [
-					'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+					'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
+					'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
+					'default_method' => 'index'
 				],
 				'common' => [
 					'login_form' => [
 						'path' => '/login',
-						'action' => ['login'],
+						'action' => 'login',
 						'verb' => 'get'
 					],
 				],
 				'anime' => [
 					'watching' => [
 						'path' => '/anime/watching{/view}',
-						'action' => ['anime_list'],
+						'action' => 'anime_list',
 						'params' => [
 							'type' => 'currently-watching',
 						],
@@ -83,7 +85,7 @@ class RouterTest extends AnimeClient_TestCase {
 				'manga' => [
 					'plan_to_read' => [
 						'path' => '/manga/plan_to_read{/view}',
-						'action' => ['manga_list'],
+						'action' => 'manga_list',
 						'params' => [
 							'type' => 'Plan to Read',
 						],
@@ -173,7 +175,9 @@ class RouterTest extends AnimeClient_TestCase {
 			],
 			'routes' => [
 				'convention' => [
-					'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+					'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
+					'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
+					'default_method' => 'index'
 				],
 				'common' => [
 					'login_form' => [
@@ -226,7 +230,9 @@ class RouterTest extends AnimeClient_TestCase {
 					],
 					'routes' => [
 						'convention' => [
-							'default_namespace' => '\\Aviat\\AnimeClient\\Controller'
+							'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
+							'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
+							'default_method' => 'index'
 						]
 					]
 				],
@@ -248,7 +254,9 @@ class RouterTest extends AnimeClient_TestCase {
 					],
 					'routes' => [
 						'convention' => [
-							'default_namespace' => '\\Aviat\\Ion\\Controller'
+							'default_namespace' => '\\Aviat\\Ion\\Controller',
+							'default_controller' => '\\Aviat\\Ion\\Controller\\Anime',
+							'default_method' => 'index'
 						]
 					]
 				],

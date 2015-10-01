@@ -7,13 +7,7 @@ use Aviat\Ion\Di\ContainerInterface;
 abstract class View {
 
 	use Di\ContainerAware;
-
-	/**
-	 * DI Container
-	 *
-	 * @var ContainerInterface
-	 */
-	protected $container;
+	use \Aviat\Ion\StringWrapper;
 
 	/**
 	 * HTTP response Object
@@ -32,9 +26,9 @@ abstract class View {
 	/**
 	 * String of response to be output
 	 *
-	 * @var string
+	 * @var S
 	 */
-	protected $output = '';
+	protected $output;
 
 	/**
 	 * Constructor
@@ -63,7 +57,8 @@ abstract class View {
 	 */
 	public function setOutput($string)
 	{
-		$this->output = $string;
+		$this->output = $this->string($string);
+
 		return $this;
 	}
 
@@ -75,7 +70,8 @@ abstract class View {
 	 */
 	public function appendOutput($string)
 	{
-		$this->output .= $string;
+		$this->output = $this->string($this->output)->append($string);
+
 		return $this;
 	}
 
@@ -86,7 +82,7 @@ abstract class View {
 	 */
 	public function getOutput()
 	{
-		return $this->output;
+		return $this->string($this->output)->__toString();
 	}
 
 	/**
