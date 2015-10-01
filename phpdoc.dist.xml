@@ -8,9 +8,9 @@
 		<target>docs</target>
 	</transformer>
 	<transformations>
-        <template name="clean" />
-    </transformations>
+		<template name="clean" />
+	</transformations>
 	<files>
-		<directory>src</directory>
+		<directory>src/Aviat/AnimeClient</directory>
 	</files>
 </phpdoc>
