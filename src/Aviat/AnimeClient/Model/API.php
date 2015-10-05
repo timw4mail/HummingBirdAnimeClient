@@ -4,8 +4,10 @@
  */
 namespace Aviat\AnimeClient\Model;
 
-use \GuzzleHttp\Client;
-use \GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Psr7\Request;
+
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model as BaseModel;
 
@@ -42,7 +44,8 @@ class API extends BaseModel {
 		parent::__construct($container);
 		$this->cookieJar = new CookieJar();
 		$this->client = new Client([
-			'base_url' => $this->base_url,
+			'base_uri' => $this->base_url,
+			'cookies' => TRUE,
 			'defaults' => [
 				'cookies' => $this->cookieJar,
 				'headers' => [

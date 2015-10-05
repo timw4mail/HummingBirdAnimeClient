@@ -4,8 +4,6 @@
  */
 namespace Aviat\AnimeClient;
 
-use Aura\Web\ResponseSender;
-
 use \Aviat\Ion\Di\ContainerInterface;
 use \Aviat\Ion\View\HttpView;
 use \Aviat\Ion\View\HtmlView;
@@ -97,6 +95,7 @@ class Controller {
 	public function load_partial($view, $template, $data=[])
 	{
 		$errorHandler = $this->container->get('error-handler');
+		$errorHandler->addDataTable('Template Data', $data);
 		$router = $this->container->get('router');
 
 		if (isset($this->base_data))
@@ -107,7 +106,7 @@ class Controller {
 		$route = $router->get_route();
 		$data['route_path'] = ($route) ? $router->get_route()->path : "";
 
-		$errorHandler->addDataTable('Template Data', $data);
+
 		$template_path = _dir($this->config->__get('view_path'), "{$template}.php");
 
 		if ( ! is_file($template_path))
@@ -170,7 +169,7 @@ class Controller {
 	{
 		$url = $this->urlGenerator->full_url($path, $type);
 		$http = new HttpView($this->container);
-		
+
 		$http->redirect($url, $code);
 	}
 

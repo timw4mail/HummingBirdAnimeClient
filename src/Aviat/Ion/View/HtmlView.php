@@ -2,19 +2,27 @@
 
 namespace Aviat\Ion\View;
 
-use Aura\Html\HelperLocatorFactory;
-
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\Di\ContainerInterface;
 
 class HtmlView extends HttpView {
 
+	/**
+	 * HTML generator/escaper helper
+	 *
+	 * @var Aura\Html\HelperLocator
+	 */
 	protected $helper;
 
+	/**
+	 * Create the Html View
+	 *
+	 * @param ContainerInterface $container
+	 */
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->helper = (new HelperLocatorFactory)->newInstance();
+		$this->helper = $container->get('html-helper');
 	}
 
 	/**

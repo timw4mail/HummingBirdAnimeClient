@@ -31,14 +31,14 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 	
 ### Requirements
 
-* PHP 5.4+
+* PHP 5.5+
 * PDO SQLite (For collection tab)
 * GD
 
 ### Installation
 
 1. Install dependencies via composer: `composer install`
-2. Configure settings in `app/config/config.php` and `app/config/routing.php` to your liking
+2. Configure settings in `app/config/config.php` to your liking
 3. Create the following directories if they don't exist, and make sure they are world writable
 	* app/cache
 	* public/images/manga

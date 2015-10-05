@@ -7,6 +7,7 @@ namespace Aviat\AnimeClient;
 
 use \Whoops\Handler\PrettyPageHandler;
 use \Whoops\Handler\JsonResponseHandler;
+use Aura\Html\HelperLocatorFactory;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
 use \Aura\Session\SessionFactory;
@@ -50,6 +51,15 @@ $di = function() {
 	// Create Aura Router Object
 	$aura_router = (new RouterFactory())->newInstance();
 	$container->set('aura-router', $aura_router);
+
+	// Create Html helper Object
+	$html_helper = (new HelperLocatorFactory)->newInstance();
+	$html_helper->set('menu', function() use ($container) {
+		$menu_helper = new Helper\Menu();
+		$menu_helper->setContainer($container);
+		return $menu_helper;
+	});
+	$container->set('html-helper', $html_helper);
 
 	// Create Request/Response Objects
 	$web_factory = new WebFactory([

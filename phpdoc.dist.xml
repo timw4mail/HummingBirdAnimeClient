@@ -11,6 +11,6 @@
 		<template name="clean" />
 	</transformations>
 	<files>
-		<directory>src/Aviat/AnimeClient</directory>
+		<directory>src/Aviat</directory>
 	</files>
 </phpdoc>
