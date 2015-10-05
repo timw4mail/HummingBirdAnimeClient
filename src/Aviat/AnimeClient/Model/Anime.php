@@ -28,6 +28,18 @@ class Anime extends API {
 	protected $base_url = "https://hummingbird.me/api/v1/";
 
 	/**
+	 * Map of API status constants to display constants
+	 * @var array
+	 */
+	protected $const_map = [
+		AnimeWatchingStatus::WATCHING => self::WATCHING,
+		AnimeWatchingStatus::PLAN_TO_WATCH => self::PLAN_TO_WATCH,
+		AnimeWatchingStatus::ON_HOLD => self::ON_HOLD,
+		AnimeWatchingStatus::DROPPED => self::DROPPED,
+		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
+	];
+
+	/**
 	 * Update the selected anime
 	 *
 	 * @param array $data
@@ -59,32 +71,11 @@ class Anime extends API {
 			self::COMPLETED => [],
 		];
 
-		$data = $this->_get_list();
+		$data = $this->_get_list_from_api();
 
 		foreach($data as $datum)
 		{
-			switch($datum['status'])
-			{
-				case AnimeWatchingStatus::COMPLETED:
-					$output[self::COMPLETED][] = $datum;
-				break;
-
-				case AnimeWatchingStatus::PLAN_TO_WATCH:
-					$output[self::PLAN_TO_WATCH][] = $datum;
-				break;
-
-				case AnimeWatchingStatus::DROPPED:
-					$output[self::DROPPED][] = $datum;
-				break;
-
-				case AnimeWatchingStatus::ON_HOLD:
-					$output[self::ON_HOLD][] = $datum;
-				break;
-
-				case AnimeWatchingStatus::WATCHING:
-					$output[self::WATCHING][] = $datum;
-				break;
-			}
+			$output[$this->const_map[$datum['watching_status']]][] = $datum;
 		}
 
 		// Sort anime by name
@@ -104,19 +95,11 @@ class Anime extends API {
 	 */
 	public function get_list($status)
 	{
-		$map = [
-			AnimeWatchingStatus::WATCHING => self::WATCHING,
-			AnimeWatchingStatus::PLAN_TO_WATCH => self::PLAN_TO_WATCH,
-			AnimeWatchingStatus::ON_HOLD => self::ON_HOLD,
-			AnimeWatchingStatus::DROPPED => self::DROPPED,
-			AnimeWatchingStatus::COMPLETED => self::COMPLETED,
-		];
-
 		$data = $this->_get_list_From_api($status);
 		$this->sort_by_name($data);
 
 		$output = [];
-		$output[$map[$status]] = $data;
+		$output[$this->const_map[$status]] = $data;
 
 		return $output;
 	}
@@ -170,10 +153,11 @@ class Anime extends API {
 	/**
 	 * Retrieve data from the api
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @return array
 	 */
-	private function _get_list_from_api($status="all")
+	protected function _get_list_from_api($status="all")
 	{
 		$config = [
 			'allow_redirects' => FALSE
@@ -198,29 +182,30 @@ class Anime extends API {
 	/**
 	 * Handle caching of transformed api data
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @param \GuzzleHttp\Message\Response
 	 * @return array
 	 */
-	private function _check_cache($status, $response)
+	protected function _check_cache($status, $response)
 	{
-		$cache_file = "{$this->config->data_cache_path}/anime-{$status}.json";
-		$transformed_cache_file = "{$this->config->data_cache_path}/anime-{$status}-transformed.json";
+		$cache_file = _dir($this->config->data_cache_path, "anime-{$status}.json");
+		$transformed_cache_file = _dir($this->config->data_cache_path, "anime-{$status}-transformed.json");
 
 		$cached = json_decode(file_get_contents($cache_file), TRUE);
-		$api = $response->json();
+		$api_data = json_decode($response->getBody(), TRUE);
 
-		if ($api !== $cached)
+		if ($api_data === $cached && file_exists($transformed_cache_file))
 		{
-			file_put_contents($cache_file, json_encode($api));
-			$transformer = new AnimeListTransformer();
-			$transformed = $transformer->transform_collection($api);
-			file_put_contents($transformed_cache_file, json_encode($transformed));
-			return $transformed;
+			return json_decode(file_get_contents($transformed_cache_file),TRUE);
 		}
 		else
 		{
-			return json_decode(file_get_contents($transformed_cache_file),TRUE);
+			file_put_contents($cache_file, json_encode($api_data));
+			$transformer = new AnimeListTransformer();
+			$transformed = $transformer->transform_collection($api_data);
+			file_put_contents($transformed_cache_file, json_encode($transformed));
+			return $transformed;
 		}
 	}
 
@@ -230,7 +215,7 @@ class Anime extends API {
 	 * @param array $array
 	 * @return void
 	 */
-	private function sort_by_name(&$array)
+	protected function sort_by_name(&$array)
 	{
 		$sort = array();
 

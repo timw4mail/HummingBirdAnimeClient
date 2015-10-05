@@ -2,7 +2,7 @@
 
 namespace Aviat\Ion;
 
-use Stringy\Stringy as S;
+use Aviat\Ion\Type\StringType;
 
 trait StringWrapper {
 
@@ -10,11 +10,11 @@ trait StringWrapper {
 	 * Wrap the String in the Stringy class
 	 *
 	 * @param string $str
-	 * @return Stringy\Stringy
+	 * @return StringType
 	 */
 	public function string($str)
 	{
-		return S::create($str);
+		return StringType::create($str);
 	}
 }
 // End of StringWrapper.php

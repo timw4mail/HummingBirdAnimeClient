@@ -14,8 +14,11 @@ $config = [
 	// General config
 	// ----------------------------------------------------------------------------
 
-	// do you wish to show the anime collection tab?
+	// do you wish to show the anime collection?
 	'show_anime_collection' => TRUE,
+
+	// do you wish to show the manga collection?
+	'show_manga_collection' => TRUE,
 
 	// path to public directory on the server
 	'asset_dir' => realpath(__DIR__ . '/../../public'),

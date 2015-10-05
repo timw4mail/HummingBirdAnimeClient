@@ -6,11 +6,30 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Transformer\Hummingbird;
+use Aviat\AnimeClient\Enum\Hummingbird\MangaReadingStatus;
 
 /**
  * Model for handling requests dealing with the manga list
  */
 class Manga extends API {
+
+	const READING = 'Reading';
+	const PLAN_TO_READ = 'Plan to Read';
+	const DROPPED = 'Dropped';
+	const ON_HOLD = 'On Hold';
+	const COMPLETED = 'Completed';
+
+	/**
+	 * Map API constants to display constants
+	 * @var array
+	 */
+	protected $const_map = [
+		MangaReadingStatus::READING => self::READING,
+		MangaReadingStatus::PLAN_TO_READ => self::PLAN_TO_READ,
+		MangaReadingStatus::ON_HOLD => self::ON_HOLD,
+		MangaReadingStatus::DROPPED => self::DROPPED,
+		MangaReadingStatus::COMPLETED => self::COMPLETED
+	];
 
 	/**
 	 * The base url for api requests
@@ -44,9 +63,9 @@ class Manga extends API {
 	 */
 	public function get_all_lists()
 	{
-		$data = $this->_get_list();
+		$data = $this->_get_list_from_api();
 
-		foreach ($data as $key => &$val)
+		foreach($data as $key => &$val)
 		{
 			$this->sort_by_name($val);
 		}
@@ -62,24 +81,14 @@ class Manga extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->_get_list($status);
-
+		$data = $this->_get_list_from_api($status);
 		$this->sort_by_name($data);
 
 		return $data;
 	}
 
-	/**
-	 * Massage the list of manga entries into something more usable
-	 *
-	 * @param string $status
-	 * @return array
-	 */
-	private function _get_list($status="all")
+	private function _get_list_from_api($status="All")
 	{
-		$errorHandler = $this->container->get('error-handler');
-
-		$cache_file = _dir($this->config->data_cache_path, 'manga.json');
 
 		$config = [
 			'query' => [
@@ -89,81 +98,70 @@ class Manga extends API {
 		];
 
 		$response = $this->client->get('manga_library_entries', $config);
+		$data = $this->_check_cache($status, $response);
+		$output = $this->map_by_status($data);
 
-		$errorHandler->addDataTable('response', (array)$response);
+		return (array_key_exists($status, $output)) ? $output[$status] : $output;
+	}
 
-		if ($response->getStatusCode() != 200)
+	/**
+	 * Check the status of the cache and return the appropriate response
+	 *
+	 * @param string $status
+	 * @param \GuzzleHttp\Message\Response $response
+	 * @return array
+	 */
+	private function _check_cache($status, $response)
+	{
+		// Bail out early if there isn't any manga data
+		$api_data = json_decode($response->getBody(), TRUE);
+		if ( ! array_key_exists('manga', $api_data)) return [];
+
+		$cache_file = _dir($this->config->data_cache_path, 'manga.json');
+		$transformed_cache_file = _dir($this->config->data_cache_path, 'manga-transformed.json');
+
+		$cached_data = json_decode(file_get_contents($cache_file), TRUE);
+
+		if ($cached_data === $api_data && file_exists($transformed_cache_file))
 		{
-			if ( ! file_exists($cache_file))
-			{
-				throw new DomainException($response->getEffectiveUrl());
-			}
-			else
-			{
-				$raw_data = json_decode(file_get_contents($cache_file), TRUE);
-			}
+			return json_decode(file_get_contents($transformed_cache_file), TRUE);
 		}
 		else
 		{
-			// Reorganize data to be more usable
-			$raw_data = $response->json();
+			file_put_contents($cache_file, json_encode($api_data));
 
-			// Attempt to create the cache dir if it doesn't exist
-			if ( ! is_dir($this->config->data_cache_path))
-			{
-				mkdir($this->config->data_cache_path);
-			}
-
-			// Cache data in case of downtime
-			file_put_contents($cache_file, json_encode($raw_data));
+			$zippered_data = $this->zipper_lists($api_data);
+			$transformer = new Hummingbird\MangaListTransformer();
+			$transformed_data = $transformer->transform_collection($zippered_data);
+			file_put_contents($transformed_cache_file, json_encode($transformed_data));
+			return $transformed_data;
 		}
+	}
 
-		// Bail out early if there isn't any manga data
-		if ( ! array_key_exists('manga', $raw_data)) return [];
-
-		$data = [
-			'Reading' => [],
-			'Plan to Read' => [],
-			'On Hold' => [],
-			'Dropped' => [],
-			'Completed' => [],
+	/**
+	 * Map transformed anime data to be organized by reading status
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	private function map_by_status($data)
+	{
+		$output = [
+			self::READING => [],
+			self::PLAN_TO_READ => [],
+			self::ON_HOLD => [],
+			self::DROPPED => [],
+			self::COMPLETED => [],
 		];
 
-		// Massage the two lists into one
-		$manga_data = $this->zipper_lists($raw_data);
-
-		// Filter data by status
-		foreach($manga_data as &$entry)
+		foreach($data as &$entry)
 		{
-			// Cache poster images
-			$entry['manga']['poster_image'] = $this->get_cached_image($entry['manga']['poster_image'], $entry['manga']['id'], 'manga');
-
-			switch($entry['status'])
-			{
-				case "Plan to Read":
-					$data['Plan to Read'][] = $entry;
-				break;
-
-				case "Dropped":
-					$data['Dropped'][] = $entry;
-				break;
-
-				case "On Hold":
-					$data['On Hold'][] = $entry;
-				break;
-
-				case "Currently Reading":
-					$data['Reading'][] = $entry;
-				break;
-
-				case "Completed":
-				default:
-					$data['Completed'][] = $entry;
-				break;
-			}
+			$entry['manga']['image'] = $this->get_cached_image($entry['manga']['image'], $entry['manga']['slug'], 'manga');
+			$key = $this->const_map[$entry['reading_status']];
+			$output[$key][] = $entry;
 		}
 
-		return (array_key_exists($status, $data)) ? $data[$status] : $data;
+		return $output;
 	}
 
 	/**
@@ -189,7 +187,7 @@ class Manga extends API {
 
 		foreach($array as $key => $item)
 		{
-			$sort[$key] = $item['manga']['romaji_title'];
+			$sort[$key] = $item['manga']['title'];
 		}
 
 		array_multisort($sort, SORT_ASC, $array);

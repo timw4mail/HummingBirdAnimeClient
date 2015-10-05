@@ -7,6 +7,7 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\Enum\Hummingbird\AnimeWatchingStatus;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
@@ -72,6 +73,11 @@ class Anime extends BaseController {
 		]);
 	}
 
+	public function index($type="watching", $view='')
+	{
+		return $this->anime_list($type, $view);
+	}
+
 	/**
 	 * Search for anime
 	 *
@@ -87,11 +93,10 @@ class Anime extends BaseController {
 	 * Show a portion, or all of the anime list
 	 *
 	 * @param string $type - The section of the list
-	 * @param string $title - The title of the page
 	 * @param string $view - List or cover view
 	 * @return void
 	 */
-	public function anime_list($type, $view)
+	protected function anime_list($type, $view)
 	{
 		$type_title_map = [
 			'all' => 'All',
@@ -103,12 +108,12 @@ class Anime extends BaseController {
 		];
 
 		$model_map = [
-			'watching' => 'currently-watching',
-			'plan_to_watch' => 'plan-to-watch',
-			'on_hold' => 'on-hold',
+			'watching' => AnimeWatchingStatus::WATCHING,
+			'plan_to_watch' => AnimeWatchingStatus::PLAN_TO_WATCH,
+			'on_hold' => AnimeWatchingStatus::ON_HOLD,
 			'all' => 'all',
-			'dropped' => 'dropped',
-			'completed' => 'completed'
+			'dropped' => AnimeWatchingStatus::DROPPED,
+			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
 		$title = $this->config->whose_list . "'s Anime List &middot; {$type_title_map[$type]}";

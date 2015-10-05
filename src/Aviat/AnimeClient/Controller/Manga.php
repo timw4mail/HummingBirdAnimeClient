@@ -58,6 +58,11 @@ class Manga extends Controller {
 		]);
 	}
 
+	public function index($status="all", $view="")
+	{
+		return $this->manga_list($status, $view);
+	}
+
 	/**
 	 * Update an anime item
 	 *
@@ -75,15 +80,15 @@ class Manga extends Controller {
 	 * @param string $view
 	 * @return void
 	 */
-	public function manga_list($status, $view)
+	protected function manga_list($status, $view)
 	{
 		$map = [
 			'all' => 'All',
-			'plan_to_read' => 'Plan to Read',
-			'reading' => 'Reading',
-			'completed' => 'Completed',
-			'dropped' => 'Dropped',
-			'on_hold' => 'On Hold'
+			'plan_to_read' => MangaModel::PLAN_TO_READ,
+			'reading' => MangaModel::READING,
+			'completed' => MangaModel::COMPLETED,
+			'dropped' => MangaModel::DROPPED,
+			'on_hold' => MangaModel::ON_HOLD
 		];
 
 		$title = $this->config->whose_list . "'s Manga List &middot; {$map[$status]}";
@@ -96,6 +101,8 @@ class Manga extends Controller {
 		$data = ($status !== 'all')
 			? [$map[$status] => $this->model->get_list($map[$status])]
 			: $this->model->get_all_lists();
+
+		//throw new \ErrorException("Data :" . print_r($data, TRUE));
 
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
