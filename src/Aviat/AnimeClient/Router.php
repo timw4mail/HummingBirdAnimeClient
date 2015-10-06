@@ -144,7 +144,7 @@ class Router extends RoutingBase {
 
 			if ( ! empty($route->tokens))
 			{
-				foreach($route->tokens as $key => $v)
+				foreach ($route->tokens as $key => $v)
 				{
 					if (array_key_exists($key, $route->params))
 					{
@@ -201,7 +201,7 @@ class Router extends RoutingBase {
 
 		$controllers = [];
 
-		foreach($class_files as $file)
+		foreach ($class_files as $file)
 		{
 			$raw_class_name = basename(str_replace(".php", "", $file));
 			$path = strtolower(basename($raw_class_name));
@@ -230,7 +230,7 @@ class Router extends RoutingBase {
 		$applied_routes = array_merge($this->routes[$route_type], $this->routes['common']);
 
 		// Add routes
-		foreach($applied_routes as $name => &$route)
+		foreach ($applied_routes as $name => &$route)
 		{
 			$path = $route['path'];
 			unset($route['path']);
