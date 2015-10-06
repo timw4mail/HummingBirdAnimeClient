@@ -11,6 +11,9 @@ use \Aviat\Ion\View\JsonView;
 
 /**
  * Controller base, defines output methods
+ *
+ * @property Response object $response
+ * @property Config object $config
  */
 class Controller {
 

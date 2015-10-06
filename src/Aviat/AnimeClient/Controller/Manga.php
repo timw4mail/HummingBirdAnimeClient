@@ -102,8 +102,6 @@ class Manga extends Controller {
 			? [$map[$status] => $this->model->get_list($map[$status])]
 			: $this->model->get_all_lists();
 
-		//throw new \ErrorException("Data :" . print_r($data, TRUE));
-
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
 			'sections' => $data,
