@@ -7,6 +7,9 @@ namespace Aviat\AnimeClient;
 
 /**
  * Wrapper for configuration values
+ *
+ * @property Database Config $database
+ * @property Menu Config $menus
  */
 class Config {
 
@@ -39,12 +42,12 @@ class Config {
 	}
 
 	/**
-	 * Getter for config values
+	 * Get a config value
 	 *
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function __get($key)
+	public function get($key)
 	{
 		if (isset($this->config[$key]))
 		{
@@ -52,6 +55,19 @@ class Config {
 		}
 
 		return NULL;
+	}
+
+	/**
+	 * Set a config value
+	 *
+	 * @param string $key
+	 * @param mixed $value
+	 * @return Config
+	 */
+	public function set($key, $value)
+	{
+		$this->config[$key] = $value;
+		return $this;
 	}
 }
 // End of config.php

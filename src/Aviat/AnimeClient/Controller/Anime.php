@@ -57,7 +57,7 @@ class Anime extends BaseController {
 	{
 		parent::__construct($container);
 
-		if ($this->config->show_anime_collection === FALSE)
+		if ($this->config->get('show_anime_collection') === FALSE)
 		{
 			unset($this->nav_routes['Collection']);
 		}
@@ -73,6 +73,13 @@ class Anime extends BaseController {
 		]);
 	}
 
+	/**
+	 * Show a portion, or all of the anime list
+	 *
+	 * @param string $type - The section of the list
+	 * @param string $view - List or cover view
+	 * @return void
+	 */
 	public function index($type = "watching", $view = '')
 	{
 		return $this->anime_list($type, $view);
@@ -116,7 +123,7 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		$title = $this->config->whose_list . "'s Anime List &middot; {$type_title_map[$type]}";
+		$title = $this->config->get('whose_list') . "'s Anime List &middot; {$type_title_map[$type]}";
 
 		$view_map = [
 			'' => 'cover',

@@ -58,7 +58,7 @@ class Collection extends BaseController {
 	{
 		parent::__construct($container);
 
-		if ($this->config->show_anime_collection === FALSE)
+		if ($this->config->get('show_anime_collection') === FALSE)
 		{
 			unset($this->nav_routes['Collection']);
 		}
@@ -101,7 +101,7 @@ class Collection extends BaseController {
 		$data = $this->collection_model->get_collection();
 
 		$this->outputHTML('collection/' . $view_map[$view], [
-			'title' => $this->config->whose_list . "'s Anime Collection",
+			'title' => $this->config->get('whose_list') . "'s Anime Collection",
 			'sections' => $data,
 			'genres' => $this->collection_model->get_genre_list()
 		]);

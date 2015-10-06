@@ -47,7 +47,8 @@ class Anime extends API {
 	 */
 	public function update($data)
 	{
-		$data['auth_token'] = $_SESSION['hummingbird_anime_token'];
+		// @TODO use Hummingbird Auth class
+		$data['auth_token'] = '';
 
 		$result = $this->client->post("libraries/{$data['id']}", [
 			'body' => $data
@@ -168,7 +169,8 @@ class Anime extends API {
 			$config['query']['status'] = $status;
 		}
 
-		$response = $this->client->get("users/{$this->config->hummingbird_username}/library", $config);
+		$username = $this->config->get('hummingbird_username');
+		$response = $this->client->get("users/{$username}/library", $config);
 		$output = $this->_check_cache($status, $response);
 
 		foreach ($output as &$row)
@@ -189,8 +191,8 @@ class Anime extends API {
 	 */
 	protected function _check_cache($status, $response)
 	{
-		$cache_file = _dir($this->config->data_cache_path, "anime-{$status}.json");
-		$transformed_cache_file = _dir($this->config->data_cache_path, "anime-{$status}-transformed.json");
+		$cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}.json");
+		$transformed_cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}-transformed.json");
 
 		$cached = json_decode(file_get_contents($cache_file), TRUE);
 		$api_data = json_decode($response->getBody(), TRUE);

@@ -147,7 +147,7 @@ class RouterTest extends AnimeClient_TestCase {
 
 
 		// Check route setup
-		$this->assertEquals($config['routes'], $this->config->routes, "Incorrect route path");
+		$this->assertEquals($config['routes'], $this->config->get('routes'), "Incorrect route path");
 		$this->assertTrue(is_array($this->router->get_output_routes()));
 
 		// Check environment variables

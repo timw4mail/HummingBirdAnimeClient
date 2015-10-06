@@ -58,6 +58,13 @@ class Manga extends Controller {
 		]);
 	}
 
+	/**
+	 * Get a section of the manga list
+	 *
+	 * @param string $status
+	 * @param string $view
+	 * @return void
+	 */
 	public function index($status = "all", $view = "")
 	{
 		return $this->manga_list($status, $view);
@@ -91,7 +98,7 @@ class Manga extends Controller {
 			'on_hold' => MangaModel::ON_HOLD
 		];
 
-		$title = $this->config->whose_list . "'s Manga List &middot; {$map[$status]}";
+		$title = $this->config->get('whose_list') . "'s Manga List &middot; {$map[$status]}";
 
 		$view_map = [
 			'' => 'cover',

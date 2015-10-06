@@ -20,7 +20,7 @@
 		</thead>
 		<tbody>
 			<?php foreach($items as $item): ?>
-			<tr id="a-<?= $item['anime']['id'] ?>">
+			<tr id="a-<?= $item['id'] ?>">
 				<td class="align_left">
 					<a href="<?= $item['anime']['url'] ?>">
 						<?= $item['anime']['title'] ?>

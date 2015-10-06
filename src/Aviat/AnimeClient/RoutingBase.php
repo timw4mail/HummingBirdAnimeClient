@@ -38,7 +38,7 @@ class RoutingBase {
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');
-		$this->routes = $this->config->__get('routes');
+		$this->routes = $this->config->get('routes');
 	}
 
 	/**
@@ -49,7 +49,7 @@ class RoutingBase {
 	 */
 	public function __get($key)
 	{
-		$routing_config = $this->config->routing;
+		$routing_config = $this->config->get('routing');
 
 		if (array_key_exists($key, $routing_config))
 		{

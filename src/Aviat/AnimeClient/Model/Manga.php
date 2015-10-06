@@ -48,8 +48,9 @@ class Manga extends API {
 		$id = $data['id'];
 		unset($data['id']);
 
+		// @TODO update with auth key from auth class
 		$result = $this->client->put("manga_library_entries/{$id}", [
-			'cookies' => ['token' => $_SESSION['hummingbird_anime_token']],
+			'cookies' => ['token' => ''],
 			'json' => ['manga_library_entry' => $data]
 		]);
 
@@ -92,7 +93,7 @@ class Manga extends API {
 
 		$config = [
 			'query' => [
-				'user_id' => $this->config->hummingbird_username
+				'user_id' => $this->config->get('hummingbird_username')
 			],
 			'allow_redirects' => FALSE
 		];
@@ -117,8 +118,8 @@ class Manga extends API {
 		$api_data = json_decode($response->getBody(), TRUE);
 		if ( ! array_key_exists('manga', $api_data)) return [];
 
-		$cache_file = _dir($this->config->data_cache_path, 'manga.json');
-		$transformed_cache_file = _dir($this->config->data_cache_path, 'manga-transformed.json');
+		$cache_file = _dir($this->config->get('data_cache_path'), 'manga.json');
+		$transformed_cache_file = _dir($this->config->get('data_cache_path'), 'manga-transformed.json');
 
 		$cached_data = json_decode(file_get_contents($cache_file), TRUE);
 
