@@ -59,7 +59,7 @@ class ArrayType {
 	 *
 	 * @param array $arr
 	 */
-	public function __construct(Array $arr)
+	public function __construct(array $arr)
 	{
 		$this->arr =& $arr;
 	}

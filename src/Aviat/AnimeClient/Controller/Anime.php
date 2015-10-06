@@ -51,7 +51,7 @@ class Anime extends BaseController {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -73,7 +73,7 @@ class Anime extends BaseController {
 		]);
 	}
 
-	public function index($type="watching", $view='')
+	public function index($type = "watching", $view = '')
 	{
 		return $this->anime_list($type, $view);
 	}
@@ -136,7 +136,7 @@ class Anime extends BaseController {
 	/**
 	 * Update an anime item
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function update()
 	{

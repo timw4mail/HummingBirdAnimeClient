@@ -65,7 +65,7 @@ class Manga extends API {
 	{
 		$data = $this->_get_list_from_api();
 
-		foreach($data as $key => &$val)
+		foreach ($data as $key => &$val)
 		{
 			$this->sort_by_name($val);
 		}
@@ -87,7 +87,7 @@ class Manga extends API {
 		return $data;
 	}
 
-	private function _get_list_from_api($status="All")
+	private function _get_list_from_api($status = "All")
 	{
 
 		$config = [
@@ -154,7 +154,7 @@ class Manga extends API {
 			self::COMPLETED => [],
 		];
 
-		foreach($data as &$entry)
+		foreach ($data as &$entry)
 		{
 			$entry['manga']['image'] = $this->get_cached_image($entry['manga']['image'], $entry['manga']['slug'], 'manga');
 			$key = $this->const_map[$entry['reading_status']];
@@ -185,7 +185,7 @@ class Manga extends API {
 	{
 		$sort = array();
 
-		foreach($array as $key => $item)
+		foreach ($array as $key => $item)
 		{
 			$sort[$key] = $item['manga']['title'];
 		}

@@ -23,7 +23,7 @@ class Container implements ContainerInterface {
 	 */
 	public function __construct(array $values = [])
 	{
-		$this->container =  new ArrayObject($values);
+		$this->container = new ArrayObject($values);
 	}
 
 	/**

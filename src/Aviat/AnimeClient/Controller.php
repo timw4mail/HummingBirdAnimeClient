@@ -53,7 +53,7 @@ class Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -92,7 +92,7 @@ class Controller {
 	 * @param array|object $data
 	 * @return string
 	 */
-	public function load_partial($view, $template, $data=[])
+	public function load_partial($view, $template, $data = [])
 	{
 		$errorHandler = $this->container->get('error-handler');
 		$errorHandler->addDataTable('Template Data', $data);
@@ -120,7 +120,7 @@ class Controller {
 	/**
 	 * Render a template with header and footer
 	 *
-	 * @param HTMLView $view
+	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array|object $data
 	 * @return void
@@ -139,7 +139,7 @@ class Controller {
 	 * @param array|object $data
 	 * @return void
 	 */
-	public function outputHTML($template, $data=[])
+	public function outputHTML($template, $data = [])
 	{
 		$view = new HtmlView($this->container);
 		$this->render_full_page($view, $template, $data);
@@ -151,7 +151,7 @@ class Controller {
 	 * @param mixed $data
 	 * @return void
 	 */
-	public function outputJSON($data=[])
+	public function outputJSON($data = [])
 	{
 		$view = new JsonView($this->container);
 		$view->setOutput($data);
@@ -165,7 +165,7 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function redirect($path, $code, $type="anime")
+	public function redirect($path, $code, $type = "anime")
 	{
 		$url = $this->urlGenerator->full_url($path, $type);
 		$http = new HttpView($this->container);
@@ -205,7 +205,7 @@ class Controller {
 	 * @param string $status
 	 * @return void
 	 */
-	public function login($status="")
+	public function login($status = "")
 	{
 		$message = "";
 

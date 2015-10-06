@@ -35,7 +35,7 @@ function _dir()
  * @codeCoverageIgnore
  * @return void
  */
-spl_autoload_register(function ($class) {
+spl_autoload_register(function($class) {
 	$class_parts = explode('\\', $class);
 	$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
 
