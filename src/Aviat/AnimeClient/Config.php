@@ -22,7 +22,7 @@ class Config {
 	 *
 	 * @param array $config_files
 	 */
-	public function __construct(array $config_files=[])
+	public function __construct(array $config_files = [])
 	{
 		// @codeCoverageIgnoreStart
 		if (empty($config_files))
