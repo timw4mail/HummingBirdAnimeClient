@@ -134,7 +134,7 @@ class Controller {
 	 * @param array|object $data
 	 * @return void
 	 */
-	public function render_full_page($view, $template, $data)
+	public function render_full_page($view, $template, array $data)
 	{
 		$view->appendOutput($this->load_partial($view, 'header', $data));
 		$view->appendOutput($this->load_partial($view, $template, $data));
