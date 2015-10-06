@@ -33,7 +33,7 @@ $di = function() {
 
 	// Set up json handler for ajax errors
 	$jsonHandler = new JsonResponseHandler();
-	$jsonHandler->onlyForAjaxRequests(true);
+	$jsonHandler->onlyForAjaxRequests(TRUE);
 	$whoops->pushHandler($jsonHandler);
 
 	$whoops->register();

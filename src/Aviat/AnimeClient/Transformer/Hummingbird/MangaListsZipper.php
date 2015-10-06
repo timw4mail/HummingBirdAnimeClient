@@ -43,7 +43,7 @@ class MangaListsZipper {
 
 		$output = [];
 
-		foreach($this->manga_tracking_list as &$entry)
+		foreach ($this->manga_tracking_list as &$entry)
 		{
 			$id = $entry['manga_id'];
 			$entry['manga'] = $this->manga_series_list[$id];
@@ -65,7 +65,7 @@ class MangaListsZipper {
 		$orig_list = $this->manga_series_list;
 		$indexed_list = [];
 
-		foreach($orig_list as $manga)
+		foreach ($orig_list as $manga)
 		{
 			$id = $manga['id'];
 			$indexed_list[$id] = $manga;

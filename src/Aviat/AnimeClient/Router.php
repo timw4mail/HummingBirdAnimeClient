@@ -35,7 +35,7 @@ class Router extends RoutingBase {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{

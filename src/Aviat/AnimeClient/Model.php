@@ -29,7 +29,7 @@ class Model {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -47,7 +47,7 @@ class Model {
 	 * @param string $type - Anime or Manga, controls cache path
 	 * @return string - the frontend path for the cached image
 	 */
-	public function get_cached_image($api_path, $series_slug, $type="anime")
+	public function get_cached_image($api_path, $series_slug, $type = "anime")
 	{
 		$api_path = str_replace("jjpg", "jpg", $api_path);
 		$path_parts = explode('?', basename($api_path));
@@ -111,7 +111,7 @@ class Model {
 	private function _resize($path, $width, $height)
 	{
 		$img = new SimpleImage($path);
-		$img->resize($width,$height)->save();
+		$img->resize($width, $height)->save();
 	}
 }
 // End of BaseModel.php
