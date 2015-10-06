@@ -63,10 +63,10 @@ class MenuGenerator extends RoutingBase {
 
 		$parsed = [];
 
-		foreach($this->menus as $name => $menu)
+		foreach ($this->menus as $name => $menu)
 		{
 			$parsed[$name] = [];
-			foreach($menu['items'] as $path_name => $partial_path)
+			foreach ($menu['items'] as $path_name => $partial_path)
 			{
 				$title = $this->string($path_name)->humanize()->titleize();
 				$parsed[$name]['items'][$title] = $this->string($menu['route_prefix'])->append($partial_path);
@@ -90,7 +90,7 @@ class MenuGenerator extends RoutingBase {
 	 */
 	public function generate($menu)
 	{
-		$parsed_config =  $this->parse_config();
+		$parsed_config = $this->parse_config();
 		$menu_config = $parsed_config[$menu];
 
 		// Array of list items to add to the main menu

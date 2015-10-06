@@ -32,7 +32,7 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $type - (optional) The controller
 	 * @return string
 	 */
-	public function base_url($type="anime")
+	public function base_url($type = "anime")
 	{
 		$config_path = trim($this->__get("{$type}_path"), "/");
 
@@ -88,7 +88,7 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $type - (optional) The controller (anime or manga), defaults to anime
 	 * @return string
 	 */
-	public function full_url($path="", $type="anime")
+	public function full_url($path = "", $type = "anime")
 	{
 		$config_path = trim($this->__get("{$type}_path"), "/");
 		$config_default_route = $this->__get("default_{$type}_path");

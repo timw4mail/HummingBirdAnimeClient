@@ -99,7 +99,7 @@ class Friend {
 			$property->setAccessible(TRUE);
 			return $property;
 		}
-		catch(\Exception $e) {}
+		catch (\Exception $e) {}
 
 		return NULL;
 	}
