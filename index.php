@@ -2,7 +2,6 @@
 /**
  * Here begins everything!
  */
-session_start();
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');

@@ -99,6 +99,8 @@ class Friend {
 			$property->setAccessible(TRUE);
 			return $property;
 		}
+		// Return NULL on any exception, so no further logic needed
+		// in the catch block
 		catch (\Exception $e) {}
 
 		return NULL;
