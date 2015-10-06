@@ -43,7 +43,7 @@ class Manga extends Controller {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -58,7 +58,7 @@ class Manga extends Controller {
 		]);
 	}
 
-	public function index($status="all", $view="")
+	public function index($status = "all", $view = "")
 	{
 		return $this->manga_list($status, $view);
 	}
@@ -66,7 +66,7 @@ class Manga extends Controller {
 	/**
 	 * Update an anime item
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function update()
 	{

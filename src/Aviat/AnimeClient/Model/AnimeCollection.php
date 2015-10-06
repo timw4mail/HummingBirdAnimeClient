@@ -29,7 +29,7 @@ class AnimeCollection extends DB {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -61,7 +61,7 @@ class AnimeCollection extends DB {
 	 * @param array $filter
 	 * @return array
 	 */
-	public function get_genre_list($filter=[])
+	public function get_genre_list($filter = [])
 	{
 		$this->db->select('hummingbird_id, genre')
 			->from('genre_anime_set_link gl')
@@ -76,7 +76,7 @@ class AnimeCollection extends DB {
 
 		$output = [];
 
-		foreach($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
+		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
 		{
 			$id = $row['hummingbird_id'];
 			$genre = $row['genre'];
@@ -109,7 +109,7 @@ class AnimeCollection extends DB {
 
 		$collection = [];
 
-		foreach($raw_collection as $row)
+		foreach ($raw_collection as $row)
 		{
 			if (array_key_exists($row['media'], $collection))
 			{
@@ -137,7 +137,7 @@ class AnimeCollection extends DB {
 			->from('media')
 			->get();
 
-		foreach($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
+		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
 		{
 			$output[$row['id']] = $row['type'];
 		}
@@ -154,7 +154,7 @@ class AnimeCollection extends DB {
 	public function get_collection_entry($id)
 	{
 		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', (int) $id)
+			->where('hummingbird_id', (int)$id)
 			->get();
 
 		return $query->fetch(\PDO::FETCH_ASSOC);
@@ -187,7 +187,7 @@ class AnimeCollection extends DB {
 	 */
 	public function add($data)
 	{
-		$anime = (object) $this->anime_model->get_anime($data['id']);
+		$anime = (object)$this->anime_model->get_anime($data['id']);
 
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
@@ -252,7 +252,7 @@ class AnimeCollection extends DB {
 
 		$anime = json_decode(file_get_contents("import.json"));
 
-		foreach($anime as $item)
+		foreach ($anime as $item)
 		{
 			$this->db->set([
 				'hummingbird_id' => $item->id,
@@ -287,7 +287,7 @@ class AnimeCollection extends DB {
 		// Get api information
 		$anime = $this->anime_model->get_anime($anime_id);
 
-		foreach($anime['genres'] as $genre)
+		foreach ($anime['genres'] as $genre)
 		{
 			// Add genres that don't currently exist
 			if ( ! in_array($genre['name'], $genres))
@@ -335,7 +335,7 @@ class AnimeCollection extends DB {
 		$query = $this->db->select('id, genre')
 			->from('genres')
 			->get();
-		foreach($query->fetchAll(\PDO::FETCH_ASSOC) as $genre)
+		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $genre)
 		{
 			$genres[$genre['id']] = $genre['genre'];
 		}
@@ -344,7 +344,7 @@ class AnimeCollection extends DB {
 		$query = $this->db->select('hummingbird_id, genre_id')
 			->from('genre_anime_set_link')
 			->get();
-		foreach($query->fetchAll(\PDO::FETCH_ASSOC) as $link)
+		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $link)
 		{
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{
@@ -371,7 +371,7 @@ class AnimeCollection extends DB {
 	{
 		// Get the anime collection
 		$collection = $this->_get_collection();
-		foreach($collection as $anime)
+		foreach ($collection as $anime)
 		{
 			// Get api information
 			$this->update_genre($anime['hummingbird_id']);

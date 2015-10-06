@@ -52,7 +52,7 @@ class Collection extends BaseController {
 	/**
 	 * Constructor
 	 *
-	 * @param Container $container
+	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -113,11 +113,11 @@ class Collection extends BaseController {
 	 * @param int $id
 	 * @return void
 	 */
-	public function form($id=NULL)
+	public function form($id = NULL)
 	{
 		$action = (is_null($id)) ? "Add" : "Edit";
 
-		$this->outputHTML('collection/'. strtolower($action), [
+		$this->outputHTML('collection/' . strtolower($action), [
 			'action' => $action,
 			'action_url' => $this->urlGenerator->full_url("collection/" . strtolower($action)),
 			'title' => $this->config->whose_list . " Anime Collection &middot; {$action}",

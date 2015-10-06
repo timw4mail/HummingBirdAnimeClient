@@ -73,13 +73,13 @@ class Anime extends API {
 
 		$data = $this->_get_list_from_api();
 
-		foreach($data as $datum)
+		foreach ($data as $datum)
 		{
 			$output[$this->const_map[$datum['watching_status']]][] = $datum;
 		}
 
 		// Sort anime by name
-		foreach($output as &$status_list)
+		foreach ($output as &$status_list)
 		{
 			$this->sort_by_name($status_list);
 		}
@@ -157,7 +157,7 @@ class Anime extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	protected function _get_list_from_api($status="all")
+	protected function _get_list_from_api($status = "all")
 	{
 		$config = [
 			'allow_redirects' => FALSE
@@ -171,7 +171,7 @@ class Anime extends API {
 		$response = $this->client->get("users/{$this->config->hummingbird_username}/library", $config);
 		$output = $this->_check_cache($status, $response);
 
-		foreach($output as &$row)
+		foreach ($output as &$row)
 		{
 			$row['anime']['image'] = $this->get_cached_image($row['anime']['image'], $row['anime']['slug'], 'anime');
 		}
@@ -197,7 +197,7 @@ class Anime extends API {
 
 		if ($api_data === $cached && file_exists($transformed_cache_file))
 		{
-			return json_decode(file_get_contents($transformed_cache_file),TRUE);
+			return json_decode(file_get_contents($transformed_cache_file), TRUE);
 		}
 		else
 		{
@@ -219,7 +219,7 @@ class Anime extends API {
 	{
 		$sort = array();
 
-		foreach($array as $key => $item)
+		foreach ($array as $key => $item)
 		{
 			$sort[$key] = $item['anime']['title'];
 		}
