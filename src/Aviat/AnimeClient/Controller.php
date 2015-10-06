@@ -26,6 +26,12 @@ class Controller {
 	protected $config;
 
 	/**
+	 * Request object
+	 * @var object $request
+	 */
+	protected $request;
+
+	/**
 	 * Response object
 	 * @var object $response
 	 */
@@ -90,7 +96,7 @@ class Controller {
 	/**
 	 * Get the string output of a partial template
 	 *
-	 * @param HTMLView $view
+	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array|object $data
 	 * @return string
@@ -110,7 +116,7 @@ class Controller {
 		$data['route_path'] = ($route) ? $router->get_route()->path : "";
 
 
-		$template_path = _dir($this->config->__get('view_path'), "{$template}.php");
+		$template_path = _dir($this->config->get('view_path'), "{$template}.php");
 
 		if ( ! is_file($template_path))
 		{
@@ -198,7 +204,6 @@ class Controller {
 	 */
 	public function logout()
 	{
-		session_destroy();
 		$this->response->redirect->seeOther($this->urlGenerator->full_url(''));
 	}
 

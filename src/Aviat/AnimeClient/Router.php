@@ -168,10 +168,7 @@ class Router extends RoutingBase {
 	 */
 	public function get_controller()
 	{
-		$error_handler = $this->container->get('error-handler');
 		$route_type = $this->__get('default_list');
-
-		$host = $this->request->server->get("HTTP_HOST");
 		$request_uri = $this->request->server->get('PATH_INFO');
 
 		$path = trim($request_uri, '/');

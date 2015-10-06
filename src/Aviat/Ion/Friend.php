@@ -13,7 +13,16 @@ use BadMethodCallException;
  */
 class Friend {
 
+	/**
+	 * Object to create a friend of
+	 * @var object
+	 */
 	private $_friend_object_;
+
+	/**
+	 * Reflection class of the object
+	 * @var object
+	 */
 	private $_reflection_friend_;
 
 	/**

@@ -13,15 +13,15 @@ class ConfigTest extends AnimeClient_TestCase {
 		]);
 	}
 
-	public function testConfig__get()
+	public function testConfigGet()
 	{
-		$this->assertEquals($this->config->foo, $this->config->__get('foo'));
-		$this->assertEquals($this->config->bar, $this->config->__get('bar'));
-		$this->assertEquals(NULL, $this->config->baz);
+		$this->assertEquals('bar', $this->config->get('foo'));
+		$this->assertEquals('baz', $this->config->get('bar'));
+		$this->assertNull($this->config->get('baz'));
 	}
 
 	public function testGetNonExistentConfigItem()
 	{
-		$this->assertEquals(NULL, $this->config->foobar);
+		$this->assertNull($this->config->get('foobar'));
 	}
 }

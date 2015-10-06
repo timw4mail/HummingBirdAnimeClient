@@ -16,9 +16,9 @@
 		</thead>
 		<tbody>
 			<?php foreach($items as $item): ?>
-			<tr id="manga-<?= $item['manga']['id'] ?>">
+			<tr id="manga-<?= $item['id'] ?>">
 				<td class="align_left">
-					<a href="https://hummingbird.me/manga/<?= $item['manga']['id'] ?>">
+					<a href="<?= $item['manga']['url'] ?>">
 						<?= $item['manga']['title'] ?>
 					</a>
 					<?= ( ! is_null($item['manga']['alternate_title'])) ? " &middot; " . $item['manga']['alternate_title'] : "" ?>

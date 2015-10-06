@@ -22,7 +22,7 @@ class Model {
 
 	/**
 	 * The container object
-	 * @var Container
+	 * @var ContainerInterface
 	 */
 	protected $container;
 
@@ -61,8 +61,9 @@ class Model {
 		// Failsafe for weird urls
 		if (strlen($ext) > 3) return $api_path;
 
+		$img_cache_path = $this->config->get('img_cache_path');
 		$cached_image = "{$series_slug}.{$ext}";
-		$cached_path = "{$this->config->img_cache_path}/{$type}/{$cached_image}";
+		$cached_path = "{$img_cache_path}/{$type}/{$cached_image}";
 
 		// Cache the file if it doesn't already exist
 		if ( ! file_exists($cached_path))
