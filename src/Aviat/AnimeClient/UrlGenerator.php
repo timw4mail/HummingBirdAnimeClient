@@ -94,7 +94,6 @@ class UrlGenerator extends RoutingBase {
 		$config_default_route = $this->__get("default_{$type}_path");
 
 		// Remove beginning/trailing slashes
-		$config_path = trim($config_path, '/');
 		$path = trim($path, '/');
 
 		// Remove any optional parameters from the route
@@ -109,12 +108,6 @@ class UrlGenerator extends RoutingBase {
 			$path .= trim($config_default_route, '/');
 			if ($this->__get('default_to_list_view')) $path .= '/list';
 		}
-
-		// Set an leading folder
-		/*if ($config_path !== '')
-		{
-			$path = "{$config_path}/{$path}";
-		}*/
 
 		return "//{$host}/{$path}";
 	}

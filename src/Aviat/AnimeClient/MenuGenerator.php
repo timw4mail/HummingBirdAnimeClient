@@ -35,7 +35,7 @@ class MenuGenerator extends RoutingBase {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->menus = $this->config->menus;
+		$this->menus = $this->config->get('menus');
 		$this->helper = $container->get('html-helper');
 	}
 

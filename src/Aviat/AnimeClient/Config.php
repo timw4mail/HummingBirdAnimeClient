@@ -7,9 +7,6 @@ namespace Aviat\AnimeClient;
 
 /**
  * Wrapper for configuration values
- *
- * @property Database Config $database
- * @property Menu Config $menus
  */
 class Config {
 

@@ -98,10 +98,10 @@ class Controller {
 	 *
 	 * @param HtmlView $view
 	 * @param string $template
-	 * @param array|object $data
+	 * @param array $data
 	 * @return string
 	 */
-	public function load_partial($view, $template, $data = [])
+	public function load_partial($view, $template, array $data = [])
 	{
 		$errorHandler = $this->container->get('error-handler');
 		$errorHandler->addDataTable('Template Data', $data);
@@ -123,7 +123,7 @@ class Controller {
 			throw new \InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		return $view->render_template($template_path, $data);
+		return $view->render_template($template_path, (array)$data);
 	}
 
 	/**
@@ -183,21 +183,6 @@ class Controller {
 	}
 
 	/**
-	 * Add a message box to the page
-	 *
-	 * @param string $type
-	 * @param string $message
-	 * @return string
-	 */
-	public function show_message($type, $message)
-	{
-		return $this->load_partial('message', [
-			'stat_class' => $type,
-			'message'  => $message
-		]);
-	}
-
-	/**
 	 * Clear the api session
 	 *
 	 * @return void
@@ -217,7 +202,7 @@ class Controller {
 	{
 		$message = "";
 
-		if ($status != "")
+		/*if ($status != "")
 		{
 			$message = $this->show_message('error', $status);
 		}
@@ -225,7 +210,7 @@ class Controller {
 		$this->outputHTML('login', [
 			'title' => 'Api login',
 			'message' => $message
-		]);
+		]);*/
 	}
 
 	/**

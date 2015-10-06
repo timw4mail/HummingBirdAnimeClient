@@ -50,7 +50,7 @@ class Router extends RoutingBase {
 	/**
 	 * Generate routes based on controller methods
 	 *
-	 * @return [type] [description]
+	 * @return void
 	 */
 	protected function generate_convention_routes()
 	{
@@ -106,7 +106,7 @@ class Router extends RoutingBase {
 	 * Handle the current route
 	 *
 	 * @codeCoverageIgnore
-	 * @param [object] $route
+	 * @param object $route
 	 * @return void
 	 */
 	public function dispatch($route = NULL)
