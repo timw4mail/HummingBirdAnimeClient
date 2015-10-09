@@ -70,8 +70,8 @@ class MenuGenerator extends UrlGenerator {
 			$parsed[$name] = [];
 			foreach ($menu['items'] as $path_name => $partial_path)
 			{
-				$title = (string) $this->string($path_name)->humanize()->titleize();
-				$parsed[$name][$title] = (string) $this->string($menu['route_prefix'])->append($partial_path);
+				$title = (string)$this->string($path_name)->humanize()->titleize();
+				$parsed[$name][$title] = (string)$this->string($menu['route_prefix'])->append($partial_path);
 			}
 		}
 
@@ -96,7 +96,7 @@ class MenuGenerator extends UrlGenerator {
 
 		$menu_config = $parsed_config[$menu];
 
-		foreach($menu_config as $title => $path)
+		foreach ($menu_config as $title => $path)
 		{
 			$selected = $this->string($path)->contains($this->path());
 			$link = $this->helper->a($this->url($path), $title);

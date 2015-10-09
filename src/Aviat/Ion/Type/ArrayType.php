@@ -93,6 +93,7 @@ class ArrayType {
 	/**
 	 * Does the passed key exist in the current array?
 	 *
+	 * @param string $key
 	 * @return bool
 	 */
 	public function has_key($key)
