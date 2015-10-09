@@ -19,9 +19,9 @@ class Collection extends BaseController {
 
 	/**
 	 * The anime collection model
-	 * @var object $collection_model
+	 * @var object $anime_collection_model
 	 */
-	private $collection_model;
+	private $anime_collection_model;
 
 	/**
 	 * Data to ve sent to all routes in this controller
@@ -36,20 +36,6 @@ class Collection extends BaseController {
 	protected $urlGenerator;
 
 	/**
-	 * Route mapping for main navigation
-	 * @var array $nav_routes
-	 */
-	private $nav_routes = [
-		'Watching' => '/anime/watching{/view}',
-		'Plan to Watch' => '/anime/plan_to_watch{/view}',
-		'On Hold' => '/anime/on_hold{/view}',
-		'Dropped' => '/anime/dropped{/view}',
-		'Completed' => '/anime/completed{/view}',
-		'Collection' => '/collection/view{/view}',
-		'All' => '/anime/all{/view}'
-	];
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -58,18 +44,13 @@ class Collection extends BaseController {
 	{
 		parent::__construct($container);
 
-		if ($this->config->get('show_anime_collection') === FALSE)
-		{
-			unset($this->nav_routes['Collection']);
-		}
-
 		$this->urlGenerator = $container->get('url-generator');
-		$this->collection_model = new AnimeCollectionModel($container);
+		$this->anime_anime_collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
+			'menu_name' => 'collection',
 			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
-			'nav_routes' => $this->nav_routes,
 			'config' => $this->config,
 		]);
 	}
@@ -98,12 +79,12 @@ class Collection extends BaseController {
 			'list' => 'list'
 		];
 
-		$data = $this->collection_model->get_collection();
+		$data = $this->anime_collection_model->get_collection();
 
 		$this->outputHTML('collection/' . $view_map[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
 			'sections' => $data,
-			'genres' => $this->collection_model->get_genre_list()
+			'genres' => $this->anime_collection_model->get_genre_list()
 		]);
 	}
 
@@ -121,8 +102,8 @@ class Collection extends BaseController {
 			'action' => $action,
 			'action_url' => $this->urlGenerator->full_url("collection/" . strtolower($action)),
 			'title' => $this->config->whose_list . " Anime Collection &middot; {$action}",
-			'media_items' => $this->collection_model->get_media_type_list(),
-			'item' => ($action === "Edit") ? $this->collection_model->get($id) : []
+			'media_items' => $this->anime_collection_model->get_media_type_list(),
+			'item' => ($action === "Edit") ? $this->anime_collection_model->get($id) : []
 		]);
 	}
 
@@ -139,7 +120,7 @@ class Collection extends BaseController {
 			$this->redirect("collection/view", 303, "anime");
 		}
 
-		$this->collection_model->update($data);
+		$this->anime_collection_model->update($data);
 
 		$this->redirect("collection/view", 303, "anime");
 	}
@@ -157,7 +138,7 @@ class Collection extends BaseController {
 			$this->redirect("collection/view", 303, "anime");
 		}
 
-		$this->collection_model->add($data);
+		$this->anime_collection_model->add($data);
 
 		$this->redirect("collection/view", 303, "anime");
 	}

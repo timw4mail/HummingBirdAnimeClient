@@ -2,6 +2,10 @@
 /**
  * Here begins everything!
  */
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
+
+use Aviat\AnimeClient\Config;
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -47,6 +51,37 @@ spl_autoload_register(function($class) {
 
 // Dependency setup
 require _dir(ROOT_DIR, '/vendor/autoload.php');
-require _dir(APP_DIR, 'bootstrap.php');
+require _dir(SRC_DIR, '/functions.php');
+
+// -------------------------------------------------------------------------
+// Setup error handling
+// -------------------------------------------------------------------------
+$whoops = new \Whoops\Run();
+
+// Set up default handler for general errors
+$defaultHandler = new PrettyPageHandler();
+$whoops->pushHandler($defaultHandler);
+
+// Set up json handler for ajax errors
+$jsonHandler = new JsonResponseHandler();
+$jsonHandler->onlyForAjaxRequests(TRUE);
+$whoops->pushHandler($jsonHandler);
+
+//$whoops->register();
+
+// -----------------------------------------------------------------------------
+// Dependency Injection setup
+// -----------------------------------------------------------------------------
+require _dir(CONF_DIR, 'base_config.php'); // $base_config
+require _dir(CONF_DIR, 'config.php'); // $config
+$config_array = array_merge($base_config, $config);
+$di = require _dir(APP_DIR, 'bootstrap.php');
+$container = $di($config_array);
+$container->set('error-handler', $defaultHandler);
+
+// -----------------------------------------------------------------------------
+// Dispatch to the current route
+// -----------------------------------------------------------------------------
+$container->get('dispatcher')();
 
 // End of index.php

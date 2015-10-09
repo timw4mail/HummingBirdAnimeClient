@@ -2,11 +2,9 @@
 
 namespace Aviat\AnimeClient\Helper;
 
-use Aura\Html\Helper\AbstractHelper;
-
 use Aviat\AnimeClient\MenuGenerator;
 
-class Menu extends AbstractHelper {
+class Menu {
 
 	use \Aviat\Ion\Di\ContainerAware;
 

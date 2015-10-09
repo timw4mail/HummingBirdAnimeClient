@@ -12,7 +12,7 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Basic routing/ dispatch
  */
-class Router extends RoutingBase {
+class Dispatcher extends RoutingBase {
 
 	/**
 	 * The route-matching object
@@ -109,7 +109,7 @@ class Router extends RoutingBase {
 	 * @param object $route
 	 * @return void
 	 */
-	public function dispatch($route = NULL)
+	public function __invoke($route = NULL)
 	{
 		$error_handler = $this->container->get('error-handler');
 
@@ -264,4 +264,4 @@ class Router extends RoutingBase {
 		return $output_routes;
 	}
 }
-// End of Router.php
+// End of Dispatcher.php

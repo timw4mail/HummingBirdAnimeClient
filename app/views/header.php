@@ -24,20 +24,14 @@
 			<?php endif */ ?>
 		</span>
 	</h1>
-	<?php if ( ! empty($nav_routes)): ?>
 	<nav>
-		<ul>
-			<?php foreach($nav_routes as $title => $nav_path): ?>
-			<li class="<?= is_selected($nav_path, $route_path) ?>"><a href="<?= $urlGenerator->url($nav_path) ?>"><?= $title ?></a></li>
-			<?php endforeach ?>
-		</ul>
+		<?= $helper->menu($menu_name) ?>
 		<?php if (is_view_page()): ?>
 		<br />
-		<ul>
-			<li class="<?= is_not_selected('list', last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= is_selected('list', last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+		<ul class="align_right">
+			<li class="<?= is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+			<li class="<?= is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
 		<?php endif ?>
 	</nav>
 	<br />
-	<?php endif ?>

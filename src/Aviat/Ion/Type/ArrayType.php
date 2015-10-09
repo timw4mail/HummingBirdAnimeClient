@@ -28,7 +28,6 @@ class ArrayType {
 		'filter' => 'array_filter',
 		'flip' => 'array_flip',
 		'intersect' => 'array_intersect',
-		'has_key' => 'array_key_exists',
 		'keys' => 'array_keys',
 		'merge' => 'array_merge',
 		'pad' => 'array_pad',
@@ -89,6 +88,16 @@ class ArrayType {
 			$func($this->arr);
 			return $this->arr;
 		}
+	}
+	
+	/**
+	 * Does the passed key exist in the current array?
+	 *
+	 * @return bool
+	 */
+	public function has_key($key)
+	{
+		return array_key_exists($key, $this->arr);
 	}
 
 	/**
