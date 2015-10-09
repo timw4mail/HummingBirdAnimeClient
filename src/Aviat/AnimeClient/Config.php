@@ -15,27 +15,16 @@ class Config {
 	 *
 	 * @var array
 	 */
-	protected $config = [];
+	protected $map = [];
 
 	/**
 	 * Constructor
 	 *
 	 * @param array $config_files
 	 */
-	public function __construct(array $config_files = [])
+	public function __construct(array $config_array = [])
 	{
-		// @codeCoverageIgnoreStart
-		if (empty($config_files))
-		{
-			require_once \_dir(CONF_DIR, 'config.php'); // $config
-			require_once \_dir(CONF_DIR, 'base_config.php'); // $base_config
-
-			$this->config = array_merge($config, $base_config);
-		}
-		else // @codeCoverageIgnoreEnd
-		{
-			$this->config = $config_files;
-		}
+		$this->map = $config_array;
 	}
 
 	/**
@@ -46,9 +35,9 @@ class Config {
 	 */
 	public function get($key)
 	{
-		if (isset($this->config[$key]))
+		if (array_key_exists($key, $this->map))
 		{
-			return $this->config[$key];
+			return $this->map[$key];
 		}
 
 		return NULL;
@@ -63,7 +52,7 @@ class Config {
 	 */
 	public function set($key, $value)
 	{
-		$this->config[$key] = $value;
+		$this->map[$key] = $value;
 		return $this;
 	}
 }

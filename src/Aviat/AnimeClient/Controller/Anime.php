@@ -35,20 +35,6 @@ class Anime extends BaseController {
 	protected $base_data;
 
 	/**
-	 * Route mapping for main navigation
-	 * @var array $nav_routes
-	 */
-	private $nav_routes = [
-		'Watching' => '/anime/watching{/view}',
-		'Plan to Watch' => '/anime/plan_to_watch{/view}',
-		'On Hold' => '/anime/on_hold{/view}',
-		'Dropped' => '/anime/dropped{/view}',
-		'Completed' => '/anime/completed{/view}',
-		'Collection' => '/collection/view{/view}',
-		'All' => '/anime/all{/view}'
-	];
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -65,10 +51,10 @@ class Anime extends BaseController {
 		$this->model = new AnimeModel($container);
 		$this->collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
+			'menu_name' => 'anime_list',
 			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
-			'nav_routes' => $this->nav_routes,
 			'config' => $this->config,
 		]);
 	}

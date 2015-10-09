@@ -5,47 +5,24 @@
 
 namespace Aviat\AnimeClient;
 
-use \Whoops\Handler\PrettyPageHandler;
-use \Whoops\Handler\JsonResponseHandler;
 use Aura\Html\HelperLocatorFactory;
-use \Aura\Web\WebFactory;
-use \Aura\Router\RouterFactory;
-use \Aura\Session\SessionFactory;
-
+use Aura\Web\WebFactory;
+use Aura\Router\RouterFactory;
+use Aura\Session\SessionFactory;
 use Aviat\Ion\Di\Container;
-
-require _dir(SRC_DIR, '/functions.php');
 
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-$di = function() {
+return function(array $config_array = []) {
 	$container = new Container();
-
-	// -------------------------------------------------------------------------
-	// Setup error handling
-	// -------------------------------------------------------------------------
-	$whoops = new \Whoops\Run();
-
-	// Set up default handler for general errors
-	$defaultHandler = new PrettyPageHandler();
-	$whoops->pushHandler($defaultHandler);
-
-	// Set up json handler for ajax errors
-	$jsonHandler = new JsonResponseHandler();
-	$jsonHandler->onlyForAjaxRequests(TRUE);
-	$whoops->pushHandler($jsonHandler);
-
-	$whoops->register();
-
-	$container->set('error-handler', $defaultHandler);
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$config = new Config();
+	$config = new Config($config_array);
 	$container->set('config', $config);
 
 	// Create Aura Router Object
@@ -79,14 +56,11 @@ $di = function() {
 	$container->set('url-generator', new UrlGenerator($container));
 
 	// -------------------------------------------------------------------------
-	// Router
+	// Dispatcher
 	// -------------------------------------------------------------------------
-	$router = new Router($container);
-	$container->set('router', $router);
+	$container->set('dispatcher', new Dispatcher($container));
 
 	return $container;
 };
-
-$di()->get('router')->dispatch();
 
 // End of bootstrap.php

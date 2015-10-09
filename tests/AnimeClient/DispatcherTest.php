@@ -1,13 +1,13 @@
 <?php
 
 use Aviat\Ion\Di\Container;
-use Aviat\AnimeClient\Router;
+use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\UrlGenerator;
 use Aura\Web\WebFactory;
 use Aura\Router\RouterFactory;
 
-class RouterTest extends AnimeClient_TestCase {
+class DispatcherTest extends AnimeClient_TestCase {
 
 	protected $container;
 	protected $router;
@@ -33,16 +33,24 @@ class RouterTest extends AnimeClient_TestCase {
 			'_FILES' => []
 		]);
 
+		$old_config = $this->container->get('config');
+
 		// Add the appropriate objects to the container
 		$this->container = new Container([
-			'config' => new Config($config),
+			'config' => $old_config,
 			'request' => $web_factory->newRequest(),
 			'response' => $web_factory->newResponse(),
 			'aura-router' => $router_factory->newInstance(),
 			'error-handler' => new MockErrorHandler()
 		]);
 
-		$this->router = new Router($this->container);
+		if ( ! empty($config))
+		{
+			$config = new Config($config);
+			$this->container->set('config', $config);
+		}
+
+		$this->router = new Dispatcher($this->container);
 		$this->config = $this->container->get('config');
 		$this->urlGenerator = new UrlGenerator($this->container);
 		$this->container->set('url-generator', $this->urlGenerator);

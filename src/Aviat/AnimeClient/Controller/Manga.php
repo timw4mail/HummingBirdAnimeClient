@@ -26,20 +26,6 @@ class Manga extends Controller {
 	 */
 	protected $base_data;
 
-
-	/**
-	 * Route mapping for main navigation
-	 * @var array $nav_routes
-	 */
-	private $nav_routes = [
-		'Reading' => '/manga/reading{/view}',
-		'Plan to Read' => '/manga/plan_to_read{/view}',
-		'On Hold' => '/manga/on_hold{/view}',
-		'Dropped' => '/manga/dropped{/view}',
-		'Completed' => '/manga/completed{/view}',
-		'All' => '/manga/all{/view}'
-	];
-
 	/**
 	 * Constructor
 	 *
@@ -51,10 +37,10 @@ class Manga extends Controller {
 		$config = $container->get('config');
 		$this->model = new MangaModel($container);
 		$this->base_data = array_merge($this->base_data, [
+			'menu_name' => 'manga_list',
 			'config' => $this->config,
 			'url_type' => 'manga',
-			'other_type' => 'anime',
-			'nav_routes' => $this->nav_routes
+			'other_type' => 'anime'
 		]);
 	}
 

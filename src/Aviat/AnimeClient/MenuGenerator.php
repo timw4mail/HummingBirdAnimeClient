@@ -7,9 +7,8 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Helper object to manage menu creation and selection
  */
-class MenuGenerator extends RoutingBase {
+class MenuGenerator extends UrlGenerator {
 
-	use \Aviat\Ion\Di\ContainerAware;
 	use \Aviat\Ion\StringWrapper;
 	use \Aviat\Ion\ArrayWrapper;
 
@@ -28,6 +27,13 @@ class MenuGenerator extends RoutingBase {
 	protected $menus;
 
 	/**
+	 * Request object
+	 *
+	 * @var Aura\Web\Request
+	 */
+	protected $request;
+
+	/**
 	 * Create menu generator
 	 *
 	 * @param ContainerInterface $container
@@ -37,6 +43,7 @@ class MenuGenerator extends RoutingBase {
 		parent::__construct($container);
 		$this->menus = $this->config->get('menus');
 		$this->helper = $container->get('html-helper');
+		$this->request = $container->get('request');
 	}
 
 	/**
@@ -49,16 +56,11 @@ class MenuGenerator extends RoutingBase {
 		// Note: Children menus have urls based on the
 		// current url path
 		/*
-			$parsed = [
-				'menu_name' => [
-					'items' => [
-						'title' => 'full_url_path',
-					],
-					'children' => [
-						'title' => 'full_url_path'
-					]
-				]
-			]
+			parsed = {
+				menu_name: {
+					title: 'full_url_path'
+				}
+			}
 		*/
 
 		$parsed = [];
@@ -68,14 +70,8 @@ class MenuGenerator extends RoutingBase {
 			$parsed[$name] = [];
 			foreach ($menu['items'] as $path_name => $partial_path)
 			{
-				$title = $this->string($path_name)->humanize()->titleize();
-				$parsed[$name]['items'][$title] = $this->string($menu['route_prefix'])->append($partial_path);
-			}
-
-			// @TODO: Handle child menu(s)
-			if (count($menu['children']) > 0)
-			{
-
+				$title = (string) $this->string($path_name)->humanize()->titleize();
+				$parsed[$name][$title] = (string) $this->string($menu['route_prefix'])->append($partial_path);
 			}
 		}
 
@@ -91,16 +87,29 @@ class MenuGenerator extends RoutingBase {
 	public function generate($menu)
 	{
 		$parsed_config = $this->parse_config();
+
+		// Bail out early on invalid menu
+		if ( ! $this->arr($parsed_config)->has_key($menu))
+		{
+			return '';
+		}
+
 		$menu_config = $parsed_config[$menu];
 
-		// Array of list items to add to the main menu
-		$main_menu = [];
+		foreach($menu_config as $title => $path)
+		{
+			$selected = $this->string($path)->contains($this->path());
+			$link = $this->helper->a($this->url($path), $title);
 
+			$attrs = ($selected)
+				? ['class' => 'selected']
+				: [];
 
-		// Start the menu list
-		$helper->ul();
+			$this->helper->ul()->rawItem($link, $attrs);
+		}
 
-
+		// Create the menu html
+		return $this->helper->ul();
 	}
 }
 // End of MenuGenerator.php

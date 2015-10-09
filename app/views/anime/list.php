@@ -8,7 +8,6 @@
 		<thead>
 			<tr>
 				<th>Title</th>
-				<th>Alternate Title</th>
 				<th>Airing Status</th>
 				<th>Score</th>
 				<th>Type</th>
@@ -25,19 +24,21 @@
 					<a href="<?= $item['anime']['url'] ?>">
 						<?= $item['anime']['title'] ?>
 					</a>
+					<?= ( ! empty($item['anime']['alternate_title'])) ? " <br /> " . $item['anime']['alternate_title'] : "" ?>
 				</td>
-				<td class="align_left"><?= $item['anime']['alternate_title'] ?></td>
 				<td class="align_left"><?= $item['airing']['status'] ?></td>
 				<td><?= $item['user_rating'] ?> / 10 </td>
 				<td><?= $item['anime']['type'] ?></td>
 				<td>Episodes: <?= $item['episodes']['watched'] ?> / <?= $item['episodes']['total'] ?></td>
 				<td><?= $item['anime']['age_rating'] ?></td>
 				<td><?= $item['notes'] ?></td>
-				<td class="flex flex-justify-space-around align-left">
+				<td class="align-left">
+					<ul>
 					<?php sort($item['anime']['genres']) ?>
 					<?php foreach($item['anime']['genres'] as $genre): ?>
-						<span><?= $genre ?></span>
+						<li><?= $genre ?></li>
 					<?php endforeach ?>
+					</ul>
 				</td>
 			</tr>
 			<?php endforeach ?>

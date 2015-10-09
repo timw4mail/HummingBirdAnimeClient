@@ -2,53 +2,11 @@
 /**
  * Global setup for unit tests
  */
+use Aura\Web\WebFactory;
 
 use Aviat\AnimeClient\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\UrlGenerator;
-
-// -----------------------------------------------------------------------------
-// Mock the default error handler
-// -----------------------------------------------------------------------------
-
-class MockErrorHandler {
-	public function addDataTable($name, Array $values) {}
-}
-
-// -----------------------------------------------------------------------------
-// Define a base testcase class
-// -----------------------------------------------------------------------------
-
-/**
- * Base class for TestCases
- */
-class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
-	protected $container;
-
-	public function setUp()
-	{
-		parent::setUp();
-
-		$config = new Config([
-			'asset_path' => '//localhost/assets/',
-			'databaase' => [],
-			'routes' => [
-				'common' => [],
-				'anime' => [],
-				'manga' => []
-			]
-		]);
-
-		$container = new Container([
-			'config' => $config,
-			'error-handler' => new MockErrorHandler()
-		]);
-
-		$container->set('url-generator', new UrlGenerator($container));
-
-		$this->container = $container;
-	}
-}
 
 // -----------------------------------------------------------------------------
 // Autoloaders
@@ -72,7 +30,7 @@ define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('SRC_DIR', _dir(ROOT_DIR, 'src'));
 define('BASE_DIR', _dir(SRC_DIR, 'Base'));
 require _dir(ROOT_DIR, '/vendor/autoload.php');
-require _dir(SRC_DIR, 'functions.php');
+require _dir(SRC_DIR, '/functions.php');
 
 /**
  * Set up autoloaders
@@ -94,5 +52,72 @@ spl_autoload_register(function ($class) {
 // Pre-define some superglobals
 $_SESSION = [];
 $_COOKIE = [];
+
+// -----------------------------------------------------------------------------
+// Mock the default error handler
+// -----------------------------------------------------------------------------
+
+class MockErrorHandler {
+	public function addDataTable($name, array $values=[]) {}
+}
+
+// -----------------------------------------------------------------------------
+// Define a base testcase class
+// -----------------------------------------------------------------------------
+
+/**
+ * Base class for TestCases
+ */
+class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
+	protected $container;
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$config_array = [
+			'asset_path' => '//localhost/assets/',
+			'databaase' => [],
+			'routing' => [
+
+			],
+			'routes' => [
+				'convention' => [
+					'default_controller' => '',
+					'default_method' => '',
+				],
+				'common' => [],
+				'anime' => [],
+				'manga' => []
+			]
+		];
+
+		$di = require _dir(APP_DIR, 'bootstrap.php');
+		$container = $di($config_array);
+		$container->set('error-handler', new MockErrorHandler());
+
+		$this->container = $container;
+	}
+
+	/**
+	 * Set arbitrary superglobal values for testing purposes
+	 *
+	 * @param array $supers
+	 * @return void
+	 */
+	public function setSuperGlobals($supers = [])
+	{
+		$default = [
+			'_GET' => $_GET,
+			'_POST' => $_POST,
+			'_COOKIE' => $_COOKIE,
+			'_SERVER' => $_SERVER,
+			'_FILES' => $_FILES
+		];
+		$web_factory = new WebFactory(array_merge($default,$supers));
+		$this->container->set('request', $web_factory->newRequest());
+		$this->container->set('response', $web_factory->newResponse());
+	}
+}
 
 // End of bootstrap.php

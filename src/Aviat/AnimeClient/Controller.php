@@ -56,7 +56,7 @@ class Controller {
 	protected $base_data = [
 		'url_type' => 'anime',
 		'other_type' => 'manga',
-		'nav_routes' => []
+		'menu_name' => ''
 	];
 
 	/**
@@ -105,7 +105,7 @@ class Controller {
 	{
 		$errorHandler = $this->container->get('error-handler');
 		$errorHandler->addDataTable('Template Data', $data);
-		$router = $this->container->get('router');
+		$router = $this->container->get('dispatcher');
 
 		if (isset($this->base_data))
 		{
@@ -131,7 +131,7 @@ class Controller {
 	 *
 	 * @param HtmlView $view
 	 * @param string $template
-	 * @param array|object $data
+	 * @param array $data
 	 * @return void
 	 */
 	public function render_full_page($view, $template, array $data)
@@ -145,10 +145,10 @@ class Controller {
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @param string $template
-	 * @param array|object $data
+	 * @param array $data
 	 * @return void
 	 */
-	public function outputHTML($template, $data = [])
+	public function outputHTML($template, array $data = [])
 	{
 		$view = new HtmlView($this->container);
 		$this->render_full_page($view, $template, $data);

@@ -29,18 +29,6 @@ function is_not_selected($a, $b)
 }
 
 /**
- * Get the last segment of the current url
- *
- * @return string
- */
-function last_segment()
-{
-	$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-	$segments = explode('/', $path);
-	return end($segments);
-}
-
-/**
  * Determine whether to show the sub-menu
  *
  * @return bool
