@@ -74,7 +74,7 @@ class RoutingBase {
 			->trimRight('/')
 			->ensureLeft('/');
 
-		return (string) $cleaned_path;
+		return (string)$cleaned_path;
 	}
 
 	/**
