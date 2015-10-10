@@ -277,6 +277,7 @@ class AnimeCollection extends DB {
 	/**
 	 * Update genre information for selected anime
 	 *
+	 * @param int $anime_id The current anime
 	 * @return void
 	 */
 	private function update_genre($anime_id)

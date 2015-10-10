@@ -1,9 +1,12 @@
 <?php
 
-namespace Aviat\AnimeClient\Transformer\Hummingbird;
+namespace Aviat\AnimeClient\Hummingbird\Transformer;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
 
+/**
+ * Data transformation class for zippered Hummingbird manga
+ */
 class MangaListTransformer extends AbstractTransformer {
 
 	/**

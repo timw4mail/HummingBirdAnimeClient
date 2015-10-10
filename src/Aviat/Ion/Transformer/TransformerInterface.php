@@ -2,6 +2,9 @@
 
 namespace Aviat\Ion\Transformer;
 
+/**
+ * Interface for data transformation classes
+ */
 interface TransformerInterface {
 
 	/**

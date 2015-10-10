@@ -1,10 +1,13 @@
 <?php
 
-namespace Aviat\AnimeClient\Enum\Hummingbird;
+namespace Aviat\AnimeClient\Hummingbird\Enum;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\Enum as BaseEnum;
 
-class AnimeShowType extends Enum {
+/**
+ * Type of Anime
+ */
+class AnimeShowType extends BaseEnum {
 	const TV = 'TV';
 	const MOVIE = 'Movie';
 	const OVA = 'OVA';

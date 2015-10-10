@@ -1,6 +1,6 @@
 <?php
 
-use Aviat\AnimeClient\Transformer\Hummingbird\MangaListTransformer;
+use Aviat\AnimeClient\Hummingbird\Transformer\MangaListTransformer;
 
 class MangaListTransformerTest extends AnimeClient_TestCase {
 

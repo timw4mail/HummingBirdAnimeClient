@@ -5,8 +5,6 @@
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 
-use Aviat\AnimeClient\Config;
-
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
 if ($timezone === '' || $timezone === FALSE)
@@ -49,7 +47,6 @@ spl_autoload_register(function($class) {
 	}
 });
 
-// Dependency setup
 require _dir(ROOT_DIR, '/vendor/autoload.php');
 require _dir(SRC_DIR, '/functions.php');
 
@@ -67,7 +64,8 @@ $jsonHandler = new JsonResponseHandler();
 $jsonHandler->onlyForAjaxRequests(TRUE);
 $whoops->pushHandler($jsonHandler);
 
-//$whoops->register();
+// Register as the error handler
+$whoops->register();
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup

@@ -5,6 +5,9 @@ namespace Aviat\Ion\View;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\Di\ContainerInterface;
 
+/**
+ * View class for outputting HTML
+ */
 class HtmlView extends HttpView {
 
 	/**

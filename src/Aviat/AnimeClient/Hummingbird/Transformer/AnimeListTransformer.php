@@ -1,6 +1,6 @@
 <?php
 
-namespace Aviat\AnimeClient\Transformer\Hummingbird;
+namespace Aviat\AnimeClient\Hummingbird\Transformer;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
 

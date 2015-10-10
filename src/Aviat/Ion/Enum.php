@@ -4,6 +4,12 @@ namespace Aviat\Ion;
 
 use ReflectionClass;
 
+/**
+ * Class emulating an enumeration type
+ *
+ * @method bool isValid(mixed $key)
+ * @method array getConstList()
+ */
 abstract class Enum {
 
 	use StaticInstance;

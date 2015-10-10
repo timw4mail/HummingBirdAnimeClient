@@ -2,6 +2,9 @@
 
 namespace Aviat\Ion\Transformer;
 
+/**
+ * Base class for data trasformation
+ */
 abstract class AbstractTransformer implements TransformerInterface {
 
 	use \Aviat\Ion\StringWrapper;

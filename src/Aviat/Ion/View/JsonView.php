@@ -4,6 +4,9 @@ namespace Aviat\Ion\View;
 
 use Aviat\Ion\View\HttpView;
 
+/**
+ * View class to serialize Json
+ */
 class JsonView extends HttpView {
 
 	/**

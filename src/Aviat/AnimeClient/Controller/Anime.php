@@ -7,7 +7,7 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Enum\Hummingbird\AnimeWatchingStatus;
+use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
