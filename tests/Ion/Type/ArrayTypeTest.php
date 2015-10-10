@@ -9,6 +9,68 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 		parent::setUp();
 	}
 
+	public function dataCall()
+	{
+		$method_map = [
+			'chunk' => 'array_chunk',
+			'pluck' => 'array_column',
+			'assoc_diff' => 'array_diff_assoc',
+			'key_diff' => 'array_diff_key',
+			'diff' => 'array_diff',
+			'filter' => 'array_filter',
+			'flip' => 'array_flip',
+			'intersect' => 'array_intersect',
+			'keys' => 'array_keys',
+			'merge' => 'array_merge',
+			'pad' => 'array_pad',
+			'product' => 'array_product',
+			'random' => 'array_rand',
+			'reduce' => 'array_reduce',
+			'reverse' => 'array_reverse',
+		];
+
+		return [
+			'array_sum' => [
+				'method' => 'sum',
+				'array' => [1, 2, 3, 4, 5, 6],
+				'args' => [],
+				'expected' => 21
+			],
+			'array_unique' => [
+				'method' => 'unique',
+				'array' => [1, 1, 3, 2, 2, 2, 3, 3, 5],
+				'args' => [SORT_REGULAR],
+				'expected' => [0=>1, 2=>3, 3=>2, 8=>5]
+			],
+			'array_values' => [
+				'method' => 'values',
+				'array' => ['foo' => 'bar', 'baz' => 'foobar'],
+				'args' => [],
+				'expected' => ['bar', 'foobar']
+			]
+		];
+	}
+
+	/**
+	 * Test the array methods defined for the __Call method
+	 *
+	 * @dataProvider dataCall
+	 */
+	public function testCall($method, $array, $args, $expected)
+	{
+		$obj = $this->arr($array);
+		$actual = $obj->__call($method, $args);
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function testBadCall()
+	{
+		$obj = $this->arr([]);
+
+		$this->setExpectedException('InvalidArgumentException', "Method 'foo' does not exist");
+		$obj->foo();
+	}
+
 	public function testMerge()
 	{
 		$obj = $this->arr([1, 3, 5, 7]);
@@ -28,6 +90,16 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 
 		//$this->assertNotEquals($actual, $original);
 		$this->assertTrue(is_array($actual));
+	}
+
+	public function testHasKey()
+	{
+		$obj = $this->arr([
+			'a' => 'b',
+			'z' => 'y'
+		]);
+		$this->assertTrue($obj->has_key('a'));
+		$this->assertFalse($obj->has_key('b'));
 	}
 
 	public function testHas()

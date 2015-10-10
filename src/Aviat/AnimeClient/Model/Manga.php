@@ -5,8 +5,8 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
-use Aviat\AnimeClient\Transformer\Hummingbird;
-use Aviat\AnimeClient\Enum\Hummingbird\MangaReadingStatus;
+use Aviat\AnimeClient\Hummingbird\Transformer;
+use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -132,7 +132,7 @@ class Manga extends API {
 			file_put_contents($cache_file, json_encode($api_data));
 
 			$zippered_data = $this->zipper_lists($api_data);
-			$transformer = new Hummingbird\MangaListTransformer();
+			$transformer = new Transformer\MangaListTransformer();
 			$transformed_data = $transformer->transform_collection($zippered_data);
 			file_put_contents($transformed_cache_file, json_encode($transformed_data));
 			return $transformed_data;
@@ -172,7 +172,7 @@ class Manga extends API {
 	 */
 	private function zipper_lists($raw_data)
 	{
-		$zipper = new Hummingbird\MangaListsZipper($raw_data);
+		$zipper = new Transformer\MangaListsZipper($raw_data);
 		return $zipper->transform();
 	}
 

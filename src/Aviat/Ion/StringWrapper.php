@@ -4,6 +4,9 @@ namespace Aviat\Ion;
 
 use Aviat\Ion\Type\StringType;
 
+/**
+ * Trait to add convenience method for creating StringType objects
+ */
 trait StringWrapper {
 
 	/**

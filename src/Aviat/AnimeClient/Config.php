@@ -20,7 +20,7 @@ class Config {
 	/**
 	 * Constructor
 	 *
-	 * @param array $config_files
+	 * @param array $config_array
 	 */
 	public function __construct(array $config_array = [])
 	{

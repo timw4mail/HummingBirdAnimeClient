@@ -1,7 +1,7 @@
 <?php
 
 use Aviat\Ion\Friend;
-use Aviat\AnimeClient\Transformer\Hummingbird\AnimeListTransformer;
+use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 class AnimeListTransformerTest extends AnimeClient_TestCase {
 

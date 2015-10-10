@@ -1,6 +1,6 @@
 <?php
 
-use Aviat\AnimeClient\Transformer\Hummingbird\MangaListsZipper;
+use Aviat\AnimeClient\Hummingbird\Transformer\MangaListsZipper;
 
 class MangaListsZipperTest extends AnimeClient_TestCase {
 

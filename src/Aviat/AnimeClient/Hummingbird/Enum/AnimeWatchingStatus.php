@@ -1,10 +1,13 @@
 <?php
 
-namespace Aviat\AnimeClient\Enum\Hummingbird;
+namespace Aviat\AnimeClient\Hummingbird\Enum;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\Enum as BaseEnum;
 
-class AnimeWatchingStatus extends Enum {
+/**
+ * Possible values for watching status for the current anime
+ */
+class AnimeWatchingStatus extends BaseEnum {
 	const WATCHING = 'currently-watching';
 	const PLAN_TO_WATCH = 'plan-to-watch';
 	const COMPLETED = 'completed';

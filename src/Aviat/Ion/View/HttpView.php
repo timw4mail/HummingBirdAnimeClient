@@ -6,11 +6,14 @@ use Aura\Web\ResponseSender;
 
 use Aviat\Ion\View as BaseView;
 
+/**
+ * Base view class for Http output
+ */
 class HttpView extends BaseView {
-	
+
 	/**
 	 * Do a redirect
-	 * 
+	 *
 	 * @param string $url
 	 * @param int $code
 	 * @return void
@@ -19,7 +22,7 @@ class HttpView extends BaseView {
 	{
 		$this->response->redirect->to($url, $code);
 	}
-	
+
 	/**
 	 * Send the appropriate response
 	 *
@@ -32,5 +35,5 @@ class HttpView extends BaseView {
 		$sender = new ResponseSender($this->response);
 		$sender->__invoke();
 	}
-	
+
 }

@@ -2,6 +2,9 @@
 
 namespace Aviat\Ion\Di;
 
+/**
+ * Interface for the Dependency Injection Container
+ */
 interface ContainerInterface extends \Interop\Container\ContainerInterface {
 
 	/**

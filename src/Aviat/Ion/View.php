@@ -4,6 +4,9 @@ namespace Aviat\Ion;
 
 use Aviat\Ion\Di\ContainerInterface;
 
+/**
+ * Base view response class
+ */
 abstract class View {
 
 	use Di\ContainerAware;

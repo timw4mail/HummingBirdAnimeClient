@@ -4,6 +4,10 @@ namespace Aviat\Ion\Type;
 
 /**
  * Wrapper class for native array methods for convenience
+ *
+ * @method array chunk(int $size, bool $preserve_keys = FALSE)
+ * @method array pluck(mixed $column_key, mixed $index_key = NULL)
+ * @method array filter(callable $callback = NULL, int $flag = 0)
  */
 class ArrayType {
 
@@ -22,7 +26,6 @@ class ArrayType {
 	protected $native_methods = [
 		'chunk' => 'array_chunk',
 		'pluck' => 'array_column',
-		'assoc_diff' => 'array_diff_assoc',
 		'key_diff' => 'array_diff_key',
 		'diff' => 'array_diff',
 		'filter' => 'array_filter',
@@ -31,16 +34,12 @@ class ArrayType {
 		'keys' => 'array_keys',
 		'merge' => 'array_merge',
 		'pad' => 'array_pad',
-		'pop' => 'array_pop',
 		'product' => 'array_product',
-		'push' => 'array_push',
 		'random' => 'array_rand',
 		'reduce' => 'array_reduce',
 		'reverse' => 'array_reverse',
-		'shift' => 'array_shift',
 		'sum' => 'array_sum',
 		'unique' => 'array_unique',
-		'unshift' => 'array_unshift',
 		'values' => 'array_values',
 	];
 
@@ -51,6 +50,10 @@ class ArrayType {
 	 */
 	protected $native_in_place_methods = [
 		'shuffle' => 'shuffle',
+		'shift' => 'array_shift',
+		'unshift' => 'array_unshift',
+		'push' => 'array_push',
+		'pop' => 'array_pop',
 	];
 
 	/**
@@ -69,6 +72,7 @@ class ArrayType {
 	 * @param string $method
 	 * @param array $args
 	 * @return mixed
+	 * @throws \InvalidArgumentException
 	 */
 	public function __call($method, $args)
 	{
@@ -88,8 +92,10 @@ class ArrayType {
 			$func($this->arr);
 			return $this->arr;
 		}
+
+		throw new \InvalidArgumentException("Method '{$method}' does not exist");
 	}
-	
+
 	/**
 	 * Does the passed key exist in the current array?
 	 *

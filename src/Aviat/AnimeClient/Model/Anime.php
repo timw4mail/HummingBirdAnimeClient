@@ -6,8 +6,8 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
-use Aviat\AnimeClient\Enum\Hummingbird\AnimeWatchingStatus;
-use Aviat\AnimeClient\Transformer\Hummingbird\AnimeListTransformer;
+use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
+use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 /**
  * Model for handling requests dealing with the anime list
