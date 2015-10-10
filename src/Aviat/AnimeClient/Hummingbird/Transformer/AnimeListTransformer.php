@@ -71,7 +71,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'watching_status' => $item['status'],
 			'notes' => $item['notes'],
-			'rewatching' => (bool) $item['rewatching'],
+			'rewatching' => (bool)$item['rewatching'],
 			'rewatched' => $item['rewatched_times'],
 			'user_rating' => $rating,
 		];
@@ -87,7 +87,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	{
 		$genres = [];
 
-		foreach($raw_genres as $genre)
+		foreach ($raw_genres as $genre)
 		{
 			$genres[] = $genre['name'];
 		}
