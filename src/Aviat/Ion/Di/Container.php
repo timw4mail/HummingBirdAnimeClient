@@ -12,7 +12,7 @@ class Container implements ContainerInterface {
 	/**
 	 * Array with class instances
 	 *
-	 * @var array
+	 * @var ArrayObject
 	 */
 	protected $container = [];
 

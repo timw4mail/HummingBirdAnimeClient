@@ -106,7 +106,7 @@ class Dispatcher extends RoutingBase {
 	 * Handle the current route
 	 *
 	 * @codeCoverageIgnore
-	 * @param object $route
+	 * @param object|null $route
 	 * @return void
 	 */
 	public function __invoke($route = NULL)

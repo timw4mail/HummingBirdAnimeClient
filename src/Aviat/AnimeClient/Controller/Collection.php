@@ -91,7 +91,7 @@ class Collection extends BaseController {
 	/**
 	 * Show the anime collection add/edit form
 	 *
-	 * @param int $id
+	 * @param integer|null $id
 	 * @return void
 	 */
 	public function form($id = NULL)

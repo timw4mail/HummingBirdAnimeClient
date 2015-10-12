@@ -16,7 +16,7 @@ class RoutingBase {
 
 	/**
 	 * Injection Container
-	 * @var Container $container
+	 * @var ContainerInterface $container
 	 */
 	protected $container;
 
