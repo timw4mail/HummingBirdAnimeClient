@@ -52,7 +52,7 @@ class MangaListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'reading_status' => $item['status'],
 			'notes' => $item['notes'],
-			'rereading' => (bool) $item['rereading'],
+			'rereading' => (bool)$item['rereading'],
 			'reread' => $item['reread_count'],
 			'user_rating' => $rating
 		];
