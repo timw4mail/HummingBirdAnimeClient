@@ -68,11 +68,7 @@ class Model {
 		// Cache the file if it doesn't already exist
 		if ( ! file_exists($cached_path))
 		{
-			/*if (ini_get('allow_url_fopen'))
-			{
-				copy($api_path, $cached_path);
-			}
-			else*/if (function_exists('curl_init'))
+			if (function_exists('curl_init'))
 			{
 				$ch = curl_init($api_path);
 				$fp = fopen($cached_path, 'wb');
@@ -83,6 +79,10 @@ class Model {
 				curl_exec($ch);
 				curl_close($ch);
 				fclose($fp);
+			}
+			else if (ini_get('allow_url_fopen'))
+			{
+				copy($api_path, $cached_path);
 			}
 			else
 			{

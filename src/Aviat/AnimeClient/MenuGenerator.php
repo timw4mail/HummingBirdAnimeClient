@@ -53,16 +53,6 @@ class MenuGenerator extends UrlGenerator {
 	 */
 	protected function parse_config()
 	{
-		// Note: Children menus have urls based on the
-		// current url path
-		/*
-			parsed = {
-				menu_name: {
-					title: 'full_url_path'
-				}
-			}
-		*/
-
 		$parsed = [];
 
 		foreach ($this->menus as $name => $menu)

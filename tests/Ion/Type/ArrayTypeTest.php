@@ -23,13 +23,29 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 			'keys' => 'array_keys',
 			'merge' => 'array_merge',
 			'pad' => 'array_pad',
-			'product' => 'array_product',
 			'random' => 'array_rand',
 			'reduce' => 'array_reduce',
-			'reverse' => 'array_reverse',
 		];
 
 		return [
+			'array_merge' => [
+				'method' => 'merge',
+				'array' => [1, 3, 5, 7],
+				'args' => [[2, 4, 6, 8]],
+				'expected' => [1, 3, 5, 7, 2, 4, 6, 8]
+			],
+			'array_product' => [
+				'method' => 'product',
+				'array' => [1, 2, 3],
+				'args' => [],
+				'expected' => 6
+			],
+			'array_reverse' => [
+				'method' => 'reverse',
+				'array' => [1, 2, 3, 4, 5],
+				'args' => [],
+				'expected' => [5, 4, 3, 2, 1]
+			],
 			'array_sum' => [
 				'method' => 'sum',
 				'array' => [1, 2, 3, 4, 5, 6],
@@ -40,7 +56,7 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 				'method' => 'unique',
 				'array' => [1, 1, 3, 2, 2, 2, 3, 3, 5],
 				'args' => [SORT_REGULAR],
-				'expected' => [0=>1, 2=>3, 3=>2, 8=>5]
+				'expected' => [0 => 1, 2 => 3, 3 => 2, 8 => 5]
 			],
 			'array_values' => [
 				'method' => 'values',
@@ -63,22 +79,22 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testMap()
+	{
+		$obj = $this->arr([1, 2, 3]);
+		$actual = $obj->map(function($item) {
+			return $item * 2;
+		});
+
+		$this->assertEquals([2, 4, 6], $actual);
+	}
+
 	public function testBadCall()
 	{
 		$obj = $this->arr([]);
 
 		$this->setExpectedException('InvalidArgumentException', "Method 'foo' does not exist");
 		$obj->foo();
-	}
-
-	public function testMerge()
-	{
-		$obj = $this->arr([1, 3, 5, 7]);
-		$even_array = [2, 4, 6, 8];
-		$expected = [1, 3, 5, 7, 2, 4, 6, 8];
-
-		$actual = $obj->merge($even_array);
-		$this->assertEquals($expected, $actual);
 	}
 
 	public function testShuffle()

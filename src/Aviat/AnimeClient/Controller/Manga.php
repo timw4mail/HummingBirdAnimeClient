@@ -34,7 +34,6 @@ class Manga extends Controller {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$config = $container->get('config');
 		$this->model = new MangaModel($container);
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'manga_list',

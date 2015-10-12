@@ -248,7 +248,6 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'anime' => 'Aviat\AnimeClient\Controller\Anime',
 					'manga' => 'Aviat\AnimeClient\Controller\Manga',
 					'collection' => 'Aviat\AnimeClient\Controller\Collection',
-					'stats' => 'Aviat\AnimeClient\Controller\Stats'
 				]
 			],
 			'empty_controller_list' => [

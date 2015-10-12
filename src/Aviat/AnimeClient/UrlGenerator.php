@@ -90,7 +90,6 @@ class UrlGenerator extends RoutingBase {
 	 */
 	public function full_url($path = "", $type = "anime")
 	{
-		$config_path = trim($this->__get("{$type}_path"), "/");
 		$config_default_route = $this->__get("default_{$type}_path");
 
 		// Remove beginning/trailing slashes

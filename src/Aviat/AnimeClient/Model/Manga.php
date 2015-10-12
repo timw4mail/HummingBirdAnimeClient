@@ -99,7 +99,7 @@ class Manga extends API {
 		];
 
 		$response = $this->client->get('manga_library_entries', $config);
-		$data = $this->_check_cache($status, $response);
+		$data = $this->_check_cache($response);
 		$output = $this->map_by_status($data);
 
 		return (array_key_exists($status, $output)) ? $output[$status] : $output;
@@ -108,11 +108,10 @@ class Manga extends API {
 	/**
 	 * Check the status of the cache and return the appropriate response
 	 *
-	 * @param string $status
 	 * @param \GuzzleHttp\Message\Response $response
 	 * @return array
 	 */
-	private function _check_cache($status, $response)
+	private function _check_cache($response)
 	{
 		// Bail out early if there isn't any manga data
 		$api_data = json_decode($response->getBody(), TRUE);
