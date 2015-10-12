@@ -3,6 +3,7 @@
 namespace Aviat\Ion;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Base view response class
@@ -29,7 +30,7 @@ abstract class View {
 	/**
 	 * String of response to be output
 	 *
-	 * @var S
+	 * @var StringType
 	 */
 	protected $output;
 

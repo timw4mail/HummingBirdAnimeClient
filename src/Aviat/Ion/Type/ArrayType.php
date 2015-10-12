@@ -136,7 +136,7 @@ class ArrayType {
 	 *
 	 * @param mixed $value
 	 * @param bool $strict
-	 * @return string
+	 * @return false|integer|string
 	 */
 	public function search($value, $strict=FALSE)
 	{

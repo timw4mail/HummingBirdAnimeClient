@@ -169,7 +169,8 @@ class AnimeCollection extends DB {
 	{
 		if ( ! $this->valid_database) return [];
 
-		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type, age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
+		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type,
+			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
 			->from('anime_set a')
 			->join('media', 'media.id=a.media_id', 'inner')
 			->order_by('media')
@@ -196,7 +197,9 @@ class AnimeCollection extends DB {
 			'alternate_title' => $anime->alternate_title,
 			'show_type' => $anime->show_type,
 			'age_rating' => $anime->age_rating,
-			'cover_image' => basename($this->get_cached_image($anime->cover_image, $anime->slug, 'anime')),
+			'cover_image' => basename(
+				$this->get_cached_image($anime->cover_image, $anime->slug, 'anime')
+			),
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
 			'media_id' => $data['media_id'],
@@ -261,7 +264,9 @@ class AnimeCollection extends DB {
 				'alternate_title' => $item->alternate_title,
 				'show_type' => $item->show_type,
 				'age_rating' => $item->age_rating,
-				'cover_image' => basename($this->get_cached_image($item->cover_image, $item->slug, 'anime')),
+				'cover_image' => basename(
+					$this->get_cached_image($item->cover_image, $item->slug, 'anime')
+				),
 				'episode_count' => $item->episode_count,
 				'episode_length' => $item->episode_length
 			])->insert('anime_set');
