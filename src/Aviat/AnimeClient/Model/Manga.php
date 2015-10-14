@@ -88,6 +88,12 @@ class Manga extends API {
 		return $data;
 	}
 
+	/**
+	 * Retrieve the list from the hummingbird api
+	 * 
+	 * @param  string $status
+	 * @return array
+	 */
 	private function _get_list_from_api($status = "All")
 	{
 

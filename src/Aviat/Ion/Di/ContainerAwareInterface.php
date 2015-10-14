@@ -2,6 +2,9 @@
 
 namespace Aviat\Ion\Di;
 
+/**
+ * Interface for a class that is aware of the Di Container
+ */
 interface ContainerAwareInterface {
 
 	/**

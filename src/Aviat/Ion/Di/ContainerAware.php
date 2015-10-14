@@ -2,6 +2,9 @@
 
 namespace Aviat\Ion\Di;
 
+/**
+ * Trait implementation of ContainerAwareInterface
+ */
 trait ContainerAware {
 
 	/**

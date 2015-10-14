@@ -4,6 +4,9 @@ namespace Aviat\Ion\Type;
 
 use Stringy\Stringy;
 
+/**
+ * Wrapper around Stringy
+ */
 class StringType extends Stringy {
 
 }

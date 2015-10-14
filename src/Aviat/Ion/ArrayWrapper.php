@@ -4,6 +4,9 @@ namespace Aviat\Ion;
 
 use Aviat\Ion\Type\ArrayType;
 
+/**
+ * Wrapper to shortcut creating ArrayType objects
+ */
 trait ArrayWrapper {
 
 	/**
