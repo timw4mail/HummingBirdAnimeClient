@@ -64,7 +64,7 @@ class API extends BaseModel {
 	 * @codeCoverageIgnore
 	 * @param string $username
 	 * @param string $password
-	 * @return bool
+	 * @return string|false
 	 */
 	public function authenticate($username, $password)
 	{
@@ -77,8 +77,7 @@ class API extends BaseModel {
 
 		if ($result->getStatusCode() === 201)
 		{
-			$_SESSION['hummingbird_anime_token'] = $result->json();
-			return TRUE;
+			return json_decode($result->getBody(), TRUE);
 		}
 
 		return FALSE;
