@@ -42,10 +42,16 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 		$this->assertTrue(empty($baseApiModel->base_url));
 	}
 
+	protected function getIp()
+	{
+		$response = $this->model->get('/ip');
+		$json = json_decode($response->getBody(), TRUE);
+		$ip = $json['origin'];
+		return $ip;
+	}
+
 	public function dataClient()
 	{
-		$host = gethostname();
-		$ip = gethostbyname($host);
 		$user_agent = "Tim's Anime Client/2.0";
 		$headers = [
 			'User-Agent' => $user_agent
@@ -76,7 +82,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 						'Host' => 'httpbin.org',
 						'User-Agent' => $user_agent
 					],
-					'origin' => $ip,
 					'url' => 'https://httpbin.org/get?foo=bar'
 				],
 				'is_json' => TRUE
@@ -106,7 +111,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 						'Content-Type' => 'application/x-www-form-urlencoded'
 					],
 					'json' => NULL,
-					'origin' => $ip,
 					'url' => 'https://httpbin.org/post'
 				],
 				'is_json' => TRUE
@@ -136,7 +140,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 						'Content-Type' => 'application/x-www-form-urlencoded'
 					],
 					'json' => NULL,
-					'origin' => $ip,
 					'url' => 'https://httpbin.org/put'
 				],
 				'is_json' => TRUE
@@ -166,7 +169,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 						'Content-Type' => 'application/x-www-form-urlencoded'
 					],
 					'json' => NULL,
-					'origin' => $ip,
 					'url' => 'https://httpbin.org/patch'
 				],
 				'is_json' => TRUE
@@ -196,7 +198,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 						'Content-Type' => 'application/x-www-form-urlencoded'
 					],
 					'json' => NULL,
-					'origin' => $ip,
 					'url' => 'https://httpbin.org/delete'
 				],
 				'is_json' => TRUE
@@ -209,6 +210,7 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 	 */
 	public function testClient($method, $uri, $options, $expected, $is_json)
 	{
+
 		$result = $this->model->$method($uri, $options);
 
 		if (is_null($result))
@@ -217,6 +219,9 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 			return;
 		}
 
+		// Because you have to make another api call to get the origin ip
+		// address, it needs to be retreived outside of the dataProvider method
+		$expected['origin'] = $this->getIp();
 		$actual = ($is_json)
 			? json_decode($result->getBody(), TRUE)
 			: (string) $result->getBody();
