@@ -58,7 +58,7 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 		];
 
 		return [
-			'invalid' => [
+			'invalid method' => [
 				'method' => 'foo',
 				'uri' => '',
 				'options' => [],

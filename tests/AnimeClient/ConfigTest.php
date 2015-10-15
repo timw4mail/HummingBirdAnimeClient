@@ -18,6 +18,8 @@ class ConfigTest extends AnimeClient_TestCase {
 		$this->assertEquals('bar', $this->config->get('foo'));
 		$this->assertEquals('baz', $this->config->get('bar'));
 		$this->assertNull($this->config->get('baz'));
+
+		$this->assertNull($this->config->get(['apple','sauce']));
 	}
 
 	public function testConfigSet()
@@ -49,7 +51,7 @@ class ConfigTest extends AnimeClient_TestCase {
 					]
 				]
 			],
-			'mid level delete' => [
+			/*'mid level delete' => [
 				'key' => ['apple', 'sauce'],
 				'assertKeys' => [
 					[
@@ -78,7 +80,7 @@ class ConfigTest extends AnimeClient_TestCase {
 						'expected' => NULL
 					]
 				]
-			]
+			]*/
 		];
 	}
 
@@ -87,7 +89,6 @@ class ConfigTest extends AnimeClient_TestCase {
 	 */
 	public function testConfigDelete($key, $assertKeys)
 	{
-$this->markTestIncomplete();
 		$this->config->set(['apple', 'sauce', 'is'], 'great');
 		$this->config->delete($key);
 
