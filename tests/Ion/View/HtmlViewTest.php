@@ -31,11 +31,12 @@ class TestHtmlView extends HtmlView {
 
 class HtmlViewTest extends ViewTest {
 
-	protected $template_path = __DIR__ . "/../../test_views/";
+	protected $template_path;
 
 	public function setUp()
 	{
 		parent::setUp();
+		$this->template_path = __DIR__ . "/../../test_views/";
 		$this->view = new TestHtmlView($this->container);
 	}
 
