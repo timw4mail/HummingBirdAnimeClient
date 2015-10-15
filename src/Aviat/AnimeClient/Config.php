@@ -39,7 +39,7 @@ class Config {
 	{
 		if (is_array($key))
 		{
-			return $this->get_deep_key($key, FALSE);
+			return $this->arr($this->map)->get_deep_key($key);
 		}
 
 		if (array_key_exists($key, $this->map))
@@ -104,7 +104,7 @@ class Config {
 			$pos =& $this->map[$key];
 		}
 
-		unset($pos);
+		$pos = NULL;
 	}
 
 	/**
