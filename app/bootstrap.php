@@ -10,6 +10,7 @@ use Aura\Web\WebFactory;
 use Aura\Router\RouterFactory;
 use Aura\Session\SessionFactory;
 use Aviat\Ion\Di\Container;
+use Aviat\AnimeClient\Auth\HummingbirdAuth;
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -54,6 +55,7 @@ return function(array $config_array = []) {
 	$container->set('session', $session);
 
 	$container->set('url-generator', new UrlGenerator($container));
+	$container->set('auth', new HummingbirdAuth($container));
 
 	// -------------------------------------------------------------------------
 	// Dispatcher

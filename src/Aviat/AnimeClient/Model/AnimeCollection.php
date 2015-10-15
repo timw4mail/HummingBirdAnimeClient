@@ -6,7 +6,6 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\AnimeClient\Model\DB;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 /**
@@ -43,8 +42,15 @@ class AnimeCollection extends DB {
 		$db_file_name = $this->db_config['collection']['file'];
 		if ($db_file_name !== ':memory:')
 		{
-			$db_file = file_get_contents($db_file_name);
-			$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
+			if ( ! file_exists($db_file_name))
+			{
+				$this->valid_data = FALSE;
+			}
+			else
+			{
+				$db_file = file_get_contents($db_file_name);
+				$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
+			}
 		}
 		else
 		{
