@@ -26,6 +26,7 @@ class HttpView extends BaseView {
 	/**
 	 * Send the appropriate response
 	 *
+	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	protected function output()

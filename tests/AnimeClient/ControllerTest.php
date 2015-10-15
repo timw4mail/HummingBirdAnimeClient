@@ -1,5 +1,8 @@
 <?php
 use \Aviat\AnimeClient\Controller;
+use Aviat\AnimeClient\Controller\Anime as AnimeController;
+use Aviat\AnimeClient\Controller\Manga as MangaController;
+use Aviat\AnimeClient\Controller\Collection as CollectionController;
 use \Aura\Web\WebFactory;
 use \Aura\Router\RouterFactory;
 
@@ -20,7 +23,32 @@ class ControllerTest extends AnimeClient_TestCase {
 		$this->container->set('request', $web_factory->newRequest());
 		$this->container->set('response', $web_factory->newResponse());
 
+
 		$this->BaseController = new Controller($this->container);
+	}
+
+	public function testControllersSanity()
+	{
+		$config = $this->container->get('config');
+		$config->set(['database', 'collection'], [
+			'type' => 'sqlite',
+			'database' => '',
+			'file' => ":memory:"
+		]);
+		$this->container->set('config', $config);
+
+		$this->assertInstanceOf(
+			'Aviat\AnimeClient\Controller',
+			new AnimeController($this->container)
+		);
+		$this->assertInstanceOf(
+			'Aviat\AnimeClient\Controller',
+			new MangaController($this->container)
+		);
+		$this->assertInstanceOf(
+			'Aviat\AnimeClient\Controller',
+			new CollectionController($this->container)
+		);
 	}
 
 	public function testBaseControllerSanity()

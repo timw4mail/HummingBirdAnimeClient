@@ -43,11 +43,6 @@ class Anime extends BaseController {
 	{
 		parent::__construct($container);
 
-		if ($this->config->get('show_anime_collection') === FALSE)
-		{
-			unset($this->nav_routes['Collection']);
-		}
-
 		$this->model = new AnimeModel($container);
 		$this->collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
@@ -109,7 +104,8 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		$title = $this->config->get('whose_list') . "'s Anime List &middot; {$type_title_map[$type]}";
+		$title = $this->config->get('whose_list') .
+			"'s Anime List &middot; {$type_title_map[$type]}";
 
 		$view_map = [
 			'' => 'cover',

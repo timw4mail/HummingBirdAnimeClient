@@ -5,7 +5,6 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
@@ -50,11 +49,11 @@ class Anime extends API {
 		// @TODO use Hummingbird Auth class
 		$data['auth_token'] = '';
 
-		$result = $this->client->post("libraries/{$data['id']}", [
+		$response = $this->client->post("libraries/{$data['id']}", [
 			'body' => $data
 		]);
 
-		return $result->json();
+		return json_decode($result->getBody(), TRUE);
 	}
 
 	/**
@@ -140,7 +139,7 @@ class Anime extends API {
 			]
 		];
 
-		$response = $this->client->get('search/anime', $config);
+		$response = $this->get('search/anime', $config);
 		$errorHandler->addDataTable('anime_search_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
@@ -148,7 +147,7 @@ class Anime extends API {
 			throw new RuntimeException($response->getEffectiveUrl());
 		}
 
-		return $response->json();
+		return json_decode($response->getBody(), TRUE);
 	}
 
 	/**
@@ -170,7 +169,7 @@ class Anime extends API {
 		}
 
 		$username = $this->config->get('hummingbird_username');
-		$response = $this->client->get("users/{$username}/library", $config);
+		$response = $this->get("users/{$username}/library", $config);
 		$output = $this->_check_cache($status, $response);
 
 		foreach ($output as &$row)

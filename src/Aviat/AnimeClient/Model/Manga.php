@@ -49,12 +49,12 @@ class Manga extends API {
 		unset($data['id']);
 
 		// @TODO update with auth key from auth class
-		$result = $this->client->put("manga_library_entries/{$id}", [
+		$result = $this->put("manga_library_entries/{$id}", [
 			'cookies' => ['token' => ''],
 			'json' => ['manga_library_entry' => $data]
 		]);
 
-		return $result->json();
+		return json_decode($result->getBody(), TRUE);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Manga extends API {
 
 	/**
 	 * Retrieve the list from the hummingbird api
-	 * 
+	 *
 	 * @param  string $status
 	 * @return array
 	 */
@@ -104,7 +104,7 @@ class Manga extends API {
 			'allow_redirects' => FALSE
 		];
 
-		$response = $this->client->get('manga_library_entries', $config);
+		$response = $this->get('manga_library_entries', $config);
 		$data = $this->_check_cache($response);
 		$output = $this->map_by_status($data);
 

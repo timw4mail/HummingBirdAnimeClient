@@ -61,7 +61,7 @@ class ArrayType {
 	 *
 	 * @param array $arr
 	 */
-	public function __construct(array $arr)
+	public function __construct(array &$arr)
 	{
 		$this->arr =& $arr;
 	}
@@ -153,6 +153,42 @@ class ArrayType {
 	public function has($value, $strict=FALSE)
 	{
 		return in_array($value, $this->arr, $strict);
+	}
+
+	/**
+	 * Return the array
+	 *
+	 * @return array
+	 */
+	public function get()
+	{
+		return $this->arr;
+	}
+
+	/**
+	 * Return a reference to the value of an arbitrary key on the array
+	 *
+	 * @param  array $key
+	 * @return mixed
+	 */
+	public function &get_deep_key(array $key)
+	{
+		$pos =& $this->arr;
+
+		// Create the start of the array if it doesn't exist
+		if ( ! is_array($pos))
+		{
+			return NULL;
+		}
+
+		// Iterate through the levels of the array,
+		// create the levels if they don't exist
+		foreach($key as $level)
+		{
+			$pos =& $pos[$level];
+		}
+
+		return $pos;
 	}
 }
 // End of ArrayType.php

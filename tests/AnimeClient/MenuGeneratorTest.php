@@ -16,23 +16,7 @@ class MenuGeneratorTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$config = $this->container->get('config');
-		$config->set('menus', [
-			'anime_list' => [
-				'route_prefix' => '/anime',
-				'items' => [
-					'watching' => '/watching',
-					'plan_to_watch' => '/plan_to_watch',
-					'on_hold' => '/on_hold',
-					'dropped' => '/dropped',
-					'completed' => '/completed',
-					'all' => '/all'
-				]
-			],
-		]);
-
 		$this->generator = new MenuGenerator($this->container);
-
 	}
 
 	public function testSanity()
@@ -44,6 +28,19 @@ class MenuGeneratorTest extends AnimeClient_TestCase {
 	public function testParseConfig()
 	{
 		$friend = new Friend($this->generator);
+		$menus = [
+			'anime_list' => [
+				'route_prefix' => '/anime',
+				'items' => [
+					'watching' => '/watching',
+					'plan_to_watch' => '/plan_to_watch',
+					'on_hold' => '/on_hold',
+					'dropped' => '/dropped',
+					'completed' => '/completed',
+					'all' => '/all'
+				]
+			],
+		];
 		$expected = [
 			'anime_list' => [
 				'Watching' => '/anime/watching',
@@ -54,6 +51,6 @@ class MenuGeneratorTest extends AnimeClient_TestCase {
 				'All' => '/anime/all'
 			]
 		];
-		$this->assertEquals($expected, $friend->parse_config());
+		$this->assertEquals($expected, $friend->parse_config($menus));
 	}
 }

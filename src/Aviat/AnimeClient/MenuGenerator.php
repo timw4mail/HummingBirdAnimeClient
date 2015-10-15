@@ -20,13 +20,6 @@ class MenuGenerator extends UrlGenerator {
 	protected $helper;
 
 	/**
-	 * Menu config array
-	 *
-	 * @var array
-	 */
-	protected $menus;
-
-	/**
 	 * Request object
 	 *
 	 * @var Aura\Web\Request
@@ -41,7 +34,6 @@ class MenuGenerator extends UrlGenerator {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->menus = $this->config->get('menus');
 		$this->helper = $container->get('html-helper');
 		$this->request = $container->get('request');
 	}
@@ -51,11 +43,11 @@ class MenuGenerator extends UrlGenerator {
 	 *
 	 * @return array
 	 */
-	protected function parse_config()
+	protected function parse_config(array $menus)
 	{
 		$parsed = [];
 
-		foreach ($this->menus as $name => $menu)
+		foreach ($menus as $name => $menu)
 		{
 			$parsed[$name] = [];
 			foreach ($menu['items'] as $path_name => $partial_path)
@@ -76,7 +68,8 @@ class MenuGenerator extends UrlGenerator {
 	 */
 	public function generate($menu)
 	{
-		$parsed_config = $this->parse_config();
+		$menus = $this->config->get('menus');
+		$parsed_config = $this->parse_config($menus);
 
 		// Bail out early on invalid menu
 		if ( ! $this->arr($parsed_config)->has_key($menu))

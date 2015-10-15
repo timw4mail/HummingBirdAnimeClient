@@ -7,12 +7,21 @@ namespace Aviat\AnimeClient\Model;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\ResponseInterface;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model as BaseModel;
 
 /**
  * Base model for api interaction
+ *
+ * @method ResponseInterface get(string $uri, array $options);
+ * @method ResponseInterface delete(string $uri, array $options);
+ * @method ResponseInterface head(string $uri, array $options);
+ * @method ResponseInterface options(string $uri, array $options);
+ * @method ResponseInterface patch(string $uri, array $options);
+ * @method ResponseInterface post(string $uri, array $options);
+ * @method ResponseInterface put(string $uri, array $options);
  */
 class API extends BaseModel {
 
@@ -59,6 +68,35 @@ class API extends BaseModel {
 	}
 
 	/**
+	 * Magic methods to call guzzle api client
+	 *
+	 * @param  string $method
+	 * @param  array $args
+	 * @return ResponseInterface|null
+	 */
+	public function __call($method, $args)
+	{
+		$valid_methods = [
+			'get',
+			'delete',
+			'head',
+			'options',
+			'patch',
+			'post',
+			'put'
+		];
+
+		if ( ! in_array($method, $valid_methods))
+		{
+			return NULL;
+		}
+
+		array_unshift($args, strtoupper($method));
+		$response = call_user_func_array([$this->client, 'request'], $args);
+		return $response;
+	}
+
+	/**
 	 * Attempt login via the api
 	 *
 	 * @codeCoverageIgnore
@@ -68,7 +106,7 @@ class API extends BaseModel {
 	 */
 	public function authenticate($username, $password)
 	{
-		$result = $this->client->post('https://hummingbird.me/api/v1/users/authenticate', [
+		$result = $this->post('https://hummingbird.me/api/v1/users/authenticate', [
 			'body' => [
 				'username' => $username,
 				'password' => $password
