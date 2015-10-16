@@ -5,6 +5,8 @@
 
 namespace Aviat\AnimeClient;
 
+use InvalidArgumentException;
+
 /**
  * Wrapper for configuration values
  */
@@ -15,7 +17,7 @@ class Config {
 	/**
 	 * Config object
 	 *
-	 * @var array
+	 * @var Aviat\Ion\Type\ArrayType
 	 */
 	protected $map = [];
 
@@ -26,7 +28,7 @@ class Config {
 	 */
 	public function __construct(array $config_array = [])
 	{
-		$this->map = $config_array;
+		$this->map = $this->arr($config_array);
 	}
 
 	/**
@@ -39,50 +41,10 @@ class Config {
 	{
 		if (is_array($key))
 		{
-			return $this->arr($this->map)->get_deep_key($key);
+			return $this->map->get_deep_key($key);
 		}
 
-		if (array_key_exists($key, $this->map))
-		{
-			return $this->map[$key];
-		}
-
-		return NULL;
-	}
-
-	/**
-	 * Return a reference to an arbitrary key on the config map
-	 * @param  array $key
-	 * @param bool $create Whether to create the missing array keys
-	 * @return mixed
-	 */
-	protected function &get_deep_key(array $key, $create = TRUE)
-	{
-		$pos =& $this->map;
-
-		// Create the start of the array if it doesn't exist
-		if ($create &&  ! is_array($pos))
-		{
-			$pos = [];
-		}
-		elseif ( ! is_array($pos))
-		{
-			return NULL;
-		}
-
-		// Iterate through the levels of the array,
-		// create the levels if they don't exist
-		foreach($key as $level)
-		{
-			if ($create && empty($pos) && ! is_array($pos))
-			{
-				$pos = [];
-				$pos[$level] = [];
-			}
-			$pos =& $pos[$level];
-		}
-
-		return $pos;
+		return $this->map->get($key);
 	}
 
 	/**
@@ -93,39 +55,38 @@ class Config {
 	 */
 	public function delete($key)
 	{
-		$pos =& $this->map;
-
 		if (is_array($key))
 		{
-			$pos =& $this->arr($this->map)->get_deep_key($key);
+			$this->map->set_deep_key($key, NULL);
 		}
 		else
 		{
-			$pos =& $this->map[$key];
+			$pos =& $this->map->get($key);
+			$pos = NULL;
 		}
-
-		$pos = NULL;
 	}
 
 	/**
 	 * Set a config value
 	 *
-	 * @param string|array $key
+	 * @param integer|string|array $key
 	 * @param mixed $value
+	 * @throws InvalidArgumentException
 	 * @return Config
 	 */
 	public function set($key, $value)
 	{
-		$pos =& $this->map;
-
 		if (is_array($key))
 		{
-			$pos =& $this->get_deep_key($key);
-			$pos = $value;
+			$this->map->set_deep_key($key, $value);
+		}
+		else if(is_scalar($key) && ! empty($key))
+		{
+			$this->map->set($key, $value);
 		}
 		else
 		{
-			$pos[$key] = $value;
+			throw new InvalidArgumentException("Key must be integer, string, or array, and cannot be empty");
 		}
 
 		return $this;
