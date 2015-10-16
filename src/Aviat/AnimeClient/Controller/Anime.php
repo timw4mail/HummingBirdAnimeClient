@@ -9,7 +9,6 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
 /**
  * Controller for Anime-related pages
@@ -21,12 +20,6 @@ class Anime extends BaseController {
 	 * @var object $model
 	 */
 	protected $model;
-
-	/**
-	 * The anime collection model
-	 * @var object $collection_model
-	 */
-	private $collection_model;
 
 	/**
 	 * Data to ve sent to all routes in this controller
@@ -44,7 +37,6 @@ class Anime extends BaseController {
 		parent::__construct($container);
 
 		$this->model = new AnimeModel($container);
-		$this->collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'anime_list',
 			'message' => '',
