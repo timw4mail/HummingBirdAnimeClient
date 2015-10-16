@@ -79,6 +79,28 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testGet()
+	{
+		$array = [1, 2, 3, 4, 5];
+		$obj = $this->arr($array);
+		$this->assertEquals($array, $obj->get());
+		$this->assertEquals(1, $obj->get(0));
+		$this->assertEquals(5, $obj->get(4));
+	}
+
+	public function testGetDeepKey()
+	{
+		$arr = [
+			'foo' => 'bar',
+			'baz' => [
+				'bar' => 'foobar'
+			]
+		];
+		$obj = $this->arr($arr);
+		$this->assertEquals('foobar', $obj->get_deep_key(['baz', 'bar']));
+		$this->assertNull($obj->get_deep_key(['foo', 'bar', 'baz']));
+	}
+
 	public function testMap()
 	{
 		$obj = $this->arr([1, 2, 3]);

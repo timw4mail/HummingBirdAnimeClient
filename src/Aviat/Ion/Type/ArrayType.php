@@ -156,13 +156,39 @@ class ArrayType {
 	}
 
 	/**
-	 * Return the array
+	 * Return the array, or a key
 	 *
-	 * @return array
+	 * @param string|integer $key
+	 * @return mixed
 	 */
-	public function get()
+	public function &get($key = NULL)
 	{
-		return $this->arr;
+		$value = NULL;
+		if (is_null($key))
+		{
+			$value =& $this->arr;
+		}
+		else
+		{
+			if ($this->has_key($key))
+			{
+				$value =& $this->arr[$key];
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Set a key on the array
+	 *
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @return ArrayType
+	 */
+	public function set($key, $value)
+	{
+		$this->arr[$key] = $value;
 	}
 
 	/**
@@ -175,20 +201,46 @@ class ArrayType {
 	{
 		$pos =& $this->arr;
 
-		// Create the start of the array if it doesn't exist
-		if ( ! is_array($pos))
+		foreach($key as $level)
 		{
-			return NULL;
+			if (empty($pos) || ! is_array($pos))
+			{
+				$pos = NULL;
+				return $pos;
+			}
+			$pos =& $pos[$level];
 		}
+
+		return $pos;
+	}
+
+	/**
+	 * Sets the value of an arbitrarily deep key in the array
+	 * and returns the modified array
+	 *
+	 * @param array  $key
+	 * @param mixed $value
+	 * @return array
+	 */
+	public function set_deep_key(array $key, $value)
+	{
+		$pos =& $this->arr;
 
 		// Iterate through the levels of the array,
 		// create the levels if they don't exist
 		foreach($key as $level)
 		{
+			if ( ! is_array($pos) && empty($pos))
+			{
+				$pos = [];
+				$pos[$level] = [];
+			}
 			$pos =& $pos[$level];
 		}
 
-		return $pos;
+		$pos = $value;
+
+		return $this->arr;
 	}
 }
 // End of ArrayType.php
