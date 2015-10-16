@@ -53,7 +53,7 @@ class Anime extends API {
 			'body' => $data
 		]);
 
-		return json_decode($result->getBody(), TRUE);
+		return json_decode($response->getBody(), TRUE);
 	}
 
 	/**

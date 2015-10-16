@@ -44,7 +44,7 @@ class AnimeCollection extends DB {
 		{
 			if ( ! file_exists($db_file_name))
 			{
-				$this->valid_data = FALSE;
+				$this->valid_database = FALSE;
 			}
 			else
 			{

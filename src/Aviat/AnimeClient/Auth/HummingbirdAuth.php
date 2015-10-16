@@ -15,7 +15,7 @@ class HummingbirdAuth {
 	/**
 	 * Anime API Model
 	 *
-	 * @var AnimeModel
+	 * @var \Aviat\AnimeClient\Model\API
 	 */
 	protected $model;
 
@@ -48,7 +48,8 @@ class HummingbirdAuth {
 	 */
 	public function authenticate($password)
 	{
-		$username = $this->config->get('hummingbird_username');
+		$username = $this->container->get('config')
+			->get('hummingbird_username');
 		$auth_token = $this->model->authenticate($username, $password);
 
 		if (FALSE !== $auth_token)
@@ -62,7 +63,7 @@ class HummingbirdAuth {
 
 	/**
 	 * Check whether the current user is authenticated
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function is_authenticated()
