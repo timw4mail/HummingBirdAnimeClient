@@ -2,12 +2,7 @@
 /**
  * Global setup for unit tests
  */
-use Aura\Web\WebFactory;
-
-use Aviat\AnimeClient\Config;
-use Aviat\Ion\Di\Container;
-use Aviat\AnimeClient\UrlGenerator;
-
+ 
 // -----------------------------------------------------------------------------
 // Autoloaders
 // -----------------------------------------------------------------------------
@@ -29,6 +24,8 @@ define('APP_DIR', _dir(ROOT_DIR, 'app'));
 define('CONF_DIR', _dir(APP_DIR, 'config'));
 define('SRC_DIR', _dir(ROOT_DIR, 'src'));
 define('BASE_DIR', _dir(SRC_DIR, 'Base'));
+define('TEST_DATA_DIR', _dir(__DIR__, 'test_data'));
+define('TEST_VIEW_DIR', _dir(__DIR__, 'test_views'));
 require _dir(ROOT_DIR, '/vendor/autoload.php');
 require _dir(SRC_DIR, '/functions.php');
 
@@ -48,76 +45,27 @@ spl_autoload_register(function ($class) {
 		return;
 	}
 });
+ 
+// -----------------------------------------------------------------------------
+// Ini Settings
+// -----------------------------------------------------------------------------
+ini_set('session.use_cookies', 0);
+ini_set("session.use_only_cookies",0);
+ini_set("session.use_trans_sid",1);
+// Start session here to supress error about headers not sent
+session_start(); 
+
+// -----------------------------------------------------------------------------
+// Load base test case and mocks
+// -----------------------------------------------------------------------------
 
 // Pre-define some superglobals
 $_SESSION = [];
 $_COOKIE = [];
 
-// -----------------------------------------------------------------------------
-// Mock the default error handler
-// -----------------------------------------------------------------------------
-
-class MockErrorHandler {
-	public function addDataTable($name, array $values=[]) {}
-}
-
-// -----------------------------------------------------------------------------
-// Define a base testcase class
-// -----------------------------------------------------------------------------
-
-/**
- * Base class for TestCases
- */
-class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
-	protected $container;
-
-	public function setUp()
-	{
-		parent::setUp();
-
-		$config_array = [
-			'asset_path' => '//localhost/assets/',
-			'databaase' => [],
-			'routing' => [
-
-			],
-			'routes' => [
-				'convention' => [
-					'default_controller' => '',
-					'default_method' => '',
-				],
-				'common' => [],
-				'anime' => [],
-				'manga' => []
-			]
-		];
-
-		$di = require _dir(APP_DIR, 'bootstrap.php');
-		$container = $di($config_array);
-		$container->set('error-handler', new MockErrorHandler());
-
-		$this->container = $container;
-	}
-
-	/**
-	 * Set arbitrary superglobal values for testing purposes
-	 *
-	 * @param array $supers
-	 * @return void
-	 */
-	public function setSuperGlobals($supers = [])
-	{
-		$default = [
-			'_GET' => $_GET,
-			'_POST' => $_POST,
-			'_COOKIE' => $_COOKIE,
-			'_SERVER' => $_SERVER,
-			'_FILES' => $_FILES
-		];
-		$web_factory = new WebFactory(array_merge($default,$supers));
-		$this->container->set('request', $web_factory->newRequest());
-		$this->container->set('response', $web_factory->newResponse());
-	}
-}
+// Request base test case and mocks
+require _dir(__DIR__, 'TestSessionHandler.php');
+require _dir(__DIR__, 'mocks.php');
+require _dir(__DIR__, 'AnimeClient_TestCase.php');
 
 // End of bootstrap.php

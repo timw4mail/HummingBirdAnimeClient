@@ -2,12 +2,6 @@
 
 use Aviat\Ion\Enum;
 
-class TestEnum extends Enum {
-	const FOO = 'bar';
-	const BAR = 'foo';
-	const FOOBAR = 'baz';
-}
-
 class EnumTest extends AnimeClient_TestCase {
 
 	protected $expectedConstList = [

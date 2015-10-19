@@ -1,13 +1,8 @@
 <?php
 
 use Aviat\Ion\Friend;
-use Aviat\Ion\View\JsonView;
 
 include_once __DIR__ . "/../ViewTest.php";
-
-class TestJsonView extends JsonView {
-	public function __destruct() {}
-}
 
 class JsonViewTest extends ViewTest {
 

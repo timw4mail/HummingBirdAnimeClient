@@ -2,36 +2,12 @@
 
 use Aviat\Ion\Friend;
 
-class GrandParentTestClass {
-	protected $grandParentProtected = 84;
-}
-
-class ParentTestClass extends GrandParentTestClass {
-	protected $parentProtected = 47;
-	private $parentPrivate = 654;
-}
-
-class TestClass extends ParentTestClass {
-	protected $protected = 356;
-	private $private = 486;
-
-	protected function getProtected()
-	{
-		return 4;
-	}
-
-	private function getPrivate()
-	{
-		return 23;
-	}
-}
-
 class FriendTest extends AnimeClient_TestCase {
 
 	public function setUp()
 	{
 		parent::setUp();
-		$obj = new TestClass();
+		$obj = new FriendTestClass();
 		$this->friend = new Friend($obj);
 	}
 
