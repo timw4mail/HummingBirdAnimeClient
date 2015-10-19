@@ -181,30 +181,5 @@ class Controller {
 
 		$http->redirect($url, $code);
 	}
-
-	/**
-	 * Attempt to log in with the api
-	 *
-	 * @return void
-	 */
-	public function login_action()
-	{
-		$request = $this->container->get('request');
-
-		if (
-			$this->model->authenticate(
-				$this->config->hummingbird_username,
-				$request->post->get('password')
-			)
-		)
-		{
-			$this->response->redirect->afterPost(
-				$this->urlGenerator->full_url('', $this->base_data['url_type'])
-			);
-			return;
-		}
-
-		$this->login("Invalid username or password.");
-	}
 }
 // End of BaseController.php
