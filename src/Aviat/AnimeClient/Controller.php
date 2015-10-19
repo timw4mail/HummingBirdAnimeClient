@@ -183,37 +183,6 @@ class Controller {
 	}
 
 	/**
-	 * Clear the api session
-	 *
-	 * @return void
-	 */
-	public function logout()
-	{
-		$this->response->redirect->seeOther($this->urlGenerator->full_url(''));
-	}
-
-	/**
-	 * Show the login form
-	 *
-	 * @param string $status
-	 * @return void
-	 */
-	public function login($status = "")
-	{
-		$message = "";
-
-		if ($status != "")
-		{
-			$message = $this->show_message('error', $status);
-		}
-
-		$this->outputHTML('login', [
-			'title' => 'Api login',
-			'message' => $message
-		]);
-	}
-
-	/**
 	 * Attempt to log in with the api
 	 *
 	 * @return void
