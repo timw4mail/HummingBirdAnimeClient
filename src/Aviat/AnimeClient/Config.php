@@ -80,7 +80,7 @@ class Config {
 		{
 			$this->map->set_deep_key($key, $value);
 		}
-		else if(is_scalar($key) && ! empty($key))
+		else if (is_scalar($key) && ! empty($key))
 		{
 			$this->map->set($key, $value);
 		}

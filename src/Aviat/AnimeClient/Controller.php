@@ -4,10 +4,10 @@
  */
 namespace Aviat\AnimeClient;
 
-use \Aviat\Ion\Di\ContainerInterface;
-use \Aviat\Ion\View\HttpView;
-use \Aviat\Ion\View\HtmlView;
-use \Aviat\Ion\View\JsonView;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\View\HttpView;
+use Aviat\Ion\View\HtmlView;
+use Aviat\Ion\View\JsonView;
 
 /**
  * Controller base, defines output methods
@@ -202,7 +202,7 @@ class Controller {
 	{
 		$message = "";
 
-		/*if ($status != "")
+		if ($status != "")
 		{
 			$message = $this->show_message('error', $status);
 		}
@@ -210,7 +210,7 @@ class Controller {
 		$this->outputHTML('login', [
 			'title' => 'Api login',
 			'message' => $message
-		]);*/
+		]);
 	}
 
 	/**
