@@ -17,21 +17,6 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 		$this->model = new MockBaseApiModel($this->container);
 	}
 
-	public function testBaseApiModelSanity()
-	{
-		$baseApiModel = $this->model;
-
-		// Some basic type checks for class memebers
-		$this->assertInstanceOf('\Aviat\AnimeClient\Model', $baseApiModel);
-		$this->assertInstanceOf('\Aviat\AnimeClient\Model\API', $baseApiModel);
-
-		$this->assertInstanceOf('\GuzzleHttp\Client', $baseApiModel->client);
-		$this->assertInstanceOf('\GuzzleHttp\Cookie\CookieJar', $baseApiModel->cookieJar);
-
-		$this->assertTrue(is_string($baseApiModel->base_url));
-		$this->assertTrue(empty($baseApiModel->base_url));
-	}
-
 	protected function getIp()
 	{
 		$response = $this->model->get('/ip');

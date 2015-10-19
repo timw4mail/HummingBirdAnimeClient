@@ -23,8 +23,8 @@ class AnimeModelTest extends AnimeClient_TestCase {
 		return $out;
 	}
 
-	public function testSortByName()
+	/*public function testSortByName()
 	{
 		$data = $this->animeModel->_get_list_from_api("completed");
-	}
+	}*/
 }
