@@ -1,23 +1,13 @@
 <?php
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Container;
 use Aviat\AnimeClient\Model\API as BaseApiModel;
-
-class MockBaseApiModel extends BaseApiModel {
-
-	protected $base_url = 'https://httpbin.org/';
-
-	public function __construct(ContainerInterface $container)
-	{
-		parent::__construct($container);
-	}
-
-	public function __get($key)
-	{
-		return $this->$key;
-	}
-}
 
 class BaseApiModelTest extends AnimeClient_TestCase {
 
@@ -227,6 +217,54 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 			: (string) $result->getBody();
 
 		$this->assertEquals($expected, $actual);
+	}
+	
+	public function dataAuthenticate()
+	{
+		$test_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4YTA5ZDk4Ny1iZWQxLTQyMTktYWVmOS0wMTcxYWVjYTE3ZWUiLCJzY29wZSI6WyJhbGwiXSwic3ViIjoxMDgwMTIsImlzcyI6MTQ0NTAxNzczNSwiZXhwIjoxNDUyOTY2NTM1fQ.fpha1ZDN9dSFAuHeJesfOP9pCk5-ZnZk4uv3zumRMY0';
+		
+		return [
+			'successful authentication' => [
+				'username' => 'timw4mailtest',
+				'password' => 'password',
+				'response_data' => [
+					'code' => 201,
+					'body' => json_encode($test_token)
+				],
+				'expected' => $test_token
+			],
+			'failed authentication' => [
+				'username' => 'foo',
+				'password' => 'foobarbaz',
+				'response_data' => [
+					'code' => 401,
+					'body' => '{"error":"Invalid credentials"}',
+				],
+				'expected' => FALSE
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider dataAuthenticate
+	 */
+	public function testAuthenticate($username, $password, $response_data, $expected)
+	{
+		$mock = new MockHandler([
+			new Response($response_data['code'], [], $response_data['body'])
+		]);
+		$handler = HandlerStack::create($mock);
+		$client = new Client([
+			'handler' => $handler,
+			'http_errors' => FALSE // Don't throw an exception for 400/500 class status codes
+		]);
+		
+		// Set the mock client
+		$this->model->__set('client', $client);
+		
+		// Check results based on mock data
+		$actual = $this->model->authenticate($username, $password);
+		$this->assertEquals($expected, $actual, "Incorrect method return value");
 	}
 
 }

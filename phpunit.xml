@@ -2,7 +2,10 @@
 <phpunit
 	colors="true"
 	stopOnFailure="false"
-	bootstrap="tests/bootstrap.php">
+	bootstrap="tests/bootstrap.php"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	checkForUnintentionallyCoveredCode="true"
+	>
 	<filter>
 		<whitelist>
 			<directory suffix=".php">src/Aviat/Ion</directory>

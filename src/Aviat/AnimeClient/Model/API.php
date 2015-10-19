@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\ResponseInterface;
+use GuzzleHttp\Exception\ClientException;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model as BaseModel;
@@ -55,10 +56,11 @@ class API extends BaseModel {
 		$this->client = new Client([
 			'base_uri' => $this->base_url,
 			'cookies' => TRUE,
+			'http_errors' => FALSE,
 			'defaults' => [
 				'cookies' => $this->cookieJar,
 				'headers' => [
-					'User-Agent' => $_SERVER['HTTP_USER_AGENT'],
+					'User-Agent' => "Tim's Anime Client/2.0",
 					'Accept-Encoding' => 'application/json'
 				],
 				'timeout' => 5,
@@ -106,16 +108,16 @@ class API extends BaseModel {
 	 */
 	public function authenticate($username, $password)
 	{
-		$result = $this->post('https://hummingbird.me/api/v1/users/authenticate', [
-			'body' => [
+		$response = $this->post('https://hummingbird.me/api/v1/users/authenticate', [
+			'form_params' => [
 				'username' => $username,
 				'password' => $password
 			]
 		]);
 
-		if ($result->getStatusCode() === 201)
+		if ($response->getStatusCode() === 201)
 		{
-			return json_decode($result->getBody(), TRUE);
+			return json_decode($response->getBody(), TRUE);
 		}
 
 		return FALSE;

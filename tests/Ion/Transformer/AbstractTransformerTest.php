@@ -1,23 +1,5 @@
 <?php
 
-use Aviat\Ion\Transformer\AbstractTransformer;
-
-class TestTransformer extends AbstractTransformer {
-	
-	public function transform($item)
-	{
-		$out = [];
-		$genre_list = (array) $item;
-		
-		foreach($genre_list as $genre)
-		{
-			$out[] = $genre['name'];
-		}
-		
-		return $out;
-	}
-}
-
 class AbstractTransformerTest extends AnimeClient_TestCase {
 	
 	protected $transformer;

@@ -2,11 +2,6 @@
 
 use Aura\Web\WebFactory;
 use Aviat\Ion\Friend;
-use Aviat\Ion\View;
-
-class TestView extends View {
-
-}
 
 class ViewTest extends AnimeClient_TestCase {
 
