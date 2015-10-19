@@ -138,7 +138,7 @@ class ArrayType {
 	 * @param bool $strict
 	 * @return false|integer|string
 	 */
-	public function search($value, $strict=FALSE)
+	public function search($value, $strict = FALSE)
 	{
 		return array_search($value, $this->arr, $strict);
 	}
@@ -150,7 +150,7 @@ class ArrayType {
 	 * @param bool $strict
 	 * @return bool
 	 */
-	public function has($value, $strict=FALSE)
+	public function has($value, $strict = FALSE)
 	{
 		return in_array($value, $this->arr, $strict);
 	}
@@ -201,7 +201,7 @@ class ArrayType {
 	{
 		$pos =& $this->arr;
 
-		foreach($key as $level)
+		foreach ($key as $level)
 		{
 			if (empty($pos) || ! is_array($pos))
 			{
@@ -228,7 +228,7 @@ class ArrayType {
 
 		// Iterate through the levels of the array,
 		// create the levels if they don't exist
-		foreach($key as $level)
+		foreach ($key as $level)
 		{
 			if ( ! is_array($pos) && empty($pos))
 			{
