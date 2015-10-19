@@ -3,7 +3,7 @@
 class TestSessionHandler implements SessionHandlerInterface {
 	
 	public $data = [];
-	public $save_path = __DIR__ . '/test_data/sessions';
+	public $save_path = './test_data/sessions';
 	
 	public function close() 
 	{
