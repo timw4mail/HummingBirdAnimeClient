@@ -76,6 +76,14 @@ class HummingbirdAuthTest extends AnimeClient_TestCase {
 		
 		$actual = $this->auth->authenticate($password);
 		$this->assertEquals($expected, $actual);
-		
+	}
+	
+	public function testIsAuthenticated()
+	{
+		$data = $this->dataAuthenticate();
+		call_user_func_array([$this, 'testAuthenticate'], $data['successful auth call']);
+		$this->assertTrue($this->auth->is_authenticated());
+		$this->auth->log_out();
+		$this->assertFalse($this->auth->is_authenticated());
 	}
 }

@@ -1,3 +1,6 @@
+.codelite
+*.phprj
+*.workspace
 vendor
 app/cache/*
 public/images/*
@@ -8,3 +11,4 @@ composer.lock
 *.sqlite3
 docs/*
 coverage/*
+tests/test_data/sessions/*
