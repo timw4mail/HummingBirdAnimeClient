@@ -3,7 +3,7 @@
 <head>
 	<title><?= $title ?></title>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="<?= $escape->attr($urlGenerator->asset_url('css.php?g=base')) ?>" />
+	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php?g=base') ?>" />
 	<script>
 		var BASE_URL = "<?= $urlGenerator->base_url($url_type) ?>";
 		var CONTROLLER = "<?= $url_type ?>";
@@ -28,7 +28,7 @@
 		<?= $helper->menu($menu_name) ?>
 		<?php if (is_view_page()): ?>
 		<br />
-		<ul class="align_right">
+		<ul>
 			<li class="<?= is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
 			<li class="<?= is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>

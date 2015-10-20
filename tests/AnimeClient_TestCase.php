@@ -11,7 +11,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 	protected $container;
 	protected static $staticContainer;
 	protected static $session_handler;
-	
+
 	public static function setUpBeforeClass()
 	{
 		// Use mock session handler
@@ -23,12 +23,12 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		
+
 		$config_array = [
 			'asset_path' => '//localhost/assets/',
 			'databaase' => [],
 			'routing' => [
-
+				'asset_path' => '/assets'
 			],
 			'routes' => [
 				'convention' => [
@@ -40,7 +40,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 				'manga' => []
 			]
 		];
-		
+
 		// Set up DI container
 		$di = require _dir(APP_DIR, 'bootstrap.php');
 		$container = $di($config_array);
