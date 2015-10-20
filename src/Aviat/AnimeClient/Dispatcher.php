@@ -54,6 +54,12 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function generate_convention_routes()
 	{
+		$this->output_routes[] = $this->router->add('index_redirect', '/')
+			->setValues([
+				'controller' => 'Aviat\\AnimeClient\\Controller',
+				'action' => 'redirect_to_default'
+			]);
+
 		$this->output_routes[] = $this->router->add('list', '/{controller}/{type}{/view}')
 			->setValues([
 				'controller' => $this->routes['convention']['default_controller'],

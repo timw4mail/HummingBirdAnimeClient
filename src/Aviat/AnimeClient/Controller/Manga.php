@@ -34,6 +34,7 @@ class Manga extends Controller {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
+
 		$this->model = new MangaModel($container);
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'manga_list',
@@ -51,28 +52,6 @@ class Manga extends Controller {
 	 * @return void
 	 */
 	public function index($status = "all", $view = "")
-	{
-		return $this->manga_list($status, $view);
-	}
-
-	/**
-	 * Update an anime item
-	 *
-	 * @return boolean|null
-	 */
-	public function update()
-	{
-		$this->outputJSON($this->model->update($this->request->post->get()));
-	}
-
-	/**
-	 * Get a section of the manga list
-	 *
-	 * @param string $status
-	 * @param string $view
-	 * @return void
-	 */
-	protected function manga_list($status, $view)
 	{
 		$map = [
 			'all' => 'All',
@@ -98,6 +77,16 @@ class Manga extends Controller {
 			'title' => $title,
 			'sections' => $data,
 		]);
+	}
+
+	/**
+	 * Update an anime item
+	 *
+	 * @return boolean|null
+	 */
+	public function update()
+	{
+		$this->outputJSON($this->model->update($this->request->post->get()));
 	}
 }
 // End of MangaController.php

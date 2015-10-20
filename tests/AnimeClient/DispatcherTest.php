@@ -177,8 +177,8 @@ class DispatcherTest extends AnimeClient_TestCase {
 			'routing' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
-				'default_anime_path' => "/anime/watching",
-				'default_manga_path' => '/manga/all',
+				'default_anime_list_path' => "watching",
+				'default_manga_list_path' => 'all',
 				'default_list' => 'manga'
 			],
 			'routes' => [
@@ -221,7 +221,9 @@ class DispatcherTest extends AnimeClient_TestCase {
 		$this->_set_up($config, "/", "localhost");
 		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
 		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
-		$this->assertEquals('', $this->urlGenerator->default_url('foo'), "Incorrect default url");
+
+		$this->setExpectedException('\InvalidArgumentException');
+		$this->urlGenerator->default_url('foo');
 	}
 
 	public function dataGetControllerList()
@@ -232,8 +234,8 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'routing' => [
 						'anime_path' => 'anime',
 						'manga_path' => 'manga',
-						'default_anime_path' => "/anime/watching",
-						'default_manga_path' => '/manga/all',
+						'default_anime_list_path' => "watching",
+						'default_manga_list_path' => 'all',
 						'default_list' => 'manga'
 					],
 					'routes' => [
