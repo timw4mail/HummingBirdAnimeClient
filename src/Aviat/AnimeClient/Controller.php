@@ -76,6 +76,15 @@ class Controller {
 	}
 
 	/**
+	 * Redirect to the default controller/url from an empty path
+	 */
+	public function redirect_to_default()
+	{
+		$default_type = $this->config->get(['routing','default_list']);
+		$this->redirect($this->urlGenerator->default_url($default_type), 303);
+	}
+
+	/**
 	 * Get a class member
 	 *
 	 * @param string $key
@@ -169,16 +178,13 @@ class Controller {
 	/**
 	 * Redirect to the selected page
 	 *
-	 * @param string $path
+	 * @param string $url
 	 * @param int $code
-	 * @param string $type
 	 * @return void
 	 */
-	public function redirect($path, $code, $type = "anime")
+	public function redirect($url, $code)
 	{
-		$url = $this->urlGenerator->full_url($path, $type);
 		$http = new HttpView($this->container);
-
 		$http->redirect($url, $code);
 	}
 }

@@ -55,29 +55,6 @@ class Anime extends BaseController {
 	 */
 	public function index($type = "watching", $view = '')
 	{
-		return $this->anime_list($type, $view);
-	}
-
-	/**
-	 * Search for anime
-	 *
-	 * @return void
-	 */
-	public function search()
-	{
-		$query = $this->request->query->get('query');
-		$this->outputJSON($this->model->search($query));
-	}
-
-	/**
-	 * Show a portion, or all of the anime list
-	 *
-	 * @param string $type - The section of the list
-	 * @param string $view - List or cover view
-	 * @return void
-	 */
-	protected function anime_list($type, $view)
-	{
 		$type_title_map = [
 			'all' => 'All',
 			'watching' => 'Currently Watching',
@@ -112,6 +89,17 @@ class Anime extends BaseController {
 			'title' => $title,
 			'sections' => $data
 		]);
+	}
+
+	/**
+	 * Search for anime
+	 *
+	 * @return void
+	 */
+	public function search()
+	{
+		$query = $this->request->query->get('query');
+		$this->outputJSON($this->model->search($query));
 	}
 
 	/**

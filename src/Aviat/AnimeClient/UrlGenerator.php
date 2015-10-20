@@ -106,7 +106,7 @@ class UrlGenerator extends RoutingBase {
 			return $this->url("{$type}/{$default_path}");
 		}
 
-		return "";
+		throw new \InvalidArgumentException("Invalid default type: '{$type}'");
 	}
 
 	/**
