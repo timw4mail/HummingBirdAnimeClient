@@ -6,20 +6,6 @@ use Aviat\AnimeClient\UrlGenerator;
 
 class UrlGeneratorTest extends AnimeClient_TestCase {
 
-	public function setUp()
-	{
-		$this->container = new Container([
-			'config' => new Config([
-				'foo' => 'bar',
-				'routing' => [
-					'asset_path' => '/assets',
-				],
-				'bar' => 'baz'
-			])
-		]);
-		$this->config = $this->container->get('config');
-	}
-
 	public function assetUrlProvider()
 	{
 		return [
@@ -140,5 +126,4 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 
 		$this->assertEquals($expected, $result);
 	}
-
 }

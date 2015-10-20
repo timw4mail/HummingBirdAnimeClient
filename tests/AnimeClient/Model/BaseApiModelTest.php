@@ -203,11 +203,11 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function dataAuthenticate()
 	{
 		$test_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4YTA5ZDk4Ny1iZWQxLTQyMTktYWVmOS0wMTcxYWVjYTE3ZWUiLCJzY29wZSI6WyJhbGwiXSwic3ViIjoxMDgwMTIsImlzcyI6MTQ0NTAxNzczNSwiZXhwIjoxNDUyOTY2NTM1fQ.fpha1ZDN9dSFAuHeJesfOP9pCk5-ZnZk4uv3zumRMY0';
-		
+
 		return [
 			'successful authentication' => [
 				'username' => 'timw4mailtest',
@@ -243,10 +243,10 @@ class BaseApiModelTest extends AnimeClient_TestCase {
 			'handler' => $handler,
 			'http_errors' => FALSE // Don't throw an exception for 400/500 class status codes
 		]);
-		
+
 		// Set the mock client
 		$this->model->__set('client', $client);
-		
+
 		// Check results based on mock data
 		$actual = $this->model->authenticate($username, $password);
 		$this->assertEquals($expected, $actual, "Incorrect method return value");

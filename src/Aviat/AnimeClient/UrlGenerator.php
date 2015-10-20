@@ -4,10 +4,28 @@
  */
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\Di\ContainerInterface;
+
 /**
  * UrlGenerator class.
  */
 class UrlGenerator extends RoutingBase {
+
+	/**
+	 * The current HTTP host
+	 */
+	protected $host;
+
+	/**
+	 * Constructor
+	 *
+	 * @param ContainerInterface $container
+	 */
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->host = $container->get('request')->server->get('HTTP_HOST');
+	}
 
 	/**
 	 * Get the base url for css/js/images
@@ -36,11 +54,9 @@ class UrlGenerator extends RoutingBase {
 	{
 		$config_path = trim($this->__get("{$type}_path"), "/");
 
-		// Set the appropriate HTTP host
-		$host = $_SERVER['HTTP_HOST'];
 		$path = ($config_path !== '') ? $config_path : "";
 
-		return implode("/", ['/', $host, $path]);
+		return implode("/", ['/', $this->host, $path]);
 	}
 
 	/**
@@ -53,13 +69,25 @@ class UrlGenerator extends RoutingBase {
 	{
 		$path = trim($path, '/');
 
-		// Remove any optional parameters from the route
 		$path = preg_replace('`{/.*?}`i', '', $path);
 
-		// Set the appropriate HTTP host
-		$host = $_SERVER['HTTP_HOST'];
+		// Remove any optional parameters from the route
+		// and replace them with existing route parameters, if they exist
+		$path_segments = explode('/', $path);
+		$segments = $this->segments();
 
-		return "//{$host}/{$path}";
+		for($i=0; $i<count($path_segments); $i++)
+		{
+			if ( ! array_key_exists($i + 1, $segments))
+			{
+				$segments[$i + 1] = "";
+			}
+
+			$path_segments[$i] = preg_replace('`{.*?}`i', $segments[$i + 1], $path_segments[$i]);
+		}
+		$path = implode('/', $path_segments);
+
+		return "//{$this->host}/{$path}";
 	}
 
 	/**
@@ -71,11 +99,11 @@ class UrlGenerator extends RoutingBase {
 	public function default_url($type)
 	{
 		$type = trim($type);
-		$default_path = $this->__get("default_{$type}_path");
+		$default_path = $this->__get("default_{$type}_list_path");
 
 		if ( ! is_null($default_path))
 		{
-			return $this->url($default_path);
+			return $this->url("{$type}/{$default_path}");
 		}
 
 		return "";
@@ -95,12 +123,6 @@ class UrlGenerator extends RoutingBase {
 		// Remove beginning/trailing slashes
 		$path = trim($path, '/');
 
-		// Remove any optional parameters from the route
-		$path = preg_replace('`{/.*?}`i', '', $path);
-
-		// Set the appropriate HTTP host
-		$host = $_SERVER['HTTP_HOST'];
-
 		// Set the default view
 		if ($path === '')
 		{
@@ -108,7 +130,7 @@ class UrlGenerator extends RoutingBase {
 			if ($this->__get('default_to_list_view')) $path .= '/list';
 		}
 
-		return "//{$host}/{$path}";
+		return $this->url($path);
 	}
 }
 // End of UrlGenerator.php
