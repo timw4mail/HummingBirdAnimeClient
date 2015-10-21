@@ -1,6 +1,10 @@
 <?php
 
 use Aura\Web\WebFactory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 
 use Aviat\AnimeClient\Config;
 
@@ -68,6 +72,26 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		$web_factory = new WebFactory(array_merge($default,$supers));
 		$this->container->set('request', $web_factory->newRequest());
 		$this->container->set('response', $web_factory->newResponse());
+	}
+
+	/**
+	 * Create a mock guzzle client for testing
+	 * api call methods
+	 *
+	 * @param  int $code The status code
+	 * @param  array $headers
+	 * @param  string $body
+	 * @return Client
+	 */
+	public function getMockClient($code, $headers, $body)
+	{
+		$mock = new MockHandler([
+			new Response($code, $headers, $body)
+		]);
+		$handler = HandlerStack::create($mock);
+		$client = new Client(['handler' => $handler]);
+
+		return $client;
 	}
 }
 // End of AnimeClient_TestCase.php

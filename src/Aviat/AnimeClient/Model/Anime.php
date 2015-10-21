@@ -125,7 +125,7 @@ class Anime extends API {
 
 		$response = $this->client->get("anime/{$anime_id}", $config);
 
-		return $response->json();
+		return json_decode($response->getBody(), TRUE);
 	}
 
 	/**

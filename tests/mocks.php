@@ -59,17 +59,17 @@ class FriendTestClass extends FriendParentTestClass {
 }
 
 class TestTransformer extends AbstractTransformer {
-	
+
 	public function transform($item)
 	{
 		$out = [];
 		$genre_list = (array) $item;
-		
+
 		foreach($genre_list as $genre)
 		{
 			$out[] = $genre['name'];
 		}
-		
+
 		return $out;
 	}
 }
@@ -114,16 +114,13 @@ class TestJsonView extends JsonView {
 // -----------------------------------------------------------------------------
 // AnimeClient Mocks
 // -----------------------------------------------------------------------------
- 
-class MockBaseApiModel extends BaseApiModel {
 
-	protected $base_url = 'https://httpbin.org/';
-
+trait MockInjectionTrait {
 	public function __get($key)
 	{
 		return $this->$key;
 	}
-	
+
 	public function __set($key, $value)
 	{
 		$this->$key = $value;
@@ -131,22 +128,15 @@ class MockBaseApiModel extends BaseApiModel {
 	}
 }
 
+class MockBaseApiModel extends BaseApiModel {
+
+	use MockInjectionTrait;
+	protected $base_url = 'https://httpbin.org/';
+
+}
+
 class TestAnimeModel extends AnimeModel {
 
-	protected $transformed_data_file;
-
-	public function __construct(ContainerInterface $container)
-	{
-		parent::__construct($container);
-		$this->transformed_data_file = _dir(
-			TEST_DATA_DIR, 'anime_list','anime-completed-transformed.json'
-		);
-	}
-
-	protected function _get_list_from_api($status="all")
-	{
-		$data = json_decode(file_get_contents($this->transformed_data_file), TRUE);
-		return $data;
-	}
+	use MockInjectionTrait;
 }
 // End of mocks.php

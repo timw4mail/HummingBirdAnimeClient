@@ -53,4 +53,24 @@ class AnimeCollectionModelTest extends AnimeClient_TestCase {
 		$collectionModel = new Friend(new AnimeCollectionModel($this->container));
 		$this->assertFalse($collectionModel->valid_database);
 	}
+
+	public function testNonExistentDatabase()
+	{
+		$this->container->set('config', new Config([
+			'database' => [
+				'collection' => [
+					'type' => 'sqlite',
+					'host' => '',
+					'user' => '',
+					'pass' => '',
+					'port' => '',
+					'name' => 'default',
+					'database'   => '',
+					'file' => '/foo/bar/baz/foobazbar.db',
+				]
+			]
+		]));
+		$collectionModel = new Friend(new AnimeCollectionModel($this->container));
+		$this->assertFalse($collectionModel->valid_database);
+	}
 }
