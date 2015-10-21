@@ -42,12 +42,17 @@ class Anime extends API {
 	 * Update the selected anime
 	 *
 	 * @param array $data
-	 * @return array
+	 * @return array|false
 	 */
 	public function update($data)
 	{
-		// @TODO use Hummingbird Auth class
-		$data['auth_token'] = '';
+		$auth = $this->container->get('auth');
+		if ( ! $auth->is_authenticated())
+		{
+			return FALSE;
+		}
+
+		$data['auth_token'] = $auth->get_auth_token();
 
 		$response = $this->client->post("libraries/{$data['id']}", [
 			'body' => $data
@@ -193,7 +198,9 @@ class Anime extends API {
 		$cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}.json");
 		$transformed_cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}-transformed.json");
 
-		$cached = json_decode(file_get_contents($cache_file), TRUE);
+		$cached = (file_exists($cache_file))
+			? json_decode(file_get_contents($cache_file), TRUE)
+			: [];
 		$api_data = json_decode($response->getBody(), TRUE);
 
 		if ($api_data === $cached && file_exists($transformed_cache_file))

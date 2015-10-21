@@ -126,7 +126,10 @@ class Manga extends API {
 		$cache_file = _dir($this->config->get('data_cache_path'), 'manga.json');
 		$transformed_cache_file = _dir($this->config->get('data_cache_path'), 'manga-transformed.json');
 
-		$cached_data = json_decode(file_get_contents($cache_file), TRUE);
+
+		$cached_data = file_exists($cache_file)
+			? json_decode(file_get_contents($cache_file), TRUE)
+			: [];
 
 		if ($cached_data === $api_data && file_exists($transformed_cache_file))
 		{
