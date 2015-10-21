@@ -34,7 +34,15 @@ class AnimeCollection extends DB {
 	{
 		parent::__construct($container);
 
-		$this->db = \Query($this->db_config['collection']);
+		try
+		{
+			$this->db = \Query($this->db_config['collection']);
+		}
+		catch (\PDOException $e)
+		{
+			$this->valid_database = FALSE;
+			return FALSE;
+		}
 		$this->anime_model = new AnimeModel($container);
 
 		// Is database valid? If not, set a flag so the
@@ -42,15 +50,8 @@ class AnimeCollection extends DB {
 		$db_file_name = $this->db_config['collection']['file'];
 		if ($db_file_name !== ':memory:')
 		{
-			if ( ! file_exists($db_file_name))
-			{
-				$this->valid_database = FALSE;
-			}
-			else
-			{
-				$db_file = file_get_contents($db_file_name);
-				$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
-			}
+			$db_file = @file_get_contents($db_file_name);
+			$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
 		}
 		else
 		{
