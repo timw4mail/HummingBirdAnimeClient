@@ -180,8 +180,7 @@ class Manga extends API {
 	 */
 	private function zipper_lists($raw_data)
 	{
-		$zipper = new Transformer\MangaListsZipper($raw_data);
-		return $zipper->transform();
+		return (new Transformer\MangaListsZipper($raw_data))->transform();
 	}
 
 	/**

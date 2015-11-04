@@ -72,6 +72,8 @@ class Controller {
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
 		$this->base_data['urlGenerator'] = $urlGenerator;
+		$this->base_data['auth'] = $container->get('auth');
+		$this->base_data['config'] = $this->config;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -110,7 +112,7 @@ class Controller {
 	 * @param array $data
 	 * @return string
 	 */
-	public function load_partial($view, $template, array $data = [])
+	protected function load_partial($view, $template, array $data = [])
 	{
 		$errorHandler = $this->container->get('error-handler');
 		$errorHandler->addDataTable('Template Data', $data);
@@ -143,7 +145,7 @@ class Controller {
 	 * @param array $data
 	 * @return void
 	 */
-	public function render_full_page($view, $template, array $data)
+	protected function render_full_page($view, $template, array $data)
 	{
 		$view->appendOutput($this->load_partial($view, 'header', $data));
 		$view->appendOutput($this->load_partial($view, $template, $data));
@@ -151,15 +153,61 @@ class Controller {
 	}
 
 	/**
+	 * Show the login form
+	 *
+	 * @codeCoverageIgnore
+	 * @param string $status
+	 * @return void
+	 */
+	public function login($status="")
+	{
+		$message = "";
+
+		$view = new HtmlView($this->container);
+
+		if ($status != "")
+		{
+			$message = $this->show_message($view, 'error', $status);
+		}
+
+		$this->outputHTML('login', [
+			'title' => 'Api login',
+			'message' => $message
+		], $view);
+	}
+
+	/**
+	 * Add a message box to the page
+	 *
+	 * @codeCoverageIgnore
+	 * @param HtmlView $view
+	 * @param string $type
+	 * @param string $message
+	 * @return string
+	 */
+	protected function show_message($view, $type, $message)
+	{
+		return $this->load_partial($view, 'message', [
+			'stat_class' => $type,
+			'message'  => $message
+		]);
+	}
+
+	/**
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @param string $template
 	 * @param array $data
+	 * @param HtmlView $view
 	 * @return void
 	 */
-	public function outputHTML($template, array $data = [])
+	protected function outputHTML($template, array $data = [], $view = NULL)
 	{
-		$view = new HtmlView($this->container);
+		if (is_null($view))
+		{
+			$view = new HtmlView($this->container);
+		}
+
 		$this->render_full_page($view, $template, $data);
 	}
 
@@ -169,7 +217,7 @@ class Controller {
 	 * @param mixed $data
 	 * @return void
 	 */
-	public function outputJSON($data = [])
+	protected function outputJSON($data = [])
 	{
 		$view = new JsonView($this->container);
 		$view->setOutput($data);
@@ -182,7 +230,7 @@ class Controller {
 	 * @param int $code
 	 * @return void
 	 */
-	public function redirect($url, $code)
+	protected function redirect($url, $code)
 	{
 		$http = new HttpView($this->container);
 		$http->redirect($url, $code);

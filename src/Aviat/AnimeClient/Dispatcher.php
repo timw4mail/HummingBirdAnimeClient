@@ -60,6 +60,12 @@ class Dispatcher extends RoutingBase {
 				'action' => 'redirect_to_default'
 			]);
 
+		$this->output_routes[] = $this->router->add('login', '/{controller}/login')
+			->setValues([
+				'controller' => $this->routes['convention']['default_controller'],
+				'action' => 'login'
+			]);
+
 		$this->output_routes[] = $this->router->add('list', '/{controller}/{type}{/view}')
 			->setValues([
 				'controller' => $this->routes['convention']['default_controller'],
@@ -67,13 +73,6 @@ class Dispatcher extends RoutingBase {
 			])->setTokens([
 				'type' => '[a-z_]+',
 				'view' => '[a-z_]+'
-			]);
-
-		$this->output_routes[] = $this->router->add('generic', '{/controller,action,view}')
-			->setValues([
-				'controller' => $this->routes['convention']['default_controller'],
-				'action' => $this->routes['convention']['default_method'],
-				'view' => '',
 			]);
 	}
 

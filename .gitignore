@@ -12,3 +12,8 @@ composer.lock
 docs/*
 coverage/*
 tests/test_data/sessions/*
+build/coverage/*
+build/logs/*
+build/pdepend/*
+build/phpdox/*
+cache.properties

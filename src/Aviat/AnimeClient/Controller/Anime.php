@@ -73,8 +73,15 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		$title = $this->config->get('whose_list') .
-			"'s Anime List &middot; {$type_title_map[$type]}";
+		if (array_key_exists($type, $type_title_map))
+		{
+			$title = $this->config->get('whose_list') .
+				"'s Anime List &middot; {$type_title_map[$type]}";
+		}
+		else
+		{
+			$title = '';
+		}
 
 		$view_map = [
 			'' => 'cover',
