@@ -17,13 +17,13 @@ class Friend {
 	 * Object to create a friend of
 	 * @var object
 	 */
-	private $_friend_object_;
+	private $_friend_;
 
 	/**
 	 * Reflection class of the object
 	 * @var object
 	 */
-	private $_reflection_friend_;
+	private $_reflect_;
 
 	/**
 	 * Create a friend object
@@ -37,8 +37,8 @@ class Friend {
 			throw new InvalidArgumentException("Friend must be an object");
 		}
 
-		$this->_friend_object_ = $obj;
-		$this->_reflection_friend_ = new ReflectionClass($obj);
+		$this->_friend_ = $obj;
+		$this->_reflect_ = new ReflectionClass($obj);
 	}
 
 	/**
@@ -49,10 +49,10 @@ class Friend {
 	 */
 	public function __get($key)
 	{
-		if ($this->_reflection_friend_->hasProperty($key))
+		if ($this->_reflect_->hasProperty($key))
 		{
 			$property = $this->_get_property($key);
-			return $property->getValue($this->_friend_object_);
+			return $property->getValue($this->_friend_);
 		}
 
 		return NULL;
@@ -67,10 +67,10 @@ class Friend {
 	 */
 	public function __set($key, $value)
 	{
-		if ($this->_reflection_friend_->hasProperty($key))
+		if ($this->_reflect_->hasProperty($key))
 		{
 			$property = $this->_get_property($key);
-			$property->setValue($this->_friend_object_, $value);
+			$property->setValue($this->_friend_, $value);
 		}
 	}
 
@@ -83,14 +83,14 @@ class Friend {
 	 */
 	public function __call($method, $args)
 	{
-		if ( ! $this->_reflection_friend_->hasMethod($method))
+		if ( ! $this->_reflect_->hasMethod($method))
 		{
 			throw new BadMethodCallException("Method '{$method}' does not exist");
 		}
 
-		$friendMethod = new ReflectionMethod($this->_friend_object_, $method);
+		$friendMethod = new ReflectionMethod($this->_friend_, $method);
 		$friendMethod->setAccessible(TRUE);
-		return $friendMethod->invokeArgs($this->_friend_object_, $args);
+		return $friendMethod->invokeArgs($this->_friend_, $args);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Friend {
 	{
 		try
 		{
-			$property = $this->_reflection_friend_->getProperty($name);
+			$property = $this->_reflect_->getProperty($name);
 			$property->setAccessible(TRUE);
 			return $property;
 		}
