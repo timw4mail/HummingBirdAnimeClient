@@ -17,7 +17,7 @@ class Config {
 	/**
 	 * Config object
 	 *
-	 * @var Aviat\Ion\Type\ArrayType
+	 * @var \Aviat\Ion\Type\ArrayType
 	 */
 	protected $map = [];
 
@@ -84,7 +84,7 @@ class Config {
 		{
 			$this->map->set($key, $value);
 		}
-		else throw 
+		else throw
 			new InvalidArgumentException("Key must be integer, string, or array, and cannot be empty");
 
 		return $this;
