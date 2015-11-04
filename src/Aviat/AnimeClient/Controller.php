@@ -80,7 +80,7 @@ class Controller {
 	 */
 	public function redirect_to_default()
 	{
-		$default_type = $this->config->get(['routing','default_list']);
+		$default_type = $this->config->get(['routing', 'default_list']);
 		$this->redirect($this->urlGenerator->default_url($default_type), 303);
 	}
 
