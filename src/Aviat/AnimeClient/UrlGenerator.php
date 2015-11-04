@@ -74,9 +74,10 @@ class UrlGenerator extends RoutingBase {
 		// Remove any optional parameters from the route
 		// and replace them with existing route parameters, if they exist
 		$path_segments = explode('/', $path);
+		$segment_count = count($path_segments);
 		$segments = $this->segments();
 
-		for ($i = 0; $i < count($path_segments); $i++)
+		for ($i = 0; $i < $segment_count; $i++)
 		{
 			if ( ! array_key_exists($i + 1, $segments))
 			{

@@ -198,7 +198,7 @@ class Controller {
 	 *
 	 * @param string $template
 	 * @param array $data
-	 * @param HtmlView $view
+	 * @param HtmlView|null $view
 	 * @return void
 	 */
 	protected function outputHTML($template, array $data = [], $view = NULL)
