@@ -76,7 +76,7 @@ class UrlGenerator extends RoutingBase {
 		$path_segments = explode('/', $path);
 		$segments = $this->segments();
 
-		for($i=0; $i<count($path_segments); $i++)
+		for ($i = 0; $i < count($path_segments); $i++)
 		{
 			if ( ! array_key_exists($i + 1, $segments))
 			{
