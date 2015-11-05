@@ -92,9 +92,7 @@ class Dispatcher extends RoutingBase {
 			'route_path' => $route_path
 		]);
 
-		$route = $this->router->match($route_path, $_SERVER);
-
-		return $route;
+		return $this->router->match($route_path, $_SERVER);
 	}
 
 	/**
@@ -230,7 +228,10 @@ class Dispatcher extends RoutingBase {
 		$route_type = $this->get_controller();
 
 		// Return early if invalid route array
-		if ( ! array_key_exists($route_type, $this->routes)) return [];
+		if ( ! array_key_exists($route_type, $this->routes))
+		{
+			return [];
+		}
 
 		$applied_routes = array_merge($this->routes[$route_type], $this->routes['common']);
 

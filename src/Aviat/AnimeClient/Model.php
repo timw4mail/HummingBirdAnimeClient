@@ -56,7 +56,10 @@ class Model {
 		$ext = end($ext_parts);
 
 		// Workaround for some broken extensions
-		if ($ext == "jjpg") $ext = "jpg";
+		if ($ext == "jjpg")
+		{
+			$ext = "jpg";
+		}
 
 		// Failsafe for weird urls
 		if (strlen($ext) > 3) return $api_path;

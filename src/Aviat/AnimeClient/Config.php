@@ -84,8 +84,10 @@ class Config {
 		{
 			$this->map->set($key, $value);
 		}
-		else throw
-			new InvalidArgumentException("Key must be integer, string, or array, and cannot be empty");
+		else
+		{
+			throw new InvalidArgumentException("Key must be integer, string, or array, and cannot be empty");
+		}
 
 		return $this;
 	}

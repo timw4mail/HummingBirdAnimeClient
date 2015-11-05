@@ -13,7 +13,7 @@ class Menu {
 
 	/**
 	 * Create the html for the selected menu
-	 * 
+	 *
 	 * @param  string $menu_name
 	 * @return string
 	 */
