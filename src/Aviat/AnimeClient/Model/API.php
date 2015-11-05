@@ -94,8 +94,7 @@ class API extends BaseModel {
 		}
 
 		array_unshift($args, strtoupper($method));
-		$response = call_user_func_array([$this->client, 'request'], $args);
-		return $response;
+		return call_user_func_array([$this->client, 'request'], $args);
 	}
 
 	/**
