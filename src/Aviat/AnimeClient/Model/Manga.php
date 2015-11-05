@@ -66,7 +66,7 @@ class Manga extends API {
 	{
 		$data = $this->_get_list_from_api();
 
-		foreach ($data as $key => &$val)
+		foreach ($data as &$val)
 		{
 			$this->sort_by_name($val);
 		}
@@ -121,7 +121,10 @@ class Manga extends API {
 	{
 		// Bail out early if there isn't any manga data
 		$api_data = json_decode($response->getBody(), TRUE);
-		if ( ! array_key_exists('manga', $api_data)) return [];
+		if ( ! array_key_exists('manga', $api_data))
+		{
+			return [];
+		}
 
 		$cache_file = _dir($this->config->get('data_cache_path'), 'manga.json');
 		$transformed_cache_file = _dir($this->config->get('data_cache_path'), 'manga-transformed.json');

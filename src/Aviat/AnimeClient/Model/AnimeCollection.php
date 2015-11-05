@@ -75,7 +75,10 @@ class AnimeCollection extends DB {
 			->join('genres g', 'g.id=gl.genre_id', 'left');
 
 
-		if ( ! empty($filter)) $this->db->where_in('hummingbird_id', $filter);
+		if ( ! empty($filter))
+		{
+			$this->db->where_in('hummingbird_id', $filter);
+		}
 
 		$query = $this->db->order_by('hummingbird_id')
 			->order_by('genre')
@@ -89,8 +92,10 @@ class AnimeCollection extends DB {
 			$genre = $row['genre'];
 
 			// Empty genre names aren't useful
-			if (empty($genre)) continue;
-
+			if (empty($genre))
+			{
+				continue;
+			}
 
 			if (array_key_exists($id, $output))
 			{
@@ -174,7 +179,10 @@ class AnimeCollection extends DB {
 	 */
 	private function _get_collection()
 	{
-		if ( ! $this->valid_database) return [];
+		if ( ! $this->valid_database)
+		{
+			return [];
+		}
 
 		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type,
 			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
@@ -225,7 +233,10 @@ class AnimeCollection extends DB {
 	public function update($data)
 	{
 		// If there's no id to update, don't update
-		if ( ! array_key_exists('hummingbird_id', $data)) return;
+		if ( ! array_key_exists('hummingbird_id', $data))
+		{
+			return;
+		}
 
 		$id = $data['hummingbird_id'];
 		unset($data['hummingbird_id']);
@@ -257,8 +268,10 @@ class AnimeCollection extends DB {
 	 */
 	private function json_import()
 	{
-		if ( ! file_exists('import.json')) return;
-		if ( ! $this->valid_database) return;
+		if ( ! file_exists('import.json') ||  ! $this->valid_database)
+		{
+			return;
+		}
 
 		$anime = json_decode(file_get_contents("import.json"));
 
