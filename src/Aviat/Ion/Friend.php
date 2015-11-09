@@ -110,7 +110,10 @@ class Friend {
 		}
 		// Return NULL on any exception, so no further logic needed
 		// in the catch block
-		catch (\Exception $e) {}
+		catch (\Exception $e)
+		{
+			return NULL;
+		}
 
 		return NULL;
 	}
