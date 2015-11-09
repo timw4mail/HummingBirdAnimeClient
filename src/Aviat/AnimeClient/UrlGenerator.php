@@ -128,7 +128,10 @@ class UrlGenerator extends RoutingBase {
 		if ($path === '')
 		{
 			$path .= trim($config_default_route, '/');
-			if ($this->__get('default_to_list_view')) $path .= '/list';
+			if ($this->__get('default_to_list_view'))
+			{
+				$path .= '/list';
+			}
 		}
 
 		return $this->url($path);

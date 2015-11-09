@@ -85,9 +85,7 @@ class RoutingBase {
 	public function segments()
 	{
 		$path = $this->path();
-		$segments = explode('/', $path);
-
-		return $segments;
+		return explode('/', $path);
 	}
 
 	/**

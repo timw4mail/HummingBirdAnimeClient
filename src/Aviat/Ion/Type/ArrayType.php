@@ -205,8 +205,7 @@ class ArrayType {
 		{
 			if (empty($pos) || ! is_array($pos))
 			{
-				$pos = NULL;
-				return $pos;
+				return NULL;
 			}
 			$pos =& $pos[$level];
 		}
