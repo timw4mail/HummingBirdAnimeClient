@@ -11,21 +11,33 @@ return [
 		'update' => [
 			'path' => '/{controller}/update',
 			'action' => 'update',
-			'verb' => 'post'
+			'verb' => 'post',
+			'tokens' => [
+				'controller' => '[a-z_]+'
+			]
 		],
 		'login_form' => [
 			'path' => '/{controller}/login',
 			'action' => 'login',
-			'verb' => 'get'
+			'verb' => 'get',
+			'tokens' => [
+				'controller' => '[a-z_]+'
+			]
 		],
 		'login_action' => [
 			'path' => '/{controller}/login',
 			'action' => 'login_action',
-			'verb' => 'post'
+			'verb' => 'post',
+			'tokens' => [
+				'controller' => '[a-z_]+'
+			]
 		],
 		'logout' => [
 			'path' => '/{controller}/logout',
-			'action' => 'logout'
+			'action' => 'logout',
+			'tokens' => [
+				'controller' => '[a-z_]+'
+			]
 		],
 	],
 	// Routes on collection controller
