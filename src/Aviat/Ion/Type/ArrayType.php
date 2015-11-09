@@ -205,7 +205,12 @@ class ArrayType {
 		{
 			if (empty($pos) || ! is_array($pos))
 			{
-				return NULL;
+				// Directly returning a NULL value here will
+				// result in a reference error. This isn't
+				// excess code, just what's required for this
+				// unique situation.
+				$pos = NULL;
+				return $pos;
 			}
 			$pos =& $pos[$level];
 		}
