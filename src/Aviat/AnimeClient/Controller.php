@@ -159,7 +159,7 @@ class Controller {
 	 * @param string $status
 	 * @return void
 	 */
-	public function login($status="")
+	public function login($status = "")
 	{
 		$message = "";
 
