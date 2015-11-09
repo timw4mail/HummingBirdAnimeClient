@@ -268,7 +268,7 @@ class AnimeCollection extends DB {
 	 */
 	private function json_import()
 	{
-		if ( ! file_exists('import.json') ||  ! $this->valid_database)
+		if ( ! file_exists('import.json') || ! $this->valid_database)
 		{
 			return;
 		}
