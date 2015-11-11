@@ -158,7 +158,7 @@ class ArrayType {
 	/**
 	 * Return the array, or a key
 	 *
-	 * @param string|integer $key
+	 * @param string|integer|null $key
 	 * @return mixed
 	 */
 	public function &get($key = NULL)
@@ -189,6 +189,7 @@ class ArrayType {
 	public function set($key, $value)
 	{
 		$this->arr[$key] = $value;
+		return $this;
 	}
 
 	/**

@@ -114,8 +114,6 @@ class Friend {
 		{
 			return NULL;
 		}
-
-		return NULL;
 	}
 }
 // End of Friend.php
