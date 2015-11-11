@@ -44,8 +44,6 @@ class HtmlView extends HttpView {
 	 */
 	public function render_template($path, $data)
 	{
-		$buffer = "";
-
 		$data['helper'] = $this->helper;
 		$data['escape'] = $this->helper->escape();
 
