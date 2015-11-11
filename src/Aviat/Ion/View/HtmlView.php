@@ -51,7 +51,7 @@ class HtmlView extends HttpView {
 
 		ob_start();
 		extract($data);
-		include $path;
+		include_once $path;
 		$buffer = ob_get_contents();
 		ob_end_clean();
 

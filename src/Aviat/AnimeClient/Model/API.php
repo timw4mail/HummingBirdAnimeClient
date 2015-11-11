@@ -63,8 +63,8 @@ class API extends BaseModel {
 					'User-Agent' => "Tim's Anime Client/2.0",
 					'Accept-Encoding' => 'application/json'
 				],
-				'timeout' => 5,
-				'connect_timeout' => 5
+				'timeout' => 25,
+				'connect_timeout' => 25
 			]
 		]);
 	}
