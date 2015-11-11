@@ -223,7 +223,7 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function _setup_routes()
 	{
-		$output_routes = [];
+		$routes = [];
 
 		$route_type = $this->get_controller();
 
@@ -254,20 +254,20 @@ class Dispatcher extends RoutingBase {
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))
 			{
-				$output_routes[] = $this->router->$add($name, $path)->addValues($route);
+				$routes[] = $this->router->$add($name, $path)->addValues($route);
 			}
 			else
 			{
 				$tokens = $route['tokens'];
 				unset($route['tokens']);
 
-				$output_routes[] = $this->router->$add($name, $path)
+				$routes[] = $this->router->$add($name, $path)
 					->addValues($route)
 					->addTokens($tokens);
 			}
 		}
 
-		return $output_routes;
+		return $routes;
 	}
 }
 // End of Dispatcher.php
