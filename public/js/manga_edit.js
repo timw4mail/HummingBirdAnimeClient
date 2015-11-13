@@ -1,7 +1,9 @@
 /**
  * Javascript for editing manga, if logged in
  */
-(function ($, undefined) {
+(function ($) {
+
+	"use strict";
 
 	if (CONTROLLER !== "manga") return;
 
@@ -28,10 +30,18 @@
 		// Update the total count
 		data[type + "s_read"] = ++completed;
 
-		$.post(BASE_URL + 'update', data, function(res) {
+		$.ajax({
+			data: data,
+			dataType: 'json',
+			method: 'POST',
+			mimeType: 'application/json',
+			url: BASE_URL + '/' + CONTROLLER + '/update'
+		}).done(function(res) {
 			console.table(res);
 			parent_sel.find("."+type+"s_read").text(completed);
 			add_message('success', "Sucessfully updated " + res.manga[0].romaji_title);
+		}).fail(function() {
+			add_message('error', "Failed to updated " + res.manga[0].romaji_title);
 		});
 	});
 

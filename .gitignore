@@ -3,6 +3,7 @@
 *.workspace
 vendor
 app/cache/*
+app/logs/*
 public/images/*
 public/js/cache/*
 composer.lock

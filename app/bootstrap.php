@@ -9,6 +9,10 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Web\WebFactory;
 use Aura\Router\RouterFactory;
 use Aura\Session\SessionFactory;
+use Monolog\Logger;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\BrowserConsoleHandler;
+
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
 
@@ -17,6 +21,15 @@ use Aviat\AnimeClient\Auth\HummingbirdAuth;
 // -----------------------------------------------------------------------------
 return function(array $config_array = []) {
 	$container = new Container();
+
+	// -------------------------------------------------------------------------
+	// Logging
+	// -------------------------------------------------------------------------
+
+	$app_logger = new Logger('animeclient');
+	$app_logger->pushHandler(new RotatingFileHandler(__DIR__.'/logs/app.log', Logger::NOTICE));
+	$app_logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
+	$container->setLogger($app_logger);
 
 	// -------------------------------------------------------------------------
 	// Injected Objects

@@ -80,6 +80,6 @@ $container->set('error-handler', $defaultHandler);
 // -----------------------------------------------------------------------------
 // Dispatch to the current route
 // -----------------------------------------------------------------------------
-$container->get('dispatcher')();
+$container->get('dispatcher')->__invoke();
 
 // End of index.php

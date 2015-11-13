@@ -3,6 +3,7 @@
 namespace Aviat\Ion\Di;
 
 use ArrayObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * Dependency container
@@ -17,6 +18,13 @@ class Container implements ContainerInterface {
 	protected $container = [];
 
 	/**
+	 * Map of logger instances
+	 *
+	 * @var ArrayObject
+	 */
+	protected $loggers = [];
+
+	/**
 	 * Constructor
 	 *
 	 * @param array $values (optional)
@@ -24,6 +32,7 @@ class Container implements ContainerInterface {
 	public function __construct(array $values = [])
 	{
 		$this->container = new ArrayObject($values);
+		$this->loggers = new ArrayObject([]);
 	}
 
 	/**
@@ -56,7 +65,7 @@ class Container implements ContainerInterface {
 	 *
 	 * @param string $id
 	 * @param mixed $value
-	 * @return Container
+	 * @return ContainerInterface
 	 */
 	public function set($id, $value)
 	{
@@ -75,6 +84,42 @@ class Container implements ContainerInterface {
 	public function has($id)
 	{
 		return $this->container->offsetExists($id);
+	}
+
+	/**
+	 * Determine whether a logger channel is registered
+	 * @param  string  $key The logger channel
+	 * @return boolean
+	 */
+	public function hasLogger($key = 'default')
+	{
+		return $this->loggers->offsetExists($key);
+	}
+
+	/**
+	 * Add a logger to the Container
+	 *
+	 * @param LoggerInterface $logger
+	 * @param string          $key    The logger 'channel'
+	 * @return ContainerInterface
+	 */
+	public function setLogger(LoggerInterface $logger, $key = 'default')
+	{
+		$this->loggers[$key] = $logger;
+		return $this;
+	}
+
+	/**
+	 * Retrieve a logger for the selected channel
+	 *
+	 * @param  string $key The logger to retreive
+	 * @return LoggerInterface|null
+	 */
+	public function getLogger($key = 'default')
+	{
+		return ($this->hasLogger($key))
+			? $this->loggers[$key]
+			: NULL;
 	}
 }
 // End of Container.php
