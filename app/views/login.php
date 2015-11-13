@@ -1,7 +1,7 @@
 <main>
 	<?= $message ?>
 	<aside>
-		<form method="post" action="<?= $urlGenerator->full_url('/login', $url_type) ?>">
+		<form method="post" action="<?= $urlGenerator->full_url($urlGenerator->path(), $url_type) ?>">
 		<dl>
 			<?php /*<dt><label for="username">Username: </label></dt>
 			<dd><input type="text" id="username" name="username" required="required" /></dd>*/ ?>

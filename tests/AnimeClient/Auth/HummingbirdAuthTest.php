@@ -9,15 +9,15 @@ use Aviat\Ion\Friend;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
 
 class HummingbirdAuthTest extends AnimeClient_TestCase {
-	
+
 	static $session;
 	static $sessionHandler;
-	
+
 	public static function setUpBeforeClass()
 	{
 		self::$session = (new SessionFactory)->newInstance([]);
 	}
-	
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -26,11 +26,11 @@ class HummingbirdAuthTest extends AnimeClient_TestCase {
 		$this->auth = $friend;
 		$this->container->set('session', self::$session);
 	}
-	
+
 	public function dataAuthenticate()
 	{
 		$testToken = 'notReallyAValidTokenButThisIsATest';
-		
+
 		return [
 			'successful auth call' => [
 				'username' => 'timw4mailtest',
@@ -54,7 +54,7 @@ class HummingbirdAuthTest extends AnimeClient_TestCase {
 			]
 		];
 	}
-	
+
 	/**
 	 * @dataProvider dataAuthenticate
 	 */
@@ -73,17 +73,17 @@ class HummingbirdAuthTest extends AnimeClient_TestCase {
 		]);
 		$model->__set('client', $client);
 		$this->auth->__set('model', $model);
-		
+
 		$actual = $this->auth->authenticate($password);
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function testIsAuthenticated()
 	{
 		$data = $this->dataAuthenticate();
 		call_user_func_array([$this, 'testAuthenticate'], $data['successful auth call']);
 		$this->assertTrue($this->auth->is_authenticated());
-		$this->auth->log_out();
+		$this->auth->logout();
 		$this->assertFalse($this->auth->is_authenticated());
 	}
 }

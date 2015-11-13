@@ -177,6 +177,49 @@ class Controller {
 	}
 
 	/**
+	 * Attempt login authentication
+	 *
+	 * @return bool
+	 */
+	public function login_action()
+	{
+		$auth = $this->container->get('auth');
+		if ($auth->authenticate($this->request->post->get('password')))
+		{
+			$this->response->redirect->afterPost(
+				$this->urlGenerator->full_url('', $this->base_data['url_type'])
+			);
+		}
+
+		$this->login("Invalid username or password.");
+	}
+
+	/**
+	 * Deauthorize the current user
+	 *
+	 * @return void
+	 */
+	public function logout()
+	{
+		$auth = $this->container->get('auth');
+		$auth->logout();
+
+		$this->redirect_to_default();
+	}
+
+	/**
+	 * 404 action
+	 *
+	 * @return void
+	 */
+	public function not_found()
+	{
+		$this->outputHTML('404', [
+			'title' => 'Sorry, page not found'
+		]);
+	}
+
+	/**
 	 * Add a message box to the page
 	 *
 	 * @codeCoverageIgnore
