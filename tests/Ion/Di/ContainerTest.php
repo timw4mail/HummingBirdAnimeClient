@@ -2,6 +2,9 @@
 
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\Exception\ContainerException;
+use Monolog\Logger;
+use Monolog\Handler\TestHandler;
+use Monolog\Handler\NullHandler;
 
 
 class ContainerTest extends AnimeClient_TestCase {
@@ -48,4 +51,27 @@ class ContainerTest extends AnimeClient_TestCase {
 		}
 	}
 
+	public function testLoggerMethods()
+	{
+		// Does the container have the default logger?
+		$this->assertFalse($this->container->hasLogger());
+		$this->assertFalse($this->container->hasLogger('default'));
+
+		$logger1 = new Logger('default');
+		$logger2 = new Logger('testing');
+		$logger1->pushHandler(new NullHandler());
+		$logger2->pushHandler(new TestHandler());
+
+		// Set the logger channels
+		$this->container->setLogger($logger1);
+		$this->container->setLogger($logger2, 'test');
+
+		$this->assertEquals($logger1, $this->container->getLogger('default'));
+		$this->assertEquals($logger2, $this->container->getLogger('test'));
+		$this->assertNull($this->container->getLogger('foo'));
+
+		$this->assertTrue($this->container->hasLogger());
+		$this->assertTrue($this->container->hasLogger('default'));
+		$this->assertTrue($this->container->hasLogger('test'));
+	}
 }

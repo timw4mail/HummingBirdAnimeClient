@@ -9,6 +9,7 @@ return [
 			'on_hold' => '/on_hold',
 			'dropped' => '/dropped',
 			'completed' => '/completed',
+			//'collection' => '/collection/view',
 			'all' => '/all'
 		]
 	],
