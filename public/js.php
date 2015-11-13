@@ -11,13 +11,18 @@
  */
 
 // --------------------------------------------------------------------------
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
 //Get config files
-require('../app/config/minify_config.php');
+require_once('../app/config/minify_config.php');
 
 //Include the js groups
 $groups_file = "../app/config/minify_js_groups.php";
-$groups = require($groups_file);
+$groups = require_once($groups_file);
+
+// Include guzzle
+require_once('../vendor/autoload.php');
 
 //The name of this file
 $this_file = __FILE__;
@@ -58,30 +63,47 @@ function get_files()
 function google_min($new_file)
 {
 	$options = [
-		'output_info' => 'compiled_code',
+		'output_info' => 'errors',
 		'output_format' => 'json',
 		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
-		'js_code' => urlencode($new_file),
-		'warning_level' => 'QUIET',
-		'language' => 'ECMASCRIPT5'
+		'js_code' => $new_file,
+		'language' => 'ECMASCRIPT5',
+		'language_out' => 'ECMASCRIPT5_STRICT'
 	];
 
-	$option_pairs = [];
-	foreach($options as $key => $value)
+	// First check for errors
+	$error_client = new Client();
+	$error_res = $error_client->post('http://closure-compiler.appspot.com/compile', [
+		'headers' => [
+			'Accept-Encoding' => 'gzip',
+			"Content-type" => "application/x-www-form-urlencoded"
+		],
+		'form_params' => $options
+	]);
+
+	$error_json = $error_res->getBody();
+	$error_obj = json_decode($error_json);
+
+	if ( ! empty($error_obj->errors))
 	{
-		$option_pairs[] = "{$key}={$value}";
+		?><pre><?= json_encode($err_obj, JSON_PRETTY_PRINT) ?></pre><?php
+		die();
 	}
-	$option_string = implode("&", $option_pairs);
 
-	//Get a much-minified version from Google's closure compiler
-	$ch = curl_init('http://closure-compiler.appspot.com/compile');
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $option_string);
-	$json = curl_exec($ch);
-	curl_close($ch);
+	// Now actually retrieve the compiled code
+	$options['output_info'] = 'compiled_code';
+	$client = new Client();
+	$res = $client->post('http://closure-compiler.appspot.com/compile', [
+		'headers' => [
+			'Accept-Encoding' => 'gzip',
+			"Content-type" => "application/x-www-form-urlencoded"
+		],
+		'form_params' => $options
+	]);
 
+	$json = $res->getBody();
 	$obj = json_decode($json);
+
 	return $obj->compiledCode;
 }
 
