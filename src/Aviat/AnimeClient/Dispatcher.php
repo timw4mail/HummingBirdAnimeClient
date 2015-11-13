@@ -54,25 +54,47 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function generate_convention_routes()
 	{
-		$this->output_routes[] = $this->router->add('index_redirect', '/')
-			->setValues([
-				'controller' => 'Aviat\\AnimeClient\\Controller',
-				'action' => 'redirect_to_default'
-			]);
+		$default_controller = $this->routes['convention']['default_controller'];
 
-		$this->output_routes[] = $this->router->add('login', '/{controller}/login')
+		$this->output_routes[] = $this->router->addGet('login', '/{controller}/login')
 			->setValues([
-				'controller' => $this->routes['convention']['default_controller'],
+				'controller' => $default_controller,
 				'action' => 'login'
 			]);
 
-		$this->output_routes[] = $this->router->add('list', '/{controller}/{type}{/view}')
+		$this->output_routes[] = $this->router->addPost('login_post', '/{controller}/login')
 			->setValues([
-				'controller' => $this->routes['convention']['default_controller'],
+				'controller' => $default_controller,
+				'action' => 'login_action'
+			]);
+
+		$this->output_routes[] = $this->router->addGet('logout', '/{controller}/logout')
+			->setValues([
+				'controller' => $default_controller,
+				'action' => 'logout'
+			]);
+
+		$this->output_routes[] = $this->router->addPost('update', '/{controller}/update')
+			->setValues([
+				'controller' => $default_controller,
+				'action' => 'update'
+			])->setTokens([
+				'controller' => '[a-z_]+'
+			]);
+
+		$this->output_routes[] = $this->router->addGet('list', '/{controller}/{type}{/view}')
+			->setValues([
+				'controller' => $default_controller,
 				'action' => $this->routes['convention']['default_method'],
 			])->setTokens([
 				'type' => '[a-z_]+',
 				'view' => '[a-z_]+'
+			]);
+
+		$this->output_routes[] = $this->router->addGet('index_redirect', '/')
+			->setValues([
+				'controller' => 'Aviat\\AnimeClient\\Controller',
+				'action' => 'redirect_to_default'
 			]);
 	}
 
@@ -115,6 +137,9 @@ class Dispatcher extends RoutingBase {
 	public function __invoke($route = NULL)
 	{
 		$error_handler = $this->container->get('error-handler');
+		$controller_name = $this->routes['convention']['default_controller'];
+		$action_method = $this->routes['convention']['404_method'];
+		$params = [];
 
 		if (is_null($route))
 		{
@@ -129,8 +154,15 @@ class Dispatcher extends RoutingBase {
 		}
 		else
 		{
-			$controller_name = $route->params['controller'];
-			$action_method = $route->params['action'];
+			if (isset($route->params['controller']))
+			{
+				$controller_name = $route->params['controller'];
+			}
+
+			if (isset($route->params['action']))
+			{
+				$action_method = $route->params['action'];
+			}
 
 			if (is_null($controller_name))
 			{
@@ -242,7 +274,14 @@ class Dispatcher extends RoutingBase {
 			unset($route['path']);
 
 			$controller_map = $this->get_controller_list();
-			$controller_class = $controller_map[$route_type];
+			if (array_key_exists($route_type, $controller_map))
+			{
+				$controller_class = $controller_map[$route_type];
+			}
+			else
+			{
+				$controller_class = $this->routes['convention']['default_controller'];
+			}
 
 			// Prepend the controller to the route parameters
 			$route['controller'] = $controller_class;

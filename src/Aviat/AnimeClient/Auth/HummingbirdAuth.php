@@ -76,7 +76,7 @@ class HummingbirdAuth {
 	 *
 	 * @return void
 	 */
-	public function log_out()
+	public function logout()
 	{
 		$this->segment->clear();
 	}

@@ -7,10 +7,10 @@
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<article class="media" id="a-<?= $item['id'] ?>">
-					<?php /*if (is_logged_in()): ?>
+				<article class="media" id="<?= $item['anime']['slug'] ?>">
+					<?php if ($auth->is_authenticated()): ?>
 					<button class="plus_one" hidden>+1 Episode</button>
-					<?php endif*/ ?>
+					<?php endif ?>
 					<?= $helper->img($item['anime']['image']); ?>
 					<div class="name">
 						<a href="<?= $escape->attr($item['anime']['url']) ?>">
@@ -39,6 +39,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php /*if (is_logged_in()): ?>
-<script src="<?= $config->asset_url('js.php?g=edit') ?>"></script>
-<?php endif*/ ?>
+<?php if ($auth->is_authenticated()): ?>
+<script src="<?= $urlGenerator->asset_url('js.php?g=edit') ?>"></script>
+<?php endif ?>

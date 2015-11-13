@@ -1,7 +1,9 @@
 /**
  * Javascript for editing anime, if logged in
  */
-(function($, undefined){
+(function($){
+
+	"use strict";
 
 	if (CONTROLLER !== "anime") return;
 
@@ -12,7 +14,6 @@
 		var self = this;
 		var this_sel = $(this);
 		var parent_sel = $(this).closest("article");
-		var self = this;
 
 		var watched_count = parseInt(parent_sel.find('.completed_number').text(), 10);
 		var total_count = parseInt(parent_sel.find('.total_number').text(), 10);
@@ -20,7 +21,7 @@
 
 		// Setup the update data
 		var data = {
-			id: this_sel.parent('article').attr('id').replace('a-', ''),
+			id: this_sel.parent('article').attr('id'),
 			increment_episodes: true
 		};
 
@@ -39,7 +40,13 @@
 		}
 
 		// okay, lets actually make some changes!
-		$.post(BASE_URL + 'update', data, function(res) {
+		$.ajax({
+			data: data,
+			dataType: 'json',
+			method: 'POST',
+			mimeType: 'application/json',
+			url: BASE_URL + CONTROLLER + '/update'
+		}).done(function(res) {
 			if (res.status === 'completed')
 			{
 				$(self).closest('article').hide();
@@ -47,6 +54,8 @@
 
 			add_message('success', "Sucessfully updated " + title);
 			parent_sel.find('.completed_number').text(++watched_count);
+		}).fail(function() {
+			add_message('error', "Failed to updated " + title);
 		});
 	});
 

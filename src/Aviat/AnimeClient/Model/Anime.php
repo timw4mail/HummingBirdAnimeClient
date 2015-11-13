@@ -55,7 +55,7 @@ class Anime extends API {
 		$data['auth_token'] = $auth->get_auth_token();
 
 		$response = $this->client->post("libraries/{$data['id']}", [
-			'body' => $data
+			'form_params' => $data
 		]);
 
 		return json_decode($response->getBody(), TRUE);
