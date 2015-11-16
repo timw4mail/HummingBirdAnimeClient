@@ -52,6 +52,7 @@ class MenuGenerator extends UrlGenerator {
 	/**
 	 * Generate the full menu structure from the config files
 	 *
+	 * @param array $menus
 	 * @return array
 	 */
 	protected function parse_config(array $menus)
