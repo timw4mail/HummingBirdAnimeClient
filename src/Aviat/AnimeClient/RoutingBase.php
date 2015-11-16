@@ -1,7 +1,14 @@
 <?php
 /**
- * Base class for routing to make namespaced config settings
- * easier to work with
+ * Hummingbird Anime Client
+ *
+ * An API client for Hummingbird to manage anime and manga watch lists
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren
+ * @copyright   Copyright (c) 2015
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license     MIT
  */
 namespace Aviat\AnimeClient;
 

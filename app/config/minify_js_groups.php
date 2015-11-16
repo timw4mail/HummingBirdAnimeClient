@@ -1,13 +1,14 @@
 <?php
 /**
- * Easy Min
+ * Hummingbird Anime Client
  *
- * Simple minification for better website performance
+ * An API client for Hummingbird to manage anime and manga watch lists
  *
- * @author		Timothy J. Warren
- * @copyright	Copyright (c) 2012
- * @link 		https://github.com/aviat4ion/Easy-Min
- * @license		http://philsturgeon.co.uk/code/dbad-license
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren
+ * @copyright   Copyright (c) 2015
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license     MIT
  */
 
 // --------------------------------------------------------------------------

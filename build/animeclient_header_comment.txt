@@ -1,4 +1,3 @@
-<?php
 /**
  * Hummingbird Anime Client
  *
@@ -10,16 +9,3 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
-
-return [
-	'collection' => [
-		'type' => 'sqlite',
-		'host' => '',
-		'user' => '',
-		'pass' => '',
-		'port' => '',
-		'name' => 'default',
-		'database'   => '',
-		'file' => __DIR__ . '/../../anime_collection.sqlite',
-	]
-];
