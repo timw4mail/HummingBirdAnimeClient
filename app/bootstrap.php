@@ -27,7 +27,7 @@ return function(array $config_array = []) {
 	// -------------------------------------------------------------------------
 
 	$app_logger = new Logger('animeclient');
-	$app_logger->pushHandler(new RotatingFileHandler(__DIR__.'/logs/app.log', Logger::NOTICE));
+	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
 	$app_logger->pushHandler(new BrowserConsoleHandler(Logger::DEBUG));
 	$container->setLogger($app_logger);
 

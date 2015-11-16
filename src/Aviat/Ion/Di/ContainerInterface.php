@@ -23,6 +23,7 @@ interface ContainerInterface extends \Interop\Container\ContainerInterface {
 	 *
 	 * @param LoggerInterface $logger
 	 * @param string          $key    The logger 'channel'
+	 * @return Container
 	 */
 	public function setLogger(LoggerInterface $logger, $key = 'default');
 
