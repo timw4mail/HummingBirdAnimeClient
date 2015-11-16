@@ -1,4 +1,14 @@
 <?php
+/**
+ * Ion
+ *
+ * Building blocks for web development
+ *
+ * @package     Ion
+ * @author      Timothy J. Warren
+ * @copyright   Copyright (c) 2015
+ * @license     MIT
+ */
 
 namespace Aviat\Ion\Di\Exception;
 
