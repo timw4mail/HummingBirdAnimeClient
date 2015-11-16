@@ -35,7 +35,7 @@
 			dataType: 'json',
 			method: 'POST',
 			mimeType: 'application/json',
-			url: BASE_URL + '/' + CONTROLLER + '/update'
+			url: BASE_URL + CONTROLLER + '/update'
 		}).done(function(res) {
 			console.table(res);
 			parent_sel.find("."+type+"s_read").text(completed);

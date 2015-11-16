@@ -16,6 +16,9 @@ use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
 
+use GuzzleHttp\Cookie\Cookiejar;
+use GuzzleHttp\Cookie\SetCookie;
+
 /**
  * Model for handling requests dealing with the manga list
  */
@@ -56,9 +59,23 @@ class Manga extends API {
 		$id = $data['id'];
 		unset($data['id']);
 
-		// @TODO update with auth key from auth class
+		$token = $this->container->get('auth')
+			->get_auth_token();
+		$domain = $this->container->get('request')
+			->server->get('HTTP_HOST');
+
+		// Set the token cookie, with the authentication token
+		// from the auth class.
+		$cookieJar = $this->cookieJar;
+		$cookie_data = new SetCookie([
+			'Name' => 'token',
+			'Value' => $token,
+			'Domain' => 'hummingbird.me'
+		]);
+		$cookieJar->setCookie($cookie_data);
+
 		$result = $this->put("manga_library_entries/{$id}", [
-			'cookies' => ['token' => ''],
+			'cookies' => $cookieJar,
 			'json' => ['manga_library_entry' => $data]
 		]);
 
