@@ -140,6 +140,7 @@ class Manga extends API {
 	 * Check the status of the cache and return the appropriate response
 	 *
 	 * @param \GuzzleHttp\Message\Response $response
+	 * @codeCoverageIgnore
 	 * @return array
 	 */
 	private function _check_cache($response)

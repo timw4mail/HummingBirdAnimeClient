@@ -22,6 +22,10 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		$session_handler = new TestSessionHandler();
 		session_set_save_handler($session_handler, TRUE);
 		self::$session_handler = $session_handler;
+
+		// Remove test cache files
+		$files = glob(_dir(TEST_DATA_DIR, 'cache', '*.json'));
+		array_map('unlink', $files);
 	}
 
 	public function setUp()
@@ -30,7 +34,9 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 
 		$config_array = [
 			'asset_path' => '//localhost/assets/',
-			'databaase' => [],
+			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
+			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
+			'database' => [],
 			'routing' => [
 				'asset_path' => '/assets'
 			],

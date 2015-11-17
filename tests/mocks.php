@@ -13,6 +13,7 @@ use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View\JsonView;
 
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Model\API as BaseApiModel;
 
 
@@ -136,7 +137,16 @@ class MockBaseApiModel extends BaseApiModel {
 }
 
 class TestAnimeModel extends AnimeModel {
-
 	use MockInjectionTrait;
+}
+
+class TestMangaModel extends MangaModel {
+	use MockInjectionTrait;
+
+	private function _check_cache($response)
+	{
+		$file = __DIR__ . '/../../test_data/manga_list/manga-transformed.json';
+		return json_decode(file_get_contents($file), TRUE);
+	}
 }
 // End of mocks.php

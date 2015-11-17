@@ -65,5 +65,4 @@ class EnumTest extends AnimeClient_TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
-
 }
