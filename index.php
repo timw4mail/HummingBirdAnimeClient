@@ -56,7 +56,6 @@ spl_autoload_register(function($class) {
 });
 
 require _dir(ROOT_DIR, '/vendor/autoload.php');
-require _dir(SRC_DIR, '/functions.php');
 
 // -------------------------------------------------------------------------
 // Setup error handling

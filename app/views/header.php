@@ -1,3 +1,4 @@
+<?php namespace Aviat\AnimeClient ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,11 +27,11 @@
 	</h1>
 	<nav>
 		<?= $helper->menu($menu_name) ?>
-		<?php if (is_view_page()): ?>
+		<?php if ($container->get('anime_client')->is_view_page()): ?>
 		<br />
 		<ul>
-			<li class="<?= is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+			<li class="<?= AnimeClient::is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+			<li class="<?= AnimeClient::is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
 		<?php endif ?>
 	</nav>

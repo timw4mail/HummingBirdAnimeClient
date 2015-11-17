@@ -69,6 +69,11 @@ return function(array $config_array = []) {
 
 	$container->set('url-generator', new UrlGenerator($container));
 	$container->set('auth', new HummingbirdAuth($container));
+	
+	// Miscellaneous helper methods
+	$anime_client = new AnimeClient();
+	$anime_client->setContainer($container);
+	$container->set('anime_client', $anime_client);
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
