@@ -56,6 +56,7 @@ class HtmlView extends HttpView {
 	{
 		$data['helper'] = $this->helper;
 		$data['escape'] = $this->helper->escape();
+		$data['container'] = $this->container;
 
 		ob_start();
 		extract($data);

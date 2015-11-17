@@ -27,7 +27,6 @@ define('BASE_DIR', _dir(SRC_DIR, 'Base'));
 define('TEST_DATA_DIR', _dir(__DIR__, 'test_data'));
 define('TEST_VIEW_DIR', _dir(__DIR__, 'test_views'));
 require _dir(ROOT_DIR, '/vendor/autoload.php');
-require _dir(SRC_DIR, '/functions.php');
 
 /**
  * Set up autoloaders
