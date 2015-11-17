@@ -1,10 +1,4 @@
 <?php
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
-
 use Aviat\Ion\Friend;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
