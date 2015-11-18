@@ -27,7 +27,7 @@ class AnimeClient {
 	{
 		return ($a === $b) ? 'selected' : '';
 	}
-	
+
 	/**
 	 * Inverse of selected helper function
 	 *
@@ -39,7 +39,7 @@ class AnimeClient {
 	{
 		return ($a !== $b) ? 'selected' : '';
 	}
-	
+
 	/**
 	 * Determine whether to show the sub-menu
 	 *
@@ -51,9 +51,9 @@ class AnimeClient {
 			->server->get('REQUEST_URI');
 		$blacklist = ['edit', 'add', 'update', 'login', 'logout'];
 		$page_segments = explode("/", $url);
-	
+
 		$intersect = array_intersect($page_segments, $blacklist);
-	
+
 		return empty($intersect);
 	}
 
