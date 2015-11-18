@@ -61,8 +61,6 @@ class Manga extends API {
 
 		$token = $this->container->get('auth')
 			->get_auth_token();
-		$domain = $this->container->get('request')
-			->server->get('HTTP_HOST');
 
 		// Set the token cookie, with the authentication token
 		// from the auth class.
