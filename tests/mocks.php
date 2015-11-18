@@ -143,9 +143,9 @@ class TestAnimeModel extends AnimeModel {
 class TestMangaModel extends MangaModel {
 	use MockInjectionTrait;
 
-	private function _check_cache($response)
+	protected function _check_cache($response)
 	{
-		$file = __DIR__ . '/../../test_data/manga_list/manga-transformed.json';
+		$file = __DIR__ . '/test_data/manga_list/manga-transformed.json';
 		return json_decode(file_get_contents($file), TRUE);
 	}
 }
