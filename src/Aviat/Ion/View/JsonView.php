@@ -13,6 +13,7 @@
 namespace Aviat\Ion\View;
 
 use Aviat\Ion\View\HttpView;
+use Aviat\Ion\View as BaseView;
 
 /**
  * View class to serialize Json
@@ -30,7 +31,7 @@ class JsonView extends HttpView {
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @return View
+	 * @return BaseView
 	 */
 	public function setOutput($string)
 	{
