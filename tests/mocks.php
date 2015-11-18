@@ -143,6 +143,11 @@ class TestAnimeModel extends AnimeModel {
 class TestMangaModel extends MangaModel {
 	use MockInjectionTrait;
 
+	public function get_cached_image($api_path, $series_slug, $type = "anime")
+	{
+		return "/public/images/{$type}/{$series_slug}.jpg";
+	}
+
 	protected function _check_cache($response)
 	{
 		$file = __DIR__ . '/test_data/manga_list/manga-transformed.json';
