@@ -53,4 +53,34 @@ class MangaModelTest extends AnimeClient_TestCase {
 			$this->assertEquals($expected_all[$key], $this->model->_get_list_from_api($key));
 		}
 	}
+
+	public function testGetList()
+	{
+		$data = $this->model->get_all_lists();
+		$this->assertEquals($data['Reading'], $this->model->get_list('Reading'));
+	}
+
+	public function testGetAllLists()
+	{
+		$data = json_decode(file_get_contents($this->mockDir . '/manga-mapped.json'), TRUE);
+
+		foreach($data as &$val)
+		{
+			$this->sort_by_name($val);
+		}
+
+		$this->assertEquals($data, $this->model->get_all_lists());
+	}
+	
+	private function sort_by_name(&$array)
+	{
+		$sort = array();
+
+		foreach ($array as $key => $item)
+		{
+			$sort[$key] = $item['manga']['title'];
+		}
+
+		array_multisort($sort, SORT_ASC, $array);
+	}
 }

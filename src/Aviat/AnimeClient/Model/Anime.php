@@ -228,6 +228,7 @@ class Anime extends API {
 	/**
 	 * Sort the list by title
 	 *
+	 * @codeCoverageIgnore
 	 * @param array $array
 	 * @return void
 	 */

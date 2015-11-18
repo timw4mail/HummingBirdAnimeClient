@@ -5,6 +5,13 @@ use Aviat\AnimeClient\AnimeClient;
 
 class AnimeClientTest extends AnimeClient_TestCase {
 
+	public function setUp()
+	{
+		parent::setUp();
+		$this->anime_client = new AnimeClient();
+		$this->anime_client->setContainer($this->container);
+	}
+
 	/**
 	 * Basic sanity test for _dir function
 	 */
@@ -29,5 +36,40 @@ class AnimeClientTest extends AnimeClient_TestCase {
 
 		// Matches
 		$this->assertEquals('', AnimeClient::is_not_selected('foo', 'foo'));
+	}
+
+	public function dataIsViewPage()
+	{
+		return [
+			[
+				'uri' => '/anime/update',
+				'expected' => FALSE
+			],
+			[
+				'uri' => '/anime/watching',
+				'expected' => TRUE
+			],
+			[
+				'uri' => '/manga/reading',
+				'expected' => TRUE
+			],
+			[
+				'uri' => '/manga/update',
+				'expected' => FALSE
+			]
+		];
+	}
+
+	/**
+	 * @dataProvider dataIsViewPage
+	 */
+	public function testIsViewPage($uri, $expected)
+	{
+		$this->setSuperGlobals([
+			'_SERVER' => [
+				'REQUEST_URI' => $uri
+			]
+		]);
+		$this->assertEquals($expected, $this->anime_client->is_view_page());
 	}
 }

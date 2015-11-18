@@ -143,7 +143,7 @@ class Manga extends API {
 	 * @codeCoverageIgnore
 	 * @return array
 	 */
-	private function _check_cache($response)
+	protected function _check_cache($response)
 	{
 		// Bail out early if there isn't any manga data
 		$api_data = json_decode($response->getBody(), TRUE);
@@ -215,6 +215,7 @@ class Manga extends API {
 	/**
 	 * Sort the manga entries by their title
 	 *
+	 * @codeCoverageIgnore
 	 * @param array $array
 	 * @return void
 	 */
