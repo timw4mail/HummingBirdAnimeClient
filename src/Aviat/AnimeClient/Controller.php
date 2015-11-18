@@ -187,7 +187,7 @@ class Controller {
 	/**
 	 * Attempt login authentication
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function login_action()
 	{
