@@ -20,7 +20,6 @@ return [
 			'on_hold' => '/on_hold',
 			'dropped' => '/dropped',
 			'completed' => '/completed',
-			//'collection' => '/collection/view',
 			'all' => '/all'
 		]
 	],
@@ -33,13 +32,6 @@ return [
 			'dropped' => '/dropped',
 			'completed' => '/completed',
 			'all' => '/all'
-		]
-	],
-	'collection' => [
-		'route_prefix' => '/collection',
-		'items' => [
-			'anime' => '/anime',
-			'manga' => '/manga',
 		]
 	]
 ];

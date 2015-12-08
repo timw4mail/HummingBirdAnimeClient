@@ -2,10 +2,10 @@
 
 	function search(query, callback)
 	{
-		$.get(BASE_URL + 'search', {'query':query}, callback);
+		$.get(BASE_URL + 'collection/search', {'query':query}, callback);
 	}
 
-	$("#search").on('keypress', $.throttle(250, function(e) {
+	$("#search").on('keypress', $.throttle(750, function(e) {
 		var query = encodeURIComponent($(this).val());
 		search(query, function(res) {
 			var template = $.templates("#show_list");

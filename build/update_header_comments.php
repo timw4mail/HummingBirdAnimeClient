@@ -2,6 +2,7 @@
 
 $animeclient_file_patterns = [
 	'app/config/*.php',
+	'app/booststrap.php',
 	'src/functions.php',
 	'src/Aviat/AnimeClient/*.php'
 ];

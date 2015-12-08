@@ -30,7 +30,7 @@ $config = [
 	'show_anime_collection' => TRUE,
 
 	// do you wish to show the manga collection?
-	'show_manga_collection' => TRUE,
+	'show_manga_collection' => FALSE,
 
 	// path to public directory on the server
 	'asset_dir' => realpath(__DIR__ . '/../../public'),
