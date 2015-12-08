@@ -51,7 +51,7 @@ class AnimeCollection extends DB {
 			$this->valid_database = FALSE;
 			return FALSE;
 		}
-		$this->anime_model = new AnimeModel($container);
+		$this->anime_model = $container->get('anime-model');
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database

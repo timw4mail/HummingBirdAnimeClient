@@ -60,6 +60,16 @@ class API extends BaseModel {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
+		$this->init();
+	}
+
+	/**
+	 * Set up the class properties
+	 *
+	 * @return void
+	 */
+	protected function init()
+	{
 		$this->cookieJar = new CookieJar();
 		$this->client = new Client([
 			'base_uri' => $this->base_url,

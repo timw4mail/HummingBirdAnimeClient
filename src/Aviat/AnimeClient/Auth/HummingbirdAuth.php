@@ -47,7 +47,7 @@ class HummingbirdAuth {
 		$this->setContainer($container);
 		$this->segment = $container->get('session')
 			->getSegment(__NAMESPACE__);
-		$this->model = new API($container);
+		$this->model = $container->get('api-model');
 	}
 
 	/**

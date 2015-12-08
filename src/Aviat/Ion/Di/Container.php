@@ -12,7 +12,6 @@
 
 namespace Aviat\Ion\Di;
 
-use ArrayObject;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -41,8 +40,8 @@ class Container implements ContainerInterface {
 	 */
 	public function __construct(array $values = [])
 	{
-		$this->container = new ArrayObject($values);
-		$this->loggers = new ArrayObject([]);
+		$this->container = $values;
+		$this->loggers = [];
 	}
 
 	/**
@@ -93,7 +92,7 @@ class Container implements ContainerInterface {
 	 */
 	public function has($id)
 	{
-		return $this->container->offsetExists($id);
+		return array_key_exists($id, $this->container);
 	}
 
 	/**
@@ -103,7 +102,7 @@ class Container implements ContainerInterface {
 	 */
 	public function hasLogger($key = 'default')
 	{
-		return $this->loggers->offsetExists($key);
+		return array_key_exists($key, $this->loggers);
 	}
 
 	/**

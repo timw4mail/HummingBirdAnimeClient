@@ -53,8 +53,8 @@ class Collection extends BaseController {
 		parent::__construct($container);
 
 		$this->urlGenerator = $container->get('url-generator');
-		$this->anime_model = new AnimeModel($container);
-		$this->anime_collection_model = new AnimeCollectionModel($container);
+		$this->anime_model = $container->get('anime-model');
+		$this->anime_collection_model = $container->get('anime-collection-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'collection',
 			'message' => '',
