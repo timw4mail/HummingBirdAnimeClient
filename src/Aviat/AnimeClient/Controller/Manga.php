@@ -43,7 +43,7 @@ class Manga extends Controller {
 	{
 		parent::__construct($container);
 
-		$this->model = new MangaModel($container);
+		$this->model = $container->get('manga-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'manga_list',
 			'config' => $this->config,

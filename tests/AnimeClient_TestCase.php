@@ -36,7 +36,18 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 			'asset_path' => '//localhost/assets/',
 			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
-			'database' => [],
+			'database' => [
+				'collection' => [
+					'type' => 'sqlite',
+					'host' => '',
+					'user' => '',
+					'pass' => '',
+					'port' => '',
+					'name' => 'default',
+					'database'   => '',
+					'file' => ':memory:',
+				]
+			],
 			'routing' => [
 				'asset_path' => '/assets'
 			],

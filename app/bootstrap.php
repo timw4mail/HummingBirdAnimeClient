@@ -15,6 +15,7 @@ use Monolog\Handler\BrowserConsoleHandler;
 
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
+use Aviat\AnimeClient\Model;
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -68,12 +69,20 @@ return function(array $config_array = []) {
 	$container->set('session', $session);
 
 	$container->set('url-generator', new UrlGenerator($container));
-	$container->set('auth', new HummingbirdAuth($container));
+
 
 	// Miscellaneous helper methods
 	$anime_client = new AnimeClient();
 	$anime_client->setContainer($container);
 	$container->set('anime_client', $anime_client);
+
+	// Models
+	$container->set('api-model', new Model\API($container));
+	$container->set('anime-model', new Model\Anime($container));
+	$container->set('manga-model', new Model\Manga($container));
+	$container->set('anime-collection-model', new Model\AnimeCollection($container));
+
+	$container->set('auth', new HummingbirdAuth($container));
 
 	// -------------------------------------------------------------------------
 	// Dispatcher

@@ -44,7 +44,7 @@ class Anime extends BaseController {
 	{
 		parent::__construct($container);
 
-		$this->model = new AnimeModel($container);
+		$this->model = $container->get('anime-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'anime_list',
 			'message' => '',
