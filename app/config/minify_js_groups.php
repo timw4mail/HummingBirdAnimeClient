@@ -36,11 +36,17 @@ return [
 		'anime_edit.js',
 		'manga_edit.js'
 	],
-	'collection' => [
+	'anime_collection' => [
 		'lib/jquery.min.js',
 		'lib/jquery.throttle-debounce.js',
 		'lib/jsrender.js',
-		'collection.js'
+		'anime_collection.js'
+	],
+	'manga_collection' => [
+		'lib/jquery.min.js',
+		'lib/jquery.throttle-debounce.js',
+		'lib/jsrender.js',
+		'manga_collection.js'
 	]
 ];
 

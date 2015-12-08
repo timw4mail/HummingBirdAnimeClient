@@ -13,9 +13,21 @@
 <body class="<?= $escape->attr($url_type) ?> list">
 	<h1 class="flex flex-align-end flex-wrap">
 		<span class="flex-no-wrap grow-1">
-			<a href="<?= $escape->attr($urlGenerator->default_url($url_type)) ?>">
-				<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> <?= (strpos($route_path, 'collection') !== FALSE) ? 'Collection' : 'List' ?>
-			</a> [<a href="<?= $urlGenerator->default_url($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
+			<?php if(strpos($route_path, 'collection') === FALSE): ?>
+				<a href="<?= $escape->attr($urlGenerator->default_url($url_type)) ?>">
+					<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> List
+				</a>
+				<?php if($config->get("show_{$url_type}_collection")): ?>
+					[<a href="<?= $urlGenerator->url('collection/view') ?>"><?= ucfirst($url_type) ?> Collection</a>]
+				<?php endif ?>
+				[<a href="<?= $urlGenerator->default_url($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
+			<?php else: ?>
+				<a href="<?= $urlGenerator->url('collection/view') ?>">
+					<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> Collection
+				</a>
+				[<a href="<?= $urlGenerator->default_url('anime') ?>">Anime List</a>]
+				[<a href="<?= $urlGenerator->default_url('manga') ?>">Manga List</a>]
+			<?php endif ?>
 		</span>
 		<span class="flex-no-wrap small-font">
 			<?php if ($auth->is_authenticated()): ?>

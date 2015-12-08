@@ -29,8 +29,12 @@ return [
 			]
 		],
 	],
-	// Routes on collection controller
+	// Routes on anime collection controller
 	'collection' => [
+		'collection_search' => [
+			'path' => '/collection/search',
+			'action' => 'search'
+		],
 		'collection_add_form' => [
 			'path' => '/collection/add',
 			'action' => 'form',

@@ -1,4 +1,4 @@
-<?php if (is_logged_in()): ?>
+<?php if ($auth->is_authenticated()): ?>
 <main>
 	<form action="<?= $action_url ?>" method="post">
 	<dl>
@@ -33,5 +33,5 @@
 		<img src="{{:cover_image}}" alt="{{:title}}"  />
 	</article>
 </template>
-<script src="<?= $config->asset_url('js.php?g=collection&debug=1') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php?g=anime_collection') ?>"></script>
 <?php endif ?>

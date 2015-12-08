@@ -53,6 +53,7 @@ class Collection extends BaseController {
 		parent::__construct($container);
 
 		$this->urlGenerator = $container->get('url-generator');
+		$this->anime_model = new AnimeModel($container);
 		$this->anime_collection_model = new AnimeCollectionModel($container);
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'collection',
@@ -71,7 +72,7 @@ class Collection extends BaseController {
 	public function search()
 	{
 		$query = $this->request->query->get('query');
-		$this->outputJSON($this->model->search($query));
+		$this->outputJSON($this->anime_model->search($query));
 	}
 
 	/**
@@ -109,7 +110,7 @@ class Collection extends BaseController {
 		$this->outputHTML('collection/' . strtolower($action), [
 			'action' => $action,
 			'action_url' => $this->urlGenerator->full_url("collection/" . strtolower($action)),
-			'title' => $this->config->whose_list . " Anime Collection &middot; {$action}",
+			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
 			'media_items' => $this->anime_collection_model->get_media_type_list(),
 			'item' => ($action === "Edit") ? $this->anime_collection_model->get($id) : []
 		]);
