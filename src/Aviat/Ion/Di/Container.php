@@ -22,14 +22,14 @@ class Container implements ContainerInterface {
 	/**
 	 * Array with class instances
 	 *
-	 * @var ArrayObject
+	 * @var array
 	 */
 	protected $container = [];
 
 	/**
 	 * Map of logger instances
 	 *
-	 * @var ArrayObject
+	 * @var array
 	 */
 	protected $loggers = [];
 

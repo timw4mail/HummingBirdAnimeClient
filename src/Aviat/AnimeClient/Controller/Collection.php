@@ -126,12 +126,12 @@ class Collection extends BaseController {
 		$data = $this->request->post->get();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("collection/view", 303, "anime");
+			$this->redirect("collection/view", 303);
 		}
 
 		$this->anime_collection_model->update($data);
 
-		$this->redirect("collection/view", 303, "anime");
+		$this->redirect("collection/view", 303);
 	}
 
 	/**
@@ -144,12 +144,12 @@ class Collection extends BaseController {
 		$data = $this->request->post->get();
 		if ( ! array_key_exists('id', $data))
 		{
-			$this->redirect("collection/view", 303, "anime");
+			$this->redirect("collection/view", 303);
 		}
 
 		$this->anime_collection_model->add($data);
 
-		$this->redirect("collection/view", 303, "anime");
+		$this->redirect("collection/view", 303);
 	}
 }
 // End of CollectionController.php
