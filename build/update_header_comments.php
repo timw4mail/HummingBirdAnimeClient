@@ -19,9 +19,9 @@ if ( ! function_exists('glob_recursive'))
 	{
 		$files = glob($pattern, $flags);
 
-		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+		foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR | GLOB_NOSORT) as $dir)
 		{
-			$files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+			$files = array_merge($files, glob_recursive($dir . '/' . basename($pattern), $flags));
 		}
 
 		return $files;
@@ -41,7 +41,7 @@ function get_text_to_replace($tokens)
 	{
 		return "<?php\n" . $tokens[1][1];
 	}
-	else if($tokens[1][0] !== T_DOC_COMMENT)
+	else if ($tokens[1][0] !== T_DOC_COMMENT)
 	{
 		return "<?php";
 	}
@@ -54,7 +54,7 @@ function get_tokens($source)
 
 function replace_files(array $files, $template)
 {
-	foreach($files as $file)
+	foreach ($files as $file)
 	{
 		$source = file_get_contents($file);
 		$tokens = get_tokens($source);
@@ -68,7 +68,7 @@ function replace_files(array $files, $template)
 	}
 }
 
-foreach($animeclient_file_patterns as $glob)
+foreach ($animeclient_file_patterns as $glob)
 {
 	$files = glob_recursive($glob);
 	replace_files($files, '/animeclient_header_comment.txt');
@@ -80,7 +80,7 @@ $loose_files = [
 ];
 replace_files($loose_files, '/animeclient_header_comment.txt');
 
-foreach($ion_file_patterns as $glob)
+foreach ($ion_file_patterns as $glob)
 {
 	$files = glob_recursive($glob);
 	replace_files($files, '/ion_header_comment.txt');
