@@ -39,7 +39,7 @@ class DB extends BaseModel {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->db_config = $this->config->get('database');
+		$this->db_config = (array) $this->config->get('database');
 	}
 }
 // End of BaseDBModel.php

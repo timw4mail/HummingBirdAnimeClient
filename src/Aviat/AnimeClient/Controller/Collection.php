@@ -27,9 +27,15 @@ class Collection extends BaseController {
 
 	/**
 	 * The anime collection model
-	 * @var object $anime_collection_model
+	 * @var AnimeCollectionModel $anime_collection_model
 	 */
 	private $anime_collection_model;
+
+	/**
+	 * The anime API model
+	 * @var AnimeModel $anime_model
+	 */
+	private $anime_model;
 
 	/**
 	 * Data to ve sent to all routes in this controller
@@ -148,6 +154,24 @@ class Collection extends BaseController {
 		}
 
 		$this->anime_collection_model->add($data);
+
+		$this->redirect("collection/view", 303);
+	}
+
+	/**
+	 * Remove a collection item
+	 *
+	 * @return void
+	 */
+	public function delete()
+	{
+		$data = $this->request->post->get();
+		if ( ! array_key_exists('id', $data))
+		{
+			$this->redirect("collection/view", 303);
+		}
+
+		$this->anime_collection_model->delete($data);
 
 		$this->redirect("collection/view", 303);
 	}
