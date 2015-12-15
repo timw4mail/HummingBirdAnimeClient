@@ -178,7 +178,9 @@ button {
 .anime .airing_status,
 .anime .user_rating,
 .anime .completion,
-.anime .age_rating {
+.anime .age_rating,
+.anime .edit,
+.anime .delete {
 	background: none;
 	text-align:center;
 }

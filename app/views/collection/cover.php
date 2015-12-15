@@ -24,12 +24,14 @@
 							<div class="media_type"><?= $item['show_type'] ?></div>
 							<div class="age_rating"><?= $item['age_rating'] ?></div>
 						</div>
+						<?php if ($auth->is_authenticated()): ?>
+							<div class="row">
+								<span class="edit">[<a href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
+								<span class="delete">[<a href="<?= $urlGenerator->url("collection/delete/{$item['hummingbird_id']}", "anime") ?>">Delete</a>]</span>
+							</div>
+						<?php endif ?>
 					</div>
 				</article>
-
-				<?php if ($auth->is_authenticated()): ?>
-					<span>[<a href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
-					<?php endif ?>
 				<?php endforeach ?>
 			</section>
 		</section>

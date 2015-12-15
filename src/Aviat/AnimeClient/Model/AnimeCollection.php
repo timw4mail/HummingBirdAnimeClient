@@ -262,6 +262,23 @@ class AnimeCollection extends DB {
 	}
 
 	/**
+	 * Remove a colleciton item
+	 * @param  array $data
+	 * @return void
+	 */
+	public function delete($data)
+	{
+		// If there's no id to update, don't delete
+		if ( ! array_key_exists('hummingbird_id', $data))
+		{
+			return;
+		}
+
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])
+			->delete('anime_set');
+	}
+
+	/**
 	 * Get the details of a collection item
 	 *
 	 * @param int $hummingbird_id
