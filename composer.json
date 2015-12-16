@@ -11,7 +11,7 @@
 		"aviat4ion/query": "2.5.*",
 		"container-interop/container-interop": "1.*",
 		"danielstjules/stringy": "~2.1",
-		"filp/whoops": "dev-php7#fe32a402b086b21360e82013e8a0355575c7c6f4",
+		"filp/whoops": "1.1.*",
 		"guzzlehttp/guzzle": "6.*",
 		"monolog/monolog": "1.*",
 		"mustache/mustache": "*",
