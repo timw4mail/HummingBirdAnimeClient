@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->is_authenticated()): ?>
-[<a href="<?= $urlGenerator->url('collection/add', 'anime') ?>">Add Item</a>]
+<a class="bracketed" href="<?= $urlGenerator->url('collection/add', 'anime') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -19,17 +19,17 @@
 						</a>
 					</div>
 					<div class="table">
+						<?php if ($auth->is_authenticated()): ?>
+							<div class="row">
+								<span class="edit"><a class="bracketed" href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a></span>
+								<?php /*<span class="delete"><a class="bracketed" href="<?= $urlGenerator->url("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a></span> */ ?>
+							</div>
+						<?php endif ?>
 						<div class="row">
 							<div class="completion">Episodes: <?= $item['episode_count'] ?></div>
 							<div class="media_type"><?= $item['show_type'] ?></div>
 							<div class="age_rating"><?= $item['age_rating'] ?></div>
 						</div>
-						<?php if ($auth->is_authenticated()): ?>
-							<div class="row">
-								<span class="edit">[<a href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}", "anime") ?>">Edit</a>]</span>
-								<span class="delete">[<a href="<?= $urlGenerator->url("collection/delete/{$item['hummingbird_id']}", "anime") ?>">Delete</a>]</span>
-							</div>
-						<?php endif ?>
 					</div>
 				</article>
 				<?php endforeach ?>

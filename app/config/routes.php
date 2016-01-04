@@ -18,18 +18,22 @@ return [
 		'default_method' => 'index',
 		'404_method' => 'not_found'
 	],
-	// Routes on all controllers
-	'common' => [
-		'update' => [
-			'path' => '/{controller}/update',
-			'action' => 'update',
-			'verb' => 'post',
-			'tokens' => [
-				'controller' => '[a-z_]+'
-			]
-		],
-	],
 	// Routes on anime collection controller
+	'anime' => [
+		'anime_add_form' => [
+			'path' => '/anime/add',
+			'action' => 'add_form',
+			'verb' => 'get'
+		],
+		'anime_add' => [
+			'path' => '/anime/add',
+			'action' => 'add',
+			'verb' => 'post'
+		]
+	],
+	'manga' => [
+
+	],
 	'collection' => [
 		'collection_search' => [
 			'path' => '/collection/search',

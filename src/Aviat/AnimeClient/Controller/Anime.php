@@ -17,11 +17,14 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 /**
  * Controller for Anime-related pages
  */
 class Anime extends BaseController {
+
+	use \Aviat\Ion\StringWrapper;
 
 	/**
 	 * The anime list model
@@ -45,9 +48,9 @@ class Anime extends BaseController {
 		parent::__construct($container);
 
 		$this->model = $container->get('anime-model');
+
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'anime_list',
-			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
 			'config' => $this->config,
@@ -107,6 +110,95 @@ class Anime extends BaseController {
 	}
 
 	/**
+	 * Form to add an anime
+	 *
+	 * @return void
+	 */
+	public function add_form()
+	{
+		$raw_status_list = AnimeWatchingStatus::getConstList();
+
+		$statuses = [];
+
+		foreach($raw_status_list as $status_item)
+		{
+			$statuses[$status_item] = (string) $this->string($status_item)
+				->underscored()
+				->humanize()
+				->titleize();
+		}
+
+		$this->set_session_redirect();
+		$this->outputHTML('anime/add', [
+			'title' => $this->config->get('whose_list') .
+				"'s Anime List &middot; Add",
+			'action_url' => $this->urlGenerator->url('anime/add'),
+			'status_list' => $statuses
+		]);
+	}
+
+	/**
+	 * Add an anime to the list
+	 *
+	 * @return void
+	 */
+	public function add()
+	{
+		$data = $this->request->post->get();
+		if ( ! array_key_exists('id', $data))
+		{
+			$this->redirect("anime/add", 303);
+		}
+
+		$result = $this->model->update($data);
+
+		if ($result['statusCode'] == 201)
+		{
+			$this->set_flash_message('Added new anime to list', 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to add new anime to list', 'error');
+		}
+
+		$this->session_redirect();
+	}
+
+	/**
+	 * Form to edit details about a series
+	 *
+	 * @param int $id
+	 * @param string $status
+	 * @return void
+	 */
+	public function edit($id, $status="all")
+	{
+		$item = $this->model->get_library_anime($id, $status);
+		$raw_status_list = AnimeWatchingStatus::getConstList();
+
+		$statuses = [];
+
+		foreach($raw_status_list as $status_item)
+		{
+			$statuses[$status_item] = (string) $this->string($status_item)
+				->underscored()
+				->humanize()
+				->titleize();
+		}
+
+		$this->set_session_redirect($this->request->server->get('HTTP_REFERRER'));
+
+		$this->outputHTML('anime/edit', [
+			'title' => $this->config->get('whose_list') .
+				"'s Anime List &middot; Edit",
+			'item' => $item,
+			'statuses' => $statuses,
+			'action' => $this->container->get('url-generator')
+				->url('/anime/update_form'),
+		]);
+	}
+
+	/**
 	 * Search for anime
 	 *
 	 * @return void
@@ -118,13 +210,50 @@ class Anime extends BaseController {
 	}
 
 	/**
+	 * Update an anime item via a form submission
+	 *
+	 * @return void
+	 */
+	public function form_update()
+	{
+		$post_data = $this->request->post->get();
+
+		// Do some minor data manipulation for
+		// large form-based updates
+		$transformer = new AnimeListTransformer();
+		$post_data = $transformer->untransform($post_data);
+
+		$full_result = $this->model->update($post_data);
+		$result = $result['body'];
+
+		if (array_key_exists('anime', $result))
+		{
+			$title = ( ! empty($result['anime']['alternate_title']))
+				? "{$result['anime']['title']} ({$result['anime']['alternate_title']})"
+				: "{$result['anime']['title']}";
+
+			$this->set_flash_message("Successfully updated {$title}.", 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to update anime.', 'error');
+		}
+
+		$this->session_redirect();
+	}
+
+	/**
 	 * Update an anime item
 	 *
 	 * @return boolean|null
 	 */
 	public function update()
 	{
-		$this->outputJSON($this->model->update($this->request->post->get()));
+		$this->outputJSON(
+			$this->model->update(
+				$this->request->post->get()
+			)
+		);
 	}
 }
 // End of AnimeController.php

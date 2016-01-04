@@ -45,6 +45,14 @@ abstract class View {
 	protected $output;
 
 	/**
+	 * If the view has sent output via
+	 * __toString or send method
+	 *
+	 * @var boolean
+	 */
+	protected $hasRendered = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -60,7 +68,21 @@ abstract class View {
 	 */
 	public function __destruct()
 	{
-		$this->output();
+		if ( ! $this->hasRendered)
+		{
+			$this->send();
+		}
+	}
+
+	/**
+	 * Return rendered output
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		$this->hasRendered = true;
+		return $this->getOutput();
 	}
 
 	/**
@@ -97,6 +119,15 @@ abstract class View {
 	public function getOutput()
 	{
 		return $this->string($this->output)->__toString();
+	}
+
+	/**
+	 * Send output to client
+	 */
+	public function send()
+	{
+		$this->hasRendered = true;
+		$this->output();
 	}
 
 	/**

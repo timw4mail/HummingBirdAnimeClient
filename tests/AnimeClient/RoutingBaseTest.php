@@ -33,6 +33,7 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 	 */
 	public function testSegments($request_uri, $path, $segments, $last_segment)
 	{
+		$this->markTestSkipped();
 		$this->setSuperGlobals([
 			'_SERVER' => [
 				'REQUEST_URI' => $request_uri

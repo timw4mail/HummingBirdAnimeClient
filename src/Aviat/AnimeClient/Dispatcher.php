@@ -90,6 +90,23 @@ class Dispatcher extends RoutingBase {
 				'controller' => '[a-z_]+'
 			]);
 
+		$this->output_routes[] = $this->router->addPost('update_form', '/{controller}/update_form')
+			->setValues([
+				'controller' => $default_controller,
+				'action' => 'form_update'
+			])->setTokens([
+				'controller' => '[a-z_]+'
+			]);
+
+		$this->output_routes[] = $this->router->addGet('edit', '/{controller}/edit/{id}/{status}')
+			->setValues([
+				'controller' => $default_controller,
+				'action' => 'edit'
+			])->setTokens([
+				'id' => '[0-9a-z_]+',
+				'status' => '[a-z\-]+',
+			]);
+
 		$this->output_routes[] = $this->router->addGet('list', '/{controller}/{type}{/view}')
 			->setValues([
 				'controller' => $default_controller,
@@ -273,7 +290,7 @@ class Dispatcher extends RoutingBase {
 			return [];
 		}
 
-		$applied_routes = array_merge($this->routes[$route_type], $this->routes['common']);
+		$applied_routes = $this->routes[$route_type];
 
 		// Add routes
 		foreach ($applied_routes as $name => &$route)

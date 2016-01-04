@@ -16,6 +16,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View\HtmlView;
 use Aviat\Ion\View\JsonView;
+use Aviat\AnimeClient\AnimeClient;
 
 /**
  * Controller base, defines output methods
@@ -58,6 +59,12 @@ class Controller {
 	protected $urlGenerator;
 
 	/**
+	 * Session segment
+	 * @var [type]
+	 */
+	protected $session;
+
+	/**
 	 * Common data to be sent to views
 	 * @var array
 	 */
@@ -83,6 +90,15 @@ class Controller {
 		$this->base_data['auth'] = $container->get('auth');
 		$this->base_data['config'] = $this->config;
 		$this->urlGenerator = $urlGenerator;
+
+		$session = $container->get('session');
+		$this->session = $session->getSegment(AnimeClient::SESSION_SEGMENT);
+
+		// Set a 'previous' flash value for better redirects
+		$this->session->setFlash('previous', $this->request->server->get('HTTP_REFERER'));
+
+		// Set a message box if available
+		$this->base_data['message'] = $this->session->getFlash('message');
 	}
 
 	/**
@@ -92,6 +108,65 @@ class Controller {
 	{
 		$default_type = $this->config->get(['routing', 'default_list']);
 		$this->redirect($this->urlGenerator->default_url($default_type), 303);
+	}
+
+	/**
+	 * Redirect to the previous page
+	 *
+	 * @return void
+	 */
+	public function redirect_to_previous()
+	{
+		$previous = $this->session->getFlash('previous');
+		$this->redirect($previous, 303);
+	}
+
+	/**
+	 * Set the current url in the session as the target of a future redirect
+	 *
+	 * @param string|null $url
+	 * @return void
+	 */
+	public function set_session_redirect($url=NULL)
+	{
+		$anime_client = $this->container->get('anime-client');
+		$double_form_page = $this->request->server->get('HTTP_REFERER') == $this->request->url->get();
+
+		// Don't attempt to set the redirect url if
+		// the page is one of the form type pages,
+		// and the previous page is also a form type page_segments
+		if ($double_form_page)
+		{
+			return;
+		}
+
+		if (is_null($url))
+		{
+			$url = ($anime_client->is_view_page())
+				? $this->request->url->get()
+				: $this->request->server->get('HTTP_REFERER');
+		}
+
+		$this->session->set('redirect_url', $url);
+	}
+
+	/**
+	 * Redirect to the url previously set in the  session
+	 *
+	 * @return void
+	 */
+	public function session_redirect()
+	{
+		$target = $this->session->get('redirect_url');
+		if (empty($target))
+		{
+			$this->not_found();
+		}
+		else
+		{
+			$this->redirect($target, 303);
+			$this->session->set('redirect_url', NULL);
+		}
 	}
 
 	/**
@@ -156,6 +231,12 @@ class Controller {
 	protected function render_full_page($view, $template, array $data)
 	{
 		$view->appendOutput($this->load_partial($view, 'header', $data));
+
+		if (array_key_exists('message', $data) && is_array($data['message']))
+		{
+			$view->appendOutput($this->load_partial($view, 'message', $data['message']));
+		}
+
 		$view->appendOutput($this->load_partial($view, $template, $data));
 		$view->appendOutput($this->load_partial($view, 'footer', $data));
 	}
@@ -178,6 +259,9 @@ class Controller {
 			$message = $this->show_message($view, 'error', $status);
 		}
 
+		// Set the redirect url
+		$this->set_session_redirect();
+
 		$this->outputHTML('login', [
 			'title' => 'Api login',
 			'message' => $message
@@ -194,9 +278,7 @@ class Controller {
 		$auth = $this->container->get('auth');
 		if ($auth->authenticate($this->request->post->get('password')))
 		{
-			$this->response->redirect->afterPost(
-				$this->urlGenerator->full_url('', $this->base_data['url_type'])
-			);
+			return $this->session_redirect();
 		}
 
 		$this->login("Invalid username or password.");
@@ -228,6 +310,22 @@ class Controller {
 	}
 
 	/**
+	 * Set a session flash variable to display a message on
+	 * next page load
+	 *
+	 * @param string $message
+	 * @param string $type
+	 * @return void
+	 */
+	public function set_flash_message($message, $type="info")
+	{
+		$this->session->setFlash('message', [
+			'message_type' => $type,
+			'message' => $message
+		]);
+	}
+
+	/**
 	 * Add a message box to the page
 	 *
 	 * @codeCoverageIgnore
@@ -239,7 +337,7 @@ class Controller {
 	protected function show_message($view, $type, $message)
 	{
 		return $this->load_partial($view, 'message', [
-			'stat_class' => $type,
+			'message_type' => $type,
 			'message'  => $message
 		]);
 	}

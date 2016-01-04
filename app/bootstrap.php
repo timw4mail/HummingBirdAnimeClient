@@ -74,7 +74,7 @@ return function(array $config_array = []) {
 	// Miscellaneous helper methods
 	$anime_client = new AnimeClient();
 	$anime_client->setContainer($container);
-	$container->set('anime_client', $anime_client);
+	$container->set('anime-client', $anime_client);
 
 	// Models
 	$container->set('api-model', new Model\API($container));

@@ -6,6 +6,11 @@ body {
   margin: 0.5em;
 }
 
+a:hover,
+a:active {
+  color: #7d12db;
+}
+
 table {
   width: 85%;
   margin: 0 auto;
@@ -13,6 +18,63 @@ table {
 
 tbody > tr:nth-child(odd) {
   background: #ddd;
+}
+
+input[type=number] {
+  width: 4em;
+}
+
+.form {
+  width: 100%;
+}
+
+.form tr > td:nth-child(odd) {
+  text-align: right;
+  min-width: 25px;
+  max-width: 30%;
+}
+
+.form tr > td:nth-child(even) {
+  text-align: left;
+  min-width: 70%;
+}
+
+.form thead th,
+.form thead tr {
+  background: inherit;
+  border: 0;
+}
+
+.form.invisible tr:nth-child(odd) {
+  background: inherit;
+}
+
+.form.invisible tr,
+.form.invisible td,
+.form.invisible th {
+  border: 0;
+}
+
+.bracketed,
+h1 a {
+  text-shadow: 1px 1px 1px #000;
+}
+
+.bracketed:before {
+  content: '[\00a0';
+}
+
+.bracketed:after {
+  content: '\00a0]';
+}
+
+.bracketed {
+  color: #12db18;
+}
+
+.bracketed:hover,
+.bracketed:active {
+  color: #db7d12;
 }
 
 .grow-1 {
@@ -143,11 +205,15 @@ button {
 .media:hover > .media_metadata > div,
 .media:hover > .medium_metadata > div,
 .media:hover > .table .row {
+  -webkit-transition: .25s ease;
+  transition: .25s ease;
   background: rgba(0,0,0,0.75);
 }
 
 .media:hover > button[hidden],
 .media:hover > .edit_buttons[hidden] {
+  -webkit-transition: .25s ease;
+  transition: .25s ease;
   display: block;
 }
 
@@ -259,6 +325,11 @@ button {
   padding: 0 inherit;
 }
 
+.anime .row > span,
+.manga .row > span {
+  text-align: left;
+}
+
 .anime .row > div,
 .manga .row > div {
   font-size: 0.8em;
@@ -272,7 +343,9 @@ button {
 
 .anime .media > button.plus_one {
   position: absolute;
+  top: 138px;
   top: calc(50% - 21.5px);
+  left: 44px;
   left: calc(50% - 66.5px);
 }
 
