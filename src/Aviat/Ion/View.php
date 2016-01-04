@@ -50,7 +50,7 @@ abstract class View {
 	 *
 	 * @var boolean
 	 */
-	protected $hasRendered = false;
+	protected $hasRendered = FALSE;
 
 	/**
 	 * Constructor
@@ -81,7 +81,7 @@ abstract class View {
 	 */
 	public function __toString()
 	{
-		$this->hasRendered = true;
+		$this->hasRendered = TRUE;
 		return $this->getOutput();
 	}
 
@@ -126,7 +126,7 @@ abstract class View {
 	 */
 	public function send()
 	{
-		$this->hasRendered = true;
+		$this->hasRendered = TRUE;
 		$this->output();
 	}
 
