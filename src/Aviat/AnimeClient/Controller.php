@@ -127,7 +127,7 @@ class Controller {
 	 * @param string|null $url
 	 * @return void
 	 */
-	public function set_session_redirect($url=NULL)
+	public function set_session_redirect($url = NULL)
 	{
 		$anime_client = $this->container->get('anime-client');
 		$double_form_page = $this->request->server->get('HTTP_REFERER') == $this->request->url->get();
@@ -317,7 +317,7 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function set_flash_message($message, $type="info")
+	public function set_flash_message($message, $type = "info")
 	{
 		$this->session->setFlash('message', [
 			'message_type' => $type,

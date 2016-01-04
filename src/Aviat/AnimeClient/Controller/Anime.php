@@ -120,9 +120,9 @@ class Anime extends BaseController {
 
 		$statuses = [];
 
-		foreach($raw_status_list as $status_item)
+		foreach ($raw_status_list as $status_item)
 		{
-			$statuses[$status_item] = (string) $this->string($status_item)
+			$statuses[$status_item] = (string)$this->string($status_item)
 				->underscored()
 				->humanize()
 				->titleize();
@@ -171,16 +171,16 @@ class Anime extends BaseController {
 	 * @param string $status
 	 * @return void
 	 */
-	public function edit($id, $status="all")
+	public function edit($id, $status = "all")
 	{
 		$item = $this->model->get_library_anime($id, $status);
 		$raw_status_list = AnimeWatchingStatus::getConstList();
 
 		$statuses = [];
 
-		foreach($raw_status_list as $status_item)
+		foreach ($raw_status_list as $status_item)
 		{
-			$statuses[$status_item] = (string) $this->string($status_item)
+			$statuses[$status_item] = (string)$this->string($status_item)
 				->underscored()
 				->humanize()
 				->titleize();
