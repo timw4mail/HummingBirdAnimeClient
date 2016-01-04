@@ -63,7 +63,6 @@ class Collection extends BaseController {
 		$this->anime_collection_model = $container->get('anime-collection-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'collection',
-			'message' => '',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
 			'config' => $this->config,

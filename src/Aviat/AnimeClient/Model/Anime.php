@@ -55,18 +55,24 @@ class Anime extends API {
 	public function update($data)
 	{
 		$auth = $this->container->get('auth');
-		if ( ! $auth->is_authenticated())
+		/*if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
 		{
 			return FALSE;
-		}
+		}*/
 
+		$id = $data['id'];
 		$data['auth_token'] = $auth->get_auth_token();
 
-		$response = $this->client->post("libraries/{$data['id']}", [
+		$response = $this->client->post("libraries/{$id}", [
 			'form_params' => $data
 		]);
 
-		return json_decode($response->getBody(), TRUE);
+		$output = [
+			'statusCode' => $response->getStatusCode(),
+			'body' => json_decode($response->getBody(), TRUE)
+		];
+
+		return $output;
 	}
 
 	/**
@@ -108,13 +114,32 @@ class Anime extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->_get_list_From_api($status);
+		$data = $this->_get_list_from_api($status);
 		$this->sort_by_name($data);
 
 		$output = [];
 		$output[$this->const_map[$status]] = $data;
 
 		return $output;
+	}
+
+	/**
+	 * Get the data for the specified library entry
+	 *
+	 * @param  string $id
+	 * @param  string $status
+	 * @return array
+	 */
+	public function get_library_anime($id, $status)
+	{
+		$data = $this->_get_list_from_api($status);
+		$index_array = array_column($data, 'id');
+
+		$key = array_search($id, $index_array);
+
+		return $key !== FALSE
+			? $data[$key]
+			: [];
 	}
 
 	/**
@@ -182,6 +207,12 @@ class Anime extends API {
 		}
 
 		$username = $this->config->get('hummingbird_username');
+		$auth = $this->container->get('auth');
+		if ($auth->is_authenticated())
+		{
+			$config['query']['auth_token'] = $auth->get_auth_token();
+		}
+
 		$response = $this->get("users/{$username}/library", $config);
 		$output = $this->_check_cache($status, $response);
 

@@ -1,9 +1,9 @@
 <?php if ($auth->is_authenticated()): ?>
 <main>
-	<h2>Add Anime to your Collection</h2>
+	<h2>Add Anime to your List</h2>
 	<form action="<?= $action_url ?>" method="post">
 		<section>
-			<label for="search">Search for anime by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" name="search" /></label>
+			<label for="search">Search for anime by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" /></label>
 			<section id="series_list" class="media-wrap">
 			</section>
 		</section>
@@ -11,18 +11,14 @@
 		<table class="form">
 			<tbody>
 				<tr>
-					<td><label for="media_id">Media</label></td>
+					<td><label for="status">Watching Status</label></td>
 					<td>
-						<select name="media_id" id="media_id">
-						<?php foreach($media_items as $id => $name): ?>
-							<option value="<?= $id ?>"><?= $name ?></option>
+						<select name="status" id="status">
+						<?php foreach($status_list as $status_key => $status_title): ?>
+							<option value="<?= $status_key ?>"><?= $status_title ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>
-				</tr>
-				<tr>
-					<td><label for="notes">Notes</label></td>
-					<td><textarea id="notes" name="notes"></textarea></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
@@ -36,7 +32,7 @@
 </main>
 <template id="show_list">
 	<article class="media">
-		<div class="name"><label><input type="radio" name="id" value="{{:id}}" />&nbsp;<span>{{:title}}<br />{{:alternate_title}}</span></label></div>
+		<div class="name"><label><input type="radio" name="id" value="{{:slug}}" />&nbsp;<span>{{:title}}<br />{{:alternate_title}}</span></label></div>
 		<img src="{{:cover_image}}" alt="{{:title}}" />
 	</article>
 </template>

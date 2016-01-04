@@ -16,6 +16,18 @@ namespace Aviat\AnimeClient;
 class AnimeClient {
 
 	use \Aviat\Ion\Di\ContainerAware;
+
+	const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
+
+	private static $form_pages = [
+		'edit',
+		'add',
+		'update',
+		'update_form',
+		'login',
+		'logout'
+	];
+
 	/**
 	 * HTML selection helper function
 	 *
@@ -48,13 +60,23 @@ class AnimeClient {
 	public function is_view_page()
 	{
 		$url = $this->container->get('request')
-			->server->get('REQUEST_URI');
-		$blacklist = ['edit', 'add', 'update', 'login', 'logout'];
+			->url->get();
 		$page_segments = explode("/", $url);
 
-		$intersect = array_intersect($page_segments, $blacklist);
+		$intersect = array_intersect($page_segments, self::$form_pages);
 
 		return empty($intersect);
+	}
+
+	/**
+	 * Determine whether the page is a page with a form, and
+	 * not suitable for redirection
+	 *
+	 * @return boolean
+	 */
+	public function is_form_page()
+	{
+		return ! $this->is_view_page();
 	}
 
 }

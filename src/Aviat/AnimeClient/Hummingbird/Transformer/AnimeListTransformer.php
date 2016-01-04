@@ -82,9 +82,44 @@ class AnimeListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'watching_status' => $item['status'],
 			'notes' => $item['notes'],
-			'rewatching' => (bool)$item['rewatching'],
+			'rewatching' => (bool) $item['rewatching'],
 			'rewatched' => $item['rewatched_times'],
 			'user_rating' => $rating,
+			'private' => (bool) $item['private'],
+		];
+	}
+
+	/**
+	 * Convert transformed data to
+	 * api response format
+	 *
+	 * @param array $item Transformed library item
+	 * @return array API library item
+	 */
+	public function untransform($item)
+	{
+		// Messy mapping of boolean values to their API string equivalents
+		$privacy = 'public';
+		if (array_key_exists('private', $item) && $item['private'] == TRUE)
+		{
+			$privacy = 'private';
+		}
+
+		$rewatching = 'false';
+		if (array_key_exists('rewatching', $item) && $item['rewatching'] == TRUE)
+		{
+			$rewatching = 'true';
+		}
+
+		return [
+			'id' => $item['id'],
+			'status' => $item['watching_status'],
+			'sane_rating_update' => $item['user_rating'] / 2,
+			'rewatching' => $rewatching,
+			'rewatched_times' => $item['rewatched'],
+			'notes' => $item['notes'],
+			'episodes_watched' => $item['episodes_watched'],
+			'privacy' => $privacy
 		];
 	}
 

@@ -36,6 +36,14 @@ return [
 		'anime_edit.js',
 		'manga_edit.js'
 	],
+	'table_edit' => [
+		'lib/jquery.min.js',
+		'lib/table_sorter/jquery.tablesorter.min.js',
+		'sort_tables.js',
+		'show_message.js',
+		'anime_edit.js',
+		'manga_edit.js'
+	],
 	'anime_collection' => [
 		'lib/jquery.min.js',
 		'lib/jquery.throttle-debounce.js',

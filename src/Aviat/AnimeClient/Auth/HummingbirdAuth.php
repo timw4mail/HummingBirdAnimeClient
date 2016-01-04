@@ -14,6 +14,7 @@
 namespace Aviat\AnimeClient\Auth;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Model\API;
 
 /**
@@ -46,7 +47,7 @@ class HummingbirdAuth {
 	{
 		$this->setContainer($container);
 		$this->segment = $container->get('session')
-			->getSegment(__NAMESPACE__);
+			->getSegment(AnimeClient::SESSION_SEGMENT);
 		$this->model = $container->get('api-model');
 	}
 

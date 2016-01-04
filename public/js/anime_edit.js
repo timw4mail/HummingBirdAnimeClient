@@ -8,12 +8,12 @@
 	if (CONTROLLER !== "anime") return;
 
 	// Action to increment episode count
-	$(".media button.plus_one").on("click", function(e) {
+	$(".plus_one").on("click", function(e) {
 		e.stopPropagation();
 
 		var self = this;
 		var this_sel = $(this);
-		var parent_sel = $(this).closest("article");
+		var parent_sel = $(this).closest("article, td");
 
 		var watched_count = parseInt(parent_sel.find('.completed_number').text(), 10);
 		var total_count = parseInt(parent_sel.find('.total_number').text(), 10);
@@ -21,7 +21,7 @@
 
 		// Setup the update data
 		var data = {
-			id: this_sel.parent('article').attr('id'),
+			id: this_sel.parent('article, td').attr('id'),
 			increment_episodes: true
 		};
 
@@ -49,7 +49,7 @@
 		}).done(function(res) {
 			if (res.status === 'completed')
 			{
-				$(self).closest('article').hide();
+				$(self).closest('article, tr').hide();
 			}
 
 			add_message('success', "Sucessfully updated " + title);
