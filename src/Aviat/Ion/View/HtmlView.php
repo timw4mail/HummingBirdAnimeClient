@@ -6,7 +6,7 @@
  *
  * @package     Ion
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @license     MIT
  */
 

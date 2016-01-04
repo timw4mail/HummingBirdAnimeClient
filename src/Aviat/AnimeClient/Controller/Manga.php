@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -16,11 +16,15 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
+use Aviat\AnimeClient\Hummingbird\Transformer\MangaListTransformer;
 
 /**
  * Controller for manga list
  */
 class Manga extends Controller {
+
+	use \Aviat\Ion\StringWrapper;
 
 	/**
 	 * The manga model
@@ -85,6 +89,62 @@ class Manga extends Controller {
 			'title' => $title,
 			'sections' => $data,
 		]);
+	}
+
+	/**
+	 * Show the manga edit form
+	 *
+	 * @param string $id
+	 * @param string $status
+	 * @return void
+	 */
+	public function edit($id, $status = "All")
+	{
+		$this->set_session_redirect();
+		$item = $this->model->get_library_item($id, $status);
+		$title = $this->config->get('whose_list') . "'s Manga List &middot; Edit";
+
+		$this->outputHTML('manga/edit', [
+			'title' => $title,
+			'status_list' => MangaReadingStatus::getConstList(),
+			'item' => $item,
+			'action' => $this->container->get('url-generator')
+				->url('/manga/update_form'),
+		]);
+	}
+
+	/**
+	 * Update an anime item via a form submission
+	 *
+	 * @return void
+	 */
+	public function form_update()
+	{
+		$post_data = $this->request->post->get();
+
+		// Do some minor data manipulation for
+		// large form-based updates
+		$transformer = new MangaListTransformer();
+		$post_data = $transformer->untransform($post_data);
+		$full_result = $this->model->update($post_data);
+
+		$result = $full_result['body'];
+
+		if (array_key_exists('manga', $result))
+		{
+			$m =& $result['manga'][0];
+			$title = ( ! empty($m['english_title']))
+				? "{$m['romaji_title']} ({$m['english_title']})"
+				: "{$m['romaji_title']}";
+
+			$this->set_flash_message("Successfully updated {$title}.", 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to update anime.', 'error');
+		}
+
+		$this->session_redirect();
 	}
 
 	/**

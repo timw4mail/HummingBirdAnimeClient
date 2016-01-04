@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -55,10 +55,10 @@ class Anime extends API {
 	public function update($data)
 	{
 		$auth = $this->container->get('auth');
-		/*if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
+		if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
 		{
 			return FALSE;
-		}*/
+		}
 
 		$id = $data['id'];
 		$data['auth_token'] = $auth->get_auth_token();
@@ -100,7 +100,7 @@ class Anime extends API {
 		// Sort anime by name
 		foreach ($output as &$status_list)
 		{
-			$this->sort_by_name($status_list);
+			$this->sort_by_name($status_list, 'anime');
 		}
 
 		return $output;
@@ -115,31 +115,12 @@ class Anime extends API {
 	public function get_list($status)
 	{
 		$data = $this->_get_list_from_api($status);
-		$this->sort_by_name($data);
+		$this->sort_by_name($data, 'anime');
 
 		$output = [];
 		$output[$this->const_map[$status]] = $data;
 
 		return $output;
-	}
-
-	/**
-	 * Get the data for the specified library entry
-	 *
-	 * @param  string $id
-	 * @param  string $status
-	 * @return array
-	 */
-	public function get_library_anime($id, $status)
-	{
-		$data = $this->_get_list_from_api($status);
-		$index_array = array_column($data, 'id');
-
-		$key = array_search($id, $index_array);
-
-		return $key !== FALSE
-			? $data[$key]
-			: [];
 	}
 
 	/**
@@ -254,25 +235,6 @@ class Anime extends API {
 			file_put_contents($transformed_cache_file, json_encode($transformed));
 			return $transformed;
 		}
-	}
-
-	/**
-	 * Sort the list by title
-	 *
-	 * @codeCoverageIgnore
-	 * @param array $array
-	 * @return void
-	 */
-	protected function sort_by_name(&$array)
-	{
-		$sort = array();
-
-		foreach ($array as $key => $item)
-		{
-			$sort[$key] = $item['anime']['title'];
-		}
-
-		array_multisort($sort, SORT_ASC, $array);
 	}
 }
 // End of AnimeModel.php

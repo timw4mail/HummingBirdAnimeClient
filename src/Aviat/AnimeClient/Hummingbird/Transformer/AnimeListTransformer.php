@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -59,6 +59,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		}
 
 		return [
+			'id' => $item['id'],
 			'episodes' => [
 				'watched' => $item['episodes_watched'],
 				'total' => $total_episodes,
@@ -79,7 +80,6 @@ class AnimeListTransformer extends AbstractTransformer {
 				'image' => $anime['cover_image'],
 				'genres' => $genres,
 			],
-			'id' => $item['id'],
 			'watching_status' => $item['status'],
 			'notes' => $item['notes'],
 			'rewatching' => (bool) $item['rewatching'],

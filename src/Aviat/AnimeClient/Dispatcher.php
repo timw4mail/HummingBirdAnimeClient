@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -104,7 +104,7 @@ class Dispatcher extends RoutingBase {
 				'action' => 'edit'
 			])->setTokens([
 				'id' => '[0-9a-z_]+',
-				'status' => '[a-z\-]+',
+				'status' => '[a-zA-z\- ]+',
 			]);
 
 		$this->output_routes[] = $this->router->addGet('list', '/{controller}/{type}{/view}')

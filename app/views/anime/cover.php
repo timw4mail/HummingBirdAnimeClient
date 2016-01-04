@@ -26,13 +26,13 @@
 						<?php if ($auth->is_authenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}", "anime") ?>">Edit</a>
+								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
 							</span>
 						</div>
 						<?php endif ?>
 						<?php if ($item['private'] || $item['rewatching']): ?>
 						<div class="row">
-							<?php foreach(['private', 'rewatching'] as $attr): ?>
+							<?php foreach(['private', 'rereading'] as $attr): ?>
 							<?php if($item[$attr]): ?>
 								<span class="item-<?= $attr ?>"><?= ucfirst($attr) ?></span>
 							<?php endif ?>

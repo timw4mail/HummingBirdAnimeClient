@@ -7,6 +7,9 @@
 	<table>
 		<thead>
 			<tr>
+				<?php if ($auth->is_authenticated()): ?>
+				<th>&nbsp;</th>
+				<?php endif ?>
 				<th>Title</th>
 				<th>Rating</th>
 				<th>Chapters</th>
@@ -17,6 +20,11 @@
 		<tbody>
 			<?php foreach($items as $item): ?>
 			<tr id="manga-<?= $item['id'] ?>">
+				<?php if($auth->is_authenticated()): ?>
+				<td>
+					<a class="bracketed" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
+				</td>
+				<?php endif ?>
 				<td class="align_left">
 					<a href="<?= $item['manga']['url'] ?>">
 						<?= $item['manga']['title'] ?>

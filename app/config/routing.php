@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -28,7 +28,7 @@ return [
 
 	// Default pages for anime/manga
 	'default_anime_list_path' => "watching", // watching|plan_to_watch|on_hold|dropped|completed|all
-	'default_manga_list_path' => "all", // reading|plan_to_read|on_hold|dropped|completed|all
+	'default_manga_list_path' => "reading", // reading|plan_to_read|on_hold|dropped|completed|all
 
 	// Default view type (cover_view/list_view)
 	'default_view_type' => 'cover_view',

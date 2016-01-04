@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -173,7 +173,7 @@ class Anime extends BaseController {
 	 */
 	public function edit($id, $status = "all")
 	{
-		$item = $this->model->get_library_anime($id, $status);
+		$item = $this->model->get_library_item($id, $status);
 		$raw_status_list = AnimeWatchingStatus::getConstList();
 
 		$statuses = [];
@@ -224,7 +224,7 @@ class Anime extends BaseController {
 		$post_data = $transformer->untransform($post_data);
 
 		$full_result = $this->model->update($post_data);
-		$result = $result['body'];
+		$result = $full_result['body'];
 
 		if (array_key_exists('anime', $result))
 		{

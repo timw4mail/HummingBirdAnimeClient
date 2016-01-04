@@ -6,10 +6,11 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
+
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Model\API;
@@ -57,7 +58,6 @@ class Manga extends API {
 	public function update($data)
 	{
 		$id = $data['id'];
-		unset($data['id']);
 
 		$token = $this->container->get('auth')
 			->get_auth_token();
@@ -77,7 +77,10 @@ class Manga extends API {
 			'json' => ['manga_library_entry' => $data]
 		]);
 
-		return json_decode($result->getBody(), TRUE);
+		return [
+			'statusCode' => $result->getStatusCode(),
+			'body' => json_decode($result->getBody(), TRUE)
+		];
 	}
 
 	/**
@@ -91,7 +94,7 @@ class Manga extends API {
 
 		foreach ($data as &$val)
 		{
-			$this->sort_by_name($val);
+			$this->sort_by_name($val, 'manga');
 		}
 
 		return $data;
@@ -106,7 +109,7 @@ class Manga extends API {
 	public function get_list($status)
 	{
 		$data = $this->_get_list_from_api($status);
-		$this->sort_by_name($data);
+		$this->sort_by_name($data, 'manga');
 
 		return $data;
 	}
@@ -117,9 +120,8 @@ class Manga extends API {
 	 * @param  string $status
 	 * @return array
 	 */
-	private function _get_list_from_api($status = "All")
+	protected function _get_list_from_api($status = "All")
 	{
-
 		$config = [
 			'query' => [
 				'user_id' => $this->config->get('hummingbird_username')
@@ -141,7 +143,7 @@ class Manga extends API {
 	 * @codeCoverageIgnore
 	 * @return array
 	 */
-	protected function _check_cache($response)
+	private function _check_cache($response)
 	{
 		// Bail out early if there isn't any manga data
 		$api_data = json_decode($response->getBody(), TRUE);
@@ -208,25 +210,6 @@ class Manga extends API {
 	private function zipper_lists($raw_data)
 	{
 		return (new Transformer\MangaListsZipper($raw_data))->transform();
-	}
-
-	/**
-	 * Sort the manga entries by their title
-	 *
-	 * @codeCoverageIgnore
-	 * @param array $array
-	 * @return void
-	 */
-	private function sort_by_name(&$array)
-	{
-		$sort = array();
-
-		foreach ($array as $key => $item)
-		{
-			$sort[$key] = $item['manga']['title'];
-		}
-
-		array_multisort($sort, SORT_ASC, $array);
 	}
 }
 // End of MangaModel.php

@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -113,6 +113,45 @@ class API extends BaseModel {
 
 		array_unshift($args, strtoupper($method));
 		return call_user_func_array([$this->client, 'request'], $args);
+	}
+
+	/**
+	 * Get the data for the specified library entry
+	 *
+	 * @param  string $id
+	 * @param  string $status
+	 * @return array
+	 */
+	public function get_library_item($id, $status)
+	{
+		$data = $this->_get_list_from_api($status);
+		$index_array = array_column($data, 'id');
+
+		$key = array_search($id, $index_array);
+
+		return $key !== FALSE
+			? $data[$key]
+			: [];
+	}
+
+	/**
+	 * Sort the manga entries by their title
+	 *
+	 * @codeCoverageIgnore
+	 * @param array $array
+	 * @param string $key
+	 * @return void
+	 */
+	protected function sort_by_name(&$array, $sort_key)
+	{
+		$sort = array();
+
+		foreach ($array as $key => $item)
+		{
+			$sort[$key] = $item[$sort_key]['title'];
+		}
+
+		array_multisort($sort, SORT_ASC, $array);
 	}
 
 	/**
