@@ -22,6 +22,13 @@
 						</a>
 					</div>
 					<div class="table">
+						<?php if ($auth->is_authenticated()): ?>
+						<div class="row">
+							<span class="edit">
+								<a class="bracketed" title="Edit information about this manga" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
+							</span>
+						</div>
+						<?php endif ?>
 						<div class="row">
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>

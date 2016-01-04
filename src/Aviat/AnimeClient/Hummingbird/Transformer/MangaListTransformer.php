@@ -6,7 +6,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015
+ * @copyright   Copyright (c) 2015 - 2016
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
@@ -19,6 +19,8 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * Data transformation class for zippered Hummingbird manga
  */
 class MangaListTransformer extends AbstractTransformer {
+
+	use \Aviat\Ion\StringWrapper;
 
 	/**
 	 * Remap zipped anime data to a more logical form
@@ -43,6 +45,7 @@ class MangaListTransformer extends AbstractTransformer {
 			: '-';
 
 		$map = [
+			'id' => $item['id'],
 			'chapters' => [
 				'read' => $item['chapters_read'],
 				'total' => $total_chapters
@@ -60,7 +63,6 @@ class MangaListTransformer extends AbstractTransformer {
 				'image' => $manga['poster_image_thumb'],
 				'genres' => $manga['genres'],
 			],
-			'id' => $item['id'],
 			'reading_status' => $item['status'],
 			'notes' => $item['notes'],
 			'rereading' => (bool)$item['rereading'],
@@ -77,6 +79,44 @@ class MangaListTransformer extends AbstractTransformer {
 			{
 				$map['manga']['alternate_title'] = $manga['english_title'];
 			}
+		}
+
+		return $map;
+	}
+
+	/**
+	 * Untransform data to update the api
+	 *
+	 * @param  array $item
+	 * @return array
+	 */
+	public function untransform($item)
+	{
+		$private = (array_key_exists('private', $item))
+			? (bool)$item['private']
+			: false;
+
+		$rereading = (array_key_exists('rereading', $item))
+			? (bool)$item['rereading']
+			: false;
+
+		$map = [
+			'id' => $item['id'],
+			'manga_id' => $item['manga_id'],
+			'status' => $item['status'],
+			'chapters_read' => (int)$item['chapters_read'],
+			'volumes_read' => (int)$item['volumes_read'],
+			'rereading' => $rereading,
+			'reread_count' => (int)$item['reread_count'],
+			'private' => $private,
+			'notes' => $item['notes'],
+		];
+
+		if ($item['new_rating'] !== $item['old_rating'])
+		{
+			$map['rating'] = ($item['new_rating'] > 0)
+				? $item['new_rating'] / 2
+				: $item['old_rating'] / 2;
 		}
 
 		return $map;
