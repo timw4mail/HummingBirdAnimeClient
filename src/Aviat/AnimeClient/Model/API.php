@@ -139,7 +139,7 @@ class API extends BaseModel {
 	 *
 	 * @codeCoverageIgnore
 	 * @param array $array
-	 * @param string $key
+	 * @param string $sort_key
 	 * @return void
 	 */
 	protected function sort_by_name(&$array, $sort_key)

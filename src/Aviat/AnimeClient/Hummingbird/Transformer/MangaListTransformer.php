@@ -94,11 +94,11 @@ class MangaListTransformer extends AbstractTransformer {
 	{
 		$private = (array_key_exists('private', $item))
 			? (bool)$item['private']
-			: false;
+			: FALSE;
 
 		$rereading = (array_key_exists('rereading', $item))
 			? (bool)$item['rereading']
-			: false;
+			: FALSE;
 
 		$map = [
 			'id' => $item['id'],
