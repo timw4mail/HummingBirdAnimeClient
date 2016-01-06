@@ -128,8 +128,8 @@ class DispatcherTest extends AnimeClient_TestCase {
 			)
 		];
 
-		$data['manga_default_routing_anime']['config']['routing']['default_list'] = 'manga';
-		$data['manga_default_routing_manga']['config']['routing']['default_list'] = 'manga';
+		$data['manga_default_routing_anime']['config']['routes']['route_config']['default_list'] = 'manga';
+		$data['manga_default_routing_manga']['config']['routes']['route_config']['default_list'] = 'manga';
 
 		return $data;
 	}

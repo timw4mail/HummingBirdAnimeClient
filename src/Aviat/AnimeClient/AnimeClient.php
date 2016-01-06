@@ -13,6 +13,8 @@
 
 namespace Aviat\AnimeClient;
 
+define('SRC_DIR', realpath(__DIR__ . '/../../'));
+
 /**
  * Odds and Ends class
  */
@@ -26,7 +28,7 @@ class AnimeClient {
 	const DEFAULT_CONTROLLER_METHOD = 'index';
 	const NOT_FOUND_METHOD = 'not_found';
 	const ERROR_MESSAGE_METHOD = 'error_page';
-	const SRC_DIR = __DIR__ . '/../../';
+	const SRC_DIR = SRC_DIR;
 
 	private static $form_pages = [
 		'edit',

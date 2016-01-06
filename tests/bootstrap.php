@@ -49,7 +49,7 @@ require _dir(__DIR__, '../vendor/autoload.php');
  */
 spl_autoload_register(function ($class) {
 	$class_parts = explode('\\', $class);
-	$ns_path = AnimeClient_TestCase::SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+	$ns_path = realpath(__DIR__ . '/../src') . '/' . implode('/', $class_parts) . ".php";
 
 	if (file_exists($ns_path))
 	{

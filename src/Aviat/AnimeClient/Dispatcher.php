@@ -203,8 +203,7 @@ class Dispatcher extends RoutingBase {
 		$default_namespace = AnimeClient::DEFAULT_CONTROLLER_NAMESPACE;
 		$path = str_replace('\\', '/', $default_namespace);
 		$path = trim($path, '/');
-		$actual_path = \_dir(AnimeClient::SRC_DIR, $path);
-
+		$actual_path = realpath(\_dir(AnimeClient::SRC_DIR, $path));
 		$class_files = glob("{$actual_path}/*.php");
 
 		$controllers = [];
@@ -238,6 +237,10 @@ class Dispatcher extends RoutingBase {
 			unset($route['path']);
 
 			$controller_map = $this->get_controller_list();
+			$controller_class = (array_key_exists($route_type, $controller_map))
+				? $controller_map[$route_type]
+				: AnimeClient::DEFAULT_CONTROLLER;
+
 			if (array_key_exists($route_type, $controller_map))
 			{
 				$controller_class = $controller_map[$route_type];
