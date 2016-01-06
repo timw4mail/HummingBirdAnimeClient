@@ -72,4 +72,17 @@ class AnimeClientTest extends AnimeClient_TestCase {
 		]);
 		$this->assertEquals($expected, $this->anime_client->is_view_page());
 	}
+
+	/**
+	 * @dataProvider dataIsViewPage
+	 */
+	public function testIsFormPage($uri, $expected)
+	{
+		$this->setSuperGlobals([
+			'_SERVER' => [
+				'REQUEST_URI' => $uri
+			]
+		]);
+		$this->assertEquals(!$expected, $this->anime_client->is_form_page());
+	}
 }
