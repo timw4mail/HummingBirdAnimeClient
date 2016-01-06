@@ -67,7 +67,7 @@ class MangaListTransformer extends AbstractTransformer {
 			'notes' => $item['notes'],
 			'rereading' => (bool)$item['rereading'],
 			'reread' => $item['reread_count'],
-			'user_rating' => $rating
+			'user_rating' => $rating,
 		];
 
 		if (array_key_exists('english_title', $manga))
@@ -92,13 +92,7 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function untransform($item)
 	{
-		$private = (array_key_exists('private', $item))
-			? (bool)$item['private']
-			: FALSE;
-
-		$rereading = (array_key_exists('rereading', $item))
-			? (bool)$item['rereading']
-			: FALSE;
+		$rereading = (array_key_exists('rereading', $item)) && (bool)$item['rereading'];
 
 		$map = [
 			'id' => $item['id'],
@@ -108,7 +102,6 @@ class MangaListTransformer extends AbstractTransformer {
 			'volumes_read' => (int)$item['volumes_read'],
 			'rereading' => $rereading,
 			'reread_count' => (int)$item['reread_count'],
-			'private' => $private,
 			'notes' => $item['notes'],
 		];
 

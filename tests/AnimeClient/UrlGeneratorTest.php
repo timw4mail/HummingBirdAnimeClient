@@ -41,13 +41,16 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 		return [
 			'default_view' => [
 				'config' => [
-					'routing' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_list' => 'manga',
-						'default_anime_path' => '/anime/watching',
-						'default_manga_path' => '/manga/all',
-						'default_to_list_view' => FALSE,
+					'routes' => [
+						'routes' => [],
+						'route_config' => [
+							'anime_path' => 'anime',
+							'manga_path' => 'manga',
+							'default_list' => 'manga',
+							'default_anime_path' => '/anime/watching',
+							'default_manga_path' => '/manga/all',
+							'default_to_list_view' => FALSE,
+						]
 					],
 				],
 				'path' => '',
@@ -56,13 +59,16 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 			],
 			'default_view_list' => [
 				'config' => [
-					'routing' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_list' => 'manga',
-						'default_anime_path' => '/anime/watching',
-						'default_manga_path' => '/manga/all',
-						'default_to_list_view' => TRUE,
+					'routes' => [
+						'routes' => [],
+						'route_config' => [
+							'anime_path' => 'anime',
+							'manga_path' => 'manga',
+							'default_list' => 'manga',
+							'default_anime_path' => '/anime/watching',
+							'default_manga_path' => '/manga/all',
+							'default_to_list_view' => TRUE,
+						]
 					],
 				],
 				'path' => '',
@@ -89,14 +95,17 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 	public function dataBaseUrl()
 	{
 		$config = [
-			'routing' => [
-				'anime_path' => 'anime',
-				'manga_path' => 'manga',
-				'default_list' => 'manga',
-				'default_anime_path' => '/watching',
-				'default_manga_path' => '/all',
-				'default_to_list_view' => TRUE,
-			],
+			'routes' => [
+				'routes' => [],
+				'route_config' => [
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_list' => 'manga',
+					'default_anime_path' => '/watching',
+					'default_manga_path' => '/all',
+					'default_to_list_view' => TRUE,
+				],
+			]
 		];
 
 		return [

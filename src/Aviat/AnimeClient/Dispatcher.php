@@ -16,6 +16,7 @@ use Aura\Web\Request;
 use Aura\Web\Response;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\AnimeClient\AnimeClient;
 
 /**
  * Basic routing/ dispatch
@@ -52,75 +53,6 @@ class Dispatcher extends RoutingBase {
 		$this->request = $container->get('request');
 
 		$this->output_routes = $this->_setup_routes();
-		$this->generate_convention_routes();
-	}
-
-	/**
-	 * Generate routes based on controller methods
-	 *
-	 * @return void
-	 */
-	protected function generate_convention_routes()
-	{
-		$default_controller = $this->routes['convention']['default_controller'];
-
-		$this->output_routes[] = $this->router->addGet('login', '/{controller}/login')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'login'
-			]);
-
-		$this->output_routes[] = $this->router->addPost('login_post', '/{controller}/login')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'login_action'
-			]);
-
-		$this->output_routes[] = $this->router->addGet('logout', '/{controller}/logout')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'logout'
-			]);
-
-		$this->output_routes[] = $this->router->addPost('update', '/{controller}/update')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'update'
-			])->setTokens([
-				'controller' => '[a-z_]+'
-			]);
-
-		$this->output_routes[] = $this->router->addPost('update_form', '/{controller}/update_form')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'form_update'
-			])->setTokens([
-				'controller' => '[a-z_]+'
-			]);
-
-		$this->output_routes[] = $this->router->addGet('edit', '/{controller}/edit/{id}/{status}')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => 'edit'
-			])->setTokens([
-				'id' => '[0-9a-z_]+',
-				'status' => '[a-zA-z\- ]+',
-			]);
-
-		$this->output_routes[] = $this->router->addGet('list', '/{controller}/{type}{/view}')
-			->setValues([
-				'controller' => $default_controller,
-				'action' => $this->routes['convention']['default_method'],
-			])->setTokens([
-				'type' => '[a-z_]+',
-				'view' => '[a-z_]+'
-			]);
-
-		$this->output_routes[] = $this->router->addGet('index_redirect', '/')
-			->setValues([
-				'controller' => 'Aviat\\AnimeClient\\Controller',
-				'action' => 'redirect_to_default'
-			]);
 	}
 
 	/**
@@ -132,7 +64,7 @@ class Dispatcher extends RoutingBase {
 	{
 		$error_handler = $this->container->get('error-handler');
 
-		$raw_route = $this->request->server->get('PATH_INFO');
+		$raw_route = $this->request->url->get(PHP_URL_PATH);
 		$route_path = "/" . trim($raw_route, '/');
 
 		$error_handler->addDataTable('Route Info', [
@@ -162,8 +94,8 @@ class Dispatcher extends RoutingBase {
 	public function __invoke($route = NULL)
 	{
 		$error_handler = $this->container->get('error-handler');
-		$controller_name = $this->routes['convention']['default_controller'];
-		$action_method = $this->routes['convention']['404_method'];
+		$controller_name = AnimeClient::DEFAULT_CONTROLLER;
+		$action_method = AnimeClient::NOT_FOUND_METHOD;
 		$params = [];
 
 		if (is_null($route))
@@ -176,6 +108,24 @@ class Dispatcher extends RoutingBase {
 		{
 			$failure = $this->router->getFailedRoute();
 			$error_handler->addDataTable('failed_route', (array)$failure);
+			$action_method = AnimeClient::ERROR_MESSAGE_METHOD;
+
+			switch(TRUE)
+			{
+				case $failure->failedMethod():
+					$params['title'] = '405 Method Not Allowed';
+					$params['message'] = 'Invalid HTTP Verb';
+				break;
+
+				case $failure->failedAccept():
+					$params['title'] = '406 Not Acceptable';
+					$params['message'] = 'Unacceptable content type';
+				break;
+
+				default:
+					$action_method = AnimeClient::NOT_FOUND_METHOD;
+				break;
+			}
 		}
 		else
 		{
@@ -229,8 +179,7 @@ class Dispatcher extends RoutingBase {
 	public function get_controller()
 	{
 		$route_type = $this->__get('default_list');
-		$request_uri = $this->request->server->get('PATH_INFO');
-
+		$request_uri = $this->request->url->get(PHP_URL_PATH);
 		$path = trim($request_uri, '/');
 
 		$segments = explode('/', $path);
@@ -251,8 +200,7 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function get_controller_list()
 	{
-		$convention_routing = $this->routes['convention'];
-		$default_namespace = $convention_routing['default_namespace'];
+		$default_namespace = AnimeClient::DEFAULT_CONTROLLER_NAMESPACE;
 		$path = str_replace('\\', '/', $default_namespace);
 		$path = trim($path, '/');
 		$actual_path = \_dir(SRC_DIR, $path);
@@ -278,22 +226,13 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	public function _setup_routes()
+	protected function _setup_routes()
 	{
-		$routes = [];
-
 		$route_type = $this->get_controller();
 
-		// Return early if invalid route array
-		if ( ! array_key_exists($route_type, $this->routes))
-		{
-			return [];
-		}
-
-		$applied_routes = $this->routes[$route_type];
-
 		// Add routes
-		foreach ($applied_routes as $name => &$route)
+		$routes = [];
+		foreach ($this->routes as $name => &$route)
 		{
 			$path = $route['path'];
 			unset($route['path']);
@@ -305,7 +244,7 @@ class Dispatcher extends RoutingBase {
 			}
 			else
 			{
-				$controller_class = $this->routes['convention']['default_controller'];
+				$controller_class = AnimeClient::DEFAULT_CONTROLLER;
 			}
 
 			// Prepend the controller to the route parameters
@@ -313,7 +252,8 @@ class Dispatcher extends RoutingBase {
 
 			// Select the appropriate router method based on the http verb
 			$add = (array_key_exists('verb', $route))
-				? "add" . ucfirst(strtolower($route['verb'])) : "addGet";
+				? "add" . ucfirst(strtolower($route['verb']))
+				: "addGet";
 
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))

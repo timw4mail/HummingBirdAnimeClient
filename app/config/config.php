@@ -34,11 +34,4 @@ $config = [
 
 	// path to public directory on the server
 	'asset_dir' => realpath(__DIR__ . '/../../public'),
-
-	// ----------------------------------------------------------------------------
-	// Included config files
-	// ----------------------------------------------------------------------------
-
-	// Routing paths and options
-	'routing' => require __DIR__ . '/routing.php',
 ];
