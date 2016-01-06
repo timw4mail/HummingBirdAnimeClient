@@ -32,11 +32,16 @@
 						<?php endif ?>
 						<?php if ($item['private'] || $item['rewatching']): ?>
 						<div class="row">
-							<?php foreach(['private', 'rereading'] as $attr): ?>
+							<?php foreach(['private', 'rewatching'] as $attr): ?>
 							<?php if($item[$attr]): ?>
 								<span class="item-<?= $attr ?>"><?= ucfirst($attr) ?></span>
 							<?php endif ?>
 							<?php endforeach ?>
+						</div>
+						<?php endif ?>
+						<?php if ($item['rewatched'] > 0): ?>
+						<div class="row">
+							<div>Rewatched <?= $item['rewatched'] ?> time(s)</div>
 						</div>
 						<?php endif ?>
 						<div class="row">

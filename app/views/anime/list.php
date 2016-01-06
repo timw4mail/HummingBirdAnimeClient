@@ -48,6 +48,9 @@
 				</td>
 				<td><?= $item['anime']['age_rating'] ?></td>
 				<td>
+					<?php if ($item['rewatched'] > 0): ?>
+						Rewatched <?= $item['rewatched'] ?> time(s)<br />
+					<?php endif ?>
 					<?php $attr_list = []; ?>
 					<?php foreach(['private','rewatching'] as $attr): ?>
 						<?php if($item[$attr]): ?>

@@ -66,19 +66,12 @@ class DispatcherTest extends AnimeClient_TestCase {
 	{
 		$default_config = array(
 			'routes' => [
-				'convention' => [
-					'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
-					'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
-					'default_method' => 'index'
-				],
-				'common' => [
+				'routes' => [
 					'login_form' => [
 						'path' => '/login',
 						'action' => 'login',
 						'verb' => 'get'
 					],
-				],
-				'anime' => [
 					'watching' => [
 						'path' => '/anime/watching{/view}',
 						'action' => 'anime_list',
@@ -89,8 +82,6 @@ class DispatcherTest extends AnimeClient_TestCase {
 							'view' => '[a-z_]+'
 						]
 					],
-				],
-				'manga' => [
 					'plan_to_read' => [
 						'path' => '/manga/plan_to_read{/view}',
 						'action' => 'manga_list',
@@ -101,13 +92,13 @@ class DispatcherTest extends AnimeClient_TestCase {
 							'view' => '[a-z_]+'
 						]
 					],
+				],
+				'route_config' => [
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_list' => 'anime'
 				]
 			],
-			'routing' => [
-				'anime_path' => 'anime',
-				'manga_path' => 'manga',
-				'default_list' => 'anime'
-			]
 		);
 
 		$data = [
@@ -174,27 +165,20 @@ class DispatcherTest extends AnimeClient_TestCase {
 	public function testDefaultRoute()
 	{
 		$config = [
-			'routing' => [
-				'anime_path' => 'anime',
-				'manga_path' => 'manga',
-				'default_anime_list_path' => "watching",
-				'default_manga_list_path' => 'all',
-				'default_list' => 'manga'
-			],
 			'routes' => [
-				'convention' => [
-					'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
-					'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
-					'default_method' => 'index'
+				'route_config' => [
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_anime_list_path' => "watching",
+					'default_manga_list_path' => 'all',
+					'default_list' => 'manga'
 				],
-				'common' => [
+				'routes' => [
 					'login_form' => [
 						'path' => '/login',
 						'action' => ['login'],
 						'verb' => 'get'
 					],
-				],
-				'anime' => [
 					'index' => [
 						'path' => '/',
 						'action' => ['redirect'],
@@ -203,8 +187,6 @@ class DispatcherTest extends AnimeClient_TestCase {
 							'code' => '301'
 						]
 					],
-				],
-				'manga' => [
 					'index' => [
 						'path' => '/',
 						'action' => ['redirect'],
@@ -213,7 +195,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 							'code' => '301',
 							'type' => 'manga'
 						]
-					],
+					]
 				]
 			]
 		];
@@ -231,19 +213,17 @@ class DispatcherTest extends AnimeClient_TestCase {
 		return array(
 			'controller_list_sanity_check' => [
 				'config' => [
-					'routing' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_list_path' => "watching",
-						'default_manga_list_path' => 'all',
-						'default_list' => 'manga'
-					],
 					'routes' => [
-						'convention' => [
-							'default_namespace' => '\\Aviat\\AnimeClient\\Controller',
-							'default_controller' => '\\Aviat\\AnimeClient\\Controller\\Anime',
-							'default_method' => 'index'
-						]
+						'routes' => [
+
+						],
+						'route_config' => [
+							'anime_path' => 'anime',
+							'manga_path' => 'manga',
+							'default_anime_list_path' => "watching",
+							'default_manga_list_path' => 'all',
+							'default_list' => 'manga'
+						],
 					]
 				],
 				'expected' => [
@@ -254,22 +234,24 @@ class DispatcherTest extends AnimeClient_TestCase {
 			],
 			'empty_controller_list' => [
 				'config' => [
-					'routing' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_path' => "/anime/watching",
-						'default_manga_path' => '/manga/all',
-						'default_list' => 'manga'
-					],
 					'routes' => [
-						'convention' => [
-							'default_namespace' => '\\Aviat\\Ion\\Controller',
-							'default_controller' => '\\Aviat\\Ion\\Controller\\Anime',
-							'default_method' => 'index'
-						]
+						'routes' => [
+
+						],
+						'route_config' => [
+							'anime_path' => 'anime',
+							'manga_path' => 'manga',
+							'default_anime_path' => "/anime/watching",
+							'default_manga_path' => '/manga/all',
+							'default_list' => 'manga'
+						],
 					]
 				],
-				'expected' => []
+				'expected' => [
+					'anime' => 'Aviat\AnimeClient\Controller\Anime',
+					'manga' => 'Aviat\AnimeClient\Controller\Manga',
+					'collection' => 'Aviat\AnimeClient\Controller\Collection',
+				]
 			]
 		);
 	}

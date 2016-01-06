@@ -18,6 +18,11 @@ class AnimeClient {
 	use \Aviat\Ion\Di\ContainerAware;
 
 	const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
+	const DEFAULT_CONTROLLER_NAMESPACE = 'Aviat\AnimeClient\Controller';
+	const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Anime';
+	const DEFAULT_CONTROLLER_METHOD = 'index';
+	const NOT_FOUND_METHOD = 'not_found';
+	const ERROR_MESSAGE_METHOD = 'error_page';
 
 	private static $form_pages = [
 		'edit',

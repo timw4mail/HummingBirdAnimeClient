@@ -100,13 +100,13 @@ class AnimeListTransformer extends AbstractTransformer {
 	{
 		// Messy mapping of boolean values to their API string equivalents
 		$privacy = 'public';
-		if (array_key_exists('private', $item) && $item['private'] == TRUE)
+		if (array_key_exists('private', $item) && $item['private'])
 		{
 			$privacy = 'private';
 		}
 
 		$rewatching = 'false';
-		if (array_key_exists('rewatching', $item) && $item['rewatching'] == TRUE)
+		if (array_key_exists('rewatching', $item) && $item['rewatching'])
 		{
 			$rewatching = 'true';
 		}

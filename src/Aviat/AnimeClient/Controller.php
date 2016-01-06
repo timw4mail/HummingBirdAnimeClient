@@ -106,7 +106,7 @@ class Controller {
 	 */
 	public function redirect_to_default()
 	{
-		$default_type = $this->config->get(['routing', 'default_list']);
+		$default_type = $this->config->get(['routes', 'route_config', 'default_list']);
 		$this->redirect($this->urlGenerator->default_url($default_type), 303);
 	}
 
@@ -306,6 +306,23 @@ class Controller {
 	{
 		$this->outputHTML('404', [
 			'title' => 'Sorry, page not found'
+		]);
+	}
+
+	/**
+	 * Display a generic error page
+	 *
+	 * @param string $title
+	 * @param string $message
+	 * @param string $long_message
+	 * @return void
+	 */
+	public function error_page($title, $message, $long_message = "")
+	{
+		$this->outputHTML('error', [
+			'title' => $title,
+			'message' => $message,
+			'long_message' => $long_message
 		]);
 	}
 

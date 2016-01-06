@@ -67,12 +67,10 @@ class Anime extends API {
 			'form_params' => $data
 		]);
 
-		$output = [
+		return [
 			'statusCode' => $response->getStatusCode(),
 			'body' => json_decode($response->getBody(), TRUE)
 		];
-
-		return $output;
 	}
 
 	/**

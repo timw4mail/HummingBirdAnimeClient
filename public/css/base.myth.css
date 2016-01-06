@@ -275,6 +275,10 @@ button {
 /* -----------------------------------------------------------------------------
 	Manga-list-specific styles
 ------------------------------------------------------------------------------*/
+.manga .row {
+	padding:1px;
+}
+
 .manga .media {
 	border:1px solid #ddd;
 	width:200px;
@@ -284,6 +288,8 @@ button {
 
 .manga .media > .edit_buttons {
 	position:absolute;
-	top: calc(50% - (117px / 2));
-	left: calc(50% - (190px / 2));
+	top: 86px;
+	top: calc(50% - 58.5px);
+	left: 5px;
+	left: calc(50% - 95px);
 }

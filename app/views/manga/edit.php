@@ -23,14 +23,6 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><label for="private">Is Private?</label></td>
-					<td>
-						<input type="checkbox" name="private" id="private"
-						<?php if($item['private']): ?>checked="checked"<?php endif ?>
-						/>
-					</td>
-				</tr>
-				<tr>
 					<td><label for="status">Reading Status</label></td>
 					<td>
 						<select name="status" id="status">

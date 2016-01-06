@@ -48,17 +48,13 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 					'file' => ':memory:',
 				]
 			],
-			'routing' => [
-				'asset_path' => '/assets'
-			],
 			'routes' => [
-				'convention' => [
-					'default_controller' => '',
-					'default_method' => '',
+				'route_config' => [
+					'asset_path' => '/assets'
 				],
-				'common' => [],
-				'anime' => [],
-				'manga' => []
+				'routes' => [
+
+				]
 			]
 		];
 
