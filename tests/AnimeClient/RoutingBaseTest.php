@@ -14,13 +14,13 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 	{
 		return [
 			'empty_segment' => [
-				'request_uri' => '  //	',
+				'request_uri' => '  //      ',
 				'path' => '/',
 				'segments' => ['', ''],
 				'last_segment' => NULL
 			],
 			'three_segments' => [
-				'request_uri' => '/anime/watching/list		',
+				'request_uri' => '/anime/watching/list  ',
 				'path' => '/anime/watching/list',
 				'segments' => ['', 'anime', 'watching', 'list'],
 				'last_segment' => 'list'
@@ -33,7 +33,6 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 	 */
 	public function testSegments($request_uri, $path, $segments, $last_segment)
 	{
-$this->markTestSkipped();
 		$this->setSuperGlobals([
 			'_SERVER' => [
 				'REQUEST_URI' => $request_uri

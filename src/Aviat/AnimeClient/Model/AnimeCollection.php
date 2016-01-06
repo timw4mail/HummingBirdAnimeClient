@@ -14,6 +14,7 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 /**
@@ -305,7 +306,7 @@ class AnimeCollection extends DB {
 			return;
 		}
 
-		$anime = json_decode(file_get_contents("import.json"));
+		$anime = AnimeClient::json_file_decode("import.json");
 
 		foreach ($anime as $item)
 		{

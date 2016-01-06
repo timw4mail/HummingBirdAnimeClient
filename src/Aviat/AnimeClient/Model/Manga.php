@@ -13,12 +13,13 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use GuzzleHttp\Cookie\Cookiejar;
+use GuzzleHttp\Cookie\SetCookie;
+
+use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
-
-use GuzzleHttp\Cookie\Cookiejar;
-use GuzzleHttp\Cookie\SetCookie;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -133,7 +134,9 @@ class Manga extends API {
 		$data = $this->_check_cache($response);
 		$output = $this->map_by_status($data);
 
-		return (array_key_exists($status, $output)) ? $output[$status] : $output;
+		return (array_key_exists($status, $output))
+			? $output[$status]
+			: $output;
 	}
 
 	/**
@@ -153,25 +156,27 @@ class Manga extends API {
 		}
 
 		$cache_file = _dir($this->config->get('data_cache_path'), 'manga.json');
-		$transformed_cache_file = _dir($this->config->get('data_cache_path'), 'manga-transformed.json');
-
+		$transformed_cache_file = _dir(
+			$this->config->get('data_cache_path'),
+			'manga-transformed.json'
+		);
 
 		$cached_data = file_exists($cache_file)
-			? json_decode(file_get_contents($cache_file), TRUE)
+			? AnimeClient::json_file_decode($cache_file)
 			: [];
 
 		if ($cached_data === $api_data && file_exists($transformed_cache_file))
 		{
-			return json_decode(file_get_contents($transformed_cache_file), TRUE);
+			return AnimeClient::json_file_decode($transformed_cache_file);
 		}
 		else
 		{
-			file_put_contents($cache_file, json_encode($api_data));
+			AnimeClient::json_file_encode($cache_file, $api_data);
 
 			$zippered_data = $this->zipper_lists($api_data);
 			$transformer = new Transformer\MangaListTransformer();
 			$transformed_data = $transformer->transform_collection($zippered_data);
-			file_put_contents($transformed_cache_file, json_encode($transformed_data));
+			AnimeClient::json_file_encode($transformed_cache_file, $transformed_data);
 			return $transformed_data;
 		}
 	}
@@ -194,7 +199,11 @@ class Manga extends API {
 
 		foreach ($data as &$entry)
 		{
-			$entry['manga']['image'] = $this->get_cached_image($entry['manga']['image'], $entry['manga']['slug'], 'manga');
+			$entry['manga']['image'] = $this->get_cached_image(
+				$entry['manga']['image'],
+				$entry['manga']['slug'],
+				'manga'
+			);
 			$key = $this->const_map[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}

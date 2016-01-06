@@ -13,6 +13,9 @@
 
 namespace Aviat\AnimeClient;
 
+/**
+ * Odds and Ends class
+ */
 class AnimeClient {
 
 	use \Aviat\Ion\Di\ContainerAware;
@@ -23,6 +26,7 @@ class AnimeClient {
 	const DEFAULT_CONTROLLER_METHOD = 'index';
 	const NOT_FOUND_METHOD = 'not_found';
 	const ERROR_MESSAGE_METHOD = 'error_page';
+	const SRC_DIR = __DIR__ . '/../../';
 
 	private static $form_pages = [
 		'edit',
@@ -55,6 +59,36 @@ class AnimeClient {
 	public static function is_not_selected($a, $b)
 	{
 		return ($a !== $b) ? 'selected' : '';
+	}
+
+	/**
+	 * Decode a json file into a php data structure
+	 *
+	 * @param  string $file
+	 * @param  bool $as_array
+	 * @return array|object
+	 */
+	public static function json_file_decode($file, $as_array=TRUE)
+	{
+	    return json_decode(
+	        file_get_contents($file),
+	        $as_array
+	    );
+	}
+
+	/**
+	 * Encode json data and save to the selected file
+	 *
+	 * @param string $file
+	 * @param mixed $data
+	 * @return bool
+	 */
+	public static function json_file_encode($file, $data)
+	{
+		return file_put_contents(
+			$file,
+			json_encode($data)
+		);
 	}
 
 	/**

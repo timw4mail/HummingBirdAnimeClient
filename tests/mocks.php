@@ -151,7 +151,7 @@ class TestMangaModel extends MangaModel {
 	protected function _check_cache($response)
 	{
 		$file = __DIR__ . '/test_data/manga_list/manga-transformed.json';
-		return json_decode(file_get_contents($file), TRUE);
+		return json_file_decode($file);
 	}
 }
 // End of mocks.php

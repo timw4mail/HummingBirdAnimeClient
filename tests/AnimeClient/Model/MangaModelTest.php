@@ -17,16 +17,16 @@ class MangaModelTest extends AnimeClient_TestCase {
 
 	public function testZipperLists()
 	{
-		$raw_data = json_decode(file_get_contents($this->mockDir . '/manga.json'), TRUE);
-		$expected = json_decode(file_get_contents($this->mockDir . '/manga-zippered.json'), TRUE);
+		$raw_data = json_file_decode($this->mockDir . '/manga.json');
+		$expected = json_file_decode($this->mockDir . '/manga-zippered.json');
 
 		$this->assertEquals($expected, $this->model->zipper_lists($raw_data));
 	}
 
 	public function testMapByStatus()
 	{
-		$original = json_decode(file_get_contents($this->mockDir . '/manga-transformed.json'), TRUE);
-		$expected = json_decode(file_get_contents($this->mockDir . '/manga-mapped.json'), TRUE);
+		$original = json_file_decode($this->mockDir . '/manga-transformed.json');
+		$expected = json_file_decode($this->mockDir . '/manga-mapped.json');
 		$actual = $this->model->map_by_status($original);
 
 		$this->assertEquals($expected, $actual);
@@ -43,7 +43,7 @@ class MangaModelTest extends AnimeClient_TestCase {
 		$reflect = new ReflectionClass($this->model);
 		$constants = $reflect->getConstants();
 
-		$expected_all = json_decode(file_get_contents($this->mockDir . '/manga-mapped.json'), TRUE);
+		$expected_all = json_file_decode($this->mockDir . '/manga-mapped.json');
 
 		$this->assertEquals($expected_all, $this->model->_get_list_from_api());
 
@@ -62,7 +62,6 @@ $this->markTestSkipped();
 			$this->markTestSkipped();
 		}
 
-
 		$data = $this->model->get_all_lists();
 		$this->assertEquals($data['Reading'], $this->model->get_list('Reading'));
 	}
@@ -75,7 +74,7 @@ $this->markTestSkipped();
 			$this->markTestSkipped();
 		}
 
-		$data = json_decode(file_get_contents($this->mockDir . '/manga-mapped.json'), TRUE);
+		$data = json_file_decode($this->mockDir . '/manga-mapped.json');
 
 		foreach($data as &$val)
 		{

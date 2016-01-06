@@ -20,13 +20,6 @@ if ($timezone === '' || $timezone === FALSE)
 	ini_set('date.timezone', 'GMT');
 }
 
-// Define base directories
-define('ROOT_DIR', __DIR__);
-define('APP_DIR', ROOT_DIR . DIRECTORY_SEPARATOR . 'app');
-define('SRC_DIR', ROOT_DIR . DIRECTORY_SEPARATOR . 'src');
-define('CONF_DIR', APP_DIR . DIRECTORY_SEPARATOR . 'config');
-define('BASE_DIR', SRC_DIR . DIRECTORY_SEPARATOR . 'Base');
-
 /**
  * Joins paths together. Variadic to take an
  * arbitrary number of arguments
@@ -38,15 +31,20 @@ function _dir()
 	return implode(DIRECTORY_SEPARATOR, func_get_args());
 }
 
+// Define base directories
+$APP_DIR = _dir(__DIR__, 'app');
+$SRC_DIR = _dir(__DIR__, 'src');
+$CONF_DIR = _dir($APP_DIR, 'config');
+
 /**
  * Set up autoloaders
  *
  * @codeCoverageIgnore
  * @return void
  */
-spl_autoload_register(function($class) {
+spl_autoload_register(function($class) use ($SRC_DIR) {
 	$class_parts = explode('\\', $class);
-	$ns_path = SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+	$ns_path = $SRC_DIR . '/' . implode('/', $class_parts) . ".php";
 
 	if (file_exists($ns_path))
 	{
@@ -55,7 +53,7 @@ spl_autoload_register(function($class) {
 	}
 });
 
-require _dir(ROOT_DIR, '/vendor/autoload.php');
+require _dir(__DIR__, '/vendor/autoload.php');
 
 // -------------------------------------------------------------------------
 // Setup error handling
@@ -77,10 +75,16 @@ $whoops->register();
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-require _dir(CONF_DIR, 'base_config.php'); // $base_config
-require _dir(CONF_DIR, 'config.php'); // $config
+require _dir($CONF_DIR, 'base_config.php'); // $base_config
+require _dir($CONF_DIR, 'config.php'); // $config
 $config_array = array_merge($base_config, $config);
-$di = require _dir(APP_DIR, 'bootstrap.php');
+$di = require _dir($APP_DIR, 'bootstrap.php');
+
+// Unset 'constants'
+unset($APP_DIR);
+unset($SRC_DIR);
+unset($CONF_DIR);
+
 $container = $di($config_array);
 $container->set('error-handler', $defaultHandler);
 

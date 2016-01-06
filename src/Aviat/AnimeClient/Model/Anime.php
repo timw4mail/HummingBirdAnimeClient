@@ -13,6 +13,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
@@ -217,20 +218,20 @@ class Anime extends API {
 		$transformed_cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}-transformed.json");
 
 		$cached = (file_exists($cache_file))
-			? json_decode(file_get_contents($cache_file), TRUE)
+			? AnimeClient::json_file_decode($cache_file)
 			: [];
 		$api_data = json_decode($response->getBody(), TRUE);
 
 		if ($api_data === $cached && file_exists($transformed_cache_file))
 		{
-			return json_decode(file_get_contents($transformed_cache_file), TRUE);
+			return AnimeClient::json_file_decode($transformed_cache_file);
 		}
 		else
 		{
-			file_put_contents($cache_file, json_encode($api_data));
+			AnimeClient::json_file_encode($cache_file, $api_data);
 			$transformer = new AnimeListTransformer();
 			$transformed = $transformer->transform_collection($api_data);
-			file_put_contents($transformed_cache_file, json_encode($transformed));
+			AnimeClient::json_file_encode($transformed_cache_file, $transformed);
 			return $transformed;
 		}
 	}

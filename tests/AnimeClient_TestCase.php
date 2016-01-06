@@ -12,6 +12,12 @@ use Aviat\AnimeClient\Config;
  * Base class for TestCases
  */
 class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
+	// Test directory constants
+	const ROOT_DIR = __DIR__ . '/../';
+	const SRC_DIR = __DIR__ . '/../src';
+	const TEST_DATA_DIR = __DIR__ . '/test_data';
+	const TEST_VIEW_DIR = __DIR__ . '/test_views';
+
 	protected $container;
 	protected static $staticContainer;
 	protected static $session_handler;
@@ -24,7 +30,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		self::$session_handler = $session_handler;
 
 		// Remove test cache files
-		$files = glob(_dir(TEST_DATA_DIR, 'cache', '*.json'));
+		$files = glob(_dir(self::TEST_DATA_DIR, 'cache', '*.json'));
 		array_map('unlink', $files);
 	}
 
@@ -32,10 +38,13 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 	{
 		parent::setUp();
 
+		$ROOT_DIR = realpath(_dir(__DIR__, '/../'));
+		$APP_DIR = _dir($ROOT_DIR, 'app');
+
 		$config_array = [
 			'asset_path' => '//localhost/assets/',
-			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
-			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
+			'img_cache_path' => _dir(self::ROOT_DIR, 'public/images'),
+			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
 			'database' => [
 				'collection' => [
 					'type' => 'sqlite',
@@ -59,7 +68,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		];
 
 		// Set up DI container
-		$di = require _dir(APP_DIR, 'bootstrap.php');
+		$di = require _dir($APP_DIR, 'bootstrap.php');
 		$container = $di($config_array);
 		$container->set('error-handler', new MockErrorHandler());
 		$container->set('session-handler', self::$session_handler);
