@@ -69,12 +69,15 @@ class Json {
 	 * Decode json data loaded from the passed filename
 	 *
 	 * @param string $filename
+	 * @param bool $assoc
+ 	 * @param int $depth
+ 	 * @param int $options
 	 * @return mixed
 	 */
-	public static function decodeFile($filename)
+	public static function decodeFile($filename, $assoc = TRUE, $depth = 512, $options = 0)
 	{
 		$json = file_get_contents($filename);
-		return self::decode($json);
+		return self::decode($json, $assoc, $depth, $options);
 	}
 
 	/**

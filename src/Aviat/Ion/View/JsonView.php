@@ -12,6 +12,7 @@
 
 namespace Aviat\Ion\View;
 
+use Aviat\Ion\Json;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View as BaseView;
 
@@ -37,7 +38,7 @@ class JsonView extends HttpView {
 	{
 		if ( ! is_string($string))
 		{
-			$string = json_encode($string);
+			$string = Json::encode($string);
 		}
 
 		return parent::setOutput($string);

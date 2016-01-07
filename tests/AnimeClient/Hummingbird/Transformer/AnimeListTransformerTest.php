@@ -1,6 +1,7 @@
 <?php
 
 use Aviat\Ion\Friend;
+use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 class AnimeListTransformerTest extends AnimeClient_TestCase {
@@ -41,8 +42,8 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 
 	public function testTransform()
 	{
-		$json = json_file_decode($this->start_file);
-		$expected = json_file_decode($this->res_file);
+		$json = Json::decodeFile($this->start_file);
+		$expected = Json::decodeFile($this->res_file);
 		$actual = $this->transformer->transform_collection($json);
 //file_put_contents($this->res_file, json_encode($actual));
 		$this->assertEquals($expected, $actual);

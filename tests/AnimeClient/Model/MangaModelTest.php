@@ -2,6 +2,7 @@
 use GuzzleHttp\Psr7\Response;
 
 use Aviat\Ion\Friend;
+use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
@@ -17,16 +18,16 @@ class MangaModelTest extends AnimeClient_TestCase {
 
 	public function testZipperLists()
 	{
-		$raw_data = json_file_decode($this->mockDir . '/manga.json');
-		$expected = json_file_decode($this->mockDir . '/manga-zippered.json');
+		$raw_data = Json::decodeFile($this->mockDir . '/manga.json');
+		$expected = Json::decodeFile($this->mockDir . '/manga-zippered.json');
 
 		$this->assertEquals($expected, $this->model->zipper_lists($raw_data));
 	}
 
 	public function testMapByStatus()
 	{
-		$original = json_file_decode($this->mockDir . '/manga-transformed.json');
-		$expected = json_file_decode($this->mockDir . '/manga-mapped.json');
+		$original = Json::decodeFile($this->mockDir . '/manga-transformed.json');
+		$expected = Json::decodeFile($this->mockDir . '/manga-mapped.json');
 		$actual = $this->model->map_by_status($original);
 
 		$this->assertEquals($expected, $actual);
@@ -43,7 +44,7 @@ class MangaModelTest extends AnimeClient_TestCase {
 		$reflect = new ReflectionClass($this->model);
 		$constants = $reflect->getConstants();
 
-		$expected_all = json_file_decode($this->mockDir . '/manga-mapped.json');
+		$expected_all = Json::decodeFile($this->mockDir . '/manga-mapped.json');
 
 		$this->assertEquals($expected_all, $this->model->_get_list_from_api());
 
@@ -74,7 +75,7 @@ $this->markTestSkipped();
 			$this->markTestSkipped();
 		}
 
-		$data = json_file_decode($this->mockDir . '/manga-mapped.json');
+		$data = Json::decodeFile($this->mockDir . '/manga-mapped.json');
 
 		foreach($data as &$val)
 		{

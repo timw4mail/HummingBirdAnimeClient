@@ -17,6 +17,10 @@ class ViewTest extends AnimeClient_TestCase {
 	{
 		$this->friend->output = 'foo';
 		$this->assertEquals($this->friend->output, $this->friend->getOutput());
+		$this->assertFalse($this->friend->hasRendered);
+
+		$this->assertEquals($this->friend->getOutput(), $this->friend->__toString());
+		$this->assertTrue($this->friend->hasRendered);
 	}
 
 	public function testSetOutput()

@@ -3,6 +3,7 @@
  * Global setup for unit tests
  */
 
+use Aviat\Ion\Json;
 use Aviat\AnimeClient\AnimeClient;
 
 // -----------------------------------------------------------------------------
@@ -18,18 +19,6 @@ use Aviat\AnimeClient\AnimeClient;
 function _dir()
 {
 	return implode(DIRECTORY_SEPARATOR, func_get_args());
-}
-
-/**
- * Decode a json file into a php data structure
- *
- * @param  string $file
- * @param  bool $as_array
- * @return array|object
- */
-function json_file_decode($file, $as_array=TRUE)
-{
-    return AnimeClient::json_file_decode($file, $as_array);
 }
 
 // -----------------------------------------------------------------------------

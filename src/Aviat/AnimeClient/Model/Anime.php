@@ -13,7 +13,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
@@ -70,7 +70,7 @@ class Anime extends API {
 
 		return [
 			'statusCode' => $response->getStatusCode(),
-			'body' => json_decode($response->getBody(), TRUE)
+			'body' => Json::decode($response->getBody(), TRUE)
 		];
 	}
 
@@ -138,7 +138,7 @@ class Anime extends API {
 
 		$response = $this->client->get("anime/{$anime_id}", $config);
 
-		return json_decode($response->getBody(), TRUE);
+		return Json::decode($response->getBody(), TRUE);
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Anime extends API {
 			throw new RuntimeException($response->getEffectiveUrl());
 		}
 
-		return json_decode($response->getBody(), TRUE);
+		return Json::decode($response->getBody(), TRUE);
 	}
 
 	/**
@@ -218,20 +218,20 @@ class Anime extends API {
 		$transformed_cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}-transformed.json");
 
 		$cached = (file_exists($cache_file))
-			? AnimeClient::json_file_decode($cache_file)
+			? Json::decodeFile($cache_file)
 			: [];
-		$api_data = json_decode($response->getBody(), TRUE);
+		$api_data = Json::decode($response->getBody(), TRUE);
 
 		if ($api_data === $cached && file_exists($transformed_cache_file))
 		{
-			return AnimeClient::json_file_decode($transformed_cache_file);
+			return Json::decodeFile($transformed_cache_file);
 		}
 		else
 		{
-			AnimeClient::json_file_encode($cache_file, $api_data);
+			Json::encodeFile($cache_file, $api_data);
 			$transformer = new AnimeListTransformer();
 			$transformed = $transformer->transform_collection($api_data);
-			AnimeClient::json_file_encode($transformed_cache_file, $transformed);
+			Json::encodeFile($transformed_cache_file, $transformed);
 			return $transformed;
 		}
 	}
