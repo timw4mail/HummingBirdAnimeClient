@@ -64,36 +64,6 @@ class AnimeClient {
 	}
 
 	/**
-	 * Decode a json file into a php data structure
-	 *
-	 * @param  string $file
-	 * @param  bool $as_array
-	 * @return array|object
-	 */
-	public static function json_file_decode($file, $as_array=TRUE)
-	{
-	    return json_decode(
-	        file_get_contents($file),
-	        $as_array
-	    );
-	}
-
-	/**
-	 * Encode json data and save to the selected file
-	 *
-	 * @param string $file
-	 * @param mixed $data
-	 * @return bool
-	 */
-	public static function json_file_encode($file, $data)
-	{
-		return file_put_contents(
-			$file,
-			json_encode($data)
-		);
-	}
-
-	/**
 	 * Determine whether to show the sub-menu
 	 *
 	 * @return bool

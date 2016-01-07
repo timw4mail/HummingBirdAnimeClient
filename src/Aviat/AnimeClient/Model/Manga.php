@@ -16,7 +16,7 @@ namespace Aviat\AnimeClient\Model;
 use GuzzleHttp\Cookie\Cookiejar;
 use GuzzleHttp\Cookie\SetCookie;
 
-use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Json;
 use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
@@ -80,7 +80,7 @@ class Manga extends API {
 
 		return [
 			'statusCode' => $result->getStatusCode(),
-			'body' => json_decode($result->getBody(), TRUE)
+			'body' => Json::decode($result->getBody(), TRUE)
 		];
 	}
 
@@ -149,7 +149,7 @@ class Manga extends API {
 	private function _check_cache($response)
 	{
 		// Bail out early if there isn't any manga data
-		$api_data = json_decode($response->getBody(), TRUE);
+		$api_data = Json::decode($response->getBody(), TRUE);
 		if ( ! array_key_exists('manga', $api_data))
 		{
 			return [];
@@ -162,21 +162,21 @@ class Manga extends API {
 		);
 
 		$cached_data = file_exists($cache_file)
-			? AnimeClient::json_file_decode($cache_file)
+			? Json::decodeFile($cache_file)
 			: [];
 
 		if ($cached_data === $api_data && file_exists($transformed_cache_file))
 		{
-			return AnimeClient::json_file_decode($transformed_cache_file);
+			return Json::decodeFile($transformed_cache_file);
 		}
 		else
 		{
-			AnimeClient::json_file_encode($cache_file, $api_data);
+			Json::encodeFile($cache_file, $api_data);
 
 			$zippered_data = $this->zipper_lists($api_data);
 			$transformer = new Transformer\MangaListTransformer();
 			$transformed_data = $transformer->transform_collection($zippered_data);
-			AnimeClient::json_file_encode($transformed_cache_file, $transformed_data);
+			Json::encodeFile($transformed_cache_file, $transformed_data);
 			return $transformed_data;
 		}
 	}

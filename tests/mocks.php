@@ -5,6 +5,7 @@
 
 use Aviat\Ion\Enum;
 use Aviat\Ion\Friend;
+use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View;
@@ -151,7 +152,7 @@ class TestMangaModel extends MangaModel {
 	protected function _check_cache($response)
 	{
 		$file = __DIR__ . '/test_data/manga_list/manga-transformed.json';
-		return json_file_decode($file);
+		return Json::decodeFile($file);
 	}
 }
 // End of mocks.php
