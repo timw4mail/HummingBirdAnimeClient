@@ -76,8 +76,6 @@ class TestTransformer extends AbstractTransformer {
 	}
 }
 
-class TestView extends View {}
-
 trait MockViewOutputTrait {
 	protected function output() {
 		$reflect = new ReflectionClass($this);
@@ -98,6 +96,17 @@ trait MockViewOutputTrait {
 		}
 
 		$friend->output();
+	}
+}
+
+class TestView extends View {
+	public function send() {}
+	protected function output()
+	{
+		$content =& $this->response->content;
+		$content->set($this->output);
+		$content->setType($this->contentType);
+		$content->setCharset('utf-8');
 	}
 }
 

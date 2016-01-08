@@ -2,9 +2,9 @@
 
 use Aviat\Ion\Friend;
 
-include_once __DIR__ . "/../ViewTest.php";
+include_once __DIR__ . "/HttpViewTest.php";
 
-class JsonViewTest extends ViewTest {
+class JsonViewTest extends HttpViewTest {
 
 	public function setUp()
 	{

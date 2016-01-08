@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . "HttpViewTest.php";
+include_once __DIR__ . "/HttpViewTest.php";
 
 class HtmlViewTest extends HttpViewTest {
 
