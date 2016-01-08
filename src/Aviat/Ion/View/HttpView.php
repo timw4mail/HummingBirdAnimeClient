@@ -34,14 +34,38 @@ class HttpView extends BaseView {
 	}
 
 	/**
+	 * Set the status code of the request
+	 *
+	 * @param int $code
+	 * @return HttpView
+	 */
+	public function setStatusCode($code)
+	{
+		$this->response->status->setCode($code);
+		$this->response->status->setVersion(1.1);
+		return $this;
+	}
+
+	/**
+	 * Send output to client
+	 */
+	public function send()
+	{
+		$this->hasRendered = TRUE;
+		$this->output();
+	}
+
+	/**
 	 * Send the appropriate response
 	 *
-	 * @codeCoverageIgnore
 	 * @return void
 	 */
 	protected function output()
 	{
-		parent::output();
+		$content =& $this->response->content;
+		$content->set($this->output);
+		$content->setType($this->contentType);
+		$content->setCharset('utf-8');
 
 		$sender = new ResponseSender($this->response);
 		$sender->__invoke();
