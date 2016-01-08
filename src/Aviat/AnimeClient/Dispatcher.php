@@ -94,8 +94,6 @@ class Dispatcher extends RoutingBase {
 	public function __invoke($route = NULL)
 	{
 		$error_handler = $this->container->get('error-handler');
-		$controller_name = AnimeClient::DEFAULT_CONTROLLER;
-		$action_method = AnimeClient::NOT_FOUND_METHOD;
 
 		if (is_null($route))
 		{
@@ -103,54 +101,76 @@ class Dispatcher extends RoutingBase {
 			$error_handler->addDataTable('route_args', (array)$route);
 		}
 
-		if ( ! $route)
+		if($route)
+		{
+			$parsed = $this->process_route($route);
+			$controller_name = $parsed['controller_name'];
+			$action_method = $parsed['action_method'];
+			$params = $parsed['params'];
+		}
+		else
 		{
 			// If not route was matched, return an appropriate http
 			// error message
 			$error_route = $this->get_error_params();
-			$params = $error_route['params'];
+			$controller_name = AnimeClient::DEFAULT_CONTROLLER;
 			$action_method = $error_route['action_method'];
+			$params = $error_route['params'];
+		}
+
+		// Actually instantiate the controller
+		$this->call($controller_name, $action_method, $params);
+	}
+
+	/**
+	 * Parse out the arguments for the appropriate controller for
+	 * the current route
+	 *
+	 * @param \Aura\Router\Route $route
+	 * @return array
+	 */
+	protected function process_route($route)
+	{
+		if (array_key_exists('controller', $route->params))
+		{
+			$controller_name = $route->params['controller'];
 		}
 		else
 		{
-			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
+			throw new \LogicException("Missing controller");
+		}
 
-			if (isset($route->params['controller']))
-			{
-				$controller_name = $route->params['controller'];
-			}
+		// Get the full namespace for a controller if a short name is given
+		if (strpos($controller_name, '\\') === FALSE)
+		{
+			$map = $this->get_controller_list();
+			$controller_name = $map[$controller_name];
+		}
 
-			if (isset($route->params['action']))
-			{
-				$action_method = $route->params['action'];
-			}
+		$action_method = (array_key_exists('action', $route->params))
+			? $route->params['action']
+			: AnimeClient::NOT_FOUND_METHOD;
 
-			if (is_null($controller_name))
-			{
-				throw new \LogicException("Missing controller");
-			}
+		$params = (array_key_exists('params', $route->params))
+			? $route->params['params']
+			: [];
 
-			// Get the full namespace for a controller if a short name is given
-			if (strpos($controller_name, '\\') === FALSE)
+		if ( ! empty($route->tokens))
+		{
+			foreach ($route->tokens as $key => $v)
 			{
-				$map = $this->get_controller_list();
-				$controller_name = $map[$controller_name];
-			}
-
-			if ( ! empty($route->tokens))
-			{
-				foreach ($route->tokens as $key => $v)
+				if (array_key_exists($key, $route->params))
 				{
-					if (array_key_exists($key, $route->params))
-					{
-						$params[$key] = $route->params[$key];
-					}
+					$params[$key] = $route->params[$key];
 				}
 			}
 		}
 
-		// Actually instantiate the controller
-		$this->call($controller_name, $method, $params);
+		return [
+			'controller_name' => $controller_name,
+			'action_method' => $action_method,
+			'params' => $params
+		];
 	}
 
 	/**
@@ -219,7 +239,7 @@ class Dispatcher extends RoutingBase {
 
 		// Run the appropriate controller method
 		$error_handler->addDataTable('controller_args', $params);
-		call_user_func_array([$controller, $action_method], $params);
+		call_user_func_array([$controller, $method], $params);
 	}
 
 	/**
