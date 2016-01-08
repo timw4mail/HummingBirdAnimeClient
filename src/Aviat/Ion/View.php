@@ -123,6 +123,8 @@ abstract class View {
 
 	/**
 	 * Send output to client
+	 *
+	 * @return void
 	 */
 	abstract public function send();
 }

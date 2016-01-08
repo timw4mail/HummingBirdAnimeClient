@@ -48,6 +48,8 @@ class HttpView extends BaseView {
 
 	/**
 	 * Send output to client
+	 *
+	 * @return void
 	 */
 	public function send()
 	{
