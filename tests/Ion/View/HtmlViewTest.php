@@ -1,8 +1,8 @@
 <?php
 
-include_once __DIR__ . "/../ViewTest.php";
+include_once __DIR__ . "HttpViewTest.php";
 
-class HtmlViewTest extends ViewTest {
+class HtmlViewTest extends HttpViewTest {
 
 	protected $template_path;
 
