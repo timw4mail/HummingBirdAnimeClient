@@ -96,7 +96,6 @@ class Dispatcher extends RoutingBase {
 		$error_handler = $this->container->get('error-handler');
 		$controller_name = AnimeClient::DEFAULT_CONTROLLER;
 		$action_method = AnimeClient::NOT_FOUND_METHOD;
-		$params = [];
 
 		if (is_null($route))
 		{
@@ -106,31 +105,16 @@ class Dispatcher extends RoutingBase {
 
 		if ( ! $route)
 		{
-			$failure = $this->router->getFailedRoute();
-			$error_handler->addDataTable('failed_route', (array)$failure);
-			$action_method = AnimeClient::ERROR_MESSAGE_METHOD;
-
-			switch(TRUE)
-			{
-				case $failure->failedMethod():
-					$params['http_code'] = 405;
-					$params['title'] = '405 Method Not Allowed';
-					$params['message'] = 'Invalid HTTP Verb';
-				break;
-
-				case $failure->failedAccept():
-					$params['http_code'] = 406;
-					$params['title'] = '406 Not Acceptable';
-					$params['message'] = 'Unacceptable content type';
-				break;
-
-				default:
-					$action_method = AnimeClient::NOT_FOUND_METHOD;
-				break;
-			}
+			// If not route was matched, return an appropriate http
+			// error message
+			$error_route = $this->get_error_params();
+			$params = $error_route['params'];
+			$action_method = $error_route['action_method'];
 		}
 		else
 		{
+			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
+
 			if (isset($route->params['controller']))
 			{
 				$controller_name = $route->params['controller'];
@@ -146,13 +130,12 @@ class Dispatcher extends RoutingBase {
 				throw new \LogicException("Missing controller");
 			}
 
+			// Get the full namespace for a controller if a short name is given
 			if (strpos($controller_name, '\\') === FALSE)
 			{
 				$map = $this->get_controller_list();
 				$controller_name = $map[$controller_name];
 			}
-
-			$params = (isset($route->params['params'])) ? $route->params['params'] : [];
 
 			if ( ! empty($route->tokens))
 			{
@@ -166,11 +149,8 @@ class Dispatcher extends RoutingBase {
 			}
 		}
 
-		$controller = new $controller_name($this->container);
-
-		// Run the appropriate controller method
-		$error_handler->addDataTable('controller_args', $params);
-		call_user_func_array([$controller, $action_method], $params);
+		// Actually instantiate the controller
+		$this->call($controller_name, $method, $params);
 	}
 
 	/**
@@ -220,6 +200,69 @@ class Dispatcher extends RoutingBase {
 		}
 
 		return $controllers;
+	}
+
+	/**
+	 * Create the controller object and call the appropriate
+	 * method
+	 *
+	 * @param  string $controller_name - The full namespace of the controller class
+	 * @param  string $method
+	 * @param  array  $params
+	 * @return void
+	 */
+	protected function call($controller_name, $method, array $params)
+	{
+		$error_handler = $this->container->get('error-handler');
+
+		$controller = new $controller_name($this->container);
+
+		// Run the appropriate controller method
+		$error_handler->addDataTable('controller_args', $params);
+		call_user_func_array([$controller, $action_method], $params);
+	}
+
+	/**
+	 * Get the appropriate params for the error page
+	 * pased on the failed route
+	 *
+	 * @return array|false
+	 */
+	protected function get_error_params()
+	{
+		$failure = $this->router->getFailedRoute();
+		$error_handler = $this->container->get('error-handler');
+		$error_handler->addDataTable('failed_route', (array)$failure);
+		$action_method = AnimeClient::ERROR_MESSAGE_METHOD;
+
+		$params = [];
+
+		if ($failure->failedMethod())
+		{
+			$params = [
+				'http_code' => 405,
+				'title' => '405 Method Not Allowed',
+				'message' => 'Invalid HTTP Verb'
+			];
+		}
+		else if($failure->failedAccept())
+		{
+			$params = [
+				'http_code' => 406,
+				'title' => '406 Not Acceptable',
+				'message' => 'Unacceptable content type'
+			];
+		}
+		else
+		{
+			// Fall back to a 404 message
+			$action_method = AnimeClient::NOT_FOUND_METHOD;
+		}
+
+		return [
+			'params' => $params,
+			'action_method' => $action_method
+		];
 	}
 
 	/**
