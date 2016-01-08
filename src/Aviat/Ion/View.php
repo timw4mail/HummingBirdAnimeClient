@@ -124,23 +124,6 @@ abstract class View {
 	/**
 	 * Send output to client
 	 */
-	public function send()
-	{
-		$this->hasRendered = TRUE;
-		$this->output();
-	}
-
-	/**
-	 * Send the appropriate response
-	 *
-	 * @return void
-	 */
-	protected function output()
-	{
-		$content =& $this->response->content;
-		$content->set($this->output);
-		$content->setType($this->contentType);
-		$content->setCharset('utf-8');
-	}
+	abstract public function send();
 }
 // End of View.php

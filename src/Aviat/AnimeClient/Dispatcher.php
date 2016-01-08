@@ -113,11 +113,13 @@ class Dispatcher extends RoutingBase {
 			switch(TRUE)
 			{
 				case $failure->failedMethod():
+					$params['http_code'] = 405;
 					$params['title'] = '405 Method Not Allowed';
 					$params['message'] = 'Invalid HTTP Verb';
 				break;
 
 				case $failure->failedAccept():
+					$params['http_code'] = 406;
 					$params['title'] = '406 Not Acceptable';
 					$params['message'] = 'Unacceptable content type';
 				break;

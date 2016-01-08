@@ -99,7 +99,6 @@ return [
 		'login' => [
 			'path' => '/{controller}/login',
 			'action' => 'login',
-			'verb' => 'get'
 		],
 		'login_post' => [
 			'path' => '/{controller}/login',
@@ -113,6 +112,7 @@ return [
 		'update' => [
 			'path' => '/{controller}/update',
 			'action' => 'update',
+			'verb' => 'post',
 			'tokens' => [
 				'controller' => '[a-z_]+'
 			]

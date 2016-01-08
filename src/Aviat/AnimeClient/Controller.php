@@ -306,24 +306,25 @@ class Controller {
 	{
 		$this->outputHTML('404', [
 			'title' => 'Sorry, page not found'
-		]);
+		], NULL, 404);
 	}
 
 	/**
 	 * Display a generic error page
 	 *
+	 * @param int $http_code
 	 * @param string $title
 	 * @param string $message
 	 * @param string $long_message
 	 * @return void
 	 */
-	public function error_page($title, $message, $long_message = "")
+	public function error_page($http_code, $title, $message, $long_message = "")
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
 			'long_message' => $long_message
-		]);
+		], NULL, $http_code);
 	}
 
 	/**
@@ -365,15 +366,17 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @param HtmlView|null $view
+	 * @param int $code
 	 * @return void
 	 */
-	protected function outputHTML($template, array $data = [], $view = NULL)
+	protected function outputHTML($template, array $data = [], $view = NULL, $code = 200)
 	{
 		if (is_null($view))
 		{
 			$view = new HtmlView($this->container);
 		}
 
+		$view->setStatusCode($code);
 		$this->render_full_page($view, $template, $data);
 	}
 
