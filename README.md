@@ -38,7 +38,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 
 ### Installation
 
-1. Install dependencies via composer: `composer install`
+1. Install via composer: `composer create-project timw4mail/hummingbird-anime-client`
 2. Configure settings in `app/config/config.php` to your liking
 3. Create the following directories if they don't exist, and make sure they are world writable
 	* app/cache
@@ -51,7 +51,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 * For importing anime:
 	1. Login
 	2. Use the form to select your media
-	3. Save & Repeat as needed
+	3. Save &amp; Repeat as needed
 * For bulk importing anime:
 	1. Find the anime you are looking for on the hummingbird search api page: `https://hummingbird.me/api/v1/search/anime?query=`
 	2. Create an `import.json` file in the root of the app, with an array of objects from the search page that you want to import
