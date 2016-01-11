@@ -66,7 +66,6 @@ $whoops->pushHandler($defaultHandler);
 
 // Set up json handler for ajax errors
 $jsonHandler = new JsonResponseHandler();
-$jsonHandler->onlyForAjaxRequests(TRUE);
 $whoops->pushHandler($jsonHandler);
 
 // Register as the error handler
