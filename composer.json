@@ -11,7 +11,7 @@
 		"aviat4ion/query": "2.5.*",
 		"container-interop/container-interop": "1.*",
 		"danielstjules/stringy": "~2.1",
-		"filp/whoops": "1.1.*",
+		"filp/whoops": "2.0.*",
 		"guzzlehttp/guzzle": "6.*",
 		"monolog/monolog": "1.*",
 		"psr/log": "~1.0",
