@@ -51,4 +51,10 @@ class HttpViewTest extends AnimeClient_TestCase {
 		$this->assertEquals($content->getCharset(), 'utf-8');
 		$this->assertEquals($content->get(), $this->friend->getOutput());
 	}
+
+	public function testSetStatusCode()
+	{
+		$this->view->setStatusCode(404);
+		$this->assertEquals(404, $this->friend->response->status->getCode());
+	}
 }
