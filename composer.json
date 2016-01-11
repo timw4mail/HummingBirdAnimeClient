@@ -7,16 +7,15 @@
 		"aura/html": "2.*",
 		"aura/router": "2.2.*",
 		"aura/session": "2.*",
-		"aura/web": "2.0.*",
+		"aura/web": "2.*",
 		"aviat4ion/query": "2.5.*",
 		"container-interop/container-interop": "1.*",
 		"danielstjules/stringy": "~2.1",
 		"filp/whoops": "1.1.*",
 		"guzzlehttp/guzzle": "6.*",
 		"monolog/monolog": "1.*",
-		"mustache/mustache": "*",
 		"psr/log": "~1.0",
 		"robmorgan/phinx": "0.4.*",
-		"szymach/c-pchart": "1.*"
+		"yosymfony/toml": "0.3.*"
 	}
 }

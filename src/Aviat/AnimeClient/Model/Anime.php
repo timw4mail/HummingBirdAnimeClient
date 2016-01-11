@@ -149,7 +149,7 @@ class Anime extends API {
 	 */
 	public function search($name)
 	{
-		$errorHandler = $this->container->get('error-handler');
+		$logger = $this->container->getLogger('default');
 
 		$config = [
 			'query' => [
@@ -158,10 +158,12 @@ class Anime extends API {
 		];
 
 		$response = $this->get('search/anime', $config);
-		$errorHandler->addDataTable('anime_search_response', (array)$response);
 
 		if ($response->getStatusCode() != 200)
 		{
+			$logger->addWarning("Non 200 response for search api call");
+			$logger->addWarning($response->getBody());
+
 			throw new RuntimeException($response->getEffectiveUrl());
 		}
 

@@ -1,11 +1,15 @@
 <?php
 
+use Aura\Web\WebFactory;
+use Aura\Router\RouterFactory;
+use Monolog\Logger;
+use Monolog\Handler\TestHandler;
+
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\UrlGenerator;
-use Aura\Web\WebFactory;
-use Aura\Router\RouterFactory;
+
 
 class DispatcherTest extends AnimeClient_TestCase {
 
@@ -35,14 +39,18 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 		$old_config = $this->container->get('config');
 
+		$logger = new Logger('test_logger');
+		$logger->pushHandler(new TestHandler(Logger::DEBUG));
+
 		// Add the appropriate objects to the container
 		$this->container = new Container([
 			'config' => $old_config,
 			'request' => $web_factory->newRequest(),
 			'response' => $web_factory->newResponse(),
-			'aura-router' => $router_factory->newInstance(),
-			'error-handler' => new MockErrorHandler()
+			'aura-router' => $router_factory->newInstance()
 		]);
+
+		$this->container->setLogger($logger, 'default');
 
 		if ( ! empty($config))
 		{

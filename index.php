@@ -86,7 +86,6 @@ unset($SRC_DIR);
 unset($CONF_DIR);
 
 $container = $di($config_array);
-$container->set('error-handler', $defaultHandler);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route
