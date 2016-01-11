@@ -67,8 +67,8 @@ class Dispatcher extends RoutingBase {
 		$raw_route = $this->request->url->get(PHP_URL_PATH);
 		$route_path = "/" . trim($raw_route, '/');
 
-		$logger->addDebug('Dispatcher - Routing data from get_route method');
-		$logger->addDebug(print_r([
+		$logger->debug('Dispatcher - Routing data from get_route method');
+		$logger->debug(print_r([
 			'route_path' => $route_path
 		], TRUE));
 
@@ -100,8 +100,8 @@ class Dispatcher extends RoutingBase {
 		{
 			$route = $this->get_route();
 
-			$logger->addDebug('Dispatcher - Route invoke arguments');
-			$logger->addDebug(print_r($route, TRUE));
+			$logger->debug('Dispatcher - Route invoke arguments');
+			$logger->debug(print_r($route, TRUE));
 		}
 
 		if($route)
@@ -241,8 +241,8 @@ class Dispatcher extends RoutingBase {
 		$controller = new $controller_name($this->container);
 
 		// Run the appropriate controller method
-		$logger->addDebug('Dispatcher - controller arguments');
-		$logger->addDebug(print_r($params, TRUE));
+		$logger->debug('Dispatcher - controller arguments');
+		$logger->debug(print_r($params, TRUE));
 		call_user_func_array([$controller, $method], $params);
 	}
 

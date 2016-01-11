@@ -57,43 +57,35 @@ class MangaModelTest extends AnimeClient_TestCase {
 
 	public function testGetList()
 	{
-$this->markTestSkipped();
 		if (($var = getenv('CI')))
 		{
 			$this->markTestSkipped();
 		}
 
-		$data = $this->model->get_all_lists();
-		$this->assertEquals($data['Reading'], $this->model->get_list('Reading'));
+		$data = file_get_contents($this->mockDir . '/manga.json');
+		$client = $this->getMockClient(200, [
+			'Content-type' => 'application/json'
+		], $data);
+		$this->model->__set('client', $client);
+
+		$expected = Json::decodeFile($this->mockDir . '/get-all-lists.json');
+		$this->assertEquals($expected['Reading'], $this->model->get_list('Reading'));
 	}
 
 	public function testGetAllLists()
 	{
-$this->markTestSkipped();
 		if (($var = getenv('CI')))
 		{
 			$this->markTestSkipped();
 		}
 
-		$data = Json::decodeFile($this->mockDir . '/manga-mapped.json');
+		$data = file_get_contents($this->mockDir . '/manga.json');
+		$client = $this->getMockClient(200, [
+			'Content-type' => 'application/json'
+		], $data);
+		$this->model->__set('client', $client);
 
-		foreach($data as &$val)
-		{
-			$this->sort_by_name($val);
-		}
-
-		$this->assertEquals($data, $this->model->get_all_lists());
-	}
-
-	private function sort_by_name(&$array)
-	{
-		$sort = array();
-
-		foreach ($array as $key => $item)
-		{
-			$sort[$key] = $item['manga']['title'];
-		}
-
-		array_multisort($sort, SORT_ASC, $array);
+		$expected = Json::decodeFile($this->mockDir . '/get-all-lists.json');
+		$this->assertEquals($expected, $this->model->get_all_lists());
 	}
 }

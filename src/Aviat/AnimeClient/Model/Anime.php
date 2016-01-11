@@ -161,8 +161,8 @@ class Anime extends API {
 
 		if ($response->getStatusCode() != 200)
 		{
-			$logger->addWarning("Non 200 response for search api call");
-			$logger->addWarning($response->getBody());
+			$logger->warning("Non 200 response for search api call");
+			$logger->warning($response->getBody());
 
 			throw new RuntimeException($response->getEffectiveUrl());
 		}
