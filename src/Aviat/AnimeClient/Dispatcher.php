@@ -62,14 +62,15 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function get_route()
 	{
-		$error_handler = $this->container->get('error-handler');
+		$logger = $this->container->getLogger('default');
 
 		$raw_route = $this->request->url->get(PHP_URL_PATH);
 		$route_path = "/" . trim($raw_route, '/');
 
-		$error_handler->addDataTable('Route Info', [
+		$logger->debug('Dispatcher - Routing data from get_route method');
+		$logger->debug(print_r([
 			'route_path' => $route_path
-		]);
+		], TRUE));
 
 		return $this->router->match($route_path, $_SERVER);
 	}
@@ -93,12 +94,14 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function __invoke($route = NULL)
 	{
-		$error_handler = $this->container->get('error-handler');
+		$logger = $this->container->getLogger('default');
 
 		if (is_null($route))
 		{
 			$route = $this->get_route();
-			$error_handler->addDataTable('route_args', (array)$route);
+
+			$logger->debug('Dispatcher - Route invoke arguments');
+			$logger->debug(print_r($route, TRUE));
 		}
 
 		if($route)
@@ -233,12 +236,13 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function call($controller_name, $method, array $params)
 	{
-		$error_handler = $this->container->get('error-handler');
+		$logger = $this->container->getLogger('default');
 
 		$controller = new $controller_name($this->container);
 
 		// Run the appropriate controller method
-		$error_handler->addDataTable('controller_args', $params);
+		$logger->debug('Dispatcher - controller arguments');
+		$logger->debug(print_r($params, TRUE));
 		call_user_func_array([$controller, $method], $params);
 	}
 
@@ -250,9 +254,12 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function get_error_params()
 	{
+		$logger = $this->container->getLogger('default');
 		$failure = $this->router->getFailedRoute();
-		$error_handler = $this->container->get('error-handler');
-		$error_handler->addDataTable('failed_route', (array)$failure);
+
+		$logger->info('Dispatcher - failed route');
+		$logger->info(print_r($failure, TRUE));
+
 		$action_method = AnimeClient::ERROR_MESSAGE_METHOD;
 
 		$params = [];

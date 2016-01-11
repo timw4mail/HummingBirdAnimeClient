@@ -197,8 +197,6 @@ class Controller {
 	 */
 	protected function load_partial($view, $template, array $data = [])
 	{
-		$errorHandler = $this->container->get('error-handler');
-		$errorHandler->addDataTable('Template Data', $data);
 		$router = $this->container->get('dispatcher');
 
 		if (isset($this->base_data))

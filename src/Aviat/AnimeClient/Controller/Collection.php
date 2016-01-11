@@ -110,11 +110,13 @@ class Collection extends BaseController {
 	 */
 	public function form($id = NULL)
 	{
+		$this->set_session_redirect();
+
 		$action = (is_null($id)) ? "Add" : "Edit";
 
 		$this->outputHTML('collection/' . strtolower($action), [
 			'action' => $action,
-			'action_url' => $this->urlGenerator->full_url("collection/" . strtolower($action)),
+			'action_url' => $this->urlGenerator->full_url('collection/' . strtolower($action)),
 			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
 			'media_items' => $this->anime_collection_model->get_media_type_list(),
 			'item' => ($action === "Edit") ? $this->anime_collection_model->get($id) : []
@@ -129,14 +131,17 @@ class Collection extends BaseController {
 	public function edit()
 	{
 		$data = $this->request->post->get();
-		if ( ! array_key_exists('hummingbird_id', $data))
+		if (array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("collection/view", 303);
+			$this->anime_collection_model->update($data);
+			$this->set_flash_message('Successfully updated collection item.', 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to update collection item', 'error');
 		}
 
-		$this->anime_collection_model->update($data);
-
-		$this->redirect("collection/view", 303);
+		$this->session_redirect();
 	}
 
 	/**
@@ -147,14 +152,17 @@ class Collection extends BaseController {
 	public function add()
 	{
 		$data = $this->request->post->get();
-		if ( ! array_key_exists('id', $data))
+		if (array_key_exists('id', $data))
 		{
-			$this->redirect("collection/view", 303);
+			$this->anime_collection_model->add($data);
+			$this->set_flash_message('Successfully added collection item', 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to add collection item.', 'error');
 		}
 
-		$this->anime_collection_model->add($data);
-
-		$this->redirect("collection/view", 303);
+		$this->session_redirect();
 	}
 
 	/**

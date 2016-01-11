@@ -75,7 +75,6 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		// Set up DI container
 		$di = require _dir($APP_DIR, 'bootstrap.php');
 		$container = $di($config_array);
-		$container->set('error-handler', new MockErrorHandler());
 		$container->set('session-handler', self::$session_handler);
 
 		$this->container = $container;

@@ -66,7 +66,6 @@ $whoops->pushHandler($defaultHandler);
 
 // Set up json handler for ajax errors
 $jsonHandler = new JsonResponseHandler();
-$jsonHandler->onlyForAjaxRequests(TRUE);
 $whoops->pushHandler($jsonHandler);
 
 // Register as the error handler
@@ -86,7 +85,6 @@ unset($SRC_DIR);
 unset($CONF_DIR);
 
 $container = $di($config_array);
-$container->set('error-handler', $defaultHandler);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route
