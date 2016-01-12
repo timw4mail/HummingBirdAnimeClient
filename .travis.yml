@@ -21,3 +21,7 @@ after_script:
 matrix:
   allow_failures:
     - php: nightly
+
+addons:
+    code_climate:
+        repo_token: 2cbddcebcb9256b3402867282e119dbe61de0b31039325356af3c7d72ed6d058
