@@ -1,3 +1,8 @@
-$(function() {
-	$('table').tablesorter();
+
+$('table').DataTable({
+	paging: false,
+	searching: false,
+	language: {
+		info: ""
+	}
 });

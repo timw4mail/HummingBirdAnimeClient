@@ -27,19 +27,19 @@ return [
 	*/
 	'table' => [
 		'lib/jquery.min.js',
-		'lib/table_sorter/jquery.tablesorter.min.js',
+		'lib/datatables.js',
 		'sort_tables.js'
 	],
-	'edit' => [
+	'table_edit' => [
 		'lib/jquery.min.js',
+		'lib/datatables.js',
+		'sort_tables.js',
 		'show_message.js',
 		'anime_edit.js',
 		'manga_edit.js'
 	],
-	'table_edit' => [
+	'edit' => [
 		'lib/jquery.min.js',
-		'lib/table_sorter/jquery.tablesorter.min.js',
-		'sort_tables.js',
 		'show_message.js',
 		'anime_edit.js',
 		'manga_edit.js'

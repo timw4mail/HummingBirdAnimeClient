@@ -26,6 +26,17 @@ tbody > tr:nth-child(odd) {
 	background: #ddd;
 }
 
+/* Table sorting styles */
+th.sorting::after {
+	content: " ↕ ";
+}
+th.sorting_asc::after {
+	content: " ↑ ";
+}
+th.sorting_desc::after {
+	content: " ↓ ";
+}
+
 input[type=number] {
 	width: 4em;
 }
