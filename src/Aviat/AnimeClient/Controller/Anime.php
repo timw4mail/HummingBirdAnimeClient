@@ -255,5 +255,21 @@ class Anime extends BaseController {
 			)
 		);
 	}
+
+	/**
+	 * View details of an anime
+	 *
+	 * @param string anime_id
+	 * @return void
+	 */
+	public function details($anime_id)
+	{
+		$data = $this->model->get_anime($anime_id);
+
+		$this->outputHTML('anime/details', [
+			'title' => $data['title'],
+			'data' => $data,
+		]);
+	}
 }
 // End of AnimeController.php

@@ -4,6 +4,8 @@
 <head>
 	<title><?= $title ?></title>
 	<meta charset="utf-8" />
+	<meta http-equiv="cache-control" content="no-store" />
+	<meta http-equiv="Content-Security-Policy" content="script-src self" />
 	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php?g=base') ?>" />
 	<script>
 		var BASE_URL = "<?= $urlGenerator->base_url($url_type) ?>";
