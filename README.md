@@ -44,7 +44,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 	* app/cache
 	* public/images/manga
 	* public/images/anime
-	* public/js/cache
+	* public/cache
 
 #### Anime Collection Additional Installation
 * Run `php /vendor/bin/phinx migrate -e development` to create the database tables

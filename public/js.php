@@ -19,7 +19,7 @@ use GuzzleHttp\Psr7\Request;
 require_once('../app/config/minify_config.php');
 
 //Include the js groups
-$groups_file = "../app/config/minify_js_groups.php";
+$groups_file = '../app/config/minify_js_groups.php';
 $groups = require_once($groups_file);
 
 // Include guzzle
@@ -67,8 +67,9 @@ function google_min($new_file)
 		'output_info' => 'errors',
 		'output_format' => 'json',
 		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
+		//'compilation_level' => 'ADVANCED_OPTIMIZATIONS',
 		'js_code' => $new_file,
-		'language' => 'ECMASCRIPT5',
+		'language' => 'ECMASCRIPT6_STRICT',
 		'language_out' => 'ECMASCRIPT5_STRICT'
 	];
 
@@ -77,17 +78,18 @@ function google_min($new_file)
 	$error_res = $error_client->post('http://closure-compiler.appspot.com/compile', [
 		'headers' => [
 			'Accept-Encoding' => 'gzip',
-			"Content-type" => "application/x-www-form-urlencoded"
+			'Content-type' => 'application/x-www-form-urlencoded'
 		],
 		'form_params' => $options
 	]);
 
 	$error_json = $error_res->getBody();
-	$error_obj = json_decode($error_json);
+	$error_obj = json_decode($error_json) ?: (object)[];
 
+	// Show error if exists
 	if ( ! empty($error_obj->errors))
 	{
-		?><pre><?= json_encode($err_obj, JSON_PRETTY_PRINT) ?></pre><?php
+		echo json_encode($error_obj, JSON_PRETTY_PRINT);
 		die();
 	}
 
@@ -97,7 +99,7 @@ function google_min($new_file)
 	$res = $client->post('http://closure-compiler.appspot.com/compile', [
 		'headers' => [
 			'Accept-Encoding' => 'gzip',
-			"Content-type" => "application/x-www-form-urlencoded"
+			'Content-type' => 'application/x-www-form-urlencoded'
 		],
 		'form_params' => $options
 	]);
@@ -163,7 +165,7 @@ if(isset($groups[$_GET['g']]))
 }
 else //Nothing to display? Just exit
 {
-	die("You must specify a group that exists");
+	die('You must specify a group that exists');
 }
 
 // --------------------------------------------------------------------------
@@ -180,7 +182,7 @@ $requested_time=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
 // don't resend the file
 if($last_modified === $requested_time)
 {
-	header("HTTP/1.1 304 Not Modified");
+	header('HTTP/1.1 304 Not Modified');
 	exit();
 }
 
@@ -188,7 +190,7 @@ if($last_modified === $requested_time)
 
 //Determine what to do: rebuild cache, send files as is, or send cache.
 // If debug is set, just concatenate
-if(isset($_GET['debug']))
+if(array_key_exists('debug', $_GET))
 {
 	$js = get_files();
 }
@@ -199,7 +201,7 @@ else if($cache_modified < $last_modified)
 	//Make sure cache file gets created/updated
 	if(file_put_contents($cache_file, $js) === FALSE)
 	{
-		die("Cache file was not created. Make sure you have the correct folder permissions.");
+		die('Cache file was not created. Make sure you have the correct folder permissions.');
 	}
 }
 // Otherwise, send the cached file
@@ -212,13 +214,13 @@ else
 
 //This GZIPs the js for transmission to the user
 //making file size smaller and transfer rate quicker
-ob_start("ob_gzhandler");
+ob_start('ob_gzhandler');
 
 // Set important caching headers
-header("Content-Type: application/javascript; charset=utf8");
-header("Cache-control: public, max-age=691200, must-revalidate");
-header("Last-Modified: ".gmdate('D, d M Y H:i:s', $last_modified)." GMT");
-header("Expires: ".gmdate('D, d M Y H:i:s', (filemtime($this_file) + 691200))." GMT");
+header('Content-Type: application/javascript; charset=utf8');
+header('Cache-control: public, max-age=691200, must-revalidate');
+header('Last-Modified: '.gmdate('D, d M Y H:i:s', $last_modified).' GMT');
+header('Expires: '.gmdate('D, d M Y H:i:s', (filemtime($this_file) + 691200)).' GMT');
 
 echo $js;
 
