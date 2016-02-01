@@ -1,29 +1,24 @@
 /**
  * Javascript for editing manga, if logged in
  */
-(function ($) {
+(($, AnimeClient, w) => {
 
-	"use strict";
+	'use strict';
 
-	if (CONTROLLER !== "manga") return;
-
-	$(".edit_buttons button").on("click", function(e) {
-		var this_sel = $(this);
-		var parent_sel = $(this).closest("article");
-		var manga_id = parent_sel.attr("id").replace("manga-", "");
-		var type = this_sel.is(".plus_one_chapter") ? 'chapter' : 'volume';
-		var completed = parseInt(parent_sel.find("." + type + "s_read").text(), 10);
-		var total = parseInt(parent_sel.find("."+type+"_count").text(), 10);
-
-		console.log(completed);
-		console.log(total);
+	$('body.manga.list').on('click', '.edit_buttons button', function(e) {
+		let this_sel = $(this);
+		let parent_sel = $(this).closest("article");
+		let manga_id = parent_sel.attr("id").replace("manga-", "");
+		let type = this_sel.is(".plus_one_chapter") ? 'chapter' : 'volume';
+		let completed = parseInt(parent_sel.find(`.${type}s_read`).text(), 10);
+		let total = parseInt(parent_sel.find(`.${type}_count`).text(), 10);
 
 		if (isNaN(completed))
 		{
 			completed = 0;
 		}
 
-		var data = {
+		let data = {
 			id: manga_id
 		};
 
@@ -35,14 +30,16 @@
 			dataType: 'json',
 			method: 'POST',
 			mimeType: 'application/json',
-			url: BASE_URL + CONTROLLER + '/update'
-		}).done(function(res) {
-			console.table(res);
-			parent_sel.find("."+type+"s_read").text(completed);
-			add_message('success', "Sucessfully updated " + res.manga[0].romaji_title);
-		}).fail(function() {
-			add_message('error', "Failed to updated " + res.manga[0].romaji_title);
+			url: AnimeClient.url('/manga/update'),
+		}).done((res) => {
+			parent_sel.find(`.${type}s_read`).text(completed);
+			AnimeClient.showMessage('success', `Sucessfully updated ${res.body.manga[0].romaji_title}`);
+
+			// scroll to top
+			w.scroll(0,0);
+		}).fail(() => {
+			AnimeClient.showMessage('error', `Failed to updated ${res.body.manga[0].romaji_title}`);
 		});
 	});
 
-}(jQuery));
+})(jQuery, AnimeClient, window);

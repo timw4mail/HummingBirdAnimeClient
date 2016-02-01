@@ -56,4 +56,4 @@ $path_to = '';
 | The folder where javascript files exist, in relation to the document root
 |
 */
-$js_root = $config['asset_dir'] . '/js/';
+$js_root = $config['asset_dir'] . '/';
