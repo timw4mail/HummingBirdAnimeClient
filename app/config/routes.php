@@ -80,14 +80,6 @@ return [
 			'action' => 'add',
 			'verb' => 'post'
 		],
-		'manga_edit_form' => [
-			'path' => '/manga/edit/{id}{status}',
-			'action' => 'edit',
-			'tokens' => [
-				'id' => '[0-9a-z_]+',
-				'status' => '[a-zA-z\- ]+',
-			]
-		],
 		// ---------------------------------------------------------------------
 		// Anime Collection Routes
 		// ---------------------------------------------------------------------
@@ -162,7 +154,7 @@ return [
 			'action' => 'edit',
 			'tokens' => [
 				'id' => '[0-9a-z_]+',
-				'status' => '[a-zA-z\- ]+',
+				'status' => '([a-zA-Z\- ]|%20)+',
 			]
 		],
 		'list' => [
