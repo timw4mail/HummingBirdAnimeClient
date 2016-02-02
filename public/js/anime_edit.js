@@ -1,14 +1,12 @@
 /**
  * Javascript for editing anime, if logged in
  */
-(($, AnimeClient, w) => {
+(($, AnimeClient) => {
 
 	'use strict';
 
 	// Action to increment episode count
 	$('body.anime.list').on('click', '.plus_one', function(e) {
-		//e.stopPropagation();
-
 		let self = this;
 		let this_sel = $(this);
 		let parent_sel = $(this).closest('article, td');
@@ -39,22 +37,24 @@
 		$.ajax({
 			data: data,
 			dataType: 'json',
-			method: 'POST',
+			type: 'POST',
 			mimeType: 'application/json',
 			url: AnimeClient.url('/anime/update'),
-		}).done((res) => {
-			if (res.status === 'completed') {
-				$(this).closest('article, tr').hide();
+			success: (res) => {
+				if (res.status === 'completed') {
+					$(this).closest('article, tr').hide();
+				}
+
+				AnimeClient.showMessage('success', `Sucessfully updated ${title}`);
+				parent_sel.find('.completed_number').text(++watched_count);
+				AnimeClient.scrollToTop();
+			},
+			error: (xhr, errorType, error) => {
+				console.error(error);
+				AnimeClient.showMessage('error', `Failed to updated ${title}. `);
+				AnimeClient.scrollToTop();
 			}
-
-			AnimeClient.showMessage('success', `Sucessfully updated ${title}`);
-			parent_sel.find('.completed_number').text(++watched_count);
-
-			// scroll to top
-			w.scroll(0,0);
-		}).fail(() => {
-			AnimeClient.showMessage('error', `Failed to updated ${title}`);
 		});
 	});
 
-})(jQuery, AnimeClient, window);
+})(Zepto, AnimeClient);

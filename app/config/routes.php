@@ -56,6 +56,38 @@ return [
 			'action' => 'add',
 			'verb' => 'post'
 		],
+		'anime_detail' => [
+			'path' => '/anime/details/{id}',
+			'action' => 'details',
+			'tokens' => [
+				'id' => '[a-z0-9\-]+'
+			]
+		],
+		// ---------------------------------------------------------------------
+		// Manga Routes
+		// ---------------------------------------------------------------------
+		'manga_search' => [
+			'path' => '/manga/search',
+			'action' => 'search',
+		],
+		'manga_add_form' => [
+			'path' => '/manga/add',
+			'action' => 'add_form',
+			'verb' => 'get'
+		],
+		'manga_add' => [
+			'path' => '/manga/add',
+			'action' => 'add',
+			'verb' => 'post'
+		],
+		'manga_edit_form' => [
+			'path' => '/manga/edit/{id}{status}',
+			'action' => 'edit',
+			'tokens' => [
+				'id' => '[0-9a-z_]+',
+				'status' => '[a-zA-z\- ]+',
+			]
+		],
 		// ---------------------------------------------------------------------
 		// Anime Collection Routes
 		// ---------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /**
- * jQuery event handlers
+ * Event handlers
  */
 (($) => {
 
@@ -10,4 +10,4 @@
 		$(this).hide();
 	});
 
-})(jQuery);
+})(Zepto);

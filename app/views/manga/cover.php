@@ -1,4 +1,7 @@
 <main>
+<?php if ($auth->is_authenticated()): ?>
+<a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
+<?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>

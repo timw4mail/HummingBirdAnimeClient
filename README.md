@@ -42,9 +42,9 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 2. Configure settings in `app/config/config.php` to your liking
 3. Create the following directories if they don't exist, and make sure they are world writable
 	* app/cache
+	* public/js/cache
 	* public/images/manga
 	* public/images/anime
-	* public/cache
 
 #### Anime Collection Additional Installation
 * Run `php /vendor/bin/phinx migrate -e development` to create the database tables

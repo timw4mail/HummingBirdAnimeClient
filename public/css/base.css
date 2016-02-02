@@ -12,7 +12,7 @@ button {
 }
 
 table {
-  /*width:85%;*/
+  min-width: 85%;
   margin: 0 auto;
 }
 
