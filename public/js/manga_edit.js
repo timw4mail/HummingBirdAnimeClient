@@ -12,7 +12,7 @@
 		let type = this_sel.is(".plus_one_chapter") ? 'chapter' : 'volume';
 		let completed = parseInt(parent_sel.find(`.${type}s_read`).text(), 10);
 		let total = parseInt(parent_sel.find(`.${type}_count`).text(), 10);
-		let manga_name = parent_sel.find('.name').html();
+		let manga_name = parent_sel.find('.name').text();
 
 		if (isNaN(completed)) {
 			completed = 0;
