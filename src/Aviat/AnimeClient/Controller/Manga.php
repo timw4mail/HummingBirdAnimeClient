@@ -92,6 +92,61 @@ class Manga extends Controller {
 	}
 
 	/**
+	 * Form to add an manga
+	 *
+	 * @return void
+	 */
+	public function add_form()
+	{
+		$raw_status_list = MangaReadingStatus::getConstList();
+
+		$statuses = [];
+
+		foreach ($raw_status_list as $status_item)
+		{
+			$statuses[$status_item] = (string)$this->string($status_item)
+				->underscored()
+				->humanize()
+				->titleize();
+		}
+
+		$this->set_session_redirect();
+		$this->outputHTML('manga/add', [
+			'title' => $this->config->get('whose_list') .
+				"'s Manga List &middot; Add",
+			'action_url' => $this->urlGenerator->url('manga/add'),
+			'status_list' => $statuses
+		]);
+	}
+
+	/**
+	 * Add an manga to the list
+	 *
+	 * @return void
+	 */
+	public function add()
+	{
+		$data = $this->request->post->get();
+		if ( ! array_key_exists('id', $data))
+		{
+			$this->redirect("manga/add", 303);
+		}
+
+		$result = $this->model->add($data);
+
+		if ($result['statusCode'] >= 200 && $result['statusCode'] < 300)
+		{
+			$this->set_flash_message('Added new manga to list', 'success');
+		}
+		else
+		{
+			$this->set_flash_message('Failed to add new manga to list' . $result['body'] , 'error');
+		}
+
+		$this->session_redirect();
+	}
+
+	/**
 	 * Show the manga edit form
 	 *
 	 * @param string $id
@@ -112,6 +167,18 @@ class Manga extends Controller {
 				->url('/manga/update_form'),
 		]);
 	}
+
+	/**
+	 * Search for a manga to add to the list
+	 *
+	 * @param  string $query
+	 * @return void
+	 */
+ 	public function search()
+ 	{
+ 		$query = $this->request->query->get('query');
+ 		$this->outputJSON($this->model->search($query));
+ 	}
 
 	/**
 	 * Update an anime item via a form submission
@@ -141,7 +208,7 @@ class Manga extends Controller {
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update anime.', 'error');
+			$this->set_flash_message('Failed to update manga.', 'error');
 		}
 
 		$this->session_redirect();
@@ -154,7 +221,8 @@ class Manga extends Controller {
 	 */
 	public function update()
 	{
-		$this->outputJSON($this->model->update($this->request->post->get()));
+		$result = $this->model->update($this->request->post->get());
+		$this->outputJSON($result['body'], $result['statusCode']);
 	}
 }
 // End of MangaController.php

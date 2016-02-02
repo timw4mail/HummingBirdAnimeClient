@@ -249,11 +249,8 @@ class Anime extends BaseController {
 	 */
 	public function update()
 	{
-		$this->outputJSON(
-			$this->model->update(
-				$this->request->post->get()
-			)
-		);
+		$response = $this->model->update($this->request->post->get());
+		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
 	/**

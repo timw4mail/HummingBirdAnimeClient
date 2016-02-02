@@ -89,7 +89,8 @@ function google_min($new_file)
 	// Show error if exists
 	if ( ! empty($error_obj->errors))
 	{
-		echo json_encode($error_obj, JSON_PRETTY_PRINT);
+		$error_json = json_encode($error_obj, JSON_PRETTY_PRINT);
+		echo "console.error(${error_json});";
 		die();
 	}
 

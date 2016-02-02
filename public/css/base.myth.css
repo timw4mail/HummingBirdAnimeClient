@@ -19,7 +19,7 @@ button {
 }
 
 table {
-	/*width:85%;*/
+	min-width:85%;
 	margin: 0 auto;
 }
 
@@ -31,7 +31,6 @@ td {
 thead td, thead th {
 	padding:0.5em;
 	padding:0.5rem;
-
 }
 
 input[type=number] {

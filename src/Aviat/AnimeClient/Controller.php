@@ -382,11 +382,13 @@ class Controller {
 	 * Output a JSON Response
 	 *
 	 * @param mixed $data
+	 * @param int $code - the http status code
 	 * @return void
 	 */
-	protected function outputJSON($data = [])
+	protected function outputJSON($data = [], $code = 200)
 	{
 		$view = new JsonView($this->container);
+		$view->setStatusCode($code);
 		$view->setOutput($data);
 	}
 
