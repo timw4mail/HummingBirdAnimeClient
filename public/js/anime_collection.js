@@ -20,7 +20,9 @@
 	$.get('/public/templates/anime-ajax-search-results.html', tempHtml => {
 		$('#search').on('keypress', AnimeClient.throttle(250, function(e) {
 			let query = encodeURIComponent($(this).val());
-			console.log($(this).val());
+			if (query === '') {
+				return;
+			}
 
 			search(tempHtml, query);
 		}));

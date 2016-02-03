@@ -244,10 +244,17 @@ class Anime extends BaseController {
 
 	/**
 	 * Update an anime item
-	 *
-	 * @return boolean|null
 	 */
 	public function update()
+	{
+		$response = $this->model->update($this->request->post->get());
+		$this->outputJSON($response['body'], $response['statusCode']);
+	}
+
+	/**
+	 * Remove an anime from the list
+	 */
+	public function delete()
 	{
 		$response = $this->model->update($this->request->post->get());
 		$this->outputJSON($response['body'], $response['statusCode']);

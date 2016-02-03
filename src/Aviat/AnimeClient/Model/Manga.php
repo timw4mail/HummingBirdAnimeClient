@@ -50,7 +50,7 @@ class Manga extends API {
 	 */
 	protected $base_url = "https://hummingbird.me/";
 
-	protected function _auth_json_call($type, $url, $json)
+	protected function _manga_api_call($type, $url, $json=null)
 	{
 		$token = $this->container->get('auth')
 			->get_auth_token();
@@ -65,10 +65,16 @@ class Manga extends API {
 		]);
 		$cookieJar->setCookie($cookie_data);
 
-		$result = $this->client->request(strtoupper($type), $url, [
-			'cookies' => $cookieJar,
-			'json' => $json
-		]);
+		$config = [
+			'cookies' => $cookieJar
+		];
+
+		if ( ! is_null($json))
+		{
+			$config['json'] = $json;
+		}
+
+		$result = $this->client->request(strtoupper($type), $url, $config);
 
 		return [
 			'statusCode' => $result->getStatusCode(),
@@ -90,7 +96,7 @@ class Manga extends API {
 			]
 		];
 
-		return $this->_auth_json_call('post', 'manga_library_entries', $object);
+		return $this->_manga_api_call('post', 'manga_library_entries', $object);
 	}
 
 	/**
@@ -103,7 +109,7 @@ class Manga extends API {
 	{
 		$id = $data['id'];
 
-		return $this->_auth_json_call(
+		return $this->_manga_api_call(
 			'put',
 			"manga_library_entries/{$id}",
 			['manga_library_entry' => $data]
@@ -120,27 +126,7 @@ class Manga extends API {
 	{
 		$id = $data['id'];
 
-		$token = $this->container->get('auth')
-			->get_auth_token();
-
-		// Set the token cookie, with the authentication token
-		// from the auth class.
-		$cookieJar = $this->cookieJar;
-		$cookie_data = new SetCookie([
-			'Name' => 'token',
-			'Value' => $token,
-			'Domain' => 'hummingbird.me'
-		]);
-		$cookieJar->setCookie($cookie_data);
-
-		$result = $this->delete("manga_library_entries/{$id}", [
-			'cookies' => $cookieJar,
-		]);
-
-		return [
-			'statusCode' => $result->getStatusCode(),
-			'body' => $result->getBody()
-		];
+		return $this->_manga_api_call('delete', "manga_library_entries/{$id}");
 	}
 
 	/**

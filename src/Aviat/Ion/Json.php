@@ -23,8 +23,8 @@ class Json {
 	 * Encode data in json format
 	 *
 	 * @param mixed $data
-	 * @param int $options=0
-	 * @param int $depth=512
+	 * @param int $options
+	 * @param int $depth
 	 * @return string
 	 */
 	public static function encode($data, $options = 0, $depth = 512)
