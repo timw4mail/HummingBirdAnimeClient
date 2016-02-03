@@ -78,7 +78,7 @@ class Anime extends API {
 	 * Remove an anime from a list
 	 *
 	 * @param  array $data
-	 * @return array
+	 * @return array|false
 	 */
 	public function delete($data)
 	{

@@ -50,7 +50,7 @@ class Manga extends API {
 	 */
 	protected $base_url = "https://hummingbird.me/";
 
-	protected function _manga_api_call($type, $url, $json=null)
+	protected function _manga_api_call($type, $url, $json = NULL)
 	{
 		$token = $this->container->get('auth')
 			->get_auth_token();

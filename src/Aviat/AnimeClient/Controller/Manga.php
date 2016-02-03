@@ -140,7 +140,7 @@ class Manga extends Controller {
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add new manga to list' . $result['body'] , 'error');
+			$this->set_flash_message('Failed to add new manga to list' . $result['body'], 'error');
 		}
 
 		$this->session_redirect();
@@ -171,7 +171,6 @@ class Manga extends Controller {
 	/**
 	 * Search for a manga to add to the list
 	 *
-	 * @param  string $query
 	 * @return void
 	 */
  	public function search()
