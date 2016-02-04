@@ -13,10 +13,6 @@
 		depends="prepare,static-analysis,phpunit,phpdox,sonar"
 		description="Performs static analysis, runs the tests, and generates project documentation"
 	/>
-	<target name="full-build-parallel"
-		depends="prepare,static-analysis-parallel,phpunit,phpdox"
-		description="Performs static analysis (executing the tools in parallel), runs the tests, and generates project documentation"
-	/>
 	<target name="quick-build"
 		depends="prepare,lint,phpunit-no-coverage"
 		description="Performs a lint check and runs the tests (without generating code coverage reports)"
@@ -25,18 +21,6 @@
 		depends="lint,phploc-ci,pdepend,phpcpd-ci"
 		description="Performs static analysis"
 	/>
-
-	<!-- Adjust the threadCount attribute's value to the number of CPUs -->
-	<target name="static-analysis-parallel" description="Performs static analysis (executing the tools in parallel)">
-		<parallel threadCount="6">
-			<sequential>
-				<antcall target="pdepend" />
-			</sequential>
-			<antcall target="lint" />
-			<antcall target="phpcpd-ci" />
-			<antcall target="phploc-ci" />
-		</parallel>
-	</target>
 
 	<target name="clean" unless="clean.done" description="Cleanup build artifacts">
 		<delete dir="build/api" />
@@ -57,23 +41,38 @@
 	</target>
 
 	<target name="lint" unless="lint.done" description="Perform syntax check of sourcecode files">
-		<apply executable="php" taskname="lint">
-			<arg value="-l" />
-
-			<fileset dir="src">
-				<include name="**/*.php" />
-			</fileset>
-
-			<fileset dir="tests">
-				<include name="**/*.php" />
-			</fileset>
-		</apply>
+		<parallel threadcount="6">
+			<apply executable="php" passthru="true" taskname="lint">
+				<arg value="-l" />
+				<fileset dir=".">
+					<include name="src/Aviat/AnimeClient/**/*.php" />
+				</fileset>
+			</apply>
+			<apply executable="php" passthru="true" taskname="lint">
+				<arg value="-l" />
+				<fileset dir=".">
+					<include name="src/Aviat/Ion/**/*.php" />
+				</fileset>
+			</apply>
+			<apply executable="php" passthru="true" taskname="lint">
+				<arg value="-l" />
+				<fileset dir=".">
+					<include name="tests/AnimeClient/**/*.php" />
+				</fileset>
+			</apply>
+			<apply executable="php" passthru="true" taskname="lint">
+				<arg value="-l" />
+				<fileset dir=".">
+					<include name="tests/Ion/**/*.php" />
+				</fileset>
+			</apply>
+		</parallel>
 
 		<property name="lint.done" value="true" />
 	</target>
 
 	<target name="phploc" unless="phploc.done" description="Measure project size using PHPLOC and print human readable output. Intended for usage on the command line.">
-		<exec executable="${phploc}" taskname="phploc">
+		<exec executable="${phploc}" passthru="true" taskname="phploc">
 			<arg value="--count-tests" />
 			<arg path="src" />
 			<arg path="tests" />
@@ -83,50 +82,61 @@
 	</target>
 
 	<target name="phploc-ci" depends="prepare" unless="phploc.done" description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
-		<exec executable="${phploc}" taskname="phploc">
-			<arg value="--count-tests" />
-			<arg value="--log-csv" />
-			<arg path="build/logs/phploc.csv" />
-			<arg value="--log-xml" />
-			<arg path="build/logs/phploc.xml" />
-			<arg path="src" />
-			<arg path="tests" />
-		</exec>
+		<parallel threadcount="2">
+			<phploc countTests="true" reportType="csv" reportDirectory="build/logs" reportName="phploc" taskname="csv report">
+				<fileset dir=".">
+					<include name="src/**/*.php" />
+					<include name="tests/**/*.php" />
+				</fileset>
+			</phploc>
+			<phploc countTests="true" reportType="xml" reportDirectory="build/logs" reportName="phploc" taskname="xml report">
+				<fileset dir=".">
+					<include name="src/**/*.php" />
+					<include name="tests/**/*.php" />
+				</fileset>
+			</phploc>
+		</parallel>
 
 		<property name="phploc.done" value="true" />
 	</target>
 
 	<target name="pdepend" depends="prepare" unless="pdepend.done" description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
-		<exec executable="${pdepend}" taskname="pdepend">
-			<arg value="--jdepend-xml=build/logs/jdepend.xml" />
-			<arg value="--jdepend-chart=build/pdepend/dependencies.svg" />
-			<arg value="--overview-pyramid=build/pdepend/overview-pyramid.svg" />
-			<arg path="src" />
-		</exec>
+		<phpdepend>
+			<fileset dir=".">
+				<include name="src/**/*.php" />
+			</fileset>
+			<logger type="jdepend-xml" outfile="build/logs/jdepend.xml" />
+			<logger type="jdepend-chart" outfile="build/pdepend/dependencies.svg" />
+			<logger type="overview-pyramid" outfile="build/pdepend/overview-pyramid.svg" />
+		</phpdepend>
 
 		<property name="pdepend.done" value="true" />
 	</target>
 
 	<target name="phpcpd" unless="phpcpd.done" description="Find duplicate code using PHPCPD and print human readable output. Intended for usage on the command line before committing.">
-		<exec executable="${phpcpd}" taskname="phpcpd">
-			<arg path="src" />
-		</exec>
+		<phpcpd>
+			<formatter type="default" usefile="false" />
+			<fileset dir=".">
+				<include name="src/**/*.php" />
+			</fileset>
+		</phpcpd>
 
 		<property name="phpcpd.done" value="true" />
 	</target>
 
 	<target name="phpcpd-ci" depends="prepare" unless="phpcpd.done" description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
-		<exec executable="${phpcpd}" taskname="phpcpd">
-			<arg value="--log-pmd" />
-			<arg path="build/logs/pmd-cpd.xml" />
-			<arg path="src" />
-		</exec>
+		<phpcpd>
+			<formatter type="pmd" outfile="build/logs/pmd-cpd.xml" />
+			<fileset dir=".">
+				<include name="src/**/*.php" />
+			</fileset>
+		</phpcpd>
 
 		<property name="phpcpd.done" value="true" />
 	</target>
 
 	<target name="phpunit" unless="phpunit.done" depends="prepare" description="Run unit tests with PHPUnit">
-		<exec executable="${phpunit}" taskname="phpunit">
+		<exec executable="${phpunit}" logoutput="true" passthru="true" checkreturn="true" taskname="phpunit">
 			<arg value="--configuration" />
 			<arg path="build/phpunit.xml" />
 		</exec>
@@ -135,7 +145,7 @@
 	</target>
 
 	<target  name="phpunit-no-coverage" depends="prepare" unless="phpunit.done" description="Run unit tests with PHPUnit (without generating code coverage reports)">
-		<exec executable="${phpunit}" failonerror="true" taskname="phpunit">
+		<exec executable="${phpunit}" passthru="true" taskname="phpunit">
 			<arg value="--configuration" />
 			<arg path="build/phpunit.xml" />
 			<arg value="--no-coverage" />
@@ -145,13 +155,13 @@
 	</target>
 
 	<target name="phpdox" depends="phploc-ci,phpunit" unless="phpdox.done" description="Generate project documentation using phpDox">
-		<exec dir="build" executable="${phpdox}" taskname="phpdox" />
+		<exec dir="build" executable="${phpdox}" passthru="true" taskname="phpdox" />
 
 		<property name="phpdox.done" value="true" />
 	</target>
 
 	<target name="sonar" depends="phpunit" unless="sonar.done" description="Generate code analysis with sonarqube">
-		<exec executable="${sonar}" taskname="sonar" />
+		<exec executable="${sonar}" passthru="true" taskname="sonar" />
 
 		<property name="sonar.done" value="true" />
 	</target>
