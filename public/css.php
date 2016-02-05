@@ -13,16 +13,19 @@
 
 namespace Aviat\EasyMin;
 
+require_once('./min.php');
+
 /**
  * Simple CSS Minifier
  */
-class CSSMin {
+class CSSMin extends BaseMin {
 
 	protected $css_root;
 	protected $path_from;
 	protected $path_to;
 	protected $group;
 	protected $last_modified;
+	protected $requested_time;
 
 	public function __construct(array $config, array $groups)
 	{
@@ -33,6 +36,11 @@ class CSSMin {
 		$this->group = $groups[$group];
 		$this->last_modified = $this->get_last_modified();
 
+		$this->requested_time = $this->get_if_modified();
+	}
+
+	public function __destruct()
+	{
 		$this->send();
 	}
 
@@ -43,16 +51,11 @@ class CSSMin {
 	 */
 	protected function send()
 	{
-		$requested_time=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-			? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])
-			: 0;
-
-		// Send 304 when not modified for faster response
-		if($this->last_modified === $requested_time)
+		/*if($this->last_modified >= $this->requested_time)
 		{
-			header("HTTP/1.1 304 Not Modified");
-			exit();
-		}
+			header('304 Not Modified');
+			die();
+		}*/
 
 		$css = ( ! array_key_exists('debug', $_GET))
 			? $this->compress($this->get_css())
@@ -69,7 +72,6 @@ class CSSMin {
 	 */
 	public function compress($buffer)
 	{
-
 		//Remove CSS comments
 		$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
 
@@ -119,9 +121,8 @@ class CSSMin {
 
 		//Get the latest modified date
 		rsort($modified);
-		$last_modified = $modified[0];
 
-		return $last_modified;
+		return array_shift($modified);
 	}
 
 	/**
@@ -133,18 +134,15 @@ class CSSMin {
 	{
 		$css = '';
 
-		if(isset($this->group))
+		foreach($this->group as $file)
 		{
-			foreach($this->group as $file)
-			{
-				$new_file = realpath("{$this->css_root}{$file}");
-				$css .= file_get_contents($new_file);
-			}
+			$new_file = realpath("{$this->css_root}{$file}");
+			$css .= file_get_contents($new_file);
 		}
 
 		// Correct paths that have changed due to concatenation
 		// based on rules in the config file
-		$css = str_replace($this->path_from, $this->path_to, $css);
+		// $css = str_replace($this->path_from, $this->path_to, $css);
 
 		return $css;
 	}

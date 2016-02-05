@@ -40,5 +40,5 @@
 		<img src="{{:cover_image}}" alt="{{:title}}" />
 	</article>
 </template>
-<script src="<?= $urlGenerator->asset_url('js.php?g=anime_collection') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php/g/anime_collection') ?>"></script>
 <?php endif ?>

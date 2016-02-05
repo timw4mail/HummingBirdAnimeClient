@@ -6,8 +6,8 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="cache-control" content="no-store" />
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
-	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php?g=base') ?>" />
-	<script src="<?= $urlGenerator->asset_url('js.php?g=base') ?>"></script>
+	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php/g/base') ?>" />
+	<script src="<?= $urlGenerator->asset_url('js.php/g/base') ?>"></script>
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
 	<header>

@@ -56,5 +56,5 @@
 <?php endif ?>
 </main>
 <?php if ($auth->is_authenticated()): ?>
-<script src="<?= $urlGenerator->asset_url('js.php?g=edit') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php/g/edit') ?>"></script>
 <?php endif ?>
