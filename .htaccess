@@ -1,0 +1,7 @@
+#Rewrite index.php out of the app urls
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(public)
+RewriteRule ^(.*)$ index.php/$1 [L]
