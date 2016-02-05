@@ -35,5 +35,5 @@
 		</table>
 	</form>
 </main>
-<script src="<?= $urlGenerator->asset_url('js.php?g=anime_collection') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php/g/anime_collection') ?>"></script>
 <?php endif ?>

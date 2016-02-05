@@ -18,11 +18,12 @@ use GuzzleHttp\Psr7\Request;
 
 // Include guzzle
 require_once('../vendor/autoload.php');
+require_once('./min.php');
 
 /**
  * Simple Javascript minfier, using google closure compiler
  */
-class JSMin {
+class JSMin extends BaseMin {
 
 	protected $js_root;
 	protected $js_group;
@@ -43,14 +44,15 @@ class JSMin {
 		$this->cache_file = "{$this->js_root}cache/{$group}";
 		$this->last_modified = $this->get_last_modified();
 
-		$this->requested_time = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-			? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])
-			: time();
+		$this->requested_time = $this->get_if_modified();
 
 		$this->cache_modified = (is_file($this->cache_file))
 			? filemtime($this->cache_file)
 			: 0;
+	}
 
+	public function __destruct()
+	{
 		// Output some JS!
 		$this->send();
 	}
@@ -59,11 +61,11 @@ class JSMin {
 	{
 		// If the browser's cached version is up to date,
 		// don't resend the file
-		if($this->last_modified === $this->requested_time)
+		/*if($this->last_modified === $this->requested_time)
 		{
-			header('HTTP/1.1 304 Not Modified');
+			header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
 			exit();
-		}
+		}*/
 
 		//Determine what to do: rebuild cache, send files as is, or send cache.
 		// If debug is set, just concatenate
@@ -86,7 +88,7 @@ class JSMin {
 		// Otherwise, send the cached file
 		else
 		{
-			return $this->output(file_get_contents($cache_file));
+			return $this->output(file_get_contents($this->cache_file));
 		}
 	}
 

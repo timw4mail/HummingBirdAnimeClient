@@ -85,5 +85,4 @@
 		</table>
 		</form>
 	</main>
-	<script src="<?= $urlGenerator->asset_url('js.php?g=edit') ?>"></script>
 <?php endif ?>
