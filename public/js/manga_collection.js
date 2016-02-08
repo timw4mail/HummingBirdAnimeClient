@@ -12,9 +12,9 @@
 		});
 	};
 
-	$.get('/public/templates/manga-ajax-search-results.html', tempHtml => {
-		$('#search').on('keyup', AnimeClient.throttle(250, function(e) {
-			let query = encodeURIComponent($(this).val());
+	AnimeClient.get('/public/templates/manga-ajax-search-results.html', tempHtml => {
+		AnimeClient.on('#search', 'keyup', AnimeClient.throttle(250, function(e) {
+			let query = encodeURIComponent(this.value);
 			if (query === '') {
 				return;
 			}

@@ -17,9 +17,9 @@
 		});
 	};
 
-	$.get('/public/templates/anime-ajax-search-results.html', tempHtml => {
-		AnimeClient.on('#search', 'keypress', AnimeClient.throttle(250, function(e) {
-			let query = encodeURIComponent($(this).val());
+	AnimeClient.get('/public/templates/anime-ajax-search-results.html', tempHtml => {
+		AnimeClient.on('#search', 'keyup', AnimeClient.throttle(250, function(e) {
+			let query = encodeURIComponent(this.value);
 			if (query === '') {
 				return;
 			}

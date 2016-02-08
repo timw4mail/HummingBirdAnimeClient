@@ -34,6 +34,12 @@ AnimeClient = (function (ac) {
 		let request = new XMLHttpRequest();
 		let method = String(config.type).toUpperCase();
 
+		if (method === "GET") {
+			url += (url.match(/\?/))
+				? serialize(config.data)
+				: `?${serialize(config.data)}`;
+		}
+
 		request.open(method, url);
 
 		request.onreadystatechange = () => {
@@ -41,7 +47,7 @@ AnimeClient = (function (ac) {
 				if (request.status > 400) {
 					config.error.call(request.statusText, request.statusText, request.response);
 				} else {
-					config.success.call(request.responseText, request.response, request.responseText);
+					config.success.call(request.responseText, request.responseText, request.status);
 				}
 			}
 		};
@@ -59,6 +65,11 @@ AnimeClient = (function (ac) {
 	};
 
 	ac.get = function(url, data, callback) {
+		if (arguments.length === 2) {
+			callback = data;
+			data = {};
+		}
+
 		return ac.ajax(url, {
 			data: data,
 			success: callback

@@ -85,7 +85,7 @@ class BaseMin {
 	 * @param int $last_modified - the last modified date
 	 * @return void
 	 */
-	protected function send_final_output($content, $mime_type, $last_modified, $etag)
+	protected function send_final_output($content, $mime_type, $last_modified)
 	{
 		//This GZIPs the CSS for transmission to the user
 		//making file size smaller and transfer rate quicker
@@ -97,7 +97,6 @@ class BaseMin {
 
 		header("Content-Type: {$mime_type}; charset=utf8");
 		header("Cache-control: public, max-age=691200, must-revalidate");
-		header("Etag: {$etag}");
 		header("Last-Modified: {$last_modified_date} GMT");
 		header("Expires: {$expires_date} GMT");
 
