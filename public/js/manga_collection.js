@@ -4,7 +4,8 @@
 
 	const search = (tempHtml, query) => {
 		$('.cssload-loader').removeAttr('hidden');
-		$.get(AnimeClient.url('/manga/search'), {'query':query,}, (searchResults, status) => {
+		AnimeClient.get(AnimeClient.url('/manga/search'), {'query':query,}, (searchResults, status) => {
+			searchResults = JSON.parse(searchResults);
 			$('.cssload-loader').attr('hidden', 'hidden');
 
 			Mustache.parse(tempHtml);

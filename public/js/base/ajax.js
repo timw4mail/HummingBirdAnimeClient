@@ -27,7 +27,7 @@ AnimeClient = (function (ac) {
 		config = config || {};
 		config.data = config.data || {};
 		config.type = config.type || 'GET';
-		config.dataType = config.dataType || 'json';
+		config.dataType = config.dataType || '';
 		config.success = config.success || ac.noop;
 		config.error = config.error || ac.noop;
 
@@ -44,10 +44,18 @@ AnimeClient = (function (ac) {
 
 		request.onreadystatechange = () => {
 			if (request.readyState === 4) {
-				if (request.status > 400) {
-					config.error.call(request.statusText, request.statusText, request.response);
+				let responseText = '';
+
+				if (request.responseType == 'json') {
+					responseText = JSON.parse(request.responseText);
 				} else {
-					config.success.call(request.responseText, request.responseText, request.status);
+					responseText = request.responseText;
+				}
+
+				if (request.status > 400) {
+					config.error.call(null, request.statusText, request.response);
+				} else {
+					config.success.call(null, responseText, request.status);
 				}
 			}
 		};

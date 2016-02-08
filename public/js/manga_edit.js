@@ -5,7 +5,7 @@
 
 	'use strict';
 
-	$('.manga.list').on('click', '.edit_buttons button', function(e) {
+	AnimeClient.on('.manga.list', 'click', '.edit_buttons button', function(e) {
 		let this_sel = $(this);
 		let parent_sel = $(this).closest("article");
 		let manga_id = parent_sel.attr("id").replace("manga-", "");
