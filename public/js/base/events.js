@@ -1,13 +1,13 @@
 /**
  * Event handlers
  */
-(($) => {
+((ac) => {
 
 	'use strict';
 
 	// Close event for messages
-	$('header').on('click', '.message', function() {
-		$(this).hide();
+	ac.on('header', 'click', '.message', function () {
+		this.setAttribute('hidden', 'hidden');
 	});
 
-})(Zepto);
+})(AnimeClient);

@@ -36,11 +36,6 @@ class CSSMin extends BaseMin {
 		$this->group = $groups[$group];
 		$this->last_modified = $this->get_last_modified();
 
-		$this->requested_time = $this->get_if_modified();
-	}
-
-	public function __destruct()
-	{
 		$this->send();
 	}
 
@@ -51,11 +46,10 @@ class CSSMin extends BaseMin {
 	 */
 	protected function send()
 	{
-		/*if($this->last_modified >= $this->requested_time)
+		if($this->last_modified >= $this->get_if_modified() && $this->is_not_debug())
 		{
-			header('304 Not Modified');
-			die();
-		}*/
+			throw new FileNotChangedException();
+		}
 
 		$css = ( ! array_key_exists('debug', $_GET))
 			? $this->compress($this->get_css())
@@ -70,7 +64,7 @@ class CSSMin extends BaseMin {
 	 * @param string $buffer
 	 * @return string
 	 */
-	public function compress($buffer)
+	protected function compress($buffer)
 	{
 		//Remove CSS comments
 		$buffer = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $buffer);
@@ -142,7 +136,7 @@ class CSSMin extends BaseMin {
 
 		// Correct paths that have changed due to concatenation
 		// based on rules in the config file
-		// $css = str_replace($this->path_from, $this->path_to, $css);
+		$css = str_replace($this->path_from, $this->path_to, $css);
 
 		return $css;
 	}
@@ -152,20 +146,16 @@ class CSSMin extends BaseMin {
 	 *
 	 * @return void
 	 */
-	public function output($css)
+	protected function output($css)
 	{
-		//This GZIPs the CSS for transmission to the user
-		//making file size smaller and transfer rate quicker
-		ob_start("ob_gzhandler");
+		$etag = md5($css);
 
-		header("Content-Type: text/css; charset=utf8");
-		header("Cache-control: public, max-age=691200, must-revalidate");
-		header("Last-Modified: ".gmdate('D, d M Y H:i:s', $this->last_modified)." GMT");
-		header("Expires: ".gmdate('D, d M Y H:i:s', (filemtime(basename(__FILE__)) + 691200))." GMT");
+		if ($etag === $this->get_if_none_match() && $this->is_not_debug())
+		{
+			throw new FileNotChangedException();
+		}
 
-		echo $css;
-
-		ob_end_flush();
+		$this->send_final_output($css, 'text/css', $this->last_modified, $etag);
 	}
 }
 
@@ -177,6 +167,18 @@ class CSSMin extends BaseMin {
 $config = require('../app/config/minify_config.php');
 $groups = require($config['css_groups_file']);
 
-new CSSMin($config, $groups);
+if ( ! array_key_exists($_GET['g'], $groups))
+{
+	throw new InvalidArgumentException('You must specify a css group that exists');
+}
+
+try
+{
+	new CSSMin($config, $groups);
+}
+catch (FileNotChangedException $e)
+{
+	BaseMin::send304();
+}
 
 //End of css.php

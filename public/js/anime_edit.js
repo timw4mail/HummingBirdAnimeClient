@@ -34,12 +34,11 @@
 		}
 
 		// okay, lets actually make some changes!
-		$.ajax({
+		AnimeClient.ajax(AnimeClient.url('/anime/update'), {
 			data: data,
 			dataType: 'json',
 			type: 'POST',
 			mimeType: 'application/json',
-			url: AnimeClient.url('/anime/update'),
 			success: (res) => {
 				if (res.status === 'completed') {
 					$(this).closest('article, tr').hide();

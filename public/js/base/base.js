@@ -1,8 +1,39 @@
-const AnimeClient = (function($, w) {
+var AnimeClient = (function(w) {
 
 	'use strict';
 
+	const slice = Array.prototype.slice;
+
 	return {
+		/**
+		 * Placeholder function
+		 */
+		noop: () => {},
+		/**
+		 * DOM selector
+		 *
+		 * @param {string} selector - The dom selector string
+		 * @param {object} context
+		 * @return {array} - arrau of dom elements
+		 */
+		$(selector, context) {
+			if (typeof selector != "string" || selector === undefined) {
+				return selector;
+			}
+
+			context = (context != null && context.nodeType === 1)
+				? context
+				: document;
+
+			let elements = [];
+			if (selector.match(/^#([\w]+$)/)) {
+				elements.push(document.getElementById(selector.split('#')[1]));
+			} else {
+				elements = slice.apply(context.querySelectorAll(selector));
+			}
+
+			return elements;
+		},
 		/**
 		 * Scroll to the top of the Page
 		 *
@@ -71,4 +102,4 @@ const AnimeClient = (function($, w) {
 			};
 		},
 	};
-})(Zepto, window);
+})(window);

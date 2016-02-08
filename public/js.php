@@ -44,48 +44,42 @@ class JSMin extends BaseMin {
 		$this->cache_file = "{$this->js_root}cache/{$group}";
 		$this->last_modified = $this->get_last_modified();
 
-		$this->requested_time = $this->get_if_modified();
-
 		$this->cache_modified = (is_file($this->cache_file))
 			? filemtime($this->cache_file)
 			: 0;
-	}
 
-	public function __destruct()
-	{
 		// Output some JS!
 		$this->send();
 	}
 
 	protected function send()
 	{
-		// If the browser's cached version is up to date,
-		// don't resend the file
-		/*if($this->last_modified === $this->requested_time)
-		{
-			header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
-			exit();
-		}*/
-
-		//Determine what to do: rebuild cache, send files as is, or send cache.
-		// If debug is set, just concatenate
-		if(array_key_exists('debug', $_GET))
+		// Override caching if debug key is set
+		if($this->is_debug_call())
 		{
 			return $this->output($this->get_files());
 		}
-		else if($this->cache_modified < $this->last_modified)
+
+		// If the browser's cached version is up to date,
+		// don't resend the file
+		if($this->last_modified >= $this->get_if_modified() && $this->is_not_debug())
+		{
+			throw new FileNotChangedException();
+		}
+
+		if($this->cache_modified < $this->last_modified)
 		{
 			$js = $this->minify($this->get_files());
 
 			//Make sure cache file gets created/updated
-			if(file_put_contents($this->cache_file, $js) === FALSE)
+			if (file_put_contents($this->cache_file, $js) === FALSE)
 			{
-				die('Cache file was not created. Make sure you have the correct folder permissions.');
+				echo 'Cache file was not created. Make sure you have the correct folder permissions.';
+				return;
 			}
 
 			return $this->output($js);
 		}
-		// Otherwise, send the cached file
 		else
 		{
 			return $this->output(file_get_contents($this->cache_file));
@@ -185,7 +179,7 @@ class JSMin extends BaseMin {
 	 * @param string $js
 	 * @return string
 	 */
-	public function minify($js)
+	protected function minify($js)
 	{
 		$options = [
 			'output_info' => 'errors',
@@ -218,19 +212,14 @@ class JSMin extends BaseMin {
 	 */
 	protected function output($js)
 	{
-		//This GZIPs the js for transmission to the user
-		//making file size smaller and transfer rate quicker
-		ob_start('ob_gzhandler');
+		$etag = md5($js);
 
-		// Set important caching headers
-		header('Content-Type: application/javascript; charset=utf8');
-		header('Cache-control: public, max-age=691200, must-revalidate');
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s', $this->last_modified).' GMT');
-		header('Expires: '.gmdate('D, d M Y H:i:s', (filemtime(__FILE__) + 691200)).' GMT');
+		if (($etag === $this->get_if_none_match()) && ! $this->is_debug_call())
+		{
+			throw new FileNotChangedException();
+		}
 
-		echo $js;
-
-		ob_end_flush();
+		$this->send_final_output($js, 'application/javascript', $this->last_modified, $etag);
 	}
 }
 
@@ -249,11 +238,16 @@ if ( ! is_dir($cache_dir))
 
 if ( ! array_key_exists($_GET['g'], $groups))
 {
-	header('Content-Type: application/javascript; charset=utf8');
-	echo '// You must specify a group that exists';
-	die();
+	throw new InvalidArgumentException('You must specify a js group that exists');
 }
 
-new JSMin($config, $groups);
+try
+{
+	new JSMin($config, $groups);
+}
+catch (FileNotChangedException $e)
+{
+	BaseMin::send304();
+}
 
 //end of js.php
