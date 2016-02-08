@@ -148,14 +148,7 @@ class CSSMin extends BaseMin {
 	 */
 	protected function output($css)
 	{
-		$etag = md5($css);
-
-		if ($etag === $this->get_if_none_match() && $this->is_not_debug())
-		{
-			throw new FileNotChangedException();
-		}
-
-		$this->send_final_output($css, 'text/css', $this->last_modified, $etag);
+		$this->send_final_output($css, 'text/css', $this->last_modified);
 	}
 }
 

@@ -62,7 +62,7 @@ class JSMin extends BaseMin {
 
 		// If the browser's cached version is up to date,
 		// don't resend the file
-		if($this->last_modified >= $this->get_if_modified() && $this->is_not_debug())
+		if($this->last_modified == $this->get_if_modified() && $this->is_not_debug())
 		{
 			throw new FileNotChangedException();
 		}
@@ -206,20 +206,12 @@ class JSMin extends BaseMin {
 	/**
 	 * Output the minified javascript
 	 *
-	 * @param int $last_modified
 	 * @param string $js
 	 * @return void
 	 */
 	protected function output($js)
 	{
-		$etag = md5($js);
-
-		if (($etag === $this->get_if_none_match()) && ! $this->is_debug_call())
-		{
-			throw new FileNotChangedException();
-		}
-
-		$this->send_final_output($js, 'application/javascript', $this->last_modified, $etag);
+		$this->send_final_output($js, 'application/javascript', $this->last_modified);
 	}
 }
 
