@@ -12,7 +12,10 @@ describe("AnimeClient Base", () => {
 });
 
 describe('AnimeClient.url', () => {
-
+	it('url method has expected result', () => {
+		let expected = `//${document.location.host}/path`;
+		expect(AnimeClient.url('/path')).toBe(expected);
+	});
 });
 
 describe('AnimeClient.ajax', () => {

@@ -119,9 +119,10 @@ class JSMin extends BaseMin {
 		$error_obj = json_decode($error_json) ?: (object)[];
 
 		// Show error if exists
-		if ( ! empty($error_obj->errors))
+		if ( ! empty($error_obj->errors) || ! empty($error_obj->serverErrors))
 		{
 			$error_json = json_encode($error_obj, JSON_PRETTY_PRINT);
+			header('Content-type: application/javascript');
 			echo "console.error(${error_json});";
 			die();
 		}

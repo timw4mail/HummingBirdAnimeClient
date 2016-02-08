@@ -6,7 +6,7 @@
 	'use strict';
 
 	// Action to increment episode count
-	$('body.anime.list').on('click', '.plus_one', function(e) {
+	AnimeClient.on('body.anime.list', 'click', '.plus_one', function(e) {
 		let self = this;
 		let this_sel = $(this);
 		let parent_sel = $(this).closest('article, td');
