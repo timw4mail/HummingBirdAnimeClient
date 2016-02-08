@@ -25,13 +25,12 @@
 		// Update the total count
 		data[type + "s_read"] = ++completed;
 
-		$.ajax({
+		AnimeClient.ajax(AnimeClient.url('/manga/update'), {
 			data: data,
 			dataType: 'json',
 			type: 'POST',
 			mimeType: 'application/json',
-			url: AnimeClient.url('/manga/update'),
-			success: (res, status) => {
+			success: (res) => {
 				parent_sel.find(`.${type}s_read`).text(completed);
 				AnimeClient.showMessage('success', `Sucessfully updated ${manga_name}`);
 				AnimeClient.scrollToTop();
