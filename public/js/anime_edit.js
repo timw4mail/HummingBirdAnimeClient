@@ -1,23 +1,22 @@
 /**
  * Javascript for editing anime, if logged in
  */
-(($, AnimeClient) => {
+((_) => {
 
 	'use strict';
 
 	// Action to increment episode count
-	AnimeClient.on('body.anime.list', 'click', '.plus_one', function(e) {
-		let self = this;
-		let this_sel = $(this);
-		let parent_sel = $(this).closest('article, td');
+	_.on('body.anime.list', 'click', '.plus_one', function(e) {
+		let this_sel = this;
+		let parent_sel = this.parentElement;
 
-		let watched_count = parseInt(parent_sel.find('.completed_number').text(), 10);
-		let total_count = parseInt(parent_sel.find('.total_number').text(), 10);
-		let title = parent_sel.find('.name a').text();
+		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
+		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
+		let title = _.$('.name a', parent_sel)[0].textContent;
 
 		// Setup the update data
 		let data = {
-			id: this_sel.parent('article, td').attr('id'),
+			id: parent_sel.id,
 			increment_episodes: true
 		};
 
@@ -34,26 +33,26 @@
 		}
 
 		// okay, lets actually make some changes!
-		AnimeClient.ajax(AnimeClient.url('/anime/update'), {
+		_.ajax(_.url('/anime/update'), {
 			data: data,
 			dataType: 'json',
 			type: 'POST',
 			mimeType: 'application/json',
 			success: (res) => {
 				if (res.status === 'completed') {
-					$(this).closest('article, tr').hide();
+					this.parentElement.addAttribute('hidden', 'hidden');
 				}
 
-				AnimeClient.showMessage('success', `Sucessfully updated ${title}`);
-				parent_sel.find('.completed_number').text(++watched_count);
-				AnimeClient.scrollToTop();
+				_.showMessage('success', `Sucessfully updated ${title}`);
+				_.$('.completed_number', parent_sel)[0].textContent = ++watched_count;
+				_.scrollToTop();
 			},
 			error: (xhr, errorType, error) => {
 				console.error(error);
-				AnimeClient.showMessage('error', `Failed to updated ${title}. `);
-				AnimeClient.scrollToTop();
+				_.showMessage('error', `Failed to updated ${title}. `);
+				_.scrollToTop();
 			}
 		});
 	});
 
-})(Zepto, AnimeClient);
+})(AnimeClient);

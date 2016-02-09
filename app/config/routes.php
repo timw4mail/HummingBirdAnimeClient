@@ -20,9 +20,6 @@ return [
 	// Specify default paths and views
 	// -------------------------------------------------------------------------
 	'route_config' => [
-		// Subfolder prefix for url, if in a subdirectory of the web root
-		'subfolder_prefix' => '',
-
 		// Path to public directory, where images/css/javascript are located,
 		// appended to the url
 		'asset_path' => '/public',
@@ -120,9 +117,10 @@ return [
 		// ---------------------------------------------------------------------
 		// Default / Shared routes
 		// ---------------------------------------------------------------------
-		'login' => [
+		'login_form' => [
 			'path' => '/{controller}/login',
 			'action' => 'login',
+			'verb' => 'get'
 		],
 		'login_post' => [
 			'path' => '/{controller}/login',
