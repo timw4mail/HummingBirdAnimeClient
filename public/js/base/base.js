@@ -50,6 +50,7 @@ var AnimeClient = (function(w) {
 		 * @return {void}
 		 */
 		showMessage(type, message) {
+
 			let template = `
 				<div class="message ${type}">
 					<span class="icon"></span>
@@ -57,11 +58,12 @@ var AnimeClient = (function(w) {
 					<span class="close"></span>
 				</div>`;
 
-			if ($(".message").length > 0) {
-				$(".message").replaceWith(template);
-				$(".message").show();
+			let sel = AnimeClient.$('.message')[0];
+			if (sel !== undefined) {
+				sel.innerHTML = template;
+				sel.removeAttribute('hidden');
 			} else {
-				$("header").append(template);
+				AnimeClient.$('header')[0].insertAdjacentHTML('beforeend', template);
 			}
 		},
 		/**

@@ -1,12 +1,12 @@
-(($, AnimeClient) => {
+((_) => {
 
 	'use strict';
 
 	const search = (tempHtml, query) => {
-		$('.cssload-loader').removeAttr('hidden');
-		AnimeClient.get(AnimeClient.url('/collection/search'), {'query':query}, (searchResults, status) => {
+		_.$('.cssload-loader')[0].removeAttribute('hidden');
+		_.get(_.url('/collection/search'), {'query':query}, (searchResults, status) => {
 			searchResults = JSON.parse(searchResults);
-			$('.cssload-loader').attr('hidden', 'hidden');
+			_.$('.cssload-loader')[0].setAttribute('hidden', 'hidden');
 
 			// Give mustache a key to iterate over
 			searchResults = {
@@ -14,12 +14,12 @@
 			};
 
 			Mustache.parse(tempHtml);
-			$('#series_list').html(Mustache.render(tempHtml, searchResults));
+			_.$('#series_list')[0].innerHTML = Mustache.render(tempHtml, searchResults);
 		});
 	};
 
-	AnimeClient.get('/public/templates/anime-ajax-search-results.html', tempHtml => {
-		AnimeClient.on('#search', 'keyup', AnimeClient.throttle(250, function(e) {
+	_.get('/public/templates/anime-ajax-search-results.html', tempHtml => {
+		_.on('#search', 'keyup', _.throttle(250, function(e) {
 			let query = encodeURIComponent(this.value);
 			if (query === '') {
 				return;
@@ -29,4 +29,4 @@
 		}));
 	});
 
-})(Zepto, AnimeClient);
+})(AnimeClient);

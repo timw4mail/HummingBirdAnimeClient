@@ -26,8 +26,10 @@ return [
 		),
 	*/
 	'base' => [
-		'lib/zepto.js',
+		//'base/AnimeClient.js',
 		'base/base.js',
+		'base/event.js',
+		'base/ajax.js',
 	],
 	'event' => [
 		'base/events.js',

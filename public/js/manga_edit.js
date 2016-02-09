@@ -1,18 +1,18 @@
 /**
  * Javascript for editing manga, if logged in
  */
-(($, AnimeClient) => {
+((_) => {
 
 	'use strict';
 
-	AnimeClient.on('.manga.list', 'click', '.edit_buttons button', function(e) {
-		let this_sel = $(this);
-		let parent_sel = $(this).closest("article");
-		let manga_id = parent_sel.attr("id").replace("manga-", "");
-		let type = this_sel.is(".plus_one_chapter") ? 'chapter' : 'volume';
-		let completed = parseInt(parent_sel.find(`.${type}s_read`).text(), 10);
-		let total = parseInt(parent_sel.find(`.${type}_count`).text(), 10);
-		let manga_name = parent_sel.find('.name').text();
+	_.on('.manga.list', 'click', '.edit_buttons button', function(e) {
+		let this_sel = this;
+		let parent_sel = this.parentElement.parentElement;
+		let manga_id = parent_sel.id.replace("manga-", "");
+		let type = this_sel.classList.contains("plus_one_chapter") ? 'chapter' : 'volume';
+		let completed = parseInt(_.$(`.${type}s_read`, parent_sel)[0].textContent, 10);
+		let total = parseInt(_.$(`.${type}_count`, parent_sel)[0].textContent, 10);
+		let manga_name = _.$('.name', parent_sel)[0].textContent;
 
 		if (isNaN(completed)) {
 			completed = 0;
@@ -25,22 +25,22 @@
 		// Update the total count
 		data[type + "s_read"] = ++completed;
 
-		AnimeClient.ajax(AnimeClient.url('/manga/update'), {
+		_.ajax(_.url('/manga/update'), {
 			data: data,
 			dataType: 'json',
 			type: 'POST',
 			mimeType: 'application/json',
 			success: (res) => {
-				parent_sel.find(`.${type}s_read`).text(completed);
-				AnimeClient.showMessage('success', `Sucessfully updated ${manga_name}`);
-				AnimeClient.scrollToTop();
+				_.$(`.${type}s_read`, parent_sel)[0].textContent = completed;
+				_.showMessage('success', `Sucessfully updated ${manga_name}`);
+				_.scrollToTop();
 			},
 			error: (xhr, errorType, error) => {
 				console.error(error);
-				AnimeClient.showMessage('error', `Failed to updated ${manga_name}`);
-				AnimeClient.scrollToTop();
+				_.showMessage('error', `Failed to updated ${manga_name}`);
+				_.scrollToTop();
 			}
 		});
 	});
 
-})(Zepto, AnimeClient);
+})(AnimeClient);
