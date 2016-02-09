@@ -46,6 +46,33 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 	* public/images/manga
 	* public/images/anime
 
+### Server Setup
+
+#### nginx
+Basic nginx setup
+
+```nginx
+server {
+	location / {
+		try_files $uri $uri/ /index.php$uri?$args;
+	}
+
+	location ~ "^(.+\.php)($|/)" {
+		fastcgi_split_path_info ^(.+\.php)(.*)$;
+		fastcgi_index index.php;
+	}
+
+	location ^~ /vendor {
+		deny all;
+	}
+}
+```
+
+#### Apache
+Make sure to have `mod_rewrite` and `AllowOverride All` enabled in order to take
+advantage of the included `.htaccess` file. If you don't wish to use an `.htaccess` file,
+include the contents of the `.htaccess` file in your Apache configuration.
+
 #### Anime Collection Additional Installation
 * Run `php /vendor/bin/phinx migrate -e development` to create the database tables
 * For importing anime:
