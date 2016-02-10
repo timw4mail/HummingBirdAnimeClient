@@ -17,19 +17,11 @@
  * This is the config array for javascript files to concatenate and minify
  */
 return [
-	/*
-		For each group create an array like so
-
-		'my_group' => array(
-			'path/to/file1.js',
-			'path/to/file2.js'
-		),
-	*/
 	'base' => [
-		//'base/AnimeClient.js',
-		'base/base.js',
-		'base/event.js',
-		'base/ajax.js',
+		'base/AnimeClient.js',
+		//'base/base.js',
+		//'base/event.js',
+		//'base/ajax.js',
 	],
 	'event' => [
 		'base/events.js',
