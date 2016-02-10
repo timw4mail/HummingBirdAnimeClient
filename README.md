@@ -57,7 +57,7 @@ server {
 		try_files $uri $uri/ /index.php$uri?$args;
 	}
 
-	location ~ "^(.+\.php)($|/)" {
+	location ~ ^(.+\.php)($|/) {
 		fastcgi_split_path_info ^(.+\.php)(.*)$;
 		fastcgi_index index.php;
 	}
