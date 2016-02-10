@@ -10,6 +10,7 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
+use Aviat\AnimeClient\AnimeClient;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 
@@ -53,6 +54,7 @@ spl_autoload_register(function($class) use ($SRC_DIR) {
 	}
 });
 
+// Set up autoloader for third-party dependencies
 require _dir(__DIR__, '/vendor/autoload.php');
 
 // -------------------------------------------------------------------------
@@ -65,8 +67,8 @@ $defaultHandler = new PrettyPageHandler();
 $whoops->pushHandler($defaultHandler);
 
 // Set up json handler for ajax errors
-$jsonHandler = new JsonResponseHandler();
-$whoops->pushHandler($jsonHandler);
+//$jsonHandler = new JsonResponseHandler();
+//$whoops->pushHandler($jsonHandler);
 
 // Register as the error handler
 $whoops->register();
@@ -75,16 +77,17 @@ $whoops->register();
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
 require _dir($CONF_DIR, 'base_config.php'); // $base_config
-require _dir($CONF_DIR, 'config.php'); // $config
-$config_array = array_merge($base_config, $config);
 $di = require _dir($APP_DIR, 'bootstrap.php');
+
+$config = AnimeClient::load_toml($CONF_DIR);
+$config_array = array_merge($base_config, $config);
+
+$container = $di($config_array);
 
 // Unset 'constants'
 unset($APP_DIR);
 unset($SRC_DIR);
 unset($CONF_DIR);
-
-$container = $di($config_array);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route

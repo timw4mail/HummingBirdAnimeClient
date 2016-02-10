@@ -13,8 +13,6 @@
 
 // --------------------------------------------------------------------------
 
-/* $config = */require 'config.php';
-
 return [
 
 	/*
@@ -25,7 +23,7 @@ return [
 	| The folder where css files exist, in relation to the document root
 	|
 	*/
-	'css_root' => $config['asset_dir'] . '/css/',
+	'css_root' => 'css/',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -55,7 +53,7 @@ return [
 	| The file where the css groups are configured
 	|
 	*/
-	'css_groups_file' => realpath(__DIR__ . '/minify_css_groups.php'),
+	'css_groups_file' => __DIR__ . '/minify_css_groups.php',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -65,7 +63,7 @@ return [
 	| The folder where javascript files exist, in relation to the document root
 	|
 	*/
-	'js_root' => $config['asset_dir'] . '/js/',
+	'js_root' => 'js/',
 
 	 /*
 	|--------------------------------------------------------------------------
@@ -75,7 +73,7 @@ return [
 	| The file where the javascript groups are configured
 	|
 	*/
-	'js_groups_file' => realpath(__DIR__ . '/minify_js_groups.php'),
+	'js_groups_file' => __DIR__ . '/minify_js_groups.php',
 
 ];
 // End of minify_config.php

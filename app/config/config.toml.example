@@ -1,0 +1,18 @@
+################################################################################
+#                           Main User Configuration                            #
+################################################################################
+
+# Username for anime and manga lists
+hummingbird_username = "timw4mail"
+
+# Whose list is it?
+whose_list = "Tim"
+
+# do you wish to show the anime collection?
+show_anime_collection = true
+
+# do you wish to show the manga collection?
+show_manga_collection = false
+
+# path to public directory on the server
+asset_dir = "/../../public"

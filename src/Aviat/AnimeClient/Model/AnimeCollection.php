@@ -75,6 +75,7 @@ class AnimeCollection extends DB {
 			$this->valid_database = TRUE;
 		}
 
+
 		// Do an import if an import file exists
 		$this->json_import();
 	}
