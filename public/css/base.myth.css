@@ -333,7 +333,7 @@ a:hover, a:active {
 		}
 
 		.media > .name > a {
-			text-align:justify;
+			/*text-align:justify;*/
 			background:none;
 			color:#fff;
 			text-shadow: var(--shadow);
@@ -347,14 +347,8 @@ a:hover, a:active {
 .anime .name, .manga .name {
 	text-align:center;
 	width:100%;
-	padding:0.5em 0;
+	padding:0.5em 0.25em;
 }
-
-	.anime .name > a {
-		text-align:center;
-		width:100%;
-		padding:0.5em 1em;
-	}
 
 .anime .media_type,
 .anime .airing_status,

@@ -68,13 +68,12 @@ var AnimeClient = (function(w) {
 					<span class="close"></span>
 				</div>`;
 
-			let sel = AnimeClient.$('.message')[0];
-			if (sel !== undefined) {
-				sel.innerHTML = template;
-				sel.removeAttribute('hidden');
-			} else {
-				_.$('header')[0].insertAdjacentHTML('beforeend', template);
+			let sel = AnimeClient.$('.message');
+			if (sel[0] !== undefined) {
+				sel[0].remove();
 			}
+
+			_.$('header')[0].insertAdjacentHTML('beforeend', template);
 		},
 		/**
 		 * Finds the closest parent element matching the passed selector
