@@ -51,15 +51,15 @@ class Manga extends API {
 	protected $base_url = "https://hummingbird.me/";
 
 	/**
-	 * Update the selected manga
+	 * Make an authenticated manga API call
 	 *
-	 * @param array $data
+	 * @param string $type - the HTTP verb
+	 * @param string $url
+	 * @param string|null $json
 	 * @return array
 	 */
-	public function update($data)
+	protected function _manga_api_call($type, $url, $json = NULL)
 	{
-		$id = $data['id'];
-
 		$token = $this->container->get('auth')
 			->get_auth_token();
 
@@ -73,15 +73,99 @@ class Manga extends API {
 		]);
 		$cookieJar->setCookie($cookie_data);
 
-		$result = $this->put("manga_library_entries/{$id}", [
-			'cookies' => $cookieJar,
-			'json' => ['manga_library_entry' => $data]
-		]);
+		$config = [
+			'cookies' => $cookieJar
+		];
+
+		if ( ! is_null($json))
+		{
+			$config['json'] = $json;
+		}
+
+		$result = $this->client->request(strtoupper($type), $url, $config);
 
 		return [
 			'statusCode' => $result->getStatusCode(),
-			'body' => Json::decode($result->getBody(), TRUE)
+			'body' => $result->getBody()
 		];
+	}
+
+	/**
+	 * Add a manga to the list
+	 *
+	 * @param array $data
+	 */
+	public function add($data)
+	{
+		$object = [
+			'manga_library_entry' => [
+				'status' => $data['status'],
+				'manga_id' => $data['id']
+			]
+		];
+
+		return $this->_manga_api_call('post', 'manga_library_entries', $object);
+	}
+
+	/**
+	 * Update the selected manga
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function update($data)
+	{
+		$id = $data['id'];
+
+		return $this->_manga_api_call(
+			'put',
+			"manga_library_entries/{$id}",
+			['manga_library_entry' => $data]
+		);
+	}
+
+	/**
+	 * Delete a manga entry
+	 *
+	 * @param  array $data
+	 * @return array
+	 */
+	public function delete($data)
+	{
+		$id = $data['id'];
+
+		return $this->_manga_api_call('delete', "manga_library_entries/{$id}");
+	}
+
+	/**
+	 * Search for manga by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		$logger = $this->container->getLogger('default');
+
+		$config = [
+			'query' => [
+				'scope' => 'manga',
+				'depth' => 'full',
+				'query' => $name
+			]
+		];
+
+		$response = $this->get('search.json', $config);
+
+		if ($response->getStatusCode() != 200)
+		{
+			$logger->warning("Non 200 response for search api call");
+			$logger->warning($response->getBody());
+
+			throw new RuntimeException($response->getEffectiveUrl());
+		}
+
+		return Json::decode($response->getBody(), TRUE);
 	}
 
 	/**

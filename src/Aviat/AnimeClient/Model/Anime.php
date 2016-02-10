@@ -75,6 +75,33 @@ class Anime extends API {
 	}
 
 	/**
+	 * Remove an anime from a list
+	 *
+	 * @param  array $data
+	 * @return array|false
+	 */
+	public function delete($data)
+	{
+		$auth = $this->container->get('auth');
+		if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
+		{
+			return FALSE;
+		}
+
+		$id = $data['id'];
+		$data['auth_token'] = $auth->get_auth_token();
+
+		$response = $this->client->post("libraries/{$id}/remove", [
+			'form_params' => $data
+		]);
+
+		return [
+			'statusCode' => $response->getStatusCode(),
+			'body' => Json::decode($response->getBody(), TRUE)
+		];
+	}
+
+	/**
 	 * Get the full set of anime lists
 	 *
 	 * @return array

@@ -65,6 +65,11 @@ class HttpView extends BaseView {
 	 */
 	protected function output()
 	{
+		$this->response->headers->set('Content-Security-Policy', "script-src 'self'");
+		$this->response->headers->set('X-Content-Type-Options', 'nosniff');
+		$this->response->headers->set('X-XSS-Protection', '1;mode=block');
+		$this->response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+
 		$content =& $this->response->content;
 		$content->set($this->output);
 		$content->setType($this->contentType);

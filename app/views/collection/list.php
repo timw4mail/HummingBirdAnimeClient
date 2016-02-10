@@ -49,4 +49,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script src="<?= $urlGenerator->asset_url('js.php?g=table') ?>"></script>
+<script src="<?= $urlGenerator->asset_url('js.php/g/table') ?>"></script>

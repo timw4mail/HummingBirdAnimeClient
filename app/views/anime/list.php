@@ -11,7 +11,7 @@
 		<thead>
 			<tr>
 				<?php if($auth->is_authenticated()): ?>
-				<th>&nbsp;</th>
+				<td class="no_border">&nbsp;</td>
 				<?php endif ?>
 				<th>Title</th>
 				<th>Airing Status</th>
@@ -33,7 +33,7 @@
 					<a class="bracketed" href="<?= $urlGenerator->url("/anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
 				</td>
 				<?php endif ?>
-				<td class="align_left">
+				<td class="justify">
 					<a href="<?= $item['anime']['url'] ?>" target="_blank">
 						<?= $item['anime']['title'] ?>
 					</a>
@@ -42,7 +42,7 @@
 				<td class="align_left"><?= $item['airing']['status'] ?></td>
 				<td><?= $item['user_rating'] ?> / 10 </td>
 				<td><?= $item['anime']['type'] ?></td>
-				<td id="<?= $item['anime']['slug'] ?>">
+				<td class="align_left" id="<?= $item['anime']['slug'] ?>">
 					Episodes: <br />
 					<span class="completed_number"><?= $item['episodes']['watched'] ?></span>&nbsp;/&nbsp;<span class="total_number"><?= $item['episodes']['total'] ?></span>
 				</td>
@@ -74,4 +74,4 @@
 <?php endif ?>
 </main>
 <?php $group = ($auth->is_authenticated()) ? 'table_edit' : 'table' ?>
-<script src="<?= $urlGenerator->asset_url("js.php?g={$group}") ?>"></script>
+<script src="<?= $urlGenerator->asset_url("js.php/g/{$group}") ?>"></script>

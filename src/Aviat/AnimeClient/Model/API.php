@@ -178,5 +178,18 @@ class API extends BaseModel {
 
 		return FALSE;
 	}
+
+	/**
+	 * Dummy function that should be abstract. Is not abstract because
+	 * this class is used concretely for authorizing API calls
+	 *
+	 * @TODO Refactor, and make this abstract
+	 * @param  string $status
+	 * @return array
+	 */
+	protected function _get_list_from_api($status)
+	{
+		return [];
+	}
 }
 // End of BaseApiModel.php
