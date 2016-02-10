@@ -104,7 +104,7 @@ class Dispatcher extends RoutingBase {
 			$logger->debug(print_r($route, TRUE));
 		}
 
-		if($route)
+		if ($route)
 		{
 			$parsed = $this->process_route($route);
 			$controller_name = $parsed['controller_name'];
@@ -272,7 +272,7 @@ class Dispatcher extends RoutingBase {
 				'message' => 'Invalid HTTP Verb'
 			];
 		}
-		else if($failure->failedAccept())
+		else if ($failure->failedAccept())
 		{
 			$params = [
 				'http_code' => 406,

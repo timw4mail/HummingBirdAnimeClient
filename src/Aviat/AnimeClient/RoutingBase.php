@@ -40,6 +40,12 @@ class RoutingBase {
 	protected $routes;
 
 	/**
+	 * Route configuration options
+	 * @var array
+	 */
+	protected $route_config;
+
+	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -48,8 +54,9 @@ class RoutingBase {
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');
-		$this->base_routes = $this->config->get('routes');
-		$this->routes = $this->base_routes['routes'];
+		$base_routes = $this->config->get('routes');
+		$this->routes = $base_routes['routes'];
+		$this->route_config = $base_routes['route_config'];
 	}
 
 	/**
@@ -60,7 +67,7 @@ class RoutingBase {
 	 */
 	public function __get($key)
 	{
-		$routing_config = $this->base_routes['route_config'];
+		$routing_config =& $this->route_config;
 
 		if (array_key_exists($key, $routing_config))
 		{

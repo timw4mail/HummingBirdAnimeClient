@@ -17,45 +17,33 @@
  * This is the config array for javascript files to concatenate and minify
  */
 return [
-	/*
-		For each group create an array like so
-
-		'my_group' => array(
-			'path/to/js/file1.js',
-			'path/to/js/file2.js'
-		),
-	*/
-	'table' => [
-		'lib/jquery.min.js',
-		'lib/table_sorter/jquery.tablesorter.min.js',
-		'sort_tables.js'
+	'base' => [
+		'base/classList.js',
+		'base/AnimeClient.js',
 	],
-	'edit' => [
-		'lib/jquery.min.js',
-		'show_message.js',
-		'anime_edit.js',
-		'manga_edit.js'
+	'event' => [
+		'base/events.js',
+	],
+	'table' => [
+		'base/sort_tables.js',
 	],
 	'table_edit' => [
-		'lib/jquery.min.js',
-		'lib/table_sorter/jquery.tablesorter.min.js',
 		'sort_tables.js',
-		'show_message.js',
 		'anime_edit.js',
-		'manga_edit.js'
+		'manga_edit.js',
+	],
+	'edit' => [
+		'anime_edit.js',
+		'manga_edit.js',
 	],
 	'anime_collection' => [
-		'lib/jquery.min.js',
-		'lib/jquery.throttle-debounce.js',
-		'lib/jsrender.js',
-		'anime_collection.js'
+		'lib/mustache.js',
+		'anime_collection.js',
 	],
 	'manga_collection' => [
-		'lib/jquery.min.js',
-		'lib/jquery.throttle-debounce.js',
-		'lib/jsrender.js',
-		'manga_collection.js'
-	]
+		'lib/mustache.js',
+		'manga_collection.js',
+	],
 ];
 
 // End of js_groups.php

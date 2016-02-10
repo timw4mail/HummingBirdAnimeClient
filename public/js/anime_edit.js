@@ -1,62 +1,58 @@
 /**
  * Javascript for editing anime, if logged in
  */
-(function($){
+((_) => {
 
-	"use strict";
-
-	if (CONTROLLER !== "anime") return;
+	'use strict';
 
 	// Action to increment episode count
-	$(".plus_one").on("click", function(e) {
-		e.stopPropagation();
+	_.on('body.anime.list', 'click', '.plus_one', function(e) {
+		let this_sel = this;
+		let parent_sel = _.closestParent(this, 'article');
 
-		var self = this;
-		var this_sel = $(this);
-		var parent_sel = $(this).closest("article, td");
-
-		var watched_count = parseInt(parent_sel.find('.completed_number').text(), 10);
-		var total_count = parseInt(parent_sel.find('.total_number').text(), 10);
-		var title = parent_sel.find('.name a').text();
+		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
+		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
+		let title = _.$('.name a', parent_sel)[0].textContent;
 
 		// Setup the update data
-		var data = {
-			id: this_sel.parent('article, td').attr('id'),
+		let data = {
+			id: parent_sel.id,
 			increment_episodes: true
 		};
 
 		// If the episode count is 0, and incremented,
 		// change status to currently watching
-		if (isNaN(watched_count) || watched_count === 0)
-		{
-			data.status = "currently-watching";
+		if (isNaN(watched_count) || watched_count === 0) {
+			data.status = 'currently-watching';
 		}
 
 		// If you increment at the last episode, mark as completed
-		if (( ! isNaN(watched_count)) && (watched_count + 1) === total_count)
-		{
+		if (( ! isNaN(watched_count)) && (watched_count + 1) === total_count) {
 			delete data.increment_episodes;
-			data.status = "completed";
+			data.status = 'completed';
 		}
 
 		// okay, lets actually make some changes!
-		$.ajax({
+		_.ajax(_.url('/anime/update'), {
 			data: data,
 			dataType: 'json',
-			method: 'POST',
+			type: 'POST',
 			mimeType: 'application/json',
-			url: BASE_URL + CONTROLLER + '/update'
-		}).done(function(res) {
-			if (res.status === 'completed')
-			{
-				$(self).closest('article, tr').hide();
-			}
+			success: (res) => {
+				if (res.status === 'completed') {
+					this.parentElement.addAttribute('hidden', 'hidden');
+				}
 
-			add_message('success', "Sucessfully updated " + title);
-			parent_sel.find('.completed_number').text(++watched_count);
-		}).fail(function() {
-			add_message('error', "Failed to updated " + title);
+				_.showMessage('success', `Sucessfully updated ${title}`);
+				_.$('.completed_number', parent_sel)[0].textContent = ++watched_count;
+				_.scrollToTop();
+			},
+			error: (xhr, errorType, error) => {
+				console.error(error);
+				_.showMessage('error', `Failed to updated ${title}. `);
+				_.scrollToTop();
+			}
 		});
 	});
 
-}(jQuery));
+})(AnimeClient);

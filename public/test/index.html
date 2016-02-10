@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Hummingbird AnimeClient Front-end Testsuite</title>
+	<link rel="stylesheet" href="lib/mocha.css">
+</head>
+<body>
+	<section id="parentTest">
+		<article class="child">
+			<div class="grandChild"></div>
+		</article>
+	</section>
+	<div id="mocha">
+		<ul id="mocha-stats">
+			<li class="progress"></li>
+			<li class="passes"></li>
+			<li class="failures"></li>
+			<li class="duration"></li>
+		</ul>
+		<ul id="mocha-report"></ul>
+	</div>
+	<script src="../js/base/classList.js"></script>
+	<script src="lib/testBundle.js"></script>
+
+	<script>
+		var expect = chai.expect;
+		mocha.setup('tdd');
+	</script>
+
+	<!-- include source files here... -->
+	<script src="../js/base/AnimeClient.js"></script>
+
+	<!-- include test files here... -->
+	<script src="tests/AnimeClient.js"></script>
+	<script src="tests/ajax.js"></script>
+
+	<script>
+		mocha.checkLeaks();
+		mocha.globals(['AnimeClient']);
+		mocha.run();
+	</script>
+</body>
+</html>

@@ -17,5 +17,8 @@
 		"psr/log": "~1.0",
 		"robmorgan/phinx": "0.4.*",
 		"yosymfony/toml": "0.3.*"
+	},
+	"require-dev": {
+		"codeclimate/php-test-reporter": "dev-master"
 	}
 }

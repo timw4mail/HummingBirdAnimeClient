@@ -20,9 +20,6 @@ return [
 	// Specify default paths and views
 	// -------------------------------------------------------------------------
 	'route_config' => [
-		// Subfolder prefix for url, if in a subdirectory of the web root
-		'subfolder_prefix' => '',
-
 		// Path to public directory, where images/css/javascript are located,
 		// appended to the url
 		'asset_path' => '/public',
@@ -53,6 +50,30 @@ return [
 		],
 		'anime_add' => [
 			'path' => '/anime/add',
+			'action' => 'add',
+			'verb' => 'post'
+		],
+		'anime_detail' => [
+			'path' => '/anime/details/{id}',
+			'action' => 'details',
+			'tokens' => [
+				'id' => '[a-z0-9\-]+'
+			]
+		],
+		// ---------------------------------------------------------------------
+		// Manga Routes
+		// ---------------------------------------------------------------------
+		'manga_search' => [
+			'path' => '/manga/search',
+			'action' => 'search',
+		],
+		'manga_add_form' => [
+			'path' => '/manga/add',
+			'action' => 'add_form',
+			'verb' => 'get'
+		],
+		'manga_add' => [
+			'path' => '/manga/add',
 			'action' => 'add',
 			'verb' => 'post'
 		],
@@ -96,9 +117,10 @@ return [
 		// ---------------------------------------------------------------------
 		// Default / Shared routes
 		// ---------------------------------------------------------------------
-		'login' => [
+		'login_form' => [
 			'path' => '/{controller}/login',
 			'action' => 'login',
+			'verb' => 'get'
 		],
 		'login_post' => [
 			'path' => '/{controller}/login',
@@ -130,7 +152,7 @@ return [
 			'action' => 'edit',
 			'tokens' => [
 				'id' => '[0-9a-z_]+',
-				'status' => '[a-zA-z\- ]+',
+				'status' => '([a-zA-Z\- ]|%20)+',
 			]
 		],
 		'list' => [

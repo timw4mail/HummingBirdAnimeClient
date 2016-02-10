@@ -1,48 +1,46 @@
 /**
  * Javascript for editing manga, if logged in
  */
-(function ($) {
+((_) => {
 
-	"use strict";
+	'use strict';
 
-	if (CONTROLLER !== "manga") return;
+	_.on('.manga.list', 'click', '.edit_buttons button', function(e) {
+		let this_sel = this;
+		let parent_sel = _.closestParent(this, 'article');
+		let manga_id = parent_sel.id.replace("manga-", "");
+		let type = this_sel.classList.contains("plus_one_chapter") ? 'chapter' : 'volume';
+		let completed = parseInt(_.$(`.${type}s_read`, parent_sel)[0].textContent, 10);
+		let total = parseInt(_.$(`.${type}_count`, parent_sel)[0].textContent, 10);
+		let manga_name = _.$('.name', parent_sel)[0].textContent;
 
-	$(".edit_buttons button").on("click", function(e) {
-		var this_sel = $(this);
-		var parent_sel = $(this).closest("article");
-		var manga_id = parent_sel.attr("id").replace("manga-", "");
-		var type = this_sel.is(".plus_one_chapter") ? 'chapter' : 'volume';
-		var completed = parseInt(parent_sel.find("." + type + "s_read").text(), 10);
-		var total = parseInt(parent_sel.find("."+type+"_count").text(), 10);
-
-		console.log(completed);
-		console.log(total);
-
-		if (isNaN(completed))
-		{
+		if (isNaN(completed)) {
 			completed = 0;
 		}
 
-		var data = {
+		let data = {
 			id: manga_id
 		};
 
 		// Update the total count
 		data[type + "s_read"] = ++completed;
 
-		$.ajax({
+		_.ajax(_.url('/manga/update'), {
 			data: data,
 			dataType: 'json',
-			method: 'POST',
+			type: 'POST',
 			mimeType: 'application/json',
-			url: BASE_URL + CONTROLLER + '/update'
-		}).done(function(res) {
-			console.table(res);
-			parent_sel.find("."+type+"s_read").text(completed);
-			add_message('success', "Sucessfully updated " + res.manga[0].romaji_title);
-		}).fail(function() {
-			add_message('error', "Failed to updated " + res.manga[0].romaji_title);
+			success: (res) => {
+				_.$(`.${type}s_read`, parent_sel)[0].textContent = completed;
+				_.showMessage('success', `Sucessfully updated ${manga_name}`);
+				_.scrollToTop();
+			},
+			error: (xhr, errorType, error) => {
+				console.error(error);
+				_.showMessage('error', `Failed to updated ${manga_name}`);
+				_.scrollToTop();
+			}
 		});
 	});
 
-}(jQuery));
+})(AnimeClient);
