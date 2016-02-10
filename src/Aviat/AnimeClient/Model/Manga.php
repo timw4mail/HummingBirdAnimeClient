@@ -50,6 +50,14 @@ class Manga extends API {
 	 */
 	protected $base_url = "https://hummingbird.me/";
 
+	/**
+	 * Make an authenticated manga API call
+	 *
+	 * @param string $type - the HTTP verb
+	 * @param string $url
+	 * @param string|null $json
+	 * @return array
+	 */
 	protected function _manga_api_call($type, $url, $json = NULL)
 	{
 		$token = $this->container->get('auth')

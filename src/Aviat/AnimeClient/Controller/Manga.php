@@ -12,6 +12,7 @@
  */
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Config;
@@ -194,9 +195,9 @@ class Manga extends Controller {
 		$post_data = $transformer->untransform($post_data);
 		$full_result = $this->model->update($post_data);
 
-		$result = $full_result['body'];
+		$result = Json::decode((string)$full_result['body']);
 
-		if (array_key_exists('manga', $result))
+		if ($full_result['statusCode'] == 200)
 		{
 			$m =& $result['manga'][0];
 			$title = ( ! empty($m['english_title']))
