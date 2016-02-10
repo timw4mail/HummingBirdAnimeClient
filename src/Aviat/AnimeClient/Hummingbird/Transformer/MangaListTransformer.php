@@ -105,7 +105,7 @@ class MangaListTransformer extends AbstractTransformer {
 			'notes' => $item['notes'],
 		];
 
-		if ($item['new_rating'] !== $item['old_rating'] && ! empty($item['new_rating']))
+		if ($item['new_rating'] !== $item['old_rating'] && $item['new_rating'] !== "")
 		{
 			$map['rating'] = ($item['new_rating'] > 0)
 				? $item['new_rating'] / 2
