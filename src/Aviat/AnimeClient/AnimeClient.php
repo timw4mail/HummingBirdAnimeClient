@@ -13,6 +13,8 @@
 
 namespace Aviat\AnimeClient;
 
+use Yosymfony\Toml\Toml;
+
 define('SRC_DIR', realpath(__DIR__ . '/../../'));
 
 /**
@@ -90,5 +92,37 @@ class AnimeClient {
 		return ! $this->is_view_page();
 	}
 
+	/**
+	 * Load configuration options from .toml files
+	 *
+	 * @param string $path - Path to load config
+	 * @return array
+	 */
+	public static function load_toml($path)
+	{
+		$output = [];
+		$files = glob("{$path}/*.toml");
+
+		foreach ($files as $file)
+		{
+			$key = str_replace('.toml', '', basename($file));
+			$toml = file_get_contents($file);
+			$config = Toml::Parse($toml);
+
+			if ($key === 'config')
+			{
+				foreach($config as $name => $value)
+				{
+					$output[$name] = $value;
+				}
+
+				continue;
+			}
+
+			$output[$key] = $config;
+		}
+
+		return $output;
+	}
 }
-// End of anime_client.php
+// End of AnimeClient.php

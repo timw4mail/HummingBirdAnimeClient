@@ -78,7 +78,7 @@ class API extends BaseModel {
 			'defaults' => [
 				'cookies' => $this->cookieJar,
 				'headers' => [
-					'User-Agent' => "Tim's Anime Client/2.0",
+					'User-Agent' => "Tim's Anime Client/3.0",
 					'Accept-Encoding' => 'application/json'
 				],
 				'timeout' => 25,

@@ -1,0 +1,13 @@
+################################################################################
+#                            Database Configuration                            #
+################################################################################
+
+[collection]
+type = "sqlite"
+host = ""
+user = ""
+pass = ""
+port = ""
+name = "default"
+database = ""
+file = "/../../anime_collection.sqlite"
