@@ -61,8 +61,8 @@ var AnimeClient = (function(w) {
 		 * @return {void}
 		 */
 		showMessage(type, message) {
-			let template = `
-				<div class="message ${type}">
+			let template =
+				`<div class="message ${type}">
 					<span class="icon"></span>
 					${message}
 					<span class="close"></span>
@@ -235,7 +235,7 @@ var AnimeClient = (function(w) {
 				}
 
 				if (request.status > 400) {
-					config.error.call(null, request.statusText, request.response);
+					config.error.call(null, request.status, responseText, request.response);
 				} else {
 					config.success.call(null, responseText, request.status);
 				}
