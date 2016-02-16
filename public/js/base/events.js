@@ -7,7 +7,7 @@
 
 	// Close event for messages
 	ac.on('header', 'click', '.message', function () {
-		this.setAttribute('hidden', 'hidden');
+		ac.hide(this);
 	});
 
 })(AnimeClient);

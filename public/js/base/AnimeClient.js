@@ -2,8 +2,6 @@ var AnimeClient = (function(w) {
 
 	'use strict';
 
-	const slice = Array.prototype.slice;
-
 	// -------------------------------------------------------------------------
 	// ! Base
 	// -------------------------------------------------------------------------
@@ -40,7 +38,7 @@ var AnimeClient = (function(w) {
 			if (selector.match(/^#([\w]+$)/)) {
 				elements.push(document.getElementById(selector.split('#')[1]));
 			} else {
-				elements = slice.apply(context.querySelectorAll(selector));
+				elements = [].slice.apply(context.querySelectorAll(selector));
 			}
 
 			return elements;
@@ -52,6 +50,24 @@ var AnimeClient = (function(w) {
 		 */
 		scrollToTop() {
 			w.scroll(0,0);
+		},
+		/**
+		 * Hide the selected element
+		 *
+		 * @param  {string|Element} sel - the selector of the element to hide
+		 * @return {void}
+		 */
+		hide(sel) {
+			sel.setAttribute('hidden', 'hidden');
+		},
+		/**
+		 * UnHide the selected element
+		 *
+		 * @param  {string|Element} sel - the selector of the element to hide
+		 * @return {void}
+		 */
+		show(sel) {
+			sel.removeAttribute('hidden');
 		},
 		/**
 		 * Display a message box
@@ -164,6 +180,15 @@ var AnimeClient = (function(w) {
 		});
 	}
 
+	/**
+	 * Add an event listener
+	 *
+	 * @param  {string|element} sel - the parent selector to bind to
+	 * @param  {string} event - event name(s) to bind
+	 * @param  {string|element} [target] - the element to directly bind the event to
+	 * @param  {function} listener - event listener callback
+	 * @return {void}
+	 */
 	_.on = function (sel, event, target, listener) {
 		if (arguments.length === 3) {
 			listener = target;
@@ -203,6 +228,20 @@ var AnimeClient = (function(w) {
 		return pairs.join("&");
 	};
 
+	/**
+	 * Make an ajax request
+	 *
+	 * Config:{
+	 * 	data: // data to send with the request
+	 * 	type: // http verb of the request, defaults to GET
+	 * 	success: // success callback
+	 * 	error: // error callback  
+	 * }
+	 *
+	 * @param  {string} url - the url to request
+	 * @param  {Object} config  - the configuration object
+	 * @return {void}
+	 */
 	_.ajax = function(url, config) {
 		// Set some sane defaults
 		config = config || {};
