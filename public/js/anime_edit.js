@@ -40,7 +40,7 @@
 			mimeType: 'application/json',
 			success: (res) => {
 				if (res.status === 'completed') {
-					this.parentElement.addAttribute('hidden', 'hidden');
+					_.hide(parent_sel);
 				}
 
 				_.showMessage('success', `Sucessfully updated ${title}`);
