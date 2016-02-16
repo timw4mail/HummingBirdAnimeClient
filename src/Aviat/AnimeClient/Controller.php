@@ -95,7 +95,7 @@ class Controller {
 		$this->session = $session->getSegment(AnimeClient::SESSION_SEGMENT);
 
 		// Set a 'previous' flash value for better redirects
-		$this->session->setFlash('previous', $this->request->server->get('HTTP_REFERER'));
+		$this->session->setFlash('previous', $this->request->getServerParams()['HTTP_REFERER']);
 
 		// Set a message box if available
 		$this->base_data['message'] = $this->session->getFlash('message');
@@ -130,7 +130,7 @@ class Controller {
 	public function set_session_redirect($url = NULL)
 	{
 		$anime_client = $this->container->get('anime-client');
-		$double_form_page = $this->request->server->get('HTTP_REFERER') == $this->request->url->get();
+		$double_form_page = $this->request->getServerParams()['HTTP_REFERER'] == $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
@@ -144,7 +144,7 @@ class Controller {
 		{
 			$url = ($anime_client->is_view_page())
 				? $this->request->url->get()
-				: $this->request->server->get('HTTP_REFERER');
+				: $this->request->getServerParams()['HTTP_REFERER'];
 		}
 
 		$this->session->set('redirect_url', $url);

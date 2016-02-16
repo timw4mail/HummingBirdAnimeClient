@@ -26,7 +26,7 @@ abstract class View {
 	/**
 	 * HTTP response Object
 	 *
-	 * @var Aura\Web\Response
+	 * @var Zend\Diactoros\Response
 	 */
 	protected $response;
 
@@ -93,7 +93,7 @@ abstract class View {
 	 */
 	public function setOutput($string)
 	{
-		$this->output = $this->string($string);
+		$this->response->getBody()->write($string);
 
 		return $this;
 	}
@@ -106,7 +106,7 @@ abstract class View {
 	 */
 	public function appendOutput($string)
 	{
-		$this->output = $this->string($this->output)->append($string);
+		$this->response->getBody()->write($string);
 
 		return $this;
 	}
@@ -118,7 +118,7 @@ abstract class View {
 	 */
 	public function getOutput()
 	{
-		return $this->string($this->output)->__toString();
+		return $this->response->getBody()->__toString();
 	}
 
 	/**
