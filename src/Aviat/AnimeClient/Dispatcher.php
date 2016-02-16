@@ -30,6 +30,12 @@ class Dispatcher extends RoutingBase {
 	protected $router;
 
 	/**
+	 * The route matcher
+	 * @var object $matcher
+	 */
+	protected $matcher;
+
+	/**
 	 * Class wrapper for input superglobals
 	 * @var object
 	 */
@@ -49,7 +55,8 @@ class Dispatcher extends RoutingBase {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->router = $container->get('aura-router');
+		$this->router = $container->get('aura-router')->getMap();
+		$this->matcher = $container->get('aura-router')->getMatcher();
 		$this->request = $container->get('request');
 
 		$this->output_routes = $this->_setup_routes();
@@ -64,7 +71,7 @@ class Dispatcher extends RoutingBase {
 	{
 		$logger = $this->container->getLogger('default');
 
-		$raw_route = $this->request->url->get(PHP_URL_PATH);
+		$raw_route = $this->request->getUri()->getPath();
 		$route_path = "/" . trim($raw_route, '/');
 
 		$logger->debug('Dispatcher - Routing data from get_route method');
@@ -72,7 +79,7 @@ class Dispatcher extends RoutingBase {
 			'route_path' => $route_path
 		], TRUE));
 
-		return $this->router->match($route_path, $_SERVER);
+		return $this->matcher->match($this->request);
 	}
 
 	/**
@@ -134,9 +141,9 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function process_route($route)
 	{
-		if (array_key_exists('controller', $route->params))
+		if (array_key_exists('controller', $route->attributes))
 		{
-			$controller_name = $route->params['controller'];
+			$controller_name = $route->attributes['controller'];
 		}
 		else
 		{
@@ -150,21 +157,21 @@ class Dispatcher extends RoutingBase {
 			$controller_name = $map[$controller_name];
 		}
 
-		$action_method = (array_key_exists('action', $route->params))
-			? $route->params['action']
+		$action_method = (array_key_exists('action', $route->attributes))
+			? $route->attributes['action']
 			: AnimeClient::NOT_FOUND_METHOD;
 
-		$params = (array_key_exists('params', $route->params))
-			? $route->params['params']
+		$params = (array_key_exists('params', $route->attributes))
+			? $route->attributes['params']
 			: [];
 
 		if ( ! empty($route->tokens))
 		{
 			foreach ($route->tokens as $key => $v)
 			{
-				if (array_key_exists($key, $route->params))
+				if (array_key_exists($key, $route->attributes))
 				{
-					$params[$key] = $route->params[$key];
+					$params[$key] = $route->attributes[$key];
 				}
 			}
 		}
@@ -184,7 +191,7 @@ class Dispatcher extends RoutingBase {
 	public function get_controller()
 	{
 		$route_type = $this->__get('default_list');
-		$request_uri = $this->request->url->get(PHP_URL_PATH);
+		$request_uri = $this->request->getUri()->getPath();
 		$path = trim($request_uri, '/');
 
 		$segments = explode('/', $path);
@@ -323,15 +330,15 @@ class Dispatcher extends RoutingBase {
 
 			// Select the appropriate router method based on the http verb
 			$add = (array_key_exists('verb', $route))
-				? "add" . ucfirst(strtolower($route['verb']))
-				: "addGet";
+				? strtolower($route['verb'])
+				: "get";
 
 			// Add the route to the router object
-			if ( ! array_key_exists('tokens', $route))
+			//if ( ! array_key_exists('tokens', $route))
 			{
-				$routes[] = $this->router->$add($name, $path)->addValues($route);
+				$routes[] = $this->router->$add($name, $path);//->addValues($route);
 			}
-			else
+			/*else
 			{
 				$tokens = $route['tokens'];
 				unset($route['tokens']);
@@ -339,7 +346,7 @@ class Dispatcher extends RoutingBase {
 				$routes[] = $this->router->$add($name, $path)
 					->addValues($route)
 					->addTokens($tokens);
-			}
+			}*/
 		}
 
 		return $routes;

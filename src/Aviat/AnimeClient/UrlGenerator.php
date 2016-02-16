@@ -32,7 +32,7 @@ class UrlGenerator extends RoutingBase {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->host = $container->get('request')->server->get('HTTP_HOST');
+		$this->host = $container->get('request')->getServerParams()['HTTP_HOST'];
 	}
 
 	/**

@@ -6,12 +6,13 @@
 namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocatorFactory;
-use Aura\Web\WebFactory;
-use Aura\Router\RouterFactory;
+use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\BrowserConsoleHandler;
+use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response;
 
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
@@ -40,8 +41,7 @@ return function(array $config_array = []) {
 	$container->set('config', $config);
 
 	// Create Aura Router Object
-	$aura_router = (new RouterFactory())->newInstance();
-	$container->set('aura-router', $aura_router);
+	$container->set('aura-router', new RouterContainer);
 
 	// Create Html helper Object
 	$html_helper = (new HelperLocatorFactory)->newInstance();
@@ -53,15 +53,15 @@ return function(array $config_array = []) {
 	$container->set('html-helper', $html_helper);
 
 	// Create Request/Response Objects
-	$web_factory = new WebFactory([
-		'_GET' => $_GET,
-		'_POST' => $_POST,
-		'_COOKIE' => $_COOKIE,
-		'_SERVER' => $_SERVER,
-		'_FILES' => $_FILES
-	]);
-	$container->set('request', $web_factory->newRequest());
-	$container->set('response', $web_factory->newResponse());
+	$request = ServerRequestFactory::fromGlobals(
+		$_SERVER,
+		$_GET,
+		$_POST,
+		$_COOKIE,
+		$_FILES
+	);
+	$container->set('request', $request);
+	$container->set('response', new Response());
 
 	// Create session Object
 	$session = (new SessionFactory())->newInstance($_COOKIE);

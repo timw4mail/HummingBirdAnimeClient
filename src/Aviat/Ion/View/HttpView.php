@@ -12,8 +12,7 @@
 
 namespace Aviat\Ion\View;
 
-use Aura\Web\ResponseSender;
-
+use Zend\Diactoros\Response\SapiEmitter;
 use Aviat\Ion\View as BaseView;
 
 /**
@@ -41,8 +40,8 @@ class HttpView extends BaseView {
 	 */
 	public function setStatusCode($code)
 	{
-		$this->response->status->setCode($code);
-		$this->response->status->setVersion(1.1);
+		$this->response->withStatus($code);
+		$this->response->withProtocolVersion(1.1);
 		return $this;
 	}
 
@@ -65,18 +64,14 @@ class HttpView extends BaseView {
 	 */
 	protected function output()
 	{
-		$this->response->headers->set('Content-Security-Policy', "script-src 'self'");
-		$this->response->headers->set('X-Content-Type-Options', 'nosniff');
-		$this->response->headers->set('X-XSS-Protection', '1;mode=block');
-		$this->response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+		$this->response->withHeader('Content-type', "{$this->contentType};charset=utf-8")
+			->withHeader('Content-Security-Policy', "script-src 'self'")
+			->withHeader('X-Content-Type-Options', 'nosniff')
+			->withHeader('X-XSS-Protection', '1;mode=block')
+			->withHeader('X-Frame-Options', 'SAMEORIGIN');
 
-		$content =& $this->response->content;
-		$content->set($this->output);
-		$content->setType($this->contentType);
-		$content->setCharset('utf-8');
-
-		$sender = new ResponseSender($this->response);
-		$sender->__invoke();
+		$sender = new SapiEmitter($this->response);
+		$sender->emit();
 	}
 
 }
