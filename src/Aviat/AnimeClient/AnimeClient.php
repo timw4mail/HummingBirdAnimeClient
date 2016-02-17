@@ -73,7 +73,7 @@ class AnimeClient {
 	public function is_view_page()
 	{
 		$url = $this->container->get('request')
-			->url->get();
+			->getUri();
 		$page_segments = explode("/", $url);
 
 		$intersect = array_intersect($page_segments, self::$form_pages);

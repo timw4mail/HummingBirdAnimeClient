@@ -13,16 +13,14 @@ class ControllerTest extends AnimeClient_TestCase {
 		parent::setUp();
 
 		// Create Request/Response Objects
-		$web_factory = new WebFactory([
+		$_SERVER['HTTP_REFERER'] = '';
+		$this->setSuperGlobals([
 			'_GET' => [],
 			'_POST' => [],
 			'_COOKIE' => [],
 			'_SERVER' => $_SERVER,
 			'_FILES' => []
 		]);
-		$this->container->set('request', $web_factory->newRequest());
-		$this->container->set('response', $web_factory->newResponse());
-
 
 		$this->BaseController = new Controller($this->container);
 	}

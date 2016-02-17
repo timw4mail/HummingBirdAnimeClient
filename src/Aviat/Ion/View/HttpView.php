@@ -29,7 +29,8 @@ class HttpView extends BaseView {
 	 */
 	public function redirect($url, $code)
 	{
-		$this->response->redirect->to($url, $code);
+		$this->response->withStatus($code);
+		$this->response->withHeader('Location', $url);
 	}
 
 	/**
@@ -71,7 +72,7 @@ class HttpView extends BaseView {
 			->withHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		$sender = new SapiEmitter($this->response);
-		$sender->emit();
+		$sender->emit($this->response);
 	}
 
 }
