@@ -103,10 +103,10 @@ class TestView extends View {
 	public function send() {}
 	protected function output()
 	{
-		$content =& $this->response->content;
+		/*$content =& $this->response->content;
 		$content->set($this->output);
 		$content->setType($this->contentType);
-		$content->setCharset('utf-8');
+		$content->setCharset('utf-8');*/
 	}
 }
 

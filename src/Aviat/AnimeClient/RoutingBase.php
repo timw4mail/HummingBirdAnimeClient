@@ -83,7 +83,7 @@ class RoutingBase {
 	public function path()
 	{
 		$request = $this->container->get('request');
-		$path = $request->url->get(PHP_URL_PATH);
+		$path = $request->getUri()->getPath();
 		$cleaned_path = $this->string($path)
 			->trim()
 			->trimRight('/')

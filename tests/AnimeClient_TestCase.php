@@ -5,6 +5,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Zend\Diactoros\ServerRequestFactory;
+use Zend\Diactoros\Response as HttpResponse;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Config;
@@ -89,15 +91,19 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 	public function setSuperGlobals($supers = [])
 	{
 		$default = [
+			'_SERVER' => $_SERVER,
 			'_GET' => $_GET,
 			'_POST' => $_POST,
 			'_COOKIE' => $_COOKIE,
-			'_SERVER' => $_SERVER,
 			'_FILES' => $_FILES
 		];
-		$web_factory = new WebFactory(array_merge($default,$supers));
-		$this->container->set('request', $web_factory->newRequest());
-		$this->container->set('response', $web_factory->newResponse());
+
+		$request = call_user_func_array(
+			['Zend\Diactoros\ServerRequestFactory', 'fromGlobals'],
+			array_merge($default, $supers)
+		);
+		$this->container->set('request', $request);
+		$this->container->set('response', new HttpResponse());
 	}
 
 	/**
