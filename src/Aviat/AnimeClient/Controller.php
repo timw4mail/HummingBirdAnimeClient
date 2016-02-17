@@ -95,7 +95,11 @@ class Controller {
 		$this->session = $session->getSegment(AnimeClient::SESSION_SEGMENT);
 
 		// Set a 'previous' flash value for better redirects
-		$this->session->setFlash('previous', $this->request->getServerParams()['HTTP_REFERER']);
+		$server_params = $this->request->getServerParams();
+		if (array_key_exists('HTTP_REFERER', $server_params))
+		{
+			$this->session->setFlash('previous', $server_params['HTTP_REFERER']);
+		}
 
 		// Set a message box if available
 		$this->base_data['message'] = $this->session->getFlash('message');
@@ -274,7 +278,8 @@ class Controller {
 	public function login_action()
 	{
 		$auth = $this->container->get('auth');
-		if ($auth->authenticate($this->request->post->get('password')))
+		$post = $this->request->getParsedBody();
+		if ($auth->authenticate($post['password']))
 		{
 			return $this->session_redirect();
 		}

@@ -144,7 +144,7 @@ class Anime extends BaseController {
 	 */
 	public function add()
 	{
-		$data = $this->request->post->get();
+		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
 			$this->redirect("anime/add", 303);
@@ -216,7 +216,7 @@ class Anime extends BaseController {
 	 */
 	public function form_update()
 	{
-		$post_data = $this->request->post->get();
+		$post_data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
@@ -247,7 +247,7 @@ class Anime extends BaseController {
 	 */
 	public function update()
 	{
-		$response = $this->model->update($this->request->post->get());
+		$response = $this->model->update($this->request->getParsedBody());
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -256,7 +256,7 @@ class Anime extends BaseController {
 	 */
 	public function delete()
 	{
-		$response = $this->model->update($this->request->post->get());
+		$response = $this->model->update($this->request->getParsedBody());
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 

@@ -12,6 +12,7 @@
 
 namespace Aviat\Ion\View;
 
+use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 use Aviat\Ion\View as BaseView;
 
@@ -29,8 +30,15 @@ class HttpView extends BaseView {
 	 */
 	public function redirect($url, $code)
 	{
-		$this->response->withStatus($code);
-		$this->response->withHeader('Location', $url);
+		ob_start();
+		$response = new Response();
+		$message = $response->getReasonPhrase($code);
+
+		header("HTTP/1.1 ${code} ${message}");
+		header("Location: {$url}");
+
+		$this->hasRendered = TRUE;
+		ob_end_clean();
 	}
 
 	/**
@@ -41,8 +49,8 @@ class HttpView extends BaseView {
 	 */
 	public function setStatusCode($code)
 	{
-		$this->response->withStatus($code);
-		$this->response->withProtocolVersion(1.1);
+		$this->response->withStatus($code)
+			->withProtocolVersion(1.1);
 		return $this;
 	}
 

@@ -130,7 +130,7 @@ class Collection extends BaseController {
 	 */
 	public function edit()
 	{
-		$data = $this->request->post->get();
+		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
 			$this->anime_collection_model->update($data);
@@ -151,7 +151,7 @@ class Collection extends BaseController {
 	 */
 	public function add()
 	{
-		$data = $this->request->post->get();
+		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
 			$this->anime_collection_model->add($data);
@@ -172,7 +172,7 @@ class Collection extends BaseController {
 	 */
 	public function delete()
 	{
-		$data = $this->request->post->get();
+		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
 			$this->redirect("collection/view", 303);
