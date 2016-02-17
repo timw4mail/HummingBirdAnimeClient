@@ -262,7 +262,7 @@ class Dispatcher extends RoutingBase {
 	protected function get_error_params()
 	{
 		$logger = $this->container->getLogger('default');
-		$failure = $this->router->getFailedRoute();
+		$failure = $this->matcher->getFailedRoute();
 
 		$logger->info('Dispatcher - failed route');
 		$logger->info(print_r($failure, TRUE));
@@ -271,26 +271,27 @@ class Dispatcher extends RoutingBase {
 
 		$params = [];
 
-		if ($failure->failedMethod())
-		{
-			$params = [
-				'http_code' => 405,
-				'title' => '405 Method Not Allowed',
-				'message' => 'Invalid HTTP Verb'
-			];
-		}
-		else if ($failure->failedAccept())
-		{
-			$params = [
-				'http_code' => 406,
-				'title' => '406 Not Acceptable',
-				'message' => 'Unacceptable content type'
-			];
-		}
-		else
-		{
-			// Fall back to a 404 message
-			$action_method = AnimeClient::NOT_FOUND_METHOD;
+		switch($failure->failedRule) {
+			case 'Aura\Router\Rule\Alows':
+				$params = [
+					'http_code' => 405,
+					'title' => '405 Method Not Allowed',
+					'message' => 'Invalid HTTP Verb'
+				];
+			break;
+
+			case 'Aura\Router\Rule\Accepts':
+				$params = [
+					'http_code' => 406,
+					'title' => '406 Not Acceptable',
+					'message' => 'Unacceptable content type'
+				];
+			break;
+
+			default:
+				// Fall back to a 404 message
+				$action_method = AnimeClient::NOT_FOUND_METHOD;
+			break;
 		}
 
 		return [
@@ -334,19 +335,19 @@ class Dispatcher extends RoutingBase {
 				: "get";
 
 			// Add the route to the router object
-			//if ( ! array_key_exists('tokens', $route))
+			if ( ! array_key_exists('tokens', $route))
 			{
-				$routes[] = $this->router->$add($name, $path);//->addValues($route);
+				$routes[] = $this->router->$add($name, $path)->defaults($route);
 			}
-			/*else
+			else
 			{
 				$tokens = $route['tokens'];
 				unset($route['tokens']);
 
 				$routes[] = $this->router->$add($name, $path)
-					->addValues($route)
-					->addTokens($tokens);
-			}*/
+					->defaults($route)
+					->tokens($tokens);
+			}
 		}
 
 		return $routes;

@@ -127,7 +127,7 @@ class Manga extends Controller {
 	 */
 	public function add()
 	{
-		$data = $this->request->post->get();
+		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
 			$this->redirect("manga/add", 303);
@@ -176,8 +176,8 @@ class Manga extends Controller {
 	 */
  	public function search()
  	{
- 		$query = $this->request->query->get('query');
- 		$this->outputJSON($this->model->search($query));
+		$query_data = $this->request->getQueryParams();
+ 		$this->outputJSON($this->model->search($query_data['query']));
  	}
 
 	/**
@@ -187,7 +187,7 @@ class Manga extends Controller {
 	 */
 	public function form_update()
 	{
-		$post_data = $this->request->post->get();
+		$post_data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
@@ -221,7 +221,7 @@ class Manga extends Controller {
 	 */
 	public function update()
 	{
-		$result = $this->model->update($this->request->post->get());
+		$result = $this->model->update($this->request->getParsedBody());
 		$this->outputJSON($result['body'], $result['statusCode']);
 	}
 }
