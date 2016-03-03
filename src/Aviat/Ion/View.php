@@ -21,14 +21,21 @@ use Aviat\Ion\Type\StringType;
 abstract class View {
 
 	use Di\ContainerAware;
-	use \Aviat\Ion\StringWrapper;
+	use StringWrapper;
 
 	/**
 	 * HTTP response Object
 	 *
 	 * @var Zend\Diactoros\Response
 	 */
-	protected $response;
+	public $response;
+
+	/**
+	 * Redirect response object
+	 *
+	 * @var Zend\Diactoros\RedirectResponse
+	 */
+	protected $redirectResponse;
 
 	/**
 	 * Response mime type
@@ -61,6 +68,7 @@ abstract class View {
 	{
 		$this->setContainer($container);
 		$this->response = $container->get('response');
+		$this->redirectResponse = NULL;
 	}
 
 	/**
@@ -106,9 +114,7 @@ abstract class View {
 	 */
 	public function appendOutput($string)
 	{
-		$this->response->getBody()->write($string);
-
-		return $this;
+		return $this->setOutput($string);
 	}
 
 	/**

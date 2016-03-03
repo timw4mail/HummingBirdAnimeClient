@@ -31,11 +31,17 @@ class HttpView extends BaseView {
 	public function redirect($url, $code)
 	{
 		ob_start();
-		$response = new Response();
-		$message = $response->getReasonPhrase($code);
+		$message = $this->response->getReasonPhrase($code);
+		$this->setStatusCode($code);
+		$this->response->withHeader('Location', $url);
 
-		header("HTTP/1.1 ${code} ${message}");
-		header("Location: {$url}");
+		// @codeCoverageIgnore start
+		if (PHP_SAPI !== 'cli')
+		{
+			header("HTTP/1.1 ${code} ${message}");
+			header("Location: {$url}");
+		}
+		// @codeCoverageIgnore end
 
 		$this->hasRendered = TRUE;
 		ob_end_clean();
