@@ -12,7 +12,6 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\View\HttpView;
 use Aviat\Ion\Di\ContainerInterface;
 
 /**

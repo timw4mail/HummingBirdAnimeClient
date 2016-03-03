@@ -16,7 +16,6 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View\HtmlView;
 use Aviat\Ion\View\JsonView;
-use Aviat\AnimeClient\AnimeClient;
 
 /**
  * Controller base, defines output methods
@@ -82,10 +81,12 @@ class Controller {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->setContainer($container);
+		$auraUrlGenerator = $container->get('aura-router')->getGenerator();
 		$urlGenerator = $container->get('url-generator');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
+		$this->base_data['url'] = $auraUrlGenerator;
 		$this->base_data['urlGenerator'] = $urlGenerator;
 		$this->base_data['auth'] = $container->get('auth');
 		$this->base_data['config'] = $this->config;

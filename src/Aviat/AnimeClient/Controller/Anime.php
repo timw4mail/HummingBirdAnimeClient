@@ -186,7 +186,7 @@ class Anime extends BaseController {
 				->titleize();
 		}
 
-		$this->set_session_redirect($this->request->server->get('HTTP_REFERRER'));
+		$this->set_session_redirect();
 
 		$this->outputHTML('anime/edit', [
 			'title' => $this->config->get('whose_list') .

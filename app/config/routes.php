@@ -43,17 +43,17 @@ return [
 		// ---------------------------------------------------------------------
 		// Anime List Routes
 		// ---------------------------------------------------------------------
-		'anime_add_form' => [
+		'anime.add.get' => [
 			'path' => '/anime/add',
 			'action' => 'add_form',
 			'verb' => 'get'
 		],
-		'anime_add' => [
+		'anime.add.post' => [
 			'path' => '/anime/add',
 			'action' => 'add',
 			'verb' => 'post'
 		],
-		'anime_detail' => [
+		'anime.details' => [
 			'path' => '/anime/details/{id}',
 			'action' => 'details',
 			'tokens' => [
@@ -63,16 +63,16 @@ return [
 		// ---------------------------------------------------------------------
 		// Manga Routes
 		// ---------------------------------------------------------------------
-		'manga_search' => [
+		'manga.search' => [
 			'path' => '/manga/search',
 			'action' => 'search',
 		],
-		'manga_add_form' => [
+		'manga.add.get' => [
 			'path' => '/manga/add',
 			'action' => 'add_form',
 			'verb' => 'get'
 		],
-		'manga_add' => [
+		'manga.add.post' => [
 			'path' => '/manga/add',
 			'action' => 'add',
 			'verb' => 'post'
@@ -80,33 +80,33 @@ return [
 		// ---------------------------------------------------------------------
 		// Anime Collection Routes
 		// ---------------------------------------------------------------------
-		'collection_search' => [
+		'collection.search' => [
 			'path' => '/collection/search',
 			'action' => 'search'
 		],
-		'collection_add_form' => [
+		'collection.add.get' => [
 			'path' => '/collection/add',
 			'action' => 'form',
 			'params' => [],
 		],
-		'collection_edit_form' => [
+		'collection.edit.get' => [
 			'path' => '/collection/edit/{id}',
 			'action' => 'form',
 			'tokens' => [
 				'id' => '[0-9]+'
 			]
 		],
-		'collection_add' => [
+		'collection.add.post' => [
 			'path' => '/collection/add',
 			'action' => 'add',
 			'verb' => 'post'
 		],
-		'collection_edit' => [
+		'collection.edit.post' => [
 			'path' => '/collection/edit',
 			'action' => 'edit',
 			'verb' => 'post'
 		],
-		'collection' => [
+		'collection.view' => [
 			'path' => '/collection/view{/view}',
 			'action' => 'index',
 			'params' => [],
@@ -117,19 +117,22 @@ return [
 		// ---------------------------------------------------------------------
 		// Default / Shared routes
 		// ---------------------------------------------------------------------
-		'login_form' => [
-			'path' => '/{controller}/login',
+		'login' => [
+			'path' => '/login',
 			'action' => 'login',
+			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'get'
 		],
-		'login_post' => [
-			'path' => '/{controller}/login',
+		'login.post' => [
+			'path' => '/login',
 			'action' => 'login_action',
+			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'post'
 		],
 		'logout' => [
-			'path' => '/{controller}/logout',
-			'action' => 'logout'
+			'path' => '/logout',
+			'action' => 'logout',
+			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 		],
 		'update' => [
 			'path' => '/{controller}/update',
@@ -139,7 +142,7 @@ return [
 				'controller' => '[a-z_]+'
 			]
 		],
-		'update_form' => [
+		'update.post' => [
 			'path' => '/{controller}/update_form',
 			'action' => 'form_update',
 			'verb' => 'post',

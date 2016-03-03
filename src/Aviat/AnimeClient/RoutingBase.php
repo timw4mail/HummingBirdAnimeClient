@@ -85,6 +85,7 @@ class RoutingBase {
 		$request = $this->container->get('request');
 		$path = $request->getUri()->getPath();
 		$cleaned_path = $this->string($path)
+			->replace('%20', '')
 			->trim()
 			->trimRight('/')
 			->ensureLeft('/');

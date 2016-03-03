@@ -14,7 +14,7 @@ class JsonViewTest extends HttpViewTest {
 		$this->friend = new Friend($this->view);
 	}
 
-	public function testSetOutput()
+	public function testSetOutputJSON()
 	{
 		// Extend view class to remove destructor which does output
 		$view = new TestJsonView($this->container);
@@ -22,14 +22,18 @@ class JsonViewTest extends HttpViewTest {
 		// Json encode non-string
 		$content = ['foo' => 'bar'];
 		$expected = json_encode($content);
-		$this->view->setOutput($content);
+		$view->setOutput($content);
 		$this->assertEquals($expected, $this->view->getOutput());
+	}
 
+	public function testSetOutput()
+	{
 		// Directly set string
+		$view = new TestJsonView($this->container);
 		$content = '{}';
 		$expected = '{}';
-		$this->view->setOutput($content);
-		$this->assertEquals($expected, $this->view->getOutput());
+		$view->setOutput($content);
+		$this->assertEquals($expected, $view->getOutput());
 	}
 
 	public function testOutput()

@@ -16,7 +16,9 @@ use Aura\Web\Request;
 use Aura\Web\Response;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Friend;
 use Aviat\AnimeClient\AnimeClient;
+
 
 /**
  * Basic routing/ dispatch
@@ -113,7 +115,7 @@ class Dispatcher extends RoutingBase {
 
 		if ($route)
 		{
-			$parsed = $this->process_route($route);
+			$parsed = $this->process_route(new Friend($route));
 			$controller_name = $parsed['controller_name'];
 			$action_method = $parsed['action_method'];
 			$params = $parsed['params'];
@@ -161,20 +163,20 @@ class Dispatcher extends RoutingBase {
 			? $route->attributes['action']
 			: AnimeClient::NOT_FOUND_METHOD;
 
-		$params = (array_key_exists('params', $route->attributes))
-			? $route->attributes['params']
-			: [];
-
-		if ( ! empty($route->tokens))
+		$params = [];
+		if ( ! empty($route->__get('tokens')))
 		{
-			foreach ($route->tokens as $key => $v)
+			$tokens = array_keys($route->__get('tokens'));
+			foreach ($tokens as $param)
 			{
-				if (array_key_exists($key, $route->attributes))
+				if (array_key_exists($param, $route->attributes))
 				{
-					$params[$key] = $route->attributes[$key];
+					$params[$param] = $route->attributes[$param];
 				}
 			}
 		}
+		$logger = $this->container->getLogger('default');
+		$logger->info(json_encode($params));
 
 		return [
 			'controller_name' => $controller_name,
