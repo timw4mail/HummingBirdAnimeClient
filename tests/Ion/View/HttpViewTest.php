@@ -14,14 +14,6 @@ class HttpViewTest extends AnimeClient_TestCase {
 		$this->friend = new Friend($this->view);
 	}
 
-	public function testRedirect()
-	{
-$this->markTestSkipped();
-		$this->friend->redirect('/foo', 303);
-		$this->assertEquals(['/foo'], $this->friend->response->getHeader('Location'));
-		$this->assertEquals(303, $this->friend->response->getStatusCode());
-	}
-
 	public function testGetOutput()
 	{
 		$this->friend->setOutput('foo');
@@ -48,8 +40,7 @@ $this->markTestSkipped();
 
 	public function testSetStatusCode()
 	{
-$this->markTestSkipped();
-		$this->view->setStatusCode(404);
-		$this->assertEquals(404, $this->friend->response->getStatusCode());
+		$view = $this->view->setStatusCode(404);
+		$this->assertEquals(404, $view->response->getStatusCode());
 	}
 }

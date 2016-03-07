@@ -4,7 +4,7 @@ suite('AnimeClient methods exist', function () {
 	test("AnimeClient exists", function () {
 		expect(AnimeClient).to.be.ok;
 	});
-	['$', 'scrollToTop', 'showMessage', 'closestParent', 'url', 'throttle', 'on', 'ajax', 'get'].forEach((method) => {
+	['$', 'scrollToTop', 'showMessage', 'show', 'hide', 'closestParent', 'url', 'throttle', 'on', 'ajax', 'get'].forEach((method) => {
 		test("AnimeClient." + method + ' exists.', function () {
 			expect(AnimeClient[method]).to.be.ok;
 		});

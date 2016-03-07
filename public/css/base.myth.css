@@ -79,6 +79,8 @@ a:hover, a:active {
 .align_left {text-align:left}
 .align_right {text-align:right}
 
+.valign_top {vertical-align:top}
+
 .no_border {border:none}
 
 .media-wrap {
@@ -159,11 +161,8 @@ a:hover, a:active {
 	Table sorting and form styles
 ------------------------------------------------------------------------------*/
 .sorting,
-/*.sorting::before,*/
 .sorting_asc,
-/*.sorting_asc::before,*/
-.sorting_desc
-/*.sorting_desc::before*/ {
+.sorting_desc {
 	vertical-align:text-bottom;
 }
 .sorting::before {
@@ -193,10 +192,10 @@ a:hover, a:active {
 	min-width:70%;
 }
 
-.form.invisible tr:nth-child(odd) {
+.invisible tbody > tr:nth-child(odd) {
 	background: inherit;
 }
-.form.invisible tr, .form.invisible td, .form.invisible th {
+.invisible tr, .invisible td, .invisible th {
 	border:0;
 }
 
@@ -221,10 +220,6 @@ a:hover, a:active {
 	vertical-align:middle;
 	line-height:1em;
 }
-
-/*.message .close:after {
-	content: '☐';
-}*/
 
 .message:hover .close:after {
 	content: '☒';
@@ -423,7 +418,7 @@ a:hover, a:active {
 
 
 /* -----------------------------------------------------------------------------
-	Page-specific styles
+	Search page styles
 ------------------------------------------------------------------------------*/
 .media.search > .name {
 	background-color:#555;
@@ -467,5 +462,45 @@ a:hover, a:active {
 	vertical-align:middle;
 }
 
+/* ----------------------------------------------------------------------------
+	Details page styles
+-----------------------------------------------------------------------------*/
+.details {
+	margin: 1.5rem auto 0 auto;
+	max-width:93rem;
+	padding:1rem;
+	font-size:inherit;
+}
 
+.details .cover {
+	max-width: 300px;
+	max-height: 435px;
+}
 
+.details h2 {
+	margin-top: 0;
+}
+
+.details .flex > div {
+	margin: 1rem;
+}
+
+.details table {
+	max-width:300px;
+}
+	.details td {
+		padding:0 1.5rem;
+	}
+
+.details p {
+	text-align:justify;
+}
+
+.details td:nth-child(odd) {
+	width:1%;
+	white-space:nowrap;
+	text-align:right;
+}
+.details td:nth-child(even) {
+	text-align:left;
+}

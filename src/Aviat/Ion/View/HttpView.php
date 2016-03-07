@@ -24,6 +24,7 @@ class HttpView extends BaseView {
 	/**
 	 * Do a redirect
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $url
 	 * @param int $code
 	 * @return void
@@ -35,13 +36,11 @@ class HttpView extends BaseView {
 		$this->setStatusCode($code);
 		$this->response->withHeader('Location', $url);
 
-		// @codeCoverageIgnore start
 		if (PHP_SAPI !== 'cli')
 		{
 			header("HTTP/1.1 ${code} ${message}");
 			header("Location: {$url}");
 		}
-		// @codeCoverageIgnore end
 
 		$this->hasRendered = TRUE;
 		ob_end_clean();
@@ -55,7 +54,7 @@ class HttpView extends BaseView {
 	 */
 	public function setStatusCode($code)
 	{
-		$this->response->withStatus($code)
+		$this->response = $this->response->withStatus($code)
 			->withProtocolVersion(1.1);
 		return $this;
 	}

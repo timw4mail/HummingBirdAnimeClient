@@ -13,7 +13,7 @@
 				<article class="media" id="a-<?= $item['hummingbird_id'] ?>">
 					<img src="<?= $urlGenerator->asset_url('images', 'anime', basename($item['cover_image'])) ?>" />
 					<div class="name">
-						<a href="https://hummingbird.me/anime/<?= $item['slug'] ?>">
+						<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 						<?= $item['title'] ?>
 						<?= ($item['alternate_title'] != "") ? "<br />({$item['alternate_title']})" : ""; ?>
 						</a>
