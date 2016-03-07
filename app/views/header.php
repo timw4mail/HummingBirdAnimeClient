@@ -6,7 +6,8 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="cache-control" content="no-store" />
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
-	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php/g/base') ?>" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php/g/base/debug') ?>" />
 	<script src="<?= $urlGenerator->asset_url('js.php/g/base') ?>"></script>
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
@@ -31,9 +32,9 @@
 			</span>
 			<span class="flex-no-wrap small-font">
 				<?php if ($auth->is_authenticated()): ?>
-				<a class="bracketed" href="<?= $urlGenerator->url("/{$url_type}/logout", $url_type) ?>">Logout</a>
+				<a class="bracketed" href="<?= $url->generate('logout') ?>">Logout</a>
 				<?php else: ?>
-				[<a href="<?= $urlGenerator->url("/{$url_type}/login", $url_type) ?>"><?= $config->get('whose_list') ?>'s Login</a>]
+				[<a href="<?= $url->generate('login'); ?>"><?= $config->get('whose_list') ?>'s Login</a>]
 				<?php endif ?>
 			</span>
 		</h1>

@@ -20,3 +20,4 @@ build/**
 !build/*.txt
 !build/*.xml
 !build/*.php
+app/config/*.toml

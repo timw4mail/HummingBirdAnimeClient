@@ -137,6 +137,10 @@ h1 a {
   text-align: right;
 }
 
+.valign_top {
+  vertical-align: top;
+}
+
 .no_border {
   border: none;
 }
@@ -307,13 +311,13 @@ h1 a {
   min-width: 70%;
 }
 
-.form.invisible tr:nth-child(odd) {
+.invisible tbody > tr:nth-child(odd) {
   background: inherit;
 }
 
-.form.invisible tr,
-.form.invisible td,
-.form.invisible th {
+.invisible tr,
+.invisible td,
+.invisible th {
   border: 0;
 }
 
@@ -338,10 +342,6 @@ h1 a {
   vertical-align: middle;
   line-height: 1em;
 }
-
-/*.message .close:after {
-	content: '☐';
-}*/
 
 .message:hover .close:after {
   content: '☒';
@@ -554,7 +554,7 @@ h1 a {
 }
 
 /* -----------------------------------------------------------------------------
-	Page-specific styles
+	Search page styles
 ------------------------------------------------------------------------------*/
 
 .media.search > .name {
@@ -600,4 +600,50 @@ h1 a {
   height: 100%;
   width: 100%;
   vertical-align: middle;
+}
+
+/* ----------------------------------------------------------------------------
+	Details page styles
+-----------------------------------------------------------------------------*/
+
+.details {
+  margin: 1.5rem auto 0 auto;
+  max-width: 93rem;
+  padding: 1rem;
+  font-size: inherit;
+}
+
+.details .cover {
+  max-width: 300px;
+  max-height: 435px;
+}
+
+.details h2 {
+  margin-top: 0;
+}
+
+.details .flex > div {
+  margin: 1rem;
+}
+
+.details table {
+  max-width: 300px;
+}
+
+.details td {
+  padding: 0 1.5rem;
+}
+
+.details p {
+  text-align: justify;
+}
+
+.details td:nth-child(odd) {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.details td:nth-child(even) {
+  text-align: left;
 }

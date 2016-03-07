@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->is_authenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->url('anime/add', 'anime') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -34,7 +34,7 @@
 				</td>
 				<?php endif ?>
 				<td class="justify">
-					<a href="<?= $item['anime']['url'] ?>" target="_blank">
+					<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>" target="_blank">
 						<?= $item['anime']['title'] ?>
 					</a>
 					<?= ( ! empty($item['anime']['alternate_title'])) ? " <br /> " . $item['anime']['alternate_title'] : "" ?>
