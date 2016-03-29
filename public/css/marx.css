@@ -17,9 +17,6 @@ details {
   display: block;
 }
 
-/*input[type="number"] {
-  width: auto; }*/
-
 input[type="search"] {
   -webkit-appearance: textfield;
 }

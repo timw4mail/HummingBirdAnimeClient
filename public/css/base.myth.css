@@ -9,7 +9,7 @@
 	--edit-link-color: #12db18;
 }
 
-template {display:none}
+template, [hidden="hidden"], .media[hidden] {display:none}
 
 body {margin: 0.5em;}
 

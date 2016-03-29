@@ -7,9 +7,7 @@
 
 	// Action to increment episode count
 	_.on('body.anime.list', 'click', '.plus_one', function(e) {
-		let this_sel = this;
 		let parent_sel = _.closestParent(this, 'article');
-
 		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
 		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
 		let title = _.$('.name a', parent_sel)[0].textContent;
@@ -27,7 +25,7 @@
 		}
 
 		// If you increment at the last episode, mark as completed
-		if (( ! isNaN(watched_count)) && (watched_count + 1) === total_count) {
+		if (( ! isNaN(watched_count)) && (watched_count + 1) == total_count) {
 			delete data.increment_episodes;
 			data.status = 'completed';
 		}
@@ -39,7 +37,7 @@
 			type: 'POST',
 			mimeType: 'application/json',
 			success: (res) => {
-				if (res.status === 'completed') {
+				if (data.status == 'completed') {
 					_.hide(parent_sel);
 				}
 

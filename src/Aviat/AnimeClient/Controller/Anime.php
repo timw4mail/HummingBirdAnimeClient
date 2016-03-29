@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Hummingbird Anime Client
  *
@@ -16,7 +17,6 @@ namespace Aviat\AnimeClient\Controller;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 /**
@@ -122,7 +122,7 @@ class Anime extends BaseController {
 
 		foreach ($raw_status_list as $status_item)
 		{
-			$statuses[$status_item] = (string)$this->string($status_item)
+			$statuses[$status_item] = (string) $this->string($status_item)
 				->underscored()
 				->humanize()
 				->titleize();
@@ -180,7 +180,7 @@ class Anime extends BaseController {
 
 		foreach ($raw_status_list as $status_item)
 		{
-			$statuses[$status_item] = (string)$this->string($status_item)
+			$statuses[$status_item] = (string) $this->string($status_item)
 				->underscored()
 				->humanize()
 				->titleize();
@@ -216,12 +216,12 @@ class Anime extends BaseController {
 	 */
 	public function form_update()
 	{
-		$post_data = $this->request->getParsedBody();
+		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
-		$post_data = $transformer->untransform($post_data);
+		$post_data = $transformer->untransform($data);
 
 		$full_result = $this->model->update($post_data);
 		$result = $full_result['body'];
@@ -275,5 +275,7 @@ class Anime extends BaseController {
 			'data' => $data,
 		]);
 	}
+
 }
+
 // End of AnimeController.php
