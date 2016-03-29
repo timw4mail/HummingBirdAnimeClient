@@ -55,7 +55,7 @@ class HttpView extends BaseView {
 	public function setStatusCode($code)
 	{
 		$this->response = $this->response->withStatus($code)
-			->withProtocolVersion(1.1);
+			->withProtocolVersion('1.1');
 		return $this;
 	}
 
