@@ -76,7 +76,8 @@ class Collection extends BaseController {
 	 */
 	public function search()
 	{
-		$query = $this->request->query->get('query');
+		$queryParams = $this->request->getQueryParams();
+		$query = $queryParams['query'];
 		$this->outputJSON($this->anime_model->search($query));
 	}
 
