@@ -23,9 +23,9 @@ interface CacheInterface {
 	 *
 	 * @param object $object - object to retrieve fresh value from
 	 * @param string $method - method name to call
-	 * @param array $args - the arguments to pass to the retrieval method
+	 * @param [array] $args - the arguments to pass to the retrieval method
 	 * @return mixed - the cached or fresh data
-	 */ 
-	public function get($object, $method, array $args);
+	 */
+	public function get($object, $method, array $args=[]);
 }
 // End of CacheInterface.php

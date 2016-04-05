@@ -32,5 +32,13 @@ interface CacheDriverInterface {
      * @return CacheDriverInterface
      */
     public function set($key, $value);
+
+    /**
+     * Invalidate a cached value
+     *
+     * @param string $key
+     * @return CacheDriverInterface
+     */
+    public function invalidate($key);
 }
 // End of CacheDriverInterface.php

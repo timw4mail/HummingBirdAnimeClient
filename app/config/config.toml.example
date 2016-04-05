@@ -14,5 +14,8 @@ show_anime_collection = true
 # do you wish to show the manga collection?
 show_manga_collection = false
 
+# cache driver for api calls (SQLDriver, RedisDriver, MemcacheDriver)
+cache_driver = SQLDriver
+
 # path to public directory on the server
 asset_dir = "/../../public"
