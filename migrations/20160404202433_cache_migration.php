@@ -27,8 +27,8 @@ class CacheMigration extends AbstractMigration
      */
     public function change()
     {
-		$this->table('cache', ['id' => FALSE, 'primary_key' => ['key']])
-			->addColumn('key', 'text')
+		$cacheTable = $this->table('cache', ['id' => FALSE, 'primary_key' => ['key']]);
+		$cacheTable->addColumn('key', 'text')
 			->addColumn('value', 'text')
 			->create();
     }

@@ -15,6 +15,7 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
 use Aviat\Ion\Di\Container;
+use Aviat\Ion\Cache\CacheManager;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
 use Aviat\AnimeClient\Model;
 
@@ -30,7 +31,6 @@ return function(array $config_array = []) {
 
 	$app_logger = new Logger('animeclient');
 	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
-	$app_logger->pushHandler(new BrowserConsoleHandler(Logger::INFO));
 	$container->setLogger($app_logger, 'default');
 
 	// -------------------------------------------------------------------------
@@ -83,6 +83,8 @@ return function(array $config_array = []) {
 	$container->set('anime-collection-model', new Model\AnimeCollection($container));
 
 	$container->set('auth', new HummingbirdAuth($container));
+	
+	$container->set('cache', new CacheManager($container));
 
 	// -------------------------------------------------------------------------
 	// Dispatcher

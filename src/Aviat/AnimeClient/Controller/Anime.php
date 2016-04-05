@@ -37,6 +37,11 @@ class Anime extends BaseController {
 	 * @var array $base_data
 	 */
 	protected $base_data;
+	
+	/**
+	 * Data cache
+	 */
+	protected $cache;
 
 	/**
 	 * Constructor
@@ -55,6 +60,8 @@ class Anime extends BaseController {
 			'other_type' => 'manga',
 			'config' => $this->config,
 		]);
+		
+		$this->cache = $container->get('cache');
 	}
 
 	/**
@@ -98,10 +105,14 @@ class Anime extends BaseController {
 			'' => 'cover',
 			'list' => 'list'
 		];
-
+		
 		$data = ($type != 'all')
+			? $this->cache->get($this->model, 'get_list', ['status' => $model_map[$type]])
+			: $this->cache->get($this->model, 'get_all_lists', []);
+
+		/*$data = ($type != 'all')
 			? $this->model->get_list($model_map[$type])
-			: $this->model->get_all_lists();
+			: $this->model->get_all_lists();*/
 
 		$this->outputHTML('anime/' . $view_map[$view], [
 			'title' => $title,
