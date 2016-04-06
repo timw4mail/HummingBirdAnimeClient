@@ -76,7 +76,17 @@ class CacheManager implements CacheInterface {
 		$this->driver->set($hash, $data);
 		return $data;
 	}
-	
+
+	/**
+	 * Clear the entire cache
+	 *
+	 * @return void
+	 */
+	public function purge()
+	{
+		$this->driver->invalidateAll();
+	}
+
 	/**
 	 * Generate a hash as a cache key from the current method call
 	 *
@@ -85,7 +95,7 @@ class CacheManager implements CacheInterface {
 	 * @param array $args
 	 * @return string
 	 */
-	public function generateHashForMethod($object, $method, array $args)
+	protected function generateHashForMethod($object, $method, array $args)
 	{
 		$classname = get_class($object);
 		$keyObj = [

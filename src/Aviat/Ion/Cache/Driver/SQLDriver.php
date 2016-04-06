@@ -26,7 +26,7 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 	 * @var object $db
 	 */
 	protected $db;
-	
+
 	/**
 	 * Create the driver object
 	 */
@@ -66,7 +66,7 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 		
 		return NULL;
 	}
-	
+
 	/**
 	 * Set a cached value
 	 *
@@ -92,7 +92,7 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 
 		return $this;
 	}
-	
+
 	/**
      * Invalidate a cached value
      *
@@ -105,6 +105,16 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 			->delete('cache');
 			
 		return $this;
+	}
+
+	/**
+     * Clear the contents of the cache
+     *
+     * @return void
+     */
+	public function invalidateAll()
+	{
+		$this->db->truncate('cache');
 	}
 }
 // End of SQLDriver.php
