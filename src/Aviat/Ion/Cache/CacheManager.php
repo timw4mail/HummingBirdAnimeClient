@@ -31,13 +31,18 @@ class CacheManager implements CacheInterface {
 	{
 		$config = $container->get('config');
 		$driverConf = $config->get('cache_driver');
-		
+
+		if (empty($driverConf))
+		{
+			$driverConf = 'SQLDriver';
+		}
+
 		$driverClass = __NAMESPACE__ . "\\Driver\\{$driverConf}";
 		$driver = new $driverClass($container);
-		
+
 		$this->driver = $driver;
 	}
-	
+
 	/**
 	 * Retreive a cached value if it exists, otherwise, get the value
 	 * from the passed arguments
@@ -50,18 +55,18 @@ class CacheManager implements CacheInterface {
 	public function get($object, $method, array $args=[])
 	{
 		$hash = $this->generateHashForMethod($object, $method, $args);
-		
+
 		$data = $this->driver->get($hash);
-		
+
 		if (empty($data))
 		{
 			$data = call_user_func_array([$object, $method], $args);
 			$this->driver->set($hash, $data);
 		}
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 * Retreive a fresh value from the method, and update the cache
 	 * @param object $object - object to retrieve fresh value from
