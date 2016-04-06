@@ -40,5 +40,12 @@ interface CacheDriverInterface {
      * @return CacheDriverInterface
      */
     public function invalidate($key);
+
+    /**
+     * Clear the contents of the cache
+     *
+     * @return void
+     */
+    public function invalidateAll();
 }
 // End of CacheDriverInterface.php

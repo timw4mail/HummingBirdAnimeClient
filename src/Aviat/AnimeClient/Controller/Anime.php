@@ -91,15 +91,10 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		if (array_key_exists($type, $type_title_map))
-		{
-			$title = $this->config->get('whose_list') .
-				"'s Anime List &middot; {$type_title_map[$type]}";
-		}
-		else
-		{
-			$title = '';
-		}
+		$title = (array_key_exists($type, $type_title_map))
+			? $this->config->get('whose_list') .
+				"'s Anime List &middot; {$type_title_map[$type]}"
+			: '';
 
 		$view_map = [
 			'' => 'cover',
@@ -109,10 +104,6 @@ class Anime extends BaseController {
 		$data = ($type != 'all')
 			? $this->cache->get($this->model, 'get_list', ['status' => $model_map[$type]])
 			: $this->cache->get($this->model, 'get_all_lists', []);
-
-		/*$data = ($type != 'all')
-			? $this->model->get_list($model_map[$type])
-			: $this->model->get_all_lists();*/
 
 		$this->outputHTML('anime/' . $view_map[$view], [
 			'title' => $title,
@@ -166,6 +157,7 @@ class Anime extends BaseController {
 		if ($result['statusCode'] == 201)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
+			$this->cache->purge();
 		}
 		else
 		{
@@ -245,6 +237,7 @@ class Anime extends BaseController {
 				: "{$result['anime']['title']}";
 
 			$this->set_flash_message("Successfully updated {$title}.", 'success');
+			$this->cache->purge();
 		}
 		else
 		{
@@ -260,6 +253,7 @@ class Anime extends BaseController {
 	public function update()
 	{
 		$response = $this->model->update($this->request->getParsedBody());
+		$this->cache->purge();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -269,6 +263,7 @@ class Anime extends BaseController {
 	public function delete()
 	{
 		$response = $this->model->update($this->request->getParsedBody());
+		$this->cache->purge();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
