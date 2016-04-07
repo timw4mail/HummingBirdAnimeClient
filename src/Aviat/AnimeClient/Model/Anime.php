@@ -223,7 +223,7 @@ class Anime extends API {
 		}
 
 		$response = $this->get("users/{$username}/library", $config);
-		$output = $this->_check_cache($status, $response);
+		$output = $this->transform($status, $response);
 
 		foreach ($output as &$row)
 		{
@@ -234,35 +234,18 @@ class Anime extends API {
 	}
 
 	/**
-	 * Handle caching of transformed api data
+	 * Handle transforming of api data
 	 *
-	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @param \GuzzleHttp\Message\Response
 	 * @return array
 	 */
-	protected function _check_cache($status, $response)
+	protected function transform($status, $response)
 	{
-		$cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}.json");
-		$transformed_cache_file = _dir($this->config->get('data_cache_path'), "anime-{$status}-transformed.json");
-
-		$cached = (file_exists($cache_file))
-			? Json::decodeFile($cache_file)
-			: [];
 		$api_data = Json::decode($response->getBody(), TRUE);
-
-		if ($api_data === $cached && file_exists($transformed_cache_file))
-		{
-			return Json::decodeFile($transformed_cache_file);
-		}
-		else
-		{
-			Json::encodeFile($cache_file, $api_data);
-			$transformer = new AnimeListTransformer();
-			$transformed = $transformer->transform_collection($api_data);
-			Json::encodeFile($transformed_cache_file, $transformed);
-			return $transformed;
-		}
+		$transformer = new AnimeListTransformer();
+		$transformed = $transformer->transform_collection($api_data);
+		return $transformed;
 	}
 }
 // End of AnimeModel.php

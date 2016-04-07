@@ -57,7 +57,6 @@ class Model {
 	 */
 	public function get_cached_image($api_path, $series_slug, $type = "anime")
 	{
-		$api_path = str_replace("jjpg", "jpg", $api_path);
 		$path_parts = explode('?', basename($api_path));
 		$path = current($path_parts);
 		$ext_parts = explode('.', $path);
