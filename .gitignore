@@ -8,6 +8,7 @@ vendor
 **/logs/**
 **/coverage/**
 **/docs/**
+**/node_modules/**
 public/images/*
 composer.lock
 *.sqlite
@@ -21,3 +22,5 @@ build/**
 !build/*.xml
 !build/*.php
 app/config/*.toml
+!app/config/*.toml.example
+phinx.yml
