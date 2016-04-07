@@ -215,7 +215,7 @@ class Manga extends API {
 		];
 
 		$response = $this->get('manga_library_entries', $config);
-		$data = $this->_check_cache($response);
+		$data = $this->transform($response);
 		$output = $this->map_by_status($data);
 
 		return (array_key_exists($status, $output))
@@ -230,7 +230,7 @@ class Manga extends API {
 	 * @codeCoverageIgnore
 	 * @return array
 	 */
-	private function _check_cache($response)
+	private function transform($response)
 	{
 		// Bail out early if there isn't any manga data
 		$api_data = Json::decode($response->getBody(), TRUE);
@@ -239,30 +239,10 @@ class Manga extends API {
 			return [];
 		}
 
-		$cache_file = _dir($this->config->get('data_cache_path'), 'manga.json');
-		$transformed_cache_file = _dir(
-			$this->config->get('data_cache_path'),
-			'manga-transformed.json'
-		);
-
-		$cached_data = file_exists($cache_file)
-			? Json::decodeFile($cache_file)
-			: [];
-
-		if ($cached_data === $api_data && file_exists($transformed_cache_file))
-		{
-			return Json::decodeFile($transformed_cache_file);
-		}
-		else
-		{
-			Json::encodeFile($cache_file, $api_data);
-
-			$zippered_data = $this->zipper_lists($api_data);
-			$transformer = new Transformer\MangaListTransformer();
-			$transformed_data = $transformer->transform_collection($zippered_data);
-			Json::encodeFile($transformed_cache_file, $transformed_data);
-			return $transformed_data;
-		}
+		$zippered_data = $this->zipper_lists($api_data);
+		$transformer = new Transformer\MangaListTransformer();
+		$transformed_data = $transformer->transform_collection($zippered_data);
+		return $transformed_data;
 	}
 
 	/**

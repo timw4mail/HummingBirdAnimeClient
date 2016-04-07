@@ -27,6 +27,12 @@ class Manga extends Controller {
 	use \Aviat\Ion\StringWrapper;
 
 	/**
+	 * The cache manager
+	 * @var \Aviat\Ion\Cache\CacheInterface
+	 */
+	protected $cache;
+
+	/**
 	 * The manga model
 	 * @var object $model
 	 */
@@ -47,6 +53,7 @@ class Manga extends Controller {
 	{
 		parent::__construct($container);
 
+		$this->cache = $container->get('cache');
 		$this->model = $container->get('manga-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'manga_list',
@@ -82,8 +89,8 @@ class Manga extends Controller {
 		];
 
 		$data = ($status !== 'all')
-			? [$map[$status] => $this->model->get_list($map[$status])]
-			: $this->model->get_all_lists();
+			? [$map[$status] => $this->cache->get($this->model, 'get_list', ['status' => $map[$status]]) ]
+			: $this->cache->get($this->model, 'get_all_lists');
 
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
@@ -137,6 +144,7 @@ class Manga extends Controller {
 		if ($result['statusCode'] >= 200 && $result['statusCode'] < 300)
 		{
 			$this->set_flash_message('Added new manga to list', 'success');
+			$this->cache->purge();
 		}
 		else
 		{
@@ -204,6 +212,7 @@ class Manga extends Controller {
 				: "{$m['romaji_title']}";
 
 			$this->set_flash_message("Successfully updated {$title}.", 'success');
+			$this->cache->purge();
 		}
 		else
 		{
@@ -221,6 +230,7 @@ class Manga extends Controller {
 	public function update()
 	{
 		$result = $this->model->update($this->request->getParsedBody());
+		$this->cache->purge();
 		$this->outputJSON($result['body'], $result['statusCode']);
 	}
 }
