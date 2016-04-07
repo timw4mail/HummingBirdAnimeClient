@@ -33,16 +33,7 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-	
-		try
-		{
-			$this->db = \Query($this->db_config['collection']);
-		}
-		catch (\PDOException $e)
-		{
-			$this->valid_database = FALSE;
-			return FALSE;
-		}
+		$this->db = \Query($this->db_config['collection']);
 	}
 
 	/**
@@ -94,11 +85,11 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 	}
 
 	/**
-     * Invalidate a cached value
-     *
-     * @param string $key
-     * @return CacheDriverInterface
-     */
+	 * Invalidate a cached value
+	 *
+	 * @param string $key
+	 * @return CacheDriverInterface
+	 */
 	public function invalidate($key)
 	{
 		$this->db->where('key', $key)
@@ -108,10 +99,10 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 	}
 
 	/**
-     * Clear the contents of the cache
-     *
-     * @return void
-     */
+	 * Clear the contents of the cache
+	 *
+	 * @return void
+	 */
 	public function invalidateAll()
 	{
 		$this->db->truncate('cache');
