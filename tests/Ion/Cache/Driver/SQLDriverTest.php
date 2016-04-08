@@ -1,6 +1,6 @@
 <?php
 
-require('CacheDriverBase.php');
+require_once('CacheDriverBase.php');
 
 use Aviat\Ion\Friend;
 use Aviat\Ion\Cache\Driver\SQLDriver;

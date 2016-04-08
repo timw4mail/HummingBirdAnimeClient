@@ -71,6 +71,10 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 				'routes' => [
 
 				]
+			],
+			'redis' => [
+				'host' => 'localhost',
+				'database' => 13
 			]
 		];
 
