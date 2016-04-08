@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "watch": "npm-run-all --parallel watch:base watch:marx",
+    "watch:base": "myth -w css/base.myth.css css/base.css",
+    "watch:marx": "myth -w css/marx.myth.css css/marx.css"
+  },
+  "devDependencies": {
+    "myth": "^1.5.0",
+    "npm-run-all": "^1.7.0"
+  }
+}
