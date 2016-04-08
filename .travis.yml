@@ -12,12 +12,15 @@ php:
 
 
 before_script:
-  - pecl install redis
+  - sh -c "if [ '$PHP' != '7']; then pecl install redis fi"
   - phpenv config-add .travis.ini
 
 script:
   - mkdir -p build/logs
   - phpunit -c build
+  
+services:
+  - redis
 
 after_script:
     - CODECLIMATE_REPO_TOKEN=2cbddcebcb9256b3402867282e119dbe61de0b31039325356af3c7d72ed6d058 vendor/bin/test-reporter
@@ -25,6 +28,7 @@ after_script:
 matrix:
   allow_failures:
     - php: nightly
+    - php: hhvm
 
 addons:
     code_climate:
