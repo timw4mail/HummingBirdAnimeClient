@@ -17,7 +17,7 @@
 					<?php endif ?>
 					<?= $helper->img($item['anime']['image']); ?>
 					<div class="name">
-						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>" target="_blank">
+						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
 						<?= $escape->html($item['anime']['title']) ?>
 						<?= ($item['anime']['alternate_title'] != "") ? "<br />({$item['anime']['alternate_title']})" : ""; ?>
 						</a>
