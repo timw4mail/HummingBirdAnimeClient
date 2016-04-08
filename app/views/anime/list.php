@@ -34,7 +34,7 @@
 				</td>
 				<?php endif ?>
 				<td class="justify">
-					<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>" target="_blank">
+					<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
 						<?= $item['anime']['title'] ?>
 					</a>
 					<?= ( ! empty($item['anime']['alternate_title'])) ? " <br /> " . $item['anime']['alternate_title'] : "" ?>

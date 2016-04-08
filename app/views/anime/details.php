@@ -38,7 +38,7 @@
 			</table>
 		</div>
 		<div>
-			<h2><a target="_blank" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
+			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
 			<?php if( ! empty($data['alternate_title'])): ?>
 				<h3><?= $data['alternate_title'] ?></h3>
 			<?php endif ?>
