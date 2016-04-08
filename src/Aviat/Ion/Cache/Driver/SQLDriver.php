@@ -72,14 +72,7 @@ class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
 			'value' => serialize($value),
 		]);
 		
-		/*if ( ! empty($this->get($key)))
-		{
-			$this->db->update('cache');
-		}
-		else*/
-		{
-			$this->db->insert('cache');
-		}
+		$this->db->insert('cache');
 
 		return $this;
 	}
