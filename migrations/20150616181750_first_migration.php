@@ -34,7 +34,7 @@ class FirstMigration extends AbstractMigration {
 			->addColumn('cover_image', 'string', ['null' => TRUE])
 			->addColumn('episode_count', 'integer', ['null' => TRUE])
 			->addColumn('episode_length', 'integer', ['null' => TRUE])
-			->addColumn('notes', 'text')
+			->addColumn('notes', 'text', ['null' => TRUE])
 			->addForeignKey('media_id', 'media', 'id')
 			->create();
 
