@@ -224,7 +224,7 @@ class Manga extends API {
 	}
 
 	/**
-	 * Check the status of the cache and return the appropriate response
+	 * Transform the response to be more consistent
 	 *
 	 * @param \GuzzleHttp\Message\Response $response
 	 * @codeCoverageIgnore

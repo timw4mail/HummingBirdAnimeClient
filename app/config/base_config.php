@@ -30,7 +30,6 @@ $base_config = [
 	'img_cache_path' => "{$ROOT_DIR}/public/images",
 
 	// Included config files
-	//'database' => require 'database.php',
 	'menus' => require 'menus.php',
 	'routes' => require 'routes.php',
 ];

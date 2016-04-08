@@ -10,7 +10,6 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
-use Monolog\Handler\BrowserConsoleHandler;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
@@ -68,9 +67,6 @@ return function(array $config_array = []) {
 	$session = (new SessionFactory())->newInstance($_COOKIE);
 	$container->set('session', $session);
 
-	$container->set('url-generator', new UrlGenerator($container));
-
-
 	// Miscellaneous helper methods
 	$anime_client = new AnimeClient();
 	$anime_client->setContainer($container);
@@ -82,9 +78,10 @@ return function(array $config_array = []) {
 	$container->set('manga-model', new Model\Manga($container));
 	$container->set('anime-collection-model', new Model\AnimeCollection($container));
 
+	// Miscellaneous Classes
 	$container->set('auth', new HummingbirdAuth($container));
-	
 	$container->set('cache', new CacheManager($container));
+	$container->set('url-generator', new UrlGenerator($container));
 
 	// -------------------------------------------------------------------------
 	// Dispatcher

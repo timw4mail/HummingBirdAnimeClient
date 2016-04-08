@@ -18,7 +18,7 @@ class RedisDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
 	
 	/**
 	 * The redis extension class instance
-	 * #var Redis
+	 * @var Redis
 	 */
 	protected $redis;
 	
