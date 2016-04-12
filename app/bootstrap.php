@@ -40,6 +40,9 @@ return function(array $config_array = []) {
 	$config = new Config($config_array);
 	$container->set('config', $config);
 
+	// Create Cache Object
+	$container->set('cache', new CacheManager($container));
+
 	// Create Aura Router Object
 	$container->set('aura-router', new RouterContainer);
 
@@ -80,7 +83,6 @@ return function(array $config_array = []) {
 
 	// Miscellaneous Classes
 	$container->set('auth', new HummingbirdAuth($container));
-	$container->set('cache', new CacheManager($container));
 	$container->set('url-generator', new UrlGenerator($container));
 
 	// -------------------------------------------------------------------------

@@ -169,23 +169,6 @@ class Manga extends API {
 	}
 
 	/**
-	 * Get the full set of anime lists
-	 *
-	 * @return array
-	 */
-	public function get_all_lists()
-	{
-		$data = $this->_get_list_from_api();
-
-		foreach ($data as &$val)
-		{
-			$this->sort_by_name($val, 'manga');
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Get a category out of the full list
 	 *
 	 * @param string $status
@@ -193,10 +176,8 @@ class Manga extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->_get_list_from_api($status);
-		$this->sort_by_name($data, 'manga');
-
-		return $data;
+		$data = $this->cache->get($this, '_get_list_from_api');
+		return ($status !== 'All') ? $data[$status] : $data;
 	}
 
 	/**
@@ -205,7 +186,7 @@ class Manga extends API {
 	 * @param  string $status
 	 * @return array
 	 */
-	protected function _get_list_from_api($status = "All")
+	public function _get_list_from_api($status = "All")
 	{
 		$config = [
 			'query' => [
@@ -216,11 +197,7 @@ class Manga extends API {
 
 		$response = $this->get('manga_library_entries', $config);
 		$data = $this->transform($response);
-		$output = $this->map_by_status($data);
-
-		return (array_key_exists($status, $output))
-			? $output[$status]
-			: $output;
+		return $this->map_by_status($data);
 	}
 
 	/**
@@ -242,6 +219,7 @@ class Manga extends API {
 		$zippered_data = $this->zipper_lists($api_data);
 		$transformer = new Transformer\MangaListTransformer();
 		$transformed_data = $transformer->transform_collection($zippered_data);
+
 		return $transformed_data;
 	}
 
@@ -270,6 +248,11 @@ class Manga extends API {
 			);
 			$key = $this->const_map[$entry['reading_status']];
 			$output[$key][] = $entry;
+		}
+
+		foreach($output as &$val)
+		{
+			$this->sort_by_name($val, 'manga');
 		}
 
 		return $output;
