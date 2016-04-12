@@ -53,6 +53,12 @@ class API extends BaseModel {
 	protected $cookieJar;
 
 	/**
+	 * Cache manager
+	 * @var \Aviat\Ion\Cache\CacheInterface
+	 */
+	protected $cache;
+
+	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -60,6 +66,7 @@ class API extends BaseModel {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
+		$this->cache = $container->get('cache');
 		$this->init();
 	}
 
