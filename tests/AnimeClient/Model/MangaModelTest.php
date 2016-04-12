@@ -71,21 +71,4 @@ class MangaModelTest extends AnimeClient_TestCase {
 		$expected = Json::decodeFile($this->mockDir . '/get-all-lists.json');
 		$this->assertEquals($expected['Reading'], $this->model->get_list('Reading'));
 	}
-
-	public function testGetAllLists()
-	{
-		if (($var = getenv('CI')))
-		{
-			$this->markTestSkipped();
-		}
-
-		$data = file_get_contents($this->mockDir . '/manga.json');
-		$client = $this->getMockClient(200, [
-			'Content-type' => 'application/json'
-		], $data);
-		$this->model->__set('client', $client);
-
-		$expected = Json::decodeFile($this->mockDir . '/get-all-lists.json');
-		$this->assertEquals($expected, $this->model->get_all_lists());
-	}
 }

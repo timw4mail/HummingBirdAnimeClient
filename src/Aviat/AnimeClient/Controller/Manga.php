@@ -27,12 +27,6 @@ class Manga extends Controller {
 	use \Aviat\Ion\StringWrapper;
 
 	/**
-	 * The cache manager
-	 * @var \Aviat\Ion\Cache\CacheInterface
-	 */
-	protected $cache;
-
-	/**
 	 * The manga model
 	 * @var object $model
 	 */
@@ -53,7 +47,6 @@ class Manga extends Controller {
 	{
 		parent::__construct($container);
 
-		$this->cache = $container->get('cache');
 		$this->model = $container->get('manga-model');
 		$this->base_data = array_merge($this->base_data, [
 			'menu_name' => 'manga_list',
@@ -89,8 +82,8 @@ class Manga extends Controller {
 		];
 
 		$data = ($status !== 'all')
-			? [$map[$status] => $this->cache->get($this->model, 'get_list', ['status' => $map[$status]]) ]
-			: $this->cache->get($this->model, 'get_all_lists');
+			? [$map[$status] => $this->model->get_list($map[$status]) ]
+			: $this->model->get_list('All');
 
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
