@@ -34,7 +34,7 @@ class CacheManager implements CacheInterface {
 
 		if (empty($driverConf))
 		{
-			$driverConf = 'SQLDriver';
+			$driverConf = 'NullDriver';
 		}
 
 		$driverClass = __NAMESPACE__ . "\\Driver\\{$driverConf}";
