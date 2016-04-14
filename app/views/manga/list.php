@@ -29,7 +29,7 @@
 				</td>
 				<?php endif ?>
 				<td class="align_left">
-					<a href="<?= $item['manga']['url'] ?>">
+					<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $item['manga']['title'] ?>
 					</a>
 					<?= ( ! is_null($item['manga']['alternate_title'])) ? " &middot; " . $item['manga']['alternate_title'] : "" ?>

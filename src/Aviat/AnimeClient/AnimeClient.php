@@ -38,7 +38,8 @@ class AnimeClient {
 		'update',
 		'update_form',
 		'login',
-		'logout'
+		'logout',
+		'details'
 	];
 
 	/**
