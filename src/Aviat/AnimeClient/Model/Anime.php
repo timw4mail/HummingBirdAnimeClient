@@ -173,6 +173,7 @@ class Anime extends API {
 	 *
 	 * @param string $name
 	 * @return array
+	 * @throws RuntimeException
 	 */
 	public function search($name)
 	{
