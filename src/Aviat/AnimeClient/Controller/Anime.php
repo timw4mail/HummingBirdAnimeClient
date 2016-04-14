@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Hummingbird Anime Client
  *
@@ -37,7 +36,7 @@ class Anime extends BaseController {
 	 * @var array $base_data
 	 */
 	protected $base_data;
-	
+
 	/**
 	 * Data cache
 	 */
@@ -60,7 +59,7 @@ class Anime extends BaseController {
 			'other_type' => 'manga',
 			'config' => $this->config,
 		]);
-		
+
 		$this->cache = $container->get('cache');
 	}
 
@@ -100,7 +99,7 @@ class Anime extends BaseController {
 			'' => 'cover',
 			'list' => 'list'
 		];
-		
+
 		$data = ($type != 'all')
 			? $this->cache->get($this->model, 'get_list', ['status' => $model_map[$type]])
 			: $this->cache->get($this->model, 'get_all_lists', []);
@@ -154,7 +153,7 @@ class Anime extends BaseController {
 
 		$result = $this->model->update($data);
 
-		if ($result['statusCode'] == 201)
+		if (intval($result['statusCode']) === 201)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
 			$this->cache->purge();
@@ -262,15 +261,25 @@ class Anime extends BaseController {
 	 */
 	public function delete()
 	{
-		$response = $this->model->update($this->request->getParsedBody());
-		$this->cache->purge();
-		$this->outputJSON($response['body'], $response['statusCode']);
+		$response = $this->model->delete($this->request->getParsedBody());
+
+		if ($response['body'] == TRUE)
+		{
+			$this->set_flash_message("Successfully deleted anime", 'success');
+			$this->cache->purge();
+		}
+		else
+		{
+			$this->set_flash_message('Failed to delete anime.', 'error');
+		}
+
+		$this->session_redirect();
 	}
 
 	/**
 	 * View details of an anime
 	 *
-	 * @param string anime_id
+	 * @param string $anime_id
 	 * @return void
 	 */
 	public function details($anime_id)
@@ -284,5 +293,4 @@ class Anime extends BaseController {
 	}
 
 }
-
 // End of AnimeController.php
