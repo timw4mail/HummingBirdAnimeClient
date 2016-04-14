@@ -86,7 +86,7 @@
 		</form>
 		<fieldset>
 			<legend>Danger Zone</legend>
-			<form class="js-danger" action="<?= $url->generate('anime.delete') ?>" method="post">
+			<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
 				<table class="form invisible">
 					<tbody>
 						<tr>

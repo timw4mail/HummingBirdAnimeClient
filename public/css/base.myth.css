@@ -201,7 +201,7 @@ a:hover, a:active {
 }
 .form tr > td:nth-child(even) {
 	text-align:left;
-	min-width:70%;
+	width:70%;
 }
 
 .invisible tbody > tr:nth-child(odd) {

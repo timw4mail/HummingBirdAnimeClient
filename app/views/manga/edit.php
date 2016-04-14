@@ -84,5 +84,21 @@
 			</tbody>
 		</table>
 		</form>
+		<fieldset>
+			<legend>Danger Zone</legend>
+			<form class="js-delete" action="<?= $url->generate('manga.delete') ?>" method="post">
+				<table class="form invisible">
+					<tbody>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							<input type="hidden" value="<?= $item['id'] ?>" name="id" />
+							<button type="submit" class="danger">Delete Entry</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</form>
+		</fieldset>
 	</main>
 <?php endif ?>

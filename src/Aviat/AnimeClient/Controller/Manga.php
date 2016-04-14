@@ -28,7 +28,7 @@ class Manga extends Controller {
 
 	/**
 	 * The manga model
-	 * @var object $model
+	 * @var MangaModel $model
 	 */
 	protected $model;
 
@@ -232,6 +232,26 @@ class Manga extends Controller {
 		$result = $this->model->update($this->request->getParsedBody());
 		$this->cache->purge();
 		$this->outputJSON($result['body'], $result['statusCode']);
+	}
+
+	/**
+	 * Remove an manga from the list
+	 */
+	public function delete()
+	{
+		$response = $this->model->delete($this->request->getParsedBody());
+
+		if ($response['body'] == TRUE)
+		{
+			$this->set_flash_message("Successfully deleted manga.", 'success');
+			$this->cache->purge();
+		}
+		else
+		{
+			$this->set_flash_message('Failed to delete manga.', 'error');
+		}
+
+		$this->session_redirect();
 	}
 }
 // End of MangaController.php

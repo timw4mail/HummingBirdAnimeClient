@@ -46,24 +46,24 @@ return [
 		'anime.add.get' => [
 			'path' => '/anime/add',
 			'action' => 'add_form',
-			'verb' => 'get'
+			'verb' => 'get',
 		],
 		'anime.add.post' => [
 			'path' => '/anime/add',
 			'action' => 'add',
-			'verb' => 'post'
+			'verb' => 'post',
 		],
 		'anime.details' => [
 			'path' => '/anime/details/{id}',
 			'action' => 'details',
 			'tokens' => [
-				'id' => '[a-z0-9\-]+'
-			]
+				'id' => '[a-z0-9\-]+',
+			],
 		],
 		'anime.delete' => [
 			'path' => '/anime/delete',
 			'action' => 'delete',
-			'verb' => 'post'
+			'verb' => 'post',
 		],
 		// ---------------------------------------------------------------------
 		// Manga Routes
@@ -75,19 +75,24 @@ return [
 		'manga.add.get' => [
 			'path' => '/manga/add',
 			'action' => 'add_form',
-			'verb' => 'get'
+			'verb' => 'get',
 		],
 		'manga.add.post' => [
 			'path' => '/manga/add',
 			'action' => 'add',
-			'verb' => 'post'
+			'verb' => 'post',
+		],
+		'manga.delete' => [
+			'path' => '/manga/delete',
+			'action' => 'delete',
+			'verb' => 'post',
 		],
 		// ---------------------------------------------------------------------
 		// Anime Collection Routes
 		// ---------------------------------------------------------------------
 		'collection.search' => [
 			'path' => '/collection/search',
-			'action' => 'search'
+			'action' => 'search',
 		],
 		'collection.add.get' => [
 			'path' => '/collection/add',
@@ -98,27 +103,35 @@ return [
 			'path' => '/collection/edit/{id}',
 			'action' => 'form',
 			'tokens' => [
-				'id' => '[0-9]+'
-			]
+				'id' => '[0-9]+',
+			],
 		],
 		'collection.add.post' => [
 			'path' => '/collection/add',
 			'action' => 'add',
-			'verb' => 'post'
+			'verb' => 'post',
 		],
 		'collection.edit.post' => [
 			'path' => '/collection/edit',
 			'action' => 'edit',
-			'verb' => 'post'
+			'verb' => 'post',
 		],
 		'collection.view' => [
 			'path' => '/collection/view{/view}',
 			'action' => 'index',
 			'params' => [],
 			'tokens' => [
-				'view' => '[a-z_]+'
-			]
+				'view' => '[a-z_]+',
+			],
 		],
+		'collection.delete' => [
+			'path' => '/collection/delete',
+			'action' => 'delete',
+			'verb' => 'post',
+		],
+		// ---------------------------------------------------------------------
+		// Manga Collection Routes
+		// ---------------------------------------------------------------------
 		// ---------------------------------------------------------------------
 		// Default / Shared routes
 		// ---------------------------------------------------------------------
@@ -126,13 +139,13 @@ return [
 			'path' => '/login',
 			'action' => 'login',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
-			'verb' => 'get'
+			'verb' => 'get',
 		],
 		'login.post' => [
 			'path' => '/login',
 			'action' => 'login_action',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
-			'verb' => 'post'
+			'verb' => 'post',
 		],
 		'logout' => [
 			'path' => '/logout',
@@ -144,37 +157,37 @@ return [
 			'action' => 'update',
 			'verb' => 'post',
 			'tokens' => [
-				'controller' => '[a-z_]+'
-			]
+				'controller' => '[a-z_]+',
+			],
 		],
 		'update.post' => [
 			'path' => '/{controller}/update_form',
 			'action' => 'form_update',
 			'verb' => 'post',
 			'tokens' => [
-				'controller' => '[a-z_]+'
-			]
+				'controller' => '[a-z_]+',
+			],
 		],
 		'edit' => [
 			'path' => '/{controller}/edit/{id}/{status}',
 			'action' => 'edit',
 			'tokens' => [
 				'id' => '[0-9a-z_]+',
-				'status' => '([a-zA-Z\- ]|%20)+',
-			]
+				'status' => '([a-zA-Z\-_]|%20)+',
+			],
 		],
 		'list' => [
 			'path' => '/{controller}/{type}{/view}',
 			'action' => AnimeClient::DEFAULT_CONTROLLER_METHOD,
 			'tokens' => [
 				'type' => '[a-z_]+',
-				'view' => '[a-z_]+'
-			]
+				'view' => '[a-z_]+',
+			],
 		],
 		'index_redirect' => [
 			'path' => '/',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
-			'action' => 'redirect_to_default'
+			'action' => 'redirect_to_default',
 		],
-	]
+	],
 ];
