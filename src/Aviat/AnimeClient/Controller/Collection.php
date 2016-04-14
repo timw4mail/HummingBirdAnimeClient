@@ -15,7 +15,6 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
@@ -174,14 +173,15 @@ class Collection extends BaseController {
 	public function delete()
 	{
 		$data = $this->request->getParsedBody();
-		if ( ! array_key_exists('id', $data))
+		if ( ! array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("collection/view", 303);
+			$this->redirect("/collection/view", 303);
 		}
 
 		$this->anime_collection_model->delete($data);
+		$this->set_flash_message("Successfully removed anime from collection.", 'success');
 
-		$this->redirect("collection/view", 303);
+		$this->redirect("/collection/view", 303);
 	}
 }
 // End of CollectionController.php

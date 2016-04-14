@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->is_authenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->url('collection/add', 'anime') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('collection.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -11,7 +11,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="a-<?= $item['hummingbird_id'] ?>">
-					<img src="<?= $urlGenerator->asset_url('images', 'anime', basename($item['cover_image'])) ?>" />
+					<img src="<?= $urlGenerator->asset_url('images', 'anime', basename($item['cover_image'])) ?>" alt="<?= $item['title'] ?> cover image" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 						<?= $item['title'] ?>

@@ -19,19 +19,7 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Model for getting anime collection data
  */
-class AnimeCollection extends DB {
-
-	/**
-	 * Anime API Model
-	 * @var object $anime_model
-	 */
-	private $anime_model;
-
-	/**
-	 * Whether the database is valid for querying
-	 * @var bool
-	 */
-	private $valid_database = FALSE;
+class AnimeCollection extends Collection {
 
 	/**
 	 * Constructor
@@ -42,89 +30,8 @@ class AnimeCollection extends DB {
 	{
 		parent::__construct($container);
 
-		try
-		{
-			$this->db = \Query($this->db_config['collection']);
-		}
-		catch (\PDOException $e)
-		{
-			$this->valid_database = FALSE;
-			return FALSE;
-		}
-		$this->anime_model = $container->get('anime-model');
-
-		// Is database valid? If not, set a flag so the
-		// app can be run without a valid database
-		if ($this->db_config['collection']['type'] === 'sqlite')
-		{
-			$db_file_name = $this->db_config['collection']['file'];
-
-			if ($db_file_name !== ':memory:' && file_exists($db_file_name))
-			{
-				$db_file = file_get_contents($db_file_name);
-				$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
-			}
-			else
-			{
-				$this->valid_database = FALSE;
-			}
-		}
-		else
-		{
-			$this->valid_database = TRUE;
-		}
-
-
 		// Do an import if an import file exists
 		$this->json_import();
-	}
-
-	/**
-	 * Get genres for anime collection items
-	 *
-	 * @param array $filter
-	 * @return array
-	 */
-	public function get_genre_list($filter = [])
-	{
-		$this->db->select('hummingbird_id, genre')
-			->from('genre_anime_set_link gl')
-			->join('genres g', 'g.id=gl.genre_id', 'left');
-
-
-		if ( ! empty($filter))
-		{
-			$this->db->where_in('hummingbird_id', $filter);
-		}
-
-		$query = $this->db->order_by('hummingbird_id')
-			->order_by('genre')
-			->get();
-
-		$output = [];
-
-		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
-		{
-			$id = $row['hummingbird_id'];
-			$genre = $row['genre'];
-
-			// Empty genre names aren't useful
-			if (empty($genre))
-			{
-				continue;
-			}
-
-			if (array_key_exists($id, $output))
-			{
-				array_push($output[$id], $genre);
-			}
-			else
-			{
-				$output[$id] = [$genre];
-			}
-		}
-
-		return $output;
 	}
 
 	/**
@@ -265,6 +172,7 @@ class AnimeCollection extends DB {
 
 	/**
 	 * Remove a colleciton item
+	 * 
 	 * @param  array $data
 	 * @return void
 	 */
@@ -275,6 +183,9 @@ class AnimeCollection extends DB {
 		{
 			return;
 		}
+
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])
+			->delete('genre_anime_set_link');
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
 			->delete('anime_set');

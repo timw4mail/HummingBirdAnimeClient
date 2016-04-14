@@ -13,7 +13,7 @@
 					</th>
 					<th>
 						<article class="media">
-							<?= $helper->img($item['cover_image']); ?>
+							<?= $helper->img($urlGenerator->asset_url('images', 'anime', basename($item['cover_image']))); ?>
 						</article>
 					</th>
 				</tr>
@@ -45,12 +45,22 @@
 			</tbody>
 		</table>
 	</form>
+	<fieldset>
+		<legend>Danger Zone</legend>
+		<form class="js-delete" action="<?= $url->generate('collection.delete') ?>" method="post">
+			<table class="form invisible">
+				<tbody>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<input type="hidden" value="<?= $item['hummingbird_id'] ?>" name="hummingbird_id" />
+						<button type="submit" class="danger">Delete Entry</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</form>
+	</fieldset>
 </main>
-<template id="show_list">
-	<article class="media">
-		<div class="name"><label><input type="radio" name="id" value="{{:id}}" />&nbsp;<span>{{:title}}<br />{{:alternate_title}}</span></label></div>
-		<img src="{{:cover_image}}" alt="{{:title}}"  />
-	</article>
-</template>
 <script src="<?= $urlGenerator->asset_url('js.php/g/anime_collection') ?>"></script>
 <?php endif ?>
