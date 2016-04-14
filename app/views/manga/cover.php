@@ -19,7 +19,7 @@
 					<?php endif ?>
 					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
 					<div class="name">
-						<a href="<?= $item['manga']['url'] ?>">
+						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $escape->html($item['manga']['title']) ?>
 						<?= (isset($item['manga']['alternate_title'])) ? "<br />({$item['manga']['alternate_title']})" : ""; ?>
 						</a>

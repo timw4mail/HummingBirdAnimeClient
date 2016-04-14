@@ -253,5 +253,21 @@ class Manga extends Controller {
 
 		$this->session_redirect();
 	}
+
+	/**
+	 * View details of an manga
+	 *
+	 * @param string $manga_id
+	 * @return void
+	 */
+	public function details($manga_id)
+	{
+		$data = $this->model->get_manga($manga_id);
+
+		$this->outputHTML('manga/details', [
+			'title' => 'Manga &middot; ' . $data['manga']['romaji_title'],
+			'data' => $data['manga'],
+		]);
+	}
 }
 // End of MangaController.php

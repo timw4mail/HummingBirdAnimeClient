@@ -287,7 +287,7 @@ class Anime extends BaseController {
 		$data = $this->model->get_anime($anime_id);
 
 		$this->outputHTML('anime/details', [
-			'title' => $data['title'],
+			'title' => 'Anime &middot ' . $data['title'],
 			'data' => $data,
 		]);
 	}

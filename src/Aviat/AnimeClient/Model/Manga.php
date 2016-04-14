@@ -225,6 +225,18 @@ class Manga extends API {
 	}
 
 	/**
+	 * Get the details of a manga
+	 *
+	 * @param string $manga_id
+	 * @return array
+	 */
+	public function get_manga($manga_id)
+	{
+		$raw = $this->_manga_api_call('get', "manga/{$manga_id}.json");
+		return Json::decode($raw['body'], TRUE);
+	}
+
+	/**
 	 * Map transformed anime data to be organized by reading status
 	 *
 	 * @param array $data
