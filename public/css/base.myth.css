@@ -88,6 +88,18 @@ a:hover, a:active {
 	margin:0 auto;
 }
 
+.danger {
+	background-color: #ff4136;
+	border-color: #924949;
+	color:#fff;
+}
+
+.danger:hover, .danger:active {
+	background-color: #924949;
+	border-color: #ff4136;
+	color:#fff;
+}
+
 /* -----------------------------------------------------------------------------
 	CSS loading icon
 ------------------------------------------------------------------------------*/
