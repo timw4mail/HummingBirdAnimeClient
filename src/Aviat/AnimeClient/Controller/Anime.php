@@ -265,7 +265,7 @@ class Anime extends BaseController {
 
 		if ($response['body'] == TRUE)
 		{
-			$this->set_flash_message("Successfully deleted anime", 'success');
+			$this->set_flash_message("Successfully deleted anime.", 'success');
 			$this->cache->purge();
 		}
 		else

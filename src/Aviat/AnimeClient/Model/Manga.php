@@ -13,11 +13,9 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use GuzzleHttp\Cookie\Cookiejar;
 use GuzzleHttp\Cookie\SetCookie;
 
 use Aviat\Ion\Json;
-use Aviat\AnimeClient\Model\API;
 use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
 
@@ -94,6 +92,7 @@ class Manga extends API {
 	 * Add a manga to the list
 	 *
 	 * @param array $data
+	 * @return array
 	 */
 	public function add($data)
 	{
@@ -142,6 +141,7 @@ class Manga extends API {
 	 *
 	 * @param string $name
 	 * @return array
+	 * @throws RuntimeException
 	 */
 	public function search($name)
 	{
@@ -197,7 +197,8 @@ class Manga extends API {
 
 		$response = $this->get('manga_library_entries', $config);
 		$data = $this->transform($response);
-		return $this->map_by_status($data);
+		$final = $this->map_by_status($data);
+		return ($status !== 'All') ? $final[$status] : $final;
 	}
 
 	/**
