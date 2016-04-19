@@ -52,7 +52,8 @@ unset($CONF_DIR);
 // Start console script
 // ---------------------------------------------------------------------------------------------------------------------
 $console = new \ConsoleKit\Console([
-	'cache-images' => '\Aviat\AnimeClient\Command\CacheImages'
+	'cache-images' => '\Aviat\AnimeClient\Command\CacheImages',
+	'clear-cache' => '\Aviat\AnimeClient\Command\ClearCache',
 ]);
 
 $console->run();
