@@ -13,7 +13,6 @@
 namespace Aviat\Ion\Cache\Driver;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
 use Aviat\AnimeClient\Model\DB;
 
 /**

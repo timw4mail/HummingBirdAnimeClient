@@ -134,8 +134,15 @@ class Controller {
 	 */
 	public function set_session_redirect($url = NULL)
 	{
+		$server_params = $this->request->getServerParams();
+
+		if ( ! array_key_exists('HTTP_REFERER', $server_params))
+		{
+			return;
+		}
+
 		$anime_client = $this->container->get('anime-client');
-		$double_form_page = $this->request->getServerParams()['HTTP_REFERER'] == $this->request->getUri();
+		$double_form_page = $server_params['HTTP_REFERER'] == $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
@@ -149,7 +156,7 @@ class Controller {
 		{
 			$url = ($anime_client->is_view_page())
 				? $this->request->url->get()
-				: $this->request->getServerParams()['HTTP_REFERER'];
+				: $server_params['HTTP_REFERER'];
 		}
 
 		$this->session->set('redirect_url', $url);
