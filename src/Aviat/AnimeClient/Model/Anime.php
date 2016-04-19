@@ -235,6 +235,28 @@ class Anime extends API {
 	}
 
 	/**
+	 * Get the full list from the api
+	 *
+	 * @return array
+	 */
+	public function get_raw_list()
+	{
+		$config = [
+			'allow_redirects' => FALSE
+		];
+
+		$username = $this->config->get('hummingbird_username');
+		/*$auth = $this->container->get('auth');
+		if ($auth->is_authenticated())
+		{
+			$config['query']['auth_token'] = $auth->get_auth_token();
+		}*/
+
+		$response = $this->get("users/{$username}/library", $config);
+		return Json::decode($response->getBody(), TRUE);
+	}
+
+	/**
 	 * Handle transforming of api data
 	 *
 	 * @param string $status

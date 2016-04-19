@@ -54,6 +54,7 @@ class Model {
 	 * @param string $series_slug - The part of the url with the series name, becomes the image name
 	 * @param string $type - Anime or Manga, controls cache path
 	 * @return string - the frontend path for the cached image
+	 * @throws DomainException
 	 */
 	public function get_cached_image($api_path, $series_slug, $type = "anime")
 	{
@@ -62,7 +63,7 @@ class Model {
 		$ext_parts = explode('.', $path);
 		$ext = end($ext_parts);
 
-		// Workaround for some broken extensions
+		// Workaround for some broken file extensions
 		if ($ext == "jjpg")
 		{
 			$ext = "jpg";
@@ -124,8 +125,16 @@ class Model {
 	 */
 	private function _resize($path, $width, $height)
 	{
-		$img = new SimpleImage($path);
-		$img->resize($width, $height)->save();
+		try
+		{
+			$img = new SimpleImage($path);
+			$img->resize($width, $height)->save();
+		}
+		catch (Exception $e)
+		{
+			// Catch image errors, since they don't otherwise affect
+			// functionality
+		}
 	}
 }
 // End of BaseModel.php
