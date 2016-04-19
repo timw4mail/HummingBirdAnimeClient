@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+use Aviat\AnimeClient\Model;
+
+if ( ! function_exists('_dir'))
+{
+	/**
+	 * Joins paths together. Variadic to take an
+	 * arbitrary number of arguments
+	 *
+	 * @return string
+	 */
+	function _dir()
+	{
+		return implode(DIRECTORY_SEPARATOR, func_get_args());
+	}
+}
+
+$_SERVER['HTTP_HOST'] = 'localhost';
+
+// Define base directories
+$APP_DIR = __DIR__ . '/app/';
+$SRC_DIR = __DIR__ . '/src/';
+$CONF_DIR = realpath("${APP_DIR}/config/");
+
+/**
+ * Set up autoloaders
+ *
+ * @codeCoverageIgnore
+ * @return void
+ */
+spl_autoload_register(function($class) use ($SRC_DIR) {
+	$class_parts = explode('\\', $class);
+	$ns_path = $SRC_DIR . '/' . implode('/', $class_parts) . ".php";
+
+	if (file_exists($ns_path))
+	{
+		require_once($ns_path);
+		return;
+	}
+});
+
+// Set up autoloader for third-party dependencies
+require_once realpath(__DIR__ . '/vendor/autoload.php');
+
+// Unset 'constants'
+unset($APP_DIR);
+unset($SRC_DIR);
+unset($CONF_DIR);
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Start console script
+// ---------------------------------------------------------------------------------------------------------------------
+$console = new \ConsoleKit\Console([
+	'cache-images' => '\Aviat\AnimeClient\Command\CacheImages'
+]);
+
+$console->run();
