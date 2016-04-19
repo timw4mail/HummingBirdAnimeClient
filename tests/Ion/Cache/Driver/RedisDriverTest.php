@@ -2,7 +2,6 @@
 
 require_once('CacheDriverBase.php');
 
-use Aviat\Ion\Friend;
 use Aviat\Ion\Cache\Driver\RedisDriver;
 
 class CacheRedisDriverTest extends AnimeClient_TestCase {
@@ -14,5 +13,11 @@ class CacheRedisDriverTest extends AnimeClient_TestCase {
 	{
 		parent::setUp();
 		$this->driver = new RedisDriver($this->container);
+	}
+
+	public function tearDown()
+	{
+		parent::tearDown();
+		$this->driver->__destruct();
 	}
 }

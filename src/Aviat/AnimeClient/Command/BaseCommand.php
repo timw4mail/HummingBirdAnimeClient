@@ -14,6 +14,8 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aura\Session\SessionFactory;
+use ConsoleKit\Command;
+use ConsoleKit\Widgets\Box;
 
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Cache\CacheManager;
@@ -25,9 +27,28 @@ use Aviat\AnimeClient\Model;
 /**
  * Base class for console command setup
  */
-class BaseCommand extends \ConsoleKit\Command {
+class BaseCommand extends Command {
 	use \Aviat\Ion\Di\ContainerAware;
 
+	/**
+	 * Echo text in a box
+	 *
+	 * @param string $message
+	 * @return void
+	 */
+	protected function echoBox($message)
+	{
+		echo "\n";
+		$box = new Box($this->getConsole(), $message);
+		$box->write();
+		echo "\n";
+	}
+
+	/**
+	 * Setup the Di container
+	 *
+	 * @return Container
+	 */
 	protected function setupContainer()
 	{
 		$CONF_DIR = __DIR__ . '/../../../../app/config/';

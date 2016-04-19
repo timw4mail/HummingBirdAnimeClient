@@ -13,8 +13,6 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use \ConsoleKit\Widgets\Box;
-
 use Aviat\AnimeClient\Model;
 /**
  * Generates thumbnail image cache so that cover images load faster
@@ -24,20 +22,6 @@ class CacheImages extends BaseCommand {
 	protected $mangaModel;
 	protected $animeModel;
 	protected $model;
-
-	/**
-	 * Echo text in a box
-	 *
-	 * @param string $message
-	 * @return void
-	 */
-	protected function echoBox($message)
-	{
-		echo "\n";
-		$box = new Box($this->getConsole(), $message);
-		$box->write();
-		echo "\n";
-	}
 
 	/*
 	 * Convert manga images
