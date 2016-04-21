@@ -100,6 +100,15 @@ a:hover, a:active {
 	color:#fff;
 }
 
+.user-btn {
+	border-color: var(--edit-link-color);
+	color: var(--edit-link-color);
+}
+.user-btn:hover, .user-btn:active {
+	border-color: var(--edit-link-hover-color);
+	background-color: var(--edit-link-hover-color);
+}
+
 /* -----------------------------------------------------------------------------
 	CSS loading icon
 ------------------------------------------------------------------------------*/

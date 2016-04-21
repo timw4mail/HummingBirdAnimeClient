@@ -142,6 +142,12 @@ return [
 		// ---------------------------------------------------------------------
 		// Default / Shared routes
 		// ---------------------------------------------------------------------
+		'cache_purge' => [
+			'path' => '/cache_purge',
+			'action' => 'clear_cache',
+			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'verb' => 'get',
+		],
 		'login' => [
 			'path' => '/login',
 			'action' => 'login',
