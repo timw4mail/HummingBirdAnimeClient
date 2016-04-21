@@ -30,6 +30,13 @@
 					[<a href="<?= $urlGenerator->default_url('manga') ?>">Manga List</a>]
 				<?php endif ?>
 			</span>
+			<?php if ($auth->is_authenticated()): ?>
+			<span class="flex-no-wrap">&nbsp;</span>
+			<span class="flex-no-wrap small-font">
+				<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+			</span>
+			<span class="flex-no-wrap">&nbsp;</span>
+			<?php endif ?>
 			<span class="flex-no-wrap small-font">
 				<?php if ($auth->is_authenticated()): ?>
 				<a class="bracketed" href="<?= $url->generate('logout') ?>">Logout</a>

@@ -28,6 +28,12 @@ class Controller {
 	use \Aviat\Ion\Di\ContainerAware;
 
 	/**
+	 * Cache manager
+	 * @var \Aviat\Ion\Cache\CacheInterface
+	 */
+	protected $cache;
+
+	/**
 	 * The global configuration object
 	 * @var object $config
 	 */
@@ -83,6 +89,7 @@ class Controller {
 		$this->setContainer($container);
 		$auraUrlGenerator = $container->get('aura-router')->getGenerator();
 		$urlGenerator = $container->get('url-generator');
+		$this->cache =  $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
@@ -352,6 +359,19 @@ class Controller {
 			'message_type' => $type,
 			'message' => $message
 		]);
+	}
+
+	/**
+	 * Purges the API cache
+	 *
+	 * @return void
+	 */
+	public function clear_cache()
+	{
+		$this->cache->purge();
+		$this->outputHTML('blank', [
+			'title' => 'Cache cleared'
+		], NULL, 200);
 	}
 
 	/**
