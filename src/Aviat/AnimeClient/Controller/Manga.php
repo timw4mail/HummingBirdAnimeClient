@@ -39,12 +39,6 @@ class Manga extends Controller {
 	protected $base_data;
 
 	/**
-	 * Cache manager
-	 * @var \Aviat\Ion\Cache\CacheInterface
-	 */
-	protected $cache;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -60,7 +54,6 @@ class Manga extends Controller {
 			'url_type' => 'manga',
 			'other_type' => 'anime'
 		]);
-		$this->cache = $container->get('cache');
 	}
 
 	/**
