@@ -103,6 +103,9 @@ a:hover, a:active {
 .user-btn {
 	border-color: var(--edit-link-color);
 	color: var(--edit-link-color);
+	text-shadow: var(--link-shadow);
+	padding:0 0.5em;
+	padding:0 0.5rem;
 }
 .user-btn:hover, .user-btn:active {
 	border-color: var(--edit-link-hover-color);
