@@ -9,6 +9,7 @@
 	line-height:1.4;
 	overflow-y:scroll;
 	text-size-adjust:100%;
+	scroll-behavior: smooth;
 }
 
 audio:not([controls])
