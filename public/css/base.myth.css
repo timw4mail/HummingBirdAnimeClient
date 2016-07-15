@@ -3,10 +3,11 @@
 	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
 	--title-overlay: rgba(0, 0, 0, 0.45);
 	--text-color: #ffffff;
-	--normal-padding: 0.25em;
+	--normal-padding: 0.25em 0.125em;
 	--link-hover-color: #7d12db;
 	--edit-link-hover-color: #db7d12;
 	--edit-link-color: #12db18;
+	--radius: 5px;
 }
 
 template, [hidden="hidden"], .media[hidden] {display:none}
@@ -352,7 +353,6 @@ a:hover, a:active {
 		}
 
 		.media > .name > a {
-			/*text-align:justify;*/
 			background:none;
 			color:#fff;
 			text-shadow: var(--shadow);
@@ -527,4 +527,24 @@ a:hover, a:active {
 }
 .details td:nth-child(even) {
 	text-align:left;
+}
+
+/* ----------------------------------------------------------------------------
+	Viewport-based styles
+-----------------------------------------------------------------------------*/
+
+@media screen and (max-width: 40em) {
+	nav a {
+		line-height:4em;
+		line-height:4rem;
+	}
+
+	.media {
+		margin:2px 0;
+	}
+
+	main {
+		padding:0 0,5em 0.5em;
+		padding:0 0.5rem 0.5rem;
+	}
 }
