@@ -19,7 +19,7 @@ class CacheRedisDriverTestTwo extends AnimeClient_TestCase {
 		$container = new Container();
 		$container->set('config', new Config([
 			'redis' => [
-				'host' => 'localhost',
+				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
 				'port' => 6379,
 				'password' => '',
 				'database' => 13,

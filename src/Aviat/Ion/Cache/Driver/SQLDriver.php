@@ -13,12 +13,13 @@
 namespace Aviat\Ion\Cache\Driver;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Cache\CacheDriverInterface;
 use Aviat\AnimeClient\Model\DB;
 
 /**
  * Driver for caching via a traditional SQL database
  */
-class SQLDriver extends DB implements \Aviat\Ion\Cache\CacheDriverInterface  {
+class SQLDriver extends DB implements CacheDriverInterface  {
 
 	/**
 	 * The query builder object
