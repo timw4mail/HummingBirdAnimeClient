@@ -18,7 +18,9 @@ trait CacheDriverBase {
 	public function testDriverGetSet()
 	{
 		$this->driver->set('foo', $this->foo);
+		$this->driver->set('bar', 'baz');
 		$this->assertEquals($this->driver->get('foo'), $this->foo);
+		$this->assertEquals($this->driver->get('bar'), 'baz');
 	}
 	
 	public function testInvalidate()
