@@ -13,14 +13,7 @@ class CacheRedisDriverTest extends AnimeClient_TestCase {
 	{
 		parent::setUp();
 
-		if ( ! class_exists('Redis'))
-		{
-			$this->markTestSkipped('Redis extension not installed');
-		}
-		else
-		{
-			$this->driver = new RedisDriver($this->container);
-		}
+		$this->driver = new RedisDriver($this->container);
 	}
 
 	public function tearDown()

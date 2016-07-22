@@ -13,8 +13,11 @@
 namespace Aviat\Ion\Cache\Driver;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Cache\CacheDriverInterface;
 
-class RedisDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
+use Predis\Client;
+
+class RedisDriver implements CacheDriverInterface {
 	
 	/**
 	 * The redis extension class instance
@@ -29,34 +32,21 @@ class RedisDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
 	{
 		$config = $container->get('config');
 		$redisConfig = $config->get('redis');
-		
-		$this->redis = new \Redis();
-		
-		(array_key_exists('port', $redisConfig))
-			? $this->redis->pconnect($redisConfig['host'], $redisConfig['port'])
-			: $this->redis->pconnect($redisConfig['host']);
-		
-		// If there is a password, authorize
-		if (array_key_exists('password', $redisConfig))
+
+		if (array_key_exists('password', $redisConfig) && $redisConfig['password'] === '')
 		{
-			$this->redis->auth($redisConfig['password']);
+			unset($redisConfig['password']);
 		}
 		
-		// If there is a database selected, connect to the specified database
-		if (array_key_exists('database', $redisConfig))
-		{
-			$this->redis->select($redisConfig['database']);
-		}
-		
-		$this->redis->setOption(\Redis::OPT_SERIALIZER, \Redis::SERIALIZER_PHP);
+		$this->redis = new Client($redisConfig);
 	}
-	
+
 	/**
-	 * Destructor to disconnect from redis
+	 * Disconnect from redis
 	 */
 	public function __destruct()
 	{
-		$this->redis->close();
+		$this->redis = null;
 	}
 	
 	/**
@@ -67,7 +57,7 @@ class RedisDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
 	 */
 	public function get($key)
 	{
-		return $this->redis->get($key);
+		return unserialize($this->redis->get($key));
 	}
 	
 	/**
@@ -79,7 +69,7 @@ class RedisDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
 	 */
 	public function set($key, $value)
 	{
-		$this->redis->set($key, $value);
+		$this->redis->set($key, serialize($value));
 		return $this;
 	}
 	

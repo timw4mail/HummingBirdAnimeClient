@@ -3,6 +3,7 @@
 ################################################################################
 
 # Host or socket to connect to
+# Socket must be prefixed with 'unix:'
 host = "127.0.0.1"
 
 # Connection port
