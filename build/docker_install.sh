@@ -17,7 +17,7 @@ curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
 chmod +x /usr/local/bin/phpunit
 
 # Move redis test config file into place
-mv "$DIR/test/redis.toml" "$DIR/app/config/redis.toml"
+mv "$DIR/tests/redis.toml" "$DIR/app/config/redis.toml"
 
 
 # Install gd
