@@ -4,8 +4,6 @@ before_script:
     # Install composer dependencies
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar install
-    # Move redis test config file into place
-    - mv "./tests/redis.toml" "./app/config/redis.toml"
 
 # Composer stores all downloaded packages in the vendor/ directory.
 # Do not use the following if the vendor/ directory is commited to
