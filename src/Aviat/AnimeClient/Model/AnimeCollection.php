@@ -129,6 +129,8 @@ class AnimeCollection extends Collection {
 	{
 		$anime = (object)$this->anime_model->get_anime($data['id']);
 
+		$util = $this->container->get('util');
+
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -137,7 +139,7 @@ class AnimeCollection extends Collection {
 			'show_type' => $anime->show_type,
 			'age_rating' => $anime->age_rating,
 			'cover_image' => basename(
-				$this->get_cached_image($anime->cover_image, $anime->slug, 'anime')
+				$util->get_cached_image($anime->cover_image, $anime->slug, 'anime')
 			),
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
@@ -222,6 +224,8 @@ class AnimeCollection extends Collection {
 
 		foreach ($anime as $item)
 		{
+			$util = $this->container->get('util');
+
 			$this->db->set([
 				'hummingbird_id' => $item->id,
 				'slug' => $item->slug,
@@ -230,7 +234,7 @@ class AnimeCollection extends Collection {
 				'show_type' => $item->show_type,
 				'age_rating' => $item->age_rating,
 				'cover_image' => basename(
-					$this->get_cached_image($item->cover_image, $item->slug, 'anime')
+					$util->get_cached_image($item->cover_image, $item->slug, 'anime')
 				),
 				'episode_count' => $item->episode_count,
 				'episode_length' => $item->episode_length

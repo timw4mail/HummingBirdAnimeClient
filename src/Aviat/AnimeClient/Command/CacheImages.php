@@ -13,7 +13,7 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\Model;
+use Aviat\AnimeClient\Util;
 /**
  * Generates thumbnail image cache so that cover images load faster
  */
@@ -21,7 +21,7 @@ class CacheImages extends BaseCommand {
 
 	protected $mangaModel;
 	protected $animeModel;
-	protected $model;
+	protected $util;
 
 	/*
 	 * Convert manga images
@@ -37,7 +37,7 @@ class CacheImages extends BaseCommand {
 		$current = 0;
 		foreach($manga_list as $item)
 		{
-			$this->model->get_cached_image($item['poster_image'], $item['id'], 'manga');
+			$this->util->get_cached_image($item['poster_image'], $item['id'], 'manga');
 			$current++;
 
 			echo "Cached {$current} of {$total} manga images. \n";
@@ -57,7 +57,7 @@ class CacheImages extends BaseCommand {
 		$current = 0;
 		foreach($raw_list as $item)
 		{
-			$this->model->get_cached_image($item['anime']['cover_image'], $item['anime']['slug'], 'anime');
+			$this->util->get_cached_image($item['anime']['cover_image'], $item['anime']['slug'], 'anime');
 			$current++;
 
 			echo "Cached {$current} of {$total} anime images. \n";
@@ -75,7 +75,7 @@ class CacheImages extends BaseCommand {
 	public function execute(array $args, array $options = array())
 	{
 		$this->setContainer($this->setupContainer());
-		$this->model = new Model($this->container);
+		$this->util = new Util($this->container);
 		$this->animeModel = $this->container->get('anime-model');
 		$this->mangaModel = $this->container->get('manga-model');
 
