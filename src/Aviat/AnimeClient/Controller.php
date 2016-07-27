@@ -21,7 +21,6 @@ use Aviat\Ion\View\JsonView;
  * Controller base, defines output methods
  *
  * @property Response object $response
- * @property Config object $config
  */
 class Controller {
 
@@ -35,7 +34,7 @@ class Controller {
 
 	/**
 	 * The global configuration object
-	 * @var object $config
+	 * @var Aviat\Ion\ConfigInterface $config
 	 */
 	protected $config;
 
@@ -148,7 +147,7 @@ class Controller {
 			return;
 		}
 
-		$anime_client = $this->container->get('anime-client');
+		$util = $this->container->get('util');
 		$double_form_page = $server_params['HTTP_REFERER'] == $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
@@ -161,7 +160,7 @@ class Controller {
 
 		if (is_null($url))
 		{
-			$url = ($anime_client->is_view_page())
+			$url = ($util->is_view_page())
 				? $this->request->url->get()
 				: $server_params['HTTP_REFERER'];
 		}
