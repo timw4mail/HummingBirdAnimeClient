@@ -19,7 +19,8 @@ use GuzzleHttp\Psr7\ResponseInterface;
 use GuzzleHttp\Exception\ClientException;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\AnimeClient\Model as BaseModel;
+use Aviat\Ion\Model;
+use Aviat\AnimeClient\AnimeClient;
 
 /**
  * Base model for api interaction
@@ -32,7 +33,15 @@ use Aviat\AnimeClient\Model as BaseModel;
  * @method ResponseInterface post(string $uri, array $options);
  * @method ResponseInterface put(string $uri, array $options);
  */
-class API extends BaseModel {
+class API extends Model {
+
+	use \Aviat\Ion\Di\ContainerAware;
+
+	/**
+	 * Config manager
+	 * @var ConfigInterface
+	 */
+	protected $config;
 
 	/**
 	 * Base url for making api requests
@@ -65,7 +74,8 @@ class API extends BaseModel {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
+		$this->container = $container;
+		$this->config = $container->get('config');
 		$this->cache = $container->get('cache');
 		$this->init();
 	}
@@ -171,7 +181,7 @@ class API extends BaseModel {
 	 */
 	public function authenticate($username, $password)
 	{
-		$response = $this->post('https://hummingbird.me/api/v1/users/authenticate', [
+		$response = $this->post(AnimeClient::HUMMINGBIRD_AUTH_URL, [
 			'form_params' => [
 				'username' => $username,
 				'password' => $password

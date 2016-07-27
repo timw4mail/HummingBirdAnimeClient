@@ -12,6 +12,6 @@ class CacheNullDriverTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->driver = new NullDriver($this->container);
+		$this->driver = new NullDriver($this->container->get('config'));
 	}
 }

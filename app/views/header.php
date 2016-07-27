@@ -50,8 +50,8 @@
 			<?= $helper->menu($menu_name) ?>
 			<br />
 			<ul>
-				<li class="<?= AnimeClient::is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-				<li class="<?= AnimeClient::is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+				<li class="<?= Util::is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+				<li class="<?= Util::is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 			</ul>
 			<?php endif ?>
 		</nav>

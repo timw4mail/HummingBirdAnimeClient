@@ -12,6 +12,7 @@ class MangaModelTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
+		$this->container->set('util', new MockUtil($this->container));
 		$this->model = new Friend(new TestMangaModel($this->container));
 		$this->mockDir = __DIR__ . '/../../test_data/manga_list';
 	}

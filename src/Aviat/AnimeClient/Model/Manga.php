@@ -252,9 +252,11 @@ class Manga extends API {
 			self::COMPLETED => [],
 		];
 
+		$util = $this->container->get('util');
+
 		foreach ($data as &$entry)
 		{
-			$entry['manga']['image'] = $this->get_cached_image(
+			$entry['manga']['image'] = $util->get_cached_image(
 				$entry['manga']['image'],
 				$entry['manga']['slug'],
 				'manga'

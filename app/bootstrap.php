@@ -41,7 +41,7 @@ return function(array $config_array = []) {
 	$container->set('config', $config);
 
 	// Create Cache Object
-	$container->set('cache', new CacheManager($container));
+	$container->set('cache', new CacheManager($config));
 
 	// Create Aura Router Object
 	$container->set('aura-router', new RouterContainer);
@@ -71,9 +71,9 @@ return function(array $config_array = []) {
 	$container->set('session', $session);
 
 	// Miscellaneous helper methods
-	$anime_client = new AnimeClient();
-	$anime_client->setContainer($container);
-	$container->set('anime-client', $anime_client);
+	$util = new Util($container);
+	$container->set('anime-client', $util);
+	$container->set('util', $util);
 
 	// Models
 	$container->set('api-model', new Model\API($container));

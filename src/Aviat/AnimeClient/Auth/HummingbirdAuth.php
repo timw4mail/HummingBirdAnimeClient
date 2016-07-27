@@ -15,7 +15,6 @@ namespace Aviat\AnimeClient\Auth;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\Model\API;
 
 /**
  * Hummingbird API Authentication
@@ -102,6 +101,5 @@ class HummingbirdAuth {
 	{
 		return $this->segment->get('auth_token', FALSE);
 	}
-
 }
 // End of HummingbirdAuth.php

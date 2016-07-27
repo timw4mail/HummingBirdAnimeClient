@@ -12,9 +12,9 @@
 
 namespace Aviat\Ion\Cache\Driver;
 
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Cache\CacheDriverInterface;
-use Aviat\AnimeClient\Model\DB;
+use Aviat\Ion\Model\DB;
 
 /**
  * Driver for caching via a traditional SQL database
@@ -29,15 +29,17 @@ class SQLDriver extends DB implements CacheDriverInterface  {
 
 	/**
 	 * Create the driver object
+	 *
+	 * @param ConfigInterface $config
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(ConfigInterface $config)
 	{
-		parent::__construct($container);
+		parent::__construct($config);
 		$this->db = \Query($this->db_config['collection']);
 	}
 
 	/**
-	 * Retreive a value from the cache backend
+	 * Retrieve a value from the cache backend
 	 *
 	 * @param string $key
 	 * @return mixed

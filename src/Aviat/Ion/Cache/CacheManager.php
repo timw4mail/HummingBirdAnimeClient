@@ -12,7 +12,7 @@
 
 namespace Aviat\Ion\Cache;
 
-use \Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\ConfigInterface;
 
 /**
  * Class proxying cached and fresh values from the selected cache driver
@@ -25,11 +25,12 @@ class CacheManager implements CacheInterface {
 	protected $driver;
 
 	/**
-	 * Retreive the appropriate driver from the container
+	 * Retrieve the appropriate driver from the container
+	 *
+	 * @param ConfigInterface $config The configuration management class
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(ConfigInterface $config)
 	{
-		$config = $container->get('config');
 		$driverConf = $config->get('cache_driver');
 
 		if (empty($driverConf))
@@ -38,13 +39,13 @@ class CacheManager implements CacheInterface {
 		}
 
 		$driverClass = __NAMESPACE__ . "\\Driver\\{$driverConf}";
-		$driver = new $driverClass($container);
+		$driver = new $driverClass($config);
 
 		$this->driver = $driver;
 	}
 
 	/**
-	 * Retreive a cached value if it exists, otherwise, get the value
+	 * Retrieve a cached value if it exists, otherwise, get the value
 	 * from the passed arguments
 	 *
 	 * @param object $object - object to retrieve fresh value from
@@ -68,7 +69,7 @@ class CacheManager implements CacheInterface {
 	}
 
 	/**
-	 * Retreive a fresh value from the method, and update the cache
+	 * Retrieve a fresh value from the method, and update the cache
 	 * @param object $object - object to retrieve fresh value from
 	 * @param string $method - method name to call
 	 * @param [array] $args - the arguments to pass to the retrieval method

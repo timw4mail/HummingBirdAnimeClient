@@ -12,7 +12,7 @@
 
 namespace Aviat\Ion\Cache\Driver;
 
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Cache\CacheDriverInterface;
 
 use Predis\Client;
@@ -20,17 +20,19 @@ use Predis\Client;
 class RedisDriver implements CacheDriverInterface {
 	
 	/**
-	 * The redis extension class instance
-	 * @var Redis
+	 * THe Predis library instance
+	 *
+	 * @var Client
 	 */
 	protected $redis;
 	
 	/**
 	 * Create the Redis cache driver
+	 *
+	 * @param ConfigInterface $config The configuration management class
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(ConfigInterface $config)
 	{
-		$config = $container->get('config');
 		$redisConfig = $config->get('redis');
 
 		if (array_key_exists('password', $redisConfig) && $redisConfig['password'] === '')
@@ -50,7 +52,7 @@ class RedisDriver implements CacheDriverInterface {
 	}
 	
 	/**
-	 * Retreive a value from the cache backend
+	 * Retrieve a value from the cache backend
 	 *
 	 * @param string $key
 	 * @return mixed

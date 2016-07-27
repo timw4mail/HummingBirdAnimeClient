@@ -1,12 +1,12 @@
 <?php
 
-use Aviat\AnimeClient\Model as BaseModel;
+use Aviat\Ion\Model as BaseModel;
 
 class BaseModelTest extends AnimeClient_TestCase {
 
 	public function testBaseModelSanity()
 	{
-		$baseModel = new BaseModel($this->container);
+		$baseModel = new BaseModel();
 		$this->assertTrue(is_object($baseModel));
 	}
 }

@@ -17,7 +17,6 @@ use Aura\Web\Response;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
-use Aviat\AnimeClient\AnimeClient;
 
 
 /**
