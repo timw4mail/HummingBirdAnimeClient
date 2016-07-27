@@ -73,7 +73,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 				]
 			],
 			'redis' => [
-				'host' => 'redis',
+				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
 				'database' => 13
 			]
 		];
