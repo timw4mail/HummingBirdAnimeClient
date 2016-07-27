@@ -13,12 +13,14 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\ConfigInterface;
+
 use InvalidArgumentException;
 
 /**
  * Wrapper for configuration values
  */
-class Config {
+class Config implements ConfigInterface {
 
 	use \Aviat\Ion\ArrayWrapper;
 

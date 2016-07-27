@@ -12,12 +12,13 @@
 
 namespace Aviat\Ion\Cache\Driver;
 
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\ConfigInterface;
+use Aviat\Ion\Cache\CacheDriverInterface;
 
 /**
  * The Driver for no real cache
  */
-class NullDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
+class NullDriver implements CacheDriverInterface {
 
 	/**
 	 * 'Cache' for Null data store
@@ -25,9 +26,11 @@ class NullDriver implements \Aviat\Ion\Cache\CacheDriverInterface {
 	protected $data;
 
 	/**
-	 * Create the Redis cache driver
+	 * Create the Null cache driver
+	 *
+	 * @param ConfigInterface $config The configuration management class
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(ConfigInterface $config)
 	{
 		$this->data = [];
 	}

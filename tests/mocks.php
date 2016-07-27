@@ -99,6 +99,13 @@ trait MockViewOutputTrait {
 	}
 }
 
+class MockUtil {
+	public function get_cached_image($api_path, $series_slug, $type = "anime")
+	{
+		return "/public/images/{$type}/{$series_slug}.jpg";
+	}
+}
+
 class TestView extends View {
 	public function send() {}
 	protected function output()
@@ -156,11 +163,6 @@ class TestAnimeModel extends AnimeModel {
 
 class TestMangaModel extends MangaModel {
 	use MockInjectionTrait;
-
-	public function get_cached_image($api_path, $series_slug, $type = "anime")
-	{
-		return "/public/images/{$type}/{$series_slug}.jpg";
-	}
 
 	protected function _check_cache($response)
 	{

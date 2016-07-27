@@ -36,7 +36,7 @@ class Collection extends DB {
 	 * Create a new collection object
 	 *
 	 * @param ContainerInterface $container
-	 * @return boolean
+	 * @return void
 	 */
 	public function __construct(ContainerInterface $container)
 	{

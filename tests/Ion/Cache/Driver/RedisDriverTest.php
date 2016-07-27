@@ -13,7 +13,7 @@ class CacheRedisDriverTest extends AnimeClient_TestCase {
 	{
 		parent::setUp();
 
-		$this->driver = new RedisDriver($this->container);
+		$this->driver = new RedisDriver($this->container->get('config'));
 	}
 
 	public function tearDown()

@@ -51,7 +51,7 @@ class BaseCommand extends Command {
 	 */
 	protected function setupContainer()
 	{
-		$CONF_DIR = __DIR__ . '/../../../../app/config/';
+		$CONF_DIR = realpath(__DIR__ . '/../../../../app/config/');
 		require_once $CONF_DIR . '/base_config.php'; // $base_config
 
 		$config = AnimeClient::load_toml($CONF_DIR);
@@ -65,7 +65,7 @@ class BaseCommand extends Command {
 			$container->set('config', $config);
 
 			// Create Cache Object
-			$container->set('cache', new CacheManager($container));
+			$container->set('cache', new CacheManager($config));
 
 			// Create session Object
 			$session = (new SessionFactory())->newInstance($_COOKIE);

@@ -226,9 +226,10 @@ class Anime extends API {
 		$response = $this->get("users/{$username}/library", $config);
 		$output = $this->transform($status, $response);
 
+		$util = $this->container->get('util');
 		foreach ($output as &$row)
 		{
-			$row['anime']['image'] = $this->get_cached_image($row['anime']['image'], $row['anime']['slug'], 'anime');
+			$row['anime']['image'] = $util->get_cached_image($row['anime']['image'], $row['anime']['slug'], 'anime');
 		}
 
 		return $output;

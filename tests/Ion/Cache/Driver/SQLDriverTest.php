@@ -13,7 +13,7 @@ class CacheSQLDriverTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->driver = new SQLDriver($this->container);
+		$this->driver = new SQLDriver($this->container->get('config'));
 		$friend = new Friend($this->driver);
 		$friend->db->query('CREATE TABLE IF NOT EXISTS "cache" ("key" TEXT NULL, "value" TEXT NULL, PRIMARY KEY ("key"))');
 	}

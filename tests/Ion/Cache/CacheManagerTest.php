@@ -15,7 +15,7 @@ class CacheManagerText extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->cache = new CacheManager($this->container);
+		$this->cache = new CacheManager($this->container->get('config'), $this->container);
 		$this->friend = new Friend($this->cache);
 	}
 
