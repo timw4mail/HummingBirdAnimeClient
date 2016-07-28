@@ -9,7 +9,6 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response as HttpResponse;
 
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\Config;
 
 define('ROOT_DIR', __DIR__ . '/../');
 define('TEST_DATA_DIR', __DIR__ . '/test_data');
@@ -54,6 +53,16 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
 			'database' => [
 				'collection' => [
+					'type' => 'sqlite',
+					'host' => '',
+					'user' => '',
+					'pass' => '',
+					'port' => '',
+					'name' => 'default',
+					'database'   => '',
+					'file' => ':memory:',
+				],
+				'cache' => [
 					'type' => 'sqlite',
 					'host' => '',
 					'user' => '',

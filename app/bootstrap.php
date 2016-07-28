@@ -13,6 +13,7 @@ use Monolog\Handler\RotatingFileHandler;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Cache\CacheManager;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;

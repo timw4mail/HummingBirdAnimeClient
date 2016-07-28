@@ -14,6 +14,7 @@ namespace Aviat\Ion\Cache\Driver;
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Cache\CacheDriverInterface;
+use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Model\DB;
 
 /**
@@ -31,11 +32,18 @@ class SQLDriver extends DB implements CacheDriverInterface  {
 	 * Create the driver object
 	 *
 	 * @param ConfigInterface $config
+	 * @throws ConfigException
 	 */
 	public function __construct(ConfigInterface $config)
 	{
 		parent::__construct($config);
-		$this->db = \Query($this->db_config['collection']);
+
+		if ( ! array_key_exists('cache', $this->db_config))
+		{
+			throw new ConfigException("Missing '[cache]' section in database config.");
+		}
+
+		$this->db = \Query($this->db_config['cache']);
 	}
 
 	/**
@@ -54,7 +62,7 @@ class SQLDriver extends DB implements CacheDriverInterface  {
 		$row = $query->fetch(\PDO::FETCH_ASSOC);
 		if ( ! empty($row))
 		{
-			return unserialize($row['value']);
+			return json_decode($row['value']);
 		}
 		
 		return NULL;
@@ -71,7 +79,7 @@ class SQLDriver extends DB implements CacheDriverInterface  {
 	{
 		$this->db->set([
 			'key' => $key,
-			'value' => serialize($value),
+			'value' => json_encode($value),
 		]);
 		
 		$this->db->insert('cache');

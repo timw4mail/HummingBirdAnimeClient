@@ -1,6 +1,6 @@
 <?php
 
-use \Aviat\AnimeClient\Config;
+use Aviat\Ion\Config;
 
 class ConfigTest extends AnimeClient_TestCase {
 

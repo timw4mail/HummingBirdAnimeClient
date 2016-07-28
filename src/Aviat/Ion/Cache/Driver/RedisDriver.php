@@ -59,7 +59,7 @@ class RedisDriver implements CacheDriverInterface {
 	 */
 	public function get($key)
 	{
-		return unserialize($this->redis->get($key));
+		return json_decode($this->redis->get($key));
 	}
 	
 	/**
@@ -71,7 +71,7 @@ class RedisDriver implements CacheDriverInterface {
 	 */
 	public function set($key, $value)
 	{
-		$this->redis->set($key, serialize($value));
+		$this->redis->set($key, json_encode($value));
 		return $this;
 	}
 	

@@ -1,11 +1,6 @@
 <?php
-
-use Aura\Html\HelperLocatorFactory;
-
 use Aviat\Ion\Friend;
-use Aviat\Ion\Di\Container;
-use Aviat\AnimeClient\Helper;
-use Aviat\AnimeClient\Config;
+
 use Aviat\AnimeClient\MenuGenerator;
 
 class MenuGeneratorTest extends AnimeClient_TestCase {
