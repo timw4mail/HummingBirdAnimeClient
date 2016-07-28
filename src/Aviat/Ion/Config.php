@@ -1,19 +1,19 @@
 <?php
 /**
- * Hummingbird Anime Client
+ * Ion
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * Building blocks for web development
  *
- * @package     HummingbirdAnimeClient
+ * @package     Ion
  * @author      Timothy J. Warren
  * @copyright   Copyright (c) 2015 - 2016
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  * @license     MIT
  */
 
-namespace Aviat\AnimeClient;
+namespace Aviat\Ion;
 
-use Aviat\Ion\ConfigInterface;
+
+use Aviat\Ion\Exception\ConfigException;
 
 use InvalidArgumentException;
 
@@ -22,7 +22,7 @@ use InvalidArgumentException;
  */
 class Config implements ConfigInterface {
 
-	use \Aviat\Ion\ArrayWrapper;
+	use ArrayWrapper;
 
 	/**
 	 * Config object
@@ -46,6 +46,7 @@ class Config implements ConfigInterface {
 	 *
 	 * @param array|string $key
 	 * @return mixed
+	 * @throws ConfigException
 	 */
 	public function get($key)
 	{

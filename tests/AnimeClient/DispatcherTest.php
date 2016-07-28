@@ -6,9 +6,9 @@ use Monolog\Handler\TestHandler;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response;
 
+use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Dispatcher;
-use Aviat\AnimeClient\Config;
 use Aviat\AnimeClient\UrlGenerator;
 
 

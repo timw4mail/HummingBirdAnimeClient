@@ -1,22 +1,30 @@
 <?php
 
-class CoreTest extends AnimeClient_TestCase {
+class RequirementsTest extends AnimeClient_TestCase {
 
 	public function testPHPVersion()
 	{
 		$this->assertTrue(version_compare(PHP_VERSION, "5.4", "ge"));
 	}
 
-	public function testRequirements()
+	public function testHasGd()
 	{
-		// Check required extensions
 		$this->assertTrue(extension_loaded('gd'));
-		$this->assertTrue(extension_loaded('mcrypt'));
+	}
 
-		// Check for pdo_sqlite
+	public function testHasMcrypt()
+	{
+		$this->assertTrue(extension_loaded('mcrypt'));
+	}
+
+	public function testHasPDO()
+	{
 		$this->assertTrue(class_exists('PDO'));
+	}
+
+	public function testHasPDOSqlite()
+	{
 		$drivers = PDO::getAvailableDrivers();
 		$this->assertTrue(in_array('sqlite', $drivers));
 	}
-
 }

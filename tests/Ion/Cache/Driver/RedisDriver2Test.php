@@ -2,8 +2,7 @@
 
 require_once('CacheDriverBase.php');
 
-use Aviat\AnimeClient\Config;
-use Aviat\Ion\Di\Container;
+use Aviat\Ion\Config;
 use Aviat\Ion\Cache\Driver\RedisDriver;
 
 class CacheRedisDriverTestTwo extends AnimeClient_TestCase {

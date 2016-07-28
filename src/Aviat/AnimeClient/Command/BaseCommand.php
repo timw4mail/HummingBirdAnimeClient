@@ -17,12 +17,14 @@ use Aura\Session\SessionFactory;
 use ConsoleKit\Command;
 use ConsoleKit\Widgets\Box;
 
+use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Cache\CacheManager;
-use Aviat\AnimeClient\Config;
+
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
 use Aviat\AnimeClient\Model;
+use Aviat\AnimeClient\Util;
 
 /**
  * Base class for console command setup
@@ -77,6 +79,7 @@ class BaseCommand extends Command {
 			$container->set('manga-model', new Model\Manga($container));
 
 			$container->set('auth', new HummingbirdAuth($container));
+			$container->set('util', new Util($container));
 
 			return $container;
 		};
