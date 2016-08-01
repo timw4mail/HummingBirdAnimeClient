@@ -79,6 +79,15 @@ class ArrayTypeTest extends AnimeClient_TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testSet()
+	{
+		$obj = $this->arr([]);
+		$arraytype = $obj->set('foo', 'bar');
+
+		$this->assertInstanceOf('Aviat\Ion\Type\ArrayType', $arraytype);
+		$this->assertEquals('bar', $obj->get('foo'));
+	}
+
 	public function testGet()
 	{
 		$array = [1, 2, 3, 4, 5];

@@ -51,6 +51,15 @@ class ContainerTest extends AnimeClient_TestCase {
 		}
 	}
 
+	public function testGetSet()
+	{
+		$container = $this->container->set('foo', function() {});
+
+		$this->assertInstanceOf('Aviat\Ion\Di\Container', $container);
+		$this->assertInstanceOf('Aviat\Ion\Di\ContainerInterface', $container);
+		$this->assertTrue(is_callable($container->get('foo')));
+	}
+
 	public function testLoggerMethods()
 	{
 		// Does the container have the default logger?
@@ -63,8 +72,11 @@ class ContainerTest extends AnimeClient_TestCase {
 		$logger2->pushHandler(new TestHandler());
 
 		// Set the logger channels
-		$this->container->setLogger($logger1);
-		$this->container->setLogger($logger2, 'test');
+		$container = $this->container->setLogger($logger1);
+		$container2 = $this->container->setLogger($logger2, 'test');
+
+		$this->assertInstanceOf('Aviat\Ion\Di\ContainerInterface', $container);
+		$this->assertInstanceOf('Aviat\Ion\Di\Container', $container2);
 
 		$this->assertEquals($logger1, $this->container->getLogger('default'));
 		$this->assertEquals($logger2, $this->container->getLogger('test'));

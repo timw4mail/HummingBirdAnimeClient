@@ -23,7 +23,8 @@ class ConfigTest extends AnimeClient_TestCase {
 
 	public function testConfigSet()
 	{
-		$this->config->set('foo', 'foobar');
+		$ret = $this->config->set('foo', 'foobar');
+		$this->assertInstanceOf('Aviat\Ion\Config', $ret);
 		$this->assertEquals('foobar', $this->config->get('foo'));
 
 		$this->config->set(['apple', 'sauce', 'is'], 'great');
@@ -31,6 +32,7 @@ class ConfigTest extends AnimeClient_TestCase {
 		$this->assertEquals('great', $apple['sauce']['is'], "Config value not set correctly");
 		
 		$this->assertEquals('great', $this->config->get(['apple', 'sauce', 'is']), "Array argument get for config failed.");
+
 	}
 
 	public function testConfigBadSet()
