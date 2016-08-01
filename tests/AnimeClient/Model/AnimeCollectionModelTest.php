@@ -31,7 +31,7 @@ class AnimeCollectionModelTest extends AnimeClient_TestCase {
 	public function testSanity()
 	{
 		$friend = new Friend($this->collectionModel);
-		$this->assertInstanceOf('Aviat\AnimeClient\Model\DB', $this->collectionModel);
+		$this->assertInstanceOf('Aviat\Ion\Model\DB', $this->collectionModel);
 		$this->assertInstanceOf('Aviat\AnimeClient\Model\Anime', $friend->anime_model);
 	}
 

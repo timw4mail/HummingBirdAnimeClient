@@ -14,6 +14,7 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Model\DB;
 
 /**
  * Base model for anime and manga collections
@@ -36,11 +37,10 @@ class Collection extends DB {
 	 * Create a new collection object
 	 *
 	 * @param ContainerInterface $container
-	 * @return void
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
+		parent::__construct($container->get('config'));
 
 		try
 		{

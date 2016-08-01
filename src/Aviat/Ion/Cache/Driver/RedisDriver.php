@@ -13,11 +13,15 @@
 namespace Aviat\Ion\Cache\Driver;
 
 use Aviat\Ion\ConfigInterface;
-use Aviat\Ion\Cache\CacheDriverInterface;
 
 use Predis\Client;
 
-class RedisDriver implements CacheDriverInterface {
+/**
+ * Cache Driver for a Redis backend
+ */
+class RedisDriver implements DriverInterface {
+
+	use DriverTrait;
 	
 	/**
 	 * THe Predis library instance
@@ -35,6 +39,10 @@ class RedisDriver implements CacheDriverInterface {
 	{
 		$redisConfig = $config->get('redis');
 
+		// If you don't have a redis password set, and you attempt to send an
+		// empty string, Redis will think you want to authenticate with a password
+		// that is an empty string. To work around this, empty string passwords
+		// are considered to be a lack of a password
 		if (array_key_exists('password', $redisConfig) && $redisConfig['password'] === '')
 		{
 			unset($redisConfig['password']);
@@ -54,36 +62,45 @@ class RedisDriver implements CacheDriverInterface {
 	/**
 	 * Retrieve a value from the cache backend
 	 *
-	 * @param string $key
+	 * @param string $rawKey
 	 * @return mixed
 	 */
-	public function get($key)
+	public function get($rawKey)
 	{
-		return json_decode($this->redis->get($key));
+		$key = $this->prefix($rawKey);
+		$serializedData = $this->redis->get($key);
+
+		return $this->unserialize($serializedData);
 	}
 	
 	/**
 	 * Set a cached value
 	 *
-	 * @param string $key
+	 * @param string $rawKey
 	 * @param mixed $value
-	 * @return CacheDriverInterface
+	 * @return DriverInterface
 	 */
-	public function set($key, $value)
+	public function set($rawKey, $value)
 	{
-		$this->redis->set($key, json_encode($value));
+		$key = $this->prefix($rawKey);
+		$serializedData = $this->serialize($value);
+
+		$this->redis->set($key, $serializedData);
+
 		return $this;
 	}
 	
 	/**
 	 * Invalidate a cached value
 	 *
-	 * @param string $key
-	 * @return CacheDriverInterface
+	 * @param string $rawKey
+	 * @return DriverInterface
 	 */
-	public function invalidate($key)
+	public function invalidate($rawKey)
 	{
+		$key = $this->prefix($rawKey);
 		$this->redis->del($key);
+
 		return $this;
 	}
 	
@@ -94,7 +111,7 @@ class RedisDriver implements CacheDriverInterface {
 	 */
 	public function invalidateAll()
 	{
-		$this->redis->flushDB();
+		$this->redis->flushdb();
 	}
 }
 // End of RedisDriver.php

@@ -6,7 +6,6 @@
 use Aviat\Ion\Enum;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View;
 use Aviat\Ion\View\HtmlView;

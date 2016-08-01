@@ -162,7 +162,7 @@ class Manga extends API {
 			$logger->warning("Non 200 response for search api call");
 			$logger->warning($response->getBody());
 
-			throw new RuntimeException($response->getEffectiveUrl());
+			throw new \RuntimeException($response->getEffectiveUrl());
 		}
 
 		return Json::decode($response->getBody(), TRUE);
