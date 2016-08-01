@@ -3,9 +3,6 @@
  * Global setup for unit tests
  */
 
-use Aviat\Ion\Json;
-use Aviat\AnimeClient\AnimeClient;
-
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
 if ($timezone === '' || $timezone === FALSE)

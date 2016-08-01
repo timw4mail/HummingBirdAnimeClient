@@ -60,7 +60,15 @@ class Json {
 	 */
 	public static function decode($json, $assoc = TRUE, $depth = 512, $options = 0)
 	{
-		$data = json_decode($json, $assoc, $depth, $options);
+		// Don't try to decode null
+		if (empty($json))
+		{
+			return NULL;
+		}
+
+		// cast json to string so that streams from guzzle are correctly decoded
+		$data = json_decode((string) $json, $assoc, $depth, $options);
+
 		self::check_json_error();
 		return $data;
 	}

@@ -10,12 +10,12 @@
  * @license	 MIT
  */
 
-namespace Aviat\Ion\Cache;
+namespace Aviat\Ion\Cache\Driver;
 
 /**
  * Interface for cache drivers
  */
-interface CacheDriverInterface {
+interface DriverInterface {
 	/**
 	 * Retreive a value from the cache backend
 	 *
@@ -29,7 +29,7 @@ interface CacheDriverInterface {
 	 *
 	 * @param string $key
 	 * @param mixed $value
-	 * @return CacheDriverInterface
+	 * @return DriverInterface
 	 */
 	public function set($key, $value);
 
@@ -37,7 +37,7 @@ interface CacheDriverInterface {
 	 * Invalidate a cached value
 	 *
 	 * @param string $key
-	 * @return CacheDriverInterface
+	 * @return DriverInterface
 	 */
 	public function invalidate($key);
 
@@ -48,4 +48,4 @@ interface CacheDriverInterface {
 	 */
 	public function invalidateAll();
 }
-// End of CacheDriverInterface.php
+// End of DriverInterface.php

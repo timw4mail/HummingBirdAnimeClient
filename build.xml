@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="full-build" name="animeclient" basedir=".">
+	<autoloader autoloaderpath="${project.basedir}/vendor/autoload.php" />
 	<!-- By default, we assume all tools to be on the $PATH -->
 	<property name="pdepend" value="pdepend" />
 	<property name="phpcpd" value="phpcpd" />
@@ -10,7 +11,7 @@
 	<property name="sonar" value="sonar-runner" />
 
 	<target name="full-build"
-		depends="prepare,static-analysis,phpunit,phpdox,sonar"
+		depends="prepare,static-analysis,phpunit,phpdox"
 		description="Performs static analysis, runs the tests, and generates project documentation"
 	/>
 	<target name="quick-build"

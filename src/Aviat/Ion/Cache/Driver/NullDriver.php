@@ -11,32 +11,20 @@
  */
 
 namespace Aviat\Ion\Cache\Driver;
-
 use Aviat\Ion\ConfigInterface;
-use Aviat\Ion\Cache\CacheDriverInterface;
 
 /**
  * The Driver for no real cache
  */
-class NullDriver implements CacheDriverInterface {
+class NullDriver implements DriverInterface {
 
 	/**
 	 * 'Cache' for Null data store
 	 */
-	protected $data;
+	protected $data = [];
 
 	/**
-	 * Create the Null cache driver
-	 *
-	 * @param ConfigInterface $config The configuration management class
-	 */
-	public function __construct(ConfigInterface $config)
-	{
-		$this->data = [];
-	}
-
-	/**
-	 * Retreive a value from the cache backend
+	 * Retrieve a value from the cache backend
 	 *
 	 * @param string $key
 	 * @return mixed
@@ -53,7 +41,7 @@ class NullDriver implements CacheDriverInterface {
 	 *
 	 * @param string $key
 	 * @param mixed $value
-	 * @return CacheDriverInterface
+	 * @return DriverInterface
 	 */
 	public function set($key, $value)
 	{
@@ -65,7 +53,7 @@ class NullDriver implements CacheDriverInterface {
 	 * Invalidate a cached value
 	 *
 	 * @param string $key
-	 * @return CacheDriverInterface
+	 * @return DriverInterface
 	 */
 	public function invalidate($key)
 	{

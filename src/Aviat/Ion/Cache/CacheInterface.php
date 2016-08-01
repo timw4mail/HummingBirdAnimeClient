@@ -18,7 +18,7 @@ namespace Aviat\Ion\Cache;
 interface CacheInterface {
 
 	/**
-	 * Retreive a cached value if it exists, otherwise, get the value
+	 * Retrieve a cached value if it exists, otherwise, get the value
 	 * from the passed arguments
 	 *
 	 * @param object $object - object to retrieve fresh value from
@@ -29,7 +29,7 @@ interface CacheInterface {
 	public function get($object, $method, array $args=[]);
 
 	/**
-	 * Retreive a fresh value, and update the cache
+	 * Retrieve a fresh value, and update the cache
 	 *
 	 * @param object $object - object to retrieve fresh value from
 	 * @param string $method - method name to call

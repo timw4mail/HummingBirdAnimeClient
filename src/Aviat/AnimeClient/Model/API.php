@@ -19,6 +19,8 @@ use GuzzleHttp\Psr7\ResponseInterface;
 use GuzzleHttp\Exception\ClientException;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Cache\CacheInterface;
+
 use Aviat\Ion\Model;
 use Aviat\AnimeClient\AnimeClient;
 

@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response as HttpResponse;
 
+use Aviat\Ion\Json;
 use Aviat\AnimeClient\AnimeClient;
 
 define('ROOT_DIR', __DIR__ . '/../');
@@ -117,6 +118,36 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		);
 		$this->container->set('request', $request);
 		$this->container->set('response', new HttpResponse());
+	}
+
+	/**
+	 * Simplify getting test data
+	 *
+	 * Takes multiple path arguments
+	 *
+	 * @return string - contents of the data file
+	 */
+	public function getMockFile()
+	{
+		$args = func_get_args();
+		array_unshift($args, TEST_DATA_DIR);
+		$filePath = implode(DIRECTORY_SEPARATOR, $args);
+
+		return file_get_contents($filePath);
+	}
+
+	/**
+	 * Simplify getting mocked test data
+	 *
+	 * Takes multiple path arguments
+	 *
+	 * @return mixed - the decoded data
+	 */
+	public function getMockFileData()
+	{
+		$rawData = call_user_func_array([$this, 'getMockFile'], func_get_args());
+
+		return Json::decode($rawData);
 	}
 
 	/**

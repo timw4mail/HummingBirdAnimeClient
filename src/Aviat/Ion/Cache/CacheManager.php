@@ -13,6 +13,7 @@
 namespace Aviat\Ion\Cache;
 
 use Aviat\Ion\ConfigInterface;
+use Aviat\Ion\Cache\Driver\DriverInterface;
 
 /**
  * Class proxying cached and fresh values from the selected cache driver
@@ -20,7 +21,7 @@ use Aviat\Ion\ConfigInterface;
 class CacheManager implements CacheInterface {
 
 	/**
-	 * @var CacheDriverInterface
+	 * @var DriverInterface
 	 */
 	protected $driver;
 
