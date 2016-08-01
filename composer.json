@@ -28,6 +28,7 @@
 		"phploc/phploc": "^3.0",
 		"phpmd/phpmd": "^2.4",
 		"phpunit/phpunit": "^5.4",
-		"robmorgan/phinx": "^0.6.4"
+		"robmorgan/phinx": "^0.6.4",
+		"humbug/humbug": "~1.0@dev"
 	}
 }
