@@ -10,7 +10,21 @@ set -xe
 
 # Install git (the php image doesn't have it) which is required by composer
 apt-get update -yqq
-apt-get install git unzip libfreetype6 libjpeg62-turbo libmcrypt4 libpng12-0 libfreetype6-dev libjpeg-dev libmcrypt-dev libpng12-dev zlib1g-dev -yqq
+apt-get install \
+	git \
+	unzip \
+	libfreetype6 \
+	libjpeg62-turbo \
+	libmcrypt4 \
+	libpng12-0 \
+	libfreetype6-dev \
+	libjpeg-dev \
+	libmcrypt-dev \
+	libpng12-dev \
+	libxslt1-dev \
+	libxslt1.1 \
+	zlib1g-dev \
+	-yqq
 
 # Install phpunit, the tool that we will use for testing
 curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
