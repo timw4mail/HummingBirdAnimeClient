@@ -3,7 +3,7 @@ before_script:
     - bash build/docker_install.sh > /dev/null
     # Install composer dependencies
     - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar install
+    - php composer.phar install --no-dev
 
 # Composer stores all downloaded packages in the vendor/ directory.
 # Do not use the following if the vendor/ directory is commited to
