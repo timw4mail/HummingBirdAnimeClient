@@ -28,7 +28,7 @@ test:7:
 
 test:hhvm:
     before_script:
-      - composer install -g phpunit
+      - composer global require "phpunit/phpunit"
     image: 51systems/docker-gitlab-ci-runner-hhvm
     script:
       - phpunit -c build
