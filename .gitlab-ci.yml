@@ -28,10 +28,7 @@ test:7:
 
 test:hhvm:
     before_script:
-      - curl -sS https://getcomposer.org/installer | hhvm
-      - hhvm composer.phar install --no-dev
-      - curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
-      - chmod +x /usr/local/bin/phpunit
-    image: diegomarangoni/hhvm:cli
+      - composer install -g phpunit
+    image: 51systems/docker-gitlab-ci-runner-hhvm
     script:
-      - hhvm `which phpunit` -c build
+      - phpunit -c build
