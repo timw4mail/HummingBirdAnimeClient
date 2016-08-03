@@ -28,7 +28,10 @@ test:7:
 
 test:hhvm:
     before_script:
-      - composer global require "phpunit/phpunit"
+      - /usr/local/bin/composer self-update
+      - curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
+      - chmod +x /usr/local/bin/phpunit
+      - composer install --no-dev
     image: 51systems/docker-gitlab-ci-runner-hhvm
     script:
       - phpunit -c build
