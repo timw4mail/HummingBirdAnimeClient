@@ -7,14 +7,10 @@
 >
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Aviat/Ion</directory>
             <directory suffix=".php">src/Aviat/AnimeClient</directory>
         </whitelist>
     </filter>
     <testsuites>
-        <testsuite name="Ion">
-            <directory>tests/Ion</directory>
-        </testsuite>
         <testsuite name="AnimeClient">
             <directory>tests/AnimeClient</directory>
         </testsuite>

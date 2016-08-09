@@ -7,10 +7,6 @@ $animeclient_file_patterns = [
 	'src/Aviat/AnimeClient/*.php'
 ];
 
-$ion_file_patterns = [
-	'src/Aviat/Ion/*.php'
-];
-
 if ( ! function_exists('glob_recursive'))
 {
 	// Does not support flag GLOB_BRACE
@@ -79,11 +75,5 @@ $loose_files = [
 	__DIR__ . '/../public/js.php'
 ];
 replace_files($loose_files, '/animeclient_header_comment.txt');
-
-foreach ($ion_file_patterns as $glob)
-{
-	$files = glob_recursive($glob);
-	replace_files($files, '/ion_header_comment.txt');
-}
 
 echo "Successfully updated headers \n";
