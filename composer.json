@@ -7,13 +7,10 @@
 		"aura/html": "2.*",
 		"aura/router": "3.*",
 		"aura/session": "2.*",
-		"aviat4ion/query": "2.5.*",
-		"container-interop/container-interop": "1.*",
-		"danielstjules/stringy": "~2.1",
+		"aviat/ion": "dev-master",
 		"filp/whoops": "2.0.*",
 		"guzzlehttp/guzzle": "6.*",
 		"monolog/monolog": "1.*",
-		"predis/predis": "1.1.*",
 		"psr/http-message": "~1.0",
 		"psr/log": "~1.0",
 		"yosymfony/toml": "0.3.*",
@@ -21,7 +18,6 @@
 		"maximebf/consolekit": "^1.0"
 	},
 	"require-dev": {
-		"codeclimate/php-test-reporter": "dev-master",
 		"pdepend/pdepend": "^2.2",
 		"sebastian/phpcpd": "^2.0",
 		"theseer/phpdox": "0.8.1.1",
@@ -29,6 +25,8 @@
 		"phpmd/phpmd": "^2.4",
 		"phpunit/phpunit": "^5.4",
 		"robmorgan/phinx": "^0.6.4",
-		"humbug/humbug": "~1.0@dev"
+		"humbug/humbug": "~1.0@dev",
+		"consolidation/robo": "~1.0@dev",
+		"henrikbjorn/lurker": "^1.1.0"
 	}
 }

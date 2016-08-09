@@ -1,0 +1,278 @@
+<?php
+if ( ! function_exists('glob_recursive'))
+{
+	// Does not support flag GLOB_BRACE
+	function glob_recursive($pattern, $flags = 0)
+	{
+		$files = glob($pattern, $flags);
+
+		foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+		{
+			$files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
+		}
+
+		return $files;
+	}
+}
+
+/**
+ * This is project's console commands configuration for Robo task runner.
+ *
+ * @see http://robo.li/
+ */
+class RoboFile extends \Robo\Tasks
+{
+	protected $taskDirs = [
+		'build/api',
+		'build/coverage',
+		'build/logs',
+		'build/pdepend',
+		'build/phpdox',
+	];
+
+
+	/**
+	 * Do static analysis tasks
+	 */
+	public function analyze()
+	{
+		$this->prepare();
+		$this->lint();
+		$this->phploc(TRUE);
+		$this->dependencyReport();
+		$this->phpcpdReport();
+	}
+
+	/**
+	 * Run all tests, generate coverage, generate docs, generate code statistics
+	 */
+	public function build()
+	{
+		$this->analyze();
+		$this->coverage();
+		$this->docs();
+	}
+
+	/**
+	 * Cleanup temporary files
+	 */
+	public function clean()
+	{
+		$cleanFiles = [
+			'build/humbug.json',
+			'build/humbug-log.txt',
+		];
+		array_map(function ($file) {
+			@unlink($file);
+		}, $cleanFiles);
+
+		$this->_cleanDir($this->taskDirs);
+		$this->_deleteDir($this->taskDirs);
+	}
+
+	/**
+	 * Run unit tests and generate coverage reports
+	 */
+	public function coverage()
+	{
+		$this->taskPhpUnit()
+			->configFile('build/phpunit.xml')
+			->printed(true)
+			->run();
+	}
+
+	/**
+	 * Generate documentation with phpdox
+	 */
+	public function docs()
+	{
+		$cmd_parts = [
+			'cd build',
+			'../vendor/bin/phpdox',
+			'cd ..'
+		];
+		$this->_run($cmd_parts, ' && ');
+	}
+
+	/**
+	 * Verify that source files are valid
+	 */
+	public function lint()
+	{
+		$files = $this->getAllSourceFiles();
+
+		$chunks = array_chunk($files, 6);
+		$collection = $this->collection();
+
+		foreach($chunks as $chunk)
+		{
+			$this->parallelLint($collection, $chunk);
+		}
+
+		$collection->run();
+	}
+
+
+	/**
+	 * Run mutation tests with humbug
+	 *
+	 * @param bool $stats - if true, generates stats rather than running mutation tests
+	 */
+	public function mutate($stats = FALSE)
+	{
+		$test_parts = [
+			'vendor/bin/humbug'
+		];
+
+		$stat_parts = [
+			'vendor/bin/humbug',
+			'--skip-killed=yes',
+			'-v',
+			'./build/humbug.json'
+		];
+
+		$cmd_parts = ($stats) ? $stat_parts : $test_parts;
+		$this->_run($cmd_parts);
+	}
+
+	/**
+	 * Run the phploc tool
+	 *
+	 * @param bool $report - if true, generates reports instead of direct output
+	 */
+	public function phploc($report = FALSE)
+	{
+		// Command for generating reports
+		$report_cmd_parts = [
+			'vendor/bin/phploc',
+			'--log-csv=build/logs/phploc.csv',
+			'--log-xml=build/logs/phploc.xml',
+			'src',
+			'tests'
+		];
+
+		// Command for generating direct output
+		$normal_cmd_parts = [
+			'vendor/bin/phploc',
+			'--count-tests',
+			'src',
+			'tests'
+		];
+
+		$cmd_parts = ($report) ? $report_cmd_parts : $normal_cmd_parts;
+
+		$this->_run($cmd_parts);
+	}
+
+	/**
+	 * Create temporary directories
+	 */
+	public function prepare()
+	{
+		$this->clean();
+		array_map([$this, '_mkdir'], $this->taskDirs);
+	}
+
+	/**
+	 * Lint php files and run unit tests
+	 */
+	public function test()
+	{
+		$this->lint();
+		$this->taskPHPUnit()
+			->configFile('phpunit.xml')
+			->printed(true)
+			->run();
+	}
+
+	/**
+	 * Watches for file updates, and automatically runs appropriate actions
+	 */
+	public function watch()
+	{
+		$this->taskWatch()
+			->monitor('composer.json', function() {
+				$this->taskComposerUpdate()->run();
+			})
+			->monitor('src', function () {
+				$this->taskExec('test')->run();
+			})->run();
+	}
+
+	/**
+	 * Create pdepend reports
+	 */
+	protected function dependencyReport()
+	{
+		$cmd_parts = [
+			'vendor/bin/pdepend',
+			'--jdepend-xml=build/logs/jdepend.xml',
+			'--jdepend-chart=build/pdepend/dependencies.svg',
+			'--overview-pyramid=build/pdepend/overview-pyramid.svg',
+			'src'
+		];
+		$this->_run($cmd_parts);
+	}
+
+	/**
+	 * Get the total list of source files, including tests
+	 *
+	 * @return array
+	 */
+	protected function getAllSourceFiles()
+	{
+		$files = array_merge(
+			glob_recursive('build/*.php'),
+			glob_recursive('src/*.php'),
+			glob_recursive('tests/*.php'),
+			glob('*.php')
+		);
+
+		sort($files);
+
+		return $files;
+	}
+
+	/**
+	 * Run php's linter in one parallel task for the passed chunk
+	 *
+	 * @param Collection $collection
+	 * @param array $chunk
+	 */
+	protected function parallelLint($collection, array $chunk)
+	{
+		$task = $this->taskParallelExec();
+
+		foreach($chunk as $file)
+		{
+			$task = $task->process("php -l {$file}");
+		}
+
+		$collection->add($task);
+	}
+
+	/**
+	 * Generate copy paste detector report
+	 */
+	protected function phpcpdReport()
+	{
+		$cmd_parts = [
+			'vendor/bin/phpcpd',
+			'--log-pmd build/logs/pmd-cpd.xml',
+			'src'
+		];
+		$this->_run($cmd_parts);
+	}
+
+	/**
+	 * Short cut for joining an array of command arguments
+	 * and then running it
+	 *
+	 * @param array $cmd_parts - command arguments
+	 * @param string $join_on - what to join the command arguments with
+	 */
+	protected function _run(array $cmd_parts, $join_on = ' ')
+	{
+		$this->_exec(implode($join_on, $cmd_parts));
+	}
+}
