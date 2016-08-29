@@ -38,58 +38,85 @@ return function(array $config_array = []) {
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$config = new Config($config_array);
-	$container->set('config', $config);
+	$container->set('config', function() {
+		return new Config();
+	});
+	$container->setInstance('config', new Config($config_array));
 
 	// Create Cache Object
-	$container->set('cache', new CacheManager($config));
+	$container->set('cache', function($container) {
+		return new CacheManager($container->get('config'));
+	});
 
 	// Create Aura Router Object
-	$container->set('aura-router', new RouterContainer);
+	$container->set('aura-router', function() {
+		return new RouterContainer;
+	});
 
 	// Create Html helper Object
-	$html_helper = (new HelperLocatorFactory)->newInstance();
-	$html_helper->set('menu', function() use ($container) {
-		$menu_helper = new Helper\Menu();
-		$menu_helper->setContainer($container);
-		return $menu_helper;
+	$container->set('html-helper', function($container) {
+		$html_helper = (new HelperLocatorFactory)->newInstance();
+		$html_helper->set('menu', function() use ($container) {
+			$menu_helper = new Helper\Menu();
+			$menu_helper->setContainer($container);
+			return $menu_helper;
+		});
+
+		return $html_helper;
 	});
-	$container->set('html-helper', $html_helper);
 
 	// Create Request/Response Objects
-	$request = ServerRequestFactory::fromGlobals(
-		$_SERVER,
-		$_GET,
-		$_POST,
-		$_COOKIE,
-		$_FILES
-	);
-	$container->set('request', $request);
-	$container->set('response', new Response());
+	$container->set('request', function() {
+		return ServerRequestFactory::fromGlobals(
+			$_SERVER,
+			$_GET,
+			$_POST,
+			$_COOKIE,
+			$_FILES
+		);
+	});
+	$container->set('response', function() {
+		return new Response;
+	});
 
 	// Create session Object
-	$session = (new SessionFactory())->newInstance($_COOKIE);
-	$container->set('session', $session);
+	$container->set('session', function() {
+		return (new SessionFactory())->newInstance($_COOKIE);
+	});
 
 	// Miscellaneous helper methods
-	$util = new Util($container);
-	$container->set('anime-client', $util);
-	$container->set('util', $util);
+	$container->set('util', function($container) {
+		return new Util($container);
+	});
 
 	// Models
-	$container->set('api-model', new Model\API($container));
-	$container->set('anime-model', new Model\Anime($container));
-	$container->set('manga-model', new Model\Manga($container));
-	$container->set('anime-collection-model', new Model\AnimeCollection($container));
+	$container->set('api-model', function($container) {
+		return new Model\API($container);
+	});
+	$container->set('anime-model', function($container) {
+		return new Model\Anime($container);
+	});
+	$container->set('manga-model', function($container) {
+		return new Model\Manga($container);
+	});
+	$container->set('anime-collection-model', function($container) {
+		return new Model\AnimeCollection($container);
+	});
 
 	// Miscellaneous Classes
-	$container->set('auth', new HummingbirdAuth($container));
-	$container->set('url-generator', new UrlGenerator($container));
+	$container->set('auth', function($container) {
+		return new HummingbirdAuth($container);
+	});
+	$container->set('url-generator', function($container) {
+		return new UrlGenerator($container);
+	});
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
 	// -------------------------------------------------------------------------
-	$container->set('dispatcher', new Dispatcher($container));
+	$container->set('dispatcher', function($container) {
+		return new Dispatcher($container);
+	});
 
 	return $container;
 };

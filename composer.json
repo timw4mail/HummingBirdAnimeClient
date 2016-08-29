@@ -26,7 +26,8 @@
 		"phpunit/phpunit": "^5.4",
 		"robmorgan/phinx": "^0.6.4",
 		"humbug/humbug": "~1.0@dev",
-		"consolidation/robo": "~1.0@dev",
-		"henrikbjorn/lurker": "^1.1.0"
+		"consolidation/robo": "~1.0@RC",
+		"henrikbjorn/lurker": "^1.1.0",
+		"symfony/var-dumper": "^3.1"
 	}
 }
