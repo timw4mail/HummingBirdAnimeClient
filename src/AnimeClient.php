@@ -15,7 +15,7 @@ namespace Aviat\AnimeClient;
 
 use Yosymfony\Toml\Toml;
 
-define('SRC_DIR', realpath(__DIR__ . '/../../'));
+define('SRC_DIR', realpath(__DIR__));
 
 /**
  * Application constants

@@ -4,12 +4,12 @@
 	"license":"MIT",
 	"autoload": {
 		"psr-4": {
-			"Aviat\\Ion\\": "src/"
+			"Aviat\\AnimeClient\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Aviat\\Ion\\Tests\\": "tests/",
+			"Aviat\\AnimeClient\\Tests\\": "tests/",
 			"CodeIgniter\\": "build/CodeIgniter/"
 		}
 	},

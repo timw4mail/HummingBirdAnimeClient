@@ -12,9 +12,6 @@
  */
 namespace Aviat\AnimeClient;
 
-use Aura\Web\Request;
-use Aura\Web\Response;
-
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 
@@ -38,7 +35,7 @@ class Dispatcher extends RoutingBase {
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var object
+	 * @var Psr\Http\Message\ServerRequestInterface
 	 */
 	protected $request;
 
@@ -215,6 +212,7 @@ class Dispatcher extends RoutingBase {
 	{
 		$default_namespace = AnimeClient::DEFAULT_CONTROLLER_NAMESPACE;
 		$path = str_replace('\\', '/', $default_namespace);
+		$path = str_replace('Aviat/AnimeClient/', '', $path);
 		$path = trim($path, '/');
 		$actual_path = realpath(\_dir(AnimeClient::SRC_DIR, $path));
 		$class_files = glob("{$actual_path}/*.php");
@@ -273,7 +271,7 @@ class Dispatcher extends RoutingBase {
 		$params = [];
 
 		switch($failure->failedRule) {
-			case 'Aura\Router\Rule\Alows':
+			case 'Aura\Router\Rule\Allows':
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
