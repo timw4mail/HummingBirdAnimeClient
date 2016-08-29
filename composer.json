@@ -2,6 +2,17 @@
 	"name": "timw4mail/hummingbird-anime-client",
 	"description": "A self-hosted anime/manga client for hummingbird.",
 	"license":"MIT",
+	"autoload": {
+		"psr-4": {
+			"Aviat\\Ion\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Aviat\\Ion\\Tests\\": "tests/",
+			"CodeIgniter\\": "build/CodeIgniter/"
+		}
+	},
 	"require": {
 		"abeautifulsite/simpleimage": "2.5.*",
 		"aura/html": "2.*",
@@ -28,6 +39,7 @@
 		"humbug/humbug": "~1.0@dev",
 		"consolidation/robo": "~1.0@RC",
 		"henrikbjorn/lurker": "^1.1.0",
-		"symfony/var-dumper": "^3.1"
+		"symfony/var-dumper": "^3.1",
+		"squizlabs/php_codesniffer": "^3.0.0@alpha"
 	}
 }

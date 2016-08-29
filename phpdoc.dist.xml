@@ -2,15 +2,16 @@
 <phpdoc>
 	<title>Hummingbird Anime Client</title>
 	<parser>
-		<target>docs</target>
+		<target>phpdoc</target>
 	</parser>
 	<transformer>
-		<target>docs</target>
+		<target>phpdoc</target>
 	</transformer>
 	<transformations>
 		<template name="clean" />
 	</transformations>
 	<files>
-		<directory>src/Aviat</directory>
+		<directory>src</directory>
+		<directory>vendor/aviat/ion</directory>
 	</files>
 </phpdoc>

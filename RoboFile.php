@@ -20,14 +20,31 @@ if ( ! function_exists('glob_recursive'))
  *
  * @see http://robo.li/
  */
-class RoboFile extends \Robo\Tasks
-{
+class RoboFile extends \Robo\Tasks {
+
+	/**
+	 * Directories used by analysis tools
+	 *
+	 * @var array
+	 */
 	protected $taskDirs = [
-		'build/api',
-		'build/coverage',
 		'build/logs',
 		'build/pdepend',
 		'build/phpdox',
+	];
+
+	/**
+	 * Directories to remove with the clean task
+	 *
+	 * @var array
+	 */
+	protected $cleanDirs = [
+		'coverage',
+		'docs',
+		'phpdoc',
+		'build/logs',
+		'build/phpdox',
+		'build/pdepend'
 	];
 
 
@@ -39,6 +56,7 @@ class RoboFile extends \Robo\Tasks
 		$this->prepare();
 		$this->lint();
 		$this->phploc(TRUE);
+		$this->phpcs(TRUE);
 		$this->dependencyReport();
 		$this->phpcpdReport();
 	}
@@ -66,8 +84,17 @@ class RoboFile extends \Robo\Tasks
 			@unlink($file);
 		}, $cleanFiles);
 
-		$this->_cleanDir($this->taskDirs);
-		$this->_deleteDir($this->taskDirs);
+		// So the task doesn't complain,
+		// make any 'missing' dirs to cleanup
+		array_map(function ($dir) {
+			if ( ! is_dir($dir))
+			{
+				`mkdir -p {$dir}`;
+			}
+		}, $this->cleanDirs);
+
+		$this->_cleanDir($this->cleanDirs);
+		$this->_deleteDir($this->cleanDirs);
 	}
 
 	/**
@@ -136,6 +163,29 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Run the phpcs tool
+	 *
+	 * @param bool $report - if true, generates reports instead of direct output
+	 */
+	public function phpcs($report = FALSE)
+	{
+		$report_cmd_parts = [
+			'vendor/bin/phpcs',
+			'--standard=./build/phpcs.xml',
+			'--report-checkstyle=./build/logs/phpcs.xml',
+		];
+
+		$normal_cmd_parts = [
+			'vendor/bin/phpcs',
+			'--standard=./build/phpcs.xml',
+		];
+
+		$cmd_parts = ($report) ? $report_cmd_parts : $normal_cmd_parts;
+
+		$this->_run($cmd_parts);
+	}
+
+	/**
 	 * Run the phploc tool
 	 *
 	 * @param bool $report - if true, generates reports instead of direct output
@@ -145,6 +195,7 @@ class RoboFile extends \Robo\Tasks
 		// Command for generating reports
 		$report_cmd_parts = [
 			'vendor/bin/phploc',
+			'--count-tests',
 			'--log-csv=build/logs/phploc.csv',
 			'--log-xml=build/logs/phploc.xml',
 			'src',
@@ -169,7 +220,6 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function prepare()
 	{
-		$this->clean();
 		array_map([$this, '_mkdir'], $this->taskDirs);
 	}
 
@@ -196,7 +246,11 @@ class RoboFile extends \Robo\Tasks
 			})
 			->monitor('src', function () {
 				$this->taskExec('test')->run();
-			})->run();
+			})
+			->monitor('tests', function () {
+				$this->taskExec('test')->run();
+			})
+			->run();
 	}
 
 	/**
@@ -265,7 +319,7 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
-	 * Short cut for joining an array of command arguments
+	 * Shortcut for joining an array of command arguments
 	 * and then running it
 	 *
 	 * @param array $cmd_parts - command arguments
