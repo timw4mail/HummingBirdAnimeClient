@@ -34,27 +34,9 @@ function _dir()
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
-$SRC_DIR = _dir(__DIR__, 'src');
 $CONF_DIR = _dir($APP_DIR, 'config');
 
-/**
- * Set up autoloaders
- *
- * @codeCoverageIgnore
- * @return void
- */
-spl_autoload_register(function($class) use ($SRC_DIR) {
-	$class_parts = explode('\\', $class);
-	$ns_path = $SRC_DIR . '/' . implode('/', $class_parts) . ".php";
-
-	if (file_exists($ns_path))
-	{
-		require_once($ns_path);
-		return;
-	}
-});
-
-// Set up autoloader for third-party dependencies
+// Load composer autoloader
 require _dir(__DIR__, '/vendor/autoload.php');
 
 // -------------------------------------------------------------------------
@@ -86,7 +68,6 @@ $container = $di($config_array);
 
 // Unset 'constants'
 unset($APP_DIR);
-unset($SRC_DIR);
 unset($CONF_DIR);
 
 // -----------------------------------------------------------------------------
