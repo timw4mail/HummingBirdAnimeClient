@@ -9,7 +9,7 @@ class AnimeModelTest extends AnimeClient_TestCase {
 	{
 		parent::setUp();
 		$this->animeModel = new Friend(new TestAnimeModel($this->container));
-		$this->mockDir = __DIR__ . '/../../test_data/anime_list/search_mocks';
+		$this->mockDir = __DIR__ . '/../test_data/anime_list/search_mocks';
 	}
 
 	public function dataSearch()
@@ -50,7 +50,8 @@ class AnimeModelTest extends AnimeClient_TestCase {
 		], "[]");
 		$this->animeModel->__set('client', $client);
 
-		$this->setExpectedException('\RuntimeException');
+		$this->expectException('RuntimeException');
+
 		$this->animeModel->search('');
 	}
 }

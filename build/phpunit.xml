@@ -13,7 +13,7 @@
 	</filter>
 	<testsuites>
 		<testsuite name="AnimeClient">
-			<directory>../tests/AnimeClient</directory>
+			<directory>../tests</directory>
 		</testsuite>
 	</testsuites>
 	<logging>

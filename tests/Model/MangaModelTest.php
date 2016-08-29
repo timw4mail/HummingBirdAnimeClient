@@ -14,7 +14,7 @@ class MangaModelTest extends AnimeClient_TestCase {
 		parent::setUp();
 		$this->container->setInstance('util', new MockUtil($this->container));
 		$this->model = new Friend(new TestMangaModel($this->container));
-		$this->mockDir = __DIR__ . '/../../test_data/manga_list';
+		$this->mockDir = __DIR__ . '/../test_data/manga_list';
 	}
 
 	public function testZipperLists()

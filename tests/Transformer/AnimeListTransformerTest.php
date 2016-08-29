@@ -9,8 +9,8 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->start_file = __DIR__ . '/../../../test_data/anime_list/anime-completed.json';
-		$this->res_file = __DIR__ . '/../../../test_data/anime_list/anime-completed-transformed.json';
+		$this->start_file = __DIR__ . '/../test_data/anime_list/anime-completed.json';
+		$this->res_file = __DIR__ . '/../test_data/anime_list/anime-completed-transformed.json';
 		$this->transformer = new AnimeListTransformer();
 		$this->transformerFriend = new Friend($this->transformer);
 	}
