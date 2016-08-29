@@ -24,7 +24,7 @@ class HummingbirdAuthTest extends AnimeClient_TestCase {
 		$auth = new HummingbirdAuth($this->container);
 		$friend = new Friend($auth);
 		$this->auth = $friend;
-		$this->container->set('session', self::$session);
+		$this->container->setInstance('session', self::$session);
 	}
 
 	public function dataAuthenticate()

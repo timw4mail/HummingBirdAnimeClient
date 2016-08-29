@@ -10,7 +10,7 @@ class AnimeCollectionModelTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$this->container->set('config', new Config([
+		$this->container->setInstance('config', new Config([
 			'database' => [
 				'collection' => [
 					'type' => 'sqlite',
@@ -37,7 +37,7 @@ class AnimeCollectionModelTest extends AnimeClient_TestCase {
 
 	public function testInvalidDatabase()
 	{
-		$this->container->set('config', new Config([
+		$this->container->setInstance('config', new Config([
 			'database' => [
 				'collection' => [
 					'type' => 'sqlite',
@@ -57,7 +57,7 @@ class AnimeCollectionModelTest extends AnimeClient_TestCase {
 
 	public function testNonExistentDatabase()
 	{
-		$this->container->set('config', new Config([
+		$this->container->setInstance('config', new Config([
 			'database' => [
 				'collection' => [
 					'type' => 'sqlite',

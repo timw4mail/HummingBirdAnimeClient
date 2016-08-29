@@ -63,23 +63,38 @@ class BaseCommand extends Command {
 			$container = new Container();
 
 			// Create Config Object
-			$config = new Config($config_array);
-			$container->set('config', $config);
+			$container->set('config', function() {
+				return new Config();
+			});
+			$container->setInstance('config', $config_array);
 
 			// Create Cache Object
-			$container->set('cache', new CacheManager($config));
+			$container->set('cache', function($container) {
+				return new CacheManager($container->get('config'));
+			});
 
 			// Create session Object
-			$session = (new SessionFactory())->newInstance($_COOKIE);
-			$container->set('session', $session);
+			$container->set('session', function() {
+				return (new SessionFactory())->newInstance($_COOKIE);
+			});
 
 			// Models
-			$container->set('api-model', new Model\API($container));
-			$container->set('anime-model', new Model\Anime($container));
-			$container->set('manga-model', new Model\Manga($container));
+			$container->set('api-model', function($container) {
+				return new Model\API($container);
+			});
+			$container->set('anime-model', function($container) {
+				return new Model\Anime($container);
+			});
+			$container->set('manga-model', function($container) {
+				return new Model\Manga($container);
+			});
 
-			$container->set('auth', new HummingbirdAuth($container));
-			$container->set('util', new Util($container));
+			$container->set('auth', function($container) {
+				return new HummingbirdAuth($container);
+			});
+			$container->set('util', function($container) {
+				return new Util($container);
+			});
 
 			return $container;
 		};

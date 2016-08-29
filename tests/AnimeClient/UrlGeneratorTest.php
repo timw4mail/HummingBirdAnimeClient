@@ -83,7 +83,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 	public function testFullUrl($config, $path, $type, $expected)
 	{
 		$config = new Config($config);
-		$this->container->set('config', $config);
+		$this->container->setInstance('config', $config);
 		$urlGenerator = new UrlGenerator($this->container);
 
 		$result = $urlGenerator->full_url($path, $type);
@@ -127,7 +127,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 	public function testBaseUrl($config, $type, $expected)
 	{
 		$config = new Config($config);
-		$this->container->set('config', $config);
+		$this->container->setInstance('config', $config);
 		$urlGenerator = new UrlGenerator($this->container);
 
 		$result = $urlGenerator->base_url($type);

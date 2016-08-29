@@ -29,39 +29,25 @@ class DispatcherTest extends AnimeClient_TestCase {
 			'SERVER_NAME' => $host
 		]);
 
-		$request = ServerRequestFactory::fromGlobals(
-			$_SERVER,
-			$_GET,
-			$_POST,
-			$_COOKIE,
-			$_FILES
-		);
-
-		$old_config = $this->container->get('config');
+		$this->setSuperGlobals([
+			'_SERVER' => $_SERVER
+		]);
 
 		$logger = new Logger('test_logger');
 		$logger->pushHandler(new TestHandler(Logger::DEBUG));
-
-		// Add the appropriate objects to the container
-		$this->container = new Container([
-			'config' => $old_config,
-			'request' => $request,
-			'response' => new Response,
-			'aura-router' => new RouterContainer
-		]);
 
 		$this->container->setLogger($logger, 'default');
 
 		if ( ! empty($config))
 		{
 			$config = new Config($config);
-			$this->container->set('config', $config);
+			$this->container->setInstance('config', $config);
 		}
 
 		$this->router = new Dispatcher($this->container);
 		$this->config = $this->container->get('config');
 		$this->urlGenerator = new UrlGenerator($this->container);
-		$this->container->set('url-generator', $this->urlGenerator);
+		$this->container->setInstance('url-generator', $this->urlGenerator);
 	}
 
 	public function testRouterSanity()
