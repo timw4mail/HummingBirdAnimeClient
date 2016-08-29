@@ -43,7 +43,7 @@ class MenuHelperTest extends AnimeClient_TestCase {
 		// Set config for tests
 		$config = $this->container->get('config');
 		$config->set('menus', $menus);
-		$this->container->set('config', $config);
+		$this->container->setInstance('config', $config);
 
 		foreach($menus as $case => $config)
 		{

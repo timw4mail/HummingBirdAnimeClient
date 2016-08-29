@@ -33,7 +33,7 @@ class ControllerTest extends AnimeClient_TestCase {
 			'database' => '',
 			'file' => ":memory:"
 		]);
-		$this->container->set('config', $config);
+		$this->container->setInstance('config', $config);
 
 		$this->assertInstanceOf(
 			'Aviat\AnimeClient\Controller',

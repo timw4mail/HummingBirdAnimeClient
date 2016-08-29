@@ -66,7 +66,7 @@ class MenuGeneratorTest extends AnimeClient_TestCase {
 		];
 		$config = $this->container->get('config');
 		$config->set('menus', $menus);
-		$this->container->set('config', $config);
+		$this->container->setInstance('config', $config);
 		$expected = '';
 
 		$this->assertEquals($expected, $this->generator->generate('manga_list'));

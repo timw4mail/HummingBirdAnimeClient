@@ -91,7 +91,13 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		// Set up DI container
 		$di = require _dir($APP_DIR, 'bootstrap.php');
 		$container = $di($config_array);
-		$container->set('session-handler', self::$session_handler);
+
+		// Use mock session handler
+		$container->set('session-handler', function() {
+			$session_handler = new TestSessionHandler();
+			session_set_save_handler($session_handler, TRUE);
+			return $session_handler;
+		});
 
 		$this->container = $container;
 	}
@@ -116,8 +122,10 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 			['Zend\Diactoros\ServerRequestFactory', 'fromGlobals'],
 			array_merge($default, $supers)
 		);
-		$this->container->set('request', $request);
-		$this->container->set('response', new HttpResponse());
+		$this->container->setInstance('request', $request);
+		$this->container->set('repsone', function() {
+			return new HttpResponse();
+		});
 	}
 
 	/**
