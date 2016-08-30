@@ -10,13 +10,9 @@ php:
   - hhvm
   - nightly
 
-
-before_script:
-  - composer global require "phpunit/phpunit:5.*"
-
 script:
   - mkdir -p build/logs
-  - phpunit -c build
+  - vendor/bin/phpunit -c build
 
 services:
   - redis
