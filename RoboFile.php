@@ -129,14 +129,11 @@ class RoboFile extends \Robo\Tasks {
 		$files = $this->getAllSourceFiles();
 
 		$chunks = array_chunk($files, 6);
-		$collection = $this->collection();
 
 		foreach($chunks as $chunk)
 		{
-			$this->parallelLint($collection, $chunk);
+			$this->parallelLint($chunk);
 		}
-
-		$collection->run();
 	}
 
 
@@ -290,19 +287,20 @@ class RoboFile extends \Robo\Tasks {
 	/**
 	 * Run php's linter in one parallel task for the passed chunk
 	 *
-	 * @param Collection $collection
 	 * @param array $chunk
 	 */
-	protected function parallelLint($collection, array $chunk)
+	protected function parallelLint(array $chunk)
 	{
-		$task = $this->taskParallelExec();
+		$task = $this->taskParallelExec()
+			->timeout(5)
+			->printed(FALSE);
 
 		foreach($chunk as $file)
 		{
 			$task = $task->process("php -l {$file}");
 		}
 
-		$collection->add($task);
+		$task->run();
 	}
 
 	/**
@@ -327,6 +325,6 @@ class RoboFile extends \Robo\Tasks {
 	 */
 	protected function _run(array $cmd_parts, $join_on = ' ')
 	{
-		$this->_exec(implode($join_on, $cmd_parts));
+		$this->taskExec(implode($join_on, $cmd_parts))->run();
 	}
 }
