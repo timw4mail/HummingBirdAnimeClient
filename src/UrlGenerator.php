@@ -24,6 +24,7 @@ class UrlGenerator extends RoutingBase {
 
 	/**
 	 * The current HTTP host
+	 * @var string
 	 */
 	protected $host;
 
@@ -43,7 +44,7 @@ class UrlGenerator extends RoutingBase {
 	 *
 	 * @return string
 	 */
-	public function asset_url(/*...*/)
+	public function asset_url()
 	{
 		$args = func_get_args();
 		$base_url = rtrim($this->url(""), '/');
@@ -106,6 +107,7 @@ class UrlGenerator extends RoutingBase {
 	 * Full default path for the list pages
 	 *
 	 * @param string $type
+	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
 	public function default_url($type)

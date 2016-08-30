@@ -59,7 +59,7 @@ class Anime extends API {
 	public function update($data)
 	{
 		$auth = $this->container->get('auth');
-		if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
+		if ( ! $auth->is_authenticated() OR ! array_key_exists('id', $data))
 		{
 			return FALSE;
 		}
@@ -86,7 +86,7 @@ class Anime extends API {
 	public function delete($data)
 	{
 		$auth = $this->container->get('auth');
-		if ( ! $auth->is_authenticated() || ! array_key_exists('id', $data))
+		if ( ! $auth->is_authenticated() OR ! array_key_exists('id', $data))
 		{
 			return FALSE;
 		}
@@ -176,7 +176,7 @@ class Anime extends API {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws RuntimeException
+	 * @throws \RuntimeException
 	 */
 	public function search($name)
 	{
@@ -190,12 +190,12 @@ class Anime extends API {
 
 		$response = $this->get('search/anime', $config);
 
-		if ($response->getStatusCode() != 200)
+		if ((int) $response->getStatusCode() !== 200)
 		{
 			$logger->warning("Non 200 response for search api call");
 			$logger->warning($response->getBody());
 
-			throw new RuntimeException($response->getEffectiveUrl());
+			throw new \RuntimeException($response->getEffectiveUrl());
 		}
 
 		return Json::decode($response->getBody(), TRUE);
@@ -214,7 +214,7 @@ class Anime extends API {
 			'allow_redirects' => FALSE
 		];
 
-		if ($status != "all")
+		if ($status !== "all")
 		{
 			$config['query']['status'] = $status;
 		}
@@ -250,11 +250,6 @@ class Anime extends API {
 		];
 
 		$username = $this->config->get('hummingbird_username');
-		/*$auth = $this->container->get('auth');
-		if ($auth->is_authenticated())
-		{
-			$config['query']['auth_token'] = $auth->get_auth_token();
-		}*/
 
 		$response = $this->get("users/{$username}/library", $config);
 		return Json::decode($response->getBody(), TRUE);
@@ -264,7 +259,7 @@ class Anime extends API {
 	 * Handle transforming of api data
 	 *
 	 * @param string $status
-	 * @param \GuzzleHttp\Message\Response
+	 * @param \GuzzleHttp\Message\Response $response
 	 * @return array
 	 */
 	protected function transform($status, $response)

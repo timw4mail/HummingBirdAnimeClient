@@ -177,11 +177,11 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
- 	public function search()
- 	{
+	public function search()
+	{
 		$query_data = $this->request->getQueryParams();
- 		$this->outputJSON($this->model->search($query_data['query']));
- 	}
+		$this->outputJSON($this->model->search($query_data['query']));
+	}
 
 	/**
 	 * Update an anime item via a form submission
@@ -200,7 +200,7 @@ class Manga extends Controller {
 
 		$result = Json::decode((string)$full_result['body']);
 
-		if ($full_result['statusCode'] == 200)
+		if ((int)$full_result['statusCode'] === 200)
 		{
 			$m =& $result['manga'][0];
 			$title = ( ! empty($m['english_title']))
@@ -232,12 +232,14 @@ class Manga extends Controller {
 
 	/**
 	 * Remove an manga from the list
+	 *
+	 * @return void
 	 */
 	public function delete()
 	{
 		$response = $this->model->delete($this->request->getParsedBody());
 
-		if ($response['body'] == TRUE)
+		if ((bool)$response['body'] === TRUE)
 		{
 			$this->set_flash_message("Successfully deleted manga.", 'success');
 			$this->cache->purge();

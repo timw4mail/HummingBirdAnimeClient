@@ -42,6 +42,7 @@ class Anime extends BaseController {
 
 	/**
 	 * Data cache
+	 * @var Aviat\Ion\Cache\CacheInterface
 	 */
 	protected $cache;
 
@@ -103,7 +104,7 @@ class Anime extends BaseController {
 			'list' => 'list'
 		];
 
-		$data = ($type != 'all')
+		$data = ($type !== 'all')
 			? $this->cache->get($this->model, 'get_list', ['status' => $model_map[$type]])
 			: $this->cache->get($this->model, 'get_all_lists', []);
 
@@ -251,6 +252,8 @@ class Anime extends BaseController {
 
 	/**
 	 * Update an anime item
+	 *
+	 * @return void
 	 */
 	public function update()
 	{
@@ -261,12 +264,14 @@ class Anime extends BaseController {
 
 	/**
 	 * Remove an anime from the list
+	 *
+	 * @return void
 	 */
 	public function delete()
 	{
 		$response = $this->model->delete($this->request->getParsedBody());
 
-		if ($response['body'] == TRUE)
+		if ((bool)$response['body'] === TRUE)
 		{
 			$this->set_flash_message("Successfully deleted anime.", 'success');
 			$this->cache->purge();

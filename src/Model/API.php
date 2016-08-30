@@ -17,13 +17,9 @@ namespace Aviat\AnimeClient\Model;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\ResponseInterface;
-use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Message\ResponseInterface;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Cache\CacheInterface;
-
 use Aviat\Ion\Model;
 use Aviat\AnimeClient\AnimeClient;
 
@@ -166,7 +162,7 @@ class API extends Model {
 	 */
 	protected function sort_by_name(&$array, $sort_key)
 	{
-		$sort = array();
+		$sort = [];
 
 		foreach ($array as $key => $item)
 		{

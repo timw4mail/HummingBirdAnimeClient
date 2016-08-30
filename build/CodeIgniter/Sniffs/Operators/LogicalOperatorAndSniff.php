@@ -67,11 +67,11 @@ class LogicalOperatorAndSniff implements Sniff
             $error_message = 'Logical operator should be in upper case;'
                 . ' use "' . strtoupper($operator_string)
                 . '" instead of "' . $operator_string . '"';
-            $phpcsFile->addError($error_message, $stackPtr);
+            $phpcsFile->addError($error_message, $stackPtr, 'LowercaseLogicalOperator');
         }
 
         $warning_message = 'The symbolic form "&&" is preferred over the literal form "AND"';
-        $phpcsFile->addWarning($warning_message, $stackPtr);
+        $phpcsFile->addWarning($warning_message, $stackPtr, 'UseOfLiteralAndOperator');
 
     }//end process()
 

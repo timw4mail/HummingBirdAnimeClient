@@ -19,6 +19,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View\HtmlView;
 use Aviat\Ion\View\JsonView;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 /**
  * Controller base, defines output methods
@@ -60,7 +61,7 @@ class Controller {
 	protected $model;
 
 	/**
-	 * Url generatation class
+	 * Url generation class
 	 * @var UrlGenerator
 	 */
 	protected $urlGenerator;
@@ -117,6 +118,8 @@ class Controller {
 
 	/**
 	 * Redirect to the default controller/url from an empty path
+	 *
+	 * @return void
 	 */
 	public function redirect_to_default()
 	{
@@ -151,7 +154,7 @@ class Controller {
 		}
 
 		$util = $this->container->get('util');
-		$double_form_page = $server_params['HTTP_REFERER'] == $this->request->getUri();
+		$double_form_page = $server_params['HTTP_REFERER'] === $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
@@ -214,6 +217,7 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
+	 * @throws \InvalidArgumentException
 	 * @return string
 	 */
 	protected function load_partial($view, $template, array $data = [])
@@ -273,7 +277,7 @@ class Controller {
 
 		$view = new HtmlView($this->container);
 
-		if ($status != "")
+		if ($status !== "")
 		{
 			$message = $this->show_message($view, 'error', $status);
 		}

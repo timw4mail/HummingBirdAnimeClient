@@ -138,6 +138,7 @@ class Dispatcher extends RoutingBase {
 	 * the current route
 	 *
 	 * @param \Aura\Router\Route $route
+	 * @throws \LogicException
 	 * @return array
 	 */
 	protected function process_route($route)

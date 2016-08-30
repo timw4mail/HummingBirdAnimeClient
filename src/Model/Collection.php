@@ -32,7 +32,7 @@ class Collection extends DB {
 
 	/**
 	 * Whether the database is valid for querying
-	 * @var bool
+	 * @var boolean
 	 */
 	protected $valid_database = FALSE;
 

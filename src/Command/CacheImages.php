@@ -22,14 +22,32 @@ use Aviat\AnimeClient\Util;
  */
 class CacheImages extends BaseCommand {
 
+	/**
+	 * Manga Model
+	 *
+	 * @var Aviat\AnimeClient\Model\Manga
+	 */
 	protected $mangaModel;
+
+	/**
+	 * Anime Model
+	 *
+	 * @var Aviat\AnimeClient\Model\Anime
+	 */
 	protected $animeModel;
+
+	/**
+	 * Miscellaneous helper methods
+	 *
+	 * @var Aviat\AnimeClient\Util
+	 */
 	protected $util;
 
-	/*
+	/**
 	 * Convert manga images
 	 *
 	 * @throws \ConsoleKit\ConsoleException
+	 * @return void
 	 */
 	protected function getMangaImages()
 	{
@@ -51,6 +69,7 @@ class CacheImages extends BaseCommand {
 	 * Convert anime images
 	 *
 	 * @throws \ConsoleKit\ConsoleException
+	 * @return void
 	 */
 	protected function getAnimeImages()
 	{

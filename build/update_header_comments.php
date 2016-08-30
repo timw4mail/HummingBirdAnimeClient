@@ -2,9 +2,9 @@
 
 $animeclient_file_patterns = [
 	'app/config/*.php',
-	'app/booststrap.php',
+	'app/bootstrap.php',
 	'src/functions.php',
-	'src/Aviat/AnimeClient/*.php'
+	'src/*.php'
 ];
 
 if ( ! function_exists('glob_recursive'))

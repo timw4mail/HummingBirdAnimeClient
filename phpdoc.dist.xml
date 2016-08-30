@@ -8,10 +8,11 @@
 		<target>phpdoc</target>
 	</transformer>
 	<transformations>
-		<template name="clean" />
+		<template name="zend" />
 	</transformations>
 	<files>
 		<directory>src</directory>
-		<directory>vendor/aviat/ion</directory>
+		<directory>vendor/aviat/ion/src</directory>
+		<directory>vendor/container-interop/container-interop/src</directory>
 	</files>
 </phpdoc>
