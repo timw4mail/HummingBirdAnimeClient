@@ -12,7 +12,7 @@ php:
 
 
 before_script:
-  - phpenv config-add .travis.ini
+  - composer global require "phpunit/phpunit:5.*"
 
 script:
   - mkdir -p build/logs
