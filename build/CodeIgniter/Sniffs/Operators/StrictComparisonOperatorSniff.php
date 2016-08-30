@@ -72,7 +72,7 @@ class StrictComparisonOperatorSniff implements Sniff
         $error_message = '"==" and "!=" are prohibited; use "'
             . self::$_replacements[$operator_code] . '" instead of "'
             . $operator_string . '".';
-        $phpcsFile->addError($error_message, $stackPtr);
+        $phpcsFile->addError($error_message, $stackPtr, 'NonStrictComparisonUsed');
     }//end process()
 
 

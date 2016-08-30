@@ -144,7 +144,7 @@ class Manga extends API {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws RuntimeException
+	 * @throws \RuntimeException
 	 */
 	public function search($name)
 	{
@@ -160,7 +160,7 @@ class Manga extends API {
 
 		$response = $this->get('search.json', $config);
 
-		if ($response->getStatusCode() != 200)
+		if ((int) $response->getStatusCode() !== 200)
 		{
 			$logger->warning("Non 200 response for search api call");
 			$logger->warning($response->getBody());

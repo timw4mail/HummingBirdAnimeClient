@@ -1,7 +1,7 @@
 language: php
 
 install:
-  - composer install --no-dev
+  - composer install
 
 php:
   - 5.5
@@ -17,7 +17,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - phpunit -c build
-  
+
 services:
   - redis
 

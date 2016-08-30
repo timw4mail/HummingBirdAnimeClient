@@ -4,12 +4,16 @@
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
+ * PHP version 5.6
+ *
  * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015 - 2016
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2016  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- * @license     MIT
  */
+
 namespace Aviat\AnimeClient;
 
 use abeautifulsite\SimpleImage;
@@ -23,6 +27,10 @@ class Util {
 
 	use \Aviat\Ion\Di\ContainerAware;
 
+	/**
+	 * Routes that don't require a second navigation level
+	 * @var array
+	 */
 	private static $form_pages = [
 		'edit',
 		'add',
@@ -110,7 +118,7 @@ class Util {
 	 * @param string $series_slug - The part of the url with the series name, becomes the image name
 	 * @param string $type - Anime or Manga, controls cache path
 	 * @return string - the frontend path for the cached image
-	 * @throws DomainException
+	 * @throws \DomainException
 	 */
 	public function get_cached_image($api_path, $series_slug, $type = "anime")
 	{
@@ -120,7 +128,7 @@ class Util {
 		$ext = end($ext_parts);
 
 		// Workaround for some broken file extensions
-		if ($ext == "jjpg")
+		if ($ext === "jjpg")
 		{
 			$ext = "jpg";
 		}
@@ -160,7 +168,7 @@ class Util {
 			}
 
 			// Resize the image
-			if ($type == 'anime')
+			if ($type === 'anime')
 			{
 				$resize_width = 220;
 				$resize_height = 319;
@@ -178,6 +186,7 @@ class Util {
 	 * @param string $path
 	 * @param string $width
 	 * @param string $height
+	 * @return void
 	 */
 	private function _resize($path, $width, $height)
 	{

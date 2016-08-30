@@ -77,7 +77,7 @@ class DisallowSpaceIndentSniff implements Sniff
 
         if (strpos($tokens[$stackPtr]['content'], " ") !== false) {
             $error = 'Tabs must be used to indent lines; spaces are not allowed for code indentation';
-            $phpcsFile->addError($error, $stackPtr);
+            $phpcsFile->addError($error, $stackPtr, 'SpacesUsedForIndentation');
         }
     }//end process()
 
