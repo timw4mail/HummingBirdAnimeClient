@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -16,11 +16,11 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use GuzzleHttp\Cookie\SetCookie;
-
-use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
+use Aviat\Ion\Json;
+use GuzzleHttp\Cookie\SetCookie;
+use RuntimeException;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -59,7 +59,7 @@ class Manga extends API {
 	 * @param string|null $json
 	 * @return array
 	 */
-	protected function _manga_api_call($type, $url, $json = NULL)
+	protected function _manga_api_call(string $type, string $url, $json = NULL): array
 	{
 		$token = $this->container->get('auth')
 			->get_auth_token();
@@ -144,7 +144,7 @@ class Manga extends API {
 	 *
 	 * @param string $name
 	 * @return array
-	 * @throws \RuntimeException
+	 * @throws RuntimeException
 	 */
 	public function search($name)
 	{
@@ -162,10 +162,10 @@ class Manga extends API {
 
 		if ((int) $response->getStatusCode() !== 200)
 		{
-			$logger->warning("Non 200 response for search api call");
+			$logger->warning('Non 200 response for search api call');
 			$logger->warning($response->getBody());
 
-			throw new \RuntimeException($response->getEffectiveUrl());
+			throw new RuntimeException($response->getEffectiveUrl());
 		}
 
 		return Json::decode($response->getBody(), TRUE);
@@ -189,7 +189,7 @@ class Manga extends API {
 	 * @param  string $status
 	 * @return array
 	 */
-	public function _get_list_from_api($status = "All")
+	public function _get_list_from_api(string $status = "All"): array
 	{
 		$config = [
 			'query' => [
@@ -220,11 +220,9 @@ class Manga extends API {
 			return [];
 		}
 
-		$zippered_data = $this->zipper_lists($api_data);
+		$zipperedData = $this->zipperLists($api_data);
 		$transformer = new Transformer\MangaListTransformer();
-		$transformed_data = $transformer->transform_collection($zippered_data);
-
-		return $transformed_data;
+		return $transformer->transformCollection($zipperedData);
 	}
 
 	/**
@@ -281,7 +279,7 @@ class Manga extends API {
 	 * @param  array $raw_data
 	 * @return array
 	 */
-	private function zipper_lists($raw_data)
+	private function zipperLists($raw_data)
 	{
 		return (new Transformer\MangaListsZipper($raw_data))->transform();
 	}

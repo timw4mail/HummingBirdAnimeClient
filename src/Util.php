@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -91,7 +91,7 @@ class Util {
 	{
 		$url = $this->container->get('request')
 			->getUri();
-		$page_segments = explode("/", $url);
+		$page_segments = explode("/", (string) $url);
 
 		$intersect = array_intersect($page_segments, self::$form_pages);
 

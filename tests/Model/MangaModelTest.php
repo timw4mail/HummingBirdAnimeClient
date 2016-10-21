@@ -1,11 +1,7 @@
 <?php
-use GuzzleHttp\Psr7\Response;
 
 use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
-use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
 
 class MangaModelTest extends AnimeClient_TestCase {
 
@@ -22,7 +18,7 @@ class MangaModelTest extends AnimeClient_TestCase {
 		$raw_data = Json::decodeFile($this->mockDir . '/manga.json');
 		$expected = Json::decodeFile($this->mockDir . '/manga-zippered.json');
 
-		$this->assertEquals($expected, $this->model->zipper_lists($raw_data));
+		$this->assertEquals($expected, $this->model->zipperLists($raw_data));
 	}
 
 	public function testMapByStatus()
