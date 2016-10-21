@@ -1,15 +1,14 @@
 <?php
 
 use Aura\Web\WebFactory;
+use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response as HttpResponse;
-
-use Aviat\Ion\Json;
-use Aviat\AnimeClient\AnimeClient;
+use Zend\Diactoros\ServerRequestFactory;
 
 define('ROOT_DIR', __DIR__ . '/../');
 define('TEST_DATA_DIR', __DIR__ . '/test_data');

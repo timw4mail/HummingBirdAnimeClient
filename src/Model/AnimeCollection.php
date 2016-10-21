@@ -16,8 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
 
 /**
  * Model for getting anime collection data

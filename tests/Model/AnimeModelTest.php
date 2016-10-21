@@ -1,7 +1,5 @@
 <?php
 use Aviat\Ion\Friend;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
 
 class AnimeModelTest extends AnimeClient_TestCase {
 

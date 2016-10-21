@@ -1,8 +1,8 @@
 <?php
 
+use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
-use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
 
 class AnimeListTransformerTest extends AnimeClient_TestCase {
 

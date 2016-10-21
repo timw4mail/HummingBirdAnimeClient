@@ -1,15 +1,10 @@
 <?php
 
-use Aura\Router\RouterContainer;
-use Monolog\Logger;
-use Monolog\Handler\TestHandler;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\Response;
-
-use Aviat\Ion\Config;
-use Aviat\Ion\Di\Container;
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
+use Aviat\Ion\Config;
+use Monolog\Handler\TestHandler;
+use Monolog\Logger;
 
 
 class DispatcherTest extends AnimeClient_TestCase {

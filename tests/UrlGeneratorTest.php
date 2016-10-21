@@ -1,7 +1,7 @@
 <?php
 
-use Aviat\Ion\Config;
 use Aviat\AnimeClient\UrlGenerator;
+use Aviat\Ion\Config;
 
 class UrlGeneratorTest extends AnimeClient_TestCase {
 

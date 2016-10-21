@@ -16,8 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
+use Aviat\AnimeClient\Hummingbird\Transformer;
 use Aviat\Ion\Json;
 use GuzzleHttp\Cookie\SetCookie;
 use RuntimeException;

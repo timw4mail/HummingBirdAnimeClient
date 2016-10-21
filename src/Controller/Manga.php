@@ -16,12 +16,12 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\Ion\Json;
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Hummingbird\Enum\MangaReadingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\MangaListTransformer;
+use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
 
 /**
  * Controller for manga list

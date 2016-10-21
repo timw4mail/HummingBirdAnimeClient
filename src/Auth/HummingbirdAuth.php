@@ -16,8 +16,8 @@
 
 namespace Aviat\AnimeClient\Auth;
 
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Hummingbird API Authentication

@@ -1,13 +1,10 @@
 <?php
 
+use Aviat\AnimeClient\Container;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\AnimeClient\Container;
-use Aviat\AnimeClient\Model\API as BaseApiModel;
 
 class BaseApiModelTest extends AnimeClient_TestCase {
 
