@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -13,6 +13,7 @@
  * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\Ion\Json;

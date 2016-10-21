@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -13,13 +13,12 @@
  * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\View\HttpView;
-use Aviat\Ion\View\HtmlView;
-use Aviat\Ion\View\JsonView;
-use Doctrine\Instantiator\Exception\InvalidArgumentException;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use InvalidArgumentException;
 
 /**
  * Controller base, defines output methods
@@ -28,7 +27,7 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
  */
 class Controller {
 
-	use \Aviat\Ion\Di\ContainerAware;
+	use ContainerAware;
 
 	/**
 	 * Cache manager
@@ -166,7 +165,7 @@ class Controller {
 
 		if (is_null($url))
 		{
-			$url = ($util->is_view_page())
+			$url = $util->is_view_page()
 				? $this->request->url->get()
 				: $server_params['HTTP_REFERER'];
 		}
@@ -197,9 +196,9 @@ class Controller {
 	 * Get a class member
 	 *
 	 * @param string $key
-	 * @return object
+	 * @return mixed
 	 */
-	public function __get($key)
+	public function __get(string $key)
 	{
 		$allowed = ['response', 'config'];
 
@@ -217,7 +216,7 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return string
 	 */
 	protected function load_partial($view, $template, array $data = [])
@@ -230,17 +229,17 @@ class Controller {
 		}
 
 		$route = $router->get_route();
-		$data['route_path'] = ($route) ? $router->get_route()->path : "";
+		$data['route_path'] = $route ? $router->get_route()->path : '';
 
 
 		$template_path = _dir($this->config->get('view_path'), "{$template}.php");
 
 		if ( ! is_file($template_path))
 		{
-			throw new \InvalidArgumentException("Invalid template : {$template}");
+			throw new InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		return $view->render_template($template_path, (array)$data);
+		return $view->renderTemplate($template_path, (array)$data);
 	}
 
 	/**
@@ -271,13 +270,13 @@ class Controller {
 	 * @param string $status
 	 * @return void
 	 */
-	public function login($status = "")
+	public function login(string $status = '')
 	{
-		$message = "";
+		$message = '';
 
 		$view = new HtmlView($this->container);
 
-		if ($status !== "")
+		if ($status !== '')
 		{
 			$message = $this->show_message($view, 'error', $status);
 		}

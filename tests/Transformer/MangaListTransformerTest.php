@@ -19,7 +19,7 @@ class MangaListTransformerTest extends AnimeClient_TestCase {
 		$orig_json = Json::decodeFile($this->start_file);
 		$expected = Json::decodeFile($this->res_file);
 
-		$actual = $this->transformer->transform_collection($orig_json);
+		$actual = $this->transformer->transformCollection($orig_json);
 		$this->assertEquals($expected, $actual);
 	}
 

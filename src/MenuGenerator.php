@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\{ArrayWrapper, StringWrapper};
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
@@ -23,8 +24,8 @@ use Aviat\Ion\Di\ContainerInterface;
  */
 class MenuGenerator extends UrlGenerator {
 
-	use \Aviat\Ion\StringWrapper;
-	use \Aviat\Ion\ArrayWrapper;
+	use ArrayWrapper;
+	use StringWrapper;
 
 	/**
 	 * Html generation helper
@@ -87,7 +88,7 @@ class MenuGenerator extends UrlGenerator {
 		$parsed_config = $this->parse_config($menus);
 
 		// Bail out early on invalid menu
-		if ( ! $this->arr($parsed_config)->has_key($menu))
+		if ( ! $this->arr($parsed_config)->hasKey($menu))
 		{
 			return '';
 		}

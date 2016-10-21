@@ -150,7 +150,7 @@ class MockBaseApiModel extends BaseApiModel {
 	use MockInjectionTrait;
 	protected $base_url = 'https://httpbin.org/';
 
-	protected function _get_list_from_api($status)
+	protected function _get_list_from_api(string $status): array
 	{
 		return [];
 	}

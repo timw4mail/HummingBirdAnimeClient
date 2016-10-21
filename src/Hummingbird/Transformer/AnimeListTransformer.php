@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -33,17 +33,17 @@ class AnimeListTransformer extends AbstractTransformer {
 	public function transform($item)
 	{
 		$anime =& $item['anime'];
-		$genres = $this->linearize_genres($item['anime']['genres']);
+		$genres = $this->linearizeGenres($item['anime']['genres']);
 
 		$rating = NULL;
 		if ($item['rating']['type'] === 'advanced')
 		{
-			$rating = (is_numeric($item['rating']['value']))
-				? intval(2 * $item['rating']['value'])
+			$rating = is_numeric($item['rating']['value'])
+				? (int) 2 * $item['rating']['value']
 				: '-';
 		}
 
-		$total_episodes = (is_numeric($anime['episode_count']))
+		$total_episodes = is_numeric($anime['episode_count'])
 			? $anime['episode_count']
 			: '-';
 
@@ -54,7 +54,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			// a subset of the main title, don't list the
 			// alternate title
 			$not_subset = stripos($anime['title'], $anime['alternate_title']) === FALSE;
-			$diff = levenshtein($anime['title'], $anime['alternate_title']);
+			$diff = levenshtein($anime['title'], $anime['alternate_title'] ?? '');
 			if ($not_subset && $diff >= 5)
 			{
 				$alternate_title = $anime['alternate_title'];
@@ -129,14 +129,14 @@ class AnimeListTransformer extends AbstractTransformer {
 	/**
 	 * Simplify structure of genre list
 	 *
-	 * @param  array  $raw_genres
+	 * @param  array  $rawGenres
 	 * @return array
 	 */
-	protected function linearize_genres(array $raw_genres)
+	protected function linearizeGenres(array $rawGenres): array
 	{
 		$genres = [];
 
-		foreach ($raw_genres as $genre)
+		foreach ($rawGenres as $genre)
 		{
 			$genres[] = $genre['name'];
 		}

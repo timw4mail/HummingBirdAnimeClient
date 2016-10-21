@@ -4,7 +4,8 @@ $animeclient_file_patterns = [
 	'app/config/*.php',
 	'app/bootstrap.php',
 	'src/functions.php',
-	'src/*.php'
+	'src/*.php',
+	'tests/**/*.php'
 ];
 
 if ( ! function_exists('glob_recursive'))
@@ -26,21 +27,30 @@ if ( ! function_exists('glob_recursive'))
 
 function get_text_to_replace($tokens)
 {
-	if ($tokens[0][0] !== T_OPEN_TAG)
+	$output = '';
+
+	// Tokens have the follow structure if arrays:
+	// [0] => token type constant
+	// [1] => raw sytax parsed to that token
+	// [2] => line number
+	foreach($tokens as $token)
 	{
-		return NULL;
+		// Since we only care about opening docblocks,
+		// bail out when we get to the namespace token
+		if (is_array($token) && $token[0] === T_NAMESPACE)
+		{
+			break;
+		}
+
+		if (is_array($token))
+		{
+			$token = $token[1];
+		}
+
+		$output .= $token;
 	}
 
-	// If there is already a docblock, as the second token after the
-	// open tag, get the contents of that token to replace
-	if ($tokens[1][0] === T_DOC_COMMENT)
-	{
-		return "<?php\n" . $tokens[1][1];
-	}
-	else if ($tokens[1][0] !== T_DOC_COMMENT)
-	{
-		return "<?php";
-	}
+	return $output;
 }
 
 function get_tokens($source)
@@ -53,11 +63,17 @@ function replace_files(array $files, $template)
 	foreach ($files as $file)
 	{
 		$source = file_get_contents($file);
+
+		if (stripos($source, 'namespace') === FALSE)
+		{
+			continue;
+		}
+
 		$tokens = get_tokens($source);
 		$text_to_replace = get_text_to_replace($tokens);
 
 		$header = file_get_contents(__DIR__ . $template);
-		$new_text = "<?php\n{$header}";
+		$new_text = "<?php declare(strict_types=1);\n{$header}";
 
 		$new_source = str_replace($text_to_replace, $new_text, $source);
 		file_put_contents($file, $new_source);

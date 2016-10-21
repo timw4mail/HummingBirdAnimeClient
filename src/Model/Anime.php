@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -208,13 +208,13 @@ class Anime extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	protected function _get_list_from_api($status = "all")
+	protected function _get_list_from_api(string $status = "all"): array
 	{
 		$config = [
 			'allow_redirects' => FALSE
 		];
 
-		if ($status !== "all")
+		if ($status !== 'all')
 		{
 			$config['query']['status'] = $status;
 		}
@@ -266,7 +266,7 @@ class Anime extends API {
 	{
 		$api_data = Json::decode($response->getBody(), TRUE);
 		$transformer = new AnimeListTransformer();
-		$transformed = $transformer->transform_collection($api_data);
+		$transformed = $transformer->transformCollection($api_data);
 		return $transformed;
 	}
 }

@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -13,6 +13,7 @@
  * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 namespace Aviat\AnimeClient\Model;
 
 use GuzzleHttp\Client;
@@ -160,7 +161,7 @@ class API extends Model {
 	 * @param string $sort_key
 	 * @return void
 	 */
-	protected function sort_by_name(&$array, $sort_key)
+	protected function sort_by_name(array &$array, string $sort_key)
 	{
 		$sort = [];
 
@@ -180,7 +181,7 @@ class API extends Model {
 	 * @param string $password
 	 * @return string|false
 	 */
-	public function authenticate($username, $password)
+	public function authenticate(string $username, string $password)
 	{
 		$response = $this->post(AnimeClient::HUMMINGBIRD_AUTH_URL, [
 			'form_params' => [
@@ -191,7 +192,7 @@ class API extends Model {
 
 		if ($response->getStatusCode() === 201)
 		{
-			return json_decode($response->getBody(), TRUE);
+			return json_decode((string)$response->getBody(), TRUE);
 		}
 
 		return FALSE;
@@ -205,7 +206,7 @@ class API extends Model {
 	 * @param  string $status
 	 * @return array
 	 */
-	protected function _get_list_from_api($status)
+	protected function _get_list_from_api(string $status): array
 	{
 		return [];
 	}

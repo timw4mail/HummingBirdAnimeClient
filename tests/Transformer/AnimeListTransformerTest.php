@@ -36,7 +36,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 	 */
 	public function testLinearizeGenres($original, $expected)
 	{
-		$actual = $this->transformerFriend->linearize_genres($original);
+		$actual = $this->transformerFriend->linearizeGenres($original);
 		$this->assertEquals($expected, $actual);
 	}
 
@@ -44,8 +44,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 	{
 		$json = Json::decodeFile($this->start_file);
 		$expected = Json::decodeFile($this->res_file);
-		$actual = $this->transformer->transform_collection($json);
-//file_put_contents($this->res_file, json_encode($actual));
+		$actual = $this->transformer->transformCollection($json);
 		$this->assertEquals($expected, $actual);
 	}
 }
