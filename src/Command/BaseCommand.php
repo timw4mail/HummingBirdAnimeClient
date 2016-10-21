@@ -17,17 +17,15 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aura\Session\SessionFactory;
-use ConsoleKit\Command;
-use ConsoleKit\Widgets\Box;
-
-use Aviat\Ion\Config;
-use Aviat\Ion\Di\Container;
-use Aviat\Ion\Cache\CacheManager;
-
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
 use Aviat\AnimeClient\Model;
 use Aviat\AnimeClient\Util;
+use Aviat\Ion\Cache\CacheManager;
+use Aviat\Ion\Config;
+use Aviat\Ion\Di\Container;
+use ConsoleKit\Command;
+use ConsoleKit\Widgets\Box;
 
 /**
  * Base class for console command setup

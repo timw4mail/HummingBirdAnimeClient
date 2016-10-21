@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aviat\AnimeClient\Util;
+
 /**
  * Generates thumbnail image cache so that cover images load faster
  */

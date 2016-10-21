@@ -16,10 +16,10 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Controller for Anime-related pages

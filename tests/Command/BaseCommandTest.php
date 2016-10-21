@@ -1,8 +1,8 @@
 <?php
 
-use ConsoleKit\Console;
-use Aviat\Ion\Friend;
 use Aviat\AnimeClient\Command\BaseCommand;
+use Aviat\Ion\Friend;
+use ConsoleKit\Console;
 
 class BaseCommandTest extends AnimeClient_TestCase {
 	public function setUp()

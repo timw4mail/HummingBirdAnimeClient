@@ -1,7 +1,7 @@
 <?php
 
-use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Transformer\MangaListTransformer;
+use Aviat\Ion\Json;
 
 class MangaListTransformerTest extends AnimeClient_TestCase {
 

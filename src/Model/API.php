@@ -16,13 +16,12 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Model;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Psr\Http\Message\ResponseInterface;
-
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Model;
-use Aviat\AnimeClient\AnimeClient;
 
 /**
  * Base model for api interaction

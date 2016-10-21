@@ -1,7 +1,6 @@
 <?php
-use Aviat\Ion\Friend;
-
 use Aviat\AnimeClient\MenuGenerator;
+use Aviat\Ion\Friend;
 
 class MenuGeneratorTest extends AnimeClient_TestCase {
 

@@ -16,11 +16,11 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\UrlGenerator;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
+use Aviat\AnimeClient\UrlGenerator;
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Controller for Anime collection pages

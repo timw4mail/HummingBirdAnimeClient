@@ -1,12 +1,11 @@
 <?php
 use Aura\Session\SessionFactory;
+use Aviat\AnimeClient\Auth\HummingbirdAuth;
+use Aviat\Ion\Friend;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-
-use Aviat\Ion\Friend;
-use Aviat\AnimeClient\Auth\HummingbirdAuth;
 
 class HummingbirdAuthTest extends AnimeClient_TestCase {
 

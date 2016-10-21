@@ -16,7 +16,10 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\{ArrayWrapper, StringWrapper};
+use Aviat\Ion\
+{
+	ArrayWrapper, StringWrapper
+};
 use Aviat\Ion\Di\ContainerInterface;
 
 /**

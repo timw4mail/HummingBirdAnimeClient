@@ -1,9 +1,8 @@
 <?php
 
+use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 use Aviat\Ion\Config;
 use Aviat\Ion\Friend;
-
-use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
 
 class AnimeCollectionModelTest extends AnimeClient_TestCase {
 

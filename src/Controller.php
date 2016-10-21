@@ -16,8 +16,14 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\Di\
+{
+	ContainerAware, ContainerInterface
+};
+use Aviat\Ion\View\
+{
+	HtmlView, HttpView, JsonView
+};
 use InvalidArgumentException;
 
 /**

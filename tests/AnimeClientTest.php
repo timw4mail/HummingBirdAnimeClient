@@ -1,7 +1,5 @@
 <?php
 
-use Aviat\AnimeClient\AnimeClient;
-
 
 class AnimeClientTest extends AnimeClient_TestCase {
 

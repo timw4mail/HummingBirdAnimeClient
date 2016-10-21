@@ -16,9 +16,9 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
+use Aviat\Ion\Json;
 
 /**
  * Model for handling requests dealing with the anime list

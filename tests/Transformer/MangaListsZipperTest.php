@@ -1,7 +1,7 @@
 <?php
 
-use Aviat\Ion\Json;
 use Aviat\AnimeClient\Hummingbird\Transformer\MangaListsZipper;
+use Aviat\Ion\Json;
 
 class MangaListsZipperTest extends AnimeClient_TestCase {
 
