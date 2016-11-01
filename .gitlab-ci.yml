@@ -8,15 +8,6 @@ cache:
 services:
     - redis:latest
 
-test:5.6:
-    before_script:
-      - bash build/docker_install.sh > /dev/null
-      - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install --no-dev
-    image: php:5.6
-    script:
-      - phpunit -c build
-
 test:7:
     before_script:
       - bash build/docker_install.sh > /dev/null
