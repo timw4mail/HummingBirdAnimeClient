@@ -25,4 +25,4 @@ test:hhvm:
       - composer install --no-dev
     image: 51systems/docker-gitlab-ci-runner-hhvm
     script:
-      - phpunit -c build
+      - hhvm -d hhvm.php7.all=true phpunit -c build
