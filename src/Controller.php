@@ -16,14 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\
-{
-	ContainerAware, ContainerInterface
-};
-use Aviat\Ion\View\
-{
-	HtmlView, HttpView, JsonView
-};
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 
 /**
@@ -103,7 +97,7 @@ class Controller {
 		$this->response = $container->get('response');
 		$this->base_data['url'] = $auraUrlGenerator;
 		$this->base_data['urlGenerator'] = $urlGenerator;
-		$this->base_data['auth'] = $container->get('auth');
+		// $this->base_data['auth'] = $container->get('auth');
 		$this->base_data['config'] = $this->config;
 		$this->urlGenerator = $urlGenerator;
 
@@ -189,7 +183,7 @@ class Controller {
 		$target = $this->session->get('redirect_url');
 		if (empty($target))
 		{
-			$this->not_found();
+			$this->notFound();
 		}
 		else
 		{
@@ -234,8 +228,8 @@ class Controller {
 			$data = array_merge($this->base_data, $data);
 		}
 
-		$route = $router->get_route();
-		$data['route_path'] = $route ? $router->get_route()->path : '';
+		$route = $router->getRoute();
+		$data['route_path'] = $route ? $router->getRoute()->path : '';
 
 
 		$template_path = _dir($this->config->get('view_path'), "{$template}.php");
@@ -301,7 +295,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function login_action()
+	public function loginAction()
 	{
 		$auth = $this->container->get('auth');
 		$post = $this->request->getParsedBody();
@@ -331,7 +325,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function not_found()
+	public function notFound()
 	{
 		$this->outputHTML('404', [
 			'title' => 'Sorry, page not found'
@@ -347,7 +341,7 @@ class Controller {
 	 * @param string $long_message
 	 * @return void
 	 */
-	public function error_page($http_code, $title, $message, $long_message = "")
+	public function errorPage($http_code, $title, $message, $long_message = "")
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
@@ -364,7 +358,7 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function set_flash_message($message, $type = "info")
+	public function setFlashMessage($message, $type = "info")
 	{
 		$this->session->setFlash('message', [
 			'message_type' => $type,
@@ -377,7 +371,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function clear_cache()
+	public function clearCache()
 	{
 		$this->cache->purge();
 		$this->outputHTML('blank', [
@@ -394,7 +388,7 @@ class Controller {
 	 * @param string $message
 	 * @return string
 	 */
-	protected function show_message($view, $type, $message)
+	protected function showMessage($view, $type, $message)
 	{
 		return $this->load_partial($view, 'message', [
 			'message_type' => $type,

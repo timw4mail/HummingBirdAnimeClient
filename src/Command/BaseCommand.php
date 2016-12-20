@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     HummingbirdAnimeClient
+ * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
@@ -57,7 +57,7 @@ class BaseCommand extends Command {
 		$CONF_DIR = realpath(__DIR__ . '/../../app/config/');
 		require_once $CONF_DIR . '/base_config.php'; // $base_config
 
-		$config = AnimeClient::load_toml($CONF_DIR);
+		$config = AnimeClient::loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
 		$di = function ($config_array) {

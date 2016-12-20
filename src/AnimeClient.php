@@ -26,12 +26,13 @@ define('SRC_DIR', realpath(__DIR__));
 class AnimeClient {
 
 	const HUMMINGBIRD_AUTH_URL = 'https://hummingbird.me/api/v1/users/authenticate';
+	const KITSU_AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 	const DEFAULT_CONTROLLER_NAMESPACE = 'Aviat\AnimeClient\Controller';
 	const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Anime';
 	const DEFAULT_CONTROLLER_METHOD = 'index';
-	const NOT_FOUND_METHOD = 'not_found';
-	const ERROR_MESSAGE_METHOD = 'error_page';
+	const NOT_FOUND_METHOD = 'notFound';
+	const ERROR_MESSAGE_METHOD = 'errorPage';
 	const SRC_DIR = SRC_DIR;
 
 	/**
@@ -40,7 +41,7 @@ class AnimeClient {
 	 * @param string $path - Path to load config
 	 * @return array
 	 */
-	public static function load_toml($path)
+	public static function loadToml(string $path): array
 	{
 		$output = [];
 		$files = glob("{$path}/*.toml");

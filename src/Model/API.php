@@ -1,23 +1,23 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     HummingbirdAnimeClient
+ * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Model;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
@@ -36,7 +36,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class API extends Model {
 
-	use \Aviat\Ion\Di\ContainerAware;
+	use ContainerAware;
 
 	/**
 	 * Config manager
@@ -68,6 +68,12 @@ class API extends Model {
 	 */
 	protected $cache;
 
+    /**
+     * Default settings for Guzzle
+     * @var array
+     */
+	protected $connectionDefaults = [];
+
 	/**
 	 * Constructor
 	 *
@@ -93,15 +99,16 @@ class API extends Model {
 			'base_uri' => $this->base_url,
 			'cookies' => TRUE,
 			'http_errors' => FALSE,
-			'defaults' => [
+			'defaults' => array_merge([
 				'cookies' => $this->cookieJar,
 				'headers' => [
-					'User-Agent' => "Tim's Anime Client/3.0",
-					'Accept-Encoding' => 'application/json'
+					'User-Agent' => "Tim's Anime Client/4.0",
+					'Accept-Encoding' => 'application/vnd.api+json',
+					'Content-Type' => 'application/vnd.api+json'
 				],
 				'timeout' => 25,
 				'connect_timeout' => 25
-			]
+			], $this->connectionDefaults)
 		]);
 	}
 
@@ -116,12 +123,19 @@ class API extends Model {
 	{
 		$valid_methods = [
 			'get',
+			'getAsync',
 			'delete',
+			'deleteAsync',
 			'head',
+			'headAsync',
 			'options',
+			'optionsAsync',
 			'patch',
+			'patchAsync',
 			'post',
-			'put'
+			'postAsync',
+			'put',
+			'putAsync'
 		];
 
 		if ( ! in_array($method, $valid_methods))
@@ -170,31 +184,6 @@ class API extends Model {
 		}
 
 		array_multisort($sort, SORT_ASC, $array);
-	}
-
-	/**
-	 * Attempt login via the api
-	 *
-	 * @codeCoverageIgnore
-	 * @param string $username
-	 * @param string $password
-	 * @return string|false
-	 */
-	public function authenticate(string $username, string $password)
-	{
-		$response = $this->post(AnimeClient::HUMMINGBIRD_AUTH_URL, [
-			'form_params' => [
-				'username' => $username,
-				'password' => $password
-			]
-		]);
-
-		if ($response->getStatusCode() === 201)
-		{
-			return json_decode((string)$response->getBody(), TRUE);
-		}
-
-		return FALSE;
 	}
 
 	/**

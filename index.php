@@ -13,8 +13,11 @@
  * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+namespace Aviat\AnimeClient;
+
 use Aviat\AnimeClient\AnimeClient;
 use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -44,7 +47,7 @@ require _dir(__DIR__, '/vendor/autoload.php');
 // -------------------------------------------------------------------------
 // Setup error handling
 // -------------------------------------------------------------------------
-$whoops = new \Whoops\Run();
+$whoops = new Run();
 
 // Set up default handler for general errors
 $defaultHandler = new PrettyPageHandler();
@@ -63,7 +66,7 @@ $whoops->register();
 require _dir($CONF_DIR, 'base_config.php'); // $base_config
 $di = require _dir($APP_DIR, 'bootstrap.php');
 
-$config = AnimeClient::load_toml($CONF_DIR);
+$config = AnimeClient::loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);
 
 $container = $di($config_array);

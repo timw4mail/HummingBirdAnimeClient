@@ -137,7 +137,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 		// Check route setup
 		$this->assertEquals($config['routes'], $this->config->get('routes'), "Incorrect route path");
-		$this->assertTrue(is_array($this->router->get_output_routes()));
+		$this->assertTrue(is_array($this->router->getOutputRoutes()));
 
 		// Check environment variables
 		$this->assertEquals($uri, $request->getServerParams()['REQUEST_URI']);
@@ -145,10 +145,10 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 		// Make sure the route is an anime type
 		//$this->assertTrue($matcher->count() > 0, "0 routes");
-		$this->assertEquals($controller, $this->router->get_controller(), "Incorrect Route type");
+		$this->assertEquals($controller, $this->router->getController(), "Incorrect Route type");
 
 		// Make sure the route matches, by checking that it is actually an object
-		$route = $this->router->get_route();
+		$route = $this->router->getRoute();
 		$this->assertInstanceOf('Aura\\Router\\Route', $route, "Route is invalid, not matched");
 	}
 
@@ -252,6 +252,6 @@ class DispatcherTest extends AnimeClient_TestCase {
 	public function testGetControllerList($config, $expected)
 	{
 		$this->_set_up($config, '/', 'localhost');
-		$this->assertEquals($expected, $this->router->get_controller_list());
+		$this->assertEquals($expected, $this->router->getControllerList());
 	}
 }

@@ -1,23 +1,23 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     HummingbirdAnimeClient
+ * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Hummingbird\Enum\AnimeWatchingStatus;
-use Aviat\AnimeClient\Hummingbird\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\Ion\Json;
 
 /**
@@ -36,7 +36,7 @@ class Anime extends API {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $base_url = "https://hummingbird.me/api/v1/";
+	protected $base_url = "https://kitsu.io/api/edge/";
 
 	/**
 	 * Map of API status constants to display constants
@@ -226,7 +226,7 @@ class Anime extends API {
 			$config['query']['auth_token'] = $auth->get_auth_token();
 		}
 
-		$response = $this->get("users/{$username}/library", $config);
+		$response = $this->get("library-entries?filter[media_type]=Anime&filter[user_id]=2644&filter[status]=1,2&include=media", $config);
 		$output = $this->transform($status, $response);
 
 		$util = $this->container->get('util');

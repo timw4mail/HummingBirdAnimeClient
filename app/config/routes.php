@@ -147,7 +147,7 @@ return [
 		// ---------------------------------------------------------------------
 		'cache_purge' => [
 			'path' => '/cache_purge',
-			'action' => 'clear_cache',
+			'action' => 'clearCache',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'get',
 		],
@@ -159,7 +159,7 @@ return [
 		],
 		'login.post' => [
 			'path' => '/login',
-			'action' => 'login_action',
+			'action' => 'loginAction',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'post',
 		],

@@ -1,6 +1,5 @@
 #!/usr/bin/env php
-<?php
-use Aviat\AnimeClient\Model;
+<?php declare(strict_types=1);
 
 if ( ! function_exists('_dir'))
 {
@@ -22,23 +21,6 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 $APP_DIR = __DIR__ . '/app/';
 $SRC_DIR = __DIR__ . '/src/';
 $CONF_DIR = realpath("${APP_DIR}/config/");
-
-/**
- * Set up autoloaders
- *
- * @codeCoverageIgnore
- * @return void
- */
-spl_autoload_register(function($class) use ($SRC_DIR) {
-	$class_parts = explode('\\', $class);
-	$ns_path = $SRC_DIR . '/' . implode('/', $class_parts) . ".php";
-
-	if (file_exists($ns_path))
-	{
-		require_once($ns_path);
-		return;
-	}
-});
 
 // Set up autoloader for third-party dependencies
 require_once realpath(__DIR__ . '/vendor/autoload.php');
