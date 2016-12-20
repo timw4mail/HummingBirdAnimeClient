@@ -18,14 +18,15 @@ namespace Aviat\AnimeClient;
 
 use abeautifulsite\SimpleImage;
 use Aviat\Ion\ConfigInterface;
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use DomainException;
 
 /**
  * Utility method class
  */
 class Util {
 
-	use \Aviat\Ion\Di\ContainerAware;
+	use ContainerAware;
 
 	/**
 	 * Routes that don't require a second navigation level
@@ -164,7 +165,7 @@ class Util {
 			}
 			else
 			{
-				throw new \DomainException("Couldn't cache images because they couldn't be downloaded.");
+				throw new DomainException("Couldn't cache images because they couldn't be downloaded.");
 			}
 
 			// Resize the image

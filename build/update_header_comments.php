@@ -1,11 +1,11 @@
 <?php
+declare(strict_types=1);
 
-$animeclient_file_patterns = [
-	'app/config/*.php',
+$file_patterns = [
 	'app/bootstrap.php',
-	'src/functions.php',
-	'src/*.php',
-	'tests/**/*.php'
+	'migrations/*.php',
+	'src/**/*.php',
+	'tests/**/*.php',
 ];
 
 if ( ! function_exists('glob_recursive'))
@@ -80,16 +80,10 @@ function replace_files(array $files, $template)
 	}
 }
 
-foreach ($animeclient_file_patterns as $glob)
+foreach ($file_patterns as $glob)
 {
 	$files = glob_recursive($glob);
-	replace_files($files, '/animeclient_header_comment.txt');
+	replace_files($files, '/header_comment.txt');
 }
-$loose_files = [
-	__DIR__ . '/../index.php',
-	__DIR__ . '/../public/css.php',
-	__DIR__ . '/../public/js.php'
-];
-replace_files($loose_files, '/animeclient_header_comment.txt');
 
 echo "Successfully updated headers \n";

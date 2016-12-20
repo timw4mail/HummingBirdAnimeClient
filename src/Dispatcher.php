@@ -19,7 +19,6 @@ namespace Aviat\AnimeClient;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 
-
 /**
  * Basic routing/ dispatch
  */
@@ -61,7 +60,7 @@ class Dispatcher extends RoutingBase {
 		$this->matcher = $container->get('aura-router')->getMatcher();
 		$this->request = $container->get('request');
 
-		$this->output_routes = $this->_setup_routes();
+		$this->output_routes = $this->_setupRoutes();
 	}
 
 	/**
@@ -69,7 +68,7 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return object
 	 */
-	public function get_route()
+	public function getRoute()
 	{
 		$logger = $this->container->getLogger('default');
 
@@ -89,7 +88,7 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	public function get_output_routes()
+	public function getOutputRoutes()
 	{
 		return $this->output_routes;
 	}
@@ -107,7 +106,7 @@ class Dispatcher extends RoutingBase {
 
 		if (is_null($route))
 		{
-			$route = $this->get_route();
+			$route = $this->getRoute();
 
 			$logger->debug('Dispatcher - Route invoke arguments');
 			$logger->debug(print_r($route, TRUE));
@@ -115,23 +114,23 @@ class Dispatcher extends RoutingBase {
 
 		if ($route)
 		{
-			$parsed = $this->process_route(new Friend($route));
-			$controller_name = $parsed['controller_name'];
-			$action_method = $parsed['action_method'];
+			$parsed = $this->processRoute(new Friend($route));
+			$controllerName = $parsed['controller_name'];
+			$actionMethod = $parsed['action_method'];
 			$params = $parsed['params'];
 		}
 		else
 		{
 			// If not route was matched, return an appropriate http
 			// error message
-			$error_route = $this->get_error_params();
-			$controller_name = AnimeClient::DEFAULT_CONTROLLER;
-			$action_method = $error_route['action_method'];
+			$error_route = $this->getErrorParams();
+			$controllerName = AnimeClient::DEFAULT_CONTROLLER;
+			$actionMethod = $error_route['action_method'];
 			$params = $error_route['params'];
 		}
 
 		// Actually instantiate the controller
-		$this->call($controller_name, $action_method, $params);
+		$this->call($controllerName, $actionMethod, $params);
 	}
 
 	/**
@@ -142,7 +141,7 @@ class Dispatcher extends RoutingBase {
 	 * @throws \LogicException
 	 * @return array
 	 */
-	protected function process_route($route)
+	protected function processRoute($route)
 	{
 		if (array_key_exists('controller', $route->attributes))
 		{
@@ -156,7 +155,7 @@ class Dispatcher extends RoutingBase {
 		// Get the full namespace for a controller if a short name is given
 		if (strpos($controller_name, '\\') === FALSE)
 		{
-			$map = $this->get_controller_list();
+			$map = $this->getControllerList();
 			$controller_name = $map[$controller_name];
 		}
 
@@ -191,7 +190,7 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return string
 	 */
-	public function get_controller()
+	public function getController()
 	{
 		$route_type = $this->__get('default_list');
 		$request_uri = $this->request->getUri()->getPath();
@@ -213,13 +212,13 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	public function get_controller_list()
+	public function getControllerList()
 	{
 		$default_namespace = AnimeClient::DEFAULT_CONTROLLER_NAMESPACE;
 		$path = str_replace('\\', '/', $default_namespace);
 		$path = str_replace('Aviat/AnimeClient/', '', $path);
 		$path = trim($path, '/');
-		$actual_path = realpath(\_dir(AnimeClient::SRC_DIR, $path));
+		$actual_path = realpath(_dir(AnimeClient::SRC_DIR, $path));
 		$class_files = glob("{$actual_path}/*.php");
 
 		$controllers = [];
@@ -240,16 +239,16 @@ class Dispatcher extends RoutingBase {
 	 * Create the controller object and call the appropriate
 	 * method
 	 *
-	 * @param  string $controller_name - The full namespace of the controller class
+	 * @param  string $controllerName - The full namespace of the controller class
 	 * @param  string $method
 	 * @param  array  $params
 	 * @return void
 	 */
-	protected function call($controller_name, $method, array $params)
+	protected function call($controllerName, $method, array $params)
 	{
 		$logger = $this->container->getLogger('default');
 
-		$controller = new $controller_name($this->container);
+		$controller = new $controllerName($this->container);
 
 		// Run the appropriate controller method
 		$logger->debug('Dispatcher - controller arguments');
@@ -263,7 +262,7 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array|false
 	 */
-	protected function get_error_params()
+	protected function getErrorParams()
 	{
 		$logger = $this->container->getLogger('default');
 		$failure = $this->matcher->getFailedRoute();
@@ -309,9 +308,9 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	protected function _setup_routes()
+	protected function _setupRoutes()
 	{
-		$route_type = $this->get_controller();
+		$route_type = $this->getController();
 
 		// Add routes
 		$routes = [];
@@ -320,7 +319,7 @@ class Dispatcher extends RoutingBase {
 			$path = $route['path'];
 			unset($route['path']);
 
-			$controller_map = $this->get_controller_list();
+			$controller_map = $this->getControllerList();
 			$controller_class = (array_key_exists($route_type, $controller_map))
 				? $controller_map[$route_type]
 				: AnimeClient::DEFAULT_CONTROLLER;

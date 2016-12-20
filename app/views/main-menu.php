@@ -1,4 +1,4 @@
-<?php namespace Aviat\AnimeClient ?>
+<?php declare(strict_types=1); namespace Aviat\AnimeClient; ?>
 <h1 class="flex flex-align-end flex-wrap">
 	<span class="flex-no-wrap grow-1">
 		<?php if(strpos($route_path, 'collection') === FALSE): ?>
