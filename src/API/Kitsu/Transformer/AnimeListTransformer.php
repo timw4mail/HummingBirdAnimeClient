@@ -32,65 +32,61 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-print_r($item);
-die();
+/* ?><pre><?= print_r($item, TRUE) ?></pre><?php
+die(); */
+		// $anime = [];
+		$genres = [];
 		$anime =& $item['anime'];
-		$genres = $this->linearizeGenres($item['anime']['genres']);
+		// $genres = $this->linearizeGenres($item['anime']['genres']); */
 
-		$rating = NULL;
-		if ($item['rating']['type'] === 'advanced')
-		{
-			$rating = is_numeric($item['rating']['value'])
-				? (int) 2 * $item['rating']['value']
-				: '-';
-		}
+		$rating = (int) 2 * $item['attributes']['rating'];
 
-		$total_episodes = is_numeric($anime['episode_count'])
-			? $anime['episode_count']
+		$total_episodes = is_numeric($anime['episodeCount'])
+			? $anime['episodeCount']
 			: '-';
 
 		$alternate_title = NULL;
-		if (array_key_exists('alternate_title', $anime))
+		if (array_key_exists('en_jp', $anime['titles']))
 		{
 			// If the alternate title is very similar, or
 			// a subset of the main title, don't list the
 			// alternate title
-			$not_subset = stripos($anime['title'], $anime['alternate_title']) === FALSE;
-			$diff = levenshtein($anime['title'], $anime['alternate_title'] ?? '');
+			$not_subset = stripos($anime['canonicalTitle'], $anime['titles']['en_jp']) === FALSE;
+			$diff = levenshtein($anime['canonicalTitle'], $anime['titles']['en_jp'] ?? '');
 			if ($not_subset && $diff >= 5)
 			{
-				$alternate_title = $anime['alternate_title'];
+				$alternate_title = $anime['titles']['en_jp'];
 			}
 		}
 
 		return [
 			'id' => $item['id'],
 			'episodes' => [
-				'watched' => $item['episodes_watched'],
+				'watched' => $item['attributes']['progress'],
 				'total' => $total_episodes,
-				'length' => $anime['episode_length'],
+				'length' => $anime['episodeLength'],
 			],
 			'airing' => [
-				'status' => $anime['status'],
-				'started' => $anime['started_airing'],
-				'ended' => $anime['finished_airing']
+				'status' => $anime['status'] ?? '',
+				'started' => $anime['startDate'],
+				'ended' => $anime['endDate']
 			],
 			'anime' => [
-				'age_rating' => $anime['age_rating'],
-				'title' => $anime['title'],
+				'age_rating' => $anime['ageRating'],
+				'title' => $anime['canonicalTitle'],
 				'alternate_title' => $alternate_title,
 				'slug' => $anime['slug'],
-				'url' => $anime['url'],
-				'type' => $anime['show_type'],
-				'image' => $anime['cover_image'],
-				'genres' => $genres,
+				'url' => $anime['url'] ?? '',
+				'type' => $anime['showType'],
+				'image' => $anime['posterImage']['small'],
+				'genres' => [],//$genres,
 			],
-			'watching_status' => $item['status'],
-			'notes' => $item['notes'],
-			'rewatching' => (bool) $item['rewatching'],
-			'rewatched' => $item['rewatched_times'],
+			'watching_status' => $item['attributes']['status'],
+			'notes' => $item['attributes']['notes'],
+			'rewatching' => (bool) $item['attributes']['reconsuming'],
+			'rewatched' => (int) $item['attributes']['reconsumeCount'],
 			'user_rating' => $rating,
-			'private' => (bool) $item['private'],
+			'private' => (bool) $item['attributes']['private'] ?? false,
 		];
 	}
 

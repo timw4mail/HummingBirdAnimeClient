@@ -18,6 +18,7 @@
 		"aura/html": "2.*",
 		"aura/router": "3.*",
 		"aura/session": "2.*",
+		"aviat/banker": "dev-master",
 		"aviat/ion": "dev-master",
 		"filp/whoops": "2.0.*",
 		"guzzlehttp/guzzle": "6.*",

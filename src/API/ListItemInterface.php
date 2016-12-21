@@ -40,8 +40,8 @@ interface ListItemInterface {
 	/**
 	 * Update a list item
 	 * 
-	 * @param string $id - The id of the list tiem to update
-	 * @param array $data - The data with which to update the list itme
+	 * @param string $id - The id of the list item to update
+	 * @param array $data - The data with which to update the list item
 	 * @return bool
 	 */
 	public function update(string $id, array $data): bool;
