@@ -17,16 +17,17 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Kitsu\Enum\AnimeWatchingStatus;
-use Aviat\AnimeClient\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\StringWrapper;
 
 /**
  * Controller for Anime-related pages
  */
 class Anime extends BaseController {
 
-	use \Aviat\Ion\StringWrapper;
+	use StringWrapper;
 
 	/**
 	 * The anime list model

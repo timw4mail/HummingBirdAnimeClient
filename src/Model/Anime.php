@@ -6,19 +6,22 @@
  *
  * PHP version 7
  *
- * @package     AnimeListClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @package	 AnimeListClient
+ * @author	  Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license	 http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version	 4.0
+ * @link		https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\AnimeClient\API\Kitsu\KitsuModel;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
+
 
 /**
  * Model for handling requests dealing with the anime list
@@ -49,6 +52,12 @@ class Anime extends API {
 		AnimeWatchingStatus::DROPPED => self::DROPPED,
 		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
 	];
+
+	public function __construct(ContainerInterface $container) {
+		parent::__construct($container);
+
+		$this->kitsuModel = new KitsuModel();
+	}
 
 	/**
 	 * Update the selected anime
@@ -143,8 +152,11 @@ class Anime extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->_get_list_from_api($status);
-		$this->sort_by_name($data, 'anime');
+		$data = $this->kitsuModel->getAnimeList();
+		//return JSON::decode((string)$stream, TRUE);
+
+		/*$data = $this->_get_list_from_api($status);
+		$this->sort_by_name($data, 'anime');*/
 
 		$output = [];
 		$output[$this->const_map[$status]] = $data;
