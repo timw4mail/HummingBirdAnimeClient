@@ -36,7 +36,7 @@ class Anime extends BaseController {
 	protected $model;
 
 	/**
-	 * Data to ve sent to all routes in this controller
+	 * Data to be sent to all routes in this controller
 	 * @var array $base_data
 	 */
 	protected $base_data;
@@ -71,19 +71,19 @@ class Anime extends BaseController {
 	/**
 	 * Show a portion, or all of the anime list
 	 *
-	 * @param string $type - The section of the list
+	 * @param string|int $type - The section of the list
 	 * @param string $view - List or cover view
 	 * @return void
 	 */
-	public function index($type = "watching", $view = '')
+	public function index($type = AnimeWatchingStatus::WATCHING, string $view = NULL)
 	{
 		$type_title_map = [
 			'all' => 'All',
-			'watching' => 'Currently Watching',
-			'plan_to_watch' => 'Plan to Watch',
-			'on_hold' => 'On Hold',
-			'dropped' => 'Dropped',
-			'completed' => 'Completed'
+			AnimeWatchingStatus::WATCHING => 'Currently Watching',
+			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
+			AnimeWatchingStatus::ON_HOLD => 'On Hold',
+			AnimeWatchingStatus::DROPPED => 'Dropped',
+			AnimeWatchingStatus::COMPLETED => 'Completed'
 		];
 
 		$model_map = [
@@ -106,8 +106,8 @@ class Anime extends BaseController {
 		];
 
 		$data = ($type !== 'all')
-			? $this->cache->get($this->model, 'get_list', ['status' => $model_map[$type]])
-			: $this->cache->get($this->model, 'get_all_lists', []);
+			? $this->model->get_list($model_map[$type])
+			: $this->model->get_all_lists();
 
 		$this->outputHTML('anime/' . $view_map[$view], [
 			'title' => $title,
@@ -161,7 +161,7 @@ class Anime extends BaseController {
 		if (intval($result['statusCode']) === 201)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
-			$this->cache->purge();
+			// $this->cache->purge();
 		}
 		else
 		{
