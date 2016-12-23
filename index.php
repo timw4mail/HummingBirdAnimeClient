@@ -58,7 +58,7 @@ $whoops->pushHandler($defaultHandler);
 //$whoops->pushHandler($jsonHandler);
 
 // Register as the error handler
-// $whoops->register();
+$whoops->register();
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup

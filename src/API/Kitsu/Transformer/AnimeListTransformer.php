@@ -33,11 +33,9 @@ class AnimeListTransformer extends AbstractTransformer {
 	public function transform($item)
 	{
 /* ?><pre><?= print_r($item, TRUE) ?></pre><?php
-die(); */
-		// $anime = [];
-		$genres = [];
+die();*/
 		$anime =& $item['anime'];
-		// $genres = $this->linearizeGenres($item['anime']['genres']); */
+		$genres = $item['anime']['genres'] ?? [];
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
@@ -75,17 +73,17 @@ die(); */
 				'age_rating' => $anime['ageRating'],
 				'title' => $anime['canonicalTitle'],
 				'alternate_title' => $alternate_title,
-				'slug' => $anime['slug'],
+				'slug' => $item['relationships']['media']['data']['id'],//$anime['slug'],
 				'url' => $anime['url'] ?? '',
 				'type' => $anime['showType'],
 				'image' => $anime['posterImage']['small'],
-				'genres' => [],//$genres,
+				'genres' => $genres,
 			],
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
-			'user_rating' => $rating,
+			'user_rating' => ($rating === 0) ? '-' : $rating,
 			'private' => (bool) $item['attributes']['private'] ?? false,
 		];
 	}
@@ -122,24 +120,6 @@ die(); */
 			'episodes_watched' => $item['episodes_watched'],
 			'privacy' => $privacy
 		];
-	}
-
-	/**
-	 * Simplify structure of genre list
-	 *
-	 * @param  array  $rawGenres
-	 * @return array
-	 */
-	protected function linearizeGenres(array $rawGenres): array
-	{
-		$genres = [];
-
-		foreach ($rawGenres as $genre)
-		{
-			$genres[] = $genre['name'];
-		}
-
-		return $genres;
 	}
 }
 // End of AnimeListTransformer.php

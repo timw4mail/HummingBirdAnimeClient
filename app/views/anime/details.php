@@ -5,10 +5,10 @@
 			<br />
 			<br />
 			<table>
-				<tr>
+				<?php /*<tr>
 					<td class="align_right">Airing Status</td>
 					<td><?= $data['status'] ?></td>
-				</tr>
+				</tr>*/ ?>
 				<tr>
 					<td>Show Type</td>
 					<td><?= $data['show_type'] ?></td>
@@ -23,24 +23,23 @@
 				</tr>
 				<tr>
 					<td>Age Rating</td>
-					<td><?= $data['age_rating'] ?></td>
+                    <td><abbr title="<?= $data['age_rating_guide'] ?>"><?= $data['age_rating'] ?></abbr></td>
 				</tr>
 				<tr>
 					<td>Genres</td>
 					<td>
-						<?php
-						$genres = [];
-						foreach($data['genres'] as $g) $genres[] = $g['name'];
-						?>
-						<?= implode(', ', $genres); ?>
+						<?= implode(', ', $data['genres']) ?>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div>
 			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
-			<?php if( ! empty($data['alternate_title'])): ?>
-				<h3><?= $data['alternate_title'] ?></h3>
+			<?php if ( ! empty($data['jp_title'])): ?>
+                <h3><?= $data['jp_title'] ?></h3>
+			<?php endif ?>
+			<?php if( ! empty($data['en_title'] && $data['en_title'] !== $data['title'])): ?>
+				<h3><?= $data['en_title'] ?></h3>
 			<?php endif ?>
 
 			<br />

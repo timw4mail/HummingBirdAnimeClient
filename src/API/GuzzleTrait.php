@@ -16,18 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Psr\Http\Message\ResponseInterface;
-
 /**
  * Base trait for api interaction
- *
- * @method ResponseInterface get(string $uri, array $options);
- * @method ResponseInterface delete(string $uri, array $options);
- * @method ResponseInterface head(string $uri, array $options);
- * @method ResponseInterface options(string $uri, array $options);
- * @method ResponseInterface patch(string $uri, array $options);
- * @method ResponseInterface post(string $uri, array $options);
- * @method ResponseInterface put(string $uri, array $options);
  */
 trait GuzzleTrait {
     /**
@@ -48,39 +38,4 @@ trait GuzzleTrait {
      * @return void
      */
     abstract protected function init();
-
-    /**
-     * Magic methods to call guzzle api client
-     *
-     * @param  string $method
-     * @param  array $args
-     * @return ResponseInterface|null
-     */
-    public function __call($method, $args)
-    {
-        $valid_methods = [
-            'get',
-            'getAsync',
-            'delete',
-            'deleteAsync',
-            'head',
-            'headAsync',
-            'options',
-            'optionsAsync',
-            'patch',
-            'patchAsync',
-            'post',
-            'postAsync',
-            'put',
-            'putAsync'
-        ];
-
-        if ( ! in_array($method, $valid_methods))
-        {
-            return NULL;
-        }
-
-        array_unshift($args, strtoupper($method));
-        return call_user_func_array([$this->client, 'request'], $args);
-    }
 }

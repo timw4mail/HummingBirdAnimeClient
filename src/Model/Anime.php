@@ -15,10 +15,7 @@
  */
 
 namespace Aviat\AnimeClient\Model;
-
-use Aviat\AnimeClient\API\Kitsu\KitsuModel;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -53,10 +50,14 @@ class Anime extends API {
 		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
 	];
 
+	/**
+	 * Anime constructor.
+	 * @param ContainerInterface $container
+	 */
 	public function __construct(ContainerInterface $container) {
 		parent::__construct($container);
 
-		$this->kitsuModel = new KitsuModel();
+		$this->kitsuModel = $container->get('kitsu-model');
 	}
 
 	/**
@@ -152,11 +153,8 @@ class Anime extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->kitsuModel->getAnimeList();
-		//return JSON::decode((string)$stream, TRUE);
-
-		/*$data = $this->_get_list_from_api($status);
-		$this->sort_by_name($data, 'anime');*/
+		$data = $this->kitsuModel->getAnimeList($status);
+		$this->sort_by_name($data, 'anime');
 
 		$output = [];
 		$output[$this->const_map[$status]] = $data;
@@ -172,15 +170,7 @@ class Anime extends API {
 	 */
 	public function get_anime($anime_id)
 	{
-		$config = [
-			'query' => [
-				'id' => $anime_id
-			]
-		];
-
-		$response = $this->client->get("anime/{$anime_id}", $config);
-
-		return Json::decode($response->getBody(), TRUE);
+        return $this->kitsuModel->getAnime($anime_id);
 	}
 
 	/**
@@ -214,43 +204,6 @@ class Anime extends API {
 	}
 
 	/**
-	 * Retrieve data from the api
-	 *
-	 * @codeCoverageIgnore
-	 * @param string $status
-	 * @return array
-	 */
-	protected function _get_list_from_api(string $status = "all"): array
-	{
-		$config = [
-			'allow_redirects' => FALSE
-		];
-
-		if ($status !== 'all')
-		{
-			$config['query']['status'] = $status;
-		}
-
-		$username = $this->config->get('hummingbird_username');
-		$auth = $this->container->get('auth');
-		if ($auth->is_authenticated())
-		{
-			$config['query']['auth_token'] = $auth->get_auth_token();
-		}
-
-		$response = $this->get("library-entries?filter[media_type]=Anime&filter[user_id]=2644&filter[status]=1,2&include=media", $config);
-		$output = $this->transform($status, $response);
-
-		$util = $this->container->get('util');
-		foreach ($output as &$row)
-		{
-			$row['anime']['image'] = $util->get_cached_image($row['anime']['image'], $row['anime']['slug'], 'anime');
-		}
-
-		return $output;
-	}
-
-	/**
 	 * Get the full list from the api
 	 *
 	 * @return array
@@ -265,21 +218,6 @@ class Anime extends API {
 
 		$response = $this->get("users/{$username}/library", $config);
 		return Json::decode($response->getBody(), TRUE);
-	}
-
-	/**
-	 * Handle transforming of api data
-	 *
-	 * @param string $status
-	 * @param \GuzzleHttp\Message\Response $response
-	 * @return array
-	 */
-	protected function transform($status, $response)
-	{
-		$api_data = Json::decode($response->getBody(), TRUE);
-		$transformer = new AnimeListTransformer();
-		$transformed = $transformer->transformCollection($api_data);
-		return $transformed;
 	}
 }
 // End of AnimeModel.php

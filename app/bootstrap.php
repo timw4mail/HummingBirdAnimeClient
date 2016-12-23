@@ -20,8 +20,9 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\Kitsu\Auth as KitsuAuth;
+use Aviat\AnimeClient\API\Kitsu\KitsuModel;
 use Aviat\AnimeClient\Model;
-use Aviat\Ion\Cache\CacheManager;
+use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Monolog\Handler\RotatingFileHandler;
@@ -54,7 +55,9 @@ return function(array $config_array = []) {
 
 	// Create Cache Object
 	$container->set('cache', function($container) {
-		return new CacheManager($container->get('config'));
+		$logger = $container->getLogger();
+		$config = $container->get('config')->get('cache');
+		return new Pool($config, $logger);
 	});
 
 	// Create Aura Router Object
@@ -99,6 +102,11 @@ return function(array $config_array = []) {
 	});
 
 	// Models
+	$container->set('kitsu-model', function($container) {
+		$model = new KitsuModel();
+		$model->setContainer($container);
+		return $model;
+	});
 	$container->set('api-model', function($container) {
 		return new Model\API($container);
 	});

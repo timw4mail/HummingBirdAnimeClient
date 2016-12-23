@@ -16,8 +16,10 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\AnimeClient;
+use Aviat\AnimeClient\API\Kitsu\Transformer\{AnimeTransformer, AnimeListTransformer};
 use Aviat\Ion\Json;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Kitsu API Model
@@ -38,11 +40,20 @@ class KitsuModel {
 	 */
 	protected $animeListTransformer;
 
+	/**
+	 * @var AnimeTransformer
+	 */
+	protected $animeTransformer;
+
+	/**
+	 * KitsuModel constructor.
+	 */
 	public function __construct()
 	{
 		// Set up Guzzle trait
 		$this->init();
 
+		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
 	}
 
@@ -55,7 +66,7 @@ class KitsuModel {
 	 */
 	public function authenticate(string $username, string $password)
 	{
-		$response = $this->post('https://kitsu.io/api/oauth/token', [
+		$data = $this->postRequest(AnimeClient::KITSU_AUTH_URL, [
 			'body' => http_build_query([
 				'grant_type' => 'password',
 				'username' => $username,
@@ -65,9 +76,7 @@ class KitsuModel {
 			])
 		]);
 
-		$info = JSON::decode($response->getBody());
-
-		if (array_key_exists('access_token', $info)) {
+		if (array_key_exists('access_token', $data)) {
 			// @TODO save token
 			return true;
 		}
@@ -75,41 +84,79 @@ class KitsuModel {
 		return false;
 	}
 
-	public function getAnimeMedia($entryId): array {
-		$response = $this->get("library-entries/{$entryId}/media", [
-			'headers' => [
-				'client_id' => self::CLIENT_ID,
-				'client_secret' => self::CLIENT_SECRET
-			]
-		]);
 
-		return JSON::decode($response->getBody(), TRUE);
+
+	public function getAnimeGenres($animeId): array
+	{
+		return $this->getGenres('anime', $animeId);
 	}
 
-	public function getAnimeList(): array {
-		$response = $this->get('library-entries', [
-			'headers' => [
-				'client_id' => self::CLIENT_ID,
-				'client_secret' => self::CLIENT_SECRET
-			],
+	public function getMangaGenres($mangaId): array
+	{
+		return $this->getGenres('manga', $mangaId);
+	}
+
+	public function getAnime(string $animeId): array
+	{
+		$baseData = $this->getRawAnimeData($animeId);
+		return $this->animeTransformer->transform($baseData);
+	}
+
+	public function getRawAnimeData($animeId): array
+	{
+		return $this->getRawMediaData('anime', $animeId);
+	}
+
+	public function getAnimeMedia($entryId): array
+	{
+		return $this->getRequest("library-entries/{$entryId}/media");
+	}
+
+	public function getAnimeList($status): array
+	{
+		$options = [
 			'query' => [
 				'filter' => [
 					'user_id' => 2644,
-					'media_type' => 'Anime'
+					'media_type' => 'Anime',
+					'status' => $status,
 				],
-				'include' => 'media'
+				'include' => 'media,user',
+				'page' => [
+					'offset' => 0,
+					'limit' => 200
+				],
+				'sort' => '-updated_at'
 			]
-		]);
+		];
 
-		$data = JSON::decode($response->getBody(), TRUE);
+		$data = $this->getRequest('library-entries', $options);
 
 		foreach($data['data'] as &$item)
 		{
-			$item['anime'] = $this->getAnimeMedia($item['id'])['data']['attributes'];
+			$item['anime'] = $this->getRawAnimeData($item['relationships']['media']['data']['id']);
 		}
 
 		$transformed = $this->animeListTransformer->transformCollection($data['data']);
 
 		return $transformed;
+	}
+
+	private function getGenres(string $type, string $id): array
+	{
+		$data = $this->getRequest("{$type}/{$id}/genres");
+		$rawGenres = array_pluck($data['data'], 'attributes');
+		$genres = array_pluck($rawGenres, 'name');
+
+		return $genres;
+	}
+
+	private function getRawMediaData(string $type, string $id): array
+	{
+		$data = $this->getRequest("{$type}/{$id}");
+		$baseData = $data['data']['attributes'];
+		$baseData['genres'] = $this->getGenres($type, $id);
+
+		return $baseData;
 	}
 }
