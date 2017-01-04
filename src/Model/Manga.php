@@ -6,12 +6,12 @@
  *
  * PHP version 7
  *
- * @package     AnimeListClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @package	 AnimeListClient
+ * @author	  Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license	 http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version	 4.0
+ * @link		https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
@@ -46,12 +46,20 @@ class Manga extends API {
 		MangaReadingStatus::COMPLETED => self::COMPLETED
 	];
 
-	public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
+	protected $status_map = [
+		'current' => self::READING,
+		'planned' => self::PLAN_TO_READ,
+		'completed' => self::COMPLETED,
+		'on_hold' => self::ON_HOLD,
+		'dropped' => self::DROPPED
+	];
 
-        $this->kitsuModel = $container->get('kitsu-model');
-    }
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+
+		$this->kitsuModel = $container->get('kitsu-model');
+	}
 
 	/**
 	 * Make an authenticated manga API call
@@ -102,10 +110,9 @@ class Manga extends API {
 	 */
 	public function get_list($status)
 	{
-	    $data = $this->kitsuModel->getMangaList($status);
-	    return $this->map_by_status($data)[$status];
-		/*$data = $this->cache->get($this, '_get_list_from_api');
-		return ($status !== 'All') ? $data[$status] : $data;*/
+		$APIstatus = array_flip($this->const_map)[$status];
+		$data = $this->kitsuModel->getMangaList($APIstatus);
+		return $this->map_by_status($data)[$status];
 	}
 
 
@@ -117,8 +124,7 @@ class Manga extends API {
 	 */
 	public function get_manga($manga_id)
 	{
-		$raw = $this->_manga_api_call('get', "manga/{$manga_id}.json");
-		return Json::decode($raw['body'], TRUE);
+		return $this->kitsuModel->getManga($manga_id);
 	}
 
 	/**
@@ -146,7 +152,7 @@ class Manga extends API {
 				$entry['manga']['slug'],
 				'manga'
 			);*/
-			$key = $this->const_map[$entry['reading_status']];
+			$key = $this->status_map[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}
 

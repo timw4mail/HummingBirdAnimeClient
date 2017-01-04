@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
-    AnimeTransformer, AnimeListTransformer, MangaListTransformer
+	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
 };
 use Aviat\Ion\Json;
 use GuzzleHttp\Exception\ClientException;
@@ -47,9 +47,9 @@ class KitsuModel {
 	 */
 	protected $animeTransformer;
 
-    /**
-     * @var MangaListTransformer
-     */
+	/**
+	 * @var MangaListTransformer
+	 */
 	protected $mangaListTransformer;
 
 	/**
@@ -62,6 +62,7 @@ class KitsuModel {
 
 		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
+		$this->mangaTransformer = new MangaTransformer();
 		$this->mangaListTransformer = new MangaListTransformer();
 	}
 
@@ -98,14 +99,15 @@ class KitsuModel {
 		return $this->animeTransformer->transform($baseData);
 	}
 
+	public function getManga(string $mangaId): array
+	{
+		$baseData = $this->getRawMediaData('manga', $mangaId);
+		return $this->mangaTransformer->transform($baseData);
+	}
+
 	public function getRawAnimeData($animeId): array
 	{
 		return $this->getRawMediaData('anime', $animeId);
-	}
-
-	public function getAnimeMedia($entryId): array
-	{
-		return $this->getRequest("library-entries/{$entryId}/media");
 	}
 
 	public function getAnimeList($status): array
@@ -139,34 +141,34 @@ class KitsuModel {
 	}
 
 	public function getMangaList($status): array
-    {
-        $options = [
-            'query' => [
-                'filter' => [
-                    'user_id' => 2644,
-                    'media_type' => 'Manga',
-                    'status' => $status,
-                ],
-                'include' => 'media',
-                'page' => [
-                    'offset' => 0,
-                    'limit' => 200
-                ],
-                'sort' => '-updated_at'
-            ]
-        ];
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => 2644,
+					'media_type' => 'Manga',
+					'status' => $status,
+				],
+				'include' => 'media',
+				'page' => [
+					'offset' => 0,
+					'limit' => 200
+				],
+				'sort' => '-updated_at'
+			]
+		];
 
-        $data = $this->getRequest('library-entries', $options);
-        
-        foreach($data['data'] as $i => &$item)
-        {
-            $item['manga'] = $data['included'][$i];
-        }
+		$data = $this->getRequest('library-entries', $options);
 
-        $transformed = $this->mangaListTransformer->transformCollection($data['data']);
+		foreach($data['data'] as $i => &$item)
+		{
+			$item['manga'] = $data['included'][$i];
+		}
 
-        return $transformed;
-    }
+		$transformed = $this->mangaListTransformer->transformCollection($data['data']);
+
+		return $transformed;
+	}
 
 	private function getGenres(string $type, string $id): array
 	{

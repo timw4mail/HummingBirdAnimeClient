@@ -15,8 +15,8 @@
 				<?php endif*/ ?>
 				<th>Title</th>
 				<th>Rating</th>
-				<th>Chapters</th>
-				<th>Volumes</th>
+				<th>Completed Chapters</th>
+				<th># of Volumes</th>
 				<th>Type</th>
 			</tr>
 		</thead>
@@ -36,7 +36,7 @@
 				</td>
 				<td><?= $item['user_rating'] ?> / 10</td>
 				<td><?= $item['chapters']['read'] ?> / <?= $item['chapters']['total'] ?></td>
-				<td><?= $item['volumes']['read'] ?> / <?= $item['volumes']['total'] ?></td>
+				<td><?= $item['volumes']['total'] ?></td>
 				<td><?= $item['manga']['type'] ?></td>
 			</tr>
 			<?php endforeach ?>

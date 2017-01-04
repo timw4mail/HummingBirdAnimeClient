@@ -6,12 +6,12 @@
  *
  * PHP version 7
  *
- * @package     AnimeListClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @package	 AnimeListClient
+ * @author	  Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license	 http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version	 4.0
+ * @link		https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -34,17 +34,15 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-?><pre><?= print_r($item, TRUE) ?></pre><?php
-die();
 		$manga =& $item['manga'];
 
-		$rating = (is_numeric($item['rating']))
-			? intval(2 * $item['rating'])
+		$rating = (is_numeric($item['attributes']['rating']))
+			? intval(2 * $item['attributes']['rating'])
 			: '-';
 
 		$total_chapters = ($manga['attributes']['chapterCount'] > 0)
 			? $manga['attributes']['chapterCount']
-            : '-';
+			: '-';
 
 		$total_volumes = ($manga['attributes']['volumeCount'] > 0)
 			? $manga['attributes']['volumeCount']
@@ -53,39 +51,28 @@ die();
 		$map = [
 			'id' => $item['id'],
 			'chapters' => [
-				'read' => $item['chapters_read'],
+				'read' => $item['attributes']['progress'],
 				'total' => $total_chapters
 			],
 			'volumes' => [
-				'read' => $item['volumes_read'],
+				'read' => '-', //$item['attributes']['volumes_read'],
 				'total' => $total_volumes
 			],
 			'manga' => [
-				'title' => $manga['romaji_title'],
+				'title' => $manga['attributes']['canonicalTitle'],
 				'alternate_title' => NULL,
 				'slug' => $manga['id'],
-				'url' => 'https://hummingbird.me/manga/' . $manga['id'],
-				'type' => $manga['manga_type'],
-				'image' => $manga['poster_image_thumb'],
-				'genres' => $manga['genres'],
+				'url' => 'https://kitsu.io/manga/' . $manga['id'],
+				'type' => $manga['attributes']['mangaType'],
+				'image' => $manga['attributes']['posterImage']['small'],
+				'genres' => [], //$manga['genres'],
 			],
-			'reading_status' => $item['status'],
-			'notes' => $item['notes'],
-			'rereading' => (bool)$item['rereading'],
-			'reread' => $item['reread_count'],
+			'reading_status' => $item['attributes']['status'],
+			'notes' => $item['attributes']['notes'],
+			'rereading' => (bool)$item['attributes']['reconsuming'],
+			'reread' => $item['attributes']['reconsumeCount'],
 			'user_rating' => $rating,
 		];
-
-		if (array_key_exists('english_title', $manga))
-		{
-			$diff = levenshtein($manga['romaji_title'], $manga['english_title']);
-
-			// If the titles are REALLY similar, don't bother showing both
-			if ($diff >= 5)
-			{
-				$map['manga']['alternate_title'] = $manga['english_title'];
-			}
-		}
 
 		return $map;
 	}
