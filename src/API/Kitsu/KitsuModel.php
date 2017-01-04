@@ -84,18 +84,6 @@ class KitsuModel {
 		return false;
 	}
 
-
-
-	public function getAnimeGenres($animeId): array
-	{
-		return $this->getGenres('anime', $animeId);
-	}
-
-	public function getMangaGenres($mangaId): array
-	{
-		return $this->getGenres('manga', $mangaId);
-	}
-
 	public function getAnime(string $animeId): array
 	{
 		$baseData = $this->getRawAnimeData($animeId);
@@ -121,7 +109,7 @@ class KitsuModel {
 					'media_type' => 'Anime',
 					'status' => $status,
 				],
-				'include' => 'media,user',
+				'include' => 'media',
 				'page' => [
 					'offset' => 0,
 					'limit' => 200
@@ -132,9 +120,9 @@ class KitsuModel {
 
 		$data = $this->getRequest('library-entries', $options);
 
-		foreach($data['data'] as &$item)
+		foreach($data['data'] as $i => &$item)
 		{
-			$item['anime'] = $this->getRawAnimeData($item['relationships']['media']['data']['id']);
+			$item['anime'] = $data['included'][$i];
 		}
 
 		$transformed = $this->animeListTransformer->transformCollection($data['data']);
