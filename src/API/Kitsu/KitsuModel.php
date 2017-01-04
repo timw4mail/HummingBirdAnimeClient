@@ -17,7 +17,9 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\API\Kitsu\Transformer\{AnimeTransformer, AnimeListTransformer};
+use Aviat\AnimeClient\API\Kitsu\Transformer\{
+    AnimeTransformer, AnimeListTransformer, MangaListTransformer
+};
 use Aviat\Ion\Json;
 use GuzzleHttp\Exception\ClientException;
 
@@ -45,6 +47,11 @@ class KitsuModel {
 	 */
 	protected $animeTransformer;
 
+    /**
+     * @var MangaListTransformer
+     */
+	protected $mangaListTransformer;
+
 	/**
 	 * KitsuModel constructor.
 	 */
@@ -55,6 +62,7 @@ class KitsuModel {
 
 		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
+		$this->mangaListTransformer = new MangaListTransformer();
 	}
 
 	/**
@@ -129,6 +137,36 @@ class KitsuModel {
 
 		return $transformed;
 	}
+
+	public function getMangaList($status): array
+    {
+        $options = [
+            'query' => [
+                'filter' => [
+                    'user_id' => 2644,
+                    'media_type' => 'Manga',
+                    'status' => $status,
+                ],
+                'include' => 'media',
+                'page' => [
+                    'offset' => 0,
+                    'limit' => 200
+                ],
+                'sort' => '-updated_at'
+            ]
+        ];
+
+        $data = $this->getRequest('library-entries', $options);
+        
+        foreach($data['data'] as $i => &$item)
+        {
+            $item['manga'] = $data['included'][$i];
+        }
+
+        $transformed = $this->mangaListTransformer->transformCollection($data['data']);
+
+        return $transformed;
+    }
 
 	private function getGenres(string $type, string $id): array
 	{

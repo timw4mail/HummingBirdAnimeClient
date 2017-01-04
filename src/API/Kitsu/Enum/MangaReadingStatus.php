@@ -22,10 +22,10 @@ use Aviat\Ion\Enum as BaseEnum;
  * Possible values for current reading status of manga
  */
 class MangaReadingStatus extends BaseEnum {
-	const READING = 'Currently Reading';
-	const PLAN_TO_READ = 'Plan to Read';
-	const DROPPED = 'Dropped';
-	const ON_HOLD = 'On Hold';
-	const COMPLETED = 'Completed';
+	const READING = 1;
+	const PLAN_TO_READ = 2;
+	const DROPPED = 3;
+	const ON_HOLD = 4;
+	const COMPLETED = 5;
 }
 // End of MangaReadingStatus.php
