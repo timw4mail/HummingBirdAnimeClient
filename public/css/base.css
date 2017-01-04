@@ -1,21 +1,9 @@
-:root {
-	--link-shadow: 1px 1px 1px #000;
-	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
-	--title-overlay: rgba(0, 0, 0, 0.45);
-	--text-color: #ffffff;
-	--normal-padding: 0.25em 0.125em;
-	--link-hover-color: #7d12db;
-	--edit-link-hover-color: #db7d12;
-	--edit-link-color: #12db18;
-	--radius: 5px;
-}
-
 template, [hidden="hidden"], .media[hidden] {display:none}
 
 body {margin: 0.5em;}
 
 button {
-	background:rgba(255,255,255,0.65);
+	background:rgba(255, 255, 255, .65);
 	margin: 0;
 }
 
@@ -26,11 +14,13 @@ table {
 
 td {
 	padding:1em;
+	padding:16px;
 	padding:1rem;
 }
 
 thead td, thead th {
 	padding:0.5em;
+	padding:8px;
 	padding:0.5rem;
 }
 
@@ -43,7 +33,7 @@ tbody > tr:nth-child(odd) {
 }
 
 a:hover, a:active {
-	color: var(--link-hover-color)
+	color:#7d12db
 }
 
 /* -----------------------------------------------------------------------------
@@ -51,27 +41,28 @@ a:hover, a:active {
 ------------------------------------------------------------------------------*/
 
 .bracketed {
-	color:  var(--edit-link-color);
+	color:#12db18;
 }
 .bracketed, h1 a {
-	text-shadow: var(--link-shadow);
+	text-shadow:1px 1px 1px #000;
 }
 .bracketed:before {content: '[\00a0'}
 .bracketed:after {content: '\00a0]'}
 .bracketed:hover, .bracketed:active {
-	color: var(--edit-link-hover-color)
+	color:#db7d12
 }
 
-.grow-1 {-webkit-box-flex: 1;flex-grow: 1}
-.flex-wrap {flex-wrap: wrap}
-.flex-no-wrap {flex-wrap: nowrap}
-.flex-align-end {-webkit-box-align: end;align-items: flex-end}
-.flex-align-space-around {align-content: space-around}
-.flex-justify-space-around {justify-content: space-around}
-.flex-self-center {align-self:center}
-.flex {display: -webkit-box;display: flex}
+.grow-1 {-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1}
+.flex-wrap {-ms-flex-wrap: wrap;flex-wrap: wrap}
+.flex-no-wrap {-ms-flex-wrap: nowrap;flex-wrap: nowrap}
+.flex-align-end {-webkit-box-align: end;-ms-flex-align: end;align-items: flex-end}
+.flex-align-space-around {-ms-flex-line-pack: distribute;align-content: space-around}
+.flex-justify-space-around {-ms-flex-pack: distribute;justify-content: space-around}
+.flex-self-center {-ms-flex-item-align:center;-ms-grid-row-align:center;align-self:center}
+.flex {display: -webkit-box;display: -ms-flexbox;display: flex}
 
 .small-font {
+	font-size:25.6px;
 	font-size:1.6rem;
 }
 
@@ -102,15 +93,16 @@ a:hover, a:active {
 }
 
 .user-btn {
-	border-color: var(--edit-link-color);
-	color: var(--edit-link-color);
-	text-shadow: var(--link-shadow);
+	border-color:#12db18;
+	color:#12db18;
+	text-shadow:1px 1px 1px #000;
 	padding:0 0.5em;
+	padding:0 8px;
 	padding:0 0.5rem;
 }
 .user-btn:hover, .user-btn:active {
-	border-color: var(--edit-link-hover-color);
-	background-color: var(--edit-link-hover-color);
+	border-color:#db7d12;
+	background-color:#db7d12;
 }
 
 /* -----------------------------------------------------------------------------
@@ -140,7 +132,7 @@ a:hover, a:active {
 	top: 0%;
 	-webkit-animation: cssload-rotate-one 1.15s linear infinite;
 	        animation: cssload-rotate-one 1.15s linear infinite;
-	border-bottom: 3px solid rgb(0,0,0);
+	border-bottom: 3px solid rgb(0, 0, 0);
 }
 
 .cssload-inner.cssload-two {
@@ -148,7 +140,7 @@ a:hover, a:active {
 	top: 0%;
 	-webkit-animation: cssload-rotate-two 1.15s linear infinite;
 	        animation: cssload-rotate-two 1.15s linear infinite;
-	border-right: 3px solid rgb(0,0,0);
+	border-right: 3px solid rgb(0, 0, 0);
 }
 
 .cssload-inner.cssload-three {
@@ -156,7 +148,7 @@ a:hover, a:active {
 	bottom: 0%;
 	-webkit-animation: cssload-rotate-three 1.15s linear infinite;
 	        animation: cssload-rotate-three 1.15s linear infinite;
-	border-top: 3px solid rgb(0,0,0);
+	border-top: 3px solid rgb(0, 0, 0);
 }
 
 @-webkit-keyframes cssload-rotate-one {
@@ -340,7 +332,7 @@ a:hover, a:active {
 	text-align:center;
 	width:220px;
 	height:311px;
-	margin: var(--normal-padding);
+	margin:0.25em 0.125em;
 }
 
 .media .edit_buttons > button {
@@ -351,10 +343,10 @@ a:hover, a:active {
 	.media_metadata > div,
 	.medium_metadata > div,
 	.row {
-		text-shadow: var(--shadow);
-		background: var(--title-overlay);
-		color: var(--text-color);
-		padding: var(--normal-padding);
+		text-shadow:1px 2px 1px rgba(0, 0, 0, .85);
+		background:rgba(0, 0, 0, .45);
+		color:#ffffff;
+		padding:0.25em 0.125em;
 		text-align:right;
 	}
 
@@ -384,15 +376,15 @@ a:hover, a:active {
 		.media:hover > .medium_metadata > div,
 		.media:hover > .table .row
 		{
-			-webkit-transition: .25s ease;
+			-webkit-transition:.25s ease;
 			transition: .25s ease;
-			background:rgba(0,0,0,0.75);
+			background:rgba(0, 0, 0, .75);
 		}
 
 		.media:hover > button[hidden],
 		.media:hover > .edit_buttons[hidden]
 		{
-			-webkit-transition: .25s ease;
+			-webkit-transition:.25s ease;
 			transition: .25s ease;
 			display:block;
 		}
@@ -400,7 +392,7 @@ a:hover, a:active {
 		.media > .name > a {
 			background:none;
 			color:#fff;
-			text-shadow: var(--shadow);
+			text-shadow:1px 2px 1px rgba(0, 0, 0, .85);
 		}
 
 
@@ -435,11 +427,14 @@ a:hover, a:active {
 
 .anime .row, .manga .row {
 	width:100%;
-	background: var(--title-overlay);
+	background:rgba(0, 0, 0, .45);
 	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	align-content: space-around;
-	justify-content: space-around;
+	-ms-flex-line-pack: distribute;
+	    align-content: space-around;
+	-ms-flex-pack: distribute;
+	    justify-content: space-around;
 	text-align:center;
 	padding:0 inherit;
 }
@@ -451,7 +446,8 @@ a:hover, a:active {
 .anime .row > div, .manga .row > div {
 	font-size:0.8em;
 	display:flex-item;
-	align-self:center;
+	-ms-flex-item-align:center;
+	    align-self:center;
 	text-align:center;
 	vertical-align:middle;
 }
@@ -491,7 +487,7 @@ a:hover, a:active {
 ------------------------------------------------------------------------------*/
 .media.search > .name {
 	background-color:#555;
-	background-color: rgba(000,000,000,0.35);
+	background-color: rgba(0, 0, 0, .35);
 	background-size: cover;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -502,14 +498,15 @@ a:hover, a:active {
 }
 
 .big-check:checked + label {
-	-webkit-transition: .25s ease;
+	-webkit-transition:.25s ease;
 	transition: .25s ease;
-	background:rgba(0,0,0,0.75);
+	background:rgba(0, 0, 0, .75);
 }
 
 .big-check:checked + label:after {
 	content: '✓';
 	font-size: 15em;
+	font-size:240px;
 	font-size: 15rem;
 	text-align:center;
 	color: greenyellow;
@@ -536,8 +533,11 @@ a:hover, a:active {
 	Details page styles
 -----------------------------------------------------------------------------*/
 .details {
+	margin:24px auto 0 auto;
 	margin: 1.5rem auto 0 auto;
+	max-width:1488px;
 	max-width:93rem;
+	padding:16px;
 	padding:1rem;
 	font-size:inherit;
 }
@@ -552,6 +552,7 @@ a:hover, a:active {
 }
 
 .details .flex > div {
+	margin:16px;
 	margin: 1rem;
 }
 
@@ -559,6 +560,7 @@ a:hover, a:active {
 	max-width:300px;
 }
 	.details td {
+		padding:0 24px;
 		padding:0 1.5rem;
 	}
 
