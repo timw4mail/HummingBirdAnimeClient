@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\API\Kitsu\Enum\MangaReadingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use GuzzleHttp\Cookie\SetCookie;
 use RuntimeException;
@@ -45,11 +46,12 @@ class Manga extends API {
 		MangaReadingStatus::COMPLETED => self::COMPLETED
 	];
 
-	/**
-	 * The base url for api requests
-	 * @var string
-	 */
-	protected $base_url = "https://hummingbird.me/";
+	public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+
+        $this->kitsuModel = $container->get('kitsu-model');
+    }
 
 	/**
 	 * Make an authenticated manga API call
@@ -91,85 +93,6 @@ class Manga extends API {
 		];
 	}
 
-	/**
-	 * Add a manga to the list
-	 *
-	 * @param array $data
-	 * @return array
-	 */
-	public function add($data)
-	{
-		$object = [
-			'manga_library_entry' => [
-				'status' => $data['status'],
-				'manga_id' => $data['id']
-			]
-		];
-
-		return $this->_manga_api_call('post', 'manga_library_entries', $object);
-	}
-
-	/**
-	 * Update the selected manga
-	 *
-	 * @param array $data
-	 * @return array
-	 */
-	public function update($data)
-	{
-		$id = $data['id'];
-
-		return $this->_manga_api_call(
-			'put',
-			"manga_library_entries/{$id}",
-			['manga_library_entry' => $data]
-		);
-	}
-
-	/**
-	 * Delete a manga entry
-	 *
-	 * @param  array $data
-	 * @return array
-	 */
-	public function delete($data)
-	{
-		$id = $data['id'];
-
-		return $this->_manga_api_call('delete', "manga_library_entries/{$id}");
-	}
-
-	/**
-	 * Search for manga by name
-	 *
-	 * @param string $name
-	 * @return array
-	 * @throws RuntimeException
-	 */
-	public function search($name)
-	{
-		$logger = $this->container->getLogger('default');
-
-		$config = [
-			'query' => [
-				'scope' => 'manga',
-				'depth' => 'full',
-				'query' => $name
-			]
-		];
-
-		$response = $this->get('search.json', $config);
-
-		if ((int) $response->getStatusCode() !== 200)
-		{
-			$logger->warning('Non 200 response for search api call');
-			$logger->warning($response->getBody());
-
-			throw new RuntimeException($response->getEffectiveUrl());
-		}
-
-		return Json::decode($response->getBody(), TRUE);
-	}
 
 	/**
 	 * Get a category out of the full list
@@ -179,51 +102,12 @@ class Manga extends API {
 	 */
 	public function get_list($status)
 	{
-		$data = $this->cache->get($this, '_get_list_from_api');
-		return ($status !== 'All') ? $data[$status] : $data;
+	    $data = $this->kitsuModel->getMangaList($status);
+	    return $this->map_by_status($data)[$status];
+		/*$data = $this->cache->get($this, '_get_list_from_api');
+		return ($status !== 'All') ? $data[$status] : $data;*/
 	}
 
-	/**
-	 * Retrieve the list from the hummingbird api
-	 *
-	 * @param  string $status
-	 * @return array
-	 */
-	public function _get_list_from_api(string $status = "All"): array
-	{
-		$config = [
-			'query' => [
-				'user_id' => $this->config->get('hummingbird_username')
-			],
-			'allow_redirects' => FALSE
-		];
-
-		$response = $this->get('manga_library_entries', $config);
-		$data = $this->transform($response);
-		$final = $this->map_by_status($data);
-		return ($status !== 'All') ? $final[$status] : $final;
-	}
-
-	/**
-	 * Transform the response to be more consistent
-	 *
-	 * @param \GuzzleHttp\Message\Response $response
-	 * @codeCoverageIgnore
-	 * @return array
-	 */
-	private function transform($response)
-	{
-		// Bail out early if there isn't any manga data
-		$api_data = Json::decode($response->getBody(), TRUE);
-		if ( ! array_key_exists('manga', $api_data))
-		{
-			return [];
-		}
-
-		$zipperedData = $this->zipperLists($api_data);
-		$transformer = new Transformer\MangaListTransformer();
-		return $transformer->transformCollection($zipperedData);
-	}
 
 	/**
 	 * Get the details of a manga
@@ -257,11 +141,11 @@ class Manga extends API {
 
 		foreach ($data as &$entry)
 		{
-			$entry['manga']['image'] = $util->get_cached_image(
+			/*$entry['manga']['image'] = $util->get_cached_image(
 				$entry['manga']['image'],
 				$entry['manga']['slug'],
 				'manga'
-			);
+			);*/
 			$key = $this->const_map[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}

@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\Ion\StringWrapper;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -23,7 +24,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 class MangaListTransformer extends AbstractTransformer {
 
-	use \Aviat\Ion\StringWrapper;
+	use StringWrapper;
 
 	/**
 	 * Remap zipped anime data to a more logical form
@@ -33,18 +34,20 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
+?><pre><?= print_r($item, TRUE) ?></pre><?php
+die();
 		$manga =& $item['manga'];
 
 		$rating = (is_numeric($item['rating']))
 			? intval(2 * $item['rating'])
 			: '-';
 
-		$total_chapters = ($manga['chapter_count'] > 0)
-			? $manga['chapter_count']
-			: '-';
+		$total_chapters = ($manga['attributes']['chapterCount'] > 0)
+			? $manga['attributes']['chapterCount']
+            : '-';
 
-		$total_volumes = ($manga['volume_count'] > 0)
-			? $manga['volume_count']
+		$total_volumes = ($manga['attributes']['volumeCount'] > 0)
+			? $manga['attributes']['volumeCount']
 			: '-';
 
 		$map = [
