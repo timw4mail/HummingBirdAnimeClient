@@ -296,7 +296,7 @@ a:hover, a:active {
 	display:inline-block;
 	text-align:center;
 	width:220px;
-	height:319px;
+	height:311px;
 	margin: var(--normal-padding);
 }
 
@@ -427,8 +427,7 @@ a:hover, a:active {
 
 .manga .media {
 	border:1px solid #ddd;
-	width:200px;
-	height:290px;
+	height:310px;
 	margin:0.25em;
 }
 
