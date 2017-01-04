@@ -120,7 +120,7 @@ trait KitsuTrait {
 	}
 
 	/**
-	 * Remove some boilerplate for get requests
+	 * Remove some boilerplate for post requests
 	 *
 	 * @param array $args
 	 * @return array
@@ -128,5 +128,16 @@ trait KitsuTrait {
 	protected function postRequest(...$args): array
 	{
 		return $this->request('POST', ...$args);
+	}
+
+	/**
+	 * Remove some boilerplate for delete requests
+	 *
+	 * @param array $args
+	 * @return array
+	 */
+	protected function deleteRequest(...$args): array
+	{
+		return $this->request('DELETE', ...$args);
 	}
 }

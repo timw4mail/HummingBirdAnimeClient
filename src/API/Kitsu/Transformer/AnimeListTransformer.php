@@ -33,18 +33,18 @@ class AnimeListTransformer extends AbstractTransformer {
 	public function transform($item)
 	{
 /* ?><pre><?= print_r($item, TRUE) ?></pre><?php
-die();*/
+// die(); */
 		$anime =& $item['anime'];
 		$genres = $item['anime']['genres'] ?? [];
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
-		$total_episodes = is_numeric($anime['episodeCount'])
-			? $anime['episodeCount']
+		$total_episodes = array_key_exists('episodeCount', $item['anime'])
+			? (int) $anime['episodeCount']
 			: '-';
 
 		$alternate_title = NULL;
-		if (array_key_exists('en_jp', $anime['titles']))
+		if (array_key_exists('titles', $item['anime']) && array_key_exists('en_jp', $anime['titles']))
 		{
 			// If the alternate title is very similar, or
 			// a subset of the main title, don't list the
@@ -62,21 +62,21 @@ die();*/
 			'episodes' => [
 				'watched' => $item['attributes']['progress'],
 				'total' => $total_episodes,
-				'length' => $anime['episodeLength'],
+				'length' => $anime['attributes']['episodeLength'],
 			],
 			'airing' => [
 				'status' => $anime['status'] ?? '',
-				'started' => $anime['startDate'],
-				'ended' => $anime['endDate']
+				'started' => $anime['attributes']['startDate'],
+				'ended' => $anime['attributes']['endDate']
 			],
 			'anime' => [
-				'age_rating' => $anime['ageRating'],
-				'title' => $anime['canonicalTitle'],
+				'age_rating' => $anime['attributes']['ageRating'],
+				'title' => $anime['attributes']['canonicalTitle'],
 				'alternate_title' => $alternate_title,
 				'slug' => $item['relationships']['media']['data']['id'],//$anime['slug'],
-				'url' => $anime['url'] ?? '',
-				'type' => $anime['showType'],
-				'image' => $anime['posterImage']['small'],
+				'url' => $anime['attributes']['url'] ?? '',
+				'type' => $anime['attributes']['showType'],
+				'image' => $anime['attributes']['posterImage']['small'],
 				'genres' => $genres,
 			],
 			'watching_status' => $item['attributes']['status'],
