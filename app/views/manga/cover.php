@@ -14,7 +14,6 @@
 					<?php /*if ($auth->is_authenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
-						<button class="plus_one_volume">+1 Volume</button>
 					</div>
 					<?php endif */ ?>
 					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
@@ -43,8 +42,7 @@
 						</div>
 						<div class="row">
 							<div class="volume_completion">
-								Volumes: <span class="volumes_read"><?= $item['volumes']['read'] ?></span> /
-									<span class="volume_count"><?= $item['volumes']['total'] ?></span>
+								Volumes: <span class="volume_count"><?= $item['volumes']['total'] ?></span>
 							</div>
 						</div>
 					</div>

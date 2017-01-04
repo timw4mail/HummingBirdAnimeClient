@@ -264,8 +264,8 @@ class Manga extends Controller {
 		$data = $this->model->get_manga($manga_id);
 
 		$this->outputHTML('manga/details', [
-			'title' => 'Manga &middot; ' . $data['manga']['romaji_title'],
-			'data' => $data['manga'],
+			'title' => 'Manga &middot; ' . $data['title'],
+			'data' => $data,
 		]);
 	}
 }

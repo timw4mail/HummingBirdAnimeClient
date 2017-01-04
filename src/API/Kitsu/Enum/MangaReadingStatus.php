@@ -24,8 +24,8 @@ use Aviat\Ion\Enum as BaseEnum;
 class MangaReadingStatus extends BaseEnum {
 	const READING = 1;
 	const PLAN_TO_READ = 2;
-	const DROPPED = 3;
+	const DROPPED = 5;
 	const ON_HOLD = 4;
-	const COMPLETED = 5;
+	const COMPLETED = 3;
 }
 // End of MangaReadingStatus.php
