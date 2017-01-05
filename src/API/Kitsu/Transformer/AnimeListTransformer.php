@@ -39,8 +39,8 @@ class AnimeListTransformer extends AbstractTransformer {
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
-		$total_episodes = array_key_exists('episodeCount', $item['anime'])
-			? (int) $anime['episodeCount']
+		$total_episodes = array_key_exists('episodeCount', $item['anime']['attributes'])
+			? (int) $anime['attributes']['episodeCount']
 			: '-';
 
 		$alternate_title = NULL;
@@ -73,7 +73,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'age_rating' => $anime['attributes']['ageRating'],
 				'title' => $anime['attributes']['canonicalTitle'],
 				'alternate_title' => $alternate_title,
-				'slug' => $item['relationships']['media']['data']['id'],//$anime['slug'],
+				'slug' => $anime['attributes']['slug'],
 				'url' => $anime['attributes']['url'] ?? '',
 				'type' => $anime['attributes']['showType'],
 				'image' => $anime['attributes']['posterImage']['small'],
@@ -94,6 +94,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	 *
 	 * @param array $item Transformed library item
 	 * @return array API library item
+     * @TODO reimplement
 	 */
 	public function untransform($item)
 	{

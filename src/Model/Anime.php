@@ -19,7 +19,6 @@ use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
-
 /**
  * Model for handling requests dealing with the anime list
  */
@@ -60,10 +59,10 @@ class Anime extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	public function get_list($status)
+	public function getList($status)
 	{
 		$data = $this->kitsuModel->getAnimeList($status);
-		$this->sort_by_name($data, 'anime');
+		$this->sortByName($data, 'anime');
 
 		$output = [];
 		$output[$this->const_map[$status]] = $data;
@@ -77,9 +76,33 @@ class Anime extends API {
 	 * @param string $anime_id
 	 * @return array
 	 */
-	public function get_anime($anime_id)
+	public function getAnime($anime_id)
 	{
-        return $this->kitsuModel->getAnime($anime_id);
+		return $this->kitsuModel->getAnime($anime_id);
+	}
+
+	/**
+	 * Get information about a specific list item
+	 * for editing/updating that item
+	 *
+	 * @param string $itemId
+	 * @return array
+	 */
+	public function getLibraryItem(string $itemId): array
+	{
+		return $this->kitsuModel->getListItem($itemId);
+	}
+
+	/**
+	 * Search for anime by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		$raw = $this->kitsuModel->search('anime', $name);
+		return $this->kitsuModel->search('anime', $name);
 	}
 }
 // End of AnimeModel.php

@@ -22,10 +22,10 @@ use Aviat\Ion\Enum as BaseEnum;
  * Possible values for watching status for the current anime
  */
 class AnimeWatchingStatus extends BaseEnum {
-	const WATCHING = 1;
-	const PLAN_TO_WATCH = 2;
-	const COMPLETED = 3;
-	const ON_HOLD = 4;
-	const DROPPED = 5;
+	const WATCHING = 'current';
+	const PLAN_TO_WATCH = 'planned';
+	const COMPLETED = 'completed';
+	const ON_HOLD = 'on_hold';
+	const DROPPED = 'dropped';
 }
 // End of AnimeWatchingStatus.php

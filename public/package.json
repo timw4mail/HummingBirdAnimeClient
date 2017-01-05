@@ -1,17 +1,14 @@
 {
 	"scripts": {
-		"build": "npm-run-all --parallel build:base build:marx",
-		"build:base": "postcss --autoprefixer.browsers \"> 5%\" --use postcss-cssnext -o css/base.css css/base.myth.css",
-		"build:marx": "postcss --autoprefixer.browsers \"> 5%\" --use postcss-cssnext -o css/marx.css css/marx.myth.css",
-		"watch": "npm-run-all --parallel watch:base watch:marx",
-		"watch:base": "postcss --autoprefixer.browsers \"> 5%\" --use postcss-cssnext -w -o css/base.css css/base.myth.css",
-		"watch:marx": "postcss --autoprefixer.browsers \"> 5%\" --use postcss-cssnext -w -o css/marx.css css/marx.myth.css"
+		"build": "postcss -u postcss-import --autoprefixer.browsers \"> 5%\" -u postcss-cssnext  -o css/base.css css/base.myth.css",
+		"watch": "postcss -u postcss-import --autoprefixer.browsers \"> 5%\" -u postcss-cssnext -w -o css/base.css css/base.myth.css"
 	},
 	"devDependencies": {
 		"autoprefixer": "^6.6.1",
 		"npm-run-all": "^4.0.0",
 		"postcss-cachify": "^1.3.1",
 		"postcss-cli": "^2.6.0",
-		"postcss-cssnext": "^2.9.0"
+		"postcss-cssnext": "^2.9.0",
+		"postcss-import": "^9.0.0"
 	}
 }

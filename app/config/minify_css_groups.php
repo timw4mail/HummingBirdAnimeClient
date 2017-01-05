@@ -33,7 +33,6 @@ return [
 		),
 	*/
 	'base' => [
-		'marx.css',
 		'base.css'
 	]
 ];

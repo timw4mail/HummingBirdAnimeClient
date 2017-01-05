@@ -19,14 +19,12 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\AnimeClient\API\Kitsu\Enum\MangaReadingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
-use GuzzleHttp\Cookie\SetCookie;
-use RuntimeException;
 
 /**
  * Model for handling requests dealing with the manga list
  */
-class Manga extends API {
+class Manga extends API
+{
 
 	const READING = 'Reading';
 	const PLAN_TO_READ = 'Plan to Read';
@@ -62,59 +60,17 @@ class Manga extends API {
 	}
 
 	/**
-	 * Make an authenticated manga API call
-	 *
-	 * @param string $type - the HTTP verb
-	 * @param string $url
-	 * @param string|null $json
-	 * @return array
-	 */
-	protected function _manga_api_call(string $type, string $url, $json = NULL): array
-	{
-		$token = $this->container->get('auth')
-			->get_auth_token();
-
-		// Set the token cookie, with the authentication token
-		// from the auth class.
-		$cookieJar = $this->cookieJar;
-		$cookie_data = new SetCookie([
-			'Name' => 'token',
-			'Value' => $token,
-			'Domain' => 'hummingbird.me'
-		]);
-		$cookieJar->setCookie($cookie_data);
-
-		$config = [
-			'cookies' => $cookieJar
-		];
-
-		if ( ! is_null($json))
-		{
-			$config['json'] = $json;
-		}
-
-		$result = $this->client->request(strtoupper($type), $url, $config);
-
-		return [
-			'statusCode' => $result->getStatusCode(),
-			'body' => $result->getBody()
-		];
-	}
-
-
-	/**
 	 * Get a category out of the full list
 	 *
 	 * @param string $status
 	 * @return array
 	 */
-	public function get_list($status)
+	public function getList($status)
 	{
 		$APIstatus = array_flip($this->const_map)[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
-		return $this->map_by_status($data)[$status];
+		return $this->mapByStatus($data)[$status];
 	}
-
 
 	/**
 	 * Get the details of a manga
@@ -122,7 +78,7 @@ class Manga extends API {
 	 * @param string $manga_id
 	 * @return array
 	 */
-	public function get_manga($manga_id)
+	public function getManga($manga_id)
 	{
 		return $this->kitsuModel->getManga($manga_id);
 	}
@@ -133,7 +89,7 @@ class Manga extends API {
 	 * @param array $data
 	 * @return array
 	 */
-	private function map_by_status($data)
+	private function mapByStatus($data)
 	{
 		$output = [
 			self::READING => [],
@@ -143,35 +99,16 @@ class Manga extends API {
 			self::COMPLETED => [],
 		];
 
-		$util = $this->container->get('util');
-
-		foreach ($data as &$entry)
-		{
-			/*$entry['manga']['image'] = $util->get_cached_image(
-				$entry['manga']['image'],
-				$entry['manga']['slug'],
-				'manga'
-			);*/
+		foreach ($data as &$entry) {
 			$key = $this->status_map[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}
 
-		foreach($output as &$val)
-		{
-			$this->sort_by_name($val, 'manga');
+		foreach ($output as &$val) {
+			$this->sortByName($val, 'manga');
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Combine the two manga lists into one
-	 * @param  array $raw_data
-	 * @return array
-	 */
-	private function zipperLists($raw_data)
-	{
-		return (new Transformer\MangaListsZipper($raw_data))->transform();
 	}
 }
 // End of MangaModel.php

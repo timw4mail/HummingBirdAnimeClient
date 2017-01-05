@@ -25,7 +25,6 @@ define('SRC_DIR', realpath(__DIR__));
  */
 class AnimeClient {
 
-	const HUMMINGBIRD_AUTH_URL = 'https://hummingbird.me/api/v1/users/authenticate';
 	const KITSU_AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 	const DEFAULT_CONTROLLER_NAMESPACE = 'Aviat\AnimeClient\Controller';

@@ -63,7 +63,7 @@ class API extends Model {
 	 * @param string $sort_key
 	 * @return void
 	 */
-	protected function sort_by_name(array &$array, string $sort_key)
+	protected function sortByName(array &$array, string $sort_key)
 	{
 		$sort = [];
 

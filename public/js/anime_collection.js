@@ -10,7 +10,7 @@
 
 			// Give mustache a key to iterate over
 			searchResults = {
-				anime: searchResults
+				data: searchResults.data
 			};
 
 			Mustache.parse(tempHtml);

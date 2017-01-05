@@ -6,12 +6,12 @@
  *
  * PHP version 7
  *
- * @package     AnimeListClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @package	 AnimeListClient
+ * @author	  Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2016  Timothy J. Warren
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @license	 http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version	 4.0
+ * @link		https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -23,19 +23,22 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 class AnimeTransformer extends AbstractTransformer {
 
-    /**
-     * Convert raw api response to a more
-     * logical and workable structure
-     *
-     * @param  array  $item API library item
-     * @return array
-     */
-    public function transform($item)
-    {
-    	sort($item['genres']);
+	/**
+	 * Convert raw api response to a more
+	 * logical and workable structure
+	 *
+	 * @param  array  $item API library item
+	 * @return array
+	 */
+	public function transform($item)
+	{
+		?><pre><?= print_r($item, TRUE) ?></pre><?php
 
-        return [
-            'title' => $item['canonicalTitle'],
+		$item['genres'] = $item['genres'] ?? [];
+		sort($item['genres']);
+
+		return [
+			'title' => $item['canonicalTitle'],
 			'en_title' => $item['titles']['en_jp'],
 			'jp_title' => $item['titles']['ja_jp'],
 			'cover_image' => $item['posterImage']['small'],
@@ -47,6 +50,6 @@ class AnimeTransformer extends AbstractTransformer {
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
 			'genres' => $item['genres'],
-        ];
-    }
+		];
+	}
 }

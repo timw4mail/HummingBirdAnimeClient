@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\Ion\Di\ContainerInterface;
@@ -106,7 +107,7 @@ class Anime extends BaseController {
 		];
 
 		$data = ($type !== 'all')
-			? $this->model->get_list($model_map[$type])
+			? $this->model->getList($model_map[$type])
 			: $this->model->get_all_lists();
 
 		$this->outputHTML('anime/' . $view_map[$view], [
@@ -122,17 +123,13 @@ class Anime extends BaseController {
 	 */
 	public function add_form()
 	{
-		$raw_status_list = AnimeWatchingStatus::getConstList();
-
-		$statuses = [];
-
-		foreach ($raw_status_list as $status_item)
-		{
-			$statuses[$status_item] = (string) $this->string($status_item)
-				->underscored()
-				->humanize()
-				->titleize();
-		}
+		$statuses = [
+			AnimeWatchingStatus::WATCHING => 'Currently Watching',
+			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
+			AnimeWatchingStatus::ON_HOLD => 'On Hold',
+			AnimeWatchingStatus::DROPPED => 'Dropped',
+			AnimeWatchingStatus::COMPLETED => 'Completed'
+		];
 
 		$this->set_session_redirect();
 		$this->outputHTML('anime/add', [
@@ -180,7 +177,7 @@ class Anime extends BaseController {
 	 */
 	public function edit($id, $status = "all")
 	{
-		$item = $this->model->get_library_item($id, $status);
+		$item = $this->model->getLibraryItem($id, $status);
 		$raw_status_list = AnimeWatchingStatus::getConstList();
 
 		$statuses = [];
@@ -199,7 +196,7 @@ class Anime extends BaseController {
 			'title' => $this->config->get('whose_list') .
 				"'s Anime List &middot; Edit",
 			'item' => $item,
-			'statuses' => $statuses,
+			'statuses' => Kitsu::getStatusToSelectMap(),
 			'action' => $this->container->get('url-generator')
 				->url('/anime/update_form'),
 		]);
@@ -293,7 +290,7 @@ class Anime extends BaseController {
 	 */
 	public function details($anime_id)
 	{
-		$data = $this->model->get_anime($anime_id);
+		$data = $this->model->getAnime($anime_id);
 
 		$this->outputHTML('anime/details', [
 			'title' => 'Anime &middot ' . $data['title'],
