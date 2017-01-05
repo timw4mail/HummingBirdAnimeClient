@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Model\DB;
+use PDOException;
 
 /**
  * Base model for anime and manga collections
@@ -49,7 +50,7 @@ class Collection extends DB {
 		{
 			$this->db = \Query($this->db_config['collection']);
 		}
-		catch (\PDOException $e)
+		catch (PDOException $e)
 		{
 			$this->valid_database = FALSE;
 			return FALSE;
@@ -102,7 +103,7 @@ class Collection extends DB {
 
 		$output = [];
 
-		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
+		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
 		{
 			$id = $row['hummingbird_id'];
 			$genre = $row['genre'];

@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
+use PDO;
 
 /**
  * Model for getting anime collection data
@@ -76,7 +77,7 @@ class AnimeCollection extends Collection {
 			->from('media')
 			->get();
 
-		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $row)
+		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
 		{
 			$output[$row['id']] = $row['type'];
 		}
@@ -96,7 +97,7 @@ class AnimeCollection extends Collection {
 			->where('hummingbird_id', (int)$id)
 			->get();
 
-		return $query->fetch(\PDO::FETCH_ASSOC);
+		return $query->fetch(PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -119,7 +120,7 @@ class AnimeCollection extends Collection {
 			->order_by('title')
 			->get();
 
-		return $query->fetchAll(\PDO::FETCH_ASSOC);
+		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -208,7 +209,7 @@ class AnimeCollection extends Collection {
 			->where('hummingbird_id', $hummingbird_id)
 			->get();
 
-		return $query->fetch(\PDO::FETCH_ASSOC);
+		return $query->fetch(PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -313,7 +314,7 @@ class AnimeCollection extends Collection {
 		$query = $this->db->select('id, genre')
 			->from('genres')
 			->get();
-		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $genre)
+		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $genre)
 		{
 			$genres[$genre['id']] = $genre['genre'];
 		}
@@ -322,7 +323,7 @@ class AnimeCollection extends Collection {
 		$query = $this->db->select('hummingbird_id, genre_id')
 			->from('genre_anime_set_link')
 			->get();
-		foreach ($query->fetchAll(\PDO::FETCH_ASSOC) as $link)
+		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $link)
 		{
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{

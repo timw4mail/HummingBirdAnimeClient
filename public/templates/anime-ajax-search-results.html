@@ -1,10 +1,15 @@
-{{#anime}}
+{{#data}}
 <article class="media search">
-	<div class="name" style="background-image:url({{cover_image}})">
-		<input type="radio" class="big-check" id="{{slug}}" name="id" value="{{id}}" />
-		<label for="{{slug}}">
-			<span>{{title}}<br />{{alternate_title}}</span>
+	<div class="name" style="background-image:url({{attributes.posterImage.small}})">
+		<input type="radio" class="big-check" id="{{attributes.slug}}" name="id" value="{{id}}" />
+		<label for="{{attributes.slug}}">
+			<span class="name">
+				{{attributes.canonicalTitle}}<br />
+				{{attributes.titles.en}}<br />
+				{{attributes.titles.en_jp}}<br />
+				{{attributes.titles.ja_jp}}
+			</span>
 		</label>
 	</div>
 </article>
-{{/anime}}
+{{/data}}

@@ -1,21 +1,20 @@
 <main>
-<?php /*if ($auth->is_authenticated()): ?>
+<?php if ($auth->is_authenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
-<?php endif */ ?>
+<?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
-		<?php /*<pre><?= print_r($items, TRUE) ?></pre> */ ?>
 		<section class="status">
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<?php if ($item['private']/* && ! $auth->is_authenticated()*/) continue; ?>
+				<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
 				<article class="media" id="<?= $item['anime']['slug'] ?>">
-					<?php /* if ($auth->is_authenticated()): ?>
+					<?php if ($auth->is_authenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
-					<?php endif */ ?>
+					<?php endif ?>
 					<?= $helper->img($item['anime']['image']); ?>
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
@@ -24,13 +23,13 @@
 						</a>
 					</div>
 					<div class="table">
-						<?php /* if ($auth->is_authenticated()): ?>
+						<?php if ($auth->is_authenticated()): ?>
 						<div class="row">
 							<span class="edit">
 								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
 							</span>
 						</div>
-						<?php endif */ ?>
+						<?php endif ?>
 						<?php if ($item['private'] || $item['rewatching']): ?>
 						<div class="row">
 							<?php foreach(['private', 'rewatching'] as $attr): ?>
@@ -65,6 +64,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php /* if ($auth->is_authenticated()): ?>
+<?php if ($auth->is_authenticated()): ?>
 <script src="<?= $urlGenerator->asset_url('js.php/g/edit') ?>"></script>
-<?php endif */ ?>
+<?php endif ?>

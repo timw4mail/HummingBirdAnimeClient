@@ -62,8 +62,8 @@ class Auth {
 	 */
 	public function authenticate($password)
 	{
-		$username = $this->container->get('config')
-			->get('kitsu_username');
+		$config = $this->container->get('config');
+		$username = $config->get(['kitsu_username']);
 		$auth_token = $this->model->authenticate($username, $password);
 
 		if (FALSE !== $auth_token)

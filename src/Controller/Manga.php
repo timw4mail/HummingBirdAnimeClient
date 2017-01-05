@@ -86,8 +86,8 @@ class Manga extends Controller {
 		];
 
 		$data = ($status !== 'all')
-			? [$map[$status] => $this->model->get_list($map[$status]) ]
-			: $this->model->get_list('All');
+			? [$map[$status] => $this->model->getList($map[$status]) ]
+			: $this->model->getList('All');
 
 		$this->outputHTML('manga/' . $view_map[$view], [
 			'title' => $title,
@@ -261,7 +261,7 @@ class Manga extends Controller {
 	 */
 	public function details($manga_id)
 	{
-		$data = $this->model->get_manga($manga_id);
+		$data = $this->model->getManga($manga_id);
 
 		$this->outputHTML('manga/details', [
 			'title' => 'Manga &middot; ' . $data['title'],

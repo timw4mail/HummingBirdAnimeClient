@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\GuzzleTrait;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
@@ -25,7 +26,6 @@ use InvalidArgumentException;
 use RuntimeException;
 
 trait KitsuTrait {
-	use ContainerAware;
 	use GuzzleTrait;
 
 	/**
@@ -41,21 +41,23 @@ trait KitsuTrait {
 	 */
 	protected function init()
 	{
+		$defaults = [
+			'cookies' => $this->cookieJar,
+			'headers' => [
+				'User-Agent' => "Tim's Anime Client/4.0",
+				'Accept-Encoding' => 'application/vnd.api+json',
+				'Content-Type' => 'application/vnd.api+json'
+			],
+			'timeout' => 25,
+			'connect_timeout' => 25
+		];
+
 		$this->cookieJar = new CookieJar();
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
 			'cookies' => TRUE,
 			'http_errors' => TRUE,
-			'defaults' => [
-				'cookies' => $this->cookieJar,
-				'headers' => [
-					'User-Agent' => "Tim's Anime Client/4.0",
-					'Accept-Encoding' => 'application/vnd.api+json',
-					'Content-Type' => 'application/vnd.api+json'
-				],
-				'timeout' => 25,
-				'connect_timeout' => 25
-			]
+			'defaults' => $defaults
 		]);
 	}
 
@@ -78,17 +80,26 @@ trait KitsuTrait {
 
 		$logger = NULL;
 
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('default');
-		}
-
 		$defaultOptions = [
 			'headers' => [
 				'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
 				'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151'
 			]
 		];
+
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('default');
+			$sessionSegment = $this->getContainer()
+				->get('session')
+				->getSegment(AnimeClient::SESSION_SEGMENT);
+
+			if ($sessionSegment->get('auth_token') !== null)
+			{
+				$token = $sessionSegment->get('auth_token');
+				$defaultOptions['headers']['Authorization'] = "bearer {$token}";
+			}
+		}
 
 		$options = array_merge($defaultOptions, $options);
 

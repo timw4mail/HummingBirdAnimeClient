@@ -118,7 +118,7 @@ class JSMin extends BaseMin {
 	protected function check_minify_errors($options)
 	{
 		$error_res = $this->closure_call($options);
-		$error_json = $error_res->getBody();
+		$error_json = (string)$error_res->getBody();
 		$error_obj = json_decode($error_json) ?: (object)[];
 
 		// Show error if exists
@@ -201,7 +201,7 @@ class JSMin extends BaseMin {
 		// Now actually retrieve the compiled code
 		$options['output_info'] = 'compiled_code';
 		$res = $this->closure_call($options);
-		$json = $res->getBody();
+		$json = (string)$res->getBody();
 		$obj = json_decode($json);
 
 		return $obj->compiledCode;

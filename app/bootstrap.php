@@ -121,9 +121,9 @@ return function(array $config_array = []) {
 	});
 
 	// Miscellaneous Classes
-	/* $container->set('auth', function($container) {
-		return new HummingbirdAuth($container);
-	}); */
+	$container->set('auth', function($container) {
+		return new KitsuAuth($container);
+	});
 	$container->set('url-generator', function($container) {
 		return new UrlGenerator($container);
 	});

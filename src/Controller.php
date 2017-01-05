@@ -97,7 +97,7 @@ class Controller {
 		$this->response = $container->get('response');
 		$this->base_data['url'] = $auraUrlGenerator;
 		$this->base_data['urlGenerator'] = $urlGenerator;
-		// $this->base_data['auth'] = $container->get('auth');
+		$this->base_data['auth'] = $container->get('auth');
 		$this->base_data['config'] = $this->config;
 		$this->urlGenerator = $urlGenerator;
 

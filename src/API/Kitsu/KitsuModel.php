@@ -20,14 +20,13 @@ use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
 };
-use Aviat\Ion\Json;
-use GuzzleHttp\Exception\ClientException;
+use Aviat\Ion\Di\ContainerAware;
 
 /**
  * Kitsu API Model
  */
 class KitsuModel {
-
+	use ContainerAware;
 	use KitsuTrait;
 
 	const CLIENT_ID = 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd';
@@ -48,6 +47,11 @@ class KitsuModel {
 	protected $animeTransformer;
 
 	/**
+	 * @var MangaTransformer
+	 */
+	protected $mangaTransformer;
+
+	/**
 	 * @var MangaListTransformer
 	 */
 	protected $mangaListTransformer;
@@ -66,6 +70,19 @@ class KitsuModel {
 		$this->mangaListTransformer = new MangaListTransformer();
 	}
 
+	public function getUserIdByUsername(string $username)
+	{
+		$data = $this->getRequest('users', [
+			'query' => [
+				'filter' => [
+					'name' => $username
+				]
+			]
+		]);
+
+		return $data['data'][0]['id'];
+	}
+
 	/**
 	 * Get the access token from the Kitsu API
 	 *
@@ -76,38 +93,66 @@ class KitsuModel {
 	public function authenticate(string $username, string $password)
 	{
 		$data = $this->postRequest(AnimeClient::KITSU_AUTH_URL, [
-			'body' => http_build_query([
+			'form_params' => [
 				'grant_type' => 'password',
 				'username' => $username,
-				'password' => $password,
-				'client_id' => self::CLIENT_ID,
-				'client_secret' => self::CLIENT_SECRET
-			])
+				'password' => $password
+			]
 		]);
 
-		if (array_key_exists('access_token', $data)) {
-			// @TODO save token
-			return true;
+		if (array_key_exists('access_token', $data))
+		{
+			return $data['access_token'];
 		}
 
 		return false;
 	}
 
+	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
 	public function getAnime(string $animeId): array
 	{
-		$baseData = $this->getRawAnimeData($animeId);
+		$baseData = $this->getRawMediaData('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
 	}
 
+	/**
+	 * Get information about a particular manga
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
 	public function getManga(string $mangaId): array
 	{
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
 
-	public function getRawAnimeData($animeId): array
+	public function getListItem(string $listId): array
 	{
-		return $this->getRawMediaData('anime', $animeId);
+		$baseData = $this->getRequest("library-entries/{$listId}", [
+			'query' => [
+				'include' => 'media'
+			]
+		]);
+
+		switch ($baseData['included'][0]['type'])
+		{
+			case 'anime':
+				$baseData['data']['anime'] = $baseData['included'][0];
+				return $this->animeListTransformer->transform($baseData['data']);
+
+			case 'manga':
+				$baseData['data']['manga'] = $baseData['included'][0];
+				return $this->mangaListTransformer->transform($baseData['data']);
+
+			default:
+				return $baseData['data']['attributes'];
+		}
 	}
 
 	public function getAnimeList($status): array
@@ -115,7 +160,7 @@ class KitsuModel {
 		$options = [
 			'query' => [
 				'filter' => [
-					'user_id' => 2644,
+					'user_id' => $this->getUserIdByUsername($this->getUsername()),
 					'media_type' => 'Anime',
 					'status' => $status,
 				],
@@ -145,7 +190,7 @@ class KitsuModel {
 		$options = [
 			'query' => [
 				'filter' => [
-					'user_id' => 2644,
+					'user_id' => $this->getUserIdByUsername($this->getUsername()),
 					'media_type' => 'Manga',
 					'status' => $status,
 				],
@@ -170,21 +215,48 @@ class KitsuModel {
 		return $transformed;
 	}
 
-	private function getGenres(string $type, string $id): array
+	public function search(string $type, string $query): array
 	{
-		$data = $this->getRequest("{$type}/{$id}/genres");
-		$rawGenres = array_pluck($data['data'], 'attributes');
-		$genres = array_pluck($rawGenres, 'name');
+		$options = [
+			'query' => [
+				'filter' => [
+					'text' => $query
+				]
+			],
+			'include' => 'media'
+		];
 
-		return $genres;
+		$data = $this->getRequest($type, $options);
+
+		// @TODO implement search api call
+		return $data;
 	}
 
-	private function getRawMediaData(string $type, string $id): array
+	private function getUsername(): string
 	{
-		$data = $this->getRequest("{$type}/{$id}");
-		$baseData = $data['data']['attributes'];
-		$baseData['genres'] = $this->getGenres($type, $id);
+		return $this->getContainer()
+			->get('config')
+			->get(['kitsu_username']);
+	}
 
+	private function getRawMediaData(string $type, string $slug): array
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'slug' => $slug
+				],
+				'include' => 'genres,mappings,streamingLinks',
+			]
+		];
+
+		$data = $this->getRequest($type, $options);
+
+		$baseData = $data['data'][0]['attributes'];
+		$rawGenres = array_pluck($data['included'], 'attributes');
+		$genres = array_pluck($rawGenres, 'name');
+		$baseData['genres'] = $genres;
+		$baseData['included'] = $data['included'];
 		return $baseData;
 	}
 }
