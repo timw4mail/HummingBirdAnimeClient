@@ -1,7 +1,7 @@
 <main>
-<?php /* if ($auth->is_authenticated()): ?>
+<?php if ($auth->is_authenticated()): ?>
 <a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
-<?php endif */ ?>
+<?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
@@ -11,26 +11,28 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="manga-<?= $item['id'] ?>">
-					<?php /*if ($auth->is_authenticated()): ?>
+					<?php if ($auth->is_authenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
 					</div>
-					<?php endif */ ?>
+					<?php endif ?>
 					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-						<?= $escape->html($item['manga']['title']) ?>
-						<?= (isset($item['manga']['alternate_title'])) ? "<br />({$item['manga']['alternate_title']})" : ""; ?>
+						<?= $escape->html(array_shift($item['manga']['titles'])) ?>
+                        <?php foreach($item['manga']['titles'] as $title): ?>
+                            <br /><small><?= $title ?></small>
+                        <?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">
-						<?php /*if ($auth->is_authenticated()): ?>
+						<?php if ($auth->is_authenticated()): ?>
 						<div class="row">
 							<span class="edit">
 								<a class="bracketed" title="Edit information about this manga" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
 							</span>
 						</div>
-						<?php endif */ ?>
+						<?php endif ?>
 						<div class="row">
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
@@ -53,6 +55,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php /*if ($auth->is_authenticated()): ?>
+<?php if ($auth->is_authenticated()): ?>
 <script src="<?= $urlGenerator->asset_url('js.php/g/edit') ?>"></script>
-<?php endif*/ ?>
+<?php endif ?>

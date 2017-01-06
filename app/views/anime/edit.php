@@ -6,10 +6,10 @@
 				<thead>
 					<tr>
 						<th>
-							<h3><?= $escape->html($item['anime']['title']) ?></h3>
-							<?php if($item['anime']['alternate_title'] != ""): ?>
-							<h4><?= $escape->html($item['anime']['alternate_title']) ?></h4>
-							<?php endif ?>
+							<h3><?= $escape->html(array_shift($item['anime']['titles'])) ?></h3>
+							<?php foreach($item['anime']['titles'] as $title): ?>
+							<h4><?= $escape->html($title) ?></h4>
+							<?php endforeach ?>
 						</th>
 						<th>
 							<article class="media">

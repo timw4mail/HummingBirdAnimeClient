@@ -69,7 +69,7 @@ class API extends Model {
 
 		foreach ($array as $key => $item)
 		{
-			$sort[$key] = $item[$sort_key]['title'];
+			$sort[$key] = $item[$sort_key]['titles'][0];
 		}
 
 		array_multisort($sort, SORT_ASC, $array);

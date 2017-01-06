@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -34,49 +35,34 @@ class AnimeListTransformer extends AbstractTransformer {
 	{
 /* ?><pre><?= print_r($item, TRUE) ?></pre><?php
 // die(); */
-		$anime =& $item['anime'];
-		$genres = $item['anime']['genres'] ?? [];
+		$anime = $item['anime']['attributes'] ?? $item['anime'];
+		$genres = $item['genres'] ?? [];
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
-		$total_episodes = array_key_exists('episodeCount', $item['anime']['attributes'])
-			? (int) $anime['attributes']['episodeCount']
+		$total_episodes = array_key_exists('episodeCount', $anime)
+			? (int) $anime['episodeCount']
 			: '-';
-
-		$alternate_title = NULL;
-		if (array_key_exists('titles', $item['anime']) && array_key_exists('en_jp', $anime['titles']))
-		{
-			// If the alternate title is very similar, or
-			// a subset of the main title, don't list the
-			// alternate title
-			$not_subset = stripos($anime['canonicalTitle'], $anime['titles']['en_jp']) === FALSE;
-			$diff = levenshtein($anime['canonicalTitle'], $anime['titles']['en_jp'] ?? '');
-			if ($not_subset && $diff >= 5)
-			{
-				$alternate_title = $anime['titles']['en_jp'];
-			}
-		}
 
 		return [
 			'id' => $item['id'],
 			'episodes' => [
 				'watched' => $item['attributes']['progress'],
 				'total' => $total_episodes,
-				'length' => $anime['attributes']['episodeLength'],
+				'length' => $anime['episodeLength'],
 			],
 			'airing' => [
-				'status' => $anime['status'] ?? '',
-				'started' => $anime['attributes']['startDate'],
-				'ended' => $anime['attributes']['endDate']
+				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']), 
+				'started' => $anime['startDate'],
+				'ended' => $anime['endDate']
 			],
 			'anime' => [
-				'age_rating' => $anime['attributes']['ageRating'],
-				'title' => $anime['attributes']['canonicalTitle'],
-				'alternate_title' => $alternate_title,
-				'slug' => $anime['attributes']['slug'],
-				'url' => $anime['attributes']['url'] ?? '',
-				'type' => $anime['attributes']['showType'],
-				'image' => $anime['attributes']['posterImage']['small'],
+				'age_rating' => $anime['ageRating'],
+				'titles' => Kitsu::filterTitles($anime),
+				'slug' => $anime['slug'],
+				'url' => $anime['url'] ?? '',
+				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
+				'image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 			],
 			'watching_status' => $item['attributes']['status'],

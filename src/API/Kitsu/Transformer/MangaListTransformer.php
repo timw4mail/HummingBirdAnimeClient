@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\StringWrapper;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
@@ -34,6 +35,7 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
+/*?><pre><?= print_r($item, TRUE) ?></pre><?php*/
 		$manga =& $item['manga'];
 
 		$rating = (is_numeric($item['attributes']['rating']))
@@ -59,10 +61,10 @@ class MangaListTransformer extends AbstractTransformer {
 				'total' => $total_volumes
 			],
 			'manga' => [
-				'title' => $manga['attributes']['canonicalTitle'],
+				'titles' => Kitsu::filterTitles($manga['attributes']),
 				'alternate_title' => NULL,
-				'slug' => $manga['id'],
-				'url' => 'https://kitsu.io/manga/' . $manga['id'],
+				'slug' => $manga['attributes']['slug'],
+				'url' => 'https://kitsu.io/manga/' . $manga['attributes']['slug'],
 				'type' => $manga['attributes']['mangaType'],
 				'image' => $manga['attributes']['posterImage']['small'],
 				'genres' => [], //$manga['genres'],

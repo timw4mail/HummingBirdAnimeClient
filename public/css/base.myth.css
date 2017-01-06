@@ -354,7 +354,9 @@ a:hover, a:active {
 			display:block;
 		}
 
-		.media > .name > a {
+		.media > .name a,
+		.media > .name a small
+		{
 			background:none;
 			color:#fff;
 			text-shadow: var(--shadow);

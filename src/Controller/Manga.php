@@ -161,7 +161,7 @@ class Manga extends Controller {
 	public function edit($id, $status = "All")
 	{
 		$this->set_session_redirect();
-		$item = $this->model->get_library_item($id, $status);
+		$item = $this->model->getLibraryItem($id);
 		$title = $this->config->get('whose_list') . "'s Manga List &middot; Edit";
 
 		$this->outputHTML('manga/edit', [

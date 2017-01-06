@@ -25,7 +25,6 @@ define('SRC_DIR', realpath(__DIR__));
  */
 class AnimeClient {
 
-	const KITSU_AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 	const DEFAULT_CONTROLLER_NAMESPACE = 'Aviat\AnimeClient\Controller';
 	const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Anime';
