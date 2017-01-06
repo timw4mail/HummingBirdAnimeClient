@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -32,15 +33,12 @@ class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-		?><pre><?= print_r($item, TRUE) ?></pre><?php
-
 		$item['genres'] = $item['genres'] ?? [];
 		sort($item['genres']);
 
 		return [
-			'title' => $item['canonicalTitle'],
-			'en_title' => $item['titles']['en_jp'],
-			'jp_title' => $item['titles']['ja_jp'],
+			'titles' => Kitsu::filterTitles($item),
+			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
 			'cover_image' => $item['posterImage']['small'],
 			'show_type' => $item['showType'],
 			'episode_count' => $item['episodeCount'],

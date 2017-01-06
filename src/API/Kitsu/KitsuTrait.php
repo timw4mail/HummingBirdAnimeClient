@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\GuzzleTrait;
-use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;

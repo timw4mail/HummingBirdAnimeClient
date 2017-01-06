@@ -18,8 +18,10 @@
 					<?= $helper->img($item['anime']['image']); ?>
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
-						<?= $escape->html($item['anime']['title']) ?>
-						<?= ($item['anime']['alternate_title'] != "") ? "<br />({$item['anime']['alternate_title']})" : ""; ?>
+                            <?= array_shift($item['anime']['titles']) ?>
+                            <?php foreach ($item['anime']['titles'] as $title): ?>
+                                <br /><small><?= $title ?></small>
+                            <?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">

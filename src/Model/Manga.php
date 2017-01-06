@@ -84,6 +84,18 @@ class Manga extends API
 	}
 
 	/**
+	 * Get information about a specific list item
+	 * for editing/updating that item
+	 *
+	 * @param string $itemId
+	 * @return array
+	 */
+	public function getLibraryItem(string $itemId): array
+	{
+		return $this->kitsuModel->getListItem($itemId);
+	}
+
+	/**
 	 * Map transformed anime data to be organized by reading status
 	 *
 	 * @param array $data

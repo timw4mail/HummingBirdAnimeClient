@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
+use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
 };
@@ -92,7 +93,7 @@ class KitsuModel {
 	 */
 	public function authenticate(string $username, string $password)
 	{
-		$data = $this->postRequest(AnimeClient::KITSU_AUTH_URL, [
+		$data = $this->postRequest(K::AUTH_URL, [
 			'form_params' => [
 				'grant_type' => 'password',
 				'username' => $username,
@@ -164,7 +165,7 @@ class KitsuModel {
 					'media_type' => 'Anime',
 					'status' => $status,
 				],
-				'include' => 'media',
+				'include' => 'media,media.genres',
 				'page' => [
 					'offset' => 0,
 					'limit' => 200
@@ -174,10 +175,21 @@ class KitsuModel {
 		];
 
 		$data = $this->getRequest('library-entries', $options);
+		$included = K::organizeIncludes($data['included']);
+/*?><pre><?= print_r($included, TRUE) ?></pre><?php*/
 
 		foreach($data['data'] as $i => &$item)
 		{
-			$item['anime'] = $data['included'][$i];
+			$item['anime'] = $included['anime'][$item['relationships']['media']['data']['id']];
+
+			$animeGenres = $item['anime']['relationships']['genres'];
+
+			foreach($animeGenres as $id)
+            {
+                $item['genres'][] = $included['genres'][$id]['name'];
+            }
+
+			// $item['genres'] = array_pluck($genres, 'name');
 		}
 
 		$transformed = $this->animeListTransformer->transformCollection($data['data']);
@@ -246,7 +258,9 @@ class KitsuModel {
 				'filter' => [
 					'slug' => $slug
 				],
-				'include' => 'genres,mappings,streamingLinks',
+				'include' => ($type === 'anime')
+					? 'genres,mappings,streamingLinks'
+					: 'genres,mappings',
 			]
 		];
 

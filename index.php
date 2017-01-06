@@ -53,12 +53,11 @@ $whoops = new Run();
 $defaultHandler = new PrettyPageHandler();
 $whoops->pushHandler($defaultHandler);
 
-// Set up json handler for ajax errors
-//$jsonHandler = new JsonResponseHandler();
-//$whoops->pushHandler($jsonHandler);
-
 // Register as the error handler
-$whoops->register();
+if (array_key_exists('whoops', $_GET))
+{
+	$whoops->register();
+}
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
