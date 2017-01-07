@@ -76,7 +76,7 @@
 					<tr>
 						<td>&nbsp;</td>
 						<td>
-							<input type="hidden" value="<?= $item['anime']['slug'] ?>" name="id" />
+							<input type="hidden" value="<?= $item['id'] ?>" name="id" />
 							<input type="hidden" value="true" name="edit" />
 							<button type="submit">Submit</button>
 						</td>
@@ -92,7 +92,7 @@
 						<tr>
 							<td>&nbsp;</td>
 							<td>
-								<input type="hidden" value="<?= $item['anime']['slug'] ?>" name="id" />
+								<input type="hidden" value="<?= $item['id'] ?>" name="id" />
 								<button type="submit" class="danger">Delete Entry</button>
 							</td>
 						</tr>

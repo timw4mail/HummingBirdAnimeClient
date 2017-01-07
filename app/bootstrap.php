@@ -20,6 +20,7 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\Kitsu\Auth as KitsuAuth;
+use Aviat\AnimeClient\API\Kitsu\ListItem as KitsuListItem;
 use Aviat\AnimeClient\API\Kitsu\KitsuModel;
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
@@ -41,7 +42,10 @@ return function(array $config_array = []) {
 
 	$app_logger = new Logger('animeclient');
 	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+	$request_logger = new Logger('request');
+	$request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/request.log', Logger::NOTICE));
 	$container->setLogger($app_logger, 'default');
+	$container->setLogger($request_logger, 'request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
@@ -103,7 +107,9 @@ return function(array $config_array = []) {
 
 	// Models
 	$container->set('kitsu-model', function($container) {
-		$model = new KitsuModel();
+		$listItem = new KitsuListItem();
+		$listItem->setContainer($container);
+		$model = new KitsuModel($listItem);
 		$model->setContainer($container);
 		return $model;
 	});

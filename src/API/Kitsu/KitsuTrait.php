@@ -21,7 +21,9 @@ use Aviat\AnimeClient\API\GuzzleTrait;
 use Aviat\Ion\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
+use PHP_CodeSniffer\Tokenizers\JS;
 use RuntimeException;
 
 trait KitsuTrait {
@@ -34,6 +36,19 @@ trait KitsuTrait {
 	protected $baseUrl = "https://kitsu.io/api/edge/";
 
 	/**
+	 * HTTP headers to send with every request
+	 *
+	 * @var array
+	 */
+	protected $defaultHeaders = [
+		'User-Agent' => "Tim's Anime Client/4.0",
+		'Accept-Encoding' => 'application/vnd.api+json',
+		'Content-Type' => 'application/vnd.api+json; charset=utf-8',
+		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
+		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
+	];
+
+	/**
 	 * Set up the class properties
 	 *
 	 * @return void
@@ -42,11 +57,7 @@ trait KitsuTrait {
 	{
 		$defaults = [
 			'cookies' => $this->cookieJar,
-			'headers' => [
-				'User-Agent' => "Tim's Anime Client/4.0",
-				'Accept-Encoding' => 'application/vnd.api+json',
-				'Content-Type' => 'application/vnd.api+json'
-			],
+			'headers' => $this->defaultHeaders,
 			'timeout' => 25,
 			'connect_timeout' => 25
 		];
@@ -66,10 +77,11 @@ trait KitsuTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return array
+	 * @return Response
 	 */
-	private function request(string $type, string $url, array $options = []): array
+	private function getResponse(string $type, string $url, array $options = [])
 	{
+		$logger = null;
 		$validTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
 		if ( ! in_array($type, $validTypes))
@@ -77,18 +89,13 @@ trait KitsuTrait {
 			throw new InvalidArgumentException('Invalid http request type');
 		}
 
-		$logger = NULL;
-
 		$defaultOptions = [
-			'headers' => [
-				'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
-				'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151'
-			]
+			'headers' => $this->defaultHeaders
 		];
 
-		if ($this->getContainer())
+		if ($this->getContainer());
 		{
-			$logger = $this->container->getLogger('default');
+			$logger = $this->container->getLogger('request');
 			$sessionSegment = $this->getContainer()
 				->get('session')
 				->getSegment(AnimeClient::SESSION_SEGMENT);
@@ -98,11 +105,31 @@ trait KitsuTrait {
 				$token = $sessionSegment->get('auth_token');
 				$defaultOptions['headers']['Authorization'] = "bearer {$token}";
 			}
+			$logger->debug(Json::encode(func_get_args()));
 		}
 
 		$options = array_merge($defaultOptions, $options);
 
-		$response = $this->client->request($type, $url, $options);
+		return $this->client->request($type, $url, $options);
+	}
+
+	/**
+	 * Make a request via Guzzle
+	 *
+	 * @param string $type
+	 * @param string $url
+	 * @param array $options
+	 * @return array
+	 */
+	private function request(string $type, string $url, array $options = []): array
+	{
+		$logger = null;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('request');
+		}
+
+		$response = $this->getResponse($type, $url, $options);
 
 		if ((int) $response->getStatusCode() !== 200)
 		{
@@ -112,7 +139,7 @@ trait KitsuTrait {
 				$logger->warning($response->getBody());
 			}
 
-			throw new RuntimeException($response);
+			// throw new RuntimeException($response->getBody());
 		}
 
 		return JSON::decode($response->getBody(), TRUE);
@@ -130,6 +157,17 @@ trait KitsuTrait {
 	}
 
 	/**
+	 * Remove some boilerplate for patch requests
+	 *
+	 * @param array $args
+	 * @return array
+	 */
+	protected function patchRequest(...$args): array
+	{
+		return $this->request('PATCH', ...$args);
+	}
+
+	/**
 	 * Remove some boilerplate for post requests
 	 *
 	 * @param array $args
@@ -137,17 +175,38 @@ trait KitsuTrait {
 	 */
 	protected function postRequest(...$args): array
 	{
-		return $this->request('POST', ...$args);
+		$logger = null;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('request');
+		}
+
+		$response = $this->getResponse('POST', ...$args);
+		$validResponseCodes = [200, 201];
+
+		if ( ! in_array((int) $response->getStatusCode(), $validResponseCodes))
+		{
+			if ($logger)
+			{
+				$logger->warning('Non 201 response for POST api call');
+				$logger->warning($response->getBody());
+			}
+
+			throw new RuntimeException($response->getBody());
+		}
+
+		return JSON::decode($response->getBody(), TRUE);
 	}
 
 	/**
 	 * Remove some boilerplate for delete requests
 	 *
 	 * @param array $args
-	 * @return array
+	 * @return bool
 	 */
-	protected function deleteRequest(...$args): array
+	protected function deleteRequest(...$args): bool
 	{
-		return $this->request('DELETE', ...$args);
+		$response = $this->getResponse('DELETE', ...$args);
+		return ((int) $response->getStatusCode() === 204);
 	}
 }

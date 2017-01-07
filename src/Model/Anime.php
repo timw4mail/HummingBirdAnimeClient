@@ -82,6 +82,18 @@ class Anime extends API {
 	}
 
 	/**
+	 * Search for anime by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		// $raw = $this->kitsuModel->search('anime', $name);
+		return $this->kitsuModel->search('anime', $name);
+	}
+
+	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 *
@@ -94,15 +106,14 @@ class Anime extends API {
 	}
 
 	/**
-	 * Search for anime by name
+	 * Update a list entry
 	 *
-	 * @param string $name
+	 * @param array $data
 	 * @return array
 	 */
-	public function search($name)
+	public function updateLibraryItem(array $data): array
 	{
-		$raw = $this->kitsuModel->search('anime', $name);
-		return $this->kitsuModel->search('anime', $name);
+		return $this->kitsuModel->updateListItem($data);
 	}
 }
 // End of AnimeModel.php

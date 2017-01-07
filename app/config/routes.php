@@ -203,7 +203,7 @@ return [
 		'index_redirect' => [
 			'path' => '/',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
-			'action' => 'redirect_to_default',
+			'action' => 'redirectToDefaultRoute',
 		],
 	],
 ];

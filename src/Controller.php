@@ -120,7 +120,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function redirect_to_default()
+	public function redirectToDefaultRoute()
 	{
 		$default_type = $this->config->get(['routes', 'route_config', 'default_list']);
 		$this->redirect($this->urlGenerator->default_url($default_type), 303);
@@ -317,7 +317,7 @@ class Controller {
 		$auth = $this->container->get('auth');
 		$auth->logout();
 
-		$this->redirect_to_default();
+		$this->redirectToDefaultRoute();
 	}
 
 	/**
@@ -358,7 +358,7 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function setFlashMessage($message, $type = "info")
+	public function set_flash_message($message, $type = "info")
 	{
 		$this->session->setFlash('message', [
 			'message_type' => $type,
@@ -423,11 +423,12 @@ class Controller {
 	 * @param int $code - the http status code
 	 * @return void
 	 */
-	protected function outputJSON($data = [], $code = 200)
+	protected function outputJSON($data = 'Empty response', int $code = 200)
 	{
-		$view = new JsonView($this->container);
-		$view->setStatusCode($code);
-		$view->setOutput($data);
+		(new JsonView($this->container))
+			->setStatusCode($code)
+			->setOutput($data)
+			->send();
 	}
 
 	/**

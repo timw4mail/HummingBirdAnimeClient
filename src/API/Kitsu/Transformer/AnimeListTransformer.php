@@ -52,7 +52,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'length' => $anime['episodeLength'],
 			],
 			'airing' => [
-				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']), 
+				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']),
 				'started' => $anime['startDate'],
 				'ended' => $anime['endDate']
 			],
@@ -80,15 +80,14 @@ class AnimeListTransformer extends AbstractTransformer {
 	 *
 	 * @param array $item Transformed library item
 	 * @return array API library item
-     * @TODO reimplement
 	 */
 	public function untransform($item)
 	{
 		// Messy mapping of boolean values to their API string equivalents
-		$privacy = 'public';
+		$privacy = 'false';
 		if (array_key_exists('private', $item) && $item['private'])
 		{
-			$privacy = 'private';
+			$privacy = 'true';
 		}
 
 		$rewatching = 'false';
@@ -97,16 +96,25 @@ class AnimeListTransformer extends AbstractTransformer {
 			$rewatching = 'true';
 		}
 
-		return [
+		$untransformed = [
 			'id' => $item['id'],
-			'status' => $item['watching_status'],
-			'sane_rating_update' => $item['user_rating'] / 2,
-			'rewatching' => $rewatching,
-			'rewatched_times' => $item['rewatched'],
-			'notes' => $item['notes'],
-			'episodes_watched' => $item['episodes_watched'],
-			'privacy' => $privacy
+			'data' => [
+				'status' => $item['watching_status'],
+				'rating' => $item['user_rating'] / 2,
+				'reconsuming' => $rewatching,
+				'reconsumeCount' => $item['rewatched'],
+				'notes' => $item['notes'],
+				'progress' => $item['episodes_watched'],
+				'private' => $privacy
+			]
 		];
+
+		if ((int) $untransformed['data']['rating'] === 0)
+		{
+			unset($untransformed['data']['rating']);
+		}
+
+		return $untransformed;
 	}
 }
 // End of AnimeListTransformer.php

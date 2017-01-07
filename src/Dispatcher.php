@@ -75,8 +75,8 @@ class Dispatcher extends RoutingBase {
 		$raw_route = $this->request->getUri()->getPath();
 		$route_path = "/" . trim($raw_route, '/');
 
-		$logger->debug('Dispatcher - Routing data from get_route method');
-		$logger->debug(print_r([
+		$logger->info('Dispatcher - Routing data from get_route method');
+		$logger->info(print_r([
 			'route_path' => $route_path
 		], TRUE));
 
@@ -108,8 +108,8 @@ class Dispatcher extends RoutingBase {
 		{
 			$route = $this->getRoute();
 
-			$logger->debug('Dispatcher - Route invoke arguments');
-			$logger->debug(print_r($route, TRUE));
+			$logger->info('Dispatcher - Route invoke arguments');
+			$logger->info(print_r($route, TRUE));
 		}
 
 		if ($route)
