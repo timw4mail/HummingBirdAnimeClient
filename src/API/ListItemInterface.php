@@ -16,36 +16,38 @@
 
 namespace Aviat\AnimeClient\API;
 
+use GuzzleHttp\Psr7\Response;
+
 /**
  * Common interface for anime and manga list item CRUD
  */
 interface ListItemInterface {
-	
+
 	/**
 	 * Create a list item
 	 *
-	 * @param array $data - 
+	 * @param array $data -
 	 * @return bool
 	 */
 	public function create(array $data): bool;
-	
+
 	/**
 	 * Retrieve a list item
 	 *
 	 * @param string $id - The id of the list item
-	 * @return array 
+	 * @return array
 	 */
 	public function get(string $id): array;
-	
+
 	/**
 	 * Update a list item
-	 * 
+	 *
 	 * @param string $id - The id of the list item to update
 	 * @param array $data - The data with which to update the list item
-	 * @return bool
+	 * @return Response
 	 */
-	public function update(string $id, array $data): bool;
-	
+	public function update(string $id, array $data): Response;
+
 	/**
 	 * Delete a list item
 	 *

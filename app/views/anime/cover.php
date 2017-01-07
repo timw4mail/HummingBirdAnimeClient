@@ -11,17 +11,17 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
-				<article class="media" id="<?= $item['anime']['slug'] ?>">
+				<article class="media" id="<?= $item['id'] ?>">
 					<?php if ($auth->is_authenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
 					<?= $helper->img($item['anime']['image']); ?>
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
-                            <?= array_shift($item['anime']['titles']) ?>
-                            <?php foreach ($item['anime']['titles'] as $title): ?>
-                                <br /><small><?= $title ?></small>
-                            <?php endforeach ?>
+							<?= array_shift($item['anime']['titles']) ?>
+							<?php foreach ($item['anime']['titles'] as $title): ?>
+								<br /><small><?= $title ?></small>
+							<?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">

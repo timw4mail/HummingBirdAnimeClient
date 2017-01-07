@@ -22,6 +22,8 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
 };
 use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Json;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Kitsu API Model
@@ -48,6 +50,11 @@ class KitsuModel {
 	protected $animeTransformer;
 
 	/**
+	 * @var ListItem
+	 */
+	protected $listItem;
+
+	/**
 	 * @var MangaTransformer
 	 */
 	protected $mangaTransformer;
@@ -60,13 +67,14 @@ class KitsuModel {
 	/**
 	 * KitsuModel constructor.
 	 */
-	public function __construct()
+	public function __construct(ListItem $listItem)
 	{
 		// Set up Guzzle trait
 		$this->init();
 
 		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
+		$this->listItem = $listItem;
 		$this->mangaTransformer = new MangaTransformer();
 		$this->mangaListTransformer = new MangaListTransformer();
 	}
@@ -124,36 +132,13 @@ class KitsuModel {
 	/**
 	 * Get information about a particular manga
 	 *
-	 * @param string $animeId
+	 * @param string $mangaId
 	 * @return array
 	 */
 	public function getManga(string $mangaId): array
 	{
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
-	}
-
-	public function getListItem(string $listId): array
-	{
-		$baseData = $this->getRequest("library-entries/{$listId}", [
-			'query' => [
-				'include' => 'media'
-			]
-		]);
-
-		switch ($baseData['included'][0]['type'])
-		{
-			case 'anime':
-				$baseData['data']['anime'] = $baseData['included'][0];
-				return $this->animeListTransformer->transform($baseData['data']);
-
-			case 'manga':
-				$baseData['data']['manga'] = $baseData['included'][0];
-				return $this->mangaListTransformer->transform($baseData['data']);
-
-			default:
-				return $baseData['data']['attributes'];
-		}
 	}
 
 	public function getAnimeList($status): array
@@ -185,9 +170,9 @@ class KitsuModel {
 			$animeGenres = $item['anime']['relationships']['genres'];
 
 			foreach($animeGenres as $id)
-            {
-                $item['genres'][] = $included['genres'][$id]['name'];
-            }
+			{
+				$item['genres'][] = $included['genres'][$id]['name'];
+			}
 
 			// $item['genres'] = array_pluck($genres, 'name');
 		}
@@ -238,10 +223,45 @@ class KitsuModel {
 			'include' => 'media'
 		];
 
-		$data = $this->getRequest($type, $options);
+		return $this->getRequest($type, $options);
+	}
 
-		// @TODO implement search api call
-		return $data;
+	public function getListItem(string $listId): array
+	{
+		$baseData = $this->listItem->get($listId);
+
+		switch ($baseData['included'][0]['type'])
+		{
+			case 'anime':
+				$baseData['data']['anime'] = $baseData['included'][0];
+				return $this->animeListTransformer->transform($baseData['data']);
+
+			case 'manga':
+				$baseData['data']['manga'] = $baseData['included'][0];
+				return $this->mangaListTransformer->transform($baseData['data']);
+
+			default:
+				return $baseData['data']['attributes'];
+		}
+	}
+
+	public function updateListItem(array $data)
+	{
+		try
+		{
+			$response = $this->listItem->update($data['id'], $data['data']);
+			return [
+				'statusCode' => $response->getStatusCode(),
+				'body' => $response->getBody(),
+			];
+		}
+		catch(ClientException $e)
+		{
+			return [
+				'statusCode' => $e->getResponse()->getStatusCode(),
+				'body' => Json::decode((string)$e->getResponse()->getBody())
+			];
+		}
 	}
 
 	private function getUsername(): string

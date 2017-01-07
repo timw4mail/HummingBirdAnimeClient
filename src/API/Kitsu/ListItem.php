@@ -17,27 +17,59 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\API\AbstractListItem;
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Json;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
+use RuntimeException;
 
-class KitsuAnimeListItem extends AbstractListItem {
+/**
+ * CRUD operations for Kitsu list items
+ */
+class ListItem extends AbstractListItem {
+	use ContainerAware;
 	use KitsuTrait;
+
+	public function __construct()
+	{
+		$this->init();
+	}
 
 	public function create(array $data): bool
 	{
 		// TODO: Implement create() method.
+		return false;
 	}
 
 	public function delete(string $id): bool
 	{
 		// TODO: Implement delete() method.
+		return false;
 	}
 
 	public function get(string $id): array
 	{
-		// TODO: Implement get() method.
+		return $this->getRequest("library-entries/{$id}", [
+			'query' => [
+				'include' => 'media'
+			]
+		]);
 	}
 
-	public function update(string $id, array $data): bool
+	public function update(string $id, array $data): Response
 	{
-		// TODO: Implement update() method.
+		$requestData = [
+			'data' => [
+				'id' => $id,
+				'type' => 'libraryEntries',
+				'attributes' => $data
+			]
+		];
+
+		$response = $this->getResponse('PATCH', "library-entries/{$id}", [
+			'body' => JSON::encode($requestData)
+		]);
+
+		return $response;
 	}
 }

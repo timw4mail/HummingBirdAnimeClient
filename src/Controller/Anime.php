@@ -21,6 +21,7 @@ use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
 use Aviat\Ion\StringWrapper;
 
 /**
@@ -227,18 +228,12 @@ class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$post_data = $transformer->untransform($data);
+		$full_result = $this->model->updateLibraryItem($post_data);
 
-		$full_result = $this->model->update($post_data);
-		$result = $full_result['body'];
-
-		if (array_key_exists('anime', $result))
+		if ($full_result['statusCode'] === 200)
 		{
-			$title = ( ! empty($result['anime']['alternate_title']))
-				? "{$result['anime']['title']} ({$result['anime']['alternate_title']})"
-				: "{$result['anime']['title']}";
-
-			$this->set_flash_message("Successfully updated {$title}.", 'success');
-			$this->cache->purge();
+			$this->set_flash_message("Successfully updated.", 'success');
+			// $this->cache->purge();
 		}
 		else
 		{
@@ -255,8 +250,20 @@ class Anime extends BaseController {
 	 */
 	public function update()
 	{
-		$response = $this->model->update($this->request->getParsedBody());
-		$this->cache->purge();
+		if ($this->request->getHeader('content-type')[0] === 'application/json')
+		{
+			$data = JSON::decode((string)$this->request->getBody());
+		}
+		else
+		{
+			$data = $this->request->getParsedBody();
+		}
+
+		$response = $this->model->updateLibraryItem($data);
+//echo JSON::encode($response);
+//die();
+
+		// $this->cache->purge();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
