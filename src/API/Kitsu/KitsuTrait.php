@@ -18,12 +18,12 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\GuzzleTrait;
+use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
-use PHP_CodeSniffer\Tokenizers\JS;
 use RuntimeException;
 
 trait KitsuTrait {
@@ -43,7 +43,7 @@ trait KitsuTrait {
 	protected $defaultHeaders = [
 		'User-Agent' => "Tim's Anime Client/4.0",
 		'Accept-Encoding' => 'application/vnd.api+json',
-		'Content-Type' => 'application/vnd.api+json; charset=utf-8',
+		'Content-Type' => 'application/vnd.api+json',
 		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
 		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
@@ -93,22 +93,21 @@ trait KitsuTrait {
 			'headers' => $this->defaultHeaders
 		];
 
-		if ($this->getContainer());
-		{
-			$logger = $this->container->getLogger('request');
-			$sessionSegment = $this->getContainer()
-				->get('session')
-				->getSegment(AnimeClient::SESSION_SEGMENT);
+		$logger = $this->container->getLogger('request');
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(AnimeClient::SESSION_SEGMENT);
 
-			if ($sessionSegment->get('auth_token') !== null)
-			{
-				$token = $sessionSegment->get('auth_token');
-				$defaultOptions['headers']['Authorization'] = "bearer {$token}";
-			}
-			$logger->debug(Json::encode(func_get_args()));
+		if ($sessionSegment->get('auth_token') !== null && $url !== K::AUTH_URL)
+		{
+			$token = $sessionSegment->get('auth_token');
+			$defaultOptions['headers']['Authorization'] = "bearer {$token}";
 		}
 
 		$options = array_merge($defaultOptions, $options);
+
+		$logger->debug(Json::encode([$type, $url]));
+		$logger->debug(Json::encode($options));
 
 		return $this->client->request($type, $url, $options);
 	}
@@ -131,7 +130,7 @@ trait KitsuTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatusCode() !== 200)
+		if ((int) $response->getStatusCode() > 299 || (int) $response->getStatusCode() < 200)
 		{
 			if ($logger)
 			{
@@ -192,7 +191,7 @@ trait KitsuTrait {
 				$logger->warning($response->getBody());
 			}
 
-			throw new RuntimeException($response->getBody());
+			// throw new RuntimeException($response->getBody());
 		}
 
 		return JSON::decode($response->getBody(), TRUE);

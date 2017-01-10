@@ -24,6 +24,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 use GuzzleHttp\Exception\ClientException;
+use PHP_CodeSniffer\Tokenizers\JS;
 
 /**
  * Kitsu API Model
@@ -31,9 +32,6 @@ use GuzzleHttp\Exception\ClientException;
 class KitsuModel {
 	use ContainerAware;
 	use KitsuTrait;
-
-	const CLIENT_ID = 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd';
-	const CLIENT_SECRET = '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151';
 
 	/**
 	 * Class to map anime list items
@@ -101,13 +99,16 @@ class KitsuModel {
 	 */
 	public function authenticate(string $username, string $password)
 	{
-		$data = $this->postRequest(K::AUTH_URL, [
+		$response = $this->getResponse('POST', K::AUTH_URL, [
+			'headers' => [],
 			'form_params' => [
 				'grant_type' => 'password',
 				'username' => $username,
 				'password' => $password
 			]
 		]);
+
+		$data = Json::decode((string)$response->getBody());
 
 		if (array_key_exists('access_token', $data))
 		{
@@ -161,7 +162,6 @@ class KitsuModel {
 
 		$data = $this->getRequest('library-entries', $options);
 		$included = K::organizeIncludes($data['included']);
-/*?><pre><?= print_r($included, TRUE) ?></pre><?php*/
 
 		foreach($data['data'] as $i => &$item)
 		{
@@ -173,8 +173,6 @@ class KitsuModel {
 			{
 				$item['genres'][] = $included['genres'][$id]['name'];
 			}
-
-			// $item['genres'] = array_pluck($genres, 'name');
 		}
 
 		$transformed = $this->animeListTransformer->transformCollection($data['data']);
@@ -223,7 +221,15 @@ class KitsuModel {
 			'include' => 'media'
 		];
 
-		return $this->getRequest($type, $options);
+		$raw = $this->getRequest($type, $options);
+
+		foreach ($raw['data'] as &$item)
+		{
+			$item['attributes']['titles'] = K::filterTitles($item['attributes']);
+			array_shift($item['attributes']['titles']);
+		}
+
+		return $raw;
 	}
 
 	public function getListItem(string $listId): array
@@ -262,6 +268,11 @@ class KitsuModel {
 				'body' => Json::decode((string)$e->getResponse()->getBody())
 			];
 		}
+	}
+
+	public function deleteListItem(string $id): bool
+	{
+		return $this->listItem->delete($id);
 	}
 
 	private function getUsername(): string

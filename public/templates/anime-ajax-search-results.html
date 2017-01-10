@@ -4,10 +4,13 @@
 		<input type="radio" class="big-check" id="{{attributes.slug}}" name="id" value="{{id}}" />
 		<label for="{{attributes.slug}}">
 			<span class="name">
-				{{attributes.canonicalTitle}}<br />
-				{{attributes.titles.en}}<br />
-				{{attributes.titles.en_jp}}<br />
-				{{attributes.titles.ja_jp}}
+				{{attributes.canonicalTitle}}
+				<br />
+				<small>
+				{{#attributes.titles}}
+					{{.}}<br />
+				{{/attributes.titles}}
+				</small>
 			</span>
 		</label>
 	</div>

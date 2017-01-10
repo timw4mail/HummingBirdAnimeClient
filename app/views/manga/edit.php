@@ -25,9 +25,9 @@
 					<td><label for="status">Reading Status</label></td>
 					<td>
 						<select name="status" id="status">
-						<?php foreach($status_list as $status): ?>
-							<option <?php if($item['reading_status'] === $status): ?>selected="selected"<?php endif ?>
-								value="<?= $status ?>"><?= $status ?></option>
+						<?php foreach($status_list as $val => $status): ?>
+							<option <?php if($item['reading_status'] === $val): ?>selected="selected"<?php endif ?>
+								value="<?= $val ?>"><?= $status ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>

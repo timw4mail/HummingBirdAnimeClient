@@ -16,7 +16,11 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\{AnimeAiringStatus, AnimeWatchingStatus};
+use Aviat\AnimeClient\API\Kitsu\Enum\{
+	AnimeAiringStatus,
+	AnimeWatchingStatus,
+	MangaReadingStatus
+};
 use DateTimeImmutable;
 
 /**
@@ -38,6 +42,17 @@ class Kitsu {
 			AnimeWatchingStatus::COMPLETED => 'Completed',
 			AnimeWatchingStatus::ON_HOLD => 'On Hold',
 			AnimeWatchingStatus::DROPPED => 'Dropped'
+		];
+	}
+
+	public static function getStatusToMangaSelectMap()
+	{
+		return [
+			MangaReadingStatus::READING => 'Currently Reading',
+			MangaReadingStatus::PLAN_TO_READ => 'Plan to Read',
+			MangaReadingStatus::COMPLETED => 'Completed',
+			MangaReadingStatus::ON_HOLD => 'On Hold',
+			MangaReadingStatus::DROPPED => 'Dropped'
 		];
 	}
 

@@ -18,12 +18,16 @@
 			completed = 0;
 		}
 
+		// Setup the update data
 		let data = {
-			id: manga_id
+			id: manga_id,
+			data: {
+				progress: completed
+			}
 		};
 
 		// Update the total count
-		data[type + "s_read"] = ++completed;
+		data['data']['progress'] = ++completed;
 
 		_.ajax(_.url('/manga/update'), {
 			data: data,

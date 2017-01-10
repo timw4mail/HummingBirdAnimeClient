@@ -260,8 +260,6 @@ class Anime extends BaseController {
 		}
 
 		$response = $this->model->updateLibraryItem($data);
-//echo JSON::encode($response);
-//die();
 
 		// $this->cache->purge();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -274,12 +272,13 @@ class Anime extends BaseController {
 	 */
 	public function delete()
 	{
-		$response = $this->model->delete($this->request->getParsedBody());
+		$body = $this->request->getParsedBody();
+		$response = $this->model->deleteLibraryItem($body['id']);
 
-		if ((bool)$response['body'] === TRUE)
+		if ((bool)$response === TRUE)
 		{
 			$this->set_flash_message("Successfully deleted anime.", 'success');
-			$this->cache->purge();
+			// $this->cache->purge();
 		}
 		else
 		{
