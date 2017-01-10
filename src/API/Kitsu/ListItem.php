@@ -37,24 +37,31 @@ class ListItem extends AbstractListItem {
 
 	public function create(array $data): bool
 	{
-		$response = $this->getResponse('post', 'library-entries', [
-			'body' => [
-				'type' => 'libraryEntries',
-				'attributes' => [
-					'status' => $data['status'],
-					'progress' => $data['progress'] ?? 0
-				],
-				'relationships' => [
-					'user' => [
-						'id' => $data['user_id'],
-						'type' => 'users'
+/*?><pre><?= print_r($data, TRUE) ?></pre><?php */
+		$response = $this->getResponse('POST', 'library-entries', [
+			'body' => Json::encode([
+				'data' => [
+					'type' => 'libraryEntries',
+					'attributes' => [
+						'status' => $data['status'],
+						'progress' => $data['progress'] ?? 0
 					],
-					'media' => [
-						'id' => $data['id'],
-						'type' => $data['type']
+					'relationships' => [
+						'user' => [
+							'data' => [
+								'id' => $data['user_id'],
+								'type' => 'users'
+							]
+						],
+						'media' => [
+							'data' => [
+								'id' => $data['id'],
+								'type' => $data['type']
+							]
+						]
 					]
 				]
-			]
+			])
 		]);
 
 		return ($response->getStatusCode() === 201);

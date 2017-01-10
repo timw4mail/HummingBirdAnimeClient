@@ -105,6 +105,11 @@ class Anime extends API {
 		return $this->kitsuModel->getListItem($itemId);
 	}
 
+	public function createLibraryItem(array $data): bool
+	{
+		return $this->kitsuModel->createListItem($data);
+	}
+
 	/**
 	 * Update a list entry
 	 *

@@ -137,12 +137,12 @@ class Manga extends Controller {
 			$this->redirect("manga/add", 303);
 		}
 
-		$result = $this->model->add($data);
+		$result = $this->model->createLibraryItem($data);
 
-		if ($result['statusCode'] >= 200 && $result['statusCode'] < 300)
+		if ($result)
 		{
 			$this->set_flash_message('Added new manga to list', 'success');
-			$this->cache->purge();
+			// $this->cache->purge();
 		}
 		else
 		{
@@ -243,12 +243,14 @@ class Manga extends Controller {
 	 */
 	public function delete()
 	{
-		$response = $this->model->delete($this->request->getParsedBody());
+		$body = $this->request->getParsedBody();
+		$id = $body['id'];
+		$response = $this->model->deleteLibraryItem($id);
 
-		if ((bool)$response['body'] === TRUE)
+		if ($response)
 		{
 			$this->set_flash_message("Successfully deleted manga.", 'success');
-			$this->cache->purge();
+			//$this->cache->purge();
 		}
 		else
 		{

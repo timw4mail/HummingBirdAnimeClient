@@ -21,7 +21,7 @@
 	});
 
 	// Clear the api cache
-	ac.on('.js-clear-cache', 'click', function (event) {
+	ac.on('.js-clear-cache', 'click', function () {
 		ac.get('/cache_purge', () => {
 			ac.showMessage('success', `Sucessfully purged api cache`);
 		});
