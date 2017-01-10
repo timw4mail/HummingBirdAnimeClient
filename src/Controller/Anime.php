@@ -154,9 +154,9 @@ class Anime extends BaseController {
 			$this->redirect("anime/add", 303);
 		}
 
-		$result = $this->model->update($data);
+		$result = $this->model->createLibraryItem($data);
 
-		if (intval($result['statusCode']) === 201)
+		if ($result)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
 			// $this->cache->purge();

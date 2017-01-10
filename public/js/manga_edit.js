@@ -38,7 +38,7 @@
 		}
 
 		// Update the total count
-		data['data']['progress'] = ++completed;
+		data.data.progress = ++completed;
 
 		_.ajax(_.url('/manga/update'), {
 			data: data,

@@ -52,6 +52,11 @@ class Manga extends API
 		'dropped' => self::DROPPED
 	];
 
+	/**
+	 * @var Aviat\AnimeClient\API\Kitsu\KitsuModel
+	 */
+	protected $kitsuModel;
+
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
@@ -84,6 +89,17 @@ class Manga extends API
 	}
 
 	/**
+	 * Create a new manga list item
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function createLibraryItem(array $data): bool
+	{
+		return $this->kitsuModel->createListItem($data);
+	}
+
+	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 *
@@ -104,6 +120,17 @@ class Manga extends API
 	public function updateLibraryItem(array $data): array
 	{
 		return $this->kitsuModel->updateListItem($data);
+	}
+
+	/**
+	 * Remove a list entry
+	 *
+	 * @param string $itemId
+	 * @return bool
+	 */
+	public function deleteLibraryItem(string $itemId): bool
+	{
+		return $this->kitsuModel->deleteListItem($itemId);
 	}
 
 	/**

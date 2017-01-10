@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
@@ -24,7 +23,6 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 use GuzzleHttp\Exception\ClientException;
-use PHP_CodeSniffer\Tokenizers\JS;
 
 /**
  * Kitsu API Model
@@ -77,6 +75,12 @@ class KitsuModel {
 		$this->mangaListTransformer = new MangaListTransformer();
 	}
 
+	/**
+	 * Get the userid for a username from Kitsu
+	 *
+	 * @param string $username
+	 * @return string
+	 */
 	public function getUserIdByUsername(string $username)
 	{
 		$data = $this->getRequest('users', [
@@ -154,7 +158,7 @@ class KitsuModel {
 				'include' => 'media,media.genres',
 				'page' => [
 					'offset' => 0,
-					'limit' => 200
+					'limit' => 1000
 				],
 				'sort' => '-updated_at'
 			]
@@ -249,6 +253,12 @@ class KitsuModel {
 			default:
 				return $baseData['data']['attributes'];
 		}
+	}
+
+	public function createListItem(array $data): bool
+	{
+		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
+		return $this->listItem->create($data);
 	}
 
 	public function updateListItem(array $data)
