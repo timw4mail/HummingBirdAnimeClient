@@ -6,7 +6,7 @@
 	'use strict';
 
 	// Action to increment episode count
-	_.on('body.anime.list', 'click', '.plus_one', function(e) {
+	_.on('body.anime.list', 'click', '.plus_one', function() {
 		let parent_sel = _.closestParent(this, 'article');
 		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
 		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
@@ -36,8 +36,8 @@
 			data: data,
 			dataType: 'json',
 			type: 'POST',
-			success: (res) => {
-				if (data.status == 'completed') {
+			success: () => {
+				if (data.data.status == 'completed') {
 					_.hide(parent_sel);
 				}
 

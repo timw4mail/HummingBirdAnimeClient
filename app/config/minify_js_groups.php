@@ -31,7 +31,7 @@ return [
 		'base/sort_tables.js',
 	],
 	'table_edit' => [
-		'sort_tables.js',
+		'base/sort_tables.js',
 		'anime_edit.js',
 		'manga_edit.js',
 	],
