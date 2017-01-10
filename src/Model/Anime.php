@@ -115,5 +115,10 @@ class Anime extends API {
 	{
 		return $this->kitsuModel->updateListItem($data);
 	}
+
+	public function deleteLibraryItem($id): bool
+	{
+		return $this->kitsuModel->deleteListItem($id);
+	}
 }
 // End of AnimeModel.php

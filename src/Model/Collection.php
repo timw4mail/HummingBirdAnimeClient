@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Model\DB;
+use PDO;
 use PDOException;
 
 /**

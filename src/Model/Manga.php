@@ -96,6 +96,28 @@ class Manga extends API
 	}
 
 	/**
+	 * Update a list entry
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function updateLibraryItem(array $data): array
+	{
+		return $this->kitsuModel->updateListItem($data);
+	}
+
+	/**
+	 * Search for anime by name
+	 *
+	 * @param string $name
+	 * @return array
+	 */
+	public function search($name)
+	{
+		return $this->kitsuModel->search('manga', $name);
+	}
+
+	/**
 	 * Map transformed anime data to be organized by reading status
 	 *
 	 * @param array $data

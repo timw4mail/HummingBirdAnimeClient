@@ -37,14 +37,33 @@ class ListItem extends AbstractListItem {
 
 	public function create(array $data): bool
 	{
-		// TODO: Implement create() method.
-		return false;
+		$response = $this->getResponse('post', 'library-entries', [
+			'body' => [
+				'type' => 'libraryEntries',
+				'attributes' => [
+					'status' => $data['status'],
+					'progress' => $data['progress'] ?? 0
+				],
+				'relationships' => [
+					'user' => [
+						'id' => $data['user_id'],
+						'type' => 'users'
+					],
+					'media' => [
+						'id' => $data['id'],
+						'type' => $data['type']
+					]
+				]
+			]
+		]);
+
+		return ($response->getStatusCode() === 201);
 	}
 
 	public function delete(string $id): bool
 	{
-		// TODO: Implement delete() method.
-		return false;
+		$response = $this->getResponse('DELETE', "library-entries/{$id}");
+		return ($response->getStatusCode() === 204);
 	}
 
 	public function get(string $id): array

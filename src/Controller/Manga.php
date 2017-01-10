@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller;
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\Enum\MangaReadingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
@@ -166,7 +167,7 @@ class Manga extends Controller {
 
 		$this->outputHTML('manga/edit', [
 			'title' => $title,
-			'status_list' => MangaReadingStatus::getConstList(),
+			'status_list' => Kitsu::getStatusToMangaSelectMap(),
 			'item' => $item,
 			'action' => $this->container->get('url-generator')
 				->url('/manga/update_form'),
@@ -185,50 +186,54 @@ class Manga extends Controller {
 	}
 
 	/**
-	 * Update an anime item via a form submission
+	 * Update an manga item via a form submission
 	 *
 	 * @return void
 	 */
 	public function form_update()
 	{
-		$post_data = $this->request->getParsedBody();
+		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
 		$transformer = new MangaListTransformer();
-		$post_data = $transformer->untransform($post_data);
-		$full_result = $this->model->update($post_data);
+		$post_data = $transformer->untransform($data);
+		$full_result = $this->model->updateLibraryItem($post_data);
 
-		$result = Json::decode((string)$full_result['body']);
-
-		if ((int)$full_result['statusCode'] === 200)
+		if ($full_result['statusCode'] === 200)
 		{
-			$m =& $result['manga'][0];
-			$title = ( ! empty($m['english_title']))
-				? "{$m['romaji_title']} ({$m['english_title']})"
-				: "{$m['romaji_title']}";
-
-			$this->set_flash_message("Successfully updated {$title}.", 'success');
-			$this->cache->purge();
+			$this->set_flash_message("Successfully updated manga.", 'success');
+			// $this->cache->purge();
 		}
 		else
 		{
 			$this->set_flash_message('Failed to update manga.', 'error');
+
 		}
 
 		$this->session_redirect();
 	}
 
 	/**
-	 * Update an anime item
+	 * Update a manga item
 	 *
-	 * @return boolean|null
+	 * @return void
 	 */
 	public function update()
 	{
-		$result = $this->model->update($this->request->getParsedBody());
-		$this->cache->purge();
-		$this->outputJSON($result['body'], $result['statusCode']);
+		if ($this->request->getHeader('content-type')[0] === 'application/json')
+		{
+			$data = JSON::decode((string)$this->request->getBody());
+		}
+		else
+		{
+			$data = $this->request->getParsedBody();
+		}
+
+		$response = $this->model->updateLibraryItem($data);
+
+		// $this->cache->purge();
+		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
 	/**

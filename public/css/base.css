@@ -1174,8 +1174,8 @@ a:hover, a:active {
 	position:absolute;
 	top: 86px;
 	top: calc(50% - 58.5px);
-	left: 5px;
-	left: calc(50% - 95px);
+	left: 43.5px;
+	left: calc(50% - 66.5px);
 }
 
 /* -----------------------------------------------------------------------------
@@ -1222,9 +1222,14 @@ a:hover, a:active {
 	position:absolute;
 	display:block;
 	top:0;
+	left:0;
 	height:100%;
 	width:100%;
 	vertical-align:middle;
+}
+
+#series_list .name small {
+	color: #fff;
 }
 
 /* ----------------------------------------------------------------------------

@@ -38,10 +38,10 @@ class API extends Model {
 	 */
 	protected $cache;
 
-    /**
-     * Default settings for Guzzle
-     * @var array
-     */
+	/**
+	 * Default settings for Guzzle
+	 * @var array
+	 */
 	protected $connectionDefaults = [];
 
 	/**

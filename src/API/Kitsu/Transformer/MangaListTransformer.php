@@ -91,18 +91,18 @@ class MangaListTransformer extends AbstractTransformer {
 
 		$map = [
 			'id' => $item['id'],
-			'manga_id' => $item['manga_id'],
-			'status' => $item['status'],
-			'chapters_read' => (int)$item['chapters_read'],
-			'volumes_read' => (int)$item['volumes_read'],
-			'rereading' => $rereading,
-			'reread_count' => (int)$item['reread_count'],
-			'notes' => $item['notes'],
+			'data' => [
+				'status' => $item['status'],
+				'progress' => (int)$item['chapters_read'],
+				'reconsuming' => $rereading,
+				'reconsumeCount' => (int)$item['reread_count'],
+				'notes' => $item['notes'],
+			],
 		];
 
 		if ($item['new_rating'] !== $item['old_rating'] && $item['new_rating'] !== "")
 		{
-			$map['rating'] = ($item['new_rating'] > 0)
+			$map['data']['rating'] = ($item['new_rating'] > 0)
 				? $item['new_rating'] / 2
 				: $item['old_rating'] / 2;
 		}
