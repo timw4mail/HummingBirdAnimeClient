@@ -1,7 +1,7 @@
 <main class="details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $data['poster_image'] ?>" alt="<?= $data['title'] ?> cover image" />
+			<img class="cover" src="<?= $data['cover_image'] ?>" alt="<?= $data['title'] ?> cover image" />
 			<br />
 			<br />
 			<table>
@@ -26,9 +26,9 @@
 			</table>
 		</div>
 		<div>
-			<h2><a rel="external" href="https://hummingbird.me/manga/<?= $data['id'] ?>"><?= $data['romaji_title'] ?></a></h2>
-			<?php if( ! empty($data['english_title'])): ?>
-				<h3><?= $data['english_title'] ?></h3>
+			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
+			<?php if( ! empty($data['en_title'])): ?>
+				<h3><?= $data['en_title'] ?></h3>
 			<?php endif ?>
 
 			<br />

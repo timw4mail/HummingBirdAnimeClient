@@ -24,3 +24,6 @@ build/**
 app/config/*.toml
 !app/config/*.toml.example
 phinx.yml
+.idea/
+Caddyfile
+build/humbuglog.txt

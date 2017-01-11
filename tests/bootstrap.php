@@ -3,8 +3,13 @@
  * Global setup for unit tests
  */
 
-use Aviat\Ion\Json;
-use Aviat\AnimeClient\AnimeClient;
+// Work around the silly timezone error
+$timezone = ini_get('date.timezone');
+if ($timezone === '' || $timezone === FALSE)
+{
+	ini_set('date.timezone', 'GMT');
+}
+
 
 // -----------------------------------------------------------------------------
 // Global functions
@@ -26,26 +31,7 @@ function _dir()
 // -----------------------------------------------------------------------------
 
 require _dir(__DIR__, 'AnimeClient_TestCase.php');
-
-// Define base path constants
 require _dir(__DIR__, '../vendor/autoload.php');
-
-/**
- * Set up autoloaders
- *
- * @codeCoverageIgnore
- * @return void
- */
-spl_autoload_register(function ($class) {
-	$class_parts = explode('\\', $class);
-	$ns_path = realpath(__DIR__ . '/../src') . '/' . implode('/', $class_parts) . ".php";
-
-	if (file_exists($ns_path))
-	{
-		require_once($ns_path);
-		return;
-	}
-});
 
 // -----------------------------------------------------------------------------
 // Ini Settings

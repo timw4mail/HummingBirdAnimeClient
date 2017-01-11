@@ -1,19 +1,18 @@
 <?php if ($auth->is_authenticated()): ?>
 	<main>
 		<h1>
-			Edit <?= $item['manga']['title'] ?>
-			<?= ($item['manga']['alternate_title'] != "") ? "({$item['manga']['alternate_title']})" : ""; ?>
+			Edit <?= $item['manga']['titles'][0] ?>
 		</h1>
 		<form action="<?= $action ?>" method="post">
 		<table class="form">
 			<thead>
 				<tr>
-					<th>
-						<h3><?= $escape->html($item['manga']['title']) ?></h3>
-						<?php if($item['manga']['alternate_title'] != ""): ?>
-						<h4><?= $escape->html($item['manga']['alternate_title']) ?></h4>
-						<?php endif ?>
-					</th>
+                    <th>
+                        <h3><?= $escape->html(array_shift($item['manga']['titles'])) ?></h3>
+						<?php foreach($item['manga']['titles'] as $title): ?>
+                            <h4><?= $escape->html($title) ?></h4>
+						<?php endforeach ?>
+                    </th>
 					<th>
 						<article class="media">
 							<?= $helper->img($item['manga']['image']); ?>
@@ -26,9 +25,9 @@
 					<td><label for="status">Reading Status</label></td>
 					<td>
 						<select name="status" id="status">
-						<?php foreach($status_list as $status): ?>
-							<option <?php if($item['reading_status'] === $status): ?>selected="selected"<?php endif ?>
-								value="<?= $status ?>"><?= $status ?></option>
+						<?php foreach($status_list as $val => $status): ?>
+							<option <?php if($item['reading_status'] === $val): ?>selected="selected"<?php endif ?>
+								value="<?= $val ?>"><?= $status ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>
@@ -45,12 +44,12 @@
 						<input type="number" min="0" name="chapters_read" id="chapters_read" value="<?= $item['chapters']['read'] ?>" /> / <?= $item['chapters']['total'] ?>
 					</td>
 				</tr>
-				<tr>
+				<? /*<tr>
 					<td><label for="volumes_read">Volumes Read</label></td>
 					<td>
 						<input type="number" min="0" name="volumes_read" id="volumes_read" value="<?= $item['volumes']['read'] ?>" /> / <?= $item['volumes']['total'] ?>
 					</td>
-				</tr>
+				</tr> */ ?>
 				<tr>
 					<td><label for="rereading_flag">Rereading?</label></td>
 					<td>

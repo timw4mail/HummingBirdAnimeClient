@@ -1,15 +1,14 @@
 <?php
 
 use Aura\Web\WebFactory;
+use Aviat\AnimeClient\AnimeClient;
+use Aviat\Ion\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Zend\Diactoros\ServerRequestFactory;
 use Zend\Diactoros\Response as HttpResponse;
-
-use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\Config;
+use Zend\Diactoros\ServerRequestFactory;
 
 define('ROOT_DIR', __DIR__ . '/../');
 define('TEST_DATA_DIR', __DIR__ . '/test_data');
@@ -52,8 +51,22 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 			'asset_path' => '//localhost/assets/',
 			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
+			'cache' => [
+				'driver' => 'null',
+				'connection' => []
+			],
 			'database' => [
 				'collection' => [
+					'type' => 'sqlite',
+					'host' => '',
+					'user' => '',
+					'pass' => '',
+					'port' => '',
+					'name' => 'default',
+					'database'   => '',
+					'file' => ':memory:',
+				],
+				'cache' => [
 					'type' => 'sqlite',
 					'host' => '',
 					'user' => '',
@@ -73,7 +86,7 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 				]
 			],
 			'redis' => [
-				'host' => 'localhost',
+				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
 				'database' => 13
 			]
 		];
@@ -81,7 +94,13 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 		// Set up DI container
 		$di = require _dir($APP_DIR, 'bootstrap.php');
 		$container = $di($config_array);
-		$container->set('session-handler', self::$session_handler);
+
+		// Use mock session handler
+		$container->set('session-handler', function() {
+			$session_handler = new TestSessionHandler();
+			session_set_save_handler($session_handler, TRUE);
+			return $session_handler;
+		});
 
 		$this->container = $container;
 	}
@@ -106,8 +125,40 @@ class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
 			['Zend\Diactoros\ServerRequestFactory', 'fromGlobals'],
 			array_merge($default, $supers)
 		);
-		$this->container->set('request', $request);
-		$this->container->set('response', new HttpResponse());
+		$this->container->setInstance('request', $request);
+		$this->container->set('repsone', function() {
+			return new HttpResponse();
+		});
+	}
+
+	/**
+	 * Simplify getting test data
+	 *
+	 * Takes multiple path arguments
+	 *
+	 * @return string - contents of the data file
+	 */
+	public function getMockFile()
+	{
+		$args = func_get_args();
+		array_unshift($args, TEST_DATA_DIR);
+		$filePath = implode(DIRECTORY_SEPARATOR, $args);
+
+		return file_get_contents($filePath);
+	}
+
+	/**
+	 * Simplify getting mocked test data
+	 *
+	 * Takes multiple path arguments
+	 *
+	 * @return mixed - the decoded data
+	 */
+	public function getMockFileData()
+	{
+		$rawData = call_user_func_array([$this, 'getMockFile'], func_get_args());
+
+		return Json::decode($rawData);
 	}
 
 	/**

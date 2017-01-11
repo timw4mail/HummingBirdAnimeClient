@@ -3,19 +3,17 @@
  * All the mock classes that extend the classes they are used to test
  */
 
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Model\API as BaseApiModel;
+use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\Ion\Enum;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View;
 use Aviat\Ion\View\HtmlView;
 use Aviat\Ion\View\HttpView;
 use Aviat\Ion\View\JsonView;
-
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
-use Aviat\AnimeClient\Model\API as BaseApiModel;
 
 
 // -----------------------------------------------------------------------------
@@ -99,6 +97,13 @@ trait MockViewOutputTrait {
 	}
 }
 
+class MockUtil {
+	public function get_cached_image($api_path, $series_slug, $type = "anime")
+	{
+		return "/public/images/{$type}/{$series_slug}.jpg";
+	}
+}
+
 class TestView extends View {
 	public function send() {}
 	protected function output()
@@ -144,7 +149,7 @@ class MockBaseApiModel extends BaseApiModel {
 	use MockInjectionTrait;
 	protected $base_url = 'https://httpbin.org/';
 
-	protected function _get_list_from_api($status)
+	protected function _get_list_from_api(string $status): array
 	{
 		return [];
 	}
@@ -156,11 +161,6 @@ class TestAnimeModel extends AnimeModel {
 
 class TestMangaModel extends MangaModel {
 	use MockInjectionTrait;
-
-	public function get_cached_image($api_path, $series_slug, $type = "anime")
-	{
-		return "/public/images/{$type}/{$series_slug}.jpg";
-	}
 
 	protected function _check_cache($response)
 	{

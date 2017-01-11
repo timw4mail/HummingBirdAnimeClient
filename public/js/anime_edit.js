@@ -6,7 +6,7 @@
 	'use strict';
 
 	// Action to increment episode count
-	_.on('body.anime.list', 'click', '.plus_one', function(e) {
+	_.on('body.anime.list', 'click', '.plus_one', function() {
 		let parent_sel = _.closestParent(this, 'article');
 		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
 		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
@@ -15,19 +15,20 @@
 		// Setup the update data
 		let data = {
 			id: parent_sel.id,
-			increment_episodes: true
+			data: {
+				progress: watched_count + 1
+			}
 		};
 
 		// If the episode count is 0, and incremented,
 		// change status to currently watching
 		if (isNaN(watched_count) || watched_count === 0) {
-			data.status = 'currently-watching';
+			data.data.status = 'current';
 		}
 
 		// If you increment at the last episode, mark as completed
 		if (( ! isNaN(watched_count)) && (watched_count + 1) == total_count) {
-			delete data.increment_episodes;
-			data.status = 'completed';
+			data.data.status = 'completed';
 		}
 
 		// okay, lets actually make some changes!
@@ -35,9 +36,8 @@
 			data: data,
 			dataType: 'json',
 			type: 'POST',
-			mimeType: 'application/json',
-			success: (res) => {
-				if (data.status == 'completed') {
+			success: () => {
+				if (data.data.status == 'completed') {
 					_.hide(parent_sel);
 				}
 
@@ -47,7 +47,7 @@
 			},
 			error: (xhr, errorType, error) => {
 				console.error(error);
-				_.showMessage('error', `Failed to updated ${title}. `);
+				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();
 			}
 		});

@@ -1,22 +1,34 @@
-<?php
-
+<?php declare(strict_types=1);
 /**
- * Bootstrap / Dependency Injection
+ * Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     AnimeListClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2016  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Monolog\Logger;
-use Monolog\Handler\RotatingFileHandler;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\Response;
-
-use Aviat\Ion\Di\Container;
-use Aviat\Ion\Cache\CacheManager;
-use Aviat\AnimeClient\Auth\HummingbirdAuth;
+use Aviat\AnimeClient\API\Kitsu\Auth as KitsuAuth;
+use Aviat\AnimeClient\API\Kitsu\ListItem as KitsuListItem;
+use Aviat\AnimeClient\API\Kitsu\KitsuModel;
 use Aviat\AnimeClient\Model;
+use Aviat\Banker\Pool;
+use Aviat\Ion\Config;
+use Aviat\Ion\Di\Container;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+use Zend\Diactoros\{Response, ServerRequestFactory};
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -30,65 +42,104 @@ return function(array $config_array = []) {
 
 	$app_logger = new Logger('animeclient');
 	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+	$request_logger = new Logger('request');
+	$request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/request.log', Logger::NOTICE));
 	$container->setLogger($app_logger, 'default');
+	$container->setLogger($request_logger, 'request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$config = new Config($config_array);
-	$container->set('config', $config);
+	$container->set('config', function() {
+		return new Config();
+	});
+	$container->setInstance('config', new Config($config_array));
 
 	// Create Cache Object
-	$container->set('cache', new CacheManager($container));
+	$container->set('cache', function($container) {
+		$logger = $container->getLogger();
+		$config = $container->get('config')->get('cache');
+		return new Pool($config, $logger);
+	});
 
 	// Create Aura Router Object
-	$container->set('aura-router', new RouterContainer);
+	$container->set('aura-router', function() {
+		return new RouterContainer;
+	});
 
 	// Create Html helper Object
-	$html_helper = (new HelperLocatorFactory)->newInstance();
-	$html_helper->set('menu', function() use ($container) {
-		$menu_helper = new Helper\Menu();
-		$menu_helper->setContainer($container);
-		return $menu_helper;
+	$container->set('html-helper', function($container) {
+		$html_helper = (new HelperLocatorFactory)->newInstance();
+		$html_helper->set('menu', function() use ($container) {
+			$menu_helper = new Helper\Menu();
+			$menu_helper->setContainer($container);
+			return $menu_helper;
+		});
+
+		return $html_helper;
 	});
-	$container->set('html-helper', $html_helper);
 
 	// Create Request/Response Objects
-	$request = ServerRequestFactory::fromGlobals(
-		$_SERVER,
-		$_GET,
-		$_POST,
-		$_COOKIE,
-		$_FILES
-	);
-	$container->set('request', $request);
-	$container->set('response', new Response());
+	$container->set('request', function() {
+		return ServerRequestFactory::fromGlobals(
+			$_SERVER,
+			$_GET,
+			$_POST,
+			$_COOKIE,
+			$_FILES
+		);
+	});
+	$container->set('response', function() {
+		return new Response;
+	});
 
 	// Create session Object
-	$session = (new SessionFactory())->newInstance($_COOKIE);
-	$container->set('session', $session);
+	$container->set('session', function() {
+		return (new SessionFactory())->newInstance($_COOKIE);
+	});
 
 	// Miscellaneous helper methods
-	$anime_client = new AnimeClient();
-	$anime_client->setContainer($container);
-	$container->set('anime-client', $anime_client);
+	$container->set('util', function($container) {
+		return new Util($container);
+	});
 
 	// Models
-	$container->set('api-model', new Model\API($container));
-	$container->set('anime-model', new Model\Anime($container));
-	$container->set('manga-model', new Model\Manga($container));
-	$container->set('anime-collection-model', new Model\AnimeCollection($container));
+	$container->set('kitsu-model', function($container) {
+		$listItem = new KitsuListItem();
+		$listItem->setContainer($container);
+		$model = new KitsuModel($listItem);
+		$model->setContainer($container);
+		return $model;
+	});
+	$container->set('api-model', function($container) {
+		return new Model\API($container);
+	});
+	$container->set('anime-model', function($container) {
+		return new Model\Anime($container);
+	});
+	$container->set('manga-model', function($container) {
+		return new Model\Manga($container);
+	});
+	$container->set('anime-collection-model', function($container) {
+		return new Model\AnimeCollection($container);
+	});
 
 	// Miscellaneous Classes
-	$container->set('auth', new HummingbirdAuth($container));
-	$container->set('url-generator', new UrlGenerator($container));
+	$container->set('auth', function($container) {
+		return new KitsuAuth($container);
+	});
+	$container->set('url-generator', function($container) {
+		return new UrlGenerator($container);
+	});
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
 	// -------------------------------------------------------------------------
-	$container->set('dispatcher', new Dispatcher($container));
+	$container->set('dispatcher', function($container) {
+		return new Dispatcher($container);
+	});
 
 	return $container;
 };

@@ -4,11 +4,14 @@
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
+ * PHP version 5.6
+ *
  * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015 - 2016
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2016  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- * @license     MIT
  */
 
 use Aviat\AnimeClient\AnimeClient;
@@ -144,7 +147,7 @@ return [
 		// ---------------------------------------------------------------------
 		'cache_purge' => [
 			'path' => '/cache_purge',
-			'action' => 'clear_cache',
+			'action' => 'clearCache',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'get',
 		],
@@ -156,7 +159,7 @@ return [
 		],
 		'login.post' => [
 			'path' => '/login',
-			'action' => 'login_action',
+			'action' => 'loginAction',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'post',
 		],
@@ -200,7 +203,7 @@ return [
 		'index_redirect' => [
 			'path' => '/',
 			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
-			'action' => 'redirect_to_default',
+			'action' => 'redirectToDefaultRoute',
 		],
 	],
 ];

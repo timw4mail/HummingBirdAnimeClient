@@ -235,7 +235,7 @@ var AnimeClient = (function(w) {
 	 * 	data: // data to send with the request
 	 * 	type: // http verb of the request, defaults to GET
 	 * 	success: // success callback
-	 * 	error: // error callback  
+	 * 	error: // error callback
 	 * }
 	 *
 	 * @param  {string} url - the url to request
@@ -249,6 +249,7 @@ var AnimeClient = (function(w) {
 		config.type = config.type || 'GET';
 		config.dataType = config.dataType || '';
 		config.success = config.success || _.noop;
+		config.mimeType = config.mimeType || 'application/x-www-form-urlencoded';
 		config.error = config.error || _.noop;
 
 		let request = new XMLHttpRequest();
@@ -280,14 +281,22 @@ var AnimeClient = (function(w) {
 			}
 		};
 
+		if (config.dataType === 'json') {
+			config.data = JSON.stringify(config.data);
+			config.mimeType = 'application/json';
+		} else {
+			config.data = ajaxSerialize(config.data);
+		}
+
+		request.setRequestHeader('Content-Type', config.mimeType);
+
 		switch (method) {
 			case "GET":
 				request.send(null);
 			break;
 
 			default:
-				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				request.send(ajaxSerialize(config.data));
+				request.send(config.data);
 			break;
 		}
 	};

@@ -1,7 +1,7 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php /*if ($auth->is_authenticated()): ?>
 <a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
-<?php endif ?>
+<?php endif*/ ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
@@ -15,8 +15,8 @@
 				<?php endif ?>
 				<th>Title</th>
 				<th>Rating</th>
-				<th>Chapters</th>
-				<th>Volumes</th>
+				<th>Completed Chapters</th>
+				<th># of Volumes</th>
 				<th>Type</th>
 			</tr>
 		</thead>
@@ -30,13 +30,15 @@
 				<?php endif ?>
 				<td class="align_left">
 					<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-						<?= $item['manga']['title'] ?>
+						<?= array_shift($item['manga']['titles']) ?>
 					</a>
-					<?= ( ! is_null($item['manga']['alternate_title'])) ? " &middot; " . $item['manga']['alternate_title'] : "" ?>
+					<?php foreach($item['manga']['titles'] as $title): ?>
+                        <br /><?= $title ?>
+					<?php endforeach ?>
 				</td>
 				<td><?= $item['user_rating'] ?> / 10</td>
 				<td><?= $item['chapters']['read'] ?> / <?= $item['chapters']['total'] ?></td>
-				<td><?= $item['volumes']['read'] ?> / <?= $item['volumes']['total'] ?></td>
+				<td><?= $item['volumes']['total'] ?></td>
 				<td><?= $item['manga']['type'] ?></td>
 			</tr>
 			<?php endforeach ?>

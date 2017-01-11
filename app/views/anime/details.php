@@ -23,26 +23,21 @@
 				</tr>
 				<tr>
 					<td>Age Rating</td>
-					<td><?= $data['age_rating'] ?></td>
+                    <td><abbr title="<?= $data['age_rating_guide'] ?>"><?= $data['age_rating'] ?></abbr></td>
 				</tr>
 				<tr>
 					<td>Genres</td>
 					<td>
-						<?php
-						$genres = [];
-						foreach($data['genres'] as $g) $genres[] = $g['name'];
-						?>
-						<?= implode(', ', $genres); ?>
+						<?= implode(', ', $data['genres']) ?>
 					</td>
 				</tr>
 			</table>
 		</div>
 		<div>
-			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
-			<?php if( ! empty($data['alternate_title'])): ?>
-				<h3><?= $data['alternate_title'] ?></h3>
-			<?php endif ?>
-
+			<h2><a rel="external" href="<?= $data['url'] ?>"><?= array_shift($data['titles']) ?></a></h2>
+            <?php foreach ($data['titles'] as $title): ?>
+                <h3><?= $title ?></h3>
+            <?php endforeach ?>
 			<br />
 			<p><?= nl2br($data['synopsis']) ?></p>
 		</div>

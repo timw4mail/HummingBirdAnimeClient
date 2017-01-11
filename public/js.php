@@ -1,14 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime Client
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
- * @package	 HummingbirdAnimeClient
- * @author	  Timothy J. Warren
- * @copyright   Copyright (c) 2015 - 2016
- * @link		https://github.com/timw4mail/HummingBirdAnimeClient
- * @license	 MIT
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2016  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     3.1
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\EasyMin;
@@ -115,7 +118,7 @@ class JSMin extends BaseMin {
 	protected function check_minify_errors($options)
 	{
 		$error_res = $this->closure_call($options);
-		$error_json = $error_res->getBody();
+		$error_json = (string)$error_res->getBody();
 		$error_obj = json_decode($error_json) ?: (object)[];
 
 		// Show error if exists
@@ -198,7 +201,7 @@ class JSMin extends BaseMin {
 		// Now actually retrieve the compiled code
 		$options['output_info'] = 'compiled_code';
 		$res = $this->closure_call($options);
-		$json = $res->getBody();
+		$json = (string)$res->getBody();
 		$obj = json_decode($json);
 
 		return $obj->compiledCode;

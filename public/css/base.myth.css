@@ -1,3 +1,5 @@
+@import "./marx.myth.css";
+
 :root {
 	--link-shadow: 1px 1px 1px #000;
 	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
@@ -296,7 +298,7 @@ a:hover, a:active {
 	display:inline-block;
 	text-align:center;
 	width:220px;
-	height:319px;
+	height:311px;
 	margin: var(--normal-padding);
 }
 
@@ -352,7 +354,9 @@ a:hover, a:active {
 			display:block;
 		}
 
-		.media > .name > a {
+		.media > .name a,
+		.media > .name a small
+		{
 			background:none;
 			color:#fff;
 			text-shadow: var(--shadow);
@@ -427,8 +431,7 @@ a:hover, a:active {
 
 .manga .media {
 	border:1px solid #ddd;
-	width:200px;
-	height:290px;
+	height:310px;
 	margin:0.25em;
 }
 
@@ -436,8 +439,8 @@ a:hover, a:active {
 	position:absolute;
 	top: 86px;
 	top: calc(50% - 58.5px);
-	left: 5px;
-	left: calc(50% - 95px);
+	left: 43.5px;
+	left: calc(50% - 66.5px);
 }
 
 
@@ -481,9 +484,14 @@ a:hover, a:active {
 	position:absolute;
 	display:block;
 	top:0;
+	left:0;
 	height:100%;
 	width:100%;
 	vertical-align:middle;
+	line-height: 1.25em;
+}
+#series_list .name small {
+	color: #fff;
 }
 
 /* ----------------------------------------------------------------------------
