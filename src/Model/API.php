@@ -8,13 +8,11 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- */
-
-namespace Aviat\AnimeClient\Model;
+ */namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Model;
