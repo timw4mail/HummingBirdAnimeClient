@@ -488,6 +488,7 @@ a:hover, a:active {
 	height:100%;
 	width:100%;
 	vertical-align:middle;
+	line-height: 1.25em;
 }
 #series_list .name small {
 	color: #fff;

@@ -19,7 +19,7 @@
 		"aura/router": "3.*",
 		"aura/session": "2.*",
 		"aviat/banker": "dev-master",
-		"aviat/ion": "dev-master",
+		"aviat/ion": "1.0.*",
 		"filp/whoops": "2.0.*",
 		"guzzlehttp/guzzle": "6.*",
 		"monolog/monolog": "1.*",
@@ -44,6 +44,6 @@
 		"squizlabs/php_codesniffer": "^3.0.0@beta"
 	},
 	"scripts": {
-
+		"build:css": "cd public && npm run build && cd .."
 	}
 }
