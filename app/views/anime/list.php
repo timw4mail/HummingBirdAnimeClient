@@ -35,36 +35,38 @@
 				<?php endif ?>
 				<td class="justify">
 					<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
-						<?= $item['anime']['title'] ?>
+						<?= array_shift($item['anime']['titles']) ?>
 					</a>
-					<?= ( ! empty($item['anime']['alternate_title'])) ? " <br /> " . $item['anime']['alternate_title'] : "" ?>
+                    <?php foreach($item['anime']['titles'] as $title): ?>
+                        <br /><?= $title ?>
+                    <?php endforeach ?>
 				</td>
-				<td class="align_left"><?= $item['airing']['status'] ?></td>
+				<td><?= $item['airing']['status'] ?></td>
 				<td><?= $item['user_rating'] ?> / 10 </td>
 				<td><?= $item['anime']['type'] ?></td>
-				<td class="align_left" id="<?= $item['anime']['slug'] ?>">
+				<td id="<?= $item['anime']['slug'] ?>">
 					Episodes: <br />
 					<span class="completed_number"><?= $item['episodes']['watched'] ?></span>&nbsp;/&nbsp;<span class="total_number"><?= $item['episodes']['total'] ?></span>
 				</td>
 				<td><?= $item['anime']['age_rating'] ?></td>
 				<td>
+                    <ul>
 					<?php if ($item['rewatched'] > 0): ?>
-						Rewatched <?= $item['rewatched'] ?> time(s)<br />
+                        <li>Rewatched <?= $item['rewatched'] ?> time(s)</li>
 					<?php endif ?>
-					<?php $attr_list = []; ?>
 					<?php foreach(['private','rewatching'] as $attr): ?>
 						<?php if($item[$attr]): ?>
-						<?php $attr_list[] = ucfirst($attr); ?>
+                            <li><?= ucfirst($attr); ?></li>
 						<?php endif ?>
 					<?php endforeach ?>
-					<?= implode(', ', $attr_list); ?>
+                    </ul>
 				</td>
 				<td>
 					<p><?= $escape->html($item['notes']) ?></p>
 				</td>
 				<td class="align_left">
 					<?php sort($item['anime']['genres']) ?>
-					<?= join(', ', $item['anime']['genres']) ?>
+					<?= implode(', ', $item['anime']['genres']) ?>
 				</td>
 			</tr>
 			<?php endforeach ?>

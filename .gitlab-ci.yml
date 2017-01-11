@@ -1,0 +1,37 @@
+# Composer stores all downloaded packages in the vendor/ directory.
+# Do not use the following if the vendor/ directory is commited to
+# your git repository.
+cache:
+  paths:
+  - vendor/
+
+services:
+    - redis:latest
+
+test:7:
+    before_script:
+      - bash build/docker_install.sh > /dev/null
+      - curl -sS https://getcomposer.org/installer | php
+      - php composer.phar install --no-dev
+    image: php:7
+    script:
+      - phpunit -c build
+      
+test:7.1:
+    before_script:
+      - bash build/docker_install.sh > /dev/null
+      - curl -sS https://getcomposer.org/installer | php
+      - php composer.phar install --no-dev
+    image: php:7.1
+    script:
+      - phpunit -c build
+
+test:hhvm:
+    before_script:
+      - /usr/local/bin/composer self-update
+      - curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
+      - chmod +x /usr/local/bin/phpunit
+      - composer install --no-dev
+    image: 51systems/docker-gitlab-ci-runner-hhvm
+    script:
+      - hhvm -d hhvm.php7.all=true vendor/bin/phpunit -c build

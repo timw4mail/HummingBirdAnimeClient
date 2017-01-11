@@ -28,6 +28,7 @@
 				<tr>
 					<td>&nbsp;</td>
 					<td>
+						<input type="hidden" name="type" value="anime" />
 						<button type="submit">Save</button>
 					</td>
 				</tr>

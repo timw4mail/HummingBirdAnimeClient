@@ -4,15 +4,20 @@
  *
  * An API client for Hummingbird to manage anime and manga watch lists
  *
+ * PHP version 5.6
+ *
  * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren
- * @copyright   Copyright (c) 2015 - 2016
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2016  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     3.1
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- * @license     MIT
  */
+namespace Aviat\AnimeClient;
+
 use Aviat\AnimeClient\AnimeClient;
 use Whoops\Handler\PrettyPageHandler;
-use Whoops\Handler\JsonResponseHandler;
+use Whoops\Run;
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -34,44 +39,25 @@ function _dir()
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
-$SRC_DIR = _dir(__DIR__, 'src');
 $CONF_DIR = _dir($APP_DIR, 'config');
 
-/**
- * Set up autoloaders
- *
- * @codeCoverageIgnore
- * @return void
- */
-spl_autoload_register(function($class) use ($SRC_DIR) {
-	$class_parts = explode('\\', $class);
-	$ns_path = $SRC_DIR . '/' . implode('/', $class_parts) . ".php";
-
-	if (file_exists($ns_path))
-	{
-		require_once($ns_path);
-		return;
-	}
-});
-
-// Set up autoloader for third-party dependencies
+// Load composer autoloader
 require _dir(__DIR__, '/vendor/autoload.php');
 
 // -------------------------------------------------------------------------
 // Setup error handling
 // -------------------------------------------------------------------------
-$whoops = new \Whoops\Run();
+$whoops = new Run();
 
 // Set up default handler for general errors
 $defaultHandler = new PrettyPageHandler();
 $whoops->pushHandler($defaultHandler);
 
-// Set up json handler for ajax errors
-//$jsonHandler = new JsonResponseHandler();
-//$whoops->pushHandler($jsonHandler);
-
 // Register as the error handler
-$whoops->register();
+if (array_key_exists('whoops', $_GET))
+{
+	$whoops->register();
+}
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
@@ -79,14 +65,13 @@ $whoops->register();
 require _dir($CONF_DIR, 'base_config.php'); // $base_config
 $di = require _dir($APP_DIR, 'bootstrap.php');
 
-$config = AnimeClient::load_toml($CONF_DIR);
+$config = AnimeClient::loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);
 
 $container = $di($config_array);
 
 // Unset 'constants'
 unset($APP_DIR);
-unset($SRC_DIR);
 unset($CONF_DIR);
 
 // -----------------------------------------------------------------------------
