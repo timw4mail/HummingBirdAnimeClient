@@ -12,7 +12,10 @@
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- */namespace Aviat\AnimeClient\API\Kitsu\Transformer;
+ */
+
+
+namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\StringWrapper;
