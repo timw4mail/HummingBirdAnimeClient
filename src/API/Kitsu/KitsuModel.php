@@ -220,9 +220,12 @@ class KitsuModel {
 			'query' => [
 				'filter' => [
 					'text' => $query
-				]
-			],
-			'include' => 'media'
+				],
+				'page' => [
+					'offset' => 0,
+					'limit' => 20
+				],
+			]
 		];
 
 		$raw = $this->getRequest($type, $options);
@@ -234,6 +237,12 @@ class KitsuModel {
 		}
 
 		return $raw;
+	}
+
+	public function createListItem(array $data): bool
+	{
+		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
+		return $this->listItem->create($data);
 	}
 
 	public function getListItem(string $listId): array
@@ -253,12 +262,6 @@ class KitsuModel {
 			default:
 				return $baseData['data']['attributes'];
 		}
-	}
-
-	public function createListItem(array $data): bool
-	{
-		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
-		return $this->listItem->create($data);
 	}
 
 	public function updateListItem(array $data)

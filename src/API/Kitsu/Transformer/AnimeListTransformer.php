@@ -40,7 +40,7 @@ class AnimeListTransformer extends AbstractTransformer {
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
-		$total_episodes = array_key_exists('episodeCount', $anime)
+		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
 
