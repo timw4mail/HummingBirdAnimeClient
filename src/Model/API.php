@@ -14,7 +14,6 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};

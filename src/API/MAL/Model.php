@@ -14,7 +14,6 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\Model\API;
