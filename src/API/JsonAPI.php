@@ -14,7 +14,6 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-
 namespace Aviat\AnimeClient\API;
 
 /**
@@ -42,6 +41,13 @@ class JsonAPI {
 	protected $data = [];
 
 	/**
+	 * Data array parsed out from a request
+	 *
+	 * @var array
+	 */
+	protected $parsedData = [];
+
+	/**
 	 * Related objects included with the request
 	 *
 	 * @var array
@@ -56,11 +62,32 @@ class JsonAPI {
 	protected $links = [];
 
 	/**
+	 * JsonAPI constructor
+	 *
+	 * @param array $initital
+	 */
+	public function __construct(array $initial = [])
+	{
+		$this->data = $initial;
+	}
+
+	/**
 	 * Parse a JsonAPI response into its components
 	 *
 	 * @param array $data
 	 */
 	public function parse(array $data)
+	{
+
+	}
+
+	/**
+	 * Return data array after input is parsed
+	 * to inline includes inside of relationship objects
+	 *
+	 * @return array
+	 */
+	public function getParsedData(): array
 	{
 
 	}
