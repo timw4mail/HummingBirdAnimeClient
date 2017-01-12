@@ -2,6 +2,10 @@
 #                                 Cache Setup                                  #
 ################################################################################
 
+# See https://git.timshomepage.net/timw4mail/banker for more information
+
+# Available drivers are memcache, memcached, redis or null
+# Null cache driver means no caching
 driver = "redis"
 
 [connection]
