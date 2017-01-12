@@ -304,7 +304,8 @@ class Controller {
 			return $this->session_redirect();
 		}
 
-		$this->login("Invalid username or password.");
+		$this->set_flash_message('Invalid username or password.');
+		$this->redirect($this->urlGenerator->url('login'), 303);
 	}
 
 	/**

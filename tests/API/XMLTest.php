@@ -1,18 +1,4 @@
 <?php declare(strict_types=1);
-/**
- * Anime List Client
- *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
- *
- * PHP version 7
- *
- * @package     AnimeListClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API;
 
@@ -23,8 +9,8 @@ class XMLTest extends TestCase {
 
 	public function setUp()
 	{
-		$this->xml = file_get_contents(__DIR__ . '/../test_data/xmlTestFile.xml');
-		$this->expectedXml = file_get_contents(__DIR__ . '/../test_data/minifiedXmlTestFile.xml');
+		$this->xml = file_get_contents(__DIR__ . '/../test_data/XML/xmlTestFile.xml');
+		$this->expectedXml = file_get_contents(__DIR__ . '/../test_data/XML/minifiedXmlTestFile.xml');
 
 		$this->array = [
 			'entry' => [

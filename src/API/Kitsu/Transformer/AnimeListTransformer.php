@@ -33,19 +33,35 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-/* ?><pre><?= print_r($item, TRUE) ?></pre><?php
-// die(); */
-		$anime = $item['anime']['attributes'] ?? $item['anime'];
-		$genres = $item['genres'] ?? [];
+		$included = $item['included'] ?? [];
+		$animeId = $item['relationships']['media']['data']['id'];
+		$anime = $included['anime'][$animeId] ?? $item['anime'];
+		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
 
 		$rating = (int) 2 * $item['attributes']['rating'];
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
+		
+		$progress = (int) $item['attributes']['progress'] ?? '-';
+		
+		$MALid = NULL;
+		
+		if (array_key_exists('mappings', $included))
+		{
+			foreach ($included['mappings'] as $mapping)
+			{
+				if ($mapping['externalSite'] === 'myanimelist/anime')
+				{
+					$MALid = $mapping['externalId'];
+				}
+			}
+		}
 
 		return [
 			'id' => $item['id'],
+			'mal_id' => $MALid,
 			'episodes' => [
 				'watched' => $item['attributes']['progress'],
 				'total' => $total_episodes,
@@ -60,7 +76,6 @@ class AnimeListTransformer extends AbstractTransformer {
 				'age_rating' => $anime['ageRating'],
 				'titles' => Kitsu::filterTitles($anime),
 				'slug' => $anime['slug'],
-				'url' => $anime['url'] ?? '',
 				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
 				'image' => $anime['posterImage']['small'],
 				'genres' => $genres,
@@ -69,7 +84,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
-			'user_rating' => ($rating === 0) ? '-' : $rating,
+			'user_rating' => ($rating === 0) ? '-' : (int) $rating,
 			'private' => (bool) $item['attributes']['private'] ?? false,
 		];
 	}
@@ -83,18 +98,8 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function untransform($item)
 	{
-		// Messy mapping of boolean values to their API string equivalents
-		$privacy = 'false';
-		if (array_key_exists('private', $item) && $item['private'])
-		{
-			$privacy = 'true';
-		}
-
-		$rewatching = 'false';
-		if (array_key_exists('rewatching', $item) && $item['rewatching'])
-		{
-			$rewatching = 'true';
-		}
+		$privacy = (array_key_exists('private', $item) && $item['private']);
+		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
 		$untransformed = [
 			'id' => $item['id'],

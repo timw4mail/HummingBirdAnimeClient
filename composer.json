@@ -14,7 +14,6 @@
 		}
 	},
 	"require": {
-		"abeautifulsite/simpleimage": "2.5.*",
 		"aura/html": "2.*",
 		"aura/router": "3.*",
 		"aura/session": "2.*",
@@ -35,15 +34,16 @@
 		"theseer/phpdox": "0.8.1.1",
 		"phploc/phploc": "^3.0",
 		"phpmd/phpmd": "^2.4",
-		"phpunit/phpunit": "^5.4",
+		"phpunit/phpunit": "^5.7",
 		"robmorgan/phinx": "^0.6.4",
 		"humbug/humbug": "~1.0@dev",
-		"consolidation/robo": "~1.0@RC",
+		"consolidation/robo": "~1.0",
 		"henrikbjorn/lurker": "^1.1.0",
 		"symfony/var-dumper": "^3.1",
 		"squizlabs/php_codesniffer": "^3.0.0@beta"
 	},
 	"scripts": {
-		"build:css": "cd public && npm run build && cd .."
+		"build:css": "cd public && npm run build && cd ..",
+		"watch:css": "cd public && npm run watch"
 	}
 }

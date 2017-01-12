@@ -77,6 +77,7 @@
 						<td>&nbsp;</td>
 						<td>
 							<input type="hidden" value="<?= $item['id'] ?>" name="id" />
+							<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id" />
 							<input type="hidden" value="true" name="edit" />
 							<button type="submit">Submit</button>
 						</td>

@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
+use Aviat\Ion\Json;
+
 /**
  * Class encapsulating Json API data structure for a request or response
  */
@@ -52,7 +54,7 @@ class JsonAPI {
 	 *
 	 * @var array
 	 */
-	protected $included = [];
+	public $included = [];
 
 	/**
 	 * Pagination links
@@ -70,6 +72,11 @@ class JsonAPI {
 	{
 		$this->data = $initial;
 	}
+	
+	public function parseFromString(string $json)
+	{
+		$this->parse(Json::decode($json));
+	}
 
 	/**
 	 * Parse a JsonAPI response into its components
@@ -78,7 +85,7 @@ class JsonAPI {
 	 */
 	public function parse(array $data)
 	{
-
+		$this->included = static::organizeIncludes($data['included']);
 	}
 
 	/**
@@ -90,5 +97,108 @@ class JsonAPI {
 	public function getParsedData(): array
 	{
 
+	}
+	
+	/**
+	 * Take inlined included data and inline it into the main object's relationships
+	 *
+	 * @param array $mainObject
+	 * @param array $included
+	 * @return array
+	 */
+	public static function inlineIncludedIntoMainObject(array $mainObject, array $included): array
+	{
+		$output = clone $mainObject;
+	}
+	
+	/**
+	 * Take organized includes and inline them, where applicable
+	 *
+	 * @param array $included
+	 * @param string $key The key of the include to inline the other included values into
+	 * @return array
+	 */
+	public static function inlineIncludedRelationships(array $included, string $key): array
+	{
+		$inlined = [
+			$key => []
+		];
+		
+		foreach ($included[$key] as $itemId => $item)
+		{
+			// Duplicate the item for the output
+			$inlined[$key][$itemId] = $item;
+			
+			foreach($item['relationships'] as $type => $ids)
+			{
+				$inlined[$key][$itemId]['relationships'][$type] = [];
+				foreach($ids as $id)
+				{
+					$inlined[$key][$itemId]['relationships'][$type][$id] = $included[$type][$id];
+				}
+			}
+		}
+		
+		return $inlined;
+	}
+
+	/**
+	 * Reorganizes 'included' data to be keyed by
+	 * 	type => [
+	 * 		id => data/attributes,
+	 * 	]
+	 *
+	 * @param array $includes
+	 * @return array
+	 */
+	public static function organizeIncludes(array $includes): array
+	{
+		$organized = [];
+
+		foreach ($includes as $item)
+		{
+			$type = $item['type'];
+			$id = $item['id'];
+			$organized[$type] = $organized[$type] ?? [];
+			$organized[$type][$id] = $item['attributes'];
+
+			if (array_key_exists('relationships', $item))
+			{
+				$organized[$type][$id]['relationships'] = static::organizeRelationships($item['relationships']);
+			}
+		}
+
+		return $organized;
+	}
+
+	/**
+	 * Reorganize relationship mappings to make them simpler to use
+	 *
+	 * Remove verbose structure, and just map:
+	 * 	type => [ idArray ]
+	 *
+	 * @param array $relationships
+	 * @return array
+	 */
+	public static function organizeRelationships(array $relationships): array
+	{
+		$organized = [];
+
+		foreach($relationships as $key => $data)
+		{
+			if ( ! array_key_exists('data', $data))
+			{
+				continue;
+			}
+
+			$organized[$key] = $organized[$key] ?? [];
+
+			foreach ($data['data'] as $item)
+			{
+				$organized[$key][] = $item['id'];
+			}
+		}
+
+		return $organized;
 	}
 }

@@ -15,16 +15,18 @@
 				</tr>
 				<tr>
 					<td>Episode Count</td>
-					<td><?= $data['episode_count'] ?></td>
+					<td><?= $data['episode_count'] ?? '-' ?></td>
 				</tr>
 				<tr>
 					<td>Episode Length</td>
 					<td><?= $data['episode_length'] ?> minutes</td>
 				</tr>
+				<?php if ( ! empty($data['age_rating'])): ?>
 				<tr>
 					<td>Age Rating</td>
                     <td><abbr title="<?= $data['age_rating_guide'] ?>"><?= $data['age_rating'] ?></abbr></td>
 				</tr>
+				<?php endif ?>
 				<tr>
 					<td>Genres</td>
 					<td>
@@ -40,6 +42,7 @@
             <?php endforeach ?>
 			<br />
 			<p><?= nl2br($data['synopsis']) ?></p>
+			<?php /*<pre><?= json_encode($data['included'], \JSON_PRETTY_PRINT) ?></pre> */ ?>
 		</div>
 	</section>
 </main>

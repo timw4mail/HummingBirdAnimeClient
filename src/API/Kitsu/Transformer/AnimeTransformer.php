@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -33,7 +33,8 @@ class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-		$item['genres'] = $item['genres'] ?? [];
+		$item['included'] = JsonAPI::organizeIncludes($item['included']);
+		$item['genres'] = array_column($item['included']['genres'], 'name') ?? [];
 		sort($item['genres']);
 
 		return [
@@ -48,6 +49,7 @@ class AnimeTransformer extends AbstractTransformer {
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
 			'genres' => $item['genres'],
+			'included' => $item['included']
 		];
 	}
 }
