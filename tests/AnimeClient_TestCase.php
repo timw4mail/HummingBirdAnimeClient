@@ -7,8 +7,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Zend\Diactoros\Response as HttpResponse;
-use Zend\Diactoros\ServerRequestFactory;
+use PHPUnit\Framework\TestCase;
+use Zend\Diactoros\{
+	Response as HttpResponse,
+	ServerRequestFactory
+};
 
 define('ROOT_DIR', __DIR__ . '/../');
 define('TEST_DATA_DIR', __DIR__ . '/test_data');
@@ -17,7 +20,7 @@ define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 /**
  * Base class for TestCases
  */
-class AnimeClient_TestCase extends PHPUnit_Framework_TestCase {
+class AnimeClient_TestCase extends TestCase {
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;
 	const SRC_DIR = AnimeClient::SRC_DIR;

@@ -14,50 +14,36 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Kitsu;
+namespace Aviat\AnimeClient\API\MAL;
 
-use Aviat\AnimeClient\Model\API;
+use Aviat\AnimeClient\API\MAL as M;
+use Aviat\Ion\Di\ContainerAware;
 
 /**
  * MyAnimeList API Model
  */
-class Model extends API {
+class Model {
+	
+	use ContainerAware;
+	use MALTrait;
 
-    /**
-     * Base url for Kitsu API
-     */
-    protected $baseUrl = 'https://myanimelist.net/api/';
+	public function createListItem(array $data): bool
+	{
 
-    /**
-     * Default settings for Guzzle
-     * @var array
-     */
-    protected $connectionDefaults = [];
+	}
 
-    /**
-     * Get the access token from the Kitsu API
-     *
-     * @param string $username
-     * @param string $password
-     * @return bool|string
-     */
-    public function authenticate(string $username, string $password)
-    {
-        $response = $this->post('account/', [
-            'body' => http_build_query([
-                'grant_type' => 'password',
-                'username' => $username,
-                'password' => $password
-            ])
-        ]);
+	public function getListItem(string $listId): array
+	{
 
-        $info = $response->getBody();
+	}
 
-        if (array_key_exists('access_token', $info)) {
-            // @TODO save token
-            return true;
-        }
+	public function updateListItem(array $data)
+	{
 
-        return false;
-    }
+	}
+
+	public function deleteListItem(string $id): bool
+	{
+
+	}
 }

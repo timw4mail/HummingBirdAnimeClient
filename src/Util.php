@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient;
 
-use abeautifulsite\SimpleImage;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use DomainException;

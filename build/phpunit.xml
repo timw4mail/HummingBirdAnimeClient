@@ -4,7 +4,6 @@
 	stopOnFailure="false"
 	bootstrap="../tests/bootstrap.php"
 	beStrictAboutTestsThatDoNotTestAnything="true"
-	checkForUnintentionallyCoveredCode="true"
 	>
 	<filter>
 		<whitelist>

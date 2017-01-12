@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\AnimeClient\Enum\{AnimeWatchingStatus, MangaReadingStatus};
+use Aviat\AnimeClient\API\MAL\Enum\{AnimeWatchingStatus, MangaReadingStatus};
 
 /**
  * Constants and mappings for the My Anime List API

@@ -11,11 +11,11 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
-				<article class="media" id="<?= $item['id'] ?>">
+				<article class="media" id="<?= $item['id'] ?>" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
 					<?php if ($auth->is_authenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
-					<?= $helper->img($item['anime']['image']); ?>
+					<img src="<?= $item['anime']['image'] ?>" alt="" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
 							<?= array_shift($item['anime']['titles']) ?>

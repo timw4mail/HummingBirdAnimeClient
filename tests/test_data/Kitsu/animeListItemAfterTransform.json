@@ -1,0 +1,28 @@
+{
+    "id": "14047981",
+    "mal_id": null,
+    "episodes": {
+        "watched": 38,
+        "total": 48,
+        "length": 24
+    },
+    "airing": {
+        "status": "Finished Airing",
+        "started": "2012-02-05",
+        "ended": "2013-01-27"
+    },
+    "anime": {
+        "age_rating": "PG",
+        "titles": ["Smile Precure!", "Glitter Force", "\u30b9\u30de\u30a4\u30eb\u30d7\u30ea\u30ad\u30e5\u30a2\uff01"],
+        "slug": "smile-precure",
+        "type": "TV",
+        "image": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/small.jpg?1408459122",
+        "genres": ["Magic", "Kids", "Mahou Shoujo", "Fantasy"]
+    },
+    "watching_status": "current",
+    "notes": "Very formulaic.",
+    "rewatching": false,
+    "rewatched": 0,
+    "user_rating": 8,
+    "private": false
+}

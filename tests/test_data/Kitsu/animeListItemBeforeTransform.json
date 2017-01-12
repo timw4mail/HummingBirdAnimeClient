@@ -1,0 +1,155 @@
+{
+    "id": "14047981",
+    "type": "libraryEntries",
+    "links": {
+        "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981"
+    },
+    "attributes": {
+        "status": "current",
+        "progress": 38,
+        "reconsuming": false,
+        "reconsumeCount": 0,
+        "notes": "Very formulaic.",
+        "private": false,
+        "rating": "4.0",
+        "updatedAt": "2017-01-12T18:24:24.867Z"
+    },
+    "relationships": {
+        "user": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/user",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/user"
+            }
+        },
+        "anime": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/anime",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/anime"
+            }
+        },
+        "manga": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/manga",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/manga"
+            }
+        },
+        "drama": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/drama",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/drama"
+            }
+        },
+        "review": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/review",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/review"
+            }
+        },
+        "media": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/media",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/media"
+            },
+            "data": {
+                "type": "anime",
+                "id": "6687"
+            }
+        },
+        "unit": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/unit",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/unit"
+            }
+        },
+        "nextUnit": {
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/next-unit",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/next-unit"
+            }
+        }
+    },
+    "anime": {
+        "slug": "smile-precure",
+        "synopsis": "Once upon a time, there was a kingdom of fairy tales called \"M\u00e4rchenland\", where many fairy tale characters live together in joy. Suddenly, the evil emperor Pierrot made an invasion on M\u00e4rchenland, sealing its Queen in the process. To revive the Queen, the symbol of happiness called Cure Decor, \"the Queen's scattered power of light of happiness\", is required. To collect the Cure Decor, a fairy named Candy searches for the Pretty Cures on Earth. There, Candy meets a girl, who decides to collect the Cure Decor. Now, will the world earn a \"happy ending\"?",
+        "coverImageTopOffset": 100,
+        "titles": {
+            "en": "Glitter Force",
+            "en_jp": "Smile Precure!",
+            "ja_jp": "\u30b9\u30de\u30a4\u30eb\u30d7\u30ea\u30ad\u30e5\u30a2\uff01"
+        },
+        "canonicalTitle": "Smile Precure!",
+        "abbreviatedTitles": null,
+        "averageRating": 3.6674651842659,
+        "ratingFrequencies": {
+            "0.5": "4",
+            "1.0": "8",
+            "1.5": "3",
+            "2.0": "17",
+            "2.5": "30",
+            "3.0": "54",
+            "3.5": "69",
+            "4.0": "96",
+            "4.5": "42",
+            "5.0": "57",
+            "nil": "594"
+        },
+        "startDate": "2012-02-05",
+        "endDate": "2013-01-27",
+        "posterImage": {
+            "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/tiny.jpg?1408459122",
+            "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/small.jpg?1408459122",
+            "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/medium.jpg?1408459122",
+            "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/large.jpg?1408459122",
+            "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/original.jpg?1408459122"
+        },
+        "coverImage": {
+            "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/small.jpg?1452609041",
+            "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/large.jpg?1452609041",
+            "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/original.png?1452609041"
+        },
+        "episodeCount": 48,
+        "episodeLength": 24,
+        "subtype": "TV",
+        "youtubeVideoId": "",
+        "ageRating": "PG",
+        "ageRatingGuide": "Children",
+        "showType": "TV",
+        "nsfw": false,
+        "relationships": {
+            "genres": {
+                "8": {
+                    "name": "Magic",
+                    "slug": "magic",
+                    "description": null
+                },
+                "40": {
+                    "name": "Kids",
+                    "slug": "kids",
+                    "description": null
+                },
+                "47": {
+                    "name": "Mahou Shoujo",
+                    "slug": "mahou-shoujo",
+                    "description": "Magical Girls"
+                },
+                "11": {
+                    "name": "Fantasy",
+                    "slug": "fantasy",
+                    "description": ""
+                }
+            },
+            "mappings": {
+                "778": {
+                    "externalSite": "myanimelist\/anime",
+                    "externalId": "12191",
+                    "relationships": []
+                },
+                "12547": {
+                    "externalSite": "thetvdb\/series",
+                    "externalId": "255904",
+                    "relationships": []
+                }
+            }
+        }
+    }
+}
