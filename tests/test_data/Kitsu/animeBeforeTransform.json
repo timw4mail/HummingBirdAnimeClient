@@ -1,0 +1,291 @@
+{
+    "slug": "attack-on-titan",
+    "synopsis": "Several hundred years ago, humans were nearly exterminated by titans. Titans are typically several stories tall, seem to have no intelligence, devour human beings and, worst of all, seem to do it for the pleasure rather than as a food source. A small percentage of humanity survived by enclosing themselves in a city protected by extremely high walls, even taller than the biggest of titans. Flash forward to the present and the city has not seen a titan in over 100 years. Teenage boy Eren and his foster sister Mikasa witness something horrific as the city walls are destroyed by a colossal titan that appears out of thin air. As the smaller titans flood the city, the two kids watch in horror as their mother is eaten alive. Eren vows that he will murder every single titan and take revenge for all of mankind.\n\n(Source: ANN)",
+    "coverImageTopOffset": 263,
+    "titles": {
+        "en": "Attack on Titan",
+        "en_jp": "Shingeki no Kyojin",
+        "ja_jp": "\u9032\u6483\u306e\u5de8\u4eba"
+    },
+    "canonicalTitle": "Attack on Titan",
+    "abbreviatedTitles": null,
+    "averageRating": 4.2678183033371,
+    "ratingFrequencies": {
+        "0.0": "3",
+        "0.5": "126",
+        "1.0": "292",
+        "1.5": "172",
+        "2.0": "394",
+        "2.5": "817",
+        "3.0": "2423",
+        "3.5": "3210",
+        "4.0": "5871",
+        "4.5": "6159",
+        "5.0": "13117",
+        "nil": "18571",
+        "0.479": "-1",
+        "4.658": "-3",
+        "4.726": "-1",
+        "4.932": "-1",
+        "2.05479452054794": "1",
+        "2.53424657534247": "1",
+        "4.10958904109589": "1",
+        "4.65753424657534": "3",
+        "4.72602739726027": "3",
+        "4.86301369863014": "1",
+        "4.93150684931507": "2",
+        "0.273972602739726": "1",
+        "0.410958904109589": "2",
+        "0.479452054794521": "1",
+        "0.684931506849315": "1"
+    },
+    "startDate": "2013-04-07",
+    "endDate": "2013-09-28",
+    "posterImage": {
+        "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/tiny.jpg?1418580054",
+        "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/small.jpg?1418580054",
+        "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/medium.jpg?1418580054",
+        "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/large.jpg?1418580054",
+        "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/original.jpg?1418580054"
+    },
+    "coverImage": {
+        "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/small.jpg?1471880659",
+        "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/large.jpg?1471880659",
+        "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/original.png?1471880659"
+    },
+    "episodeCount": 25,
+    "episodeLength": 24,
+    "subtype": "TV",
+    "youtubeVideoId": "n4Nj6Y_SNYI",
+    "ageRating": "R",
+    "ageRatingGuide": "Violence, Profanity",
+    "showType": "TV",
+    "nsfw": false,
+    "included": [
+        {
+            "id": "23",
+            "type": "genres",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/23"
+            },
+            "attributes": {
+                "name": "Super Power",
+                "slug": "super-power",
+                "description": null
+            }
+        },
+        {
+            "id": "11",
+            "type": "genres",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/11"
+            },
+            "attributes": {
+                "name": "Fantasy",
+                "slug": "fantasy",
+                "description": ""
+            }
+        },
+        {
+            "id": "4",
+            "type": "genres",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/4"
+            },
+            "attributes": {
+                "name": "Drama",
+                "slug": "drama",
+                "description": ""
+            }
+        },
+        {
+            "id": "1",
+            "type": "genres",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/1"
+            },
+            "attributes": {
+                "name": "Action",
+                "slug": "action",
+                "description": ""
+            }
+        },
+        {
+            "id": "5686",
+            "type": "mappings",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686"
+            },
+            "attributes": {
+                "externalSite": "myanimelist\/anime",
+                "externalId": "16498"
+            },
+            "relationships": {
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "14153",
+            "type": "mappings",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153"
+            },
+            "attributes": {
+                "externalSite": "thetvdb\/series",
+                "externalId": "267440"
+            },
+            "relationships": {
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "15073",
+            "type": "mappings",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073"
+            },
+            "attributes": {
+                "externalSite": "thetvdb\/season",
+                "externalId": "514060"
+            },
+            "relationships": {
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "103",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103"
+            },
+            "attributes": {
+                "url": "http:\/\/www.crunchyroll.com\/attack-on-titan",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/relationships\/streamer",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "102",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102"
+            },
+            "attributes": {
+                "url": "http:\/\/www.hulu.com\/attack-on-titan",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/relationships\/streamer",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "101",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101"
+            },
+            "attributes": {
+                "url": "http:\/\/www.funimation.com\/shows\/attack-on-titan\/videos\/episodes",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/relationships\/streamer",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/media"
+                    }
+                }
+            }
+        },
+        {
+            "id": "100",
+            "type": "streamingLinks",
+            "links": {
+                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100"
+            },
+            "attributes": {
+                "url": "t",
+                "subs": [
+                    "en"
+                ],
+                "dubs": [
+                    "ja"
+                ]
+            },
+            "relationships": {
+                "streamer": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/relationships\/streamer",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/streamer"
+                    }
+                },
+                "media": {
+                    "links": {
+                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/relationships\/media",
+                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/media"
+                    }
+                }
+            }
+        }
+    ]
+}
