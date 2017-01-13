@@ -6,15 +6,16 @@
 	'use strict';
 
 	// Action to increment episode count
-	_.on('body.anime.list', 'click', '.plus_one', function() {
-		let parent_sel = _.closestParent(this, 'article');
+	_.on('body.anime.list', 'click', '.plus_one', e => {
+		let parent_sel = _.closestParent(e.target, 'article');
 		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
 		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
 		let title = _.$('.name a', parent_sel)[0].textContent;
 
 		// Setup the update data
 		let data = {
-			id: parent_sel.id,
+			id: parent_sel.dataset.kitsuId,
+			mal_id: parent_sel.dataset.malId,
 			data: {
 				progress: watched_count + 1
 			}
@@ -41,7 +42,7 @@
 					_.hide(parent_sel);
 				}
 
-				_.showMessage('success', `Sucessfully updated ${title}`);
+				_.showMessage('success', `Successfully updated ${title}`);
 				_.$('.completed_number', parent_sel)[0].textContent = ++watched_count;
 				_.scrollToTop();
 			},
