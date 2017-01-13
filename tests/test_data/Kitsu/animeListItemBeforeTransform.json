@@ -1,153 +1,1094 @@
 {
-    "id": "14047981",
+    "id": "15839442",
     "type": "libraryEntries",
     "links": {
-        "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981"
+        "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442"
     },
     "attributes": {
         "status": "current",
-        "progress": 38,
+        "progress": 0,
         "reconsuming": false,
         "reconsumeCount": 0,
-        "notes": "Very formulaic.",
+        "notes": null,
         "private": false,
-        "rating": "4.0",
-        "updatedAt": "2017-01-12T18:24:24.867Z"
+        "rating": null,
+        "updatedAt": "2017-01-13T01:32:31.832Z"
     },
     "relationships": {
         "user": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/user",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/user"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/user",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/user"
             }
         },
         "anime": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/anime",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/anime"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/anime",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/anime"
             }
         },
         "manga": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/manga",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/manga"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/manga",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/manga"
             }
         },
         "drama": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/drama",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/drama"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/drama",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/drama"
             }
         },
         "review": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/review",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/review"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/review",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/review"
             }
         },
         "media": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/media",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/media"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/media",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/media"
             },
             "data": {
                 "type": "anime",
-                "id": "6687"
+                "id": "12243"
             }
         },
         "unit": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/unit",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/unit"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/unit",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/unit"
             }
         },
         "nextUnit": {
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/relationships\/next-unit",
-                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/14047981\/next-unit"
+                "self": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/relationships\/next-unit",
+                "related": "https:\/\/kitsu.io\/api\/edge\/library-entries\/15839442\/next-unit"
             }
         }
     },
-    "anime": {
-        "slug": "smile-precure",
-        "synopsis": "Once upon a time, there was a kingdom of fairy tales called \"M\u00e4rchenland\", where many fairy tale characters live together in joy. Suddenly, the evil emperor Pierrot made an invasion on M\u00e4rchenland, sealing its Queen in the process. To revive the Queen, the symbol of happiness called Cure Decor, \"the Queen's scattered power of light of happiness\", is required. To collect the Cure Decor, a fairy named Candy searches for the Pretty Cures on Earth. There, Candy meets a girl, who decides to collect the Cure Decor. Now, will the world earn a \"happy ending\"?",
-        "coverImageTopOffset": 100,
-        "titles": {
-            "en": "Glitter Force",
-            "en_jp": "Smile Precure!",
-            "ja_jp": "\u30b9\u30de\u30a4\u30eb\u30d7\u30ea\u30ad\u30e5\u30a2\uff01"
-        },
-        "canonicalTitle": "Smile Precure!",
-        "abbreviatedTitles": null,
-        "averageRating": 3.6674651842659,
-        "ratingFrequencies": {
-            "0.5": "4",
-            "1.0": "8",
-            "1.5": "3",
-            "2.0": "17",
-            "2.5": "30",
-            "3.0": "54",
-            "3.5": "69",
-            "4.0": "96",
-            "4.5": "42",
-            "5.0": "57",
-            "nil": "594"
-        },
-        "startDate": "2012-02-05",
-        "endDate": "2013-01-27",
-        "posterImage": {
-            "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/tiny.jpg?1408459122",
-            "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/small.jpg?1408459122",
-            "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/medium.jpg?1408459122",
-            "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/large.jpg?1408459122",
-            "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/original.jpg?1408459122"
-        },
-        "coverImage": {
-            "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/small.jpg?1452609041",
-            "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/large.jpg?1452609041",
-            "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/original.png?1452609041"
-        },
-        "episodeCount": 48,
-        "episodeLength": 24,
-        "subtype": "TV",
-        "youtubeVideoId": "",
-        "ageRating": "PG",
-        "ageRatingGuide": "Children",
-        "showType": "TV",
-        "nsfw": false,
-        "relationships": {
-            "genres": {
-                "8": {
-                    "name": "Magic",
-                    "slug": "magic",
-                    "description": null
+    "included": {
+        "anime": {
+            "12243": {
+                "slug": "kobayashi-san-chi-no-maid-dragon",
+                "synopsis": "Kobayashi lives alone in an apartment, until one day, Tooru appeared and they ended up living together. Tooru looks down on humans as inferior and foolish, but having been saved by Kobayashi-san, she does everything she can to repay the debt and help her with various things, although not everything goes according to plan.\r\n\r\nA mythical everyday life comedy about a hard working office lady living with a dragon girl.",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": "Miss Kobayashi's Dragon Maid",
+                    "en_jp": "Kobayashi-san Chi no Maid Dragon",
+                    "ja_jp": "\u5c0f\u6797\u3055\u3093\u3061\u306e\u30e1\u30a4\u30c9\u30e9\u30b4\u30f3"
                 },
-                "40": {
-                    "name": "Kids",
-                    "slug": "kids",
-                    "description": null
+                "canonicalTitle": "Kobayashi-san Chi no Maid Dragon",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "0",
+                    "1.0": "1",
+                    "1.5": "0",
+                    "2.0": "2",
+                    "2.5": "2",
+                    "3.0": "6",
+                    "3.5": "10",
+                    "4.0": "8",
+                    "4.5": "1",
+                    "5.0": "15",
+                    "nil": "214"
                 },
-                "47": {
-                    "name": "Mahou Shoujo",
-                    "slug": "mahou-shoujo",
-                    "description": "Magical Girls"
+                "startDate": "2017-01-12",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/tiny.jpg?1481144116",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/small.jpg?1481144116",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/medium.jpg?1481144116",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/large.jpg?1481144116",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/original.jpg?1481144116"
                 },
-                "11": {
-                    "name": "Fantasy",
-                    "slug": "fantasy",
-                    "description": ""
+                "coverImage": null,
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "Vx-cdrHiGd0",
+                "ageRating": null,
+                "ageRatingGuide": "",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "11": {
+                            "name": "Fantasy",
+                            "slug": "fantasy",
+                            "description": ""
+                        },
+                        "16": {
+                            "name": "Slice of Life",
+                            "slug": "slice-of-life",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "10780": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33206",
+                            "relationships": []
+                        }
+                    }
                 }
             },
-            "mappings": {
-                "778": {
-                    "externalSite": "myanimelist\/anime",
-                    "externalId": "12191",
-                    "relationships": []
+            "6687": {
+                "slug": "smile-precure",
+                "synopsis": "Once upon a time, there was a kingdom of fairy tales called \"M\u00e4rchenland\", where many fairy tale characters live together in joy. Suddenly, the evil emperor Pierrot made an invasion on M\u00e4rchenland, sealing its Queen in the process. To revive the Queen, the symbol of happiness called Cure Decor, \"the Queen's scattered power of light of happiness\", is required. To collect the Cure Decor, a fairy named Candy searches for the Pretty Cures on Earth. There, Candy meets a girl, who decides to collect the Cure Decor. Now, will the world earn a \"happy ending\"?",
+                "coverImageTopOffset": 100,
+                "titles": {
+                    "en": "Glitter Force",
+                    "en_jp": "Smile Precure!",
+                    "ja_jp": "\u30b9\u30de\u30a4\u30eb\u30d7\u30ea\u30ad\u30e5\u30a2\uff01"
                 },
-                "12547": {
-                    "externalSite": "thetvdb\/series",
-                    "externalId": "255904",
-                    "relationships": []
+                "canonicalTitle": "Smile Precure!",
+                "abbreviatedTitles": null,
+                "averageRating": 3.6674651842659,
+                "ratingFrequencies": {
+                    "0.5": "4",
+                    "1.0": "8",
+                    "1.5": "3",
+                    "2.0": "17",
+                    "2.5": "30",
+                    "3.0": "54",
+                    "3.5": "69",
+                    "4.0": "96",
+                    "4.5": "42",
+                    "5.0": "57",
+                    "nil": "594"
+                },
+                "startDate": "2012-02-05",
+                "endDate": "2013-01-27",
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/tiny.jpg?1408459122",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/small.jpg?1408459122",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/medium.jpg?1408459122",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/large.jpg?1408459122",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/6687\/original.jpg?1408459122"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/small.jpg?1452609041",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/large.jpg?1452609041",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/6687\/original.png?1452609041"
+                },
+                "episodeCount": 48,
+                "episodeLength": 24,
+                "subtype": "TV",
+                "youtubeVideoId": "",
+                "ageRating": "PG",
+                "ageRatingGuide": "Children",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "8": {
+                            "name": "Magic",
+                            "slug": "magic",
+                            "description": null
+                        },
+                        "40": {
+                            "name": "Kids",
+                            "slug": "kids",
+                            "description": null
+                        },
+                        "47": {
+                            "name": "Mahou Shoujo",
+                            "slug": "mahou-shoujo",
+                            "description": "Magical Girls"
+                        },
+                        "11": {
+                            "name": "Fantasy",
+                            "slug": "fantasy",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "778": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "12191",
+                            "relationships": []
+                        },
+                        "12547": {
+                            "externalSite": "thetvdb\/series",
+                            "externalId": "255904",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12596": {
+                "slug": "idol-jihen",
+                "synopsis": "",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": null,
+                    "en_jp": "Idol Jihen",
+                    "ja_jp": null
+                },
+                "canonicalTitle": "Idol Jihen",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "1",
+                    "2.0": "2",
+                    "2.5": "2",
+                    "3.0": "3",
+                    "3.5": "2",
+                    "5.0": "1",
+                    "nil": "19"
+                },
+                "startDate": "2017-01-01",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12596\/tiny.jpg?1475248797",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12596\/small.jpg?1475248797",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12596\/medium.jpg?1475248797",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12596\/large.jpg?1475248797",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12596\/original.jpg?1475248797"
+                },
+                "coverImage": null,
+                "episodeCount": null,
+                "episodeLength": 0,
+                "subtype": "TV",
+                "youtubeVideoId": null,
+                "ageRating": null,
+                "ageRatingGuide": null,
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "35": {
+                            "name": "Music",
+                            "slug": "music",
+                            "description": null
+                        }
+                    },
+                    "mappings": {
+                        "6246": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "34028",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12529": {
+                "slug": "demi-chan-wa-kataritai",
+                "synopsis": "Monsters of legend walk among us, going by the name \u201cdemi-humans.\u201d Ever since he's discovered the \u201cdemis,\u201d one young man has become obsessed with them. So when he gets a job as a teacher at a high school for demi-girls, it's a dream come true! But these demis, who include a rambunctious vampire, a bashful headless girl, and a succubus, have all the problems normal teenagers have, on top of their supernatural conditions. How to handle a classroom full of them?!\n\n(Source: Kodansha Comics)",
+                "coverImageTopOffset": 200,
+                "titles": {
+                    "en": "",
+                    "en_jp": "Demi-chan wa Kataritai",
+                    "ja_jp": ""
+                },
+                "canonicalTitle": "Demi-chan wa Kataritai",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "1.5": "1",
+                    "3.0": "8",
+                    "3.5": "15",
+                    "4.0": "28",
+                    "4.5": "9",
+                    "5.0": "7",
+                    "nil": "201"
+                },
+                "startDate": "2017-01-08",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12529\/tiny.jpg?1480530358",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12529\/small.jpg?1480530358",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12529\/medium.jpg?1480530358",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12529\/large.jpg?1480530358",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12529\/original.png?1480530358"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/12529\/small.jpg?1480537767",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/12529\/large.jpg?1480537767",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/12529\/original.png?1480537767"
+                },
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "",
+                "ageRating": null,
+                "ageRatingGuide": "",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "24": {
+                            "name": "School",
+                            "slug": "school",
+                            "description": null
+                        }
+                    },
+                    "mappings": {
+                        "8667": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33988",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "11937": {
+                "slug": "kono-subarashii-sekai-ni-shukufuku-wo-2",
+                "synopsis": "Second season of Kono Subarashii Sekai ni Shukufuku wo!",
+                "coverImageTopOffset": 240,
+                "titles": {
+                    "en": "KonoSuba: God's Blessing on This Wonderful World! Second Season",
+                    "en_jp": "Kono Subarashii Sekai ni Shukufuku wo! 2",
+                    "ja_jp": "\u3053\u306e\u7d20\u6674\u3089\u3057\u3044\u4e16\u754c\u306b\u795d\u798f\u3092! 2"
+                },
+                "canonicalTitle": "Kono Subarashii Sekai ni Shukufuku wo! 2",
+                "abbreviatedTitles": null,
+                "averageRating": 4.2956263163849,
+                "ratingFrequencies": {
+                    "0.5": "0",
+                    "1.0": "1",
+                    "1.5": "0",
+                    "2.0": "1",
+                    "2.5": "6",
+                    "3.0": "4",
+                    "3.5": "15",
+                    "4.0": "14",
+                    "4.5": "25",
+                    "5.0": "85",
+                    "nil": "1795"
+                },
+                "startDate": "2017-01-11",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/11937\/tiny.jpg?1480974549",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/11937\/small.jpg?1480974549",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/11937\/medium.jpg?1480974549",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/11937\/large.jpg?1480974549",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/11937\/original.jpg?1480974549"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/11937\/small.jpg?1480444804",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/11937\/large.jpg?1480444804",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/11937\/original.png?1480444804"
+                },
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "OAnW7RA3tIY",
+                "ageRating": "PG",
+                "ageRatingGuide": "Teens 13 or older",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "2": {
+                            "name": "Adventure",
+                            "slug": "adventure",
+                            "description": null
+                        },
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "8": {
+                            "name": "Magic",
+                            "slug": "magic",
+                            "description": null
+                        },
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "11": {
+                            "name": "Fantasy",
+                            "slug": "fantasy",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "2826": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "32937",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12687": {
+                "slug": "nyanko-days",
+                "synopsis": "It's an everyday life of a shy girl called Tomoko Konagai and three \"cats\" Maa, Roo, Shii. These cats are girls with cats' ears and can speak human language.\n\n(Source: MAL News)",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": null,
+                    "en_jp": "Nyanko Days",
+                    "ja_jp": "\u306b\u3083\u3093\u3053\u30c7\u30a4\u30ba"
+                },
+                "canonicalTitle": "Nyanko Days",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "1",
+                    "1.0": "1",
+                    "1.5": "1",
+                    "2.0": "1",
+                    "2.5": "1",
+                    "3.0": "6",
+                    "3.5": "1",
+                    "4.0": "3",
+                    "4.5": "1",
+                    "5.0": "2",
+                    "nil": "39"
+                },
+                "startDate": "2017-01-01",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12687\/tiny.jpg?1477621209",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12687\/small.jpg?1477621209",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12687\/medium.jpg?1477621209",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12687\/large.jpg?1477621209",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12687\/original.jpg?1477621209"
+                },
+                "coverImage": null,
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "",
+                "ageRating": null,
+                "ageRatingGuide": null,
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "16": {
+                            "name": "Slice of Life",
+                            "slug": "slice-of-life",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "10686": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "34148",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12267": {
+                "slug": "masamune-kun-no-revenge",
+                "synopsis": "As a child, Masamune Makabe once suffered greatly at the hands of a wealthy and beautiful girl named Aki Adagaki, who nicknamed him \"Piggy\" due to his chubby appearance. Seeking revenge against his tormentor, Masamune works hard to improve himself and returns as an incredibly handsome, albeit narcissistic, high school student. When he encounters Aki once again, he is prepared to exact vengeance.\r\n\r\nWith the aid of the rich girl's maid, Yoshino Koiwai, Masamune slowly begins to build his relationship with Aki, intending to break her heart when the time is right. However, as his friendship with Aki begins to grow, Masamune starts to question the objectives of his devious plans, and if bringing them to fruition is what his heart truly desires.\r\n\r\n(Source: MAL Rewrite)",
+                "coverImageTopOffset": 100,
+                "titles": {
+                    "en": "Masamune-kun's Revenge",
+                    "en_jp": "Masamune-kun no Revenge",
+                    "ja_jp": "\u653f\u5b97\u304f\u3093\u306e\u30ea\u30d9\u30f3\u30b8"
+                },
+                "canonicalTitle": "Masamune-kun no Revenge",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "0",
+                    "1.5": "1",
+                    "2.0": "5",
+                    "2.5": "5",
+                    "3.0": "14",
+                    "3.5": "25",
+                    "4.0": "33",
+                    "4.5": "11",
+                    "5.0": "22",
+                    "nil": "569"
+                },
+                "startDate": "2017-01-05",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12267\/tiny.jpg?1474666437",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12267\/small.jpg?1474666437",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12267\/medium.jpg?1474666437",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12267\/large.jpg?1474666437",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12267\/original.png?1474666437"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/12267\/small.jpg?1466985168",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/12267\/large.jpg?1466985168",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/12267\/original.jpg?1466985168"
+                },
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "XmfXcVLA1d8",
+                "ageRating": null,
+                "ageRatingGuide": "",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "24": {
+                            "name": "School",
+                            "slug": "school",
+                            "description": null
+                        },
+                        "34": {
+                            "name": "Harem",
+                            "slug": "harem",
+                            "description": null
+                        },
+                        "14": {
+                            "name": "Romance",
+                            "slug": "romance",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "7026": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33487",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12497": {
+                "slug": "gabriel-dropout",
+                "synopsis": "Chief Angel has come to Earth! However, she became so used to the life on Earth that she skips school and keeps playing online games, thus into self-destruction. It's a school comedy that Gabriel turns into a lazy angel!\r\n\r\n(Source: MAL News)",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": null,
+                    "en_jp": "Gabriel DropOut",
+                    "ja_jp": null
+                },
+                "canonicalTitle": "Gabriel DropOut",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "1.5": "1",
+                    "2.5": "1",
+                    "3.0": "8",
+                    "3.5": "11",
+                    "4.0": "12",
+                    "4.5": "3",
+                    "5.0": "9",
+                    "nil": "98"
+                },
+                "startDate": "2017-01-09",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12497\/tiny.jpg?1477681044",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12497\/small.jpg?1477681044",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12497\/medium.jpg?1477681044",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12497\/large.jpg?1477681044",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12497\/original.jpg?1477681044"
+                },
+                "coverImage": null,
+                "episodeCount": null,
+                "episodeLength": null,
+                "subtype": "TV",
+                "youtubeVideoId": "4eADGP3b9j0",
+                "ageRating": null,
+                "ageRatingGuide": null,
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "24": {
+                            "name": "School",
+                            "slug": "school",
+                            "description": null
+                        }
+                    },
+                    "mappings": {
+                        "9049": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33731",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12710": {
+                "slug": "fate-grand-order-first-order",
+                "synopsis": "The story is set in the year 2015, during the final era over which magic still held sway. The humanity survival and security organization Caldea was established to observe the world that can only be seen by magic and the world that can only be measured by science \u2014 as well as to prevent the final extinction of mankind.\r\n\r\nThanks to the efforts of many researchers, the path of human history has been ensured for 100 years into the future. However, without warning, the realm of the future that was under constant observation by Caldea vanished. The extinction of humanity in 2017 was observed \u2014 no, confirmed.\r\n\r\nThe apparent cause of the extinction was in the Japanese city of Fuyuki in 2004. In that city, there was an \"unobservable realm\" which had never existed until now.\r\n\r\nCaldea issued the Grand Order for a \"Holy Grail Expedition,\" to investigate, uncover, and possibly destroy the singularity that apparently will cause the extinction of humanity.\r\n\r\n(Source: ANN)",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": "",
+                    "en_jp": "Fate\/Grand Order -First Order-",
+                    "ja_jp": ""
+                },
+                "canonicalTitle": "Fate\/Grand Order -First Order-",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "3",
+                    "1.0": "9",
+                    "1.5": "14",
+                    "2.0": "13",
+                    "2.5": "17",
+                    "3.0": "53",
+                    "3.5": "73",
+                    "4.0": "57",
+                    "4.5": "14",
+                    "5.0": "20",
+                    "nil": "120"
+                },
+                "startDate": "2016-12-31",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12710\/tiny.jpg?1478137267",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12710\/small.jpg?1478137267",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12710\/medium.jpg?1478137267",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12710\/large.jpg?1478137267",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12710\/original.jpeg?1478137267"
+                },
+                "coverImage": null,
+                "episodeCount": 1,
+                "episodeLength": null,
+                "subtype": "special",
+                "youtubeVideoId": "gd1gYH8g2Vg",
+                "ageRating": null,
+                "ageRatingGuide": "",
+                "showType": "special",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "8": {
+                            "name": "Magic",
+                            "slug": "magic",
+                            "description": null
+                        },
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "11": {
+                            "name": "Fantasy",
+                            "slug": "fantasy",
+                            "description": ""
+                        },
+                        "1": {
+                            "name": "Action",
+                            "slug": "action",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "6914": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "34321",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "11172": {
+                "slug": "classicaloid",
+                "synopsis": "Kanae's got a two oddball houseguests in her beloved grandmother's mansion: Moz and Beetho-san. However, these guys, with their crazy antics and supernatural musical powers, claim to be Classicaloid versions of maestros Mozart and Beethoven! Their powerful \u201cmujik\u201d arrangements evoke more than just emotions: they can make the stars fall, spirits dance, or even summon\u2026 giant robots? Friend or foe, Kanae is stuck with them, even as more classicaloids begin to invade her life. Will their presence usher in a new musical renaissance in her sleepy town, or will their explosive euphonics cut the standing ovation short?\n\n(Source: Sentai Filmworks)",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": null,
+                    "en_jp": "Classicaloid",
+                    "ja_jp": null
+                },
+                "canonicalTitle": "Classicaloid",
+                "abbreviatedTitles": null,
+                "averageRating": 3.3375220536964,
+                "ratingFrequencies": {
+                    "0.5": "5",
+                    "1.0": "6",
+                    "1.5": "8",
+                    "2.0": "9",
+                    "2.5": "19",
+                    "3.0": "20",
+                    "3.5": "13",
+                    "4.0": "5",
+                    "4.5": "3",
+                    "5.0": "13",
+                    "nil": "586"
+                },
+                "startDate": "2016-10-08",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/11172\/tiny.jpg?1473684531",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/11172\/small.jpg?1473684531",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/11172\/medium.jpg?1473684531",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/11172\/large.jpg?1473684531",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/11172\/original.jpg?1473684531"
+                },
+                "coverImage": null,
+                "episodeCount": 25,
+                "episodeLength": 24,
+                "subtype": "TV",
+                "youtubeVideoId": "3U2YT9b4QjI",
+                "ageRating": null,
+                "ageRatingGuide": null,
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        },
+                        "35": {
+                            "name": "Music",
+                            "slug": "music",
+                            "description": null
+                        }
+                    },
+                    "mappings": {
+                        "1113": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "31157",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "12260": {
+                "slug": "shuumatsu-no-izetta",
+                "synopsis": "The time is pre World War II that looks like Europe in an imaginary world. A large scale war abrupts and bloody battles are taking place through out the world. Eylstadt is a small country without a strong military force or natural resources. Fin\u00e9 who is the crown queen of Eylstadt decides to use a secret weapon against larger countries which was unheard of at that time to battle against larger countries. The secret weapon was using a witch named Izetta and her magical force to fight the war. Izetta is young (same age as Fin\u00e9) and the last surviving witch with burning red hair.\r\n\r\n(Source: Crunchyroll)",
+                "coverImageTopOffset": 0,
+                "titles": {
+                    "en": "Izetta: The Last Witch",
+                    "en_jp": "Shuumatsu no Izetta",
+                    "ja_jp": "\u7d42\u672b\u306e\u30a4\u30bc\u30c3\u30bf"
+                },
+                "canonicalTitle": "Shuumatsu no Izetta",
+                "abbreviatedTitles": null,
+                "averageRating": 3.6080106339216,
+                "ratingFrequencies": {
+                    "0.5": "3",
+                    "1.0": "10",
+                    "1.5": "21",
+                    "2.0": "48",
+                    "2.5": "98",
+                    "3.0": "169",
+                    "3.5": "199",
+                    "4.0": "143",
+                    "4.5": "66",
+                    "5.0": "77",
+                    "nil": "2381"
+                },
+                "startDate": "2016-10-01",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/12260\/tiny.jpg?1475958976",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/12260\/small.jpg?1475958976",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/12260\/medium.jpg?1475958976",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/12260\/large.jpg?1475958976",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/12260\/original.png?1475958976"
+                },
+                "coverImage": null,
+                "episodeCount": 12,
+                "episodeLength": 25,
+                "subtype": "TV",
+                "youtubeVideoId": "piEEGQdBho8",
+                "ageRating": null,
+                "ageRatingGuide": "",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "8": {
+                            "name": "Magic",
+                            "slug": "magic",
+                            "description": null
+                        },
+                        "27": {
+                            "name": "Historical",
+                            "slug": "historical",
+                            "description": null
+                        },
+                        "28": {
+                            "name": "Military",
+                            "slug": "military",
+                            "description": null
+                        },
+                        "4": {
+                            "name": "Drama",
+                            "slug": "drama",
+                            "description": ""
+                        },
+                        "1": {
+                            "name": "Action",
+                            "slug": "action",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "3376": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33433",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "11945": {
+                "slug": "nyanbo",
+                "synopsis": "NHK announced that \"Nyanbo,\" a cat version of the \"Danbo\" cardboard robot character within Kiyohiko Azuma's Yotsuba&! manga, is inspiring a television anime that will premiere on NHK-E TV in October.\r\n\r\n(Source: ANN)",
+                "coverImageTopOffset": 20,
+                "titles": {
+                    "en": "",
+                    "en_jp": "Nyanbo!",
+                    "ja_jp": "\u306b\u3083\u3093\u307c\u30fc!"
+                },
+                "canonicalTitle": "Nyanbo!",
+                "abbreviatedTitles": null,
+                "averageRating": null,
+                "ratingFrequencies": {
+                    "0.5": "1",
+                    "1.0": "1",
+                    "1.5": "3",
+                    "2.0": "3",
+                    "2.5": "3",
+                    "3.0": "12",
+                    "3.5": "4",
+                    "4.0": "5",
+                    "4.5": "1",
+                    "5.0": "5",
+                    "nil": "146"
+                },
+                "startDate": "2016-09-27",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/11945\/tiny.jpg?1458335123",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/11945\/small.jpg?1458335123",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/11945\/medium.jpg?1458335123",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/11945\/large.jpg?1458335123",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/11945\/original.png?1458335123"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/11945\/small.jpg?1458335194",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/11945\/large.jpg?1458335194",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/11945\/original.jpg?1458335194"
+                },
+                "episodeCount": 26,
+                "episodeLength": 5,
+                "subtype": "TV",
+                "youtubeVideoId": "",
+                "ageRating": "PG",
+                "ageRatingGuide": "Children",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "3": {
+                            "name": "Comedy",
+                            "slug": "comedy",
+                            "description": null
+                        }
+                    },
+                    "mappings": {
+                        "9580": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "32805",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "11882": {
+                "slug": "bungou-stray-dogs-2",
+                "synopsis": "Second season of Bungou Stray Dogs.",
+                "coverImageTopOffset": 80,
+                "titles": {
+                    "en": "",
+                    "en_jp": "Bungou Stray Dogs 2nd Season",
+                    "ja_jp": ""
+                },
+                "canonicalTitle": "Bungou Stray Dogs 2nd Season",
+                "abbreviatedTitles": null,
+                "averageRating": 4.1712266171588,
+                "ratingFrequencies": {
+                    "0.5": "1",
+                    "1.0": "5",
+                    "1.5": "2",
+                    "2.0": "12",
+                    "2.5": "15",
+                    "3.0": "52",
+                    "3.5": "119",
+                    "4.0": "261",
+                    "4.5": "173",
+                    "5.0": "244",
+                    "nil": "2175"
+                },
+                "startDate": "2016-10-06",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/11882\/tiny.jpg?1466782284",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/11882\/small.jpg?1466782284",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/11882\/medium.jpg?1466782284",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/11882\/large.jpg?1466782284",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/11882\/original.jpg?1466782284"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/11882\/small.jpg?1462734002",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/11882\/large.jpg?1462734002",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/11882\/original.jpg?1462734002"
+                },
+                "episodeCount": 12,
+                "episodeLength": 24,
+                "subtype": "TV",
+                "youtubeVideoId": "aeX94e7V0_w",
+                "ageRating": "R",
+                "ageRatingGuide": "",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "7": {
+                            "name": "Mystery",
+                            "slug": "mystery",
+                            "description": null
+                        },
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "4": {
+                            "name": "Drama",
+                            "slug": "drama",
+                            "description": ""
+                        },
+                        "1": {
+                            "name": "Action",
+                            "slug": "action",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "3158": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "32867",
+                            "relationships": []
+                        }
+                    }
+                }
+            },
+            "11363": {
+                "slug": "mahou-shoujo-ikusei-keikaku",
+                "synopsis": "The highly popular social network game \"Magical Girl Raising Project\" is a miraculous game that produces real Magical Girls with a chance of 1 in 10000 for each person. Girls who are lucky enough to gain the power of magic spend fulfilling days. But one day, the administration arbitrarily announces that \"There are too many magical girls so they will be halved\". The curtain will now be raised on the relentless and merciless survival game between 16 magical girls.\r\n\r\n(Source: Baka-Tsuki)",
+                "coverImageTopOffset": 300,
+                "titles": {
+                    "en": "Magical Girl Raising Project",
+                    "en_jp": "Mahou Shoujo Ikusei Keikaku",
+                    "ja_jp": ""
+                },
+                "canonicalTitle": "Mahou Shoujo Ikusei Keikaku",
+                "abbreviatedTitles": null,
+                "averageRating": 3.5054257833898,
+                "ratingFrequencies": {
+                    "0.5": "4",
+                    "1.0": "16",
+                    "1.5": "13",
+                    "2.0": "33",
+                    "2.5": "54",
+                    "3.0": "99",
+                    "3.5": "141",
+                    "4.0": "121",
+                    "4.5": "55",
+                    "5.0": "45",
+                    "nil": "1458"
+                },
+                "startDate": "2016-10-02",
+                "endDate": null,
+                "posterImage": {
+                    "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/11363\/tiny.jpg?1469134150",
+                    "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/11363\/small.jpg?1469134150",
+                    "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/11363\/medium.jpg?1469134150",
+                    "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/11363\/large.jpg?1469134150",
+                    "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/11363\/original.jpg?1469134150"
+                },
+                "coverImage": {
+                    "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/11363\/small.jpg?1480567882",
+                    "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/11363\/large.jpg?1480567882",
+                    "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/11363\/original.jpg?1480567882"
+                },
+                "episodeCount": 12,
+                "episodeLength": 24,
+                "subtype": "TV",
+                "youtubeVideoId": "p4YXswlZHrA",
+                "ageRating": "PG",
+                "ageRatingGuide": "Teens 13 or older",
+                "showType": "TV",
+                "nsfw": false,
+                "relationships": {
+                    "genres": {
+                        "9": {
+                            "name": "Supernatural",
+                            "slug": "supernatural",
+                            "description": null
+                        },
+                        "21": {
+                            "name": "Thriller",
+                            "slug": "thriller",
+                            "description": null
+                        },
+                        "47": {
+                            "name": "Mahou Shoujo",
+                            "slug": "mahou-shoujo",
+                            "description": "Magical Girls"
+                        },
+                        "11": {
+                            "name": "Fantasy",
+                            "slug": "fantasy",
+                            "description": ""
+                        },
+                        "1": {
+                            "name": "Action",
+                            "slug": "action",
+                            "description": ""
+                        }
+                    },
+                    "mappings": {
+                        "342": {
+                            "externalSite": "myanimelist\/anime",
+                            "externalId": "33003",
+                            "relationships": []
+                        }
+                    }
                 }
             }
         }

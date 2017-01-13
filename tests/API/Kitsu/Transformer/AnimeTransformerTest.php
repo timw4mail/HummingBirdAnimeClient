@@ -12,19 +12,20 @@ class AnimeTransformerTest extends AnimeClient_TestCase {
 	public function setUp()
 	{
 		parent::setUp();
-		$dir = AnimeClient_TestCase::TEST_DATA_DIR . '/Kitsu';
+		$this->dir = AnimeClient_TestCase::TEST_DATA_DIR . '/Kitsu';
 		
-		//$this->beforeTransform = Json::decodeFile("{$dir}/animeBeforeTransform.json");
-		//$this->afterTransform = Json::decodeFile("{$dir}/animeAfterTransform.json");
+		$this->beforeTransform = Json::decodeFile("{$this->dir}/animeBeforeTransform.json");
+		$this->afterTransform = Json::decodeFile("{$this->dir}/animeAfterTransform.json");
 		
 		$this->transformer = new AnimeTransformer();
 	}
 	
 	public function testTransform()
 	{
-		/*$expected = $this->afterTransform;
+		$expected = $this->afterTransform;
 		$actual = $this->transformer->transform($this->beforeTransform);
+		// Json::encodeFile("{$this->dir}/animeAfterTransform.json", $actual);
 		
-		$this->assertEquals($expected, $actual);*/
+		$this->assertEquals($expected, $actual);
 	}
 }
