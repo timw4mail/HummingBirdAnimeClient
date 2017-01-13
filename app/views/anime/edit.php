@@ -1,4 +1,5 @@
 <?php if ($auth->is_authenticated()): ?>
+    <?php /* <pre><?= json_encode($item, \JSON_PRETTY_PRINT); ?></pre> */ ?>
 	<main>
 		<h2>Edit Anime List Item</h2>
 		<form action="<?= $action ?>" method="post">
