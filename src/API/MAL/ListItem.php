@@ -24,6 +24,7 @@ use Aviat\Ion\Di\ContainerAware;
  */
 class ListItem extends AbstractListItem {
 	use ContainerAware;
+	use MALTrait;
 
 	public function __construct()
 	{
@@ -47,6 +48,6 @@ class ListItem extends AbstractListItem {
 
 	public function update(string $id, array $data): Response
 	{
-		// @TODO implement
+
 	}
 }

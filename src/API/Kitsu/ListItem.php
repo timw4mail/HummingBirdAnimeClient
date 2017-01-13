@@ -37,7 +37,6 @@ class ListItem extends AbstractListItem {
 
 	public function create(array $data): bool
 	{
-/*?><pre><?= print_r($data, TRUE) ?></pre><?php */
 		$response = $this->getResponse('POST', 'library-entries', [
 			'body' => Json::encode([
 				'data' => [
@@ -77,7 +76,7 @@ class ListItem extends AbstractListItem {
 	{
 		return $this->getRequest("library-entries/{$id}", [
 			'query' => [
-				'include' => 'media'
+				'include' => 'media,media.genres,media.mappings'
 			]
 		]);
 	}

@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
@@ -29,6 +30,7 @@ use GuzzleHttp\Exception\ClientException;
  * Kitsu API Model
  */
 class KitsuModel {
+	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
 
@@ -60,6 +62,7 @@ class KitsuModel {
 	 * @var MangaListTransformer
 	 */
 	protected $mangaListTransformer;
+	
 
 	/**
 	 * KitsuModel constructor.
@@ -131,6 +134,7 @@ class KitsuModel {
 	 */
 	public function getAnime(string $animeId): array
 	{
+		// @TODO catch non-existent anime
 		$baseData = $this->getRawMediaData('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
 	}
@@ -147,7 +151,13 @@ class KitsuModel {
 		return $this->mangaTransformer->transform($baseData);
 	}
 
-	public function getAnimeList($status): array
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @return array
+	 */
+	public function getAnimeList(string $status): array
 	{
 		$options = [
 			'query' => [
@@ -156,26 +166,33 @@ class KitsuModel {
 					'media_type' => 'Anime',
 					'status' => $status,
 				],
-				'include' => 'media,media.genres,media.mappings',
+				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
 				'page' => [
 					'offset' => 0,
 					'limit' => 500
-				],
-				'sort' => '-updated_at'
+				]
 			]
 		];
-
-		$data = $this->getRequest('library-entries', $options);
-		$included = JsonAPI::organizeIncludes($data['included']);
-		$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-
-		foreach($data['data'] as $i => &$item)
+		
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
+		
+		if ( ! $cacheItem->isHit())
 		{
-			$item['included'] =& $included;
-		}
-		$transformed = $this->animeListTransformer->transformCollection($data['data']);
+			$data = $this->getRequest('library-entries', $options);
+			$included = JsonAPI::organizeIncludes($data['included']);
+			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
-		return $transformed;
+			foreach($data['data'] as $i => &$item)
+			{
+				$item['included'] = $included;
+			}
+			$transformed = $this->animeListTransformer->transformCollection($data['data']);
+			
+			$cacheItem->set($transformed);
+			$cacheItem->save();
+		}
+
+		return $cacheItem->get();
 	}
 
 	public function getMangaList($status): array
@@ -242,19 +259,24 @@ class KitsuModel {
 	public function getListItem(string $listId): array
 	{
 		$baseData = $this->listItem->get($listId);
+		$included = JsonAPI::organizeIncludes($baseData['included']);
 
-		switch ($baseData['included'][0]['type'])
+
+		switch (TRUE)
 		{
-			case 'anime':
-				$baseData['data']['anime'] = $baseData['included'][0];
+			case in_array('anime', array_keys($included)):
+				$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
+				$baseData['data']['included'] = $included;
 				return $this->animeListTransformer->transform($baseData['data']);
 
-			case 'manga':
+			case in_array('manga', array_keys($included)):
+				$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+				$baseData['data']['included'] = $included;
 				$baseData['data']['manga'] = $baseData['included'][0];
 				return $this->mangaListTransformer->transform($baseData['data']);
 
 			default:
-				return $baseData['data']['attributes'];
+				return $baseData['data'];
 		}
 	}
 

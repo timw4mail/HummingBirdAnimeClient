@@ -33,28 +33,30 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-		$included = $item['included'] ?? [];
+/* ?><pre><?= json_encode($item, \JSON_PRETTY_PRINT) ?></pre><?php */
+		$included = $item['included'];
 		$animeId = $item['relationships']['media']['data']['id'];
-		$anime = $included['anime'][$animeId] ?? $item['anime'];
-		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
+		$anime = $included['anime'][$animeId];
 
+		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
+		sort($genres);
+		
 		$rating = (int) 2 * $item['attributes']['rating'];
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
 		
-		$progress = (int) $item['attributes']['progress'] ?? '-';
-		
 		$MALid = NULL;
-		
-		if (array_key_exists('mappings', $included))
+
+		if (array_key_exists('mappings', $anime['relationships']))
 		{
-			foreach ($included['mappings'] as $mapping)
+			foreach ($anime['relationships']['mappings'] as $mapping)
 			{
 				if ($mapping['externalSite'] === 'myanimelist/anime')
 				{
 					$MALid = $mapping['externalId'];
+					break;
 				}
 			}
 		}
@@ -63,7 +65,9 @@ class AnimeListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
-				'watched' => $item['attributes']['progress'],
+				'watched' => (int) $item['attributes']['progress'] !== '0'
+					? (int) $item['attributes']['progress']
+					: '-',
 				'total' => $total_episodes,
 				'length' => $anime['episodeLength'],
 			],
@@ -79,6 +83,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
 				'image' => $anime['posterImage']['small'],
 				'genres' => $genres,
+				'streaming_links' => Kitsu::parseStreamingLinks($included),
 			],
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],

@@ -36,12 +36,15 @@ class AnimeTransformer extends AbstractTransformer {
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$item['genres'] = array_column($item['included']['genres'], 'name') ?? [];
 		sort($item['genres']);
+		
+		$titles = Kitsu::filterTitles($item);
 
 		return [
-			'titles' => Kitsu::filterTitles($item),
+			'title' => $titles[0],
+			'titles' => $titles,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
 			'cover_image' => $item['posterImage']['small'],
-			'show_type' => $item['showType'],
+			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
 			'episode_count' => $item['episodeCount'],
 			'episode_length' => $item['episodeLength'],
 			'synopsis' => $item['synopsis'],
@@ -49,7 +52,7 @@ class AnimeTransformer extends AbstractTransformer {
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
 			'genres' => $item['genres'],
-			'included' => $item['included']
+			'streaming_links' => Kitsu::parseStreamingLinks($item['included'])
 		];
 	}
 }
