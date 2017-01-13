@@ -19,7 +19,7 @@
 				<th>Type</th>
 				<th>Progress</th>
 				<th>Rated</th>
-				<th>Attributes</th>
+				<th colspan="2">Attributes</th>
 				<th>Notes</th>
 				<th>Genres</th>
 			</tr>
@@ -60,6 +60,17 @@
 						<?php endif ?>
 					<?php endforeach ?>
                     </ul>
+				</td>
+				<td>
+					<?php foreach($item['anime']['streaming_links'] as $link): ?>
+						<?php if ($link['meta']['link'] !== FALSE): ?>
+							<a href="<?= $link['link'] ?>">
+								<?= $link['meta']['logo'] ?>
+							</a>
+						<?php else: ?>
+							<?= $link['meta']['logo'] ?>
+						<?php endif ?>
+					<?php endforeach ?>
 				</td>
 				<td>
 					<p><?= $escape->html($item['notes']) ?></p>

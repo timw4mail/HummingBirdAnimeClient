@@ -1,10 +1,10 @@
 <main class="details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $data['cover_image'] ?>" alt="<?= $data['title'] ?> cover image" />
+			<img class="cover" src="<?= $data['cover_image'] ?>" alt="" />
 			<br />
 			<br />
-			<table>
+			<table class="media_details">
 				<tr>
 					<td class="align_right">Airing Status</td>
 					<td><?= $data['status'] ?></td>
@@ -42,7 +42,39 @@
             <?php endforeach ?>
 			<br />
 			<p><?= nl2br($data['synopsis']) ?></p>
-			<?php /*<pre><?= json_encode($data['included'], \JSON_PRETTY_PRINT) ?></pre> */ ?>
+			<?php if (count($data['streaming_links']) > 0): ?>
+			<hr />
+			<h4>Streaming on:</h4>
+			<table class="full_width invisible">
+				<thead>
+					<tr>
+						<th class="align_left">Service</th>
+						<th>Subtitles</th>
+						<th>Dubs</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php foreach($data['streaming_links'] as $streaming_link): ?>
+					<tr>
+						<td class="align_left">
+							<?php if ($streaming_link['meta']['link'] !== FALSE): ?>
+							<a href="<?= $streaming_link['link'] ?>">
+								<?= $streaming_link['meta']['logo'] ?>
+								&nbsp;&nbsp;<?= $streaming_link['meta']['name'] ?>
+							</a>
+							<?php else: ?>
+								<?= $streaming_link['meta']['logo'] ?>
+								&nbsp;&nbsp;<?= $streaming_link['meta']['name'] ?>
+							<?php endif ?>
+						</td>
+						<td><?= implode(', ', $streaming_link['subs']) ?></td>
+						<td><?= implode(', ', $streaming_link['dubs']) ?></td>
+					</tr>
+				<?php endforeach ?>
+				</tbody>
+			</table>
+			<?php endif ?>
+			<?php /*<pre><?= print_r($data, TRUE) ?></pre> */ ?>
 		</div>
 	</section>
 </main>
