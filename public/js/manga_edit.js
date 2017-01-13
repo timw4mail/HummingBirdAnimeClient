@@ -5,9 +5,9 @@
 
 	'use strict';
 
-	_.on('.manga.list', 'click', '.edit_buttons button', function() {
-		let this_sel = this;
-		let parent_sel = _.closestParent(this, 'article');
+	_.on('.manga.list', 'click', '.edit_buttons button', e => {
+		let this_sel = e.target;
+		let parent_sel = _.closestParent(e.target, 'article');
 		let manga_id = parent_sel.id.replace("manga-", "");
 		let type = this_sel.classList.contains("plus_one_chapter") ? 'chapter' : 'volume';
 		let completed = parseInt(_.$(`.${type}s_read`, parent_sel)[0].textContent, 10);
