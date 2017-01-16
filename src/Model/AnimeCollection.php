@@ -27,19 +27,6 @@ use PDO;
 class AnimeCollection extends Collection {
 
 	/**
-	 * Constructor
-	 *
-	 * @param ContainerInterface $container
-	 */
-	public function __construct(ContainerInterface $container)
-	{
-		parent::__construct($container);
-
-		// Do an import if an import file exists
-		// $this->json_import();
-	}
-
-	/**
 	 * Get collection from the database, and organize by media type
 	 *
 	 * @return array
@@ -138,7 +125,7 @@ class AnimeCollection extends Collection {
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
-			'title' => $anime->title,
+			'title' => array_shift($anime->titles),
 			'alternate_title' => implode('<br />', $anime->titles),
 			'show_type' => $anime->show_type,
 			'age_rating' => $anime->age_rating,
@@ -208,46 +195,6 @@ class AnimeCollection extends Collection {
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
-	}
-
-	/**
-	 * Import anime into collection from a json file
-	 *
-	 * @return void
-	 */
-	private function json_import()
-	{
-		if ( ! file_exists('import.json') OR ! $this->valid_database)
-		{
-			return;
-		}
-
-		$anime = Json::decodeFile("import.json");
-
-		foreach ($anime as $item)
-		{
-			$util = $this->container->get('util');
-
-			$this->db->set([
-				'hummingbird_id' => $item->id,
-				'slug' => $item->slug,
-				'title' => $item->title,
-				'alternate_title' => $item->alternate_title,
-				'show_type' => $item->show_type,
-				'age_rating' => $item->age_rating,
-				'cover_image' => basename(
-					$util->get_cached_image($item->cover_image, $item->slug, 'anime')
-				),
-				'episode_count' => $item->episode_count,
-				'episode_length' => $item->episode_length
-			])->insert('anime_set');
-		}
-
-		// Delete the import file
-		unlink('import.json');
-
-		// Update genre info
-		$this->update_genres();
 	}
 
 	/**

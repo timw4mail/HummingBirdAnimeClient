@@ -15,7 +15,7 @@
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 						<?= $item['title'] ?>
-						<?= ($item['alternate_title'] != "") ? "<br />({$item['alternate_title']})" : ""; ?>
+						<?= ($item['alternate_title'] != "") ? "<small><br />{$item['alternate_title']}</small>" : ""; ?>
 						</a>
 					</div>
 					<div class="table">
