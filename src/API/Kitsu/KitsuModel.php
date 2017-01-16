@@ -129,13 +129,19 @@ class KitsuModel {
 	/**
 	 * Get information about a particular anime
 	 *
-	 * @param string $animeId
+	 * @param string $slug
 	 * @return array
 	 */
-	public function getAnime(string $animeId): array
+	public function getAnime(string $slug): array
 	{
 		// @TODO catch non-existent anime
-		$baseData = $this->getRawMediaData('anime', $animeId);
+		$baseData = $this->getRawMediaData('anime', $slug);
+		return $this->animeTransformer->transform($baseData);
+	}
+	
+	public function getAnimeById(string $animeId): array
+	{
+		$baseData = $this->getRawMediaDataById('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
 	}
 
@@ -309,6 +315,22 @@ class KitsuModel {
 		return $this->getContainer()
 			->get('config')
 			->get(['kitsu_username']);
+	}
+	
+	private function getRawMediaDataById(string $type, string $id): array
+	{
+		$options = [
+			'query' => [
+				'include' => ($type === 'anime')
+					? 'genres,mappings,streamingLinks'
+					: 'genres,mappings',
+			]
+		];
+
+		$data = $this->getRequest("{$type}/{$id}", $options);
+		$baseData = $data['data']['attributes'];
+		$baseData['included'] = $data['included'];
+		return $baseData;
 	}
 
 	private function getRawMediaData(string $type, string $slug): array

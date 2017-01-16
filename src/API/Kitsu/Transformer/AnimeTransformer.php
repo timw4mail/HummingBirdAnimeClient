@@ -40,6 +40,7 @@ class AnimeTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($item);
 
 		return [
+			'slug' => $item['slug'],
 			'title' => $titles[0],
 			'titles' => $titles,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
