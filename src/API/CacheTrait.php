@@ -42,6 +42,16 @@ trait CacheTrait {
 	}
 	
 	/**
+	 * Get the cache object if it exists
+	 *
+	 * @return Pool
+	 */
+	public function getCache()
+	{
+		return $this->cache;
+	}
+	
+	/**
 	 * Generate a hash as a cache key from the current method call
 	 *
 	 * @param object $object

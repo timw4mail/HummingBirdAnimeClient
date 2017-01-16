@@ -374,7 +374,7 @@ class Controller {
 	 */
 	public function clearCache()
 	{
-		$this->cache->purge();
+		$this->cache->clear();
 		$this->outputHTML('blank', [
 			'title' => 'Cache cleared'
 		], NULL, 200);

@@ -159,7 +159,7 @@ class Anime extends BaseController {
 		if ($result)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -233,7 +233,7 @@ class Anime extends BaseController {
 		if ($full_result['statusCode'] === 200)
 		{
 			$this->set_flash_message("Successfully updated.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -261,7 +261,7 @@ class Anime extends BaseController {
 
 		$response = $this->model->updateLibraryItem($data);
 
-		// $this->cache->purge();
+		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -278,7 +278,7 @@ class Anime extends BaseController {
 		if ((bool)$response === TRUE)
 		{
 			$this->set_flash_message("Successfully deleted anime.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
