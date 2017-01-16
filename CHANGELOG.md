@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 4
+* Updated to use Kitsu API after discontinuation of Hummingbird 
+
 ## Version 3
 * Converted user configuration to toml files
 * Added a caching layer for api calls, which resets upon updates from the

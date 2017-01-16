@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -159,7 +159,7 @@ class Anime extends BaseController {
 		if ($result)
 		{
 			$this->set_flash_message('Added new anime to list', 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -233,7 +233,7 @@ class Anime extends BaseController {
 		if ($full_result['statusCode'] === 200)
 		{
 			$this->set_flash_message("Successfully updated.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -261,7 +261,7 @@ class Anime extends BaseController {
 
 		$response = $this->model->updateLibraryItem($data);
 
-		// $this->cache->purge();
+		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -278,7 +278,7 @@ class Anime extends BaseController {
 		if ((bool)$response === TRUE)
 		{
 			$this->set_flash_message("Successfully deleted anime.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{

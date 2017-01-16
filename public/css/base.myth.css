@@ -115,6 +115,10 @@ a:hover, a:active {
 	background-color: var(--edit-link-hover-color);
 }
 
+.full_width {
+	width: 100%;
+}
+
 /* -----------------------------------------------------------------------------
 	CSS loading icon
 ------------------------------------------------------------------------------*/
@@ -471,7 +475,7 @@ a:hover, a:active {
 	text-align:center;
 	color: greenyellow;
 	position:absolute;
-	top:5px;
+	top:147px;
 	left:0;
 	height:100%;
 	width:100%;
@@ -505,8 +509,9 @@ a:hover, a:active {
 }
 
 .details .cover {
-	max-width: 300px;
-	max-height: 435px;
+	display: block;
+	width: 284px;
+	height: 402px;
 }
 
 .details h2 {
@@ -517,10 +522,10 @@ a:hover, a:active {
 	margin: 1rem;
 }
 
-.details table {
+.details .media_details {
 	max-width:300px;
 }
-	.details td {
+	.details .media_details td {
 		padding:0 1.5rem;
 	}
 
@@ -528,12 +533,12 @@ a:hover, a:active {
 	text-align:justify;
 }
 
-.details td:nth-child(odd) {
+.details .media_details td:nth-child(odd) {
 	width:1%;
 	white-space:nowrap;
 	text-align:right;
 }
-.details td:nth-child(even) {
+.details .media_details td:nth-child(even) {
 	text-align:left;
 }
 

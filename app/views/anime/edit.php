@@ -1,4 +1,5 @@
 <?php if ($auth->is_authenticated()): ?>
+    <?php /* <pre><?= json_encode($item, \JSON_PRETTY_PRINT); ?></pre> */ ?>
 	<main>
 		<h2>Edit Anime List Item</h2>
 		<form action="<?= $action ?>" method="post">
@@ -77,6 +78,7 @@
 						<td>&nbsp;</td>
 						<td>
 							<input type="hidden" value="<?= $item['id'] ?>" name="id" />
+							<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id" />
 							<input type="hidden" value="true" name="edit" />
 							<button type="submit">Submit</button>
 						</td>

@@ -8,56 +8,63 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Kitsu;
+namespace Aviat\AnimeClient\API\MAL;
 
-use Aviat\AnimeClient\Model\API;
+use Aviat\AnimeClient\API\MAL as M;
+use Aviat\AnimeClient\API\MAL\{
+	AnimeListTransformer,
+	ListItem
+};
+use Aviat\AnimeClient\API\XML;
+use Aviat\Ion\Di\ContainerAware;
 
 /**
  * MyAnimeList API Model
  */
-class Model extends API {
+class Model {
+	use ContainerAware;
+	use MALTrait;
 
-    /**
-     * Base url for Kitsu API
-     */
-    protected $baseUrl = 'https://myanimelist.net/api/';
+	/**
+	 * @var AnimeListTransformer
+	 */
+	protected $animeListTransformer;
 
-    /**
-     * Default settings for Guzzle
-     * @var array
-     */
-    protected $connectionDefaults = [];
+	/**
+	 * KitsuModel constructor.
+	 */
+	public function __construct(ListItem $listItem)
+	{
+		// Set up Guzzle trait
+		$this->init();
+		$this->animeListTransformer = new AnimeListTransformer();
+		$this->listItem = $listItem;
+	}
 
-    /**
-     * Get the access token from the Kitsu API
-     *
-     * @param string $username
-     * @param string $password
-     * @return bool|string
-     */
-    public function authenticate(string $username, string $password)
-    {
-        $response = $this->post('account/', [
-            'body' => http_build_query([
-                'grant_type' => 'password',
-                'username' => $username,
-                'password' => $password
-            ])
-        ]);
+	public function createListItem(array $data): bool
+	{
+		return FALSE;
+	}
 
-        $info = $response->getBody();
+	public function getListItem(string $listId): array
+	{
+		return [];
+	}
 
-        if (array_key_exists('access_token', $info)) {
-            // @TODO save token
-            return true;
-        }
+	public function updateListItem(array $data)
+	{
+		$updateData = $this->animeListTransformer->transform($data['data']);
+		return $this->listItem->update($data['mal_id'], $updateData);
+	}
 
-        return false;
-    }
+	public function deleteListItem(string $id): bool
+	{
+
+	}
 }
