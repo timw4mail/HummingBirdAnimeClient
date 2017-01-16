@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
+use GuzzleHttp\Exception\ServerException;
 
 /**
  * Basic routing/ dispatch
@@ -128,9 +129,23 @@ class Dispatcher extends RoutingBase {
 			$actionMethod = $error_route['action_method'];
 			$params = $error_route['params'];
 		}
-
-		// Actually instantiate the controller
-		$this->call($controllerName, $actionMethod, $params);
+		
+		// Try to catch API errors in a presentable fashion
+		try
+		{
+			// Actually instantiate the controller
+			$this->call($controllerName, $actionMethod, $params);
+		}
+		catch (ServerException $e)
+		{
+			$response = $e->getResponse();
+			$this->call(AnimeClient::DEFAULT_CONTROLLER, AnimeClient::ERROR_MESSAGE_METHOD, [
+				$response->getStatusCode(),
+				'API Error',
+				'There was a problem getting data from an external source.',
+				(string) $response->getBody()
+			]);
+		}
 	}
 
 	/**

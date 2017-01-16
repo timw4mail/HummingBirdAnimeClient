@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -33,21 +33,41 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-/* ?><pre><?= print_r($item, TRUE) ?></pre><?php
-// die(); */
-		$anime = $item['anime']['attributes'] ?? $item['anime'];
-		$genres = $item['genres'] ?? [];
+/* ?><pre><?= json_encode($item, \JSON_PRETTY_PRINT) ?></pre><?php */
+		$included = $item['included'];
+		$animeId = $item['relationships']['media']['data']['id'];
+		$anime = $included['anime'][$animeId];
 
+		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
+		sort($genres);
+		
 		$rating = (int) 2 * $item['attributes']['rating'];
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
+		
+		$MALid = NULL;
+
+		if (array_key_exists('mappings', $anime['relationships']))
+		{
+			foreach ($anime['relationships']['mappings'] as $mapping)
+			{
+				if ($mapping['externalSite'] === 'myanimelist/anime')
+				{
+					$MALid = $mapping['externalId'];
+					break;
+				}
+			}
+		}
 
 		return [
 			'id' => $item['id'],
+			'mal_id' => $MALid,
 			'episodes' => [
-				'watched' => $item['attributes']['progress'],
+				'watched' => (int) $item['attributes']['progress'] !== '0'
+					? (int) $item['attributes']['progress']
+					: '-',
 				'total' => $total_episodes,
 				'length' => $anime['episodeLength'],
 			],
@@ -60,16 +80,16 @@ class AnimeListTransformer extends AbstractTransformer {
 				'age_rating' => $anime['ageRating'],
 				'titles' => Kitsu::filterTitles($anime),
 				'slug' => $anime['slug'],
-				'url' => $anime['url'] ?? '',
 				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
 				'image' => $anime['posterImage']['small'],
 				'genres' => $genres,
+				'streaming_links' => Kitsu::parseStreamingLinks($included),
 			],
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
-			'user_rating' => ($rating === 0) ? '-' : $rating,
+			'user_rating' => ($rating === 0) ? '-' : (int) $rating,
 			'private' => (bool) $item['attributes']['private'] ?? false,
 		];
 	}
@@ -83,18 +103,8 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function untransform($item)
 	{
-		// Messy mapping of boolean values to their API string equivalents
-		$privacy = 'false';
-		if (array_key_exists('private', $item) && $item['private'])
-		{
-			$privacy = 'true';
-		}
-
-		$rewatching = 'false';
-		if (array_key_exists('rewatching', $item) && $item['rewatching'])
-		{
-			$rewatching = 'true';
-		}
+		$privacy = (array_key_exists('private', $item) && $item['private']);
+		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
 		$untransformed = [
 			'id' => $item['id'],

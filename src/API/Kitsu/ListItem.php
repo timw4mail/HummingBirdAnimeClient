@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -37,7 +37,6 @@ class ListItem extends AbstractListItem {
 
 	public function create(array $data): bool
 	{
-/*?><pre><?= print_r($data, TRUE) ?></pre><?php */
 		$response = $this->getResponse('POST', 'library-entries', [
 			'body' => Json::encode([
 				'data' => [
@@ -77,7 +76,7 @@ class ListItem extends AbstractListItem {
 	{
 		return $this->getRequest("library-entries/{$id}", [
 			'query' => [
-				'include' => 'media'
+				'include' => 'media,media.genres,media.mappings'
 			]
 		]);
 	}

@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -142,7 +142,7 @@ class Manga extends Controller {
 		if ($result)
 		{
 			$this->set_flash_message('Added new manga to list', 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -203,7 +203,7 @@ class Manga extends Controller {
 		if ($full_result['statusCode'] === 200)
 		{
 			$this->set_flash_message("Successfully updated manga.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -232,7 +232,7 @@ class Manga extends Controller {
 
 		$response = $this->model->updateLibraryItem($data);
 
-		// $this->cache->purge();
+		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -250,7 +250,7 @@ class Manga extends Controller {
 		if ($response)
 		{
 			$this->set_flash_message("Successfully deleted manga.", 'success');
-			//$this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{

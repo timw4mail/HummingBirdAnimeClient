@@ -1,10 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 use Aura\Router\RouterFactory;
 use Aura\Web\WebFactory;
 use Aviat\AnimeClient\Controller;
-use Aviat\AnimeClient\Controller\Anime as AnimeController;
-use Aviat\AnimeClient\Controller\Collection as CollectionController;
-use Aviat\AnimeClient\Controller\Manga as MangaController;
+use Aviat\AnimeClient\Controller\{
+	Anime as AnimeController,
+	Collection as CollectionController,
+	Manga as MangaController
+};
 
 class ControllerTest extends AnimeClient_TestCase {
 

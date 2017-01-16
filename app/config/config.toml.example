@@ -3,7 +3,7 @@
 ################################################################################
 
 # Username for anime and manga lists
-hummingbird_username = "timw4mail"
+kitsu_username = "timw4mail"
 
 # Whose list is it?
 whose_list = "Tim"
@@ -13,6 +13,9 @@ show_anime_collection = true
 
 # do you wish to show the manga collection?
 show_manga_collection = false
+
+# do you have a My Anime List account set up in mal.toml?
+use_mal_api = false
 
 # cache driver for api calls (NullDriver, SQLDriver, RedisDriver)
 cache_driver = "NullDriver"

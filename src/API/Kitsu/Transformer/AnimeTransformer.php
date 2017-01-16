@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -33,14 +33,18 @@ class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-		$item['genres'] = $item['genres'] ?? [];
+		$item['included'] = JsonAPI::organizeIncludes($item['included']);
+		$item['genres'] = array_column($item['included']['genres'], 'name') ?? [];
 		sort($item['genres']);
+		
+		$titles = Kitsu::filterTitles($item);
 
 		return [
-			'titles' => Kitsu::filterTitles($item),
+			'title' => $titles[0],
+			'titles' => $titles,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
 			'cover_image' => $item['posterImage']['small'],
-			'show_type' => $item['showType'],
+			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
 			'episode_count' => $item['episodeCount'],
 			'episode_length' => $item['episodeLength'],
 			'synopsis' => $item['synopsis'],
@@ -48,6 +52,7 @@ class AnimeTransformer extends AbstractTransformer {
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
 			'genres' => $item['genres'],
+			'streaming_links' => Kitsu::parseStreamingLinks($item['included'])
 		];
 	}
 }

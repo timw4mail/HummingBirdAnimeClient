@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Exception;
 
 /**
  * Kitsu API Authentication
@@ -64,7 +65,16 @@ class Auth {
 	{
 		$config = $this->container->get('config');
 		$username = $config->get(['kitsu_username']);
-		$auth_token = $this->model->authenticate($username, $password);
+		
+		try
+		{
+			$auth_token = $this->model->authenticate($username, $password);
+		}
+		catch (Exception $e)
+		{
+			return FALSE;
+		}
+		
 
 		if (FALSE !== $auth_token)
 		{

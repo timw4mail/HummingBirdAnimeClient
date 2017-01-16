@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -19,9 +19,15 @@ namespace Aviat\AnimeClient;
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\Kitsu\Auth as KitsuAuth;
-use Aviat\AnimeClient\API\Kitsu\ListItem as KitsuListItem;
-use Aviat\AnimeClient\API\Kitsu\KitsuModel;
+use Aviat\AnimeClient\API\Kitsu\{
+	Auth as KitsuAuth,
+	ListItem as KitsuListItem,
+	KitsuModel
+};
+use Aviat\AnimeClient\API\MAL\{
+	ListItem as MALListItem,
+	Model as MALModel
+};
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
@@ -110,6 +116,15 @@ return function(array $config_array = []) {
 		$listItem = new KitsuListItem();
 		$listItem->setContainer($container);
 		$model = new KitsuModel($listItem);
+		$model->setContainer($container);
+		$cache = $container->get('cache');
+		$model->setCache($cache);
+		return $model;
+	});
+	$container->set('mal-model', function($container) {
+		$listItem = new MALListItem();
+		$listItem->setContainer($container);
+		$model = new MALModel($listItem);
 		$model->setContainer($container);
 		return $model;
 	});

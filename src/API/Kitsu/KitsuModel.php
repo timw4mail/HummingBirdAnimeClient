@@ -8,7 +8,7 @@
  *
  * @package     AnimeListClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\AnimeClient\API\CacheTrait;
+use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
@@ -28,6 +30,7 @@ use GuzzleHttp\Exception\ClientException;
  * Kitsu API Model
  */
 class KitsuModel {
+	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
 
@@ -59,6 +62,7 @@ class KitsuModel {
 	 * @var MangaListTransformer
 	 */
 	protected $mangaListTransformer;
+	
 
 	/**
 	 * KitsuModel constructor.
@@ -130,6 +134,7 @@ class KitsuModel {
 	 */
 	public function getAnime(string $animeId): array
 	{
+		// @TODO catch non-existent anime
 		$baseData = $this->getRawMediaData('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
 	}
@@ -146,7 +151,13 @@ class KitsuModel {
 		return $this->mangaTransformer->transform($baseData);
 	}
 
-	public function getAnimeList($status): array
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @return array
+	 */
+	public function getAnimeList(string $status): array
 	{
 		$options = [
 			'query' => [
@@ -155,33 +166,33 @@ class KitsuModel {
 					'media_type' => 'Anime',
 					'status' => $status,
 				],
-				'include' => 'media,media.genres',
+				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
 				'page' => [
 					'offset' => 0,
-					'limit' => 1000
-				],
-				'sort' => '-updated_at'
+					'limit' => 500
+				]
 			]
 		];
-
-		$data = $this->getRequest('library-entries', $options);
-		$included = K::organizeIncludes($data['included']);
-
-		foreach($data['data'] as $i => &$item)
+		
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
+		
+		if ( ! $cacheItem->isHit())
 		{
-			$item['anime'] = $included['anime'][$item['relationships']['media']['data']['id']];
+			$data = $this->getRequest('library-entries', $options);
+			$included = JsonAPI::organizeIncludes($data['included']);
+			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
-			$animeGenres = $item['anime']['relationships']['genres'];
-
-			foreach($animeGenres as $id)
+			foreach($data['data'] as $i => &$item)
 			{
-				$item['genres'][] = $included['genres'][$id]['name'];
+				$item['included'] = $included;
 			}
+			$transformed = $this->animeListTransformer->transformCollection($data['data']);
+			
+			$cacheItem->set($transformed);
+			$cacheItem->save();
 		}
 
-		$transformed = $this->animeListTransformer->transformCollection($data['data']);
-
-		return $transformed;
+		return $cacheItem->get();
 	}
 
 	public function getMangaList($status): array
@@ -248,19 +259,24 @@ class KitsuModel {
 	public function getListItem(string $listId): array
 	{
 		$baseData = $this->listItem->get($listId);
+		$included = JsonAPI::organizeIncludes($baseData['included']);
 
-		switch ($baseData['included'][0]['type'])
+
+		switch (TRUE)
 		{
-			case 'anime':
-				$baseData['data']['anime'] = $baseData['included'][0];
+			case in_array('anime', array_keys($included)):
+				$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
+				$baseData['data']['included'] = $included;
 				return $this->animeListTransformer->transform($baseData['data']);
 
-			case 'manga':
+			case in_array('manga', array_keys($included)):
+				$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+				$baseData['data']['included'] = $included;
 				$baseData['data']['manga'] = $baseData['included'][0];
 				return $this->mangaListTransformer->transform($baseData['data']);
 
 			default:
-				return $baseData['data']['attributes'];
+				return $baseData['data'];
 		}
 	}
 
@@ -309,11 +325,7 @@ class KitsuModel {
 		];
 
 		$data = $this->getRequest($type, $options);
-
 		$baseData = $data['data'][0]['attributes'];
-		$rawGenres = array_pluck($data['included'], 'attributes');
-		$genres = array_pluck($rawGenres, 'name');
-		$baseData['genres'] = $genres;
 		$baseData['included'] = $data['included'];
 		return $baseData;
 	}
