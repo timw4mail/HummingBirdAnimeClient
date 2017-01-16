@@ -142,7 +142,7 @@ class Manga extends Controller {
 		if ($result)
 		{
 			$this->set_flash_message('Added new manga to list', 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -203,7 +203,7 @@ class Manga extends Controller {
 		if ($full_result['statusCode'] === 200)
 		{
 			$this->set_flash_message("Successfully updated manga.", 'success');
-			// $this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
@@ -232,7 +232,7 @@ class Manga extends Controller {
 
 		$response = $this->model->updateLibraryItem($data);
 
-		// $this->cache->purge();
+		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
@@ -250,7 +250,7 @@ class Manga extends Controller {
 		if ($response)
 		{
 			$this->set_flash_message("Successfully deleted manga.", 'success');
-			//$this->cache->purge();
+			$this->cache->clear();
 		}
 		else
 		{
