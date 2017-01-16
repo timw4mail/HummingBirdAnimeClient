@@ -218,17 +218,25 @@ class KitsuModel {
 				'sort' => '-updated_at'
 			]
 		];
+		
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
 
-		$data = $this->getRequest('library-entries', $options);
-
-		foreach($data['data'] as $i => &$item)
+		if ( ! $cacheItem->isHit())
 		{
-			$item['manga'] = $data['included'][$i];
+			$data = $this->getRequest('library-entries', $options);
+
+			foreach($data['data'] as $i => &$item)
+			{
+				$item['manga'] = $data['included'][$i];
+			}
+
+			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
+
+			$cacheItem->set($transformed);
+			$cacheItem->save();
 		}
-
-		$transformed = $this->mangaListTransformer->transformCollection($data['data']);
-
-		return $transformed;
+		
+		return $cacheItem->get();
 	}
 
 	public function search(string $type, string $query): array
