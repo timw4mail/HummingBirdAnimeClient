@@ -11,7 +11,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="a-<?= $item['hummingbird_id'] ?>">
-					<img src="<?= $urlGenerator->asset_url('images', 'anime', basename($item['cover_image'])) ?>" alt="<?= $item['title'] ?> cover image" />
+					<img src="<?= $item['cover_image'] ?>" alt="<?= $item['title'] ?> cover image" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 						<?= $item['title'] ?>

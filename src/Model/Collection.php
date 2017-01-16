@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
+
+use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Model\DB;
 use PDO;
@@ -25,6 +27,8 @@ use PDOException;
  * Base model for anime and manga collections
  */
 class Collection extends DB {
+	
+	use ContainerAware;
 
 	/**
 	 * Anime API Model
@@ -45,6 +49,8 @@ class Collection extends DB {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
+		$this->container = $container;
+		
 		parent::__construct($container->get('config'));
 
 		try
@@ -53,8 +59,8 @@ class Collection extends DB {
 		}
 		catch (PDOException $e)
 		{
-			$this->valid_database = FALSE;
-			return FALSE;
+			//$this->valid_database = FALSE;
+			//return FALSE;
 		}
 		$this->anime_model = $container->get('anime-model');
 

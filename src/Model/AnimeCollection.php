@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use PDO;
@@ -35,7 +36,7 @@ class AnimeCollection extends Collection {
 		parent::__construct($container);
 
 		// Do an import if an import file exists
-		$this->json_import();
+		// $this->json_import();
 	}
 
 	/**
@@ -131,20 +132,17 @@ class AnimeCollection extends Collection {
 	 */
 	public function add($data)
 	{
-		$anime = (object)$this->anime_model->get_anime($data['id']);
-
+		$anime = (object)$this->anime_model->getAnimeById($data['id']);
 		$util = $this->container->get('util');
 
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
 			'title' => $anime->title,
-			'alternate_title' => $anime->alternate_title,
+			'alternate_title' => implode('<br />', $anime->titles),
 			'show_type' => $anime->show_type,
 			'age_rating' => $anime->age_rating,
-			'cover_image' => basename(
-				$util->get_cached_image($anime->cover_image, $anime->slug, 'anime')
-			),
+			'cover_image' => $anime->cover_image,
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
 			'media_id' => $data['media_id'],
@@ -264,17 +262,17 @@ class AnimeCollection extends Collection {
 		extract($genre_info);
 
 		// Get api information
-		$anime = $this->anime_model->get_anime($anime_id);
+		$anime = $this->anime_model->getAnimeById($anime_id);
 
 		foreach ($anime['genres'] as $genre)
 		{
 			// Add genres that don't currently exist
-			if ( ! in_array($genre['name'], $genres))
+			if ( ! in_array($genre, $genres))
 			{
-				$this->db->set('genre', $genre['name'])
+				$this->db->set('genre', $genre)
 					->insert('genres');
 
-				$genres[] = $genre['name'];
+				$genres[] = $genre;
 			}
 
 			// Update link table
@@ -282,13 +280,13 @@ class AnimeCollection extends Collection {
 			$flipped_genres = array_flip($genres);
 
 			$insert_array = [
-				'hummingbird_id' => $anime['id'],
-				'genre_id' => $flipped_genres[$genre['name']]
+				'hummingbird_id' => $anime_id,
+				'genre_id' => $flipped_genres[$genre]
 			];
 
-			if (array_key_exists($anime['id'], $links))
+			if (array_key_exists($anime_id, $links))
 			{
-				if ( ! in_array($flipped_genres[$genre['name']], $links[$anime['id']]))
+				if ( ! in_array($flipped_genres[$genre], $links[$anime_id]))
 				{
 					$this->db->set($insert_array)->insert('genre_anime_set_link');
 				}
