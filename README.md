@@ -31,10 +31,10 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 
 ### Requirements
 
-* PHP 5.5+
+* PHP 7.0+
 * PDO SQLite or PDO PostgreSQL (For collection tab)
 * GD
-* Redis and PHP Redis extension (optional, for caching)
+* Redis or Memcached for caching
 
 ### Installation
 
@@ -48,23 +48,14 @@ or
 3. Configure settings in `app/config/config.toml` to your liking
 4. Create the following directories if they don't exist, and make sure they are world writable
 	* public/js/cache
-	* public/images/manga
-	* public/images/anime
 5. Make sure the `console` script is executable
-6. To batch-create image thumbnails, run `console cache-images`.
 
 ### Server Setup
 
 #### Caching
 
-To setup API caching, choose a caching method:
-* Database
-	1. Follow the instructions for the Anime Collection setup below.
-	2. Set `cache_driver` in `app/config/config.toml` to 'SQLDriver'
+Update `app/config/cache.toml` based on the instructions [here](https://git.timshomepage.net/timw4mail/banker/blob/master/README.md).
 
-* Redis
-	1. Copy `app/redis.toml.example` to `app/redis.toml`, and edit to match your setup.
-	2. Set `cache_driver` in `app/config/config.toml` to 'RedisDriver'
 
 #### nginx
 Basic nginx setup
