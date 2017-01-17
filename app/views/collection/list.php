@@ -34,7 +34,7 @@
 					<a href="https://hummingbird.me/anime/<?= $item['slug'] ?>">
 						<?= $item['title'] ?>
 					</a>
-					<?= ( ! empty($item['alternate_title'])) ? " &middot; " . $item['alternate_title'] : "" ?>
+					<?= ( ! empty($item['alternate_title'])) ? " <br /><small> " . $item['alternate_title'] . "</small>" : "" ?>
 				</td>
 				<td><?= $item['episode_count'] ?></td>
 				<td><?= $item['episode_length'] ?></td>
