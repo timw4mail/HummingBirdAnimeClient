@@ -8,12 +8,12 @@
 					<th>
 						<h3><?= $escape->html($item['title']) ?></h3>
 						<?php if($item['alternate_title'] != ""): ?>
-						<h4><?= $escape->html($item['alternate_title']) ?></h4>
+						<h4><?= $item['alternate_title'] ?></h4>
 						<?php endif ?>
 					</th>
 					<th>
 						<article class="media">
-							<?= $helper->img($urlGenerator->asset_url('images', 'anime', basename($item['cover_image']))); ?>
+							<?= $helper->img($item['cover_image']); ?>
 						</article>
 					</th>
 				</tr>

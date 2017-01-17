@@ -71,14 +71,19 @@ class Anime extends API {
 	}
 
 	/**
-	 * Get information about an anime from its id
+	 * Get information about an anime from its slug
 	 *
-	 * @param string $anime_id
+	 * @param string $slug
 	 * @return array
 	 */
-	public function getAnime($anime_id)
+	public function getAnime($slug)
 	{
-		return $this->kitsuModel->getAnime($anime_id);
+		return $this->kitsuModel->getAnime($slug);
+	}
+	
+	public function getAnimeById($anime_id)
+	{
+		return $this->kitsuModel->getAnimeById($anime_id);
 	}
 
 	/**
