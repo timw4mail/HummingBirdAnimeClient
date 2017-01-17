@@ -32,7 +32,7 @@ class ClearCache extends BaseCommand {
 	{
 		$this->setContainer($this->setupContainer());
 		$cache = $this->container->get('cache');
-		$cache->purge();
+		$cache->clear();
 		
 		$this->echoBox('API Cache has been cleared.');
 	}
