@@ -1,6 +1,6 @@
 {
 	"name": "timw4mail/hummingbird-anime-client",
-	"description": "A self-hosted anime/manga client for hummingbird.",
+	"description": "A self-hosted anime/manga client for Kitsu.",
 	"license":"MIT",
 	"autoload": {
 		"psr-4": {
@@ -17,7 +17,7 @@
 		"aura/html": "2.*",
 		"aura/router": "3.*",
 		"aura/session": "2.*",
-		"aviat/banker": "dev-master",
+		"aviat/banker": "^1.0.0",
 		"aviat/ion": "1.0.*",
 		"filp/whoops": "2.0.*",
 		"guzzlehttp/guzzle": "6.*",
