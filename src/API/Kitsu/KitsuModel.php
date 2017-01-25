@@ -175,7 +175,7 @@ class KitsuModel {
 				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
 				'page' => [
 					'offset' => 0,
-					'limit' => 500
+					'limit' => 600
 				]
 			]
 		];
