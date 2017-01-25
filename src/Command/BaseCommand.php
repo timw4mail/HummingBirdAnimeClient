@@ -17,15 +17,19 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\AnimeClient;
+use Aviat\AnimeClient\{
+	AnimeClient,
+	Model,
+	Util
+};
 use Aviat\AnimeClient\Auth\HummingbirdAuth;
-use Aviat\AnimeClient\Model;
-use Aviat\AnimeClient\Util;
-use Aviat\Ion\Cache\CacheManager;
+use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use ConsoleKit\Command;
 use ConsoleKit\Widgets\Box;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 /**
  * Base class for console command setup
@@ -54,24 +58,30 @@ class BaseCommand extends Command {
 	 */
 	protected function setupContainer()
 	{
-		$CONF_DIR = realpath(__DIR__ . '/../../app/config/');
+		$APP_DIR = realpath(__DIR__ . '/../../app');
+		$CONF_DIR = realpath("{$APP_DIR}/config/");
 		require_once $CONF_DIR . '/base_config.php'; // $base_config
 
 		$config = AnimeClient::loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
-		$di = function ($config_array) {
+		$di = function ($config_array) use ($APP_DIR) {
 			$container = new Container();
-
+			
+			$app_logger = new Logger('animeclient');
+			$app_logger->pushHandler(new RotatingFileHandler("{$APP_DIR}/logs/app.log", Logger::NOTICE));
+			$container->setLogger($app_logger, 'default');
+			
 			// Create Config Object
-			$container->set('config', function() {
-				return new Config();
+			$container->set('config', function() use ($config_array) {
+				return new Config($config_array);
 			});
-			$container->setInstance('config', $config_array);
 
 			// Create Cache Object
 			$container->set('cache', function($container) {
-				return new CacheManager($container->get('config'));
+				$logger = $container->getLogger();
+				$config = $container->get('config')->get('cache');
+				return new Pool($config, $logger);
 			});
 
 			// Create session Object

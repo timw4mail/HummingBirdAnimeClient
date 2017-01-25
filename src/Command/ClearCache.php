@@ -37,4 +37,3 @@ class ClearCache extends BaseCommand {
 		$this->echoBox('API Cache has been cleared.');
 	}
 }
-// End of ClearCache.php

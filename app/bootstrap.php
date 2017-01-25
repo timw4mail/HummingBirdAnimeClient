@@ -58,10 +58,9 @@ return function(array $config_array = []) {
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$container->set('config', function() {
-		return new Config();
+	$container->set('config', function() use ($config_array) {
+		return new Config($config_array);
 	});
-	$container->setInstance('config', new Config($config_array));
 
 	// Create Cache Object
 	$container->set('cache', function($container) {
