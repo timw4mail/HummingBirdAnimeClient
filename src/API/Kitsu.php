@@ -161,6 +161,39 @@ class Kitsu {
 		
 		return $links;
 	}
+	
+	/**
+	 * Reorganize streaming links for the current list item
+	 *
+	 * @param array $included
+	 * @return array
+	 */
+	public static function parseListItemStreamingLinks(array $included, string $animeId): array
+	{
+		// Anime lists have a different structure to search through
+		if (array_key_exists('anime', $included) && ! array_key_exists('streamingLinks', $included))
+		{
+			$links = [];
+			$anime = $included['anime'][$animeId];
+
+			if (count($anime['relationships']['streamingLinks']) > 0)
+			{
+				foreach ($anime['relationships']['streamingLinks'] as $streamingLink)
+				{
+					$host = parse_url($streamingLink['url'], \PHP_URL_HOST);
+
+					$links[] = [
+						'meta' => static::getServiceMetaData($host),
+						'link' => $streamingLink['url'],
+						'subs' => $streamingLink['subs'],
+						'dubs' => $streamingLink['dubs']
+					];
+				}
+			}
+			
+			return $links;
+		}
+	}
 
 	/**
 	 * Filter out duplicate and very similar names from
