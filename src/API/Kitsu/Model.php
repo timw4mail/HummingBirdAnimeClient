@@ -29,7 +29,7 @@ use GuzzleHttp\Exception\ClientException;
 /**
  * Kitsu API Model
  */
-class KitsuModel {
+class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
@@ -65,7 +65,7 @@ class KitsuModel {
 	
 
 	/**
-	 * KitsuModel constructor.
+	 * Constructor.
 	 */
 	public function __construct(ListItem $listItem)
 	{
@@ -87,15 +87,23 @@ class KitsuModel {
 	 */
 	public function getUserIdByUsername(string $username)
 	{
-		$data = $this->getRequest('users', [
-			'query' => [
-				'filter' => [
-					'name' => $username
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $username));
+		
+		if ( ! $cacheItem->isHit())
+		{
+			$data = $this->getRequest('users', [
+				'query' => [
+					'filter' => [
+						'name' => $username
+					]
 				]
-			]
-		]);
+			]);
 
-		return $data['data'][0]['id'];
+			$cacheItem->set($data['data'][0]['id']);
+			$cacheItem->save();
+		}
+		
+		return $cacheItem->get();
 	}
 
 	/**
@@ -139,6 +147,12 @@ class KitsuModel {
 		return $this->animeTransformer->transform($baseData);
 	}
 	
+	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
 	public function getAnimeById(string $animeId): array
 	{
 		$baseData = $this->getRawMediaDataById('anime', $animeId);
@@ -161,9 +175,11 @@ class KitsuModel {
 	 * Get the anime list for the configured user
 	 *
 	 * @param string $status - The watching status to filter the list with
+	 * @param int $limit - The number of list entries to fetch for a page
+	 * @param int $offset - The page offset
 	 * @return array
 	 */
-	public function getAnimeList(string $status): array
+	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
 	{
 		$options = [
 			'query' => [
@@ -174,8 +190,8 @@ class KitsuModel {
 				],
 				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
 				'page' => [
-					'offset' => 0,
-					'limit' => 600
+					'offset' => $offset,
+					'limit' => $limit
 				]
 			]
 		];
@@ -201,7 +217,15 @@ class KitsuModel {
 		return $cacheItem->get();
 	}
 
-	public function getMangaList($status): array
+	/**
+	 * Get the manga list for the configured user
+	 *
+	 * @param string $status - The reading status by which to filter the list
+	 * @param int $limit - The number of list items to fetch per page
+	 * @param int $offset - The page offset
+	 * @return array
+	 */
+	public function getMangaList(string $status, int $limit = 200, int $offset = 0): array
 	{
 		$options = [
 			'query' => [
@@ -212,8 +236,8 @@ class KitsuModel {
 				],
 				'include' => 'media',
 				'page' => [
-					'offset' => 0,
-					'limit' => 200
+					'offset' => $offset,
+					'limit' => $limit
 				],
 				'sort' => '-updated_at'
 			]
@@ -239,6 +263,13 @@ class KitsuModel {
 		return $cacheItem->get();
 	}
 
+	/**
+	 * Search for an anime or manga
+	 *
+	 * @param string $type - 'anime' or 'manga'
+	 * @param string $query - name of the item to search for
+	 * @return array
+	 */
 	public function search(string $type, string $query): array
 	{
 		$options = [
@@ -264,12 +295,24 @@ class KitsuModel {
 		return $raw;
 	}
 
+	/**
+	 * Create a list item
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
 	public function createListItem(array $data): bool
 	{
 		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
 		return $this->listItem->create($data);
 	}
 
+	/**
+	 * Get the data for a specific list item, generally for editing
+	 *
+	 * @param string $listId - The unique identifier of that list item
+	 * @return array
+	 */
 	public function getListItem(string $listId): array
 	{
 		$baseData = $this->listItem->get($listId);
@@ -294,6 +337,12 @@ class KitsuModel {
 		}
 	}
 
+	/**
+	 * Modify a list item
+	 *
+	 * @param array $data
+	 * @return array
+	 */
 	public function updateListItem(array $data)
 	{
 		try
@@ -313,6 +362,12 @@ class KitsuModel {
 		}
 	}
 
+	/**
+	 * Remove a list item
+	 *
+	 * @param string $id - The id of the list item to remove
+	 * @return bool
+	 */
 	public function deleteListItem(string $id): bool
 	{
 		return $this->listItem->delete($id);
