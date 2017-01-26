@@ -87,7 +87,7 @@ class Model {
 	 */
 	public function getUserIdByUsername(string $username)
 	{
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $username));
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$username]));
 		
 		if ( ! $cacheItem->isHit())
 		{
