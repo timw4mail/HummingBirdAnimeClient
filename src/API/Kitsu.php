@@ -73,7 +73,7 @@ class Kitsu {
 	public static function getAiringStatus(string $startDate = null, string $endDate = null): string
 	{
 		$startAirDate = new DateTimeImmutable($startDate ?? 'tomorrow');
-		$endAirDate = new DateTimeImmutable($endDate ?? 'tomorrow');
+		$endAirDate = new DateTimeImmutable($endDate ?? 'next year');
 		$now = new DateTimeImmutable();
 
 		$isDoneAiring = $now > $endAirDate;
@@ -195,6 +195,8 @@ class Kitsu {
 			
 			return $links;
 		}
+		
+		return [];
 	}
 
 	/**

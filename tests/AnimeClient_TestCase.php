@@ -87,10 +87,6 @@ class AnimeClient_TestCase extends TestCase {
 				'routes' => [
 
 				]
-			],
-			'redis' => [
-				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
-				'database' => 13
 			]
 		];
 
@@ -157,9 +153,9 @@ class AnimeClient_TestCase extends TestCase {
 	 *
 	 * @return mixed - the decoded data
 	 */
-	public function getMockFileData()
+	public function getMockFileData(...$args)
 	{
-		$rawData = call_user_func_array([$this, 'getMockFile'], func_get_args());
+		$rawData = $this->getMockFile(...$args);
 
 		return Json::decode($rawData);
 	}
