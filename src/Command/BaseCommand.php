@@ -22,20 +22,30 @@ use Aviat\AnimeClient\{
 	Model,
 	Util
 };
-use Aviat\AnimeClient\Auth\HummingbirdAuth;
+use Aviat\AnimeClient\API\CacheTrait;
+use Aviat\AnimeClient\API\Kitsu\{
+	Auth as KitsuAuth,
+	ListItem as KitsuListItem,
+	Model as KitsuModel
+};
+use Aviat\AnimeClient\API\MAL\{
+	ListItem as MALListItem,
+	Model as MALModel
+};
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
-use Aviat\Ion\Di\Container;
+use Aviat\Ion\Di\{Container, ContainerAware};
 use ConsoleKit\Command;
 use ConsoleKit\Widgets\Box;
-use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 
 /**
  * Base class for console command setup
  */
 class BaseCommand extends Command {
-	use \Aviat\Ion\Di\ContainerAware;
+	use CacheTrait;
+	use ContainerAware;
 
 	/**
 	 * Echo text in a box
@@ -68,9 +78,16 @@ class BaseCommand extends Command {
 		$di = function ($config_array) use ($APP_DIR) {
 			$container = new Container();
 			
+			// -------------------------------------------------------------------------
+			// Logging
+			// -------------------------------------------------------------------------
+
 			$app_logger = new Logger('animeclient');
-			$app_logger->pushHandler(new RotatingFileHandler("{$APP_DIR}/logs/app.log", Logger::NOTICE));
+			$app_logger->pushHandler(new NullHandler);
+			$request_logger = new Logger('request');
+			$request_logger->pushHandler(new NullHandler);
 			$container->setLogger($app_logger, 'default');
+			$container->setLogger($request_logger, 'request');
 			
 			// Create Config Object
 			$container->set('config', function() use ($config_array) {
@@ -90,18 +107,21 @@ class BaseCommand extends Command {
 			});
 
 			// Models
-			$container->set('api-model', function($container) {
-				return new Model\API($container);
+			$container->set('kitsu-model', function($container) {
+				$listItem = new KitsuListItem();
+				$listItem->setContainer($container);
+				$model = new KitsuModel($listItem);
+				$model->setContainer($container);
+				$cache = $container->get('cache');
+				$model->setCache($cache);
+				return $model;
 			});
-			$container->set('anime-model', function($container) {
-				return new Model\Anime($container);
-			});
-			$container->set('manga-model', function($container) {
-				return new Model\Manga($container);
-			});
-
-			$container->set('auth', function($container) {
-				return new HummingbirdAuth($container);
+			$container->set('mal-model', function($container) {
+				$listItem = new MALListItem();
+				$listItem->setContainer($container);
+				$model = new MALModel($listItem);
+				$model->setContainer($container);
+				return $model;
 			});
 			$container->set('util', function($container) {
 				return new Util($container);
