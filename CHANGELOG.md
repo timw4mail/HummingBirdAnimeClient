@@ -1,7 +1,8 @@
 # Changelog
 
 ## Version 4
-* Updated to use Kitsu API after discontinuation of Hummingbird 
+* Updated to use Kitsu API after discontinuation of Hummingbird
+* Added streaming links to list entries from the Kitsu API
 
 ## Version 3
 * Converted user configuration to toml files

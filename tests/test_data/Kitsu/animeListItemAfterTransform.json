@@ -1,1 +1,30 @@
-{"id":"15839442","mal_id":"33206","episodes":{"watched":0,"total":"-","length":null},"airing":{"status":"Currently Airing","started":"2017-01-12","ended":null},"anime":{"age_rating":null,"titles":["Kobayashi-san Chi no Maid Dragon","Miss Kobayashi's Dragon Maid","\u5c0f\u6797\u3055\u3093\u3061\u306e\u30e1\u30a4\u30c9\u30e9\u30b4\u30f3"],"slug":"kobayashi-san-chi-no-maid-dragon","type":"TV","image":"https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/small.jpg?1481144116","genres":["Comedy","Fantasy","Slice of Life"],"streaming_links":[]},"watching_status":"current","notes":null,"rewatching":false,"rewatched":0,"user_rating":"-","private":false}
+{
+	"id": "15839442",
+	"mal_id": "33206",
+	"episodes": {
+		"watched": 0,
+		"total": "-",
+		"length": null
+	},
+	"airing": {
+		"status": "Currently Airing",
+		"started": "2017-01-12",
+		"ended": null
+	},
+	"anime": {
+		"age_rating": null,
+		"title": "Kobayashi-san Chi no Maid Dragon",
+		"titles": ["Kobayashi-san Chi no Maid Dragon", "Miss Kobayashi's Dragon Maid", "\u5c0f\u6797\u3055\u3093\u3061\u306e\u30e1\u30a4\u30c9\u30e9\u30b4\u30f3"],
+		"slug": "kobayashi-san-chi-no-maid-dragon",
+		"type": "TV",
+		"image": "https:\/\/media.kitsu.io\/anime\/poster_images\/12243\/small.jpg?1481144116",
+		"genres": ["Comedy", "Fantasy", "Slice of Life"],
+		"streaming_links": []
+	},
+	"watching_status": "current",
+	"notes": null,
+	"rewatching": false,
+	"rewatched": 0,
+	"user_rating": "-",
+	"private": false
+}

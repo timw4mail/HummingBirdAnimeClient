@@ -60,6 +60,10 @@ class AnimeListTransformer extends AbstractTransformer {
 				}
 			}
 		}
+		
+		$streamingLinks = (array_key_exists('streamingLinks', $anime['relationships']))
+			? Kitsu::parseListItemStreamingLinks($included, $animeId)
+			: [];
 
 		return [
 			'id' => $item['id'],
@@ -78,12 +82,13 @@ class AnimeListTransformer extends AbstractTransformer {
 			],
 			'anime' => [
 				'age_rating' => $anime['ageRating'],
+				'title' => $anime['canonicalTitle'],
 				'titles' => Kitsu::filterTitles($anime),
 				'slug' => $anime['slug'],
 				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
 				'image' => $anime['posterImage']['small'],
 				'genres' => $genres,
-				'streaming_links' => Kitsu::parseStreamingLinks($included),
+				'streaming_links' => $streamingLinks,
 			],
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],

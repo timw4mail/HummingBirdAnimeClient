@@ -179,15 +179,43 @@ class XML {
 		for ($i = 0; $i < $length; $i++)
 		{
 			$el = $nodeList->item($i);
+			$current =& $root[$el->nodeName];
+			
+			// It's a top level element!
 			if (is_a($el->childNodes->item(0), 'DomText') || ( ! $el->hasChildNodes()))
 			{
-				$root[$el->nodeName] = $el->textContent;
+				$current = $el->textContent;
+				continue;
 			}
-			else
+
+			// An empty value at the current root
+			if (is_null($current))
 			{
-				$root[$el->nodeName] = [];
-				static::childNodesToArray($root[$el->nodeName], $el->childNodes);
+				$current = [];
+				static::childNodesToArray($current, $el->childNodes);
+				continue;
 			}
+
+			$keys = array_keys($current);
+
+			// Wrap the array in a containing array
+			// if there are only string keys
+			if ( ! is_numeric($keys[0]))
+			{
+				// But if there is only one key, don't wrap it in
+				// an array, just recurse to parse the child nodes
+				if (count($current) === 1)
+				{
+					static::childNodesToArray($current, $el->childNodes);
+					continue;
+				}
+				$current = [$current];
+			}
+
+			array_push($current, []);
+			$index = count($current) - 1;
+
+			static::childNodesToArray($current[$index], $el->childNodes);
 		}
 	}
 
@@ -203,7 +231,17 @@ class XML {
 	{
 		foreach($data as $key => $props)
 		{
+			// 'Flatten' the array as you create the xml
+			if (is_numeric($key))
+			{
+				foreach($props as $key => $props)
+				{
+					break;
+				}
+			}
+			
 			$node = $dom->createElement($key);
+			
 			if (is_array($props))
 			{
 				static::arrayPropertiesToXmlNodes($dom, $node, $props);

@@ -20,7 +20,10 @@ use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
-	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
+	AnimeTransformer, 
+	AnimeListTransformer, 
+	MangaTransformer, 
+	MangaListTransformer
 };
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
@@ -29,7 +32,7 @@ use GuzzleHttp\Exception\ClientException;
 /**
  * Kitsu API Model
  */
-class KitsuModel {
+class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
@@ -65,7 +68,7 @@ class KitsuModel {
 	
 
 	/**
-	 * KitsuModel constructor.
+	 * Constructor.
 	 */
 	public function __construct(ListItem $listItem)
 	{
@@ -85,17 +88,30 @@ class KitsuModel {
 	 * @param string $username
 	 * @return string
 	 */
-	public function getUserIdByUsername(string $username)
+	public function getUserIdByUsername(string $username = NULL)
 	{
-		$data = $this->getRequest('users', [
-			'query' => [
-				'filter' => [
-					'name' => $username
+		if (is_null($username))
+		{
+			$username = $this->getUsername();
+		}
+		
+		$cacheItem = $this->cache->getItem(K::AUTH_USER_ID_KEY);
+		
+		if ( ! $cacheItem->isHit())
+		{
+			$data = $this->getRequest('users', [
+				'query' => [
+					'filter' => [
+						'name' => $username
+					]
 				]
-			]
-		]);
+			]);
 
-		return $data['data'][0]['id'];
+			$cacheItem->set($data['data'][0]['id']);
+			$cacheItem->save();
+		}
+		
+		return $cacheItem->get();
 	}
 
 	/**
@@ -120,7 +136,7 @@ class KitsuModel {
 
 		if (array_key_exists('access_token', $data))
 		{
-			return $data['access_token'];
+			return $data;
 		}
 
 		return false;
@@ -139,6 +155,12 @@ class KitsuModel {
 		return $this->animeTransformer->transform($baseData);
 	}
 	
+	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
 	public function getAnimeById(string $animeId): array
 	{
 		$baseData = $this->getRawMediaDataById('anime', $animeId);
@@ -156,14 +178,16 @@ class KitsuModel {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
-
+	
 	/**
-	 * Get the anime list for the configured user
+	 * Get the raw (unorganized) anime list for the configured user
 	 *
 	 * @param string $status - The watching status to filter the list with
+	 * @param int $limit - The number of list entries to fetch for a page
+	 * @param int $offset - The page offset
 	 * @return array
 	 */
-	public function getAnimeList(string $status): array
+	public function getRawAnimeList(string $status, int $limit = 600, int $offset = 0): array
 	{
 		$options = [
 			'query' => [
@@ -174,17 +198,31 @@ class KitsuModel {
 				],
 				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
 				'page' => [
-					'offset' => 0,
-					'limit' => 500
-				]
+					'offset' => $offset,
+					'limit' => $limit
+				],
+				'sort' => '-updated_at'
 			]
 		];
 		
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
+		return $this->getRequest('library-entries', $options);
+	}
+
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @param int $limit - The number of list entries to fetch for a page
+	 * @param int $offset - The page offset
+	 * @return array
+	 */
+	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
+	{
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$status]));
 		
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRequest('library-entries', $options);
+			$data = $this->getRawAnimeList($status, $limit, $offset);
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
@@ -201,7 +239,15 @@ class KitsuModel {
 		return $cacheItem->get();
 	}
 
-	public function getMangaList($status): array
+	/**
+	 * Get the manga list for the configured user
+	 *
+	 * @param string $status - The reading status by which to filter the list
+	 * @param int $limit - The number of list items to fetch per page
+	 * @param int $offset - The page offset
+	 * @return array
+	 */
+	public function getMangaList(string $status, int $limit = 200, int $offset = 0): array
 	{
 		$options = [
 			'query' => [
@@ -212,8 +258,8 @@ class KitsuModel {
 				],
 				'include' => 'media',
 				'page' => [
-					'offset' => 0,
-					'limit' => 200
+					'offset' => $offset,
+					'limit' => $limit
 				],
 				'sort' => '-updated_at'
 			]
@@ -239,6 +285,13 @@ class KitsuModel {
 		return $cacheItem->get();
 	}
 
+	/**
+	 * Search for an anime or manga
+	 *
+	 * @param string $type - 'anime' or 'manga'
+	 * @param string $query - name of the item to search for
+	 * @return array
+	 */
 	public function search(string $type, string $query): array
 	{
 		$options = [
@@ -264,12 +317,24 @@ class KitsuModel {
 		return $raw;
 	}
 
+	/**
+	 * Create a list item
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
 	public function createListItem(array $data): bool
 	{
 		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
 		return $this->listItem->create($data);
 	}
 
+	/**
+	 * Get the data for a specific list item, generally for editing
+	 *
+	 * @param string $listId - The unique identifier of that list item
+	 * @return array
+	 */
 	public function getListItem(string $listId): array
 	{
 		$baseData = $this->listItem->get($listId);
@@ -294,6 +359,12 @@ class KitsuModel {
 		}
 	}
 
+	/**
+	 * Modify a list item
+	 *
+	 * @param array $data
+	 * @return array
+	 */
 	public function updateListItem(array $data)
 	{
 		try
@@ -313,6 +384,12 @@ class KitsuModel {
 		}
 	}
 
+	/**
+	 * Remove a list item
+	 *
+	 * @param string $id - The id of the list item to remove
+	 * @return bool
+	 */
 	public function deleteListItem(string $id): bool
 	{
 		return $this->listItem->delete($id);

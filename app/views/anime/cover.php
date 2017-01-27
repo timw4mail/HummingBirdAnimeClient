@@ -54,7 +54,7 @@
 							<?php foreach($item['anime']['streaming_links'] as $link): ?>
 								<div class="cover_streaming_link">
 									<?php if($link['meta']['link']): ?>
-										<a href="<?= $link['link']?>">
+										<a href="<?= $link['link']?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
 											<?= $link['meta']['logo'] ?>
 										</a>
 									<?php else: ?>

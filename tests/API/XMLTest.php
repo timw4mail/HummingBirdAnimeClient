@@ -9,6 +9,7 @@ class XMLTest extends TestCase {
 
 	public function setUp()
 	{
+		$this->malExport = file_get_contents(__DIR__ . '/../test_data/XML/MALExport.xml');
 		$this->xml = file_get_contents(__DIR__ . '/../test_data/XML/xmlTestFile.xml');
 		$this->expectedXml = file_get_contents(__DIR__ . '/../test_data/XML/minifiedXmlTestFile.xml');
 
@@ -42,6 +43,13 @@ class XMLTest extends TestCase {
 	public function testToArray()
 	{
 		$this->assertEquals($this->array, XML::toArray($this->xml));
+	}
+	
+	public function testMALExport()
+	{
+		$array = XML::toArray($this->malExport);
+		$this->assertEquals($array['myanimelist']['myinfo']['user_total_anime'], count($array['myanimelist']['anime']));
+		// $this->assertEquals($array, XML::toArray($this->malExport));
 	}
 
 	public function testParse()
