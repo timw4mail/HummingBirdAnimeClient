@@ -3,6 +3,7 @@
 A self-hosted client that allows custom formatting of data from the hummingbird api
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
+[![build status](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/build.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/?branch=master)
 
 [[Hosted Example](https://list.timshomepage.net)]
