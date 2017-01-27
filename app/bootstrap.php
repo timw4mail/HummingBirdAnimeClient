@@ -22,7 +22,7 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\Kitsu\{
 	Auth as KitsuAuth,
 	ListItem as KitsuListItem,
-	KitsuModel
+	Model as KitsuModel
 };
 use Aviat\AnimeClient\API\MAL\{
 	ListItem as MALListItem,

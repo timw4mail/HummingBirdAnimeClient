@@ -34,7 +34,7 @@ class API extends Model {
 
 	/**
 	 * Cache manager
-	 * @var \Aviat\Ion\Cache\CacheInterface
+	 * @var \Psr\Cache\CacheItemPoolInterface
 	 */
 	protected $cache;
 
@@ -56,7 +56,7 @@ class API extends Model {
 	}
 
 	/**
-	 * Sort the manga entries by their title
+	 * Sort the list entries by their title
 	 *
 	 * @codeCoverageIgnore
 	 * @param array $array
@@ -75,4 +75,3 @@ class API extends Model {
 		array_multisort($sort, SORT_ASC, $array);
 	}
 }
-// End of BaseApiModel.php

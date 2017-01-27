@@ -15,7 +15,7 @@ test:7:
       - php composer.phar install --no-dev
     image: php:7
     script:
-      - phpunit -c build
+      - phpunit -c build --coverage-text
       
 test:7.1:
     before_script:
@@ -24,7 +24,7 @@ test:7.1:
       - php composer.phar install --no-dev
     image: php:7.1
     script:
-      - phpunit -c build
+      - phpunit -c build --coverage-text
 
 test:hhvm:
     before_script:
@@ -34,4 +34,4 @@ test:hhvm:
       - composer install --no-dev
     image: 51systems/docker-gitlab-ci-runner-hhvm
     script:
-      - hhvm -d hhvm.php7.all=true vendor/bin/phpunit -c build
+      - hhvm -d hhvm.php7.all=true /usr/local/bin/phpunit -c build --coverage-text
