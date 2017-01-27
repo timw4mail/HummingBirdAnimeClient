@@ -14,6 +14,7 @@ apt-get install \
 	git \
 	libxslt1-dev \
 	libxslt1.1 \
+	zlib1g-dev \
 	unzip \
 	-yqq
 
