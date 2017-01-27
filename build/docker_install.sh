@@ -12,6 +12,8 @@ set -xe
 apt-get update -yqq
 apt-get install \
 	git \
+	libxslt1-dev \
+	libxslt1.1 \
 	unzip \
 	-yqq
 
