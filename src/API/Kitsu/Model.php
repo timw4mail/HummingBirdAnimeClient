@@ -20,7 +20,10 @@ use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
-	AnimeTransformer, AnimeListTransformer, MangaTransformer, MangaListTransformer
+	AnimeTransformer, 
+	AnimeListTransformer, 
+	MangaTransformer, 
+	MangaListTransformer
 };
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
@@ -85,9 +88,14 @@ class Model {
 	 * @param string $username
 	 * @return string
 	 */
-	public function getUserIdByUsername(string $username)
+	public function getUserIdByUsername(string $username = NULL)
 	{
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$username]));
+		if (is_null($username))
+		{
+			$username = $this->getUsername();
+		}
+		
+		$cacheItem = $this->cache->getItem(K::AUTH_USER_ID_KEY);
 		
 		if ( ! $cacheItem->isHit())
 		{
@@ -128,7 +136,7 @@ class Model {
 
 		if (array_key_exists('access_token', $data))
 		{
-			return $data['access_token'];
+			return $data;
 		}
 
 		return false;
@@ -170,16 +178,16 @@ class Model {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
-
+	
 	/**
-	 * Get the anime list for the configured user
+	 * Get the raw (unorganized) anime list for the configured user
 	 *
 	 * @param string $status - The watching status to filter the list with
 	 * @param int $limit - The number of list entries to fetch for a page
 	 * @param int $offset - The page offset
 	 * @return array
 	 */
-	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
+	public function getRawAnimeList(string $status, int $limit = 600, int $offset = 0): array
 	{
 		$options = [
 			'query' => [
@@ -192,15 +200,29 @@ class Model {
 				'page' => [
 					'offset' => $offset,
 					'limit' => $limit
-				]
+				],
+				'sort' => '-updated_at'
 			]
 		];
 		
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
+		return $this->getRequest('library-entries', $options);
+	}
+
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @param int $limit - The number of list entries to fetch for a page
+	 * @param int $offset - The page offset
+	 * @return array
+	 */
+	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
+	{
+		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$status]));
 		
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRequest('library-entries', $options);
+			$data = $this->getRawAnimeList($status, $limit, $offset);
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 

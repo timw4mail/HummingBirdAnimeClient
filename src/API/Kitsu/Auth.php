@@ -17,6 +17,10 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\AnimeClient;
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	Kitsu as K
+};
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Exception;
 
@@ -24,7 +28,7 @@ use Exception;
  * Kitsu API Authentication
  */
 class Auth {
-
+	use CacheTrait;
 	use ContainerAware;
 
 	/**
@@ -49,6 +53,7 @@ class Auth {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->setContainer($container);
+		$this->setCache($container->get('cache'));
 		$this->segment = $container->get('session')
 			->getSegment(AnimeClient::SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
@@ -68,7 +73,7 @@ class Auth {
 		
 		try
 		{
-			$auth_token = $this->model->authenticate($username, $password);
+			$auth = $this->model->authenticate($username, $password);
 		}
 		catch (Exception $e)
 		{
@@ -76,9 +81,14 @@ class Auth {
 		}
 		
 
-		if (FALSE !== $auth_token)
+		if (FALSE !== $auth)
 		{
-			$this->segment->set('auth_token', $auth_token);
+			// Set the token in the cache for command line operations
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
+			$cacheItem->set($auth['access_token']);
+			$cacheItem->save();
+			
+			$this->segment->set('auth_token', $auth['access_token']);
 			return TRUE;
 		}
 
