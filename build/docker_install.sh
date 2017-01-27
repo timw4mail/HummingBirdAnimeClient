@@ -36,3 +36,4 @@ docker-php-ext-install gd
 docker-php-ext-install mcrypt
 docker-php-ext-install xsl
 docker-php-ext-install zip
+docker-php-ext-install xdebug
