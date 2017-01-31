@@ -97,15 +97,9 @@ class MangaListTransformer extends AbstractTransformer {
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],
 				'notes' => $item['notes'],
+				'rating' => $item['new_rating'] / 2
 			],
 		];
-
-		if ($item['new_rating'] !== $item['old_rating'] && $item['new_rating'] !== "")
-		{
-			$map['data']['rating'] = ($item['new_rating'] > 0)
-				? $item['new_rating'] / 2
-				: $item['old_rating'] / 2;
-		}
 
 		return $map;
 	}
