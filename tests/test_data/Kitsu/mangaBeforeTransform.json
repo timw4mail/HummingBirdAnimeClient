@@ -1,0 +1,197 @@
+{
+	"data": [{
+		"id": "20286",
+		"type": "manga",
+		"links": {
+			"self": "https://kitsu.io/api/edge/manga/20286"
+		},
+		"attributes": {
+			"slug": "bokura-wa-minna-kawaisou",
+			"synopsis": "Usa, a high-school student aspiring to begin a bachelor lifestyle, moves into a new apartment only to discover that he not only shares a room with a perverted roommate that has an obsession for underaged girls, but also that another girl, Ritsu, a love-at-first-sight, is living in the same building as well!\n(Source: Kirei Cake)",
+			"coverImageTopOffset": 40,
+			"titles": {
+				"en": null,
+				"en_jp": "Bokura wa Minna Kawaisou"
+			},
+			"canonicalTitle": "Bokura wa Minna Kawaisou",
+			"abbreviatedTitles": null,
+			"averageRating": 4.12281805954249,
+			"ratingFrequencies": {
+				"0.5": "0",
+				"1.0": "1",
+				"1.5": "0",
+				"2.0": "1",
+				"2.5": "2",
+				"3.0": "6",
+				"3.5": "21",
+				"4.0": "38",
+				"4.5": "35",
+				"5.0": "43",
+				"nil": "16"
+			},
+			"favoritesCount": 0,
+			"startDate": "2010-01-01",
+			"endDate": null,
+			"popularityRank": 262,
+			"ratingRank": 127,
+			"ageRating": "PG",
+			"ageRatingGuide": null,
+			"posterImage": {
+				"tiny": "https://media.kitsu.io/manga/poster_images/20286/tiny.jpg?1434293999",
+				"small": "https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999",
+				"medium": "https://media.kitsu.io/manga/poster_images/20286/medium.jpg?1434293999",
+				"large": "https://media.kitsu.io/manga/poster_images/20286/large.jpg?1434293999",
+				"original": "https://media.kitsu.io/manga/poster_images/20286/original.jpg?1434293999"
+			},
+			"coverImage": {
+				"small": "https://media.kitsu.io/manga/cover_images/20286/small.jpg?1430793688",
+				"large": "https://media.kitsu.io/manga/cover_images/20286/large.jpg?1430793688",
+				"original": "https://media.kitsu.io/manga/cover_images/20286/original.jpg?1430793688"
+			},
+			"subtype": "manga",
+			"chapterCount": null,
+			"volumeCount": 0,
+			"serialization": "Young King Ours",
+			"mangaType": "manga"
+		},
+		"relationships": {
+			"genres": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/genres",
+					"related": "https://kitsu.io/api/edge/manga/20286/genres"
+				},
+				"data": [{
+					"type": "genres",
+					"id": "3"
+				}, {
+					"type": "genres",
+					"id": "24"
+				}, {
+					"type": "genres",
+					"id": "16"
+				}, {
+					"type": "genres",
+					"id": "14"
+				}, {
+					"type": "genres",
+					"id": "18"
+				}]
+			},
+			"castings": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/castings",
+					"related": "https://kitsu.io/api/edge/manga/20286/castings"
+				}
+			},
+			"installments": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/installments",
+					"related": "https://kitsu.io/api/edge/manga/20286/installments"
+				}
+			},
+			"mappings": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/mappings",
+					"related": "https://kitsu.io/api/edge/manga/20286/mappings"
+				},
+				"data": [{
+					"type": "mappings",
+					"id": "48014"
+				}]
+			},
+			"reviews": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/reviews",
+					"related": "https://kitsu.io/api/edge/manga/20286/reviews"
+				}
+			},
+			"mediaRelationships": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/manga/20286/relationships/media-relationships",
+					"related": "https://kitsu.io/api/edge/manga/20286/media-relationships"
+				}
+			}
+		}
+	}],
+	"included": [{
+		"id": "3",
+		"type": "genres",
+		"links": {
+			"self": "https://kitsu.io/api/edge/genres/3"
+		},
+		"attributes": {
+			"name": "Comedy",
+			"slug": "comedy",
+			"description": null
+		}
+	}, {
+		"id": "24",
+		"type": "genres",
+		"links": {
+			"self": "https://kitsu.io/api/edge/genres/24"
+		},
+		"attributes": {
+			"name": "School",
+			"slug": "school",
+			"description": null
+		}
+	}, {
+		"id": "16",
+		"type": "genres",
+		"links": {
+			"self": "https://kitsu.io/api/edge/genres/16"
+		},
+		"attributes": {
+			"name": "Slice of Life",
+			"slug": "slice-of-life",
+			"description": ""
+		}
+	}, {
+		"id": "14",
+		"type": "genres",
+		"links": {
+			"self": "https://kitsu.io/api/edge/genres/14"
+		},
+		"attributes": {
+			"name": "Romance",
+			"slug": "romance",
+			"description": ""
+		}
+	}, {
+		"id": "18",
+		"type": "genres",
+		"links": {
+			"self": "https://kitsu.io/api/edge/genres/18"
+		},
+		"attributes": {
+			"name": "Thriller",
+			"slug": "thriller",
+			"description": null
+		}
+	}, {
+		"id": "48014",
+		"type": "mappings",
+		"links": {
+			"self": "https://kitsu.io/api/edge/mappings/48014"
+		},
+		"attributes": {
+			"externalSite": "myanimelist/manga",
+			"externalId": "26769"
+		},
+		"relationships": {
+			"media": {
+				"links": {
+					"self": "https://kitsu.io/api/edge/mappings/48014/relationships/media",
+					"related": "https://kitsu.io/api/edge/mappings/48014/media"
+				}
+			}
+		}
+	}],
+	"meta": {
+		"count": 1
+	},
+	"links": {
+		"first": "https://kitsu.io/api/edge/manga?filter%5Bslug%5D=bokura-wa-minna-kawaisou&include=genres%2Cmappings&page%5Blimit%5D=10&page%5Boffset%5D=0",
+		"last": "https://kitsu.io/api/edge/manga?filter%5Bslug%5D=bokura-wa-minna-kawaisou&include=genres%2Cmappings&page%5Blimit%5D=10&page%5Boffset%5D=0"
+	}
+}

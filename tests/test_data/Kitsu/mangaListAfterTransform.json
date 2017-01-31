@@ -1,0 +1,241 @@
+[{
+	"id": "15084773",
+	"chapters": {
+		"read": 67,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Bokura wa Minna Kawaisou"],
+		"alternate_title": null,
+		"slug": "bokura-wa-minna-kawaisou",
+		"url": "https:\/\/kitsu.io\/manga\/bokura-wa-minna-kawaisou",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/20286\/small.jpg?1434293999",
+		"genres": []
+	},
+	"reading_status": "current",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": 9
+}, {
+	"id": "15085607",
+	"chapters": {
+		"read": 17,
+		"total": 120
+	},
+	"volumes": {
+		"read": "-",
+		"total": 14
+	},
+	"manga": {
+		"titles": ["Love Hina"],
+		"alternate_title": null,
+		"slug": "love-hina",
+		"url": "https:\/\/kitsu.io\/manga\/love-hina",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/47\/small.jpg?1434249493",
+		"genres": []
+	},
+	"reading_status": "current",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": 7
+}, {
+	"id": "15084529",
+	"chapters": {
+		"read": 16,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Yamada-kun to 7-nin no Majo", "Yamada-kun and the Seven Witches"],
+		"alternate_title": null,
+		"slug": "yamada-kun-to-7-nin-no-majo",
+		"url": "https:\/\/kitsu.io\/manga\/yamada-kun-to-7-nin-no-majo",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/11777\/small.jpg?1438784325",
+		"genres": []
+	},
+	"reading_status": "current",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": 9
+}, {
+	"id": "15312827",
+	"chapters": {
+		"read": 68,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["ReLIFE"],
+		"alternate_title": null,
+		"slug": "relife",
+		"url": "https:\/\/kitsu.io\/manga\/relife",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/27175\/small.jpg?1464379411",
+		"genres": []
+	},
+	"reading_status": "current",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": "-"
+}, {
+	"id": "15084772",
+	"chapters": {
+		"read": 28,
+		"total": 62
+	},
+	"volumes": {
+		"read": "-",
+		"total": 10
+	},
+	"manga": {
+		"titles": ["Usagi Drop", "Bunny Drop"],
+		"alternate_title": null,
+		"slug": "usagi-drop",
+		"url": "https:\/\/kitsu.io\/manga\/usagi-drop",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/7629\/small.jpg?1434265873",
+		"genres": []
+	},
+	"reading_status": "on_hold",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": 8
+}, {
+	"id": "15251749",
+	"chapters": {
+		"read": 1,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Shishunki Bitter Change"],
+		"alternate_title": null,
+		"slug": "shishunki-bitter-change",
+		"url": "https:\/\/kitsu.io\/manga\/shishunki-bitter-change",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/25512\/small.jpg?1434305092",
+		"genres": []
+	},
+	"reading_status": "planned",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": "-"
+}, {
+	"id": "15312881",
+	"chapters": {
+		"read": 0,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Kuragehime", "Princess Jellyfish"],
+		"alternate_title": null,
+		"slug": "kuragehime",
+		"url": "https:\/\/kitsu.io\/manga\/kuragehime",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/5531\/small.jpg?1434261214",
+		"genres": []
+	},
+	"reading_status": "planned",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": "-"
+}, {
+	"id": "15315190",
+	"chapters": {
+		"read": 0,
+		"total": 80
+	},
+	"volumes": {
+		"read": "-",
+		"total": 9
+	},
+	"manga": {
+		"titles": ["Boku wa Mari no Naka", "Inside Mari"],
+		"alternate_title": null,
+		"slug": "boku-wa-mari-no-naka",
+		"url": "https:\/\/kitsu.io\/manga\/boku-wa-mari-no-naka",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/14261\/small.jpg?1434280674",
+		"genres": []
+	},
+	"reading_status": "planned",
+	"notes": null,
+	"rereading": false,
+	"reread": 0,
+	"user_rating": "-"
+}, {
+	"id": "15315189",
+	"chapters": {
+		"read": 0,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Aizawa-san Zoushoku"],
+		"alternate_title": null,
+		"slug": "aizawa-san-zoushoku",
+		"url": "https:\/\/kitsu.io\/manga\/aizawa-san-zoushoku",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/25316\/small.jpg?1434304656",
+		"genres": []
+	},
+	"reading_status": "planned",
+	"notes": null,
+	"rereading": false,
+	"reread": 0,
+	"user_rating": "-"
+}, {
+	"id": "15288185",
+	"chapters": {
+		"read": 28,
+		"total": "-"
+	},
+	"volumes": {
+		"read": "-",
+		"total": "-"
+	},
+	"manga": {
+		"titles": ["Tonari no Seki-kun", "My Neighbour Seki"],
+		"alternate_title": null,
+		"slug": "tonari-no-seki-kun",
+		"url": "https:\/\/kitsu.io\/manga\/tonari-no-seki-kun",
+		"type": "manga",
+		"image": "https:\/\/media.kitsu.io\/manga\/poster_images\/21733\/small.jpg?1434297086",
+		"genres": []
+	},
+	"reading_status": "on_hold",
+	"notes": "",
+	"rereading": false,
+	"reread": 0,
+	"user_rating": 8
+}]
