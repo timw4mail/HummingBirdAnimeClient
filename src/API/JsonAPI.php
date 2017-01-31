@@ -42,6 +42,16 @@ class JsonAPI {
 	 */
 	protected $data = [];
 	
+	public static function inlineRawIncludes(array &$data, string $key): array
+	{
+		foreach($data['data'] as $i => &$item)
+		{
+			$item[$key] = $data['included'][$i];
+		}
+		
+		return $data['data'];
+	}
+	
 	/**
 	 * Take organized includes and inline them, where applicable
 	 *

@@ -270,13 +270,9 @@ class Model {
 		if ( ! $cacheItem->isHit())
 		{
 			$data = $this->getRequest('library-entries', $options);
+			$data = JsonAPI::inlineRawIncludes($data, 'manga');
 
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['manga'] = $data['included'][$i];
-			}
-
-			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
+			$transformed = $this->mangaListTransformer->transformCollection($data);
 
 			$cacheItem->set($transformed);
 			$cacheItem->save();

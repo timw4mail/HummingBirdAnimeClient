@@ -53,7 +53,7 @@
 				<tr>
 					<td><label for="rereading_flag">Rereading?</label></td>
 					<td>
-						<input type="checkbox" name="reareading" id="rereading_flag"
+						<input type="checkbox" name="rereading" id="rereading_flag"
 							<?php if($item['rereading'] === TRUE): ?>checked="checked"<?php endif ?>
 						/>
 					</td>
