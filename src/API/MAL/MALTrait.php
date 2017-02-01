@@ -16,18 +16,15 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
+use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\API\{
-	GuzzleTrait,
 	MAL as M,
 	XML
 };
-use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Psr7\Response;
+use Aviat\Ion\Json;
 use InvalidArgumentException;
 
 trait MALTrait {
-	use GuzzleTrait;
 
 	/**
 	 * The base url for api requests
@@ -43,29 +40,6 @@ trait MALTrait {
 	protected $defaultHeaders = [
 		'User-Agent' => "Tim's Anime Client/4.0"
 	];
-
-	/**
-	 * Set up the class properties
-	 *
-	 * @return void
-	 */
-	protected function init()
-	{
-		$defaults = [
-			'cookies' => $this->cookieJar,
-			'headers' => $this->defaultHeaders,
-			'timeout' => 25,
-			'connect_timeout' => 25
-		];
-
-		$this->cookieJar = new CookieJar();
-		$this->client = new Client([
-			'base_uri' => $this->baseUrl,
-			'cookies' => TRUE,
-			'http_errors' => TRUE,
-			'defaults' => $defaults
-		]);
-	}
 
 	/**
 	 * Make a request via Guzzle
@@ -87,21 +61,29 @@ trait MALTrait {
 		
 		$config = $this->container->get('config');
 		$logger = $this->container->getLogger('request');
-
-		$defaultOptions = [
-			'auth' => [
-				$config->get(['mal','username']), 
-				$config->get(['mal','password'])
-			],
-			'headers' => $this->defaultHeaders
-		];
-
-		$options = array_merge($defaultOptions, $options);
+		
+		$headers = array_merge($this->defaultHeaders, $options['headers'] ?? [],  [
+			'Authorization' =>  'Basic ' . 
+				base64_encode($config->get(['mal','username']) . ':' .$config->get(['mal','password']))
+		]);
+		
+		$query = $options['query'] ?? [];
+		
+		$url = (strpos($url, '//') !== FALSE)
+			? $url . '?' . http_build_query($query)
+			: $this->baseUrl . $url . '?' . http_build_query($query);
+		
+		$request = (new Request)
+			->setMethod($type)
+			->setUri($url)
+			->setProtocol('1.1')
+			->setAllHeaders($headers)
+			->setBody($options['body']);
 
 		$logger->debug(Json::encode([$type, $url]));
 		$logger->debug(Json::encode($options));
 
-		return $this->client->request($type, $url, $options);
+		return \Amp\wait((new Client)->request($request));
 	}
 
 	/**
@@ -122,15 +104,13 @@ trait MALTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatusCode() > 299 || (int) $response->getStatusCode() < 200)
+		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
 				$logger->warning('Non 200 response for api call');
 				$logger->warning($response->getBody());
 			}
-
-			// throw new RuntimeException($response->getBody());
 		}
 
 		return XML::toArray((string) $response->getBody());
@@ -164,7 +144,7 @@ trait MALTrait {
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array((int) $response->getStatusCode(), $validResponseCodes))
+		if ( ! in_array((int) $response->getStatus(), $validResponseCodes))
 		{
 			if ($logger)
 			{
@@ -173,18 +153,6 @@ trait MALTrait {
 			}
 		}
 
-		return XML::toArray((string) $response->getBody());
-	}
-
-	/**
-	 * Remove some boilerplate for delete requests
-	 *
-	 * @param array $args
-	 * @return bool
-	 */
-	protected function deleteRequest(...$args): bool
-	{
-		$response = $this->getResponse('DELETE', ...$args);
-		return ((int) $response->getStatusCode() === 204);
+		return XML::toArray($response->getBody());
 	}
 }

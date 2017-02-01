@@ -23,6 +23,7 @@ use Aviat\AnimeClient\API\MAL\{
 };
 use Aviat\AnimeClient\API\XML;
 use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Json;
 
 /**
  * MyAnimeList API Model
@@ -41,15 +42,13 @@ class Model {
 	 */
 	public function __construct(ListItem $listItem)
 	{
-		// Set up Guzzle trait
-		$this->init();
-		$this->animeListTransformer = new AnimeListTransformer();
+		//$this->animeListTransformer = new AnimeListTransformer();
 		$this->listItem = $listItem;
 	}
 
 	public function createListItem(array $data): bool
 	{
-		return FALSE;
+		return $this->listItem->create($data);
 	}
 
 	public function getListItem(string $listId): array
@@ -59,12 +58,12 @@ class Model {
 
 	public function updateListItem(array $data)
 	{
-		$updateData = $this->animeListTransformer->transform($data['data']);
+		//$updateData = $this->animeListTransformer->transform($data['data']);
 		return $this->listItem->update($data['mal_id'], $updateData);
 	}
 
 	public function deleteListItem(string $id): bool
 	{
-
+		return $this->listItem->delete($id);
 	}
 }
