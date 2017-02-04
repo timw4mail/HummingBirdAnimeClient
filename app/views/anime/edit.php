@@ -1,5 +1,4 @@
 <?php if ($auth->is_authenticated()): ?>
-    <?php /* <pre><?= json_encode($item, \JSON_PRETTY_PRINT); ?></pre> */ ?>
 	<main>
 		<h2>Edit Anime List Item</h2>
 		<form action="<?= $action ?>" method="post">
@@ -86,15 +85,20 @@
 				</tbody>
 			</table>
 		</form>
+		<br />
+		<br />
 		<fieldset>
 			<legend>Danger Zone</legend>
 			<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
 				<table class="form invisible">
 					<tbody>
 						<tr>
-							<td>&nbsp;</td>
+							<td>
+								<strong>Permanently</strong> remove this list item and <strong>all</strong> its data?
+							</td>
 							<td>
 								<input type="hidden" value="<?= $item['id'] ?>" name="id" />
+								<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id" />
 								<button type="submit" class="danger">Delete Entry</button>
 							</td>
 						</tr>

@@ -28,4 +28,3 @@ class AnimeWatchingStatus extends BaseEnum {
 	const ON_HOLD = 'on_hold';
 	const DROPPED = 'dropped';
 }
-// End of AnimeWatchingStatus.php

@@ -14,27 +14,32 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\MAL;
+namespace Aviat\AnimeClient\API\MAL\Transformer;
 
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for updating MAL List
  */
 class AnimeListTransformer extends AbstractTransformer {
+	
+	const statusMap = [
+		AnimeWatchingStatus::WATCHING => '1',
+		AnimeWatchingStatus::COMPLETED => '2',
+		AnimeWatchingStatus::ON_HOLD => '3',
+		AnimeWatchingStatus::DROPPED => '4',
+		AnimeWatchingStatus::PLAN_TO_WATCH => '6'
+	];
 
 	public function transform($item)
 	{
-		$rewatching = 'false';
-		if (array_key_exists('rewatching', $item) && $item['rewatching'])
-		{
-			$rewatching = 'true';
-		}
+		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
 		return [
-			'id' => $item['id'],
+			'id' => $item['mal_id'],
 			'data' => [
-				'status' => $item['watching_status'],
+				'status' => self::statusMap[$item['watching_status']],
 				'rating' => $item['user_rating'],
 				'rewatch_value' => (int) $rewatching,
 				'times_rewatched' => $item['rewatched'],
@@ -42,5 +47,32 @@ class AnimeListTransformer extends AbstractTransformer {
 				'episode' => $item['episodes_watched']
 			]
 		];
+	}
+	
+	/**
+	 * Transform Kitsu episode data to MAL episode data
+	 *
+	 * @param array $item
+	 * @return array 
+	 */
+	public function untransform(array $item): array
+	{
+		$rewatching = (array_key_exists('reconsuming', $item['data']) && $item['data']['reconsuming']);
+		
+		$map = [
+			'id' => $item['mal_id'],
+			'data' => [
+				'episode' => $item['data']['progress'],
+				'status' => self::statusMap[$item['data']['status']],
+				'score' => (array_key_exists('rating', $item['data'])) 
+					? $item['data']['rating'] * 2
+					: "",
+				// 'enable_rewatching' => $rewatching,
+				// 'times_rewatched' => $item['data']['reconsumeCount'],
+				// 'comments' => $item['data']['notes'],
+			]
+		];
+		
+		return $map;
 	}
 }

@@ -22,9 +22,9 @@ use Aviat\Ion\Enum as BaseEnum;
  * Possible values for watching status for the current anime
  */
 class AnimeWatchingStatus extends BaseEnum {
-	const WATCHING = 'watching';
-	const COMPLETED = 'completed';
-	const ON_HOLD = 'onhold';
-	const DROPPED = 'dropped';
-	const PLAN_TO_WATCH = 'plantowatch';
+	const WATCHING = 1;
+	const COMPLETED = 2;
+	const ON_HOLD = 3;
+	const DROPPED = 4;
+	const PLAN_TO_WATCH = 6;
 }

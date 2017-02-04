@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
-use Amp\Artax\{Client, Request};
+use Amp\Artax\{Client, FormBody, Request};
 use Aviat\AnimeClient\API\{
 	MAL as M,
 	XML
@@ -38,8 +38,26 @@ trait MALTrait {
 	 * @var array
 	 */
 	protected $defaultHeaders = [
+		'Accept' => 'text/xml',
+		'Accept-Encoding' => 'gzip',
+		'Content-type' => 'application/x-www-form-urlencoded',
 		'User-Agent' => "Tim's Anime Client/4.0"
 	];
+	
+	/**
+	 * Unencode the dual-encoded ampersands in the body
+	 *
+	 * This is a dirty hack until I can fully track down where
+	 * the dual-encoding happens
+	 *
+	 * @param FormBody $formBody The form builder object to fix
+	 * @return string
+	 */
+	private function fixBody(FormBody $formBody): string
+	{
+		$rawBody = \Amp\wait($formBody->getBody());
+		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
+	}
 
 	/**
 	 * Make a request via Guzzle
@@ -51,39 +69,60 @@ trait MALTrait {
 	 */
 	private function getResponse(string $type, string $url, array $options = [])
 	{
+		$this->defaultHeaders['User-Agent'] = $_SERVER['HTTP_USER_AGENT'] ?? $this->defaultHeaders;
+
 		$type = strtoupper($type);
-		$validTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+		$validTypes = ['GET', 'POST', 'DELETE'];
 
 		if ( ! in_array($type, $validTypes))
 		{
 			throw new InvalidArgumentException('Invalid http request type');
 		}
-		
+
 		$config = $this->container->get('config');
-		$logger = $this->container->getLogger('request');
-		
+		$logger = $this->container->getLogger('mal_request');
+
 		$headers = array_merge($this->defaultHeaders, $options['headers'] ?? [],  [
-			'Authorization' =>  'Basic ' . 
+			'Authorization' =>  'Basic ' .
 				base64_encode($config->get(['mal','username']) . ':' .$config->get(['mal','password']))
 		]);
-		
+
 		$query = $options['query'] ?? [];
-		
+
 		$url = (strpos($url, '//') !== FALSE)
-			? $url . '?' . http_build_query($query)
-			: $this->baseUrl . $url . '?' . http_build_query($query);
-		
+			? $url
+			: $this->baseUrl . $url;
+
+		if ( ! empty($query))
+		{
+			$url .= '?' . http_build_query($query);
+		}
+
 		$request = (new Request)
 			->setMethod($type)
 			->setUri($url)
 			->setProtocol('1.1')
-			->setAllHeaders($headers)
-			->setBody($options['body']);
+			->setAllHeaders($headers);
 
-		$logger->debug(Json::encode([$type, $url]));
-		$logger->debug(Json::encode($options));
+		if (array_key_exists('body', $options))
+		{
+			$request->setBody($options['body']);
+		}
 
-		return \Amp\wait((new Client)->request($request));
+		$response = \Amp\wait((new Client)->request($request));
+
+		$logger->debug('MAL api request', [
+			'url' => $url,
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'headers' => $response->getAllHeaders(),
+			'requestHeaders' => $request->getAllHeaders(),
+			'requestBody' => $request->hasBody() ? $request->getBody() : 'No request body',
+			'requestBodyBeforeEncode' => $request->hasBody() ? urldecode($request->getBody()) : '',
+			'body' => $response->getBody()
+		]);
+
+		return $response;
 	}
 
 	/**
@@ -99,7 +138,7 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('mal_request');
 		}
 
 		$response = $this->getResponse($type, $url, $options);
@@ -108,8 +147,7 @@ trait MALTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 200 response for api call', $response->getBody());
 			}
 		}
 
@@ -138,7 +176,7 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('mal_request');
 		}
 
 		$response = $this->getResponse('POST', ...$args);
@@ -148,8 +186,7 @@ trait MALTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 201 response for POST api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 201 response for POST api call', $response->getBody());
 			}
 		}
 

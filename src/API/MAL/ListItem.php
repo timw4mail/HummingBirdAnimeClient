@@ -33,27 +33,27 @@ class ListItem {
 	public function create(array $data): bool
 	{
 		$id = $data['id'];
-		$body = (new FormBody)
-			->addField('id', $data['id'])
-			->addField('data', XML::toXML(['entry' => $data['data']]));
+		$createData = [
+			'id' => $id,
+			'data' => XML::toXML([
+				'entry' => $data['data']
+			])
+		];
+
 		$response = $this->getResponse('POST', "animelist/add/{$id}.xml", [
-			'headers' => [
-				'Content-type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'text/plain'
-			],
-			'body' => $body
+			'body' => $this->fixBody((new FormBody)->addFields($createData))
 		]);
-		
-		return $response->getStatus() === 201;
+
+		return $response->getBody() === 'Created';
 	}
 
 	public function delete(string $id): bool
 	{
-		$response = $this->getResponse('DELETE', "animeclient/delete/{$id}.xml", [
-			'body' => (new FormBody)->addField('id', $id)
+		$response = $this->getResponse('DELETE', "animelist/delete/{$id}.xml", [
+			'body' => $this->fixBody((new FormBody)->addField('id', $id))
 		]);
-		
-		return $response->getBody() === 'Deleted'; 
+
+		return $response->getBody() === 'Deleted';
 	}
 
 	public function get(string $id): array
@@ -61,18 +61,15 @@ class ListItem {
 		return [];
 	}
 
-	public function update(string $id, array $data): Response
+	public function update(string $id, array $data)
 	{
+		$xml = XML::toXML(['entry' => $data]);
 		$body = (new FormBody)
 			->addField('id', $id)
-			->addField('data', XML::toXML(['entry' => $data]))
-			
-		return $this->postRequest("animelist/update/{$id}.xml", [
-			'headers' => [
-				'Content-type' => 'application/x-www-form-urlencoded',
-				'Accept' => 'text/plain'
-			],
-			'body' => $body
+			->addField('data', $xml);
+
+		return $this->getResponse('POST', "animelist/update/{$id}.xml", [
+			'body' => $this->fixBody($body)
 		]);
 	}
 }
