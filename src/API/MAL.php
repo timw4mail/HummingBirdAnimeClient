@@ -16,6 +16,10 @@
 
 namespace Aviat\AnimeClient\API;
 
+use Aviat\AnimeClient\API\Kitsu\Enum\{
+	AnimeWatchingStatus as KAWS,
+	MangaReadingStatus as KMRS
+};
 use Aviat\AnimeClient\API\MAL\Enum\{AnimeWatchingStatus, MangaReadingStatus};
 
 /**
@@ -25,6 +29,14 @@ class MAL {
 	const AUTH_URL = 'https://myanimelist.net/api/account/verify_credentials.xml';
 	const BASE_URL = 'https://myanimelist.net/api/';
 
+	const KITSU_MAL_WATCHING_STATUS_MAP = [
+		KAWS::WATCHING => AnimeWatchingStatus::WATCHING,
+		KAWS::COMPLETED => AnimeWatchingStatus::COMPLETED,
+		KAWS::ON_HOLD => AnimeWatchingStatus::ON_HOLD,
+		KAWS::DROPPED => AnimeWatchingStatus::DROPPED,
+		KAWS::PLAN_TO_WATCH => AnimeWatchingStatus::PLAN_TO_WATCH
+	];
+
 	public static function getIdToWatchingStatusMap()
 	{
 		return [
@@ -32,7 +44,12 @@ class MAL {
 			2 => AnimeWatchingStatus::COMPLETED,
 			3 => AnimeWatchingStatus::ON_HOLD,
 			4 => AnimeWatchingStatus::DROPPED,
-			5 => AnimeWatchingStatus::PLAN_TO_WATCH
+			6 => AnimeWatchingStatus::PLAN_TO_WATCH,
+			'watching' => AnimeWatchingStatus::WATCHING,
+			'completed' => AnimeWatchingStatus::COMPLETED,
+			'onhold' => AnimeWatchingStatus::ON_HOLD,
+			'dropped' => AnimeWatchingStatus::DROPPED,
+			'plantowatch' => AnimeWatchingStatus::PLAN_TO_WATCH
 		];
 	}
 
@@ -43,7 +60,12 @@ class MAL {
 			2 => MangaReadingStatus::COMPLETED,
 			3 => MangaReadingStatus::ON_HOLD,
 			4 => MangaReadingStatus::DROPPED,
-			5 => MangaReadingStatus::PLAN_TO_READ
+			6 => MangaReadingStatus::PLAN_TO_READ,
+			'reading' => MangaReadingStatus::READING,
+			'completed' => MangaReadingStatus::COMPLETED,
+			'onhold' => MangaReadingStatus::ON_HOLD,
+			'dropped' => MangaReadingStatus::DROPPED,
+			'plantoread' => MangaReadingStatus::PLAN_TO_WATCH
 		];
 	}
 }

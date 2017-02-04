@@ -107,12 +107,7 @@ class XML {
 	{
 		$data = [];
 
-		// Get rid of unimportant text nodes by removing
-		// whitespace characters from between xml tags,
-		// except for the xml declaration tag, Which looks
-		// something like:
-		/* <?xml version="1.0" encoding="UTF-8"?> */
-		$xml = preg_replace('/([^\?])>\s+</', '$1><', $xml);
+		$xml = static::stripXMLWhitespace($xml);
 
 		$dom = new DOMDocument();
 		$dom->loadXML($xml);
@@ -166,6 +161,16 @@ class XML {
 		return static::toXML($this->getData());
 	}
 
+	private static function stripXMLWhitespace(string $xml): string
+	{
+		// Get rid of unimportant text nodes by removing
+		// whitespace characters from between xml tags,
+		// except for the xml declaration tag, Which looks
+		// something like:
+		/* <?xml version="1.0" encoding="UTF-8"?> */
+		return preg_replace('/([^\?])>\s+</', '$1><', $xml);
+	}
+
 	/**
 	 * Recursively create array structure based on xml structure
 	 *
@@ -180,7 +185,7 @@ class XML {
 		{
 			$el = $nodeList->item($i);
 			$current =& $root[$el->nodeName];
-			
+
 			// It's a top level element!
 			if (is_a($el->childNodes->item(0), 'DomText') || ( ! $el->hasChildNodes()))
 			{
@@ -239,9 +244,9 @@ class XML {
 					break;
 				}
 			}
-			
+
 			$node = $dom->createElement($key);
-			
+
 			if (is_array($props))
 			{
 				static::arrayPropertiesToXmlNodes($dom, $node, $props);
