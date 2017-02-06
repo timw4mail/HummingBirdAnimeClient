@@ -27,6 +27,7 @@ test:7.1:
       - phpunit -c build --coverage-text --colors=never
 
 test:hhvm:
+    allow_failure: true
     before_script:
       - /usr/local/bin/composer self-update
       - curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
