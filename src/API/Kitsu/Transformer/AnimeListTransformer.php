@@ -113,6 +113,7 @@ class AnimeListTransformer extends AbstractTransformer {
 
 		$untransformed = [
 			'id' => $item['id'],
+			'mal_id' => $item['mal_id'] ?? null,
 			'data' => [
 				'status' => $item['watching_status'],
 				'rating' => $item['user_rating'] / 2,

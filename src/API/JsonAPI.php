@@ -41,74 +41,15 @@ class JsonAPI {
 	 * @var array
 	 */
 	protected $data = [];
-
-	/**
-	 * Data array parsed out from a request
-	 *
-	 * @var array
-	 */
-	protected $parsedData = [];
-
-	/**
-	 * Related objects included with the request
-	 *
-	 * @var array
-	 */
-	public $included = [];
-
-	/**
-	 * Pagination links
-	 *
-	 * @var array
-	 */
-	protected $links = [];
-
-	/**
-	 * JsonAPI constructor
-	 *
-	 * @param array $initital
-	 */
-	public function __construct(array $initial = [])
-	{
-		$this->data = $initial;
-	}
 	
-	public function parseFromString(string $json)
+	public static function inlineRawIncludes(array &$data, string $key): array
 	{
-		$this->parse(Json::decode($json));
-	}
-
-	/**
-	 * Parse a JsonAPI response into its components
-	 *
-	 * @param array $data
-	 */
-	public function parse(array $data)
-	{
-		$this->included = static::organizeIncludes($data['included']);
-	}
-
-	/**
-	 * Return data array after input is parsed
-	 * to inline includes inside of relationship objects
-	 *
-	 * @return array
-	 */
-	public function getParsedData(): array
-	{
-
-	}
-	
-	/**
-	 * Take inlined included data and inline it into the main object's relationships
-	 *
-	 * @param array $mainObject
-	 * @param array $included
-	 * @return array
-	 */
-	public static function inlineIncludedIntoMainObject(array $mainObject, array $included): array
-	{
-		$output = clone $mainObject;
+		foreach($data['data'] as $i => &$item)
+		{
+			$item[$key] = $data['included'][$i];
+		}
+		
+		return $data['data'];
 	}
 	
 	/**

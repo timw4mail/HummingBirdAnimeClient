@@ -20,9 +20,9 @@ use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
-	AnimeTransformer, 
-	AnimeListTransformer, 
-	MangaTransformer, 
+	AnimeTransformer,
+	AnimeListTransformer,
+	MangaTransformer,
 	MangaListTransformer
 };
 use Aviat\Ion\Di\ContainerAware;
@@ -65,7 +65,7 @@ class Model {
 	 * @var MangaListTransformer
 	 */
 	protected $mangaListTransformer;
-	
+
 
 	/**
 	 * Constructor.
@@ -94,9 +94,9 @@ class Model {
 		{
 			$username = $this->getUsername();
 		}
-		
+
 		$cacheItem = $this->cache->getItem(K::AUTH_USER_ID_KEY);
-		
+
 		if ( ! $cacheItem->isHit())
 		{
 			$data = $this->getRequest('users', [
@@ -110,7 +110,7 @@ class Model {
 			$cacheItem->set($data['data'][0]['id']);
 			$cacheItem->save();
 		}
-		
+
 		return $cacheItem->get();
 	}
 
@@ -154,7 +154,7 @@ class Model {
 		$baseData = $this->getRawMediaData('anime', $slug);
 		return $this->animeTransformer->transform($baseData);
 	}
-	
+
 	/**
 	 * Get information about a particular anime
 	 *
@@ -168,6 +168,34 @@ class Model {
 	}
 
 	/**
+	 * Get the mal id for the anime represented by the kitsu id
+	 * to enable updating MyAnimeList
+	 *
+	 * @param string $kitsuAnimeId The id of the anime on Kitsu
+	 * @return string|null Returns the mal id if it exists, otherwise null
+	 */
+	public function getMalIdForAnime(string $kitsuAnimeId)
+	{
+		$options = [
+			'query' => [
+				'include' => 'mappings'
+			]
+		];
+		$data = $this->getRequest("anime/{$kitsuAnimeId}", $options);
+		$mappings = array_column($data['included'], 'attributes');
+
+		foreach($mappings as $map)
+		{
+			if ($map['externalSite'] === 'myanimelist/anime')
+			{
+				return $map['externalId'];
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get information about a particular manga
 	 *
 	 * @param string $mangaId
@@ -178,7 +206,17 @@ class Model {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
-	
+
+	/**
+	 * Get and transform the entirety of the user's anime list
+	 *
+	 * @return array
+	 */
+	public function getFullAnimeList(): array
+	{
+
+	}
+
 	/**
 	 * Get the raw (unorganized) anime list for the configured user
 	 *
@@ -204,7 +242,7 @@ class Model {
 				'sort' => '-updated_at'
 			]
 		];
-		
+
 		return $this->getRequest('library-entries', $options);
 	}
 
@@ -219,7 +257,7 @@ class Model {
 	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
 	{
 		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$status]));
-		
+
 		if ( ! $cacheItem->isHit())
 		{
 			$data = $this->getRawAnimeList($status, $limit, $offset);
@@ -231,7 +269,7 @@ class Model {
 				$item['included'] = $included;
 			}
 			$transformed = $this->animeListTransformer->transformCollection($data['data']);
-			
+
 			$cacheItem->set($transformed);
 			$cacheItem->save();
 		}
@@ -264,24 +302,20 @@ class Model {
 				'sort' => '-updated_at'
 			]
 		];
-		
+
 		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
 
 		if ( ! $cacheItem->isHit())
 		{
 			$data = $this->getRequest('library-entries', $options);
+			$data = JsonAPI::inlineRawIncludes($data, 'manga');
 
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['manga'] = $data['included'][$i];
-			}
-
-			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
+			$transformed = $this->mangaListTransformer->transformCollection($data);
 
 			$cacheItem->set($transformed);
 			$cacheItem->save();
 		}
-		
+
 		return $cacheItem->get();
 	}
 
@@ -401,7 +435,7 @@ class Model {
 			->get('config')
 			->get(['kitsu_username']);
 	}
-	
+
 	private function getRawMediaDataById(string $type, string $id): array
 	{
 		$options = [

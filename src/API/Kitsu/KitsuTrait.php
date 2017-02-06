@@ -93,7 +93,7 @@ trait KitsuTrait {
 			'headers' => $this->defaultHeaders
 		];
 
-		$logger = $this->container->getLogger('request');
+		$logger = $this->container->getLogger('kitsu_request');
 		$sessionSegment = $this->getContainer()
 			->get('session')
 			->getSegment(AnimeClient::SESSION_SEGMENT);
@@ -106,10 +106,19 @@ trait KitsuTrait {
 
 		$options = array_merge($defaultOptions, $options);
 
-		$logger->debug(Json::encode([$type, $url]));
-		$logger->debug(Json::encode($options));
+		$response = $this->client->request($type, $url, $options);
 
-		return $this->client->request($type, $url, $options);
+		$logger->debug('Kitsu API request', [
+			'requestParams' => [
+				'type' => $type,
+				'url' => $url,
+			],
+			'responseValues' => [
+				'status' => $response->getStatusCode()
+			]
+		]);
+
+		return $response;
 	}
 
 	/**
@@ -125,7 +134,7 @@ trait KitsuTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('kitsu_request');
 		}
 
 		$response = $this->getResponse($type, $url, $options);
@@ -134,11 +143,8 @@ trait KitsuTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 200 response for api call', $response->getBody());
 			}
-
-			// throw new RuntimeException($response->getBody());
 		}
 
 		return JSON::decode($response->getBody(), TRUE);
@@ -177,7 +183,7 @@ trait KitsuTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('kitsu_request');
 		}
 
 		$response = $this->getResponse('POST', ...$args);
@@ -187,11 +193,8 @@ trait KitsuTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 201 response for POST api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 201 response for POST api call', $response->getBody());
 			}
-
-			// throw new RuntimeException($response->getBody());
 		}
 
 		return JSON::decode($response->getBody(), TRUE);

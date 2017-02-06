@@ -48,10 +48,13 @@ return function(array $config_array = []) {
 
 	$app_logger = new Logger('animeclient');
 	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
-	$request_logger = new Logger('request');
-	$request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/request.log', Logger::NOTICE));
+	$kitsu_request_logger = new Logger('kitsu_request');
+	$kitsu_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
+	$mal_request_logger = new Logger('mal_request');
+	$mal_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
 	$container->setLogger($app_logger, 'default');
-	$container->setLogger($request_logger, 'request');
+	$container->setLogger($kitsu_request_logger, 'kitsu_request');
+	$container->setLogger($mal_request_logger, 'mal_request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
