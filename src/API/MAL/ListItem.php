@@ -16,29 +16,44 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
-use Aviat\AnimeClient\API\AbstractListItem;
+use Amp\Artax\FormBody;
+use Aviat\AnimeClient\API\{
+	AbstractListItem,
+	XML
+};
 use Aviat\Ion\Di\ContainerAware;
 
 /**
  * CRUD operations for MAL list items
  */
-class ListItem extends AbstractListItem {
+class ListItem {
 	use ContainerAware;
 	use MALTrait;
 
-	public function __construct()
-	{
-		$this->init();
-	}
-
 	public function create(array $data): bool
 	{
-		return FALSE;
+		$id = $data['id'];
+		$createData = [
+			'id' => $id,
+			'data' => XML::toXML([
+				'entry' => $data['data']
+			])
+		];
+
+		$response = $this->getResponse('POST', "animelist/add/{$id}.xml", [
+			'body' => $this->fixBody((new FormBody)->addFields($createData))
+		]);
+
+		return $response->getBody() === 'Created';
 	}
 
 	public function delete(string $id): bool
 	{
-		return FALSE;
+		$response = $this->getResponse('DELETE', "animelist/delete/{$id}.xml", [
+			'body' => $this->fixBody((new FormBody)->addField('id', $id))
+		]);
+
+		return $response->getBody() === 'Deleted';
 	}
 
 	public function get(string $id): array
@@ -46,8 +61,15 @@ class ListItem extends AbstractListItem {
 		return [];
 	}
 
-	public function update(string $id, array $data): Response
+	public function update(string $id, array $data)
 	{
+		$xml = XML::toXML(['entry' => $data]);
+		$body = (new FormBody)
+			->addField('id', $id)
+			->addField('data', $xml);
 
+		return $this->getResponse('POST', "animelist/update/{$id}.xml", [
+			'body' => $this->fixBody($body)
+		]);
 	}
 }

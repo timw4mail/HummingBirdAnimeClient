@@ -3,6 +3,8 @@
 A self-hosted client that allows custom formatting of data from the hummingbird api
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
+[![build status](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/build.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
+[![coverage report](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/coverage.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/?branch=master)
 
 [[Hosted Example](https://list.timshomepage.net)]
@@ -50,6 +52,10 @@ or
 	* public/js/cache
 5. Make sure the `console` script is executable
 
+### Using MAL API
+1. Update `app/config/mal.toml` with your username and password
+2. Enable MAL api in `app/config/config.toml`
+
 ### Server Setup
 
 #### Caching
@@ -88,8 +94,4 @@ include the contents of the `.htaccess` file in your Apache configuration.
 	1. Login
 	2. Use the form to select your media
 	3. Save &amp; Repeat as needed
-* For bulk importing anime:
-	1. Find the anime you are looking for on the hummingbird search api page: `https://hummingbird.me/api/v1/search/anime?query=`
-	2. Create an `import.json` file in the root of the app, with an array of objects from the search page that you want to import
-	3. Go to the anime collection tab, and the import will be run
 

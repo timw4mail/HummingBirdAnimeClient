@@ -16,18 +16,15 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
+use Amp\Artax\{Client, FormBody, Request};
 use Aviat\AnimeClient\API\{
-	GuzzleTrait,
 	MAL as M,
 	XML
 };
-use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Psr7\Response;
+use Aviat\Ion\Json;
 use InvalidArgumentException;
 
 trait MALTrait {
-	use GuzzleTrait;
 
 	/**
 	 * The base url for api requests
@@ -41,30 +38,25 @@ trait MALTrait {
 	 * @var array
 	 */
 	protected $defaultHeaders = [
+		'Accept' => 'text/xml',
+		'Accept-Encoding' => 'gzip',
+		'Content-type' => 'application/x-www-form-urlencoded',
 		'User-Agent' => "Tim's Anime Client/4.0"
 	];
-
+	
 	/**
-	 * Set up the class properties
+	 * Unencode the dual-encoded ampersands in the body
 	 *
-	 * @return void
+	 * This is a dirty hack until I can fully track down where
+	 * the dual-encoding happens
+	 *
+	 * @param FormBody $formBody The form builder object to fix
+	 * @return string
 	 */
-	protected function init()
+	private function fixBody(FormBody $formBody): string
 	{
-		$defaults = [
-			'cookies' => $this->cookieJar,
-			'headers' => $this->defaultHeaders,
-			'timeout' => 25,
-			'connect_timeout' => 25
-		];
-
-		$this->cookieJar = new CookieJar();
-		$this->client = new Client([
-			'base_uri' => $this->baseUrl,
-			'cookies' => TRUE,
-			'http_errors' => TRUE,
-			'defaults' => $defaults
-		]);
+		$rawBody = \Amp\wait($formBody->getBody());
+		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
 
 	/**
@@ -77,31 +69,60 @@ trait MALTrait {
 	 */
 	private function getResponse(string $type, string $url, array $options = [])
 	{
+		$this->defaultHeaders['User-Agent'] = $_SERVER['HTTP_USER_AGENT'] ?? $this->defaultHeaders;
+
 		$type = strtoupper($type);
-		$validTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+		$validTypes = ['GET', 'POST', 'DELETE'];
 
 		if ( ! in_array($type, $validTypes))
 		{
 			throw new InvalidArgumentException('Invalid http request type');
 		}
-		
+
 		$config = $this->container->get('config');
-		$logger = $this->container->getLogger('request');
+		$logger = $this->container->getLogger('mal_request');
 
-		$defaultOptions = [
-			'auth' => [
-				$config->get(['mal','username']), 
-				$config->get(['mal','password'])
-			],
-			'headers' => $this->defaultHeaders
-		];
+		$headers = array_merge($this->defaultHeaders, $options['headers'] ?? [],  [
+			'Authorization' =>  'Basic ' .
+				base64_encode($config->get(['mal','username']) . ':' .$config->get(['mal','password']))
+		]);
 
-		$options = array_merge($defaultOptions, $options);
+		$query = $options['query'] ?? [];
 
-		$logger->debug(Json::encode([$type, $url]));
-		$logger->debug(Json::encode($options));
+		$url = (strpos($url, '//') !== FALSE)
+			? $url
+			: $this->baseUrl . $url;
 
-		return $this->client->request($type, $url, $options);
+		if ( ! empty($query))
+		{
+			$url .= '?' . http_build_query($query);
+		}
+
+		$request = (new Request)
+			->setMethod($type)
+			->setUri($url)
+			->setProtocol('1.1')
+			->setAllHeaders($headers);
+
+		if (array_key_exists('body', $options))
+		{
+			$request->setBody($options['body']);
+		}
+
+		$response = \Amp\wait((new Client)->request($request));
+
+		$logger->debug('MAL api request', [
+			'url' => $url,
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'headers' => $response->getAllHeaders(),
+			'requestHeaders' => $request->getAllHeaders(),
+			'requestBody' => $request->hasBody() ? $request->getBody() : 'No request body',
+			'requestBodyBeforeEncode' => $request->hasBody() ? urldecode($request->getBody()) : '',
+			'body' => $response->getBody()
+		]);
+
+		return $response;
 	}
 
 	/**
@@ -117,20 +138,17 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('mal_request');
 		}
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatusCode() > 299 || (int) $response->getStatusCode() < 200)
+		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 200 response for api call', $response->getBody());
 			}
-
-			// throw new RuntimeException($response->getBody());
 		}
 
 		return XML::toArray((string) $response->getBody());
@@ -158,33 +176,20 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('request');
+			$logger = $this->container->getLogger('mal_request');
 		}
 
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array((int) $response->getStatusCode(), $validResponseCodes))
+		if ( ! in_array((int) $response->getStatus(), $validResponseCodes))
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 201 response for POST api call');
-				$logger->warning($response->getBody());
+				$logger->warning('Non 201 response for POST api call', $response->getBody());
 			}
 		}
 
-		return XML::toArray((string) $response->getBody());
-	}
-
-	/**
-	 * Remove some boilerplate for delete requests
-	 *
-	 * @param array $args
-	 * @return bool
-	 */
-	protected function deleteRequest(...$args): bool
-	{
-		$response = $this->getResponse('DELETE', ...$args);
-		return ((int) $response->getStatusCode() === 204);
+		return XML::toArray($response->getBody());
 	}
 }

@@ -43,6 +43,12 @@ class Anime extends API {
 		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
 	];
 
+	protected $kitsuModel;
+
+	protected $malModel;
+
+	protected $useMALAPI;
+
 	/**
 	 * Anime constructor.
 	 * @param ContainerInterface $container
@@ -50,7 +56,11 @@ class Anime extends API {
 	public function __construct(ContainerInterface $container) {
 		parent::__construct($container);
 
+		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
+		$this->malModel = $container->get('mal-model');
+
+		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 
 	/**
@@ -80,7 +90,7 @@ class Anime extends API {
 	{
 		return $this->kitsuModel->getAnime($slug);
 	}
-	
+
 	public function getAnimeById($anime_id)
 	{
 		return $this->kitsuModel->getAnimeById($anime_id);
@@ -110,8 +120,26 @@ class Anime extends API {
 		return $this->kitsuModel->getListItem($itemId);
 	}
 
+	/**
+	 * Add an anime to your list
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
 	public function createLibraryItem(array $data): bool
 	{
+		if ($this->useMALAPI)
+		{
+			$malData = $data;
+			$malId = $this->kitsuModel->getMalIdForAnime($malData['id']);
+
+			if ( ! is_null($malId))
+			{
+				$malData['id'] = $malId;
+				$this->malModel->createListItem($malData);
+			}
+		}
+
 		return $this->kitsuModel->createListItem($data);
 	}
 
@@ -123,11 +151,28 @@ class Anime extends API {
 	 */
 	public function updateLibraryItem(array $data): array
 	{
+		if ($this->useMALAPI)
+		{
+			$this->malModel->updateListItem($data);
+		}
+
 		return $this->kitsuModel->updateListItem($data);
 	}
 
-	public function deleteLibraryItem($id): bool
+	/**
+	 * Delete a list entry
+	 *
+	 * @param string $id
+	 * @param string|null $malId
+	 * @return bool
+	 */
+	public function deleteLibraryItem(string $id, string $malId = null): bool
 	{
+		if ($this->useMALAPI && ! is_null($malId))
+		{
+			$this->malModel->deleteListItem($malId);
+		}
+
 		return $this->kitsuModel->deleteListItem($id);
 	}
 }

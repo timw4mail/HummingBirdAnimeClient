@@ -44,6 +44,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 			],
 			'expected' => [
 				'id' => 14047981,
+				'mal_id' => null,
 				'data' => [
 					'status' => 'current',
 					'rating' => 4,
@@ -57,6 +58,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 		], [
 			'input' => [
 				'id' => 14047981,
+				'mal_id' => '12345',
 				'watching_status' => 'current',
 				'user_rating' => 8,
 				'episodes_watched' => 38,
@@ -68,6 +70,7 @@ class AnimeListTransformerTest extends AnimeClient_TestCase {
 			],
 			'expected' => [
 				'id' => 14047981,
+				'mal_id' => '12345',
 				'data' => [
 					'status' => 'current',
 					'rating' => 4,

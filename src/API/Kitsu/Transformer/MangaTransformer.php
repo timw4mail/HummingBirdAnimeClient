@@ -32,6 +32,18 @@ class MangaTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
+		$genres = [];
+		
+		foreach($item['included'] as $included)
+		{
+			if ($included['type'] === 'genres')
+			{
+				$genres[] = $included['attributes']['name'];
+			}
+		}
+		
+		sort($genres);
+		
 		return [
 			'title' => $item['canonicalTitle'],
 			'en_title' => $item['titles']['en'],
@@ -42,7 +54,7 @@ class MangaTransformer extends AbstractTransformer {
 			'volume_count' => $this->count($item['volumeCount']),
 			'synopsis' => $item['synopsis'],
 			'url' => "https://kitsu.io/manga/{$item['slug']}",
-			'genres' => $item['genres'],
+			'genres' => $genres,
 		];
 	}
 

@@ -17,10 +17,8 @@
 namespace Aviat\AnimeClient\API\MAL;
 
 use Aviat\AnimeClient\API\MAL as M;
-use Aviat\AnimeClient\API\MAL\{
-	AnimeListTransformer,
-	ListItem
-};
+use Aviat\AnimeClient\API\MAL\ListItem;
+use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\XML;
 use Aviat\Ion\Di\ContainerAware;
 
@@ -41,15 +39,37 @@ class Model {
 	 */
 	public function __construct(ListItem $listItem)
 	{
-		// Set up Guzzle trait
-		$this->init();
 		$this->animeListTransformer = new AnimeListTransformer();
 		$this->listItem = $listItem;
 	}
 
 	public function createListItem(array $data): bool
 	{
-		return FALSE;
+		$createData = [
+			'id' => $data['id'],
+			'data' => [
+				'status' => M::KITSU_MAL_WATCHING_STATUS_MAP[$data['status']]
+			]
+		];
+
+		return $this->listItem->create($createData);
+	}
+
+	public function getFullList(): array
+	{
+		$config = $this->container->get('config');
+		$userName = $config->get(['mal', 'username']);
+		$list = $this->getRequest('https://myanimelist.net/malappinfo.php', [
+			'headers' => [
+				'Accept' => 'text/xml'
+			],
+			'query' => [
+				'u' => $userName,
+				'status' => 'all'
+			]
+		]);
+
+		return $list;//['anime'];
 	}
 
 	public function getListItem(string $listId): array
@@ -59,12 +79,12 @@ class Model {
 
 	public function updateListItem(array $data)
 	{
-		$updateData = $this->animeListTransformer->transform($data['data']);
-		return $this->listItem->update($data['mal_id'], $updateData);
+		$updateData = $this->animeListTransformer->untransform($data);
+		return $this->listItem->update($updateData['id'], $updateData['data']);
 	}
 
 	public function deleteListItem(string $id): bool
 	{
-
+		return $this->listItem->delete($id);
 	}
 }
