@@ -19,12 +19,20 @@ namespace Aviat\AnimeClient\API\MAL;
 use Amp\Artax\{Client, FormBody, Request};
 use Aviat\AnimeClient\API\{
 	MAL as M,
+	APIRequestBuilder,
 	XML
 };
+use Aviat\AnimeClient\API\MALRequestBuilder;
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 
 trait MALTrait {
+	
+	/**
+	 * The request builder for the MAL API
+	 * @var MALRequestBuilder
+	 */
+	protected $requestBuilder;
 
 	/**
 	 * The base url for api requests
@@ -45,6 +53,18 @@ trait MALTrait {
 	];
 	
 	/**
+	 * Set the request builder object
+	 *
+	 * @param MALRequestBuilder $requestBuilder
+	 * @return self
+	 */
+	public function setRequestBuilder($requestBuilder): self
+	{
+		$this->requestBuilder = $requestBuilder;
+		return $this;
+	}
+	
+	/**
 	 * Unencode the dual-encoded ampersands in the body
 	 *
 	 * This is a dirty hack until I can fully track down where
@@ -58,16 +78,16 @@ trait MALTrait {
 		$rawBody = \Amp\wait($formBody->getBody());
 		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
-
+	
 	/**
-	 * Make a request via Guzzle
+	 * Create a request object
 	 *
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return Response
+	 * @return \Amp\Promise
 	 */
-	private function getResponse(string $type, string $url, array $options = [])
+	public function setUpRequest(string $type, string $url, array $options = [])
 	{
 		$this->defaultHeaders['User-Agent'] = $_SERVER['HTTP_USER_AGENT'] ?? $this->defaultHeaders;
 
@@ -80,7 +100,7 @@ trait MALTrait {
 		}
 
 		$config = $this->container->get('config');
-		$logger = $this->container->getLogger('mal_request');
+		$logger = $this->container->getLogger('mal-request');
 
 		$headers = array_merge($this->defaultHeaders, $options['headers'] ?? [],  [
 			'Authorization' =>  'Basic ' .
@@ -108,7 +128,27 @@ trait MALTrait {
 		{
 			$request->setBody($options['body']);
 		}
+		
+		return $request;
+	}
 
+	/**
+	 * Make a request
+	 *
+	 * @param string $type
+	 * @param string $url
+	 * @param array $options
+	 * @return \Amp\Artax\Response
+	 */
+	private function getResponse(string $type, string $url, array $options = [])
+	{
+		$logger = null;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('mal-request');
+		}
+		
+		$request = $this->setUpRequest($type, $url, $options);
 		$response = \Amp\wait((new Client)->request($request));
 
 		$logger->debug('MAL api request', [
@@ -126,7 +166,7 @@ trait MALTrait {
 	}
 
 	/**
-	 * Make a request via Guzzle
+	 * Make a request
 	 *
 	 * @param string $type
 	 * @param string $url
@@ -138,7 +178,7 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('mal_request');
+			$logger = $this->container->getLogger('mal-request');
 		}
 
 		$response = $this->getResponse($type, $url, $options);
@@ -176,7 +216,7 @@ trait MALTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('mal_request');
+			$logger = $this->container->getLogger('mal-request');
 		}
 
 		$response = $this->getResponse('POST', ...$args);
