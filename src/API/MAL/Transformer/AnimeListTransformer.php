@@ -63,15 +63,21 @@ class AnimeListTransformer extends AbstractTransformer {
 			'id' => $item['mal_id'],
 			'data' => [
 				'episode' => $item['data']['progress'],
-				'status' => self::statusMap[$item['data']['status']],
-				'score' => (array_key_exists('rating', $item['data'])) 
-					? $item['data']['rating'] * 2
-					: "",
 				// 'enable_rewatching' => $rewatching,
 				// 'times_rewatched' => $item['data']['reconsumeCount'],
 				// 'comments' => $item['data']['notes'],
 			]
 		];
+		
+		if (array_key_exists('rating', $item['data']))
+		{
+			$map['data']['score'] = $item['data']['rating'] * 2;
+		}
+		
+		if (array_key_exists('status', $item['data']))
+		{
+			$map['data']['status'] = self::statusMap[$item['data']['status']];
+		}
 		
 		return $map;
 	}
