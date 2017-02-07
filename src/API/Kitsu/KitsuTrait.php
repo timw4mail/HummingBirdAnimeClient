@@ -27,7 +27,24 @@ use InvalidArgumentException;
 use RuntimeException;
 
 trait KitsuTrait {
-	use GuzzleTrait;
+	
+	/**
+	 * The request builder for the MAL API
+	 * @var MALRequestBuilder
+	 */
+	protected $requestBuilder;
+	
+	/**
+     * The Guzzle http client object
+     * @var object
+     */
+    protected $client;
+
+    /**
+     * Cookie jar object for api requests
+     * @var object
+     */
+    protected $cookieJar;
 
 	/**
 	 * The base url for api requests
@@ -47,6 +64,18 @@ trait KitsuTrait {
 		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
 		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
+	
+	/**
+	 * Set the request builder object
+	 *
+	 * @param KitsuRequestBuilder $requestBuilder
+	 * @return self
+	 */
+	public function setRequestBuilder($requestBuilder): self
+	{
+		$this->requestBuilder = $requestBuilder;
+		return $this;
+	}
 
 	/**
 	 * Set up the class properties
@@ -93,7 +122,7 @@ trait KitsuTrait {
 			'headers' => $this->defaultHeaders
 		];
 
-		$logger = $this->container->getLogger('kitsu_request');
+		$logger = $this->container->getLogger('kitsu-request');
 		$sessionSegment = $this->getContainer()
 			->get('session')
 			->getSegment(AnimeClient::SESSION_SEGMENT);
@@ -134,7 +163,7 @@ trait KitsuTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('kitsu_request');
+			$logger = $this->container->getLogger('kitsu-request');
 		}
 
 		$response = $this->getResponse($type, $url, $options);
@@ -183,7 +212,7 @@ trait KitsuTrait {
 		$logger = null;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('kitsu_request');
+			$logger = $this->container->getLogger('kitsu-request');
 		}
 
 		$response = $this->getResponse('POST', ...$args);

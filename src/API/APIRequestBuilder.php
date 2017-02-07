@@ -1,0 +1,217 @@
+<?php declare(strict_types=1);
+/**
+ * Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     AnimeListClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
+
+namespace Aviat\AnimeClient\API;
+
+use Amp\Artax\{
+	Client, 
+	FormBody, 
+	Request
+};
+use Aviat\Ion\Di\ContainerAware;
+use InvalidArgumentException;
+use Psr\Log\LoggerAwareTrait;
+
+/**
+ * Wrapper around Artex to make it easier to build API requests
+ */
+class APIRequestBuilder {
+	use LoggerAwareTrait;
+	
+	/**
+	 * Url prefix for making url requests
+	 * @var string
+	 */
+	protected $baseUrl = '';
+	
+	/**
+	 * Url path of the request
+	 * @var string
+	 */
+	protected $path = '';
+	
+	/**
+	 * Query string for the request
+	 * @var string
+	 */
+	protected $query = '';
+	
+	/**
+	 * Default request headers
+	 * @var array
+	 */
+	protected $defaultHeaders = [];
+	
+	/**
+	 * Valid HTTP request methos
+	 * @var array
+	 */
+	protected $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
+	
+	/**
+	 * The current request
+	 * @var \Amp\Promise
+	 */
+	protected $request;
+	
+	/**
+	 * Set body as form fields
+	 * 
+	 * @param array $fields Mapping of field names to values
+	 * @return self
+	 */
+	public function setFormFields(array $fields): self
+	{
+		$body = $this->fixBody((new FormBody)->addFields($createData));
+		$this->setBody($body);
+		return $this;
+	}
+	
+	/**
+	 * Set the request body
+	 *
+	 * @param FormBody|string $body
+	 * @return self
+	 */
+	public function setBody($body): self
+	{
+		$this->request->setBody($body);
+		return $this;
+	}
+	
+	/**
+	 * Set a request header
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @return self
+	 */
+	public function setHeader(string $name, string $value): self
+	{
+		$this->request->setHeader($name, $value);
+		return $this;
+	}
+	
+	/**
+	 * Set multiple request headers
+	 * 
+	 * name => value
+	 *
+	 * @param array $headers
+	 * @return self
+	 */
+	public function setHeaders(array $headers): self
+	{
+		foreach ($headers as $name => $value)
+		{
+			$this->setHeader($name, $value);
+		}
+		
+		return $this;
+	}
+	
+	/**
+	 * Append a query string in array format
+	 *
+	 * @param array $params
+	 * @return self
+	 */
+	public function setQuery(array $params): self
+	{
+		$this->query = http_build_query($params);	
+		return $this;
+	}
+	
+	/**
+	 * Return the promise for the current request
+	 *
+	 * @return \Amp\Promise
+	 */
+	public function getFullRequest()
+	{
+		$this->buildUri();
+		return $this->request;
+	}
+	
+	/**
+	 * Create a new http request
+	 *
+	 * @param string $type
+	 * @param string $uri
+	 * @return self
+	 */
+	public function newRequest(string $type, string $uri): self
+	{
+		if ( ! in_array($type, $this->validMethods))
+		{
+			throw new InvalidArgumentException('Invalid HTTP methods');
+		}
+		
+		$this->resetState();
+		
+		$this->request
+			->setMethod($type)
+			->setProtocol('1.1');
+		
+		return $this;
+	}
+	
+	/**
+	 * Create the full request url
+	 *
+	 * @return void
+	 */
+	private function buildUri()
+	{
+		$url = (strpos($this->path, '//') !== FALSE)
+			? $this->path
+			: $this->baseUrl . $url;
+
+		if ( ! empty($this->query))
+		{
+			$url .= '?' . $this->query;
+		}
+		
+		$this->request->setUri($url);
+	}
+	
+	/**
+	 * Unencode the dual-encoded ampersands in the body
+	 *
+	 * This is a dirty hack until I can fully track down where
+	 * the dual-encoding happens
+	 *
+	 * @param FormBody $formBody The form builder object to fix
+	 * @return string
+	 */
+	private function fixBody(FormBody $formBody): string
+	{
+		$rawBody = \Amp\wait($formBody->getBody());
+		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
+	}
+	
+	/**
+	 * Reset the class state for a new request
+	 *
+	 * @return void
+	 */
+	private function resetState()
+	{
+		$this->path = '';
+		$this->query = '';
+		$this->request = new Request();
+	}
+}

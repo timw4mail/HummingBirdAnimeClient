@@ -22,10 +22,12 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\Kitsu\{
 	Auth as KitsuAuth,
 	ListItem as KitsuListItem,
+	KitsuRequestBuilder,
 	Model as KitsuModel
 };
 use Aviat\AnimeClient\API\MAL\{
 	ListItem as MALListItem,
+	MALRequestBuilder,
 	Model as MALModel
 };
 use Aviat\AnimeClient\Model;
@@ -48,13 +50,13 @@ return function(array $config_array = []) {
 
 	$app_logger = new Logger('animeclient');
 	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
-	$kitsu_request_logger = new Logger('kitsu_request');
+	$kitsu_request_logger = new Logger('kitsu-request');
 	$kitsu_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
-	$mal_request_logger = new Logger('mal_request');
+	$mal_request_logger = new Logger('mal-request');
 	$mal_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
 	$container->setLogger($app_logger, 'default');
-	$container->setLogger($kitsu_request_logger, 'kitsu_request');
-	$container->setLogger($mal_request_logger, 'mal_request');
+	$container->setLogger($kitsu_request_logger, 'kitsu-request');
+	$container->setLogger($mal_request_logger, 'mal-request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
@@ -115,21 +117,35 @@ return function(array $config_array = []) {
 
 	// Models
 	$container->set('kitsu-model', function($container) {
+		$requestBuilder = new KitsuRequestBuilder();
+		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
+		
 		$listItem = new KitsuListItem();
 		$listItem->setContainer($container);
+		$listItem->setRequestBuilder($requestBuilder);
+		
 		$model = new KitsuModel($listItem);
 		$model->setContainer($container);
+		$model->setRequestBuilder($requestBuilder);
+		
 		$cache = $container->get('cache');
 		$model->setCache($cache);
 		return $model;
 	});
 	$container->set('mal-model', function($container) {
+		$requestBuilder = new MALRequestBuilder();
+		$requestBuilder->setLogger($container->getLogger('mal-request'));
+		
 		$listItem = new MALListItem();
 		$listItem->setContainer($container);
+		$listItem->setRequestBuilder($requestBuilder);
+		
 		$model = new MALModel($listItem);
 		$model->setContainer($container);
+		$model->setRequestBuilder($requestBuilder);
 		return $model;
 	});
+
 	$container->set('api-model', function($container) {
 		return new Model\API($container);
 	});
