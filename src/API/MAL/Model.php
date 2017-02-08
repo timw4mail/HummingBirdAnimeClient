@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
+use Amp\Artax\Request;
 use Aviat\AnimeClient\API\MAL as M;
 use Aviat\AnimeClient\API\MAL\ListItem;
 use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer;
@@ -43,7 +44,7 @@ class Model {
 		$this->listItem = $listItem;
 	}
 
-	public function createListItem(array $data): bool
+	public function createListItem(array $data): Request
 	{
 		$createData = [
 			'id' => $data['id'],
@@ -77,13 +78,13 @@ class Model {
 		return [];
 	}
 
-	public function updateListItem(array $data)
+	public function updateListItem(array $data): Request
 	{
 		$updateData = $this->animeListTransformer->untransform($data);
 		return $this->listItem->update($updateData['id'], $updateData['data']);
 	}
 
-	public function deleteListItem(string $id): bool
+	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
 	}

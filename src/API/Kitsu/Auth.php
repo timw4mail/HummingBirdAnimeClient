@@ -16,6 +16,9 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+use const Aviat\AnimeClient\API\Kitsu\AUTH_TOKEN_CACHE_KEY;
+
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
@@ -55,7 +58,7 @@ class Auth {
 		$this->setContainer($container);
 		$this->setCache($container->get('cache'));
 		$this->segment = $container->get('session')
-			->getSegment(AnimeClient::SESSION_SEGMENT);
+			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 	}
 
@@ -70,7 +73,7 @@ class Auth {
 	{
 		$config = $this->container->get('config');
 		$username = $config->get(['kitsu_username']);
-		
+
 		try
 		{
 			$auth = $this->model->authenticate($username, $password);
@@ -79,15 +82,15 @@ class Auth {
 		{
 			return FALSE;
 		}
-		
+
 
 		if (FALSE !== $auth)
 		{
 			// Set the token in the cache for command line operations
-			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
+			$cacheItem = $this->cache->getItem(AUTH_TOKEN_CACHE_KEY);
 			$cacheItem->set($auth['access_token']);
 			$cacheItem->save();
-			
+
 			$this->segment->set('auth_token', $auth['access_token']);
 			return TRUE;
 		}

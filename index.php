@@ -15,6 +15,8 @@
  */
 namespace Aviat\AnimeClient;
 
+use function Aviat\AnimeClient\loadToml;
+
 use Aviat\AnimeClient\AnimeClient;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -42,7 +44,7 @@ $APP_DIR = _dir(__DIR__, 'app');
 $CONF_DIR = _dir($APP_DIR, 'config');
 
 // Load composer autoloader
-require _dir(__DIR__, '/vendor/autoload.php');
+require _dir(__DIR__, 'vendor/autoload.php');
 
 // -------------------------------------------------------------------------
 // Setup error handling
@@ -54,10 +56,7 @@ $defaultHandler = new PrettyPageHandler();
 $whoops->pushHandler($defaultHandler);
 
 // Register as the error handler
-if (array_key_exists('whoops', $_GET))
-{
-	$whoops->register();
-}
+$whoops->register();
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
@@ -65,7 +64,7 @@ if (array_key_exists('whoops', $_GET))
 require _dir($CONF_DIR, 'base_config.php'); // $base_config
 $di = require _dir($APP_DIR, 'bootstrap.php');
 
-$config = AnimeClient::loadToml($CONF_DIR);
+$config = loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);
 
 $container = $di($config_array);
@@ -78,5 +77,3 @@ unset($CONF_DIR);
 // Dispatch to the current route
 // -----------------------------------------------------------------------------
 $container->get('dispatcher')->__invoke();
-
-// End of index.php

@@ -16,13 +16,14 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+
+use function Amp\wait;
+
+use Amp\Artax\Client;
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\API\GuzzleTrait;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Json;
-use GuzzleHttp\Client;
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Psr7\Response;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -33,37 +34,6 @@ trait KitsuTrait {
 	 * @var MALRequestBuilder
 	 */
 	protected $requestBuilder;
-
-	/**
-	 * The Guzzle http client object
-	 * @var object
-	 */
-	protected $client;
-
-	/**
-	 * Cookie jar object for api requests
-	 * @var object
-	 */
-	protected $cookieJar;
-
-	/**
-	 * The base url for api requests
-	 * @var string $base_url
-	 */
-	protected $baseUrl = "https://kitsu.io/api/edge/";
-
-	/**
-	 * HTTP headers to send with every request
-	 *
-	 * @var array
-	 */
-	protected $defaultHeaders = [
-		'User-Agent' => "Tim's Anime Client/4.0",
-		'Accept-Encoding' => 'application/vnd.api+json',
-		'Content-Type' => 'application/vnd.api+json',
-		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
-		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
-	];
 
 	/**
 	 * Set the request builder object
@@ -78,30 +48,45 @@ trait KitsuTrait {
 	}
 
 	/**
-	 * Set up the class properties
+	 * Create a request object
 	 *
-	 * @return void
+	 * @param string $type
+	 * @param string $url
+	 * @param array $options
+	 * @return \Amp\Artax\Response
 	 */
-	protected function init()
+	public function setUpRequest(string $type, string $url, array $options = [])
 	{
-		$defaults = [
-			'cookies' => $this->cookieJar,
-			'headers' => $this->defaultHeaders,
-			'timeout' => 25,
-			'connect_timeout' => 25
-		];
+		$config = $this->container->get('config');
 
-		$this->cookieJar = new CookieJar();
-		$this->client = new Client([
-			'base_uri' => $this->baseUrl,
-			'cookies' => TRUE,
-			'http_errors' => TRUE,
-			'defaults' => $defaults
-		]);
+		$request = $this->requestBuilder->newRequest($type, $url);
+
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		if ($sessionSegment->get('auth_token') !== null && $url !== K::AUTH_URL)
+		{
+			$token = $sessionSegment->get('auth_token');
+			$request = $request->setAuth('bearer', $token);
+			// $defaultOptions['headers']['Authorization'] = "bearer {$token}";
+		}
+
+		if (array_key_exists('query', $options))
+		{
+			$request->setQuery($options['query']);
+		}
+
+		if (array_key_exists('body', $options))
+		{
+			$request->setJsonBody($options['body']);
+		}
+
+		return $request->getFullRequest();
 	}
 
 	/**
-	 * Make a request via Guzzle
+	 * Make a request
 	 *
 	 * @param string $type
 	 * @param string $url
@@ -110,48 +95,24 @@ trait KitsuTrait {
 	 */
 	private function getResponse(string $type, string $url, array $options = [])
 	{
-		$logger = null;
-		$validTypes = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
-
-		if ( ! in_array($type, $validTypes))
-		{
-			throw new InvalidArgumentException('Invalid http request type');
-		}
-
-		$defaultOptions = [
-			'headers' => $this->defaultHeaders
-		];
-
+		$request = $this->setUpRequest($type, $url, $options);
 		$logger = $this->container->getLogger('kitsu-request');
-		$sessionSegment = $this->getContainer()
-			->get('session')
-			->getSegment(AnimeClient::SESSION_SEGMENT);
 
-		if ($sessionSegment->get('auth_token') !== null && $url !== K::AUTH_URL)
-		{
-			$token = $sessionSegment->get('auth_token');
-			$defaultOptions['headers']['Authorization'] = "bearer {$token}";
-		}
+		$response = wait((new Client)->request($request));
 
-		$options = array_merge($defaultOptions, $options);
-
-		$response = $this->client->request($type, $url, $options);
-
-		$logger->debug('Kitsu API request', [
-			'requestParams' => [
-				'type' => $type,
-				'url' => $url,
-			],
-			'responseValues' => [
-				'status' => $response->getStatusCode()
-			]
-		]);
+		/* $logger->debug('Kitsu api response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getAllHeaders(),
+			'requestHeaders' => $request->getAllHeaders(),
+		]); */
 
 		return $response;
 	}
 
 	/**
-	 * Make a request via Guzzle
+	 * Make a request
 	 *
 	 * @param string $type
 	 * @param string $url
@@ -168,7 +129,7 @@ trait KitsuTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatusCode() > 299 || (int) $response->getStatusCode() < 200)
+		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
@@ -218,7 +179,7 @@ trait KitsuTrait {
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array((int) $response->getStatusCode(), $validResponseCodes))
+		if ( ! in_array((int) $response->getStatus(), $validResponseCodes))
 		{
 			if ($logger)
 			{
@@ -238,6 +199,6 @@ trait KitsuTrait {
 	protected function deleteRequest(...$args): bool
 	{
 		$response = $this->getResponse('DELETE', ...$args);
-		return ((int) $response->getStatusCode() === 204);
+		return ((int) $response->getStatus() === 204);
 	}
 }

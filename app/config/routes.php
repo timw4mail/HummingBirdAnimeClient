@@ -14,6 +14,11 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
+use const Aviat\AnimeClient\{
+	DEFAULT_CONTROLLER_METHOD,
+	DEFAULT_CONTROLLER_NAMESPACE
+};
+
 use Aviat\AnimeClient\AnimeClient;
 
 return [
@@ -148,25 +153,25 @@ return [
 		'cache_purge' => [
 			'path' => '/cache_purge',
 			'action' => 'clearCache',
-			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'controller' => DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'get',
 		],
 		'login' => [
 			'path' => '/login',
 			'action' => 'login',
-			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'controller' => DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'get',
 		],
 		'login.post' => [
 			'path' => '/login',
 			'action' => 'loginAction',
-			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'controller' => DEFAULT_CONTROLLER_NAMESPACE,
 			'verb' => 'post',
 		],
 		'logout' => [
 			'path' => '/logout',
 			'action' => 'logout',
-			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'controller' => DEFAULT_CONTROLLER_NAMESPACE,
 		],
 		'update' => [
 			'path' => '/{controller}/update',
@@ -194,7 +199,7 @@ return [
 		],
 		'list' => [
 			'path' => '/{controller}/{type}{/view}',
-			'action' => AnimeClient::DEFAULT_CONTROLLER_METHOD,
+			'action' => DEFAULT_CONTROLLER_METHOD,
 			'tokens' => [
 				'type' => '[a-z_]+',
 				'view' => '[a-z_]+',
@@ -202,7 +207,7 @@ return [
 		],
 		'index_redirect' => [
 			'path' => '/',
-			'controller' => AnimeClient::DEFAULT_CONTROLLER_NAMESPACE,
+			'controller' => DEFAULT_CONTROLLER_NAMESPACE,
 			'action' => 'redirectToDefaultRoute',
 		],
 	],
