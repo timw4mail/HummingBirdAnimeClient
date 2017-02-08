@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -102,7 +104,7 @@ class Controller {
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');
-		$this->session = $session->getSegment(AnimeClient::SESSION_SEGMENT);
+		$this->session = $session->getSegment(SESSION_SEGMENT);
 
 		// Set a 'previous' flash value for better redirects
 		$server_params = $this->request->getServerParams();

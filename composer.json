@@ -3,6 +3,9 @@
 	"description": "A self-hosted anime/manga client for Kitsu.",
 	"license":"MIT",
 	"autoload": {
+		"files": [
+			"src/AnimeClient.php"
+		],
 		"psr-4": {
 			"Aviat\\AnimeClient\\": "src/"
 		}
@@ -20,7 +23,6 @@
 		"aviat/banker": "^1.0.0",
 		"aviat/ion": "1.0.*",
 		"filp/whoops": "^2.1.5",
-		"guzzlehttp/guzzle": "^6.0",
 		"monolog/monolog": "^1.0",
 		"psr/http-message": "~1.0",
 		"psr/log": "~1.0",

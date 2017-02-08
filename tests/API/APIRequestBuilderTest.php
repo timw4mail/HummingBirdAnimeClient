@@ -29,13 +29,13 @@ class APIRequestBuilderTest extends TestCase {
 	{
 		$this->builder = new class extends APIRequestBuilder {
 			protected $baseUrl = 'https://httpbin.org/';
-			
+
 			protected $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
-		
+
 		$this->builder->setLogger(new NullLogger);
 	}
-	
+
 	public function testGzipRequest()
 	{
 		$request = $this->builder->newRequest('GET', 'gzip')
@@ -44,26 +44,26 @@ class APIRequestBuilderTest extends TestCase {
 		$body = Json::decode($response->getBody());
 		$this->assertEquals(1, $body['gzipped']);
 	}
-	
+
 	public function testInvalidRequestMethod()
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
 	}
-	
+
 	public function testRequestWithBasicAuth()
 	{
 		$request = $this->builder->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
-		
+
 		$response = Amp\wait((new Client)->request($request));
 		$body = Json::decode($response->getBody());
-		
+
 		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
-	
+
 	public function testRequestWithQueryString()
 	{
 		$query = [
@@ -75,40 +75,40 @@ class APIRequestBuilderTest extends TestCase {
 				'bar' => 'foo'
 			]
 		];
-		
+
 		$expected = [
 			'foo' => 'bar',
 			'bar[foo]' => 'bar',
 			'baz[bar]' => 'foo'
 		];
-		
+
 		$request = $this->builder->newRequest('GET', 'get')
 			->setQuery($query)
 			->getFullRequest();
-		
+
 		$response = Amp\wait((new Client)->request($request));
 		$body = Json::decode($response->getBody());
-		
-		$this->assertEquals($expected, $body['args']);		
+
+		$this->assertEquals($expected, $body['args']);
 	}
-	
+
 	public function testFormValueRequest()
 	{
 		$formValues = [
 			'foo' => 'bar',
 			'bar' => 'foo'
 		];
-		
+
 		$request = $this->builder->newRequest('POST', 'post')
 			->setFormFields($formValues)
 			->getFullRequest();
-		
+
 		$response = Amp\wait((new Client)->request($request));
 		$body = Json::decode($response->getBody());
-		
+
 		$this->assertEquals($formValues, $body['form']);
 	}
-	
+
 	public function testFullUrlRequest()
 	{
 		$data = [
@@ -121,16 +121,15 @@ class APIRequestBuilderTest extends TestCase {
 				]
 			]
 		];
-		
+
 		$request = $this->builder->newRequest('PUT', 'https://httpbin.org/put')
 			->setHeader('Content-Type', 'application/json')
-			->setBody(Json::encode($data))
+			->setJsonBody($data)
 			->getFullRequest();
-		
+
 		$response = Amp\wait((new Client)->request($request));
 		$body = Json::decode($response->getBody());
-		
+
 		$this->assertEquals($data, $body['json']);
 	}
 }
-

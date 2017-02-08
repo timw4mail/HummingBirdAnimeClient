@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use GuzzleHttp\Psr7\Response;
+use Amp\Artax\Request;
 
 /**
  * Common interface for anime and manga list item CRUD
@@ -29,7 +29,7 @@ interface ListItemInterface {
 	 * @param array $data -
 	 * @return bool
 	 */
-	public function create(array $data): bool;
+	public function create(array $data): Request;
 
 	/**
 	 * Retrieve a list item
@@ -46,7 +46,7 @@ interface ListItemInterface {
 	 * @param array $data - The data with which to update the list item
 	 * @return Response
 	 */
-	public function update(string $id, array $data): Response;
+	public function update(string $id, array $data): Request;
 
 	/**
 	 * Delete a list item
@@ -54,5 +54,5 @@ interface ListItemInterface {
 	 * @param string $id - The id of the list item to delete
 	 * @return bool
 	 */
-	public function delete(string $id): bool;
+	public function delete(string $id): Request;
 }

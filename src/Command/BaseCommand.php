@@ -16,21 +16,18 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use function Aviat\AnimeClient\loadToml;
+
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{
 	AnimeClient,
 	Model,
 	Util
 };
-use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\Kitsu\{
-	Auth as KitsuAuth,
-	ListItem as KitsuListItem,
-	Model as KitsuModel
-};
-use Aviat\AnimeClient\API\MAL\{
-	ListItem as MALListItem,
-	Model as MALModel
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	Kitsu,
+	MAL
 };
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
@@ -72,23 +69,26 @@ class BaseCommand extends Command {
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
 		require_once $CONF_DIR . '/base_config.php'; // $base_config
 
-		$config = AnimeClient::loadToml($CONF_DIR);
+		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
 		$di = function ($config_array) use ($APP_DIR) {
 			$container = new Container();
-			
+
 			// -------------------------------------------------------------------------
 			// Logging
 			// -------------------------------------------------------------------------
 
 			$app_logger = new Logger('animeclient');
 			$app_logger->pushHandler(new NullHandler);
-			$request_logger = new Logger('request');
-			$request_logger->pushHandler(new NullHandler);
+			$kitsu_request_logger = new Logger('kitsu-request');
+			$kitsu_request_logger->pushHandler(new NullHandler);
+			$mal_request_logger = new Logger('mal-request');
+			$mal_request_logger->pushHandler(new NullHandler);
 			$container->setLogger($app_logger, 'default');
-			$container->setLogger($request_logger, 'request');
-			
+			$container->setLogger($kitsu_request_logger, 'kitsu-request');
+			$container->setLogger($mal_request_logger, 'mal-request');
+
 			// Create Config Object
 			$container->set('config', function() use ($config_array) {
 				return new Config($config_array);
@@ -108,18 +108,18 @@ class BaseCommand extends Command {
 
 			// Models
 			$container->set('kitsu-model', function($container) {
-				$listItem = new KitsuListItem();
+				$listItem = new Kitsu\istItem();
 				$listItem->setContainer($container);
-				$model = new KitsuModel($listItem);
+				$model = new Kitsu\Model($listItem);
 				$model->setContainer($container);
 				$cache = $container->get('cache');
 				$model->setCache($cache);
 				return $model;
 			});
 			$container->set('mal-model', function($container) {
-				$listItem = new MALListItem();
+				$listItem = new MAL\ListItem();
 				$listItem->setContainer($container);
-				$model = new MALModel($listItem);
+				$model = new MAL\Model($listItem);
 				$model->setContainer($container);
 				return $model;
 			});

@@ -16,11 +16,12 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+
+use Amp\Artax\Request;
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Response;
 use RuntimeException;
 
 /**
@@ -30,12 +31,22 @@ class ListItem extends AbstractListItem {
 	use ContainerAware;
 	use KitsuTrait;
 
-	public function __construct()
+	private function getAuthHeader()
 	{
-		$this->init();
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		if ($sessionSegment->get('auth_token') !== null)
+		{
+			$token = $sessionSegment->get('auth_token');
+			return "bearer {$token}";
+		}
+
+		return FALSE;
 	}
 
-	public function create(array $data): bool
+	public function create(array $data): Request
 	{
 		$body = [
 			'data' => [
@@ -60,21 +71,35 @@ class ListItem extends AbstractListItem {
 				]
 			]
 		];
-		
-		$request = $this->requestBuilder->newRequest('POST', 'library-entries')
-			->setJsonBody($body)
-			->getFullRequest();
-		$response = $this->getResponse('POST', 'library-entries', [
-			'body' => Json::encode($body)
-		]);
 
-		return ($response->getStatusCode() === 201);
+		$authHeader = $this->getAuthHeader();
+
+		$request = $this->requestBuilder->newRequest('POST', 'library-entries');
+
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+
+		return $request->setJsonBody($body)
+			->getFullRequest();
+
+		// return ($response->getStatus() === 201);
 	}
 
-	public function delete(string $id): bool
+	public function delete(string $id): Request
 	{
-		$response = $this->getResponse('DELETE', "library-entries/{$id}");
-		return ($response->getStatusCode() === 204);
+		$authHeader = $this->getAuthHeader();
+		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
+
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+
+		return $request->getFullRequest();
+
+		// return ($response->getStatus() === 204);
 	}
 
 	public function get(string $id): array
@@ -84,17 +109,12 @@ class ListItem extends AbstractListItem {
 				'include' => 'media,media.genres,media.mappings'
 			])
 			->getFullRequest();
-		/*return $this->getRequest("library-entries/{$id}", [
-			'query' => [
-				'include' => 'media,media.genres,media.mappings'
-			]
-		]);*/
-		
+
 		$response = \Amp\wait((new \Amp\Artax\Client)->request($request));
 		return Json::decode($response->getBody());
 	}
 
-	public function update(string $id, array $data): Response
+	public function update(string $id, array $data): Request
 	{
 		$requestData = [
 			'data' => [

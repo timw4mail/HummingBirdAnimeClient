@@ -85,7 +85,7 @@ trait MALTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Promise
+	 * @return \Amp\Artax\Response
 	 */
 	public function setUpRequest(string $type, string $url, array $options = [])
 	{

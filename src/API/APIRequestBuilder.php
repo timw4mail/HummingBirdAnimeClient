@@ -16,12 +16,14 @@
 
 namespace Aviat\AnimeClient\API;
 
+use Amp;
 use Amp\Artax\{
 	Client,
 	FormBody,
 	Request
 };
 use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 
@@ -68,6 +70,21 @@ class APIRequestBuilder {
 	protected $request;
 
 	/**
+	 * Set an authorization header
+	 *
+	 * @param string $type The type of authorization, eg, basic, bearer, etc.
+	 * @param string $value The authorization value
+	 * @return self
+	 */
+	public function setAuth(string $type, string $value): self
+	{
+		$authString = ucfirst($type) . ' ' . $value;
+		$this->setHeader('Authorization', $authString);
+
+		return $this;
+	}
+
+	/**
 	 * Set a basic authentication header
 	 *
 	 * @param string $username
@@ -76,9 +93,7 @@ class APIRequestBuilder {
 	 */
 	public function setBasicAuth(string $username, string $password): self
 	{
-		$authString = 'Basic ' . base64_encode($username . ':' . $password);
-		$this->setHeader('Authorization', $authString);
-
+		$this->setAuth('basic', base64_encode($username . ':' . $password));
 		return $this;
 	}
 
@@ -140,6 +155,18 @@ class APIRequestBuilder {
 	}
 
 	/**
+	 * Set the request body
+	 *
+	 * @param array|FormBody|string $body
+	 * @return self
+	 */
+	public function setJsonBody(array $body): self
+	{
+		$requestBody = Json::encode($body);
+		return $this->setBody($requestBody);
+	}
+
+	/**
 	 * Append a query string in array format
 	 *
 	 * @param array $params
@@ -159,7 +186,7 @@ class APIRequestBuilder {
 	public function getFullRequest()
 	{
 		$this->buildUri();
-		
+
 		if ($this->logger)
 		{
 			$this->logger->debug('API Request', [
@@ -168,7 +195,7 @@ class APIRequestBuilder {
 				'request_body' => $this->request->getBody()
 			]);
 		}
-		
+
 		return $this->request;
 	}
 
@@ -191,13 +218,13 @@ class APIRequestBuilder {
 		$this->request
 			->setMethod($type)
 			->setProtocol('1.1');
-		
+
 		$this->path = $uri;
-			
+
 		if ( ! empty($this->defaultHeaders))
 		{
 			$this->setHeaders($this->defaultHeaders);
-		}	
+		}
 
 		return $this;
 	}
@@ -232,7 +259,7 @@ class APIRequestBuilder {
 	 */
 	private function fixBody(FormBody $formBody): string
 	{
-		$rawBody = \Amp\wait($formBody->getBody());
+		$rawBody = Amp\wait($formBody->getBody());
 		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
 

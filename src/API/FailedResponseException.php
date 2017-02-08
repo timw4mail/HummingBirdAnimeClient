@@ -16,24 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp;
-use Amp\Artax\{
-	Client,
-	Response,
-	Request
-}
+use UnexpectedValueException;
 
-class APIClient {
+class FailedResponseException extends UnexpectedValueException {
 
-	/**
-	 * Get a syncronous response for a request
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
-	static public function syncResponse(Request $request): Response
-	{
-		$client = new Client();
-		return wait($client->request($request));
-	}
 }
