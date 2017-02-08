@@ -17,8 +17,8 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp\Artax\{
-	Client, 
-	FormBody, 
+	Client,
+	FormBody,
 	Request
 };
 use Aviat\Ion\Di\ContainerAware;
@@ -30,56 +30,58 @@ use Psr\Log\LoggerAwareTrait;
  */
 class APIRequestBuilder {
 	use LoggerAwareTrait;
-	
+
 	/**
 	 * Url prefix for making url requests
 	 * @var string
 	 */
 	protected $baseUrl = '';
-	
+
 	/**
 	 * Url path of the request
 	 * @var string
 	 */
 	protected $path = '';
-	
+
 	/**
 	 * Query string for the request
 	 * @var string
 	 */
 	protected $query = '';
-	
+
 	/**
 	 * Default request headers
 	 * @var array
 	 */
 	protected $defaultHeaders = [];
-	
+
 	/**
 	 * Valid HTTP request methos
 	 * @var array
 	 */
 	protected $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
-	
+
 	/**
 	 * The current request
 	 * @var \Amp\Promise
 	 */
 	protected $request;
-	
+
 	/**
-	 * Set body as form fields
-	 * 
-	 * @param array $fields Mapping of field names to values
+	 * Set a basic authentication header
+	 *
+	 * @param string $username
+	 * @param string $password
 	 * @return self
 	 */
-	public function setFormFields(array $fields): self
+	public function setBasicAuth(string $username, string $password): self
 	{
-		$body = $this->fixBody((new FormBody)->addFields($createData));
-		$this->setBody($body);
+		$authString = 'Basic ' . base64_encode($username . ':' . $password);
+		$this->setHeader('Authorization', $authString);
+
 		return $this;
 	}
-	
+
 	/**
 	 * Set the request body
 	 *
@@ -91,7 +93,21 @@ class APIRequestBuilder {
 		$this->request->setBody($body);
 		return $this;
 	}
-	
+
+	/**
+	 * Set body as form fields
+	 *
+	 * @param array $fields Mapping of field names to values
+	 * @return self
+	 */
+	public function setFormFields(array $fields): self
+	{
+		$this->setHeader("Content-Type", "application/x-www-form-urlencoded");
+		$body = $this->fixBody((new FormBody)->addFields($fields));
+		$this->setBody($body);
+		return $this;
+	}
+
 	/**
 	 * Set a request header
 	 *
@@ -104,10 +120,10 @@ class APIRequestBuilder {
 		$this->request->setHeader($name, $value);
 		return $this;
 	}
-	
+
 	/**
 	 * Set multiple request headers
-	 * 
+	 *
 	 * name => value
 	 *
 	 * @param array $headers
@@ -119,10 +135,10 @@ class APIRequestBuilder {
 		{
 			$this->setHeader($name, $value);
 		}
-		
+
 		return $this;
 	}
-	
+
 	/**
 	 * Append a query string in array format
 	 *
@@ -131,10 +147,10 @@ class APIRequestBuilder {
 	 */
 	public function setQuery(array $params): self
 	{
-		$this->query = http_build_query($params);	
+		$this->query = http_build_query($params);
 		return $this;
 	}
-	
+
 	/**
 	 * Return the promise for the current request
 	 *
@@ -143,9 +159,19 @@ class APIRequestBuilder {
 	public function getFullRequest()
 	{
 		$this->buildUri();
+		
+		if ($this->logger)
+		{
+			$this->logger->debug('API Request', [
+				'request_url' => $this->request->getUri(),
+				'request_headers' => $this->request->getAllHeaders(),
+				'request_body' => $this->request->getBody()
+			]);
+		}
+		
 		return $this->request;
 	}
-	
+
 	/**
 	 * Create a new http request
 	 *
@@ -159,16 +185,23 @@ class APIRequestBuilder {
 		{
 			throw new InvalidArgumentException('Invalid HTTP methods');
 		}
-		
+
 		$this->resetState();
-		
+
 		$this->request
 			->setMethod($type)
 			->setProtocol('1.1');
 		
+		$this->path = $uri;
+			
+		if ( ! empty($this->defaultHeaders))
+		{
+			$this->setHeaders($this->defaultHeaders);
+		}	
+
 		return $this;
 	}
-	
+
 	/**
 	 * Create the full request url
 	 *
@@ -178,16 +211,16 @@ class APIRequestBuilder {
 	{
 		$url = (strpos($this->path, '//') !== FALSE)
 			? $this->path
-			: $this->baseUrl . $url;
+			: $this->baseUrl . $this->path;
 
 		if ( ! empty($this->query))
 		{
 			$url .= '?' . $this->query;
 		}
-		
+
 		$this->request->setUri($url);
 	}
-	
+
 	/**
 	 * Unencode the dual-encoded ampersands in the body
 	 *
@@ -202,7 +235,7 @@ class APIRequestBuilder {
 		$rawBody = \Amp\wait($formBody->getBody());
 		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
-	
+
 	/**
 	 * Reset the class state for a new request
 	 *
