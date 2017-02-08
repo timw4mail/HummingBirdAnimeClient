@@ -56,27 +56,33 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * @return array 
 	 */
 	public function untransform(array $item): array
-	{
-		$rewatching = (array_key_exists('reconsuming', $item['data']) && $item['data']['reconsuming']);
-		
+	{	
 		$map = [
 			'id' => $item['mal_id'],
 			'data' => [
-				'episode' => $item['data']['progress'],
-				// 'enable_rewatching' => $rewatching,
-				// 'times_rewatched' => $item['data']['reconsumeCount'],
-				// 'comments' => $item['data']['notes'],
+				'episode' => $item['data']['progress']
 			]
 		];
 		
-		if (array_key_exists('rating', $item['data']))
+		switch(TRUE)
 		{
-			$map['data']['score'] = $item['data']['rating'] * 2;
-		}
-		
-		if (array_key_exists('status', $item['data']))
-		{
-			$map['data']['status'] = self::statusMap[$item['data']['status']];
+			case array_key_exists('notes', $item['data']):
+				$map['data']['comments'] = $item['data']['notes'];	
+				
+			case array_key_exists('rating', $item['data']):
+				$map['data']['score'] = $item['data']['rating'] * 2;
+				
+			case array_key_exists('reconsuming', $item['data']):
+				$map['data']['enable_rewatching'] = (bool) $item['data']['reconsuming'];	
+				
+			case array_key_exists('reconsumeCount', $item['data']):
+				$map['data']['times_rewatched'] = $item['data']['reconsumeCount'];
+				
+			case array_key_exists('status', $item['data']):
+				$map['data']['status'] = self::statusMap[$item['data']['status']];
+			
+			default:
+				break;
 		}
 		
 		return $map;

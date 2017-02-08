@@ -30,7 +30,7 @@ class ListItem {
 	use ContainerAware;
 	use MALTrait;
 
-	public function create(array $data): bool
+	public function create(array $data)
 	{
 		$id = $data['id'];
 		$createData = [
@@ -40,11 +40,20 @@ class ListItem {
 			])
 		];
 
+		// $config = $this->container->get('config');
+
+		/*$request = $this->requestBuilder->newRequest('POST', "animelist/add/{$id}.xml")
+			->setFormFields($createData)
+			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
+			->getFullRequest();*/
+
 		$response = $this->getResponse('POST', "animelist/add/{$id}.xml", [
 			'body' => $this->fixBody((new FormBody)->addFields($createData))
 		]);
 
 		return $response->getBody() === 'Created';
+
+		// return $request;
 	}
 
 	public function delete(string $id): bool

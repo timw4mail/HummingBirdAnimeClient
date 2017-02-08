@@ -37,30 +37,35 @@ class ListItem extends AbstractListItem {
 
 	public function create(array $data): bool
 	{
-		$response = $this->getResponse('POST', 'library-entries', [
-			'body' => Json::encode([
-				'data' => [
-					'type' => 'libraryEntries',
-					'attributes' => [
-						'status' => $data['status'],
-						'progress' => $data['progress'] ?? 0
+		$body = [
+			'data' => [
+				'type' => 'libraryEntries',
+				'attributes' => [
+					'status' => $data['status'],
+					'progress' => $data['progress'] ?? 0
+				],
+				'relationships' => [
+					'user' => [
+						'data' => [
+							'id' => $data['user_id'],
+							'type' => 'users'
+						]
 					],
-					'relationships' => [
-						'user' => [
-							'data' => [
-								'id' => $data['user_id'],
-								'type' => 'users'
-							]
-						],
-						'media' => [
-							'data' => [
-								'id' => $data['id'],
-								'type' => $data['type']
-							]
+					'media' => [
+						'data' => [
+							'id' => $data['id'],
+							'type' => $data['type']
 						]
 					]
 				]
-			])
+			]
+		];
+		
+		$request = $this->requestBuilder->newRequest('POST', 'library-entries')
+			->setJsonBody($body)
+			->getFullRequest();
+		$response = $this->getResponse('POST', 'library-entries', [
+			'body' => Json::encode($body)
 		]);
 
 		return ($response->getStatusCode() === 201);
@@ -74,11 +79,19 @@ class ListItem extends AbstractListItem {
 
 	public function get(string $id): array
 	{
-		return $this->getRequest("library-entries/{$id}", [
+		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
+			->setQuery([
+				'include' => 'media,media.genres,media.mappings'
+			])
+			->getFullRequest();
+		/*return $this->getRequest("library-entries/{$id}", [
 			'query' => [
 				'include' => 'media,media.genres,media.mappings'
 			]
-		]);
+		]);*/
+		
+		$response = \Amp\wait((new \Amp\Artax\Client)->request($request));
+		return Json::decode($response->getBody());
 	}
 
 	public function update(string $id, array $data): Response
