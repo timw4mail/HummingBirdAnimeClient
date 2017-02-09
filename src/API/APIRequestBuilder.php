@@ -118,7 +118,7 @@ class APIRequestBuilder {
 	public function setFormFields(array $fields): self
 	{
 		$this->setHeader("Content-Type", "application/x-www-form-urlencoded");
-		$body = $this->fixBody((new FormBody)->addFields($fields));
+		$body = (new FormBody)->addFields($fields);
 		$this->setBody($body);
 		return $this;
 	}
@@ -246,21 +246,6 @@ class APIRequestBuilder {
 		}
 
 		$this->request->setUri($url);
-	}
-
-	/**
-	 * Unencode the dual-encoded ampersands in the body
-	 *
-	 * This is a dirty hack until I can fully track down where
-	 * the dual-encoding happens
-	 *
-	 * @param FormBody $formBody The form builder object to fix
-	 * @return string
-	 */
-	private function fixBody(FormBody $formBody): string
-	{
-		$rawBody = Amp\wait($formBody->getBody());
-		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
 
 	/**
