@@ -71,6 +71,11 @@ trait KitsuTrait {
 			$request = $request->setAuth('bearer', $token);
 			// $defaultOptions['headers']['Authorization'] = "bearer {$token}";
 		}
+		
+		if (array_key_exists('form_params', $options))
+		{
+			$request->setFormFields($options['form_params']);
+		}
 
 		if (array_key_exists('query', $options))
 		{

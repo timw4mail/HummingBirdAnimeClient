@@ -398,21 +398,7 @@ class Model {
 	 */
 	public function updateListItem(array $data): Request
 	{
-		try
-		{
-			$response = $this->listItem->update($data['id'], $data['data']);
-			return [
-				'statusCode' => $response->getStatus(),
-				'body' => $response->getBody(),
-			];
-		}
-		catch(ClientException $e)
-		{
-			return [
-				'statusCode' => $e->getResponse()->getStatus(),
-				'body' => Json::decode((string)$e->getResponse()->getBody())
-			];
-		}
+		return $this->listItem->update($data['id'], $data['data']);
 	}
 
 	/**

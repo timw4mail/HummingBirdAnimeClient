@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
-use const Aviat\AnimeClient\API\Kitsu\AUTH_TOKEN_CACHE_KEY;
 
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\{
@@ -87,7 +86,7 @@ class Auth {
 		if (FALSE !== $auth)
 		{
 			// Set the token in the cache for command line operations
-			$cacheItem = $this->cache->getItem(AUTH_TOKEN_CACHE_KEY);
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
 			$cacheItem->set($auth['access_token']);
 			$cacheItem->save();
 
