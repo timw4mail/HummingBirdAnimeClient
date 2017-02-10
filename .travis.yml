@@ -1,10 +1,11 @@
 language: php
 
 install:
-  - composer install
+  - composer install --ignore-platform-reqs
 
 php:
   - 7
+  - 7.1
   - hhvm
   - nightly
 
