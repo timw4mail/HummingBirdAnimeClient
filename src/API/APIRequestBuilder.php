@@ -157,12 +157,15 @@ class APIRequestBuilder {
 	/**
 	 * Set the request body
 	 *
-	 * @param array|FormBody|string $body
+	 * @param mixed $body
 	 * @return self
 	 */
-	public function setJsonBody(array $body): self
+	public function setJsonBody($body): self
 	{
-		$requestBody = Json::encode($body);
+		$requestBody = ( ! is_scalar($body))
+			? Json::encode($body)
+			: $body;
+		
 		return $this->setBody($requestBody);
 	}
 

@@ -104,11 +104,19 @@ class ListItem extends AbstractListItem {
 
 	public function get(string $id): array
 	{
+		$authHeader = $this->getAuthHeader();
+		
 		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
 			->setQuery([
 				'include' => 'media,media.genres,media.mappings'
-			])
-			->getFullRequest();
+			]);
+		
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+		
+		$request = $request->getFullRequest();
 
 		$response = \Amp\wait((new \Amp\Artax\Client)->request($request));
 		return Json::decode($response->getBody());
@@ -116,6 +124,7 @@ class ListItem extends AbstractListItem {
 
 	public function update(string $id, array $data): Request
 	{
+		$authHeader = $this->getAuthHeader();
 		$requestData = [
 			'data' => [
 				'id' => $id,
@@ -123,11 +132,15 @@ class ListItem extends AbstractListItem {
 				'attributes' => $data
 			]
 		];
-
-		$response = $this->getResponse('PATCH', "library-entries/{$id}", [
-			'body' => JSON::encode($requestData)
-		]);
-
-		return $response;
+		
+		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
+			->setJsonBody($requestData);
+		
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+		
+		return $request->getFullRequest();
 	}
 }

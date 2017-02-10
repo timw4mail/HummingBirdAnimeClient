@@ -168,12 +168,23 @@ class Anime extends API {
 	 */
 	public function updateLibraryItem(array $data): array
 	{
+		$requests = []; 
+		
 		if ($this->useMALAPI)
 		{
-			$this->malModel->updateListItem($data);
+			$requests['mal'] = $this->malModel->updateListItem($data);
 		}
 
-		return $this->kitsuModel->updateListItem($data);
+		$requests['kitsu'] = $this->kitsuModel->updateListItem($data);
+		
+		$promises = (new Client)->requestMulti($requests);
+
+		$results = wait(some($promises));
+		
+		return [
+			'body' => Json::decode($results[1]['kitsu']->getBody()),
+			'statusCode' => $results[1]['kitsu']->getStatus()
+		];
 	}
 
 	/**

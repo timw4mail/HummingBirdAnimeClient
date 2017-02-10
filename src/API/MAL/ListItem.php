@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
-use Amp\Artax\Request;
+use Amp\Artax\{FormBody, Request};
 use Aviat\AnimeClient\API\{
 	AbstractListItem,
 	XML
