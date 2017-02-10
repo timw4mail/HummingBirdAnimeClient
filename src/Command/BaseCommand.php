@@ -66,8 +66,9 @@ class BaseCommand extends Command {
 	protected function setupContainer()
 	{
 		$APP_DIR = realpath(__DIR__ . '/../../app');
+		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		require_once $CONF_DIR . '/base_config.php'; // $base_config
+		require_once $APPCONF_DIR . '/base_config.php'; // $base_config
 
 		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
@@ -108,7 +109,7 @@ class BaseCommand extends Command {
 
 			// Models
 			$container->set('kitsu-model', function($container) {
-				$listItem = new Kitsu\istItem();
+				$listItem = new Kitsu\ListItem();
 				$listItem->setContainer($container);
 				$model = new Kitsu\Model($listItem);
 				$model->setContainer($container);
