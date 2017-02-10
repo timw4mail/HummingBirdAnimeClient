@@ -233,7 +233,7 @@ class JSMin extends BaseMin {
 // ! Start Minifying
 // --------------------------------------------------------------------------
 
-$config = require_once('../app/config/minify_config.php');
+$config = require_once('../app/appConf/minify_config.php');
 $groups = require_once($config['js_groups_file']);
 $cache_dir = "{$config['js_root']}cache";
 

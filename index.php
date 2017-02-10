@@ -41,6 +41,7 @@ function _dir()
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
+$APPCONF_DIR = _dir($APP_DIR, 'appConf');
 $CONF_DIR = _dir($APP_DIR, 'config');
 
 // Load composer autoloader
@@ -61,7 +62,7 @@ $whoops->register();
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-require _dir($CONF_DIR, 'base_config.php'); // $base_config
+require _dir($APPCONF_DIR, 'base_config.php'); // $base_config
 $di = require _dir($APP_DIR, 'bootstrap.php');
 
 $config = loadToml($CONF_DIR);
