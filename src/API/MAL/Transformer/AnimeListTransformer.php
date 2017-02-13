@@ -56,7 +56,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * @return array 
 	 */
 	public function untransform(array $item): array
-	{	
+	{
 		$map = [
 			'id' => $item['mal_id'],
 			'data' => [
@@ -64,27 +64,37 @@ class AnimeListTransformer extends AbstractTransformer {
 			]
 		];
 		
-		switch(TRUE)
-		{
-			case array_key_exists('notes', $item['data']):
-				$map['data']['comments'] = $item['data']['notes'];	
-				
-			case array_key_exists('rating', $item['data']):
-				$map['data']['score'] = $item['data']['rating'] * 2;
-				
-			case array_key_exists('reconsuming', $item['data']):
-				$map['data']['enable_rewatching'] = (bool) $item['data']['reconsuming'];	
-				
-			case array_key_exists('reconsumeCount', $item['data']):
-				$map['data']['times_rewatched'] = $item['data']['reconsumeCount'];
-				
-			case array_key_exists('status', $item['data']):
-				$map['data']['status'] = self::statusMap[$item['data']['status']];
-			
-			default:
-				break;
-		}
+		$data =& $item['data'];
 		
+		foreach($item['data'] as $key => $value)
+		{
+			switch($key) 
+			{
+				case 'notes':
+					$map['data']['comments'] = $value;
+				break;
+					
+				case 'rating':
+					$map['data']['score'] = $value * 2;
+				break;
+					
+				/* case 'reconsuming':
+					$map['data']['enable_rewatching'] = (bool) $value;
+				break;
+					
+				case 'reconsumeCount':
+					$map['data']['times_rewatched'] = $value;
+				break; */
+					
+				case 'status':
+					$map['data']['status'] = self::statusMap[$value];
+				break;
+					
+				default:
+				break;
+			}
+		}
+
 		return $map;
 	}
 }
