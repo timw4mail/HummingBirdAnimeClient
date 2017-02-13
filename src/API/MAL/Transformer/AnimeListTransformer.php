@@ -78,13 +78,13 @@ class AnimeListTransformer extends AbstractTransformer {
 					$map['data']['score'] = $value * 2;
 				break;
 					
-				/* case 'reconsuming':
+				case 'reconsuming':
 					$map['data']['enable_rewatching'] = (bool) $value;
 				break;
 					
 				case 'reconsumeCount':
 					$map['data']['times_rewatched'] = $value;
-				break; */
+				break;
 					
 				case 'status':
 					$map['data']['status'] = self::statusMap[$value];
