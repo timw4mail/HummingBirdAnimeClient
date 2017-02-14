@@ -46,12 +46,6 @@ class ListItem {
 			->setFormFields($createData)
 			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
 			->getFullRequest();
-
-		/* $response = $this->getResponse('POST', "animelist/add/{$id}.xml", [
-			'body' => $this->fixBody((new FormBody)->addFields($createData))
-		]);
-
-		return $response->getBody() === 'Created'; */
 	}
 
 	public function delete(string $id): Request
@@ -65,11 +59,7 @@ class ListItem {
 			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
 			->getFullRequest();
 
-		/*$response = $this->getResponse('DELETE', "animelist/delete/{$id}.xml", [
-			'body' => $this->fixBody((new FormBody)->addField('id', $id))
-		]);
-
-		return $response->getBody() === 'Deleted';*/
+		// return $response->getBody() === 'Deleted'
 	}
 
 	public function get(string $id): array
@@ -93,9 +83,5 @@ class ListItem {
 			])
 			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
 			->getFullRequest();
-
-		/* return $this->getResponse('POST', "animelist/update/{$id}.xml", [
-			'body' => $this->fixBody($body)
-		]); */
 	}
 }

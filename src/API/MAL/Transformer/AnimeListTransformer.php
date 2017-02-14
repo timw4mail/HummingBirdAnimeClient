@@ -32,6 +32,12 @@ class AnimeListTransformer extends AbstractTransformer {
 		AnimeWatchingStatus::PLAN_TO_WATCH => '6'
 	];
 
+	/**
+	 * Transform MAL episode data to Kitsu episode data
+	 *
+	 * @param array $item
+	 * @return array
+	 */
 	public function transform($item)
 	{
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
