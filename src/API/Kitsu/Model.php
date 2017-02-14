@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Amp\Artax\Request;
 use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu as K;
@@ -27,7 +28,6 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 };
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
-use GuzzleHttp\Exception\ClientException;
 
 /**
  * Kitsu API Model
@@ -72,9 +72,6 @@ class Model {
 	 */
 	public function __construct(ListItem $listItem)
 	{
-		// Set up Guzzle trait
-		$this->init();
-
 		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
 		$this->listItem = $listItem;
@@ -206,15 +203,56 @@ class Model {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
+	
+	/**
+	 * Get the number of anime list items
+	 *
+	 * @return int
+	 */
+	public function getAnimeListCount() : int
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername(),
+					'media_type' => 'Anime'
+				],
+				'page' => [
+					'limit' => 1
+				],
+				'sort' => '-updated_at'
+			]
+		];
+		
+		$response = $this->getRequest('library-entries', $options);
+		
+		return $response['meta']['count'];
+		
+	}
 
 	/**
 	 * Get and transform the entirety of the user's anime list
 	 *
-	 * @return array
+	 * @return Request
 	 */
-	public function getFullAnimeList(): array
+	public function getFullAnimeList(int $limit = 100, int $offset = 0): Request
 	{
-
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername($this->getUsername()),
+					'media_type' => 'Anime'
+				],
+				'include' => 'anime.mappings',
+				'page' => [
+					'offset' => $offset,
+					'limit' => $limit
+				],
+				'sort' => '-updated_at'
+			]
+		];
+		
+		return $this->setUpRequest('GET', 'library-entries', $options);
 	}
 
 	/**
@@ -355,9 +393,9 @@ class Model {
 	 * Create a list item
 	 *
 	 * @param array $data
-	 * @return bool
+	 * @return Request
 	 */
-	public function createListItem(array $data): bool
+	public function createListItem(array $data): Request
 	{
 		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
 		return $this->listItem->create($data);
@@ -397,34 +435,20 @@ class Model {
 	 * Modify a list item
 	 *
 	 * @param array $data
-	 * @return array
+	 * @return Request
 	 */
-	public function updateListItem(array $data)
+	public function updateListItem(array $data): Request
 	{
-		try
-		{
-			$response = $this->listItem->update($data['id'], $data['data']);
-			return [
-				'statusCode' => $response->getStatusCode(),
-				'body' => $response->getBody(),
-			];
-		}
-		catch(ClientException $e)
-		{
-			return [
-				'statusCode' => $e->getResponse()->getStatusCode(),
-				'body' => Json::decode((string)$e->getResponse()->getBody())
-			];
-		}
+		return $this->listItem->update($data['id'], $data['data']);
 	}
 
 	/**
 	 * Remove a list item
 	 *
 	 * @param string $id - The id of the list item to remove
-	 * @return bool
+	 * @return Request
 	 */
-	public function deleteListItem(string $id): bool
+	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
 	}

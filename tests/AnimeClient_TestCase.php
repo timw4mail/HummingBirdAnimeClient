@@ -1,12 +1,10 @@
 <?php
 
+use const Aviat\AnimeClient\SRC_DIR;
+
 use Aura\Web\WebFactory;
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\Ion\Json;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\{
 	Response as HttpResponse,
@@ -23,7 +21,7 @@ define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 class AnimeClient_TestCase extends TestCase {
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;
-	const SRC_DIR = AnimeClient::SRC_DIR;
+	const SRC_DIR = SRC_DIR;
 	const TEST_DATA_DIR = TEST_DATA_DIR;
 	const TEST_VIEW_DIR = TEST_VIEW_DIR;
 
@@ -158,26 +156,6 @@ class AnimeClient_TestCase extends TestCase {
 		$rawData = $this->getMockFile(...$args);
 
 		return Json::decode($rawData);
-	}
-
-	/**
-	 * Create a mock guzzle client for testing
-	 * api call methods
-	 *
-	 * @param  int $code The status code
-	 * @param  array $headers
-	 * @param  string $body
-	 * @return Client
-	 */
-	public function getMockClient($code, $headers, $body)
-	{
-		$mock = new MockHandler([
-			new Response($code, $headers, $body)
-		]);
-		$handler = HandlerStack::create($mock);
-		$client = new Client(['handler' => $handler]);
-
-		return $client;
 	}
 }
 // End of AnimeClient_TestCase.php

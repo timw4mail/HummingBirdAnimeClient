@@ -16,8 +16,9 @@
 
 namespace Aviat\EasyMin;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
+use function Amp\wait;
+use Amp\Artax\{Client, FormBody, Request};
+use Aviat\Ion\Json;
 
 // Include guzzle
 require_once('../vendor/autoload.php');
@@ -97,14 +98,21 @@ class JSMin extends BaseMin {
 	 */
 	protected function closure_call(array $options)
 	{
-		$client = new Client();
-		$response = $client->post('http://closure-compiler.appspot.com/compile', [
-			'headers' => [
+		$formFields = http_build_query($options);
+	
+		$request = (new Request)
+			->setMethod('POST')
+			->setUri('http://closure-compiler.appspot.com/compile')
+			->setAllHeaders([
+				'Accept' => 'application/json',
 				'Accept-Encoding' => 'gzip',
 				'Content-type' => 'application/x-www-form-urlencoded'
-			],
-			'form_params' => $options
-		]);
+			])
+			->setBody($formFields);
+		
+		$response = wait((new Client)->request($request, [
+			Client::OP_AUTO_ENCODING => false
+		]));
 
 		return $response;
 	}
@@ -118,13 +126,14 @@ class JSMin extends BaseMin {
 	protected function check_minify_errors($options)
 	{
 		$error_res = $this->closure_call($options);
-		$error_json = (string)$error_res->getBody();
-		$error_obj = json_decode($error_json) ?: (object)[];
+		$error_json = $error_res->getBody();
+		$error_obj = Json::decode($error_json) ?: (object)[];
+		
 
 		// Show error if exists
 		if ( ! empty($error_obj->errors) || ! empty($error_obj->serverErrors))
 		{
-			$error_json = json_encode($error_obj, JSON_PRETTY_PRINT);
+			$error_json = Json::encode($error_obj, JSON_PRETTY_PRINT);
 			header('Content-type: application/javascript');
 			echo "console.error(${error_json});";
 			die();
@@ -201,10 +210,11 @@ class JSMin extends BaseMin {
 		// Now actually retrieve the compiled code
 		$options['output_info'] = 'compiled_code';
 		$res = $this->closure_call($options);
-		$json = (string)$res->getBody();
-		$obj = json_decode($json);
+		$json = $res->getBody();
+		$obj = Json::decode($json);
 
-		return $obj->compiledCode;
+		//return $obj;
+		return $obj['compiledCode'];
 	}
 
 	/**
@@ -223,7 +233,7 @@ class JSMin extends BaseMin {
 // ! Start Minifying
 // --------------------------------------------------------------------------
 
-$config = require_once('../app/config/minify_config.php');
+$config = require_once('../app/appConf/minify_config.php');
 $groups = require_once($config['js_groups_file']);
 $cache_dir = "{$config['js_root']}cache";
 

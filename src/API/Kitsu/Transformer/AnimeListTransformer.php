@@ -116,7 +116,6 @@ class AnimeListTransformer extends AbstractTransformer {
 			'mal_id' => $item['mal_id'] ?? null,
 			'data' => [
 				'status' => $item['watching_status'],
-				'rating' => $item['user_rating'] / 2,
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
@@ -124,10 +123,10 @@ class AnimeListTransformer extends AbstractTransformer {
 				'private' => $privacy
 			]
 		];
-
-		if ((int) $untransformed['data']['rating'] === 0)
+		
+		if ( ! empty($item['user_rating']))
 		{
-			unset($untransformed['data']['rating']);
+			$untransformed['data']['rating'] = $item['user_rating'] / 2;
 		}
 
 		return $untransformed;

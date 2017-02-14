@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
-use Amp\Artax\FormBody;
+use Amp\Artax\{FormBody, Request};
 use Aviat\AnimeClient\API\{
 	AbstractListItem,
 	XML
@@ -30,7 +30,7 @@ class ListItem {
 	use ContainerAware;
 	use MALTrait;
 
-	public function create(array $data): bool
+	public function create(array $data): Request
 	{
 		$id = $data['id'];
 		$createData = [
@@ -40,20 +40,26 @@ class ListItem {
 			])
 		];
 
-		$response = $this->getResponse('POST', "animelist/add/{$id}.xml", [
-			'body' => $this->fixBody((new FormBody)->addFields($createData))
-		]);
+		$config = $this->container->get('config');
 
-		return $response->getBody() === 'Created';
+		return $this->requestBuilder->newRequest('POST', "animelist/add/{$id}.xml")
+			->setFormFields($createData)
+			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
+			->getFullRequest();
 	}
 
-	public function delete(string $id): bool
+	public function delete(string $id): Request
 	{
-		$response = $this->getResponse('DELETE', "animelist/delete/{$id}.xml", [
-			'body' => $this->fixBody((new FormBody)->addField('id', $id))
-		]);
+		$config = $this->container->get('config');
 
-		return $response->getBody() === 'Deleted';
+		return $this->requestBuilder->newRequest('DELETE', "animelist/delete/{$id}.xml")
+			->setFormFields([
+				'id' => $id
+			])
+			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
+			->getFullRequest();
+
+		// return $response->getBody() === 'Deleted'
 	}
 
 	public function get(string $id): array
@@ -61,15 +67,21 @@ class ListItem {
 		return [];
 	}
 
-	public function update(string $id, array $data)
+	public function update(string $id, array $data): Request
 	{
+		$config = $this->container->get('config');
+
 		$xml = XML::toXML(['entry' => $data]);
 		$body = (new FormBody)
 			->addField('id', $id)
 			->addField('data', $xml);
 
-		return $this->getResponse('POST', "animelist/update/{$id}.xml", [
-			'body' => $this->fixBody($body)
-		]);
+		return $this->requestBuilder->newRequest('POST', "animelist/update/{$id}.xml")
+			->setFormFields([
+				'id' => $id,
+				'data' => $xml
+			])
+			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
+			->getFullRequest();
 	}
 }

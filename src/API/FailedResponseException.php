@@ -16,26 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
-/**
- * Base trait for api interaction
- */
-trait GuzzleTrait {
-    /**
-     * The Guzzle http client object
-     * @var object
-     */
-    protected $client;
+use UnexpectedValueException;
 
-    /**
-     * Cookie jar object for api requests
-     * @var object
-     */
-    protected $cookieJar;
+class FailedResponseException extends UnexpectedValueException {
 
-    /**
-     * Set up the class properties
-     *
-     * @return void
-     */
-    abstract protected function init();
 }

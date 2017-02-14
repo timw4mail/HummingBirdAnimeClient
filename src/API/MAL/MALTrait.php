@@ -27,7 +27,7 @@ use Aviat\Ion\Json;
 use InvalidArgumentException;
 
 trait MALTrait {
-	
+
 	/**
 	 * The request builder for the MAL API
 	 * @var MALRequestBuilder
@@ -51,7 +51,7 @@ trait MALTrait {
 		'Content-type' => 'application/x-www-form-urlencoded',
 		'User-Agent' => "Tim's Anime Client/4.0"
 	];
-	
+
 	/**
 	 * Set the request builder object
 	 *
@@ -63,7 +63,7 @@ trait MALTrait {
 		$this->requestBuilder = $requestBuilder;
 		return $this;
 	}
-	
+
 	/**
 	 * Unencode the dual-encoded ampersands in the body
 	 *
@@ -78,58 +78,34 @@ trait MALTrait {
 		$rawBody = \Amp\wait($formBody->getBody());
 		return html_entity_decode($rawBody, \ENT_HTML5, 'UTF-8');
 	}
-	
+
 	/**
 	 * Create a request object
 	 *
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Promise
+	 * @return \Amp\Artax\Response
 	 */
 	public function setUpRequest(string $type, string $url, array $options = [])
 	{
-		$this->defaultHeaders['User-Agent'] = $_SERVER['HTTP_USER_AGENT'] ?? $this->defaultHeaders;
-
-		$type = strtoupper($type);
-		$validTypes = ['GET', 'POST', 'DELETE'];
-
-		if ( ! in_array($type, $validTypes))
-		{
-			throw new InvalidArgumentException('Invalid http request type');
-		}
-
 		$config = $this->container->get('config');
-		$logger = $this->container->getLogger('mal-request');
 
-		$headers = array_merge($this->defaultHeaders, $options['headers'] ?? [],  [
-			'Authorization' =>  'Basic ' .
-				base64_encode($config->get(['mal','username']) . ':' .$config->get(['mal','password']))
-		]);
+		$request = $this->requestBuilder
+			->newRequest($type, $url)
+			->setBasicAuth($config->get(['mal','username']), $config->get(['mal','password']));
 
-		$query = $options['query'] ?? [];
-
-		$url = (strpos($url, '//') !== FALSE)
-			? $url
-			: $this->baseUrl . $url;
-
-		if ( ! empty($query))
+		if (array_key_exists('query', $options))
 		{
-			$url .= '?' . http_build_query($query);
+			$request->setQuery($options['query']);
 		}
-
-		$request = (new Request)
-			->setMethod($type)
-			->setUri($url)
-			->setProtocol('1.1')
-			->setAllHeaders($headers);
 
 		if (array_key_exists('body', $options))
 		{
 			$request->setBody($options['body']);
 		}
-		
-		return $request;
+
+		return $request->getFullRequest();
 	}
 
 	/**
@@ -147,19 +123,16 @@ trait MALTrait {
 		{
 			$logger = $this->container->getLogger('mal-request');
 		}
-		
+
 		$request = $this->setUpRequest($type, $url, $options);
 		$response = \Amp\wait((new Client)->request($request));
 
-		$logger->debug('MAL api request', [
-			'url' => $url,
+		$logger->debug('MAL api response', [
 			'status' => $response->getStatus(),
 			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
 			'headers' => $response->getAllHeaders(),
 			'requestHeaders' => $request->getAllHeaders(),
-			'requestBody' => $request->hasBody() ? $request->getBody() : 'No request body',
-			'requestBodyBeforeEncode' => $request->hasBody() ? urldecode($request->getBody()) : '',
-			'body' => $response->getBody()
 		]);
 
 		return $response;
