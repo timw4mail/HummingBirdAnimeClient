@@ -20,7 +20,7 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\wait;
 
-use Amp\Artax\Client;
+use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Json;
@@ -53,9 +53,9 @@ trait KitsuTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Artax\Response
+	 * @return \Amp\Artax\Request
 	 */
-	public function setUpRequest(string $type, string $url, array $options = [])
+	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
 		$config = $this->container->get('config');
 
@@ -69,7 +69,6 @@ trait KitsuTrait {
 		{
 			$token = $sessionSegment->get('auth_token');
 			$request = $request->setAuth('bearer', $token);
-			// $defaultOptions['headers']['Authorization'] = "bearer {$token}";
 		}
 		
 		if (array_key_exists('form_params', $options))
@@ -138,7 +137,7 @@ trait KitsuTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call', $response->getBody());
+				$logger->warning('Non 200 response for api call', (array)$response->getBody());
 			}
 		}
 

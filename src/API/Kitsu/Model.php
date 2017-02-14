@@ -203,15 +203,56 @@ class Model {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
+	
+	/**
+	 * Get the number of anime list items
+	 *
+	 * @return int
+	 */
+	public function getAnimeListCount() : int
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername(),
+					'media_type' => 'Anime'
+				],
+				'page' => [
+					'limit' => 1
+				],
+				'sort' => '-updated_at'
+			]
+		];
+		
+		$response = $this->getRequest('library-entries', $options);
+		
+		return $response['meta']['count'];
+		
+	}
 
 	/**
 	 * Get and transform the entirety of the user's anime list
 	 *
-	 * @return array
+	 * @return Request
 	 */
-	public function getFullAnimeList(): array
+	public function getFullAnimeList(int $limit = 100, int $offset = 0): Request
 	{
-
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername($this->getUsername()),
+					'media_type' => 'Anime'
+				],
+				'include' => 'anime.mappings',
+				'page' => [
+					'offset' => $offset,
+					'limit' => $limit
+				],
+				'sort' => '-updated_at'
+			]
+		];
+		
+		return $this->setUpRequest('GET', 'library-entries', $options);
 	}
 
 	/**

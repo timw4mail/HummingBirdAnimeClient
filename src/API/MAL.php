@@ -36,6 +36,14 @@ class MAL {
 		KAWS::DROPPED => AnimeWatchingStatus::DROPPED,
 		KAWS::PLAN_TO_WATCH => AnimeWatchingStatus::PLAN_TO_WATCH
 	];
+	
+	const MAL_KITSU_WATCHING_STATUS_MAP = [
+		1 => KAWS::WATCHING,
+		2 => KAWS::COMPLETED,
+		3 => KAWS::ON_HOLD,
+		4 => KAWS::DROPPED,
+		6 => KAWS::PLAN_TO_WATCH
+	];
 
 	public static function getIdToWatchingStatusMap()
 	{

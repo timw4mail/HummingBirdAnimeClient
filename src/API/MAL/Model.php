@@ -36,12 +36,17 @@ class Model {
 	protected $animeListTransformer;
 
 	/**
-	 * KitsuModel constructor.
+	 * MAL Model constructor.
 	 */
 	public function __construct(ListItem $listItem)
 	{
 		$this->animeListTransformer = new AnimeListTransformer();
 		$this->listItem = $listItem;
+	}
+	
+	public function createFullListItem(array $data): Request
+	{
+		return $this->listItem->create($data);
 	}
 
 	public function createListItem(array $data): Request
@@ -70,7 +75,7 @@ class Model {
 			]
 		]);
 
-		return $list;//['anime'];
+		return $list['myanimelist']['anime'];
 	}
 
 	public function getListItem(string $listId): array
