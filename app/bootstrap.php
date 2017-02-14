@@ -19,17 +19,9 @@ namespace Aviat\AnimeClient;
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\Kitsu\{
-	Auth as KitsuAuth,
-	ListItem as KitsuListItem,
-	KitsuRequestBuilder,
-	Model as KitsuModel
-};
-use Aviat\AnimeClient\API\MAL\{
-	ListItem as MALListItem,
-	MALRequestBuilder,
-	Model as MALModel
-};
+use Aviat\AnimeClient\API\{Kitsu, MAL};
+use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
+use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
@@ -119,15 +111,15 @@ return function(array $config_array = []) {
 	$container->set('kitsu-model', function($container) {
 		$requestBuilder = new KitsuRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
-		
-		$listItem = new KitsuListItem();
+
+		$listItem = new Kitsu\ListItem();
 		$listItem->setContainer($container);
 		$listItem->setRequestBuilder($requestBuilder);
-		
-		$model = new KitsuModel($listItem);
+
+		$model = new Kitsu\Model($listItem);
 		$model->setContainer($container);
 		$model->setRequestBuilder($requestBuilder);
-		
+
 		$cache = $container->get('cache');
 		$model->setCache($cache);
 		return $model;
@@ -135,12 +127,12 @@ return function(array $config_array = []) {
 	$container->set('mal-model', function($container) {
 		$requestBuilder = new MALRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('mal-request'));
-		
-		$listItem = new MALListItem();
+
+		$listItem = new MAL\ListItem();
 		$listItem->setContainer($container);
 		$listItem->setRequestBuilder($requestBuilder);
-		
-		$model = new MALModel($listItem);
+
+		$model = new MAL\Model($listItem);
 		$model->setContainer($container);
 		$model->setRequestBuilder($requestBuilder);
 		return $model;
@@ -161,7 +153,7 @@ return function(array $config_array = []) {
 
 	// Miscellaneous Classes
 	$container->set('auth', function($container) {
-		return new KitsuAuth($container);
+		return new Kitsu\Auth($container);
 	});
 	$container->set('url-generator', function($container) {
 		return new UrlGenerator($container);

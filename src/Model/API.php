@@ -39,12 +39,6 @@ class API extends Model {
 	protected $cache;
 
 	/**
-	 * Default settings for Guzzle
-	 * @var array
-	 */
-	protected $connectionDefaults = [];
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container

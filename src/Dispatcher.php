@@ -16,9 +16,16 @@
 
 namespace Aviat\AnimeClient;
 
+use const Aviat\AnimeClient\{
+	DEFAULT_CONTROLLER,
+	DEFAULT_CONTROLLER_NAMESPACE,
+	ERROR_MESSAGE_METHOD,
+	NOT_FOUND_METHOD,
+	SRC_DIR
+};
+
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
-use GuzzleHttp\Exception\ServerException;
 
 /**
  * Basic routing/ dispatch
@@ -125,27 +132,12 @@ class Dispatcher extends RoutingBase {
 			// If not route was matched, return an appropriate http
 			// error message
 			$error_route = $this->getErrorParams();
-			$controllerName = AnimeClient::DEFAULT_CONTROLLER;
+			$controllerName = DEFAULT_CONTROLLER;
 			$actionMethod = $error_route['action_method'];
 			$params = $error_route['params'];
 		}
-		
-		// Try to catch API errors in a presentable fashion
-		try
-		{
-			// Actually instantiate the controller
-			$this->call($controllerName, $actionMethod, $params);
-		}
-		catch (ServerException $e)
-		{
-			$response = $e->getResponse();
-			$this->call(AnimeClient::DEFAULT_CONTROLLER, AnimeClient::ERROR_MESSAGE_METHOD, [
-				$response->getStatusCode(),
-				'API Error',
-				'There was a problem getting data from an external source.',
-				(string) $response->getBody()
-			]);
-		}
+
+		$this->call($controllerName, $actionMethod, $params);
 	}
 
 	/**
@@ -176,7 +168,7 @@ class Dispatcher extends RoutingBase {
 
 		$action_method = (array_key_exists('action', $route->attributes))
 			? $route->attributes['action']
-			: AnimeClient::NOT_FOUND_METHOD;
+			: NOT_FOUND_METHOD;
 
 		$params = [];
 		if ( ! empty($route->__get('tokens')))
@@ -229,11 +221,11 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function getControllerList()
 	{
-		$default_namespace = AnimeClient::DEFAULT_CONTROLLER_NAMESPACE;
+		$default_namespace = DEFAULT_CONTROLLER_NAMESPACE;
 		$path = str_replace('\\', '/', $default_namespace);
 		$path = str_replace('Aviat/AnimeClient/', '', $path);
 		$path = trim($path, '/');
-		$actual_path = realpath(_dir(AnimeClient::SRC_DIR, $path));
+		$actual_path = realpath(_dir(SRC_DIR, $path));
 		$class_files = glob("{$actual_path}/*.php");
 
 		$controllers = [];
@@ -285,7 +277,7 @@ class Dispatcher extends RoutingBase {
 		$logger->info('Dispatcher - failed route');
 		$logger->info(print_r($failure, TRUE));
 
-		$action_method = AnimeClient::ERROR_MESSAGE_METHOD;
+		$action_method = ERROR_MESSAGE_METHOD;
 
 		$params = [];
 
@@ -308,7 +300,7 @@ class Dispatcher extends RoutingBase {
 
 			default:
 				// Fall back to a 404 message
-				$action_method = AnimeClient::NOT_FOUND_METHOD;
+				$action_method = NOT_FOUND_METHOD;
 			break;
 		}
 
@@ -337,7 +329,7 @@ class Dispatcher extends RoutingBase {
 			$controller_map = $this->getControllerList();
 			$controller_class = (array_key_exists($route_type, $controller_map))
 				? $controller_map[$route_type]
-				: AnimeClient::DEFAULT_CONTROLLER;
+				: DEFAULT_CONTROLLER;
 
 			if (array_key_exists($route_type, $controller_map))
 			{

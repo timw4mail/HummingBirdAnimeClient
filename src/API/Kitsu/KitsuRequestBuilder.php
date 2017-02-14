@@ -20,8 +20,8 @@ use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Json;
 
-class KitsuRequestBuilder extends APIRequestBuilder {	
-	
+class KitsuRequestBuilder extends APIRequestBuilder {
+
 	/**
 	 * The base url for api requests
 	 * @var string $base_url
@@ -40,16 +40,4 @@ class KitsuRequestBuilder extends APIRequestBuilder {
 		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
 		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
-	
-	/**
-	 * Set the request body
-	 *
-	 * @param array|FormBody|string $body
-	 * @return self
-	 */
-	public function setJsonBody(array $body): self
-	{
-		$requestBody = Json::encode($body);
-		return $this->setBody($requestBody);
-	}
 }

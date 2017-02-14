@@ -16,11 +16,12 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+
+use Amp\Artax\Request;
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Response;
 use RuntimeException;
 
 /**
@@ -30,59 +31,100 @@ class ListItem extends AbstractListItem {
 	use ContainerAware;
 	use KitsuTrait;
 
-	public function __construct()
+	private function getAuthHeader()
 	{
-		$this->init();
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		if ($sessionSegment->get('auth_token') !== null)
+		{
+			$token = $sessionSegment->get('auth_token');
+			return "bearer {$token}";
+		}
+
+		return FALSE;
 	}
 
-	public function create(array $data): bool
+	public function create(array $data): Request
 	{
-		$response = $this->getResponse('POST', 'library-entries', [
-			'body' => Json::encode([
-				'data' => [
-					'type' => 'libraryEntries',
-					'attributes' => [
-						'status' => $data['status'],
-						'progress' => $data['progress'] ?? 0
+		$body = [
+			'data' => [
+				'type' => 'libraryEntries',
+				'attributes' => [
+					'status' => $data['status'],
+					'progress' => $data['progress'] ?? 0
+				],
+				'relationships' => [
+					'user' => [
+						'data' => [
+							'id' => $data['user_id'],
+							'type' => 'users'
+						]
 					],
-					'relationships' => [
-						'user' => [
-							'data' => [
-								'id' => $data['user_id'],
-								'type' => 'users'
-							]
-						],
-						'media' => [
-							'data' => [
-								'id' => $data['id'],
-								'type' => $data['type']
-							]
+					'media' => [
+						'data' => [
+							'id' => $data['id'],
+							'type' => $data['type']
 						]
 					]
 				]
-			])
-		]);
+			]
+		];
 
-		return ($response->getStatusCode() === 201);
+		$authHeader = $this->getAuthHeader();
+
+		$request = $this->requestBuilder->newRequest('POST', 'library-entries');
+
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+
+		return $request->setJsonBody($body)
+			->getFullRequest();
+
+		// return ($response->getStatus() === 201);
 	}
 
-	public function delete(string $id): bool
+	public function delete(string $id): Request
 	{
-		$response = $this->getResponse('DELETE', "library-entries/{$id}");
-		return ($response->getStatusCode() === 204);
+		$authHeader = $this->getAuthHeader();
+		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
+
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+
+		return $request->getFullRequest();
+
+		// return ($response->getStatus() === 204);
 	}
 
 	public function get(string $id): array
 	{
-		return $this->getRequest("library-entries/{$id}", [
-			'query' => [
+		$authHeader = $this->getAuthHeader();
+		
+		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
+			->setQuery([
 				'include' => 'media,media.genres,media.mappings'
-			]
-		]);
+			]);
+		
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+		
+		$request = $request->getFullRequest();
+
+		$response = \Amp\wait((new \Amp\Artax\Client)->request($request));
+		return Json::decode($response->getBody());
 	}
 
-	public function update(string $id, array $data): Response
+	public function update(string $id, array $data): Request
 	{
+		$authHeader = $this->getAuthHeader();
 		$requestData = [
 			'data' => [
 				'id' => $id,
@@ -90,11 +132,15 @@ class ListItem extends AbstractListItem {
 				'attributes' => $data
 			]
 		];
-
-		$response = $this->getResponse('PATCH', "library-entries/{$id}", [
-			'body' => JSON::encode($requestData)
-		]);
-
-		return $response;
+		
+		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
+			->setJsonBody($requestData);
+		
+		if ($authHeader !== FALSE)
+		{
+			$request = $request->setHeader('Authorization', $authHeader);
+		}
+		
+		return $request->getFullRequest();
 	}
 }

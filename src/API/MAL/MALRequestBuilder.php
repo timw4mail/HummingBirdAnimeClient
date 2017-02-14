@@ -23,7 +23,7 @@ use Aviat\AnimeClient\API\{
 };
 
 class MALRequestBuilder extends APIRequestBuilder {
-	
+
 	/**
 	 * The base url for api requests
 	 * @var string $base_url
@@ -41,7 +41,7 @@ class MALRequestBuilder extends APIRequestBuilder {
 		'Content-type' => 'application/x-www-form-urlencoded',
 		'User-Agent' => "Tim's Anime Client/4.0"
 	];
-	
+
 	/**
 	 * Valid HTTP request methos
 	 * @var array

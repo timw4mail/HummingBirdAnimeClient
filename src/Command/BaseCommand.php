@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use function Aviat\AnimeClient\loadToml;
+
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{
 	AnimeClient,
@@ -23,15 +25,9 @@ use Aviat\AnimeClient\{
 	Util
 };
 use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\Kitsu\{
-	Auth as KitsuAuth,
-	ListItem as KitsuListItem,
-	Model as KitsuModel
-};
-use Aviat\AnimeClient\API\MAL\{
-	ListItem as MALListItem,
-	Model as MALModel
-};
+use Aviat\AnimeClient\API\{Kitsu, MAL};
+use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
+use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
@@ -69,26 +65,30 @@ class BaseCommand extends Command {
 	protected function setupContainer()
 	{
 		$APP_DIR = realpath(__DIR__ . '/../../app');
+		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		require_once $CONF_DIR . '/base_config.php'; // $base_config
+		require_once $APPCONF_DIR . '/base_config.php'; // $base_config
 
-		$config = AnimeClient::loadToml($CONF_DIR);
+		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
 		$di = function ($config_array) use ($APP_DIR) {
 			$container = new Container();
-			
+
 			// -------------------------------------------------------------------------
 			// Logging
 			// -------------------------------------------------------------------------
 
 			$app_logger = new Logger('animeclient');
 			$app_logger->pushHandler(new NullHandler);
-			$request_logger = new Logger('request');
-			$request_logger->pushHandler(new NullHandler);
+			$kitsu_request_logger = new Logger('kitsu-request');
+			$kitsu_request_logger->pushHandler(new NullHandler);
+			$mal_request_logger = new Logger('mal-request');
+			$mal_request_logger->pushHandler(new NullHandler);
 			$container->setLogger($app_logger, 'default');
-			$container->setLogger($request_logger, 'request');
-			
+			$container->setLogger($kitsu_request_logger, 'kitsu-request');
+			$container->setLogger($mal_request_logger, 'mal-request');
+
 			// Create Config Object
 			$container->set('config', function() use ($config_array) {
 				return new Config($config_array);
@@ -108,21 +108,35 @@ class BaseCommand extends Command {
 
 			// Models
 			$container->set('kitsu-model', function($container) {
-				$listItem = new KitsuListItem();
+				$requestBuilder = new KitsuRequestBuilder();
+				$requestBuilder->setLogger($container->getLogger('kitsu-request'));
+
+				$listItem = new Kitsu\ListItem();
 				$listItem->setContainer($container);
-				$model = new KitsuModel($listItem);
+				$listItem->setRequestBuilder($requestBuilder);
+
+				$model = new Kitsu\Model($listItem);
 				$model->setContainer($container);
+				$model->setRequestBuilder($requestBuilder);
+
 				$cache = $container->get('cache');
 				$model->setCache($cache);
 				return $model;
 			});
 			$container->set('mal-model', function($container) {
-				$listItem = new MALListItem();
+				$requestBuilder = new MALRequestBuilder();
+				$requestBuilder->setLogger($container->getLogger('mal-request'));
+
+				$listItem = new MAL\ListItem();
 				$listItem->setContainer($container);
-				$model = new MALModel($listItem);
+				$listItem->setRequestBuilder($requestBuilder);
+
+				$model = new MAL\Model($listItem);
 				$model->setContainer($container);
+				$model->setRequestBuilder($requestBuilder);
 				return $model;
 			});
+
 			$container->set('util', function($container) {
 				return new Util($container);
 			});

@@ -15,6 +15,10 @@
  */
 
 namespace Aviat\AnimeClient\Model;
+
+use function Amp\some;
+use function Amp\wait;
+use Amp\Artax\Client;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
@@ -91,9 +95,15 @@ class Anime extends API {
 		return $this->kitsuModel->getAnime($slug);
 	}
 
-	public function getAnimeById($anime_id)
+	/**
+	 * Get anime by its kitsu id
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
+	public function getAnimeById($animeId)
 	{
-		return $this->kitsuModel->getAnimeById($anime_id);
+		return $this->kitsuModel->getAnimeById($animeId);
 	}
 
 	/**
@@ -104,7 +114,6 @@ class Anime extends API {
 	 */
 	public function search($name)
 	{
-		// $raw = $this->kitsuModel->search('anime', $name);
 		return $this->kitsuModel->search('anime', $name);
 	}
 
@@ -128,6 +137,8 @@ class Anime extends API {
 	 */
 	public function createLibraryItem(array $data): bool
 	{
+		$requests = [];
+
 		if ($this->useMALAPI)
 		{
 			$malData = $data;
@@ -136,11 +147,17 @@ class Anime extends API {
 			if ( ! is_null($malId))
 			{
 				$malData['id'] = $malId;
-				$this->malModel->createListItem($malData);
+				$requests['mal'] = $this->malModel->createListItem($malData);
 			}
 		}
 
-		return $this->kitsuModel->createListItem($data);
+		$requests['kitsu'] = $this->kitsuModel->createListItem($data);
+
+		$promises = (new Client)->requestMulti($requests);
+
+		$results = wait(some($promises));
+
+		return count($results[1]) > 0;
 	}
 
 	/**
@@ -151,12 +168,23 @@ class Anime extends API {
 	 */
 	public function updateLibraryItem(array $data): array
 	{
+		$requests = []; 
+		
 		if ($this->useMALAPI)
 		{
-			$this->malModel->updateListItem($data);
+			$requests['mal'] = $this->malModel->updateListItem($data);
 		}
 
-		return $this->kitsuModel->updateListItem($data);
+		$requests['kitsu'] = $this->kitsuModel->updateListItem($data);
+		
+		$promises = (new Client)->requestMulti($requests);
+
+		$results = wait(some($promises));
+		
+		return [
+			'body' => Json::decode($results[1]['kitsu']->getBody()),
+			'statusCode' => $results[1]['kitsu']->getStatus()
+		];
 	}
 
 	/**
@@ -168,12 +196,18 @@ class Anime extends API {
 	 */
 	public function deleteLibraryItem(string $id, string $malId = null): bool
 	{
+		$requests = [];
+
 		if ($this->useMALAPI && ! is_null($malId))
 		{
-			$this->malModel->deleteListItem($malId);
+			$requests['mal'] = $this->malModel->deleteListItem($malId);
 		}
 
-		return $this->kitsuModel->deleteListItem($id);
+		$requests['kitsu'] = $this->kitsuModel->deleteListItem($id);
+
+		$results = wait(some((new Client)->requestMulti($requests)));
+
+		return count($results[1]) > 0;
 	}
 }
 // End of AnimeModel.php

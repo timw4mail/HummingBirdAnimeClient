@@ -160,7 +160,7 @@ class CSSMin extends BaseMin {
 // --------------------------------------------------------------------------
 
 //Get config files
-$config = require('../app/config/minify_config.php');
+$config = require('../app/appConf/minify_config.php');
 $groups = require($config['css_groups_file']);
 
 if ( ! array_key_exists($_GET['g'], $groups))
