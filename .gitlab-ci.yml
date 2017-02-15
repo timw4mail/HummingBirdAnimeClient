@@ -1,10 +1,3 @@
-# Composer stores all downloaded packages in the vendor/ directory.
-# Do not use the following if the vendor/ directory is commited to
-# your git repository.
-
-services:
-    - redis:latest
-
 stages:
     - test
 
@@ -17,7 +10,7 @@ test:7:
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7-alpine
     script:
-      - phpunit -c build --coverage-text --colors=never
+      - ./vendor/bin/phpunit -c build --coverage-text --colors=never
 
 test:7.1:
     stage: test
@@ -27,7 +20,7 @@ test:7.1:
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7.1-alpine
     script:
-      - phpunit -c build --coverage-text --colors=never
+      - ./vendor/bin/phpunit -c build --coverage-text --colors=never
 
 #test:hhvm:
 #    stage: test
