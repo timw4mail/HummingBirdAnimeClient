@@ -122,7 +122,7 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function add_form()
+	public function addForm()
 	{
 		$statuses = [
 			AnimeWatchingStatus::WATCHING => 'Currently Watching',
@@ -220,17 +220,17 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function form_update()
+	public function formUpdate()
 	{
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
-		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem($post_data);
+		$postData = $transformer->untransform($data);
+		$fullResult = $this->model->updateLibraryItem($postData);
 
-		if ($full_result['statusCode'] === 200)
+		if ($fullResult['statusCode'] === 200)
 		{
 			$this->set_flash_message("Successfully updated.", 'success');
 			$this->cache->clear();
@@ -291,12 +291,12 @@ class Anime extends BaseController {
 	/**
 	 * View details of an anime
 	 *
-	 * @param string $anime_id
+	 * @param string $animeId
 	 * @return void
 	 */
-	public function details($anime_id)
+	public function details($animeId)
 	{
-		$data = $this->model->getAnime($anime_id);
+		$data = $this->model->getAnime($animeId);
 
 		$this->outputHTML('anime/details', [
 			'title' => 'Anime &middot ' . $data['titles'][0],
