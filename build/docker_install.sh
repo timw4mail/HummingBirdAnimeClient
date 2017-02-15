@@ -12,12 +12,11 @@ apk upgrade --update && apk add \
 	libxslt-dev \
 	zlib-dev
 	
+# Install xdebug for coverage report
+docker-php-source extract
 pecl install xdebug
-
-echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)\n" >> /usr/local/etc/php/conf.d/xdebug.ini
-#echo "xdebug.remote_enable=on\n" >> /usr/local/etc/php/conf.d/xdebug.ini
-#echo "xdebug.remote_autostart=off\n" >> /usr/local/etc/php/conf.d/xdebug.ini
-#echo "xdebug.remote_port=9000\n" >> /usr/local/etc/php/conf.d/xdebug.ini
+docker-php-ext-enable xdebug
+docker-php-source delete
 
 # Install phpunit, the tool that we will use for testing
 curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
