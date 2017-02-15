@@ -14,7 +14,7 @@ test:7:
     before_script:
       - sh build/docker_install.sh > /dev/null
       - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install --no-dev
+      - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7-alpine
     script:
       - phpunit -c build --coverage-text --colors=never
@@ -24,7 +24,7 @@ test:7.1:
     before_script:
       - sh build/docker_install.sh > /dev/null
       - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install --no-dev
+      - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7.1-alpine
     script:
       - phpunit -c build --coverage-text --colors=never
