@@ -42,11 +42,11 @@ class MangaListTransformer extends AbstractTransformer {
 			? intval(2 * $item['attributes']['rating'])
 			: '-';
 
-		$total_chapters = ($manga['attributes']['chapterCount'] > 0)
+		$totalChapters = ($manga['attributes']['chapterCount'] > 0)
 			? $manga['attributes']['chapterCount']
 			: '-';
 
-		$total_volumes = ($manga['attributes']['volumeCount'] > 0)
+		$totalVolumes = ($manga['attributes']['volumeCount'] > 0)
 			? $manga['attributes']['volumeCount']
 			: '-';
 
@@ -54,11 +54,11 @@ class MangaListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'chapters' => [
 				'read' => $item['attributes']['progress'],
-				'total' => $total_chapters
+				'total' => $totalChapters
 			],
 			'volumes' => [
 				'read' => '-', //$item['attributes']['volumes_read'],
-				'total' => $total_volumes
+				'total' => $totalVolumes
 			],
 			'manga' => [
 				'titles' => Kitsu::filterTitles($manga['attributes']),
