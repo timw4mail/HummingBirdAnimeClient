@@ -55,7 +55,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 	public function dataRoute()
 	{
-		$default_config = [
+		$defaultConfig = [
 			'routes' => [
 				'routes' => [
 					'login_form' => [
@@ -94,25 +94,25 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 		$data = [
 			'anime_default_routing_manga' => [
-				'config' => $default_config,
+				'config' => $defaultConfig,
 				'controller' => 'manga',
 				'host' => "localhost",
 				'uri' => "/manga/plan_to_read",
 			],
 			'manga_default_routing_anime' => [
-				'config' => $default_config,
+				'config' => $defaultConfig,
 				'controller' => 'anime',
 				'host' => "localhost",
 				'uri' => "/anime/watching",
 			],
 			'anime_default_routing_anime' => [
-				'config' => $default_config,
+				'config' => $defaultConfig,
 				'controller' => 'anime',
 				'host' => 'localhost',
 				'uri' => '/anime/watching',
 			],
 			'manga_default_routing_manga' => [
-				'config' => $default_config,
+				'config' => $defaultConfig,
 				'controller' => 'manga',
 				'host' => 'localhost',
 				'uri' => '/manga/plan_to_read'
