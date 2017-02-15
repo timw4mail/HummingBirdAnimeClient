@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\Di\ContainerInterface;
+use InvalidArgumentException;
 
 /**
  * UrlGenerator class.
@@ -45,31 +46,14 @@ class UrlGenerator extends RoutingBase {
 	 *
 	 * @return string
 	 */
-	public function asset_url()
+	public function assetUrl(...$args)
 	{
-		$args = func_get_args();
-		$base_url = rtrim($this->url(""), '/');
+		$baseUrl = rtrim($this->url(""), '/');
+		$baseUrl = "{$baseUrl}" . $this->__get("asset_path");
 
-		$base_url = "{$base_url}" . $this->__get("asset_path");
-
-		array_unshift($args, $base_url);
+		array_unshift($args, $baseUrl);
 
 		return implode("/", $args);
-	}
-
-	/**
-	 * Get the base url from the config
-	 *
-	 * @param string $type - (optional) The controller
-	 * @return string
-	 */
-	public function base_url($type = "anime")
-	{
-		$config_path = trim($this->__get("{$type}_path"), "/");
-
-		$path = ($config_path !== '') ? $config_path : "";
-
-		return implode("/", ['/', $this->host, $path]);
 	}
 
 	/**
@@ -108,20 +92,20 @@ class UrlGenerator extends RoutingBase {
 	 * Full default path for the list pages
 	 *
 	 * @param string $type
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	public function default_url($type)
+	public function defaultUrl($type)
 	{
 		$type = trim($type);
-		$default_path = $this->__get("default_{$type}_list_path");
+		$defaultPath = $this->__get("default_{$type}_list_path");
 
-		if ( ! is_null($default_path))
+		if ( ! is_null($defaultPath))
 		{
-			return $this->url("{$type}/{$default_path}");
+			return $this->url("{$type}/{$defaultPath}");
 		}
 
-		throw new \InvalidArgumentException("Invalid default type: '{$type}'");
+		throw new InvalidArgumentException("Invalid default type: '{$type}'");
 	}
 
 	/**
@@ -131,7 +115,7 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $type - (optional) The controller (anime or manga), defaults to anime
 	 * @return string
 	 */
-	public function full_url($path = "", $type = "anime")
+	public function fullUrl($path = "", $type = "anime")
 	{
 		$config_default_route = $this->__get("default_{$type}_path");
 

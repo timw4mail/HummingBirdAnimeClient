@@ -125,7 +125,7 @@ class Controller {
 	public function redirectToDefaultRoute()
 	{
 		$default_type = $this->config->get(['routes', 'route_config', 'default_list']);
-		$this->redirect($this->urlGenerator->default_url($default_type), 303);
+		$this->redirect($this->urlGenerator->defaultUrl($default_type), 303);
 	}
 
 	/**

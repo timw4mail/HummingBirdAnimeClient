@@ -32,8 +32,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 	{
 		$urlGenerator = new UrlGenerator($this->container);
 
-		$result = call_user_func_array([$urlGenerator, 'asset_url'], $args);
-
+		$result = $urlGenerator->assetUrl(...$args);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -88,51 +87,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 		$this->container->setInstance('config', $config);
 		$urlGenerator = new UrlGenerator($this->container);
 
-		$result = $urlGenerator->full_url($path, $type);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function dataBaseUrl()
-	{
-		$config = [
-			'routes' => [
-				'routes' => [],
-				'route_config' => [
-					'anime_path' => 'anime',
-					'manga_path' => 'manga',
-					'default_list' => 'manga',
-					'default_anime_path' => '/watching',
-					'default_manga_path' => '/all',
-					'default_to_list_view' => TRUE,
-				],
-			]
-		];
-
-		return [
-			'path_based_routing_anime' => [
-				'config' => $config,
-				'type' => 'anime',
-				'expected' => '//localhost/anime'
-			],
-			'path_based_routing_manga' => [
-				'config' => $config,
-				'type' => 'manga',
-				'expected' => '//localhost/manga'
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider dataBaseUrl
-	 */
-	public function testBaseUrl($config, $type, $expected)
-	{
-		$config = new Config($config);
-		$this->container->setInstance('config', $config);
-		$urlGenerator = new UrlGenerator($this->container);
-
-		$result = $urlGenerator->base_url($type);
+		$result = $urlGenerator->fullUrl($path, $type);
 
 		$this->assertEquals($expected, $result);
 	}

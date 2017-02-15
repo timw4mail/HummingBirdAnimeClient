@@ -7,8 +7,8 @@
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
 	<link rel="icon" href="/favicon.ico" />
-	<link rel="stylesheet" href="<?= $urlGenerator->asset_url('css.php/g/base') ?>" />
-	<script src="<?= $urlGenerator->asset_url('js.php/g/base') ?>"></script>
+	<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css.php/g/base') ?>" />
+	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/base') ?>"></script>
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
 	<header>

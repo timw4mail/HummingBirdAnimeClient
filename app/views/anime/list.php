@@ -87,4 +87,4 @@
 <?php endif ?>
 </main>
 <?php $group = ($auth->is_authenticated()) ? 'table_edit' : 'table' ?>
-<script src="<?= $urlGenerator->asset_url("js.php/g/{$group}") ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$group}") ?>"></script>

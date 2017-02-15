@@ -17,8 +17,10 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
+use Aviat\AnimeClient\Model\{
+	Anime as AnimeModel,
+	AnimeCollection as AnimeCollectionModel
+};
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerInterface;
 
@@ -119,7 +121,7 @@ class Collection extends BaseController {
 
 		$this->outputHTML('collection/' . strtolower($action), [
 			'action' => $action,
-			'action_url' => $this->urlGenerator->full_url('collection/' . strtolower($action)),
+			'action_url' => $this->urlGenerator->fullUrl('collection/' . strtolower($action)),
 			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
 			'media_items' => $this->animeCollectionModel->get_media_type_list(),
 			'item' => ($action === "Edit") ? $this->animeCollectionModel->get($id) : []
