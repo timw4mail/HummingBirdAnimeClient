@@ -15,7 +15,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 	protected $router;
 	protected $config;
 
-	protected function _set_up($config, $uri, $host)
+	protected function doSetUp($config, $uri, $host)
 	{
 		// Set up the environment
 		$_SERVER = array_merge($_SERVER, [
@@ -49,7 +49,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 	public function testRouterSanity()
 	{
-		$this->_set_up([], '/', 'localhost');
+		$this->doSetUp([], '/', 'localhost');
 		$this->assertTrue(is_object($this->router));
 	}
 
@@ -130,11 +130,9 @@ class DispatcherTest extends AnimeClient_TestCase {
 	 */
 	public function testRoute($config, $controller, $host, $uri)
 	{
-		$this->_set_up($config, $uri, $host);
+		$this->doSetUp($config, $uri, $host);
 
 		$request = $this->container->get('request');
-		$aura_router = $this->container->get('aura-router');
-
 
 		// Check route setup
 		$this->assertEquals($config['routes'], $this->config->get('routes'), "Incorrect route path");
@@ -191,7 +189,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 			]
 		];
 
-		$this->_set_up($config, "/", "localhost");
+		$this->doSetUp($config, "/", "localhost");
 		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
 		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
 
@@ -252,7 +250,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 	 */
 	public function testGetControllerList($config, $expected)
 	{
-		$this->_set_up($config, '/', 'localhost');
+		$this->doSetUp($config, '/', 'localhost');
 		$this->assertEquals($expected, $this->router->getControllerList());
 	}
 }

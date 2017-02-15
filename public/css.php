@@ -74,7 +74,7 @@ class CSSMin extends BaseMin {
 
 		//Remove tabs, spaces, newlines, etc.
 		$buffer = preg_replace('`\s+`', ' ', $buffer);
-		$replace = array(
+		$replace = [
 			' )' => ')',
 			') ' => ')',
 			' }' => '}',
@@ -84,7 +84,7 @@ class CSSMin extends BaseMin {
 			', ' => ',',
 			': ' => ':',
 			'; ' => ';',
-		);
+		];
 
 		//Eradicate every last space!
 		$buffer = trim(strtr($buffer, $replace));
@@ -101,7 +101,7 @@ class CSSMin extends BaseMin {
 	 */
 	protected function get_last_modified()
 	{
-		$modified = array();
+		$modified = [];
 
 		// Get all the css files, and concatenate them together
 		if(isset($this->group))
