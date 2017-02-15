@@ -9,14 +9,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 set -xe
 
 # Install git (the php image doesn't have it) which is required by composer
-apt-get update -yqq
-apt-get install \
+apk upgrade --update && apk add \
+	curl \
 	git \
 	libxslt1-dev \
 	libxslt1.1 \
 	zlib1g-dev \
-	unzip \
-	-yqq
+	unzip
 
 # Install phpunit, the tool that we will use for testing
 curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
