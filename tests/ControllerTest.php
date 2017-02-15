@@ -1,4 +1,7 @@
 <?php declare(strict_types=1);
+
+namespace Aviat\AnimeClient\Tests;
+
 use Aura\Router\RouterFactory;
 use Aura\Web\WebFactory;
 use Aviat\AnimeClient\Controller;

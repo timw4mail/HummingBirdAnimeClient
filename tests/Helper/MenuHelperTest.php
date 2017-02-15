@@ -1,5 +1,7 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
 use Aviat\AnimeClient\Helper\Menu as MenuHelper;
 
 class MenuHelperTest extends AnimeClient_TestCase {

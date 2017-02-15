@@ -4,7 +4,7 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Util;
 
-class UtilTest extends \AnimeClient_TestCase {
+class UtilTest extends AnimeClient_TestCase {
 
 	public function setUp()
 	{

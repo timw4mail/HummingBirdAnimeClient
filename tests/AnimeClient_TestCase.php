@@ -1,5 +1,7 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
 use const Aviat\AnimeClient\SRC_DIR;
 
 use Aura\Web\WebFactory;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
 use Aviat\AnimeClient\RoutingBase;
 
 class RoutingBaseTest extends AnimeClient_TestCase {

@@ -1,5 +1,7 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
 

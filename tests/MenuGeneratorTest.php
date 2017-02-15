@@ -1,4 +1,7 @@
 <?php
+
+namespace Aviat\AnimeClient\Tests;
+
 use Aviat\AnimeClient\MenuGenerator;
 use Aviat\Ion\Friend;
 

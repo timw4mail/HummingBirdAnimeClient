@@ -1,6 +1,8 @@
 <?php
 
-class TestSessionHandler implements SessionHandlerInterface {
+namespace Aviat\AnimeClient\Tests;
+
+class TestSessionHandler implements \SessionHandlerInterface {
 	
 	public $data = [];
 	public $save_path = './test_data/sessions';

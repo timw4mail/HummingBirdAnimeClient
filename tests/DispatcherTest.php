@@ -1,5 +1,7 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
@@ -53,7 +55,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 	public function dataRoute()
 	{
-		$default_config = array(
+		$default_config = [
 			'routes' => [
 				'routes' => [
 					'login_form' => [
@@ -88,33 +90,33 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'default_list' => 'anime'
 				]
 			],
-		);
+		];
 
 		$data = [
-			'anime_default_routing_manga' => array(
+			'anime_default_routing_manga' => [
 				'config' => $default_config,
 				'controller' => 'manga',
 				'host' => "localhost",
 				'uri' => "/manga/plan_to_read",
-			),
-			'manga_default_routing_anime' => array(
+			],
+			'manga_default_routing_anime' => [
 				'config' => $default_config,
 				'controller' => 'anime',
 				'host' => "localhost",
 				'uri' => "/anime/watching",
-			),
-			'anime_default_routing_anime' => array(
+			],
+			'anime_default_routing_anime' => [
 				'config' => $default_config,
 				'controller' => 'anime',
 				'host' => 'localhost',
 				'uri' => '/anime/watching',
-			),
-			'manga_default_routing_manga' => array(
+			],
+			'manga_default_routing_manga' => [
 				'config' => $default_config,
 				'controller' => 'manga',
 				'host' => 'localhost',
 				'uri' => '/manga/plan_to_read'
-			)
+			]
 		];
 
 		$data['manga_default_routing_anime']['config']['routes']['route_config']['default_list'] = 'manga';
