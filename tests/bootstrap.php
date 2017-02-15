@@ -37,8 +37,8 @@ require _dir(__DIR__, '../vendor/autoload.php');
 // Ini Settings
 // -----------------------------------------------------------------------------
 ini_set('session.use_cookies', 0);
-ini_set("session.use_only_cookies",0);
-ini_set("session.use_trans_sid",1);
+ini_set("session.use_only_cookies", 0);
+ini_set("session.use_trans_sid", 1);
 // Start session here to supress error about headers not sent
 session_start();
 

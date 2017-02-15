@@ -16,9 +16,9 @@
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use AnimeClient_TestCase;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
+use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
 use Aviat\Ion\Json;
 
 class MangaTransformerTest extends AnimeClient_TestCase {

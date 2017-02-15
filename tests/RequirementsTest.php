@@ -1,5 +1,9 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests;
+
+use PDO;
+
 class RequirementsTest extends AnimeClient_TestCase {
 
 	public function testPHPVersion()

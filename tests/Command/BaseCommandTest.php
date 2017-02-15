@@ -1,6 +1,9 @@
 <?php
 
+namespace Aviat\AnimeClient\Tests\Command;
+
 use Aviat\AnimeClient\Command\BaseCommand;
+use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
 
