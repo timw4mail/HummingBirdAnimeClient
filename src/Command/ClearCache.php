@@ -21,10 +21,8 @@ namespace Aviat\AnimeClient\Command;
  */
 class ClearCache extends BaseCommand {
 	/**
-	 * Run the image conversion script
+	 * Clear the API cache
 	 *
-	 * @param array $args
-	 * @param array $options
 	 * @return void
 	 * @throws \ConsoleKit\ConsoleException
 	 */

@@ -28,13 +28,13 @@ class Menu {
 	/**
 	 * Create the html for the selected menu
 	 *
-	 * @param  string $menu_name
+	 * @param  string $menuName
 	 * @return string
 	 */
-	public function __invoke($menu_name)
+	public function __invoke($menuName)
 	{
 		$generator = new MenuGenerator($this->container);
-		return $generator->generate($menu_name);
+		return $generator->generate($menuName);
 	}
 
 }
