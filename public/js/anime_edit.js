@@ -7,28 +7,28 @@
 
 	// Action to increment episode count
 	_.on('body.anime.list', 'click', '.plus_one', e => {
-		let parent_sel = _.closestParent(e.target, 'article');
-		let watched_count = parseInt(_.$('.completed_number', parent_sel)[0].textContent, 10);
-		let total_count = parseInt(_.$('.total_number', parent_sel)[0].textContent, 10);
-		let title = _.$('.name a', parent_sel)[0].textContent;
+		let parentSel = _.closestParent(e.target, 'article');
+		let watchedCount = parseInt(_.$('.completed_number', parentSel)[0].textContent, 10);
+		let totalCount = parseInt(_.$('.total_number', parentSel)[0].textContent, 10);
+		let title = _.$('.name a', parentSel)[0].textContent;
 
 		// Setup the update data
 		let data = {
-			id: parent_sel.dataset.kitsuId,
-			mal_id: parent_sel.dataset.malId,
+			id: parentSel.dataset.kitsuId,
+			mal_id: parentSel.dataset.malId,
 			data: {
-				progress: watched_count + 1
+				progress: watchedCount + 1
 			}
 		};
 
 		// If the episode count is 0, and incremented,
 		// change status to currently watching
-		if (isNaN(watched_count) || watched_count === 0) {
+		if (isNaN(watchedCount) || watchedCount === 0) {
 			data.data.status = 'current';
 		}
 
 		// If you increment at the last episode, mark as completed
-		if (( ! isNaN(watched_count)) && (watched_count + 1) == total_count) {
+		if (( ! isNaN(watchedCount)) && (watchedCount + 1) == totalCount) {
 			data.data.status = 'completed';
 		}
 
@@ -39,15 +39,14 @@
 			type: 'POST',
 			success: () => {
 				if (data.data.status == 'completed') {
-					_.hide(parent_sel);
+					_.hide(parentSel);
 				}
 
 				_.showMessage('success', `Successfully updated ${title}`);
-				_.$('.completed_number', parent_sel)[0].textContent = ++watched_count;
+				_.$('.completed_number', parentSel)[0].textContent = ++watchedCount;
 				_.scrollToTop();
 			},
 			error: (xhr, errorType, error) => {
-				console.error(error);
 				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();
 			}
