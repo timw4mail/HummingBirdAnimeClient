@@ -26,7 +26,5 @@ curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
 chmod +x /usr/local/bin/phpunit
 
 # Install extensions
-#pecl install xdebug
-#echo "zend_extension=/usr/lib/php7/modules/xdebug.so" > /usr/local/etc/php/conf.d/xdebug.ini
-#docker-php-ext-install xsl
-#docker-php-ext-install zip
+docker-php-ext-install xsl
+docker-php-ext-install zip
