@@ -26,7 +26,7 @@ var AnimeClient = (function(w) {
 		 * @return {array} - array of dom elements
 		 */
 		$(selector, context) {
-			if (typeof selector != "string" || selector === undefined) {
+			if (typeof selector !== "string") {
 				return selector;
 			}
 
@@ -200,7 +200,7 @@ var AnimeClient = (function(w) {
 				delegateEvent(el, target, event, listener);
 			});
 		}
-	}
+	};
 
 	// -------------------------------------------------------------------------
 	// ! Ajax
