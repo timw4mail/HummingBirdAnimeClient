@@ -33,6 +33,7 @@ test:hhvm:
       - curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
       - chmod +x /usr/local/bin/phpunit
       - composer install --no-dev --ignore-platform-reqs
-    image: 51systems/docker-gitlab-ci-runner-hhvm
+    #image: 51systems/docker-gitlab-ci-runner-hhvm
+    image: 2ndkauboy/gitlab-ci-runner-hhvm
     script:
       - hhvm -d hhvm.php7.all=true /usr/local/bin/phpunit -c build --coverage-text --colors=never
