@@ -132,7 +132,6 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 		$request = $this->container->get('request');
 		$aura_router = $this->container->get('aura-router');
-		$matcher = $aura_router->getMatcher();
 
 
 		// Check route setup
