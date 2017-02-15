@@ -120,8 +120,6 @@ class AnimeCollection extends Collection {
 	public function add($data)
 	{
 		$anime = (object)$this->anime_model->getAnimeById($data['id']);
-		$util = $this->container->get('util');
-
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -284,22 +282,6 @@ class AnimeCollection extends Collection {
 			'genres' => $genres,
 			'links' => $links
 		];
-	}
-
-	/**
-	 * Update genre information for the entire collection
-	 *
-	 * @return void
-	 */
-	private function update_genres()
-	{
-		// Get the anime collection
-		$collection = $this->_get_collection();
-		foreach ($collection as $anime)
-		{
-			// Get api information
-			$this->update_genre($anime['hummingbird_id']);
-		}
 	}
 }
 // End of AnimeCollectionModel.php
