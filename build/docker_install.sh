@@ -3,9 +3,6 @@
 # We need to install dependencies only for Docker
 [[ ! -e /.dockerenv ]] && [[ ! -e /.dockerinit ]] && exit 0
 
-# Where am I?
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 set -xe
 
 # Install git (the php image doesn't have it) which is required by composer
