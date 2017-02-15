@@ -168,7 +168,7 @@ class JSMin extends BaseMin {
 	 */
 	protected function get_last_modified()
 	{
-		$modified = array();
+		$modified = [];
 
 		foreach($this->js_group as $file)
 		{

@@ -5,7 +5,7 @@ namespace Aviat\AnimeClient\Tests;
 class TestSessionHandler implements \SessionHandlerInterface {
 	
 	public $data = [];
-	public $save_path = './test_data/sessions';
+	public $savePath = './test_data/sessions';
 	
 	public function close() 
 	{
@@ -14,7 +14,7 @@ class TestSessionHandler implements \SessionHandlerInterface {
 	
 	public function destroy($id) 
 	{
-		$file = "$this->save_path/$id";
+		$file = "$this->savePath/$id";
 		if (file_exists($file))
 		{
 			@unlink($file);
@@ -28,11 +28,11 @@ class TestSessionHandler implements \SessionHandlerInterface {
 		return TRUE;
 	}
 	
-	public function open($save_path, $name) 
+	public function open($savePath, $name) 
 	{
-		/*if ( ! array_key_exists($save_path, $this->data))
+		/*if ( ! array_key_exists($savePath, $this->data))
 		{
-			$this->save_path = $save_path;
+			$this->savePath = $savePath;
 			$this->data = [];
 		}*/
 		return TRUE;
@@ -40,12 +40,12 @@ class TestSessionHandler implements \SessionHandlerInterface {
 	
 	public function read($id) 
 	{
-		return json_decode(@file_get_contents("$this->save_path/$id"), TRUE);
+		return json_decode(@file_get_contents("$this->savePath/$id"), TRUE);
 	}
 	
 	public function write($id, $data) 
 	{
-		$file = "$this->save_path/$id";
+		$file = "$this->savePath/$id";
 		file_put_contents($file, json_encode($data));
 		
 		return TRUE;
