@@ -6,7 +6,10 @@
 set -xe
 
 # Install git (the php image doesn't have it) which is required by composer
-apk upgrade --update && apk add \
+apk upgrade --update && apk add --no-cache \
+	g++ \
+	make \
+	autoconf \
 	curl \
 	git \
 	libxslt-dev \
