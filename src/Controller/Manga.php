@@ -101,7 +101,7 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
-	public function add_form()
+	public function addForm()
 	{
 		$raw_status_list = MangaReadingStatus::getConstList();
 
@@ -190,7 +190,7 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
-	public function form_update()
+	public function formUpdate()
 	{
 		$data = $this->request->getParsedBody();
 

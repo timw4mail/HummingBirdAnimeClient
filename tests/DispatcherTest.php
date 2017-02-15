@@ -199,7 +199,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 	public function dataGetControllerList()
 	{
-		return array(
+		return [
 			'controller_list_sanity_check' => [
 				'config' => [
 					'routes' => [
@@ -242,7 +242,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'collection' => 'Aviat\AnimeClient\Controller\Collection',
 				]
 			]
-		);
+		];
 	}
 
 	/**

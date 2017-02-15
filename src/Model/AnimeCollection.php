@@ -31,9 +31,9 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function get_collection()
+	public function getCollection()
 	{
-		$raw_collection = $this->_get_collection();
+		$raw_collection = $this->_getCollection();
 
 		$collection = [];
 
@@ -57,7 +57,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function get_media_type_list()
+	public function getMediaTypeList()
 	{
 		$output = [];
 
@@ -79,7 +79,7 @@ class AnimeCollection extends Collection {
 	 * @param int $id
 	 * @return array
 	 */
-	public function get_collection_entry($id)
+	public function getCollectionEntry($id)
 	{
 		$query = $this->db->from('anime_set')
 			->where('hummingbird_id', (int)$id)
@@ -93,9 +93,9 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function _get_collection()
+	private function _getCollection()
 	{
-		if ( ! $this->valid_database)
+		if ( ! $this->validDatabase)
 		{
 			return [];
 		}
@@ -119,7 +119,7 @@ class AnimeCollection extends Collection {
 	 */
 	public function add($data)
 	{
-		$anime = (object)$this->anime_model->getAnimeById($data['id']);
+		$anime = (object)$this->animeModel->getAnimeById($data['id']);
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -134,7 +134,7 @@ class AnimeCollection extends Collection {
 			'notes' => $data['notes']
 		])->insert('anime_set');
 
-		$this->update_genre($data['id']);
+		$this->updateGenre($data['id']);
 	}
 
 	/**
@@ -201,13 +201,13 @@ class AnimeCollection extends Collection {
 	 * @param int $anime_id The current anime
 	 * @return void
 	 */
-	private function update_genre($anime_id)
+	private function updateGenre($anime_id)
 	{
-		$genre_info = $this->get_genre_data();
+		$genre_info = $this->getGenreData();
 		extract($genre_info);
 
 		// Get api information
-		$anime = $this->anime_model->getAnimeById($anime_id);
+		$anime = $this->animeModel->getAnimeById($anime_id);
 
 		foreach ($anime['genres'] as $genre)
 		{
@@ -248,7 +248,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function get_genre_data()
+	private function getGenreData()
 	{
 		$genres = [];
 		$links = [];

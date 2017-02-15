@@ -91,17 +91,17 @@ class Collection extends BaseController {
 	 */
 	public function index($view)
 	{
-		$view_map = [
+		$viewMap = [
 			'' => 'cover',
 			'list' => 'list'
 		];
 
-		$data = $this->animeCollectionModel->get_collection();
+		$data = $this->animeCollectionModel->getCollection();
 
-		$this->outputHTML('collection/' . $view_map[$view], [
+		$this->outputHTML('collection/' . $viewMap[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
 			'sections' => $data,
-			'genres' => $this->animeCollectionModel->get_genre_list()
+			'genres' => $this->animeCollectionModel->getGenreList()
 		]);
 	}
 
