@@ -23,21 +23,21 @@ require_once('./min.php');
  */
 class CSSMin extends BaseMin {
 
-	protected $css_root;
-	protected $path_from;
-	protected $path_to;
+	protected $cssRoot;
+	protected $pathFrom;
+	protected $pathTo;
 	protected $group;
-	protected $last_modified;
-	protected $requested_time;
+	protected $lastModified;
+	protected $requestedTime;
 
 	public function __construct(array $config, array $groups)
 	{
 		$group = $_GET['g'];
-		$this->css_root = $config['css_root'];
-		$this->path_from = $config['path_from'];
-		$this->path_to = $config['path_to'];
+		$this->cssRoot = $config['css_root'];
+		$this->pathFrom = $config['path_from'];
+		$this->pathTo = $config['path_to'];
 		$this->group = $groups[$group];
-		$this->last_modified = $this->get_last_modified();
+		$this->lastModified = $this->getLastModified();
 
 		$this->send();
 	}
@@ -49,14 +49,14 @@ class CSSMin extends BaseMin {
 	 */
 	protected function send()
 	{
-		if($this->last_modified >= $this->get_if_modified() && $this->is_not_debug())
+		if($this->lastModified >= $this->getIfModified() && $this->isNotDebug())
 		{
 			throw new FileNotChangedException();
 		}
 
 		$css = ( ! array_key_exists('debug', $_GET))
-			? $this->compress($this->get_css())
-			: $this->get_css();
+			? $this->compress($this->getCss())
+			: $this->getCss();
 
 		$this->output($css);
 	}
@@ -99,7 +99,7 @@ class CSSMin extends BaseMin {
 	 *
 	 * @return int
 	 */
-	protected function get_last_modified()
+	protected function getLastModified()
 	{
 		$modified = [];
 
@@ -108,8 +108,8 @@ class CSSMin extends BaseMin {
 		{
 			foreach($this->group as $file)
 			{
-				$new_file = realpath("{$this->css_root}{$file}");
-				$modified[] = filemtime($new_file);
+				$newFile = realpath("{$this->cssRoot}{$file}");
+				$modified[] = filemtime($newFile);
 			}
 		}
 
@@ -127,19 +127,19 @@ class CSSMin extends BaseMin {
 	 *
 	 * @return string
 	 */
-	protected function get_css()
+	protected function getCss()
 	{
 		$css = '';
 
 		foreach($this->group as $file)
 		{
-			$new_file = realpath("{$this->css_root}{$file}");
-			$css .= file_get_contents($new_file);
+			$newFile = realpath("{$this->cssRoot}{$file}");
+			$css .= file_get_contents($newFile);
 		}
 
 		// Correct paths that have changed due to concatenation
 		// based on rules in the config file
-		$css = str_replace($this->path_from, $this->path_to, $css);
+		$css = str_replace($this->pathFrom, $this->pathTo, $css);
 
 		return $css;
 	}
@@ -151,7 +151,7 @@ class CSSMin extends BaseMin {
 	 */
 	protected function output($css)
 	{
-		$this->send_final_output($css, 'text/css', $this->last_modified);
+		$this->sendFinalOutput($css, 'text/css', $this->lastModified);
 	}
 }
 

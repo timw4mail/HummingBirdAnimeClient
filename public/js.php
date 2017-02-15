@@ -29,27 +29,27 @@ require_once('./min.php');
  */
 class JSMin extends BaseMin {
 
-	protected $js_root;
-	protected $js_group;
-	protected $js_groups_file;
-	protected $cache_file;
+	protected $jsRoot;
+	protected $jsGroup;
+	protected $jsGroupsFile;
+	protected $cacheFile;
 
-	protected $last_modified;
-	protected $requested_time;
-	protected $cache_modified;
+	protected $lastModified;
+	protected $requestedTime;
+	protected $cacheModified;
 
 	public function __construct(array $config, array $groups)
 	{
 		$group = $_GET['g'];
 
-		$this->js_root = $config['js_root'];
-		$this->js_group = $groups[$group];
-		$this->js_groups_file = $config['js_groups_file'];
-		$this->cache_file = "{$this->js_root}cache/{$group}";
-		$this->last_modified = $this->get_last_modified();
+		$this->jsRoot = $config['js_root'];
+		$this->jsGroup = $groups[$group];
+		$this->jsGroupsFile = $config['js_groups_file'];
+		$this->cacheFile = "{$this->jsRoot}cache/{$group}";
+		$this->lastModified = $this->getLastModified();
 
-		$this->cache_modified = (is_file($this->cache_file))
-			? filemtime($this->cache_file)
+		$this->cacheModified = (is_file($this->cacheFile))
+			? filemtime($this->cacheFile)
 			: 0;
 
 		// Output some JS!
@@ -59,24 +59,24 @@ class JSMin extends BaseMin {
 	protected function send()
 	{
 		// Override caching if debug key is set
-		if($this->is_debug_call())
+		if($this->isDebugCall())
 		{
-			return $this->output($this->get_files());
+			return $this->output($this->getFiles());
 		}
 
 		// If the browser's cached version is up to date,
 		// don't resend the file
-		if($this->last_modified == $this->get_if_modified() && $this->is_not_debug())
+		if($this->lastModified == $this->getIfModified() && $this->isNotDebug())
 		{
 			throw new FileNotChangedException();
 		}
 
-		if($this->cache_modified < $this->last_modified)
+		if($this->cacheModified < $this->lastModified)
 		{
-			$js = $this->minify($this->get_files());
+			$js = $this->minify($this->getFiles());
 
 			//Make sure cache file gets created/updated
-			if (file_put_contents($this->cache_file, $js) === FALSE)
+			if (file_put_contents($this->cacheFile, $js) === FALSE)
 			{
 				echo 'Cache file was not created. Make sure you have the correct folder permissions.';
 				return;
@@ -86,7 +86,7 @@ class JSMin extends BaseMin {
 		}
 		else
 		{
-			return $this->output(file_get_contents($this->cache_file));
+			return $this->output(file_get_contents($this->cacheFile));
 		}
 	}
 
@@ -96,7 +96,7 @@ class JSMin extends BaseMin {
 	 * @param array $options - Form parameters
 	 * @return object
 	 */
-	protected function closure_call(array $options)
+	protected function closureCall(array $options)
 	{
 		$formFields = http_build_query($options);
 	
@@ -123,19 +123,19 @@ class JSMin extends BaseMin {
 	 * @param  array $options
 	 * @return void
 	 */
-	protected function check_minify_errors($options)
+	protected function checkMinifyErrors($options)
 	{
-		$error_res = $this->closure_call($options);
-		$error_json = $error_res->getBody();
-		$error_obj = Json::decode($error_json) ?: (object)[];
+		$errorRes = $this->closureCall($options);
+		$errorJson = $errorRes->getBody();
+		$errorObj = Json::decode($errorJson) ?: (object)[];
 		
 
 		// Show error if exists
-		if ( ! empty($error_obj->errors) || ! empty($error_obj->serverErrors))
+		if ( ! empty($errorObj->errors) || ! empty($errorObj->serverErrors))
 		{
-			$error_json = Json::encode($error_obj, JSON_PRETTY_PRINT);
+			$errorJson = Json::encode($errorObj, JSON_PRETTY_PRINT);
 			header('Content-type: application/javascript');
-			echo "console.error(${error_json});";
+			echo "console.error(${errorJson});";
 			die();
 		}
 	}
@@ -148,14 +148,14 @@ class JSMin extends BaseMin {
 	 *
 	 * @return string
 	 */
-	protected function get_files()
+	protected function getFiles()
 	{
 		$js = '';
 
-		foreach($this->js_group as $file)
+		foreach($this->jsGroup as $file)
 		{
-			$new_file = realpath("{$this->js_root}{$file}");
-			$js .= file_get_contents($new_file) . "\n\n";
+			$newFile = realpath("{$this->jsRoot}{$file}");
+			$js .= file_get_contents($newFile) . "\n\n";
 		}
 
 		return $js;
@@ -166,24 +166,24 @@ class JSMin extends BaseMin {
 	 *
 	 * @return int
 	 */
-	protected function get_last_modified()
+	protected function getLastModified()
 	{
 		$modified = [];
 
-		foreach($this->js_group as $file)
+		foreach($this->jsGroup as $file)
 		{
-			$new_file = realpath("{$this->js_root}{$file}");
-			$modified[] = filemtime($new_file);
+			$newFile = realpath("{$this->jsRoot}{$file}");
+			$modified[] = filemtime($newFile);
 		}
 
 		//Add this page too, as well as the groups file
 		$modified[] = filemtime(__FILE__);
-		$modified[] = filemtime($this->js_groups_file);
+		$modified[] = filemtime($this->jsGroupsFile);
 
 		rsort($modified);
-		$last_modified = $modified[0];
+		$lastModified = $modified[0];
 
-		return $last_modified;
+		return $lastModified;
 	}
 
 	/**
@@ -205,11 +205,11 @@ class JSMin extends BaseMin {
 		];
 
 		// Check for errors
-		$this->check_minify_errors($options);
+		$this->checkMinifyErrors($options);
 
 		// Now actually retrieve the compiled code
 		$options['output_info'] = 'compiled_code';
-		$res = $this->closure_call($options);
+		$res = $this->closureCall($options);
 		$json = $res->getBody();
 		$obj = Json::decode($json);
 
@@ -225,7 +225,7 @@ class JSMin extends BaseMin {
 	 */
 	protected function output($js)
 	{
-		$this->send_final_output($js, 'application/javascript', $this->last_modified);
+		$this->sendFinalOutput($js, 'application/javascript', $this->lastModified);
 	}
 }
 
@@ -235,11 +235,11 @@ class JSMin extends BaseMin {
 
 $config = require_once('../app/appConf/minify_config.php');
 $groups = require_once($config['js_groups_file']);
-$cache_dir = "{$config['js_root']}cache";
+$cacheDir = "{$config['js_root']}cache";
 
-if ( ! is_dir($cache_dir))
+if ( ! is_dir($cacheDir))
 {
-	mkdir($cache_dir);
+	mkdir($cacheDir);
 }
 
 if ( ! array_key_exists($_GET['g'], $groups))
