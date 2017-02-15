@@ -9,10 +9,8 @@ set -xe
 apk upgrade --update && apk add \
 	curl \
 	git \
-	libxslt1-dev \
-	libxslt1.1 \
-	zlib1g-dev \
-	unzip
+	libxslt-dev \
+	zlib-dev
 
 # Install phpunit, the tool that we will use for testing
 curl -Lo /usr/local/bin/phpunit https://phar.phpunit.de/phpunit.phar
