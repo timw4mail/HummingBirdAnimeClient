@@ -17,10 +17,10 @@ namespace Aviat\EasyMin;
 $pi = $_SERVER['PATH_INFO'];
 $pia = explode('/', $pi);
 
-$pia_len = count($pia);
+$piaLen = count($pia);
 $i = 1;
 
-while($i < $pia_len)
+while($i < $piaLen)
 {
 	$j = $i+1;
 	$j = (isset($pia[$j])) ? $j : $i;
@@ -38,7 +38,7 @@ class BaseMin {
 	 *
 	 * @return int - timestamp to compare for cache control
 	 */
-	protected function get_if_modified()
+	protected function getIfModified()
 	{
 		return (array_key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER))
 			? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])
@@ -50,7 +50,7 @@ class BaseMin {
 	 *
 	 * @return string - the etag to compare
 	 */
-	protected function get_if_none_match()
+	protected function getIfNoneMatch()
 	{
 		return (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER))
 			? $_SERVER['HTTP_IF_NONE_MATCH']
@@ -62,9 +62,9 @@ class BaseMin {
 	 *
 	 * @return boolean
 	 */
-	protected function is_not_debug()
+	protected function isNotDebug()
 	{
-		return ! $this->is_debug_call();
+		return ! $this->isDebugCall();
 	}
 
 	/**
@@ -72,7 +72,7 @@ class BaseMin {
 	 *
 	 * @return boolean
 	 */
-	protected function is_debug_call()
+	protected function isDebugCall()
 	{
 		return array_key_exists('debug', $_GET);
 	}
@@ -81,24 +81,24 @@ class BaseMin {
 	 * Send actual output to browser
 	 *
 	 * @param string $content - the body of the response
-	 * @param string $mime_type - the content type
-	 * @param int $last_modified - the last modified date
+	 * @param string $mimeType - the content type
+	 * @param int $lastModified - the last modified date
 	 * @return void
 	 */
-	protected function send_final_output($content, $mime_type, $last_modified)
+	protected function sendFinalOutput($content, $mimeType, $lastModified)
 	{
 		//This GZIPs the CSS for transmission to the user
 		//making file size smaller and transfer rate quicker
 		ob_start("ob_gzhandler");
 
-		$expires = $last_modified + 691200;
-		$last_modified_date = gmdate('D, d M Y H:i:s', $last_modified);
-		$expires_date = gmdate('D, d M Y H:i:s', $expires);
+		$expires = $lastModified + 691200;
+		$lastModifiedDate = gmdate('D, d M Y H:i:s', $lastModified);
+		$expiresDate = gmdate('D, d M Y H:i:s', $expires);
 
-		header("Content-Type: {$mime_type}; charset=utf8");
+		header("Content-Type: {$mimeType}; charset=utf8");
 		header("Cache-control: public, max-age=691200, must-revalidate");
-		header("Last-Modified: {$last_modified_date} GMT");
-		header("Expires: {$expires_date} GMT");
+		header("Last-Modified: {$lastModifiedDate} GMT");
+		header("Expires: {$expiresDate} GMT");
 
 		echo $content;
 
