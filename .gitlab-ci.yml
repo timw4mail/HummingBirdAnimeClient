@@ -10,7 +10,7 @@ test:7:
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7-alpine
     script:
-      - ./vendor/bin/phpunit -c build --coverage-text --colors=never
+      - phpunit -c build --coverage-text --colors=never
 
 test:7.1:
     stage: test
@@ -20,7 +20,7 @@ test:7.1:
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7.1-alpine
     script:
-      - ./vendor/bin/phpunit -c build --coverage-text --colors=never
+      - phpunit -c build --coverage-text --colors=never
 
 #test:hhvm:
 #    stage: test
