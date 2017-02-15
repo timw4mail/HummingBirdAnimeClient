@@ -62,5 +62,5 @@
 		</form>
 	</fieldset>
 </main>
-<script src="<?= $urlGenerator->asset_url('js.php/g/anime_collection') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/anime_collection') ?>"></script>
 <?php endif ?>

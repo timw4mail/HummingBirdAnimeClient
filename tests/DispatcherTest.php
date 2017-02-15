@@ -190,11 +190,11 @@ class DispatcherTest extends AnimeClient_TestCase {
 		];
 
 		$this->doSetUp($config, "/", "localhost");
-		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
-		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
+		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->defaultUrl('manga'), "Incorrect default url");
+		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->defaultUrl('anime'), "Incorrect default url");
 
 		$this->expectException(\InvalidArgumentException::class);
-		$this->urlGenerator->default_url('foo');
+		$this->urlGenerator->defaultUrl('foo');
 	}
 
 	public function dataGetControllerList()

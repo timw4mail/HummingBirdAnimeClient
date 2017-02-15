@@ -53,7 +53,7 @@ return [
 		// ---------------------------------------------------------------------
 		'anime.add.get' => [
 			'path' => '/anime/add',
-			'action' => 'add_form',
+			'action' => 'addForm',
 			'verb' => 'get',
 		],
 		'anime.add.post' => [
@@ -82,7 +82,7 @@ return [
 		],
 		'manga.add.get' => [
 			'path' => '/manga/add',
-			'action' => 'add_form',
+			'action' => 'addForm',
 			'verb' => 'get',
 		],
 		'manga.add.post' => [
@@ -183,7 +183,7 @@ return [
 		],
 		'update.post' => [
 			'path' => '/{controller}/update_form',
-			'action' => 'form_update',
+			'action' => 'formUpdate',
 			'verb' => 'post',
 			'tokens' => [
 				'controller' => '[a-z_]+',
