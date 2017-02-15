@@ -33,7 +33,7 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 	/**
 	 * @dataProvider dataSegments
 	 */
-	public function testSegments($requestUri, $path, $segments, $last_segment)
+	public function testSegments($requestUri, $path, $segments, $lastSegment)
 	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
@@ -43,7 +43,7 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 
 		$this->assertEquals($path, $this->routingBase->path(), "Path is invalid");
 		$this->assertEquals($segments, $this->routingBase->segments(), "Segments array is invalid");
-		$this->assertEquals($last_segment, $this->routingBase->last_segment(), "Last segment is invalid");
+		$this->assertEquals($lastSegment, $this->routingBase->last_segment(), "Last segment is invalid");
 
 		foreach($segments as $i => $value)
 		{
