@@ -19,13 +19,13 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 				'requestUri' => '  //      ',
 				'path' => '/',
 				'segments' => ['', ''],
-				'last_segment' => NULL
+				'lastSegment' => NULL
 			],
 			'three_segments' => [
 				'requestUri' => '/anime/watching/list  ',
 				'path' => '/anime/watching/list',
 				'segments' => ['', 'anime', 'watching', 'list'],
-				'last_segment' => 'list'
+				'lastSegment' => 'list'
 			]
 		];
 	}
@@ -43,11 +43,11 @@ class RoutingBaseTest extends AnimeClient_TestCase {
 
 		$this->assertEquals($path, $this->routingBase->path(), "Path is invalid");
 		$this->assertEquals($segments, $this->routingBase->segments(), "Segments array is invalid");
-		$this->assertEquals($lastSegment, $this->routingBase->last_segment(), "Last segment is invalid");
+		$this->assertEquals($lastSegment, $this->routingBase->lastSegment(), "Last segment is invalid");
 
 		foreach($segments as $i => $value)
 		{
-			$this->assertEquals($value, $this->routingBase->get_segment($i), "Segment {$i} is invalid");
+			$this->assertEquals($value, $this->routingBase->getSegment($i), "Segment {$i} is invalid");
 		}
 	}
 }

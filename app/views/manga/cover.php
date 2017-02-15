@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -11,7 +11,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="manga-<?= $item['id'] ?>">
-					<?php if ($auth->is_authenticated()): ?>
+					<?php if ($auth->isAuthenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
 					</div>
@@ -26,7 +26,7 @@
 						</a>
 					</div>
 					<div class="table">
-						<?php if ($auth->is_authenticated()): ?>
+						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
 								<a class="bracketed" title="Edit information about this manga" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
@@ -55,6 +55,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
 <?php endif ?>

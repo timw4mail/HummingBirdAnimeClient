@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -10,7 +10,7 @@
 	<table>
 		<thead>
 			<tr>
-				<?php if ($auth->is_authenticated()): ?>
+				<?php if ($auth->isAuthenticated()): ?>
 				<th>&nbsp;</th>
 				<?php endif ?>
 				<th>Title</th>
@@ -23,7 +23,7 @@
 		<tbody>
 			<?php foreach($items as $item): ?>
 			<tr id="manga-<?= $item['id'] ?>">
-				<?php if($auth->is_authenticated()): ?>
+				<?php if($auth->isAuthenticated()): ?>
 				<td>
 					<a class="bracketed" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
 				</td>

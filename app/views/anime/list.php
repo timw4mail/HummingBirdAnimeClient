@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -10,7 +10,7 @@
 	<table>
 		<thead>
 			<tr>
-				<?php if($auth->is_authenticated()): ?>
+				<?php if($auth->isAuthenticated()): ?>
 				<td class="no_border">&nbsp;</td>
 				<?php endif ?>
 				<th>Title</th>
@@ -26,9 +26,9 @@
 		</thead>
 		<tbody>
 			<?php foreach($items as $item): ?>
-			<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
+			<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
 			<tr id="a-<?= $item['id'] ?>">
-				<?php if ($auth->is_authenticated()): ?>
+				<?php if ($auth->isAuthenticated()): ?>
 				<td>
 					<a class="bracketed" href="<?= $urlGenerator->url("/anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
 				</td>
@@ -86,5 +86,5 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php $group = ($auth->is_authenticated()) ? 'table_edit' : 'table' ?>
+<?php $group = ($auth->isAuthenticated()) ? 'table_edit' : 'table' ?>
 <script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$group}") ?>"></script>
