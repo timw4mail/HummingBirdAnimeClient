@@ -17,11 +17,11 @@
 namespace Aviat\AnimeClient\Tests\Command;
 
 use Aviat\AnimeClient\Command\BaseCommand;
-use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
 
-class BaseCommandTest extends AnimeClient_TestCase {
+class BaseCommandTest extends AnimeClientTestCase {
 	public function setUp()
 	{
 		$this->base = new BaseCommand(new Console());

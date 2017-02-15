@@ -11,7 +11,7 @@ use Aviat\AnimeClient\Controller\{
 	Manga as MangaController
 };
 
-class ControllerTest extends AnimeClient_TestCase {
+class ControllerTest extends AnimeClientTestCase {
 
 	public function setUp()
 	{

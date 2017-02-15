@@ -18,15 +18,15 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
-use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
-class MangaListTransformerTest extends AnimeClient_TestCase {
+class MangaListTransformerTest extends AnimeClientTestCase {
 
 	public function setUp() 
 	{
 		parent::setUp();
-		$this->dir = AnimeClient_TestCase::TEST_DATA_DIR . '/Kitsu';
+		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 		
 		$rawBefore = Json::decodeFile("{$this->dir}/mangaListBeforeTransform.json");
 		$this->beforeTransform = JsonAPI::inlineRawIncludes($rawBefore, 'manga');

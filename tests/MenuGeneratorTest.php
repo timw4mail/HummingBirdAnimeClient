@@ -5,7 +5,7 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\MenuGenerator;
 use Aviat\Ion\Friend;
 
-class MenuGeneratorTest extends AnimeClient_TestCase {
+class MenuGeneratorTest extends AnimeClientTestCase {
 
 	protected $generator;
 	protected $friend;

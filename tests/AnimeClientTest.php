@@ -2,7 +2,7 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-class AnimeClientTest extends AnimeClient_TestCase {
+class AnimeClientTest extends AnimeClientTestCase {
 	/**
 	 * Basic sanity test for _dir function
 	 */

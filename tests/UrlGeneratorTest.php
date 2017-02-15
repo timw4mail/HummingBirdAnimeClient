@@ -5,7 +5,7 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
 
-class UrlGeneratorTest extends AnimeClient_TestCase {
+class UrlGeneratorTest extends AnimeClientTestCase {
 
 	public function assetUrlProvider()
 	{

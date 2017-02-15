@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient\Tests\API;
 
 use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class CacheTraitTest extends AnimeClient_TestCase {
+class CacheTraitTest extends AnimeClientTestCase {
 	public function setUp()
 	{
 		parent::setUp();
