@@ -102,7 +102,7 @@ class Auth {
 	 *
 	 * @return boolean
 	 */
-	public function is_authenticated()
+	public function isAuthenticated()
 	{
 		return ($this->get_auth_token() !== FALSE);
 	}

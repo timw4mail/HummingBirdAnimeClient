@@ -1,4 +1,4 @@
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 	<main>
 		<h1>
 			Edit <?= $item['manga']['titles'][0] ?>

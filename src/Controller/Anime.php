@@ -79,7 +79,7 @@ class Anime extends BaseController {
 	 */
 	public function index($type = AnimeWatchingStatus::WATCHING, string $view = NULL)
 	{
-		$type_title_map = [
+		$typeTitleMap = [
 			'all' => 'All',
 			AnimeWatchingStatus::WATCHING => 'Currently Watching',
 			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
@@ -88,7 +88,7 @@ class Anime extends BaseController {
 			AnimeWatchingStatus::COMPLETED => 'Completed'
 		];
 
-		$model_map = [
+		$modelMap = [
 			'watching' => AnimeWatchingStatus::WATCHING,
 			'plan_to_watch' => AnimeWatchingStatus::PLAN_TO_WATCH,
 			'on_hold' => AnimeWatchingStatus::ON_HOLD,
@@ -97,21 +97,21 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		$title = (array_key_exists($type, $type_title_map))
+		$title = (array_key_exists($type, $typeTitleMap))
 			? $this->config->get('whose_list') .
-				"'s Anime List &middot; {$type_title_map[$type]}"
+				"'s Anime List &middot; {$typeTitleMap[$type]}"
 			: '';
 
-		$view_map = [
+		$viewMap = [
 			'' => 'cover',
 			'list' => 'list'
 		];
 
 		$data = ($type !== 'all')
-			? $this->model->getList($model_map[$type])
+			? $this->model->getList($modelMap[$type])
 			: $this->model->get_all_lists();
 
-		$this->outputHTML('anime/' . $view_map[$view], [
+		$this->outputHTML('anime/' . $viewMap[$view], [
 			'title' => $title,
 			'sections' => $data
 		]);

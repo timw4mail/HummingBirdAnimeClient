@@ -17,7 +17,7 @@
 			[<a href="<?= $urlGenerator->defaultUrl('manga') ?>">Manga List</a>]
 		<?php endif ?>
 	</span>
-	<?php if ($auth->is_authenticated()): ?>
+	<?php if ($auth->isAuthenticated()): ?>
 		<span class="flex-no-wrap">&nbsp;</span>
 		<span class="flex-no-wrap small-font">
 				<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
@@ -25,7 +25,7 @@
 		<span class="flex-no-wrap">&nbsp;</span>
 	<?php endif ?>
 	<span class="flex-no-wrap small-font">
-		<?php if ($auth->is_authenticated()): ?>
+		<?php if ($auth->isAuthenticated()): ?>
 			<a class="bracketed" href="<?= $url->generate('logout') ?>">Logout</a>
 		<?php else: ?>
 			[<a href="<?= $url->generate('login'); ?>"><?= $config->get('whose_list') ?>'s Login</a>]
@@ -37,8 +37,8 @@
 		<?= $helper->menu($menu_name) ?>
 		<br />
 		<ul>
-			<li class="<?= Util::is_not_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= Util::is_selected('list', $urlGenerator->last_segment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+			<li class="<?= Util::is_not_selected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+			<li class="<?= Util::is_selected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
 	<?php endif ?>
 </nav>

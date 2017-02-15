@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -10,9 +10,9 @@
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
+				<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
 				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
-					<?php if ($auth->is_authenticated()): ?>
+					<?php if ($auth->isAuthenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
 					<img src="<?= $item['anime']['image'] ?>" alt="" />
@@ -25,7 +25,7 @@
 						</a>
 					</div>
 					<div class="table">
-						<?php if ($auth->is_authenticated()): ?>
+						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
 								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
@@ -85,6 +85,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
 <?php endif ?>

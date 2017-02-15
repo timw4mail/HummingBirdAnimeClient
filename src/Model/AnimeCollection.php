@@ -33,11 +33,11 @@ class AnimeCollection extends Collection {
 	 */
 	public function getCollection()
 	{
-		$raw_collection = $this->_getCollection();
+		$rawCollection = $this->getCollectionFromDatabase();
 
 		$collection = [];
 
-		foreach ($raw_collection as $row)
+		foreach ($rawCollection as $row)
 		{
 			if (array_key_exists($row['media'], $collection))
 			{
@@ -93,7 +93,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function _getCollection()
+	private function getCollectionFromDatabase()
 	{
 		if ( ! $this->validDatabase)
 		{
@@ -183,13 +183,13 @@ class AnimeCollection extends Collection {
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int $hummingbird_id
+	 * @param int $kitsuId
 	 * @return array
 	 */
-	public function get($hummingbird_id)
+	public function get($kitsuId)
 	{
 		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', $hummingbird_id)
+			->where('hummingbird_id', $kitsuId)
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
@@ -198,16 +198,16 @@ class AnimeCollection extends Collection {
 	/**
 	 * Update genre information for selected anime
 	 *
-	 * @param int $anime_id The current anime
+	 * @param int $animeId The current anime
 	 * @return void
 	 */
-	private function updateGenre($anime_id)
+	private function updateGenre($animeId)
 	{
-		$genre_info = $this->getGenreData();
-		extract($genre_info);
+		$genreInfo = $this->getGenreData();
+		extract($genreInfo);
 
 		// Get api information
-		$anime = $this->animeModel->getAnimeById($anime_id);
+		$anime = $this->animeModel->getAnimeById($animeId);
 
 		foreach ($anime['genres'] as $genre)
 		{
@@ -222,23 +222,23 @@ class AnimeCollection extends Collection {
 
 			// Update link table
 			// Get id of genre to put in link table
-			$flipped_genres = array_flip($genres);
+			$flippedGenres = array_flip($genres);
 
-			$insert_array = [
-				'hummingbird_id' => $anime_id,
-				'genre_id' => $flipped_genres[$genre]
+			$insertArray = [
+				'hummingbird_id' => $animeId,
+				'genre_id' => $flippedGenres[$genre]
 			];
 
-			if (array_key_exists($anime_id, $links))
+			if (array_key_exists($animeId, $links))
 			{
-				if ( ! in_array($flipped_genres[$genre], $links[$anime_id]))
+				if ( ! in_array($flippedGenres[$genre], $links[$animeId]))
 				{
-					$this->db->set($insert_array)->insert('genre_anime_set_link');
+					$this->db->set($insertArray)->insert('genre_anime_set_link');
 				}
 			}
 			else
 			{
-				$this->db->set($insert_array)->insert('genre_anime_set_link');
+				$this->db->set($insertArray)->insert('genre_anime_set_link');
 			}
 		}
 	}
