@@ -77,7 +77,7 @@ class Controller {
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $base_data = [
+	protected $baseData = [
 		'url_type' => 'anime',
 		'other_type' => 'manga',
 		'menu_name' => ''
@@ -97,10 +97,10 @@ class Controller {
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-		$this->base_data['url'] = $auraUrlGenerator;
-		$this->base_data['urlGenerator'] = $urlGenerator;
-		$this->base_data['auth'] = $container->get('auth');
-		$this->base_data['config'] = $this->config;
+		$this->baseData['url'] = $auraUrlGenerator;
+		$this->baseData['urlGenerator'] = $urlGenerator;
+		$this->baseData['auth'] = $container->get('auth');
+		$this->baseData['config'] = $this->config;
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');
@@ -114,7 +114,7 @@ class Controller {
 		}
 
 		// Set a message box if available
-		$this->base_data['message'] = $this->session->getFlash('message');
+		$this->baseData['message'] = $this->session->getFlash('message');
 	}
 
 	/**
@@ -225,9 +225,9 @@ class Controller {
 	{
 		$router = $this->container->get('dispatcher');
 
-		if (isset($this->base_data))
+		if (isset($this->baseData))
 		{
-			$data = array_merge($this->base_data, $data);
+			$data = array_merge($this->baseData, $data);
 		}
 
 		$route = $router->getRoute();
@@ -338,19 +338,19 @@ class Controller {
 	/**
 	 * Display a generic error page
 	 *
-	 * @param int $http_code
+	 * @param int $httpCode
 	 * @param string $title
 	 * @param string $message
 	 * @param string $long_message
 	 * @return void
 	 */
-	public function errorPage($http_code, $title, $message, $long_message = "")
+	public function errorPage($httpCode, $title, $message, $long_message = "")
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
 			'long_message' => $long_message
-		], NULL, $http_code);
+		], NULL, $httpCode);
 	}
 
 	/**

@@ -39,9 +39,9 @@ class Anime extends BaseController {
 
 	/**
 	 * Data to be sent to all routes in this controller
-	 * @var array $base_data
+	 * @var array $baseData
 	 */
-	protected $base_data;
+	protected $baseData;
 
 	/**
 	 * Data cache
@@ -60,7 +60,7 @@ class Anime extends BaseController {
 
 		$this->model = $container->get('anime-model');
 
-		$this->base_data = array_merge($this->base_data, [
+		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'anime_list',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
@@ -179,13 +179,13 @@ class Anime extends BaseController {
 	public function edit($id, $status = "all")
 	{
 		$item = $this->model->getLibraryItem($id, $status);
-		$raw_status_list = AnimeWatchingStatus::getConstList();
+		$rawStatusList = AnimeWatchingStatus::getConstList();
 
 		$statuses = [];
 
-		foreach ($raw_status_list as $status_item)
+		foreach ($rawStatusList as $statusItem)
 		{
-			$statuses[$status_item] = (string) $this->string($status_item)
+			$statuses[$statusItem] = (string) $this->string($statusItem)
 				->underscored()
 				->humanize()
 				->titleize();

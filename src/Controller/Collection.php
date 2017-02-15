@@ -29,21 +29,21 @@ class Collection extends BaseController {
 
 	/**
 	 * The anime collection model
-	 * @var AnimeCollectionModel $anime_collection_model
+	 * @var AnimeCollectionModel $animeCollectionModel
 	 */
-	private $anime_collection_model;
+	private $animeCollectionModel;
 
 	/**
 	 * The anime API model
-	 * @var AnimeModel $anime_model
+	 * @var AnimeModel $animeModel
 	 */
-	private $anime_model;
+	private $animeModel;
 
 	/**
-	 * Data to ve sent to all routes in this controller
-	 * @var array $base_data
+	 * Data to be sent to all routes in this controller
+	 * @var array $baseData
 	 */
-	protected $base_data;
+	protected $baseData;
 
 	/**
 	 * Url Generator class
@@ -61,9 +61,9 @@ class Collection extends BaseController {
 		parent::__construct($container);
 
 		$this->urlGenerator = $container->get('url-generator');
-		$this->anime_model = $container->get('anime-model');
-		$this->anime_collection_model = $container->get('anime-collection-model');
-		$this->base_data = array_merge($this->base_data, [
+		$this->animeModel = $container->get('anime-model');
+		$this->animeCollectionModel = $container->get('anime-collection-model');
+		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'collection',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
@@ -80,7 +80,7 @@ class Collection extends BaseController {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->anime_model->search($query));
+		$this->outputJSON($this->animeModel->search($query));
 	}
 
 	/**
@@ -96,12 +96,12 @@ class Collection extends BaseController {
 			'list' => 'list'
 		];
 
-		$data = $this->anime_collection_model->get_collection();
+		$data = $this->animeCollectionModel->get_collection();
 
 		$this->outputHTML('collection/' . $view_map[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
 			'sections' => $data,
-			'genres' => $this->anime_collection_model->get_genre_list()
+			'genres' => $this->animeCollectionModel->get_genre_list()
 		]);
 	}
 
@@ -121,8 +121,8 @@ class Collection extends BaseController {
 			'action' => $action,
 			'action_url' => $this->urlGenerator->full_url('collection/' . strtolower($action)),
 			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
-			'media_items' => $this->anime_collection_model->get_media_type_list(),
-			'item' => ($action === "Edit") ? $this->anime_collection_model->get($id) : []
+			'media_items' => $this->animeCollectionModel->get_media_type_list(),
+			'item' => ($action === "Edit") ? $this->animeCollectionModel->get($id) : []
 		]);
 	}
 
@@ -136,7 +136,7 @@ class Collection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
-			$this->anime_collection_model->update($data);
+			$this->animeCollectionModel->update($data);
 			$this->set_flash_message('Successfully updated collection item.', 'success');
 		}
 		else
@@ -157,7 +157,7 @@ class Collection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
-			$this->anime_collection_model->add($data);
+			$this->animeCollectionModel->add($data);
 			$this->set_flash_message('Successfully added collection item', 'success');
 		}
 		else
@@ -181,7 +181,7 @@ class Collection extends BaseController {
 			$this->redirect("/collection/view", 303);
 		}
 
-		$this->anime_collection_model->delete($data);
+		$this->animeCollectionModel->delete($data);
 		$this->set_flash_message("Successfully removed anime from collection.", 'success');
 
 		$this->redirect("/collection/view", 303);

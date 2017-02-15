@@ -39,9 +39,9 @@ class Manga extends Controller {
 
 	/**
 	 * Data to ve sent to all routes in this controller
-	 * @var array $base_data
+	 * @var array $baseData
 	 */
-	protected $base_data;
+	protected $baseData;
 
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ class Manga extends Controller {
 		parent::__construct($container);
 
 		$this->model = $container->get('manga-model');
-		$this->base_data = array_merge($this->base_data, [
+		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'manga_list',
 			'config' => $this->config,
 			'url_type' => 'manga',
