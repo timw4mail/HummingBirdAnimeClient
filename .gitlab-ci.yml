@@ -13,7 +13,7 @@ test:7:
       - bash build/docker_install.sh > /dev/null
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --no-dev
-    image: php:7
+    image: php:7-alpine
     script:
       - phpunit -c build --coverage-text --colors=never
       
@@ -22,7 +22,7 @@ test:7.1:
       - bash build/docker_install.sh > /dev/null
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --no-dev
-    image: php:7.1
+    image: php:7.1-alpine
     script:
       - phpunit -c build --coverage-text --colors=never
 
