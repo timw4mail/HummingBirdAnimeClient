@@ -20,7 +20,7 @@ define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 /**
  * Base class for TestCases
  */
-class AnimeClient_TestCase extends TestCase {
+class AnimeClientTestCase extends TestCase {
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;
 	const SRC_DIR = SRC_DIR;
@@ -160,4 +160,4 @@ class AnimeClient_TestCase extends TestCase {
 		return Json::decode($rawData);
 	}
 }
-// End of AnimeClient_TestCase.php
+// End of AnimeClientTestCase.php

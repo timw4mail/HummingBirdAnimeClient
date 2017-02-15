@@ -17,16 +17,16 @@
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
-use Aviat\AnimeClient\Tests\AnimeClient_TestCase;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
 
-class AnimeTransformerTest extends AnimeClient_TestCase {
+class AnimeTransformerTest extends AnimeClientTestCase {
 	
 	public function setUp()
 	{
 		parent::setUp();
-		$this->dir = AnimeClient_TestCase::TEST_DATA_DIR . '/Kitsu';
+		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 		
 		$this->beforeTransform = Json::decodeFile("{$this->dir}/animeBeforeTransform.json");
 		$this->afterTransform = Json::decodeFile("{$this->dir}/animeAfterTransform.json");

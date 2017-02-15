@@ -30,7 +30,7 @@ function _dir()
 // Autoloading
 // -----------------------------------------------------------------------------
 
-require _dir(__DIR__, 'AnimeClient_TestCase.php');
+require _dir(__DIR__, 'AnimeClientTestCase.php');
 require _dir(__DIR__, '../vendor/autoload.php');
 
 // -----------------------------------------------------------------------------

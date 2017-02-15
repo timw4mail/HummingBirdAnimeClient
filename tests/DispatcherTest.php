@@ -9,7 +9,7 @@ use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 
 
-class DispatcherTest extends AnimeClient_TestCase {
+class DispatcherTest extends AnimeClientTestCase {
 
 	protected $container;
 	protected $router;

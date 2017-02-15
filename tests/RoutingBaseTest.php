@@ -4,7 +4,7 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\RoutingBase;
 
-class RoutingBaseTest extends AnimeClient_TestCase {
+class RoutingBaseTest extends AnimeClientTestCase {
 
 	public function setUp()
 	{
