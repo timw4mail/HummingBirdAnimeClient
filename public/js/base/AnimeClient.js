@@ -226,7 +226,7 @@ var AnimeClient = (function(w) {
 		});
 
 		return pairs.join('&');
-	};
+	}
 
 	/**
 	 * Make an ajax request
@@ -308,7 +308,7 @@ var AnimeClient = (function(w) {
 		}
 
 		return _.ajax(url, {
-			data: data,
+			data,
 			success: callback
 		});
 	};
