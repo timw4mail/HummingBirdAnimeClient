@@ -81,11 +81,11 @@ class Anime extends BaseController {
 	{
 		$typeTitleMap = [
 			'all' => 'All',
-			AnimeWatchingStatus::WATCHING => 'Currently Watching',
-			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
-			AnimeWatchingStatus::ON_HOLD => 'On Hold',
-			AnimeWatchingStatus::DROPPED => 'Dropped',
-			AnimeWatchingStatus::COMPLETED => 'Completed'
+			'watching' => 'Currently Watching',
+			'plan_to_watch' => 'Plan to Watch',
+			'on_hold' => 'On Hold',
+			'dropped' => 'Dropped',
+			'completed' => 'Completed'
 		];
 
 		$modelMap = [
