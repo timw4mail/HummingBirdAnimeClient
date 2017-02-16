@@ -62,7 +62,7 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 				'All' => '/anime/all'
 			]
 		];
-		$this->assertEquals($expected, $friend->parse_config($menus));
+		$this->assertEquals($expected, $friend->parseConfig($menus));
 	}
 
 	public function testBadConfig()

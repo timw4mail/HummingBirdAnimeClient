@@ -115,7 +115,7 @@ class Collection extends BaseController {
 	 */
 	public function form($id = NULL)
 	{
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 
 		$action = (is_null($id)) ? "Add" : "Edit";
 
@@ -146,7 +146,7 @@ class Collection extends BaseController {
 			$this->set_flash_message('Failed to update collection item', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Collection extends BaseController {
 			$this->set_flash_message('Failed to add collection item.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**

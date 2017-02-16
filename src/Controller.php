@@ -107,10 +107,10 @@ class Controller {
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 
 		// Set a 'previous' flash value for better redirects
-		$server_params = $this->request->getServerParams();
-		if (array_key_exists('HTTP_REFERER', $server_params))
+		$serverParams = $this->request->getServerParams();
+		if (array_key_exists('HTTP_REFERER', $serverParams))
 		{
-			$this->session->setFlash('previous', $server_params['HTTP_REFERER']);
+			$this->session->setFlash('previous', $serverParams['HTTP_REFERER']);
 		}
 
 		// Set a message box if available
@@ -124,8 +124,8 @@ class Controller {
 	 */
 	public function redirectToDefaultRoute()
 	{
-		$default_type = $this->config->get(['routes', 'route_config', 'default_list']);
-		$this->redirect($this->urlGenerator->defaultUrl($default_type), 303);
+		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']);
+		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function redirect_to_previous()
+	public function redirectToPrevious()
 	{
 		$previous = $this->session->getFlash('previous');
 		$this->redirect($previous, 303);
@@ -145,31 +145,31 @@ class Controller {
 	 * @param string|null $url
 	 * @return void
 	 */
-	public function set_session_redirect($url = NULL)
+	public function setSessionRedirect($url = NULL)
 	{
-		$server_params = $this->request->getServerParams();
+		$serverParams = $this->request->getServerParams();
 
-		if ( ! array_key_exists('HTTP_REFERER', $server_params))
+		if ( ! array_key_exists('HTTP_REFERER', $serverParams))
 		{
 			return;
 		}
 
 		$util = $this->container->get('util');
-		$double_form_page = $server_params['HTTP_REFERER'] === $this->request->getUri();
+		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
 		// and the previous page is also a form type page_segments
-		if ($double_form_page)
+		if ($doubleFormPage)
 		{
 			return;
 		}
 
 		if (is_null($url))
 		{
-			$url = $util->is_view_page()
+			$url = $util->isViewPage()
 				? $this->request->url->get()
-				: $server_params['HTTP_REFERER'];
+				: $serverParams['HTTP_REFERER'];
 		}
 
 		$this->session->set('redirect_url', $url);
@@ -180,7 +180,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function session_redirect()
+	public function sessionRedirect()
 	{
 		$target = $this->session->get('redirect_url');
 		if (empty($target))
@@ -221,7 +221,7 @@ class Controller {
 	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	protected function load_partial($view, $template, array $data = [])
+	protected function loadPartial($view, $template, array $data = [])
 	{
 		$router = $this->container->get('dispatcher');
 
@@ -234,14 +234,14 @@ class Controller {
 		$data['route_path'] = $route ? $router->getRoute()->path : '';
 
 
-		$template_path = _dir($this->config->get('view_path'), "{$template}.php");
+		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
-		if ( ! is_file($template_path))
+		if ( ! is_file($templatePath))
 		{
 			throw new InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		return $view->renderTemplate($template_path, (array)$data);
+		return $view->renderTemplate($templatePath, (array)$data);
 	}
 
 	/**
@@ -252,17 +252,17 @@ class Controller {
 	 * @param array $data
 	 * @return void
 	 */
-	protected function render_full_page($view, $template, array $data)
+	protected function renderFullPage($view, $template, array $data)
 	{
-		$view->appendOutput($this->load_partial($view, 'header', $data));
+		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
 		if (array_key_exists('message', $data) && is_array($data['message']))
 		{
-			$view->appendOutput($this->load_partial($view, 'message', $data['message']));
+			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
 		}
 
-		$view->appendOutput($this->load_partial($view, $template, $data));
-		$view->appendOutput($this->load_partial($view, 'footer', $data));
+		$view->appendOutput($this->loadPartial($view, $template, $data));
+		$view->appendOutput($this->loadPartial($view, 'footer', $data));
 	}
 
 	/**
@@ -280,11 +280,11 @@ class Controller {
 
 		if ($status !== '')
 		{
-			$message = $this->show_message($view, 'error', $status);
+			$message = $this->showMessage($view, 'error', $status);
 		}
 
 		// Set the redirect url
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 
 		$this->outputHTML('login', [
 			'title' => 'Api login',
@@ -303,10 +303,10 @@ class Controller {
 		$post = $this->request->getParsedBody();
 		if ($auth->authenticate($post['password']))
 		{
-			return $this->session_redirect();
+			return $this->sessionRedirect();
 		}
 
-		$this->set_flash_message('Invalid username or password.');
+		$this->setFlashMessage('Invalid username or password.');
 		$this->redirect($this->urlGenerator->url('login'), 303);
 	}
 
@@ -361,12 +361,21 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function set_flash_message($message, $type = "info")
+	public function setFlashMessage($message, $type = "info")
 	{
-		$this->session->setFlash('message', [
+		static $messages;
+		
+		if (!$messages)
+		{
+			$messages = [];
+		}
+		
+		$messages[] = [
 			'message_type' => $type,
 			'message' => $message
-		]);
+		];
+		
+		$this->session->setFlash('message', $messages);
 	}
 
 	/**
@@ -393,7 +402,7 @@ class Controller {
 	 */
 	protected function showMessage($view, $type, $message)
 	{
-		return $this->load_partial($view, 'message', [
+		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
 			'message'  => $message
 		]);
@@ -416,7 +425,7 @@ class Controller {
 		}
 
 		$view->setStatusCode($code);
-		$this->render_full_page($view, $template, $data);
+		$this->renderFullPage($view, $template, $data);
 	}
 
 	/**
