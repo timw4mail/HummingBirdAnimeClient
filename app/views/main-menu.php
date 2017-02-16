@@ -33,12 +33,12 @@
 	</span>
 </h1>
 <nav>
-	<?php if ($container->get('util')->is_view_page()): ?>
+	<?php if ($container->get('util')->isViewPage()): ?>
 		<?= $helper->menu($menu_name) ?>
 		<br />
 		<ul>
-			<li class="<?= Util::is_not_selected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= Util::is_selected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+			<li class="<?= Util::isNotSelected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+			<li class="<?= Util::isSelected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
 	<?php endif ?>
 </nav>
