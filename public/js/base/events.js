@@ -12,7 +12,7 @@
 
 	// Confirm deleting of list or library items
 	ac.on('form.js-delete', 'submit', (event) => {
-		const proceed = confirm("Are you ABSOLUTELY SURE you want to delete this item?");
+		const proceed = confirm('Are you ABSOLUTELY SURE you want to delete this item?');
 
 		if (proceed === false) {
 			event.preventDefault();
