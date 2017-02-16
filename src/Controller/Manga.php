@@ -115,7 +115,7 @@ class Manga extends Controller {
 				->titleize();
 		}
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$this->outputHTML('manga/add', [
 			'title' => $this->config->get('whose_list') .
 				"'s Manga List &middot; Add",
@@ -149,7 +149,7 @@ class Manga extends Controller {
 			$this->set_flash_message('Failed to add new manga to list' . $result['body'], 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Manga extends Controller {
 	 */
 	public function edit($id, $status = "All")
 	{
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
 		$title = $this->config->get('whose_list') . "'s Manga List &middot; Edit";
 
@@ -211,7 +211,7 @@ class Manga extends Controller {
 
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -257,7 +257,7 @@ class Manga extends Controller {
 			$this->set_flash_message('Failed to delete manga.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**

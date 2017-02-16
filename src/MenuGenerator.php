@@ -62,7 +62,7 @@ class MenuGenerator extends UrlGenerator {
 	 * @param array $menus
 	 * @return array
 	 */
-	protected function parse_config(array $menus)
+	protected function parseConfig(array $menus)
 	{
 		$parsed = [];
 
@@ -88,17 +88,17 @@ class MenuGenerator extends UrlGenerator {
 	public function generate($menu)
 	{
 		$menus = $this->config->get('menus');
-		$parsed_config = $this->parse_config($menus);
+		$parsedConfig = $this->parseConfig($menus);
 
 		// Bail out early on invalid menu
-		if ( ! $this->arr($parsed_config)->hasKey($menu))
+		if ( ! $this->arr($parsedConfig)->hasKey($menu))
 		{
 			return '';
 		}
 
-		$menu_config = $parsed_config[$menu];
+		$menuConfig = $parsedConfig[$menu];
 
-		foreach ($menu_config as $title => $path)
+		foreach ($menuConfig as $title => $path)
 		{
 			$has = $this->string($this->path())->contains($path);
 			$selected = ($has && strlen($this->path()) >= strlen($path));

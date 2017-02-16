@@ -52,9 +52,9 @@ class Dispatcher extends RoutingBase {
 
 	/**
 	 * Routes added to router
-	 * @var array $output_routes
+	 * @var array $outputRoutes
 	 */
-	protected $output_routes;
+	protected $outputRoutes;
 
 	/**
 	 * Constructor
@@ -68,7 +68,7 @@ class Dispatcher extends RoutingBase {
 		$this->matcher = $container->get('aura-router')->getMatcher();
 		$this->request = $container->get('request');
 
-		$this->output_routes = $this->_setupRoutes();
+		$this->outputRoutes = $this->setupRoutes();
 	}
 
 	/**
@@ -80,12 +80,12 @@ class Dispatcher extends RoutingBase {
 	{
 		$logger = $this->container->getLogger('default');
 
-		$raw_route = $this->request->getUri()->getPath();
-		$route_path = "/" . trim($raw_route, '/');
+		$rawRoute = $this->request->getUri()->getPath();
+		$routePath = "/" . trim($rawRoute, '/');
 
 		$logger->info('Dispatcher - Routing data from get_route method');
 		$logger->info(print_r([
-			'route_path' => $route_path
+			'route_path' => $routePath
 		], TRUE));
 
 		return $this->matcher->match($this->request);
@@ -98,7 +98,7 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function getOutputRoutes()
 	{
-		return $this->output_routes;
+		return $this->outputRoutes;
 	}
 
 	/**
@@ -131,10 +131,10 @@ class Dispatcher extends RoutingBase {
 		{
 			// If not route was matched, return an appropriate http
 			// error message
-			$error_route = $this->getErrorParams();
+			$errorRoute = $this->getErrorParams();
 			$controllerName = DEFAULT_CONTROLLER;
-			$actionMethod = $error_route['action_method'];
-			$params = $error_route['params'];
+			$actionMethod = $errorRoute['action_method'];
+			$params = $errorRoute['params'];
 		}
 
 		$this->call($controllerName, $actionMethod, $params);
@@ -152,7 +152,7 @@ class Dispatcher extends RoutingBase {
 	{
 		if (array_key_exists('controller', $route->attributes))
 		{
-			$controller_name = $route->attributes['controller'];
+			$controllerName = $route->attributes['controller'];
 		}
 		else
 		{
@@ -160,13 +160,13 @@ class Dispatcher extends RoutingBase {
 		}
 
 		// Get the full namespace for a controller if a short name is given
-		if (strpos($controller_name, '\\') === FALSE)
+		if (strpos($controllerName, '\\') === FALSE)
 		{
 			$map = $this->getControllerList();
-			$controller_name = $map[$controller_name];
+			$controllerName = $map[$controllerName];
 		}
 
-		$action_method = (array_key_exists('action', $route->attributes))
+		$actionMethod = (array_key_exists('action', $route->attributes))
 			? $route->attributes['action']
 			: NOT_FOUND_METHOD;
 
@@ -186,8 +186,8 @@ class Dispatcher extends RoutingBase {
 		$logger->info(json_encode($params));
 
 		return [
-			'controller_name' => $controller_name,
-			'action_method' => $action_method,
+			'controller_name' => $controllerName,
+			'action_method' => $actionMethod,
 			'params' => $params
 		];
 	}
@@ -199,16 +199,16 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function getController()
 	{
-		$route_type = $this->__get('default_list');
-		$request_uri = $this->request->getUri()->getPath();
-		$path = trim($request_uri, '/');
+		$routeType = $this->__get('default_list');
+		$requestUri = $this->request->getUri()->getPath();
+		$path = trim($requestUri, '/');
 
 		$segments = explode('/', $path);
 		$controller = reset($segments);
 
 		if (empty($controller))
 		{
-			$controller = $route_type;
+			$controller = $routeType;
 		}
 
 		return $controller;
@@ -221,22 +221,22 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function getControllerList()
 	{
-		$default_namespace = DEFAULT_CONTROLLER_NAMESPACE;
-		$path = str_replace('\\', '/', $default_namespace);
+		$defaultNamespace = DEFAULT_CONTROLLER_NAMESPACE;
+		$path = str_replace('\\', '/', $defaultNamespace);
 		$path = str_replace('Aviat/AnimeClient/', '', $path);
 		$path = trim($path, '/');
-		$actual_path = realpath(_dir(SRC_DIR, $path));
-		$class_files = glob("{$actual_path}/*.php");
+		$actualPath = realpath(_dir(SRC_DIR, $path));
+		$classFiles = glob("{$actualPath}/*.php");
 
 		$controllers = [];
 
-		foreach ($class_files as $file)
+		foreach ($classFiles as $file)
 		{
-			$raw_class_name = basename(str_replace(".php", "", $file));
-			$path = strtolower(basename($raw_class_name));
-			$class_name = trim($default_namespace . '\\' . $raw_class_name, '\\');
+			$rawClassName = basename(str_replace(".php", "", $file));
+			$path = strtolower(basename($rawClassName));
+			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
-			$controllers[$path] = $class_name;
+			$controllers[$path] = $className;
 		}
 
 		return $controllers;
@@ -260,6 +260,7 @@ class Dispatcher extends RoutingBase {
 		// Run the appropriate controller method
 		$logger->debug('Dispatcher - controller arguments');
 		$logger->debug(print_r($params, TRUE));
+		
 		call_user_func_array([$controller, $method], $params);
 	}
 
@@ -277,7 +278,7 @@ class Dispatcher extends RoutingBase {
 		$logger->info('Dispatcher - failed route');
 		$logger->info(print_r($failure, TRUE));
 
-		$action_method = ERROR_MESSAGE_METHOD;
+		$actionMethod = ERROR_MESSAGE_METHOD;
 
 		$params = [];
 
@@ -300,13 +301,13 @@ class Dispatcher extends RoutingBase {
 
 			default:
 				// Fall back to a 404 message
-				$action_method = NOT_FOUND_METHOD;
+				$actionMethod = NOT_FOUND_METHOD;
 			break;
 		}
 
 		return [
 			'params' => $params,
-			'action_method' => $action_method
+			'action_method' => $actionMethod
 		];
 	}
 
@@ -315,9 +316,9 @@ class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	protected function _setupRoutes()
+	protected function setupRoutes()
 	{
-		$route_type = $this->getController();
+		$routeType = $this->getController();
 
 		// Add routes
 		$routes = [];
@@ -326,18 +327,18 @@ class Dispatcher extends RoutingBase {
 			$path = $route['path'];
 			unset($route['path']);
 
-			$controller_map = $this->getControllerList();
-			$controller_class = (array_key_exists($route_type, $controller_map))
-				? $controller_map[$route_type]
+			$controllerMap = $this->getControllerList();
+			$controllerClass = (array_key_exists($routeType, $controllerMap))
+				? $controllerMap[$routeType]
 				: DEFAULT_CONTROLLER;
 
-			if (array_key_exists($route_type, $controller_map))
+			if (array_key_exists($routeType, $controllerMap))
 			{
-				$controller_class = $controller_map[$route_type];
+				$controllerClass = $controllerMap[$routeType];
 			}
 
 			// Prepend the controller to the route parameters
-			$route['controller'] = $controller_class;
+			$route['controller'] = $controllerClass;
 
 			// Select the appropriate router method based on the http verb
 			$add = (array_key_exists('verb', $route))

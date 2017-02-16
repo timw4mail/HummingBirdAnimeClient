@@ -29,19 +29,19 @@ class UtilTest extends AnimeClientTestCase {
 	public function testIsSelected()
 	{
 		// Failure to match
-		$this->assertEquals('', Util::is_selected('foo', 'bar'));
+		$this->assertEquals('', Util::isSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('selected', Util::is_selected('foo', 'foo'));
+		$this->assertEquals('selected', Util::isSelected('foo', 'foo'));
 	}
 
 	public function testIsNotSelected()
 	{
 		// Failure to match
-		$this->assertEquals('selected', Util::is_not_selected('foo', 'bar'));
+		$this->assertEquals('selected', Util::isNotSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('', Util::is_not_selected('foo', 'foo'));
+		$this->assertEquals('', Util::isNotSelected('foo', 'foo'));
 	}
 
 	public function dataIsViewPage()
@@ -76,7 +76,7 @@ class UtilTest extends AnimeClientTestCase {
 				'REQUEST_URI' => $uri
 			]
 		]);
-		$this->assertEquals($expected, $this->util->is_view_page());
+		$this->assertEquals($expected, $this->util->isViewPage());
 	}
 
 	/**
@@ -89,6 +89,6 @@ class UtilTest extends AnimeClientTestCase {
 				'REQUEST_URI' => $uri
 			]
 		]);
-		$this->assertEquals(!$expected, $this->util->is_form_page());
+		$this->assertEquals(!$expected, $this->util->isFormPage());
 	}
 }

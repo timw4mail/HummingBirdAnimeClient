@@ -132,7 +132,7 @@ class Anime extends BaseController {
 			AnimeWatchingStatus::COMPLETED => 'Completed'
 		];
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
 			'title' => $this->config->get('whose_list') .
 				"'s Anime List &middot; Add",
@@ -166,7 +166,7 @@ class Anime extends BaseController {
 			$this->set_flash_message('Failed to add new anime to list', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Anime extends BaseController {
 				->titleize();
 		}
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
 			'title' => $this->config->get('whose_list') .
@@ -240,7 +240,7 @@ class Anime extends BaseController {
 			$this->set_flash_message('Failed to update anime.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -285,7 +285,7 @@ class Anime extends BaseController {
 			$this->set_flash_message('Failed to delete anime.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
