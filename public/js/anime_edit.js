@@ -6,7 +6,7 @@
 	'use strict';
 
 	// Action to increment episode count
-	_.on('body.anime.list', 'click', '.plus_one', e => {
+	_.on('body.anime.list', 'click', '.plus_one', (e) => {
 		let parentSel = _.closestParent(e.target, 'article');
 		let watchedCount = parseInt(_.$('.completed_number', parentSel)[0].textContent, 10);
 		let totalCount = parseInt(_.$('.total_number', parentSel)[0].textContent, 10);
@@ -28,17 +28,17 @@
 		}
 
 		// If you increment at the last episode, mark as completed
-		if (( ! isNaN(watchedCount)) && (watchedCount + 1) == totalCount) {
+		if (( ! isNaN(watchedCount)) && (watchedCount + 1) === totalCount) {
 			data.data.status = 'completed';
 		}
 
 		// okay, lets actually make some changes!
 		_.ajax(_.url('/anime/update'), {
-			data: data,
+			data,
 			dataType: 'json',
 			type: 'POST',
 			success: () => {
-				if (data.data.status == 'completed') {
+				if (data.data.status === 'completed') {
 					_.hide(parentSel);
 				}
 

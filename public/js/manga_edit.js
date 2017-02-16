@@ -5,7 +5,7 @@
 
 	'use strict';
 
-	_.on('.manga.list', 'click', '.edit_buttons button', e => {
+	_.on('.manga.list', 'click', '.edit_buttons button', (e) => {
 		let thisSel = e.target;
 		let parentSel = _.closestParent(e.target, 'article');
 		let mangaId = parentSel.id.replace("manga-", "");
@@ -33,7 +33,7 @@
 		}
 
 		// If you increment at the last chapter, mark as completed
-		if (( ! isNaN(completed)) && (completed + 1) == total) {
+		if (( ! isNaN(completed)) && (completed + 1) === total) {
 			data.data.status = 'completed';
 		}
 
@@ -41,12 +41,12 @@
 		data.data.progress = ++completed;
 
 		_.ajax(_.url('/manga/update'), {
-			data: data,
+			data,
 			dataType: 'json',
 			type: 'POST',
 			mimeType: 'application/json',
 			success: () => {
-				if (data.data.status == 'completed') {
+				if (data.data.status === 'completed') {
 					_.hide(parentSel);
 				}
 
@@ -54,8 +54,7 @@
 				_.showMessage('success', `Sucessfully updated ${mangaName}`);
 				_.scrollToTop();
 			},
-			error: (xhr, errorType, error) => {
-				console.error(error);
+			error: () => {
 				_.showMessage('error', `Failed to updated ${mangaName}`);
 				_.scrollToTop();
 			}

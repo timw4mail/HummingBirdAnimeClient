@@ -26,7 +26,7 @@ var AnimeClient = (function(w) {
 		 * @return {array} - array of dom elements
 		 */
 		$(selector, context) {
-			if (typeof selector !== "string") {
+			if (typeof selector !== 'string') {
 				return selector;
 			}
 
@@ -78,10 +78,10 @@ var AnimeClient = (function(w) {
 		 */
 		showMessage(type, message) {
 			let template =
-				`<div class="message ${type}">
-					<span class="icon"></span>
+				`<div class='message ${type}'>
+					<span class='icon'></span>
 					${message}
-					<span class="close"></span>
+					<span class='close'></span>
 				</div>`;
 
 			let sel = AnimeClient.$('.message');
@@ -225,7 +225,7 @@ var AnimeClient = (function(w) {
 			pairs.push(`${name}=${value}`);
 		});
 
-		return pairs.join("&");
+		return pairs.join('&');
 	};
 
 	/**
@@ -255,7 +255,7 @@ var AnimeClient = (function(w) {
 		let request = new XMLHttpRequest();
 		let method = String(config.type).toUpperCase();
 
-		if (method === "GET") {
+		if (method === 'GET') {
 			url += (url.match(/\?/))
 				? ajaxSerialize(config.data)
 				: `?${ajaxSerialize(config.data)}`;
@@ -267,7 +267,7 @@ var AnimeClient = (function(w) {
 			if (request.readyState === 4) {
 				let responseText = '';
 
-				if (request.responseType == 'json') {
+				if (request.responseType === 'json') {
 					responseText = JSON.parse(request.responseText);
 				} else {
 					responseText = request.responseText;
@@ -291,7 +291,7 @@ var AnimeClient = (function(w) {
 		request.setRequestHeader('Content-Type', config.mimeType);
 
 		switch (method) {
-			case "GET":
+			case 'GET':
 				request.send(null);
 			break;
 
