@@ -58,7 +58,7 @@ class MangaTransformer extends AbstractTransformer {
 		];
 	}
 
-	private function count(int $value = null)
+	private function count(int $value = NULL)
 	{
 		return ((int)$value === 0)
 			? '-'

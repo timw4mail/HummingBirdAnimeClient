@@ -33,7 +33,6 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-/* ?><pre><?= json_encode($item, \JSON_PRETTY_PRINT) ?></pre><?php */
 		$included = $item['included'];
 		$animeId = $item['relationships']['media']['data']['id'];
 		$anime = $included['anime'][$animeId];
@@ -95,7 +94,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
 			'user_rating' => ($rating === 0) ? '-' : (int) $rating,
-			'private' => (bool) $item['attributes']['private'] ?? false,
+			'private' => (bool) $item['attributes']['private'] ?? FALSE,
 		];
 	}
 
@@ -113,7 +112,7 @@ class AnimeListTransformer extends AbstractTransformer {
 
 		$untransformed = [
 			'id' => $item['id'],
-			'mal_id' => $item['mal_id'] ?? null,
+			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],
 				'reconsuming' => $rewatching,

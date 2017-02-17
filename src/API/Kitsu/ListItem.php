@@ -37,7 +37,7 @@ class ListItem extends AbstractListItem {
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
-		if ($sessionSegment->get('auth_token') !== null)
+		if ( ! is_null($sessionSegment->get('auth_token')))
 		{
 			$token = $sessionSegment->get('auth_token');
 			return "bearer {$token}";
