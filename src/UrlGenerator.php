@@ -44,9 +44,10 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
+	 * @param string ...$args url segments to apend to the base asset url
 	 * @return string
 	 */
-	public function assetUrl(...$args)
+	public function assetUrl(...$args): string
 	{
 		$baseUrl = rtrim($this->url(""), '/');
 		$baseUrl = "{$baseUrl}" . $this->__get("asset_path");
@@ -62,7 +63,7 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $path
 	 * @return string
 	 */
-	public function url($path)
+	public function url(string $path): string
 	{
 		$path = trim($path, '/');
 
@@ -95,7 +96,7 @@ class UrlGenerator extends RoutingBase {
 	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	public function defaultUrl($type)
+	public function defaultUrl(string $type): string
 	{
 		$type = trim($type);
 		$defaultPath = $this->__get("default_{$type}_list_path");
@@ -115,9 +116,9 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $type - (optional) The controller (anime or manga), defaults to anime
 	 * @return string
 	 */
-	public function fullUrl($path = "", $type = "anime")
+	public function fullUrl(string $path = "", string $type = "anime"): string
 	{
-		$config_default_route = $this->__get("default_{$type}_path");
+		$configDefaultRoute = $this->__get("default_{$type}_path");
 
 		// Remove beginning/trailing slashes
 		$path = trim($path, '/');
@@ -125,7 +126,7 @@ class UrlGenerator extends RoutingBase {
 		// Set the default view
 		if ($path === '')
 		{
-			$path .= trim($config_default_route, '/');
+			$path .= trim($configDefaultRoute, '/');
 			if ($this->__get('default_to_list_view'))
 			{
 				$path .= '/list';

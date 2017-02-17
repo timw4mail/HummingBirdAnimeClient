@@ -26,7 +26,7 @@ class API extends AbstractModel {
 	 *
 	 * @codeCoverageIgnore
 	 * @param array $array
-	 * @param string $sort_key
+	 * @param string $sortKey
 	 * @return void
 	 */
 	protected function sortByName(array &$array, string $sortKey)

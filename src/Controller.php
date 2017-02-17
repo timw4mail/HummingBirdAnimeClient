@@ -369,7 +369,7 @@ class Controller {
 	{
 		static $messages;
 		
-		if (!$messages)
+		if ( ! $messages)
 		{
 			$messages = [];
 		}

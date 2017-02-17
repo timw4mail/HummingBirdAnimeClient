@@ -18,6 +18,9 @@ namespace Aviat\AnimeClient\API;
 
 use UnexpectedValueException;
 
+/**
+ * Exception for an API Request that fails validation
+ */
 class FailedResponseException extends UnexpectedValueException {
 
 }

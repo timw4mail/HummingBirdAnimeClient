@@ -37,6 +37,8 @@ class Model {
 
 	/**
 	 * MAL Model constructor.
+	 *
+	 * @param ListItem $listItem
 	 */
 	public function __construct(ListItem $listItem)
 	{

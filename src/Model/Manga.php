@@ -44,6 +44,10 @@ class Manga extends API
 		MangaReadingStatus::COMPLETED => self::COMPLETED
 	];
 
+	/**
+	 * Maps url segments to their title equivalents
+	 * @var array
+	 */
 	protected $statusMap = [
 		'current' => self::READING,
 		'planned' => self::PLAN_TO_READ,
@@ -53,10 +57,16 @@ class Manga extends API
 	];
 
 	/**
+	 * Model for making requests to Kitsu API
 	 * @var Aviat\AnimeClient\API\Kitsu\KitsuModel
 	 */
 	protected $kitsuModel;
 
+	/**
+	 * Constructor
+	 *
+	 * @param ContainerInterface $container
+	 */
 	public function __construct(ContainerInterface $container)
 	{
 		$this->kitsuModel = $container->get('kitsu-model');

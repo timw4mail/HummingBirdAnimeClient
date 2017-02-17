@@ -34,11 +34,11 @@
 	"require-dev": {
 		"pdepend/pdepend": "^2.2",
 		"sebastian/phpcpd": "^3.0",
-		"theseer/phpdox": "*",
+		"theseer/phpdox": "0.9.0",
 		"phploc/phploc": "^3.0",
 		"phpmd/phpmd": "^2.4",
 		"phpunit/phpunit": "^6.0",
-		"robmorgan/phinx": "^0.6.4",
+		"robmorgan/phinx": "~0.6.4",
 		"consolidation/robo": "~1.0",
 		"henrikbjorn/lurker": "^1.1.0",
 		"symfony/var-dumper": "^3.1",
@@ -47,6 +47,7 @@
 	"scripts": {
 		"build:css": "cd public && npm run build && cd ..",
 		"coverage": "vendor/bin/phpunit -c build",
+		"docs": "vendor/bin/phpdox",
 		"watch:css": "cd public && npm run watch",
 		"test": "vendor/bin/phpunit"
 	}
