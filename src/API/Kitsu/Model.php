@@ -68,7 +68,9 @@ class Model {
 
 
 	/**
-	 * Constructor.
+	 * Constructor
+	 *
+	 * @param ListItem $listItem
 	 */
 	public function __construct(ListItem $listItem)
 	{
@@ -136,7 +138,7 @@ class Model {
 			return $data;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -189,7 +191,7 @@ class Model {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 	/**
@@ -233,6 +235,8 @@ class Model {
 	/**
 	 * Get and transform the entirety of the user's anime list
 	 *
+	 * @param int $limit
+	 * @param int $offset
 	 * @return Request
 	 */
 	public function getFullAnimeList(int $limit = 100, int $offset = 0): Request

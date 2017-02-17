@@ -35,7 +35,6 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-/*?><pre><?= print_r($item, TRUE) ?></pre><?php*/
 		$manga =& $item['manga'];
 
 		$rating = (is_numeric($item['attributes']['rating']))
