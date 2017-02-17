@@ -158,12 +158,12 @@ class Anime extends BaseController {
 
 		if ($result)
 		{
-			$this->set_flash_message('Added new anime to list', 'success');
+			$this->setFlashMessage('Added new anime to list', 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add new anime to list', 'error');
+			$this->setFlashMessage('Failed to add new anime to list', 'error');
 		}
 
 		$this->sessionRedirect();
@@ -232,12 +232,12 @@ class Anime extends BaseController {
 
 		if ($fullResult['statusCode'] === 200)
 		{
-			$this->set_flash_message("Successfully updated.", 'success');
+			$this->setFlashMessage("Successfully updated.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update anime.', 'error');
+			$this->setFlashMessage('Failed to update anime.', 'error');
 		}
 
 		$this->sessionRedirect();
@@ -277,12 +277,12 @@ class Anime extends BaseController {
 
 		if ((bool)$response === TRUE)
 		{
-			$this->set_flash_message("Successfully deleted anime.", 'success');
+			$this->setFlashMessage("Successfully deleted anime.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to delete anime.', 'error');
+			$this->setFlashMessage('Failed to delete anime.', 'error');
 		}
 
 		$this->sessionRedirect();

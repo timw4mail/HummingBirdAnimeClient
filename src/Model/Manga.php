@@ -36,7 +36,7 @@ class Manga extends API
 	 * Map API constants to display constants
 	 * @var array
 	 */
-	protected $const_map = [
+	protected $constMap = [
 		MangaReadingStatus::READING => self::READING,
 		MangaReadingStatus::PLAN_TO_READ => self::PLAN_TO_READ,
 		MangaReadingStatus::ON_HOLD => self::ON_HOLD,
@@ -44,7 +44,7 @@ class Manga extends API
 		MangaReadingStatus::COMPLETED => self::COMPLETED
 	];
 
-	protected $status_map = [
+	protected $statusMap = [
 		'current' => self::READING,
 		'planned' => self::PLAN_TO_READ,
 		'completed' => self::COMPLETED,
@@ -59,8 +59,6 @@ class Manga extends API
 
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
-
 		$this->kitsuModel = $container->get('kitsu-model');
 	}
 
@@ -72,7 +70,7 @@ class Manga extends API
 	 */
 	public function getList($status)
 	{
-		$APIstatus = array_flip($this->const_map)[$status];
+		$APIstatus = array_flip($this->constMap)[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
 		return $this->mapByStatus($data)[$status];
 	}
@@ -161,7 +159,7 @@ class Manga extends API
 		];
 
 		foreach ($data as &$entry) {
-			$key = $this->status_map[$entry['reading_status']];
+			$key = $this->statusMap[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}
 

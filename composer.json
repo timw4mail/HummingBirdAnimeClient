@@ -34,7 +34,7 @@
 	"require-dev": {
 		"pdepend/pdepend": "^2.2",
 		"sebastian/phpcpd": "^3.0",
-		"theseer/phpdox": "^0.9.0",
+		"theseer/phpdox": "*",
 		"phploc/phploc": "^3.0",
 		"phpmd/phpmd": "^2.4",
 		"phpunit/phpunit": "^6.0",
@@ -46,6 +46,8 @@
 	},
 	"scripts": {
 		"build:css": "cd public && npm run build && cd ..",
-		"watch:css": "cd public && npm run watch"
+		"coverage": "vendor/bin/phpunit -c build",
+		"watch:css": "cd public && npm run watch",
+		"test": "vendor/bin/phpunit"
 	}
 }
