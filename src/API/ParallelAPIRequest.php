@@ -39,7 +39,7 @@ class ParallelAPIRequest {
 	 * @param string|number $key
 	 * @return self
 	 */
-	public function addRequest($request, $key = null): self
+	public function addRequest($request, $key = NULL): self
 	{
 		if ( ! is_null($key))
 		{

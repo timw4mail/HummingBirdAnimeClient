@@ -48,17 +48,34 @@ class Anime extends API {
 		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
 	];
 
+	/**
+	 * Model for making requests to Kitsu API
+	 *
+	 * @var Aviat\AnimeClient\API\Kitsu\Model
+	 */
 	protected $kitsuModel;
 
+	/**
+	 * Model for making requests to MAL API
+	 *
+	 * @var Aviat\AnimeClient\API\MAL\Model
+	 */
 	protected $malModel;
 
+	/**
+	 * Whether to use the MAL api
+	 *
+	 * @var boolean
+	 */
 	protected $useMALAPI;
 
 	/**
 	 * Anime constructor.
+	 *
 	 * @param ContainerInterface $container
 	 */
-	public function __construct(ContainerInterface $container) {
+	public function __construct(ContainerInterface $container) 
+	{
 		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
 		$this->malModel = $container->get('mal-model');
@@ -193,7 +210,7 @@ class Anime extends API {
 	 * @param string|null $malId
 	 * @return bool
 	 */
-	public function deleteLibraryItem(string $id, string $malId = null): bool
+	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
 		$requests = [];
 

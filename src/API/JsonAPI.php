@@ -27,7 +27,7 @@ class JsonAPI {
 	 * The full data array
 	 *
 	 * Basic structure is generally like so:
-	 * @example [
+	 * [
 	 * 	'id' => '12016665',
 	 * 	'type' => 'libraryEntries',
 	 * 	'links' => [

@@ -74,7 +74,7 @@ class Kitsu {
 	 * @param string $endDate
 	 * @return string
 	 */
-	public static function getAiringStatus(string $startDate = null, string $endDate = null): string
+	public static function getAiringStatus(string $startDate = NULL, string $endDate = NULL): string
 	{
 		$startAirDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endAirDate = new DateTimeImmutable($endDate ?? 'next year');
@@ -83,7 +83,7 @@ class Kitsu {
 		$isDoneAiring = $now > $endAirDate;
 		$isCurrentlyAiring = ($now > $startAirDate) && ! $isDoneAiring;
 
-		switch (true)
+		switch (TRUE)
 		{
 			case $isCurrentlyAiring:
 				return AnimeAiringStatus::AIRING;
@@ -102,28 +102,28 @@ class Kitsu {
 	 * @param string $hostname
 	 * @return array
 	 */
-	protected static function getServiceMetaData(string $hostname = null): array
+	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
 		switch($hostname)
 		{
 			case 'www.crunchyroll.com':
 				return [
 					'name' => 'Crunchyroll',
-					'link' => true,
+					'link' => TRUE,
 					'image' => 'streaming-logos/crunchyroll.svg',
 				];
 
 			case 'www.funimation.com':
 				return [
 					'name' => 'Funimation',
-					'link' => true,
+					'link' => TRUE,
 					'image' => 'streaming-logos/funimation.svg',
 				];
 
 			case 'www.hulu.com':
 				return [
 					'name' => 'Hulu',
-					'link' => true,
+					'link' => TRUE,
 					'image' => 'streaming-logos/hulu.svg',
 				];
 
@@ -132,7 +132,7 @@ class Kitsu {
 			default:
 				return [
 					'name' => 'Netflix',
-					'link' => false,
+					'link' => FALSE,
 					'image' => 'streaming-logos/netflix.svg',
 				];
 		}
@@ -172,6 +172,7 @@ class Kitsu {
 	 * Reorganize streaming links for the current list item
 	 *
 	 * @param array $included
+	 * @param string $animeId
 	 * @return array
 	 */
 	public static function parseListItemStreamingLinks(array $included, string $animeId): array
@@ -235,11 +236,11 @@ class Kitsu {
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(string $title = null, array $existingTitles = []): bool
+	private static function titleIsUnique(string $title = NULL, array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
-			return false;
+			return FALSE;
 		}
 
 		foreach($existingTitles as $existing)
@@ -248,12 +249,12 @@ class Kitsu {
 			$diff = levenshtein($existing, $title);
 			$onlydifferentCase = (mb_strtolower($existing) === mb_strtolower($title));
 
-			if ($diff < 3 || $isSubset || $onlydifferentCase)
+			if ($diff < 3 OR $isSubset OR $onlydifferentCase)
 			{
-				return false;
+				return FALSE;
 			}
 		}
 
-		return true;
+		return TRUE;
 	}
 }

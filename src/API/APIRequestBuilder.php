@@ -207,6 +207,7 @@ class APIRequestBuilder {
 	 *
 	 * @param string $type
 	 * @param string $uri
+	 * @throws InvalidArgumentException
 	 * @return self
 	 */
 	public function newRequest(string $type, string $uri): self

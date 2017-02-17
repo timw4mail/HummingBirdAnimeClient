@@ -9,7 +9,7 @@
 	<bootstrap />
 
 	<!-- A phpDox project to process, you can have multiple projects in one config file -->
-	<project name="Hummingbird Anime Client" source="../src" workdir="phpdox/xml">
+	<project name="Hummingbird Anime Client" source="src" workdir="build/phpdox/xml">
 		<!--  @name	- The name of the project -->
 		<!--  @source  - The source directory of the application to process -->
 		<!--  @workdir - The directory to store the xml data files in -->
@@ -56,12 +56,12 @@
 		</collector>
 
 		<!--  Configuration of generation process -->
-		<generator output="../docs">
+		<generator output="docs">
 			<!-- @output - (Base-)Directory to store output data in -->
 
 			<!-- A generation process consists of one or more build tasks and of (optional) enrich sources -->
 
-			<enrich base="logs">
+			<enrich base="build/logs">
 				<!-- @base - (Base-)Directory of datafiles used for enrich process -->
 
 				<!--<source type="...">-->
@@ -117,10 +117,10 @@
 			<!-- An engine and thus build node can have additional configuration child nodes, please check the documentation for the engine to find out more -->
 
 			<!--  default engine "html" -->
-			<build engine="html" enabled="true">
-				<template dir="${phpDox.home}/templates/html" />
+			<build engine="html" output="html" />
+				<!-- <template dir="${phpDox.home}/templates/html" /> -
 				<file extension="html" />
-			</build>
+			</build> -->
 
 		</generator>
 	</project>

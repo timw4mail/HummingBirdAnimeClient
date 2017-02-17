@@ -16,8 +16,10 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\AnimeClient\API\Kitsu as K;
+use Aviat\AnimeClient\API\{
+	APIRequestBuilder,
+	Kitsu as K
+};
 use Aviat\Ion\Json;
 
 class KitsuRequestBuilder extends APIRequestBuilder {

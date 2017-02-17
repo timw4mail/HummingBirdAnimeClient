@@ -118,9 +118,7 @@ class RoboFile extends Tasks {
 	public function docs()
 	{
 		$cmd_parts = [
-			'cd build',
-			'../vendor/bin/phpdox',
-			'cd ..'
+			'phpdox',
 		];
 		$this->_run($cmd_parts, ' && ');
 	}
@@ -209,11 +207,6 @@ class RoboFile extends Tasks {
 		$this->lint();
 		
 		$this->_run(['phpunit']);
-		
-		/*$this->taskPHPUnit()
-			->configFile('phpunit.xml')
-			->printed(true)
-			->run();*/
 	}
 
 	/**

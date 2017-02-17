@@ -23,6 +23,8 @@ class ClearCache extends BaseCommand {
 	/**
 	 * Clear the API cache
 	 *
+	 * @param array $args
+	 * @param array $options
 	 * @return void
 	 * @throws \ConsoleKit\ConsoleException
 	 */
