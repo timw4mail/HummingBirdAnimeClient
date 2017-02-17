@@ -28,7 +28,13 @@
 						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
+								<a class="bracketed" title="Edit information about this anime" href="<?= 
+									$url->generate('edit', [
+										'controller' => 'anime', 
+										'id' => $item['id'], 
+										'status' => $item['watching_status']
+									]);
+							 	?>">Edit</a>
 							</span>
 						</div>
 						<?php endif ?>

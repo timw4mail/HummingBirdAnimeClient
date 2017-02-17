@@ -1044,6 +1044,7 @@ a:hover, a:active {
 	.medium_metadata > div,
 	.row {
 		text-shadow:1px 2px 1px rgba(0, 0, 0, .85);
+		background:#000;
 		background:rgba(0, 0, 0, .45);
 		color:#ffffff;
 		padding:0.25em 0.125em;
@@ -1127,6 +1128,7 @@ a:hover, a:active {
 
 .anime .row, .manga .row {
 	width:100%;
+	background:#000;
 	background:rgba(0, 0, 0, .45);
 	display: -webkit-box;
 	display: -ms-flexbox;

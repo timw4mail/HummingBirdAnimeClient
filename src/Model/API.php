@@ -16,38 +16,12 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Model;
 
 /**
  * Base model for api interaction
  */
 class API extends Model {
-
-	use ContainerAware;
-
-	/**
-	 * Config manager
-	 * @var ConfigInterface
-	 */
-	protected $config;
-
-	/**
-	 * Cache manager
-	 * @var \Psr\Cache\CacheItemPoolInterface
-	 */
-	protected $cache;
-
-	/**
-	 * Constructor
-	 *
-	 * @param ContainerInterface $container
-	 */
-	public function __construct(ContainerInterface $container)
-	{
-		$this->container = $container;
-		$this->config = $container->get('config');
-	}
 
 	/**
 	 * Sort the list entries by their title

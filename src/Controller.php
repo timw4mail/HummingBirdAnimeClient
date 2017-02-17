@@ -97,10 +97,14 @@ class Controller {
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-		$this->baseData['url'] = $auraUrlGenerator;
-		$this->baseData['urlGenerator'] = $urlGenerator;
-		$this->baseData['auth'] = $container->get('auth');
-		$this->baseData['config'] = $this->config;
+		
+		$this->baseData = array_merge((array)$this->baseData, [
+			'url' => $auraUrlGenerator,
+			'urlGenerator' => $urlGenerator,
+			'auth' => $container->get('auth'),
+			'config' => $this->config
+		]);
+
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');

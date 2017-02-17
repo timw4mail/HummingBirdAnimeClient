@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use function Amp\some;
 use function Amp\wait;
+
 use Amp\Artax\Client;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
@@ -58,8 +59,6 @@ class Anime extends API {
 	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container) {
-		parent::__construct($container);
-
 		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
 		$this->malModel = $container->get('mal-model');
