@@ -16,28 +16,11 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\Ion\StringWrapper;
+
 /**
- * Base model for api interaction
+ * Base class for Models
  */
-class API extends AbstractModel {
-
-	/**
-	 * Sort the list entries by their title
-	 *
-	 * @codeCoverageIgnore
-	 * @param array $array
-	 * @param string $sort_key
-	 * @return void
-	 */
-	protected function sortByName(array &$array, string $sortKey)
-	{
-		$sort = [];
-
-		foreach ($array as $key => $item)
-		{
-			$sort[$key] = $item[$sortKey]['titles'][0];
-		}
-
-		array_multisort($sort, SORT_ASC, $array);
-	}
+abstract class AbstractModel {
+	use StringWrapper;
 }

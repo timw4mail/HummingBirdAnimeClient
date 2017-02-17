@@ -17,12 +17,11 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\Model;
 
 /**
  * Base model for database interaction
  */
-class DB extends Model {
+class DB extends AbstractModel {
 	use ContainerAware;
 
 	/**
