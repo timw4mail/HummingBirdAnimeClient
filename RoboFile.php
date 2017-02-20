@@ -106,10 +106,6 @@ class RoboFile extends Tasks {
 	public function coverage()
 	{
 		$this->_run(['vendor/bin/phpunit -c build']);
-		/* $this->taskPhpUnit()
-			->configFile('build/phpunit.xml')
-			->printed(true)
-			->run(); */
 	}
 
 	/**
