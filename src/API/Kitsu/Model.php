@@ -17,9 +17,11 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu as K;
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	JsonAPI,
+	Kitsu as K
+};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
 	AnimeListTransformer,

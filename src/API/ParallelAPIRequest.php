@@ -16,8 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use function Amp\{all, some, wait};
-
+use Amp;
 use Amp\Artax\Client;
 
 /**
@@ -74,9 +73,9 @@ class ParallelAPIRequest {
 		$client = new Client();
 		$promises = $client->requestMulti($this->requests);
 		
-		$func = ($allowFailingRequests) ? 'some' : 'all';
+		$func = ($allowFailingRequests) ? '\Amp\some' : '\Amp\all';
 		
-		$results = wait($func($promises));
+		$results = Amp\wait($func($promises));
 		
 		return $results;
 	}
