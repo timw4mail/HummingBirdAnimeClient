@@ -20,6 +20,7 @@ use function Amp\some;
 use function Amp\wait;
 
 use Amp\Artax\Client;
+use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
@@ -153,7 +154,7 @@ class Anime extends API {
 	 */
 	public function createLibraryItem(array $data): bool
 	{
-		$requests = [];
+		$requester = new ParallelAPIRequest();
 
 		if ($this->useMALAPI)
 		{
@@ -163,15 +164,13 @@ class Anime extends API {
 			if ( ! is_null($malId))
 			{
 				$malData['id'] = $malId;
-				$requests['mal'] = $this->malModel->createListItem($malData);
+				$requester->addRequest($this->malModel->createListItem($malData), 'mal');
 			}
 		}
+		
+		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
-		$requests['kitsu'] = $this->kitsuModel->createListItem($data);
-
-		$promises = (new Client)->requestMulti($requests);
-
-		$results = wait(some($promises));
+		$results = $requester->makeRequests(TRUE);
 
 		return count($results[1]) > 0;
 	}
@@ -184,18 +183,16 @@ class Anime extends API {
 	 */
 	public function updateLibraryItem(array $data): array
 	{
-		$requests = []; 
+		$requester = new ParallelAPIRequest(); 
 		
 		if ($this->useMALAPI)
 		{
-			$requests['mal'] = $this->malModel->updateListItem($data);
+			$requester->addRequest($this->malModel->updateListItem($data), 'mal');
 		}
 
-		$requests['kitsu'] = $this->kitsuModel->updateListItem($data);
-		
-		$promises = (new Client)->requestMulti($requests);
+		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		$results = wait(some($promises));
+		$results = $requester->makeRequests(TRUE);
 		
 		return [
 			'body' => Json::decode($results[1]['kitsu']->getBody()),
@@ -212,16 +209,16 @@ class Anime extends API {
 	 */
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
-		$requests = [];
+		$requester = new ParallelAPIRequest();
 
 		if ($this->useMALAPI && ! is_null($malId))
 		{
-			$requests['mal'] = $this->malModel->deleteListItem($malId);
+			$requester->addRequest($this->malModel->deleteListItem($malId), 'MAL');
 		}
 
-		$requests['kitsu'] = $this->kitsuModel->deleteListItem($id);
+		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
-		$results = wait(some((new Client)->requestMulti($requests)));
+		$results = $requester->makeRequests(TRUE);
 
 		return count($results[1]) > 0;
 	}
