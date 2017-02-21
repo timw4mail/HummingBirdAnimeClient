@@ -123,7 +123,7 @@ class Collection extends BaseController {
 			'action' => $action,
 			'action_url' => $this->urlGenerator->fullUrl('collection/' . strtolower($action)),
 			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
-			'media_items' => $this->animeCollectionModel->get_media_type_list(),
+			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
 			'item' => ($action === "Edit") ? $this->animeCollectionModel->get($id) : []
 		]);
 	}
@@ -139,11 +139,11 @@ class Collection extends BaseController {
 		if (array_key_exists('hummingbird_id', $data))
 		{
 			$this->animeCollectionModel->update($data);
-			$this->set_flash_message('Successfully updated collection item.', 'success');
+			$this->setFlashMessage('Successfully updated collection item.', 'success');
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update collection item', 'error');
+			$this->setFlashMessage('Failed to update collection item', 'error');
 		}
 
 		$this->sessionRedirect();
@@ -160,11 +160,11 @@ class Collection extends BaseController {
 		if (array_key_exists('id', $data))
 		{
 			$this->animeCollectionModel->add($data);
-			$this->set_flash_message('Successfully added collection item', 'success');
+			$this->setFlashMessage('Successfully added collection item', 'success');
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add collection item.', 'error');
+			$this->setFlashMessage('Failed to add collection item.', 'error');
 		}
 
 		$this->sessionRedirect();
@@ -184,7 +184,7 @@ class Collection extends BaseController {
 		}
 
 		$this->animeCollectionModel->delete($data);
-		$this->set_flash_message("Successfully removed anime from collection.", 'success');
+		$this->setFlashMessage("Successfully removed anime from collection.", 'success');
 
 		$this->redirect("/collection/view", 303);
 	}
