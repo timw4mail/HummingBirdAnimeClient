@@ -58,40 +58,6 @@ or
 
 ### Server Setup
 
-#### Caching
-
-Update `app/config/cache.toml` based on the instructions [here](https://git.timshomepage.net/timw4mail/banker/blob/master/README.md).
-
-
-#### nginx
-Basic nginx setup
-
-```nginx
-server {
-	location / {
-		try_files $uri $uri/ /index.php$uri?$args;
-	}
-
-	location ~ ^(.+\.php)($|/) {
-		fastcgi_split_path_info ^(.+\.php)(.*)$;
-		fastcgi_index index.php;
-	}
-
-	location ^~ /vendor {
-		deny all;
-	}
-}
-```
-
-#### Apache
-Make sure to have `mod_rewrite` and `AllowOverride All` enabled in order to take
-advantage of the included `.htaccess` file. If you don't wish to use an `.htaccess` file,
-include the contents of the `.htaccess` file in your Apache configuration.
-
-#### Anime Collection Additional Installation
-* Run `php /vendor/bin/phinx migrate -e development` to create the database tables
-* For importing anime:
-	1. Login
-	2. Use the form to select your media
-	3. Save &amp; Repeat as needed
+See the [wiki](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/wikis/home)
+for more in-depth information
 
