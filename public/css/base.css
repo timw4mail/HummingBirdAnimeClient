@@ -371,7 +371,7 @@ hr
 img
 {
 	height:auto;
-	max-width:100%;
+	/* max-width:100%; */
 	vertical-align:baseline;
 }
 
@@ -1033,6 +1033,10 @@ a:hover, a:active {
 	width:220px;
 	height:311px;
 	margin:0.25em 0.125em;
+}
+
+.media > img {
+	width: 100%;
 }
 
 .media .edit_buttons > button {
