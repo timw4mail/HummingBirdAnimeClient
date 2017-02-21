@@ -141,12 +141,12 @@ class Manga extends Controller {
 
 		if ($result)
 		{
-			$this->set_flash_message('Added new manga to list', 'success');
+			$this->setFlashMessage('Added new manga to list', 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add new manga to list' . $result['body'], 'error');
+			$this->setFlashMessage('Failed to add new manga to list' . $result['body'], 'error');
 		}
 
 		$this->sessionRedirect();
@@ -202,12 +202,12 @@ class Manga extends Controller {
 
 		if ($full_result['statusCode'] === 200)
 		{
-			$this->set_flash_message("Successfully updated manga.", 'success');
+			$this->setFlashMessage("Successfully updated manga.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update manga.', 'error');
+			$this->setFlashMessage('Failed to update manga.', 'error');
 
 		}
 
@@ -249,12 +249,12 @@ class Manga extends Controller {
 
 		if ($response)
 		{
-			$this->set_flash_message("Successfully deleted manga.", 'success');
+			$this->setFlashMessage("Successfully deleted manga.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to delete manga.', 'error');
+			$this->setFlashMessage('Failed to delete manga.', 'error');
 		}
 
 		$this->sessionRedirect();
