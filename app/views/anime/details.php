@@ -1,7 +1,7 @@
 <main class="details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $data['cover_image'] ?>" alt="" />
+			<img class="cover" width="402" height="284" src="<?= $data['cover_image'] ?>" alt="" />
 			<br />
 			<br />
 			<table class="media_details">

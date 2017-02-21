@@ -307,6 +307,10 @@ a:hover, a:active {
 	margin: var(--normal-padding);
 }
 
+.media > img {
+	width: 100%;
+}
+
 .media .edit_buttons > button {
 	margin:0.5em auto;
 }
