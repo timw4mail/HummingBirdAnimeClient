@@ -34,7 +34,7 @@ class RoutingBase {
 
 	/**
 	 * Config Object
-	 * @var Config
+	 * @var \Aviat\Ion\Config
 	 */
 	protected $config;
 

@@ -34,6 +34,11 @@ class Model {
 	 * @var AnimeListTransformer
 	 */
 	protected $animeListTransformer;
+	
+	/**
+	 * @var ListItem
+	 */
+	protected $listItem;
 
 	/**
 	 * MAL Model constructor.

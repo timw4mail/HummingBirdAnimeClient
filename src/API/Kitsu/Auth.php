@@ -36,14 +36,14 @@ class Auth {
 	/**
 	 * Anime API Model
 	 *
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var Model
 	 */
 	protected $model;
 
 	/**
 	 * Session object
 	 *
-	 * @var Aura\Session\Segment
+	 * @var \Aura\Session\Segment
 	 */
 	protected $segment;
 

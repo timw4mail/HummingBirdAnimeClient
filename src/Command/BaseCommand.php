@@ -72,7 +72,7 @@ class BaseCommand extends Command {
 		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
-		$di = function ($config_array) use ($APP_DIR) {
+		$di = function ($config_array) {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
