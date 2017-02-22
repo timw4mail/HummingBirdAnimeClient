@@ -18,8 +18,9 @@ namespace Aviat\AnimeClient\Tests;
 
 use const Aviat\AnimeClient\SRC_DIR;
 
+use function Aviat\AnimeClient\_dir;
+
 use Aura\Web\WebFactory;
-use Aviat\AnimeClient\AnimeClient;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\{

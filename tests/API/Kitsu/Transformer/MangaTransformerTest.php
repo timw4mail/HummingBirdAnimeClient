@@ -22,6 +22,11 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
 class MangaTransformerTest extends AnimeClientTestCase {
+	
+	protected $dir;
+	protected $beforeTransform;
+	protected $afterTransform;
+	protected $transformer;
 
 	public function setUp() 
 	{

@@ -26,6 +26,8 @@ use Aviat\AnimeClient\Controller\{
 };
 
 class ControllerTest extends AnimeClientTestCase {
+	
+	protected $BaseController;
 
 	public function setUp()
 	{

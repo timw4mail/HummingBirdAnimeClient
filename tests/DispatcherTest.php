@@ -28,6 +28,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	protected $container;
 	protected $router;
 	protected $config;
+	protected $urlGenerator;
 
 	protected function doSetUp($config, $uri, $host)
 	{

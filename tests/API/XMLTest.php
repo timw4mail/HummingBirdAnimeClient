@@ -20,6 +20,12 @@ use Aviat\AnimeClient\API\XML;
 use PHPUnit\Framework\TestCase;
 
 class XMLTest extends TestCase {
+	
+	protected $malExport;
+	protected $xml;
+	protected $expectedXml;
+	protected $object;
+	protected $array;
 
 	public function setUp()
 	{

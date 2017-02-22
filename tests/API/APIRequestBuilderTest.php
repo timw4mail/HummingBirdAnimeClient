@@ -24,6 +24,8 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 
 class APIRequestBuilderTest extends TestCase {
+	
+	protected $builder;
 
 	public function setUp()
 	{

@@ -19,6 +19,8 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\RoutingBase;
 
 class RoutingBaseTest extends AnimeClientTestCase {
+	
+	protected $routingBase;
 
 	public function setUp()
 	{
