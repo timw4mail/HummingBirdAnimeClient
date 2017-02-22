@@ -14,11 +14,15 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Tests;
+namespace Aviat\AnimeClient\Tests\Helper;
 
 use Aviat\AnimeClient\Helper\Menu as MenuHelper;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
 class MenuHelperTest extends AnimeClientTestCase {
+	
+	protected $helper;
+	protected $urlGenerator;
 
 	public function setUp()
 	{

@@ -22,6 +22,9 @@ use Aviat\Ion\Friend;
 use ConsoleKit\Console;
 
 class BaseCommandTest extends AnimeClientTestCase {
+	protected $base;
+	protected $friend;
+	
 	public function setUp()
 	{
 		$this->base = new BaseCommand(new Console());

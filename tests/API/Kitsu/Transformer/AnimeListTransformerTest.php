@@ -23,6 +23,11 @@ use Aviat\Ion\Json;
 
 class AnimeListTransformerTest extends AnimeClientTestCase {
 	
+	protected $dir;
+	protected $beforeTransform;
+	protected $afterTransform;
+	protected $transformer;
+	
 	public function setUp()
 	{
 		parent::setUp();

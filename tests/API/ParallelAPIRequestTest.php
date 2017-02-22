@@ -6,7 +6,7 @@ use Aviat\AnimeClient\API\{APIRequestBuilder, ParallelAPIRequest};
 use Aviat\Ion\Friend;
 use PHPUnit\Framework\TestCase;
 
-class ParallelAPIRequestsTest extends TestCase {
+class ParallelAPIRequestTest extends TestCase {
 	
 	public function testAddStringUrlRequest()
 	{

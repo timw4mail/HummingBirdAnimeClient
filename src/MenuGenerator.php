@@ -40,7 +40,7 @@ class MenuGenerator extends UrlGenerator {
 	/**
 	 * Request object
 	 *
-	 * @var \Aura\Web\Request
+	 * @var \Psr\Http\Message\RequestInterface
 	 */
 	protected $request;
 
