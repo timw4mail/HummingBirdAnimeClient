@@ -52,14 +52,14 @@ class Anime extends API {
 	/**
 	 * Model for making requests to Kitsu API
 	 *
-	 * @var Aviat\AnimeClient\API\Kitsu\Model
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
 
 	/**
 	 * Model for making requests to MAL API
 	 *
-	 * @var Aviat\AnimeClient\API\MAL\Model
+	 * @var \Aviat\AnimeClient\API\MAL\Model
 	 */
 	protected $malModel;
 

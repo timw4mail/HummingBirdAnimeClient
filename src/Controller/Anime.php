@@ -45,7 +45,7 @@ class Anime extends BaseController {
 
 	/**
 	 * Data cache
-	 * @var Aviat\Ion\Cache\CacheInterface
+	 * @var \Psr\Cache\CachePoolInterface
 	 */
 	protected $cache;
 

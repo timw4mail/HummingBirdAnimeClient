@@ -22,6 +22,10 @@ use PHPUnit\Framework\TestCase;
 
 class JsonAPITest extends TestCase {
 	
+	protected $startData;
+	protected $organizedIncludes;
+	protected $inlineIncluded;
+	
 	public function setUp()
 	{
 		$dir = __DIR__ . '/../test_data/JsonAPI';

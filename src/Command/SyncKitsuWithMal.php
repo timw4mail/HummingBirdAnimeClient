@@ -31,13 +31,13 @@ class SyncKitsuWithMal extends BaseCommand {
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var Aviat\AnimeClient\API\Kitsu
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
 	
 	/**
 	 * Model for making requests to MAL API
-	 * @var Aviat\AnimeClient\API\MAL
+	 * @var \Aviat\AnimeClient\API\MAL\Model
 	 */
 	protected $malModel;
 

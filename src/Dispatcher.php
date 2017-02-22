@@ -24,6 +24,8 @@ use const Aviat\AnimeClient\{
 	SRC_DIR
 };
 
+use function Aviat\AnimeClient\_dir;
+
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 
@@ -46,7 +48,7 @@ class Dispatcher extends RoutingBase {
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var Psr\Http\Message\ServerRequestInterface
+	 * @var \Psr\Http\Message\ServerRequestInterface
 	 */
 	protected $request;
 

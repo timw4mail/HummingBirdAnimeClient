@@ -33,14 +33,14 @@ class MenuGenerator extends UrlGenerator {
 	/**
 	 * Html generation helper
 	 *
-	 * @var Aura\Html\HelperLocator
+	 * @var \Aura\Html\HelperLocator
 	 */
 	protected $helper;
 
 	/**
 	 * Request object
 	 *
-	 * @var Aura\Web\Request
+	 * @var \Aura\Web\Request
 	 */
 	protected $request;
 

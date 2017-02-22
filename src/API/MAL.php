@@ -73,7 +73,7 @@ class MAL {
 			'completed' => MangaReadingStatus::COMPLETED,
 			'onhold' => MangaReadingStatus::ON_HOLD,
 			'dropped' => MangaReadingStatus::DROPPED,
-			'plantoread' => MangaReadingStatus::PLAN_TO_WATCH
+			'plantoread' => MangaReadingStatus::PLAN_TO_READ
 		];
 	}
 }

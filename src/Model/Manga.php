@@ -58,9 +58,15 @@ class Manga extends API
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var Aviat\AnimeClient\API\Kitsu\KitsuModel
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
+	
+	/**
+	 * Model for making requests to MAL API
+	 * @var \Aviat\AnimeClient\API\MAL\Model
+	 */
+	protected $malModel;
 
 	/**
 	 * Constructor
@@ -70,6 +76,7 @@ class Manga extends API
 	public function __construct(ContainerInterface $container)
 	{
 		$this->kitsuModel = $container->get('kitsu-model');
+		$this->malModel = $container->get('mal-model');
 	}
 
 	/**

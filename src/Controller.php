@@ -18,6 +18,8 @@ namespace Aviat\AnimeClient;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
+use function Aviat\AnimeClient\_dir;
+
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -33,13 +35,13 @@ class Controller {
 
 	/**
 	 * Cache manager
-	 * @var \Aviat\Ion\Cache\CacheInterface
+	 * @var \Psr\Cache\CacheItemPoolInterface
 	 */
 	protected $cache;
 
 	/**
 	 * The global configuration object
-	 * @var Aviat\Ion\ConfigInterface $config
+	 * @var \Aviat\Ion\ConfigInterface $config
 	 */
 	protected $config;
 
@@ -69,7 +71,7 @@ class Controller {
 
 	/**
 	 * Session segment
-	 * @var [type]
+	 * @var \Aura\Session\Segment
 	 */
 	protected $session;
 
@@ -307,7 +309,8 @@ class Controller {
 		$post = $this->request->getParsedBody();
 		if ($auth->authenticate($post['password']))
 		{
-			return $this->sessionRedirect();
+			$this->sessionRedirect();
+			return;
 		}
 
 		$this->setFlashMessage('Invalid username or password.');

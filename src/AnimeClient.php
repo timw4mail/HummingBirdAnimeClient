@@ -29,6 +29,18 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const SRC_DIR = SRC_DIR;
 
 /**
+ * Joins paths together. Variadic to take an
+ * arbitrary number of arguments
+ *
+ * @param string[] ...$args
+ * @return string
+ */
+function _dir(...$args)
+{
+	return implode(DIRECTORY_SEPARATOR, $args);
+}
+
+/**
  * Load configuration options from .toml files
  *
  * @param string $path - Path to load config
