@@ -6,6 +6,7 @@ test:7:
     stage: test
     before_script:
       - sh build/docker_install.sh > /dev/null
+      - apk add --no-cache php7-phpdbg
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7-alpine
@@ -16,6 +17,7 @@ test:7.1:
     stage: test
     before_script:
       - sh build/docker_install.sh > /dev/null
+      - apk add --no-cache php7.1-phpdbg
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --no-dev --ignore-platform-reqs
     image: php:7.1-alpine
