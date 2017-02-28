@@ -47,7 +47,7 @@
 	},
 	"scripts": {
 		"build:css": "cd public && npm run build && cd ..",
-		"coverage": "vendor/bin/phpunit -c build",
+		"coverage": "phpdbg -qrr -- vendor/bin/phpunit -c build",
 		"docs": "vendor/bin/phpdox",
 		"phpstan": "phpstan analyse src tests",
 		"watch:css": "cd public && npm run watch",
