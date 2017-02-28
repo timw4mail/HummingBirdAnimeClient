@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -16,14 +16,13 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Model;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 
 /**
  * Base model for database interaction
  */
-class DB extends Model {
-	use \Aviat\Ion\Di\ContainerAware;
+class DB extends AbstractModel {
+	use ContainerAware;
 
 	/**
 	 * The query builder object
@@ -33,9 +32,9 @@ class DB extends Model {
 
 	/**
 	 * The database connection information array
-	 * @var array $db_config
+	 * @var array $dbConfig
 	 */
-	protected $db_config;
+	protected $dbConfig = [];
 
 	/**
 	 * Constructor
@@ -44,7 +43,7 @@ class DB extends Model {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		$this->db_config = $container->get('config')->get('database');
+		$this->dbConfig = $container->get('config')->get('database');
 		$this->setContainer($container);
 	}
 }

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -34,9 +34,16 @@ class Model {
 	 * @var AnimeListTransformer
 	 */
 	protected $animeListTransformer;
+	
+	/**
+	 * @var ListItem
+	 */
+	protected $listItem;
 
 	/**
 	 * MAL Model constructor.
+	 *
+	 * @param ListItem $listItem
 	 */
 	public function __construct(ListItem $listItem)
 	{

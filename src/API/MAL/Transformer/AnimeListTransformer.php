@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -24,7 +24,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 class AnimeListTransformer extends AbstractTransformer {
 	
-	const statusMap = [
+	const STATUS_MAP = [
 		AnimeWatchingStatus::WATCHING => '1',
 		AnimeWatchingStatus::COMPLETED => '2',
 		AnimeWatchingStatus::ON_HOLD => '3',
@@ -45,7 +45,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		return [
 			'id' => $item['mal_id'],
 			'data' => [
-				'status' => self::statusMap[$item['watching_status']],
+				'status' => self::STATUS_MAP[$item['watching_status']],
 				'rating' => $item['user_rating'],
 				'rewatch_value' => (int) $rewatching,
 				'times_rewatched' => $item['rewatched'],
@@ -58,7 +58,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	/**
 	 * Transform Kitsu episode data to MAL episode data
 	 *
-	 * @param array $item
+	 * @param array $item	
 	 * @return array 
 	 */
 	public function untransform(array $item): array
@@ -93,7 +93,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				break;
 					
 				case 'status':
-					$map['data']['status'] = self::statusMap[$value];
+					$map['data']['status'] = self::STATUS_MAP[$value];
 				break;
 					
 				default:

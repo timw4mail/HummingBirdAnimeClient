@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -16,10 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Model\DB;
+use Aviat\AnimeClient\Model\DB;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use PDO;
 use PDOException;
 
@@ -32,15 +30,15 @@ class Collection extends DB {
 
 	/**
 	 * Anime API Model
-	 * @var object $anime_model
+	 * @var object $animeModel
 	 */
-	protected $anime_model;
+	protected $animeModel;
 
 	/**
 	 * Whether the database is valid for querying
 	 * @var boolean
 	 */
-	protected $valid_database = FALSE;
+	protected $validDatabase = FALSE;
 
 	/**
 	 * Create a new collection object
@@ -48,41 +46,39 @@ class Collection extends DB {
 	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
-	{
-		$this->container = $container;
-		
-		parent::__construct($container->get('config'));
+	{	
+		parent::__construct($container);
 
 		try
 		{
-			$this->db = \Query($this->db_config['collection']);
+			$this->db = \Query($this->dbConfig['collection']);
 		}
 		catch (PDOException $e)
 		{
-			//$this->valid_database = FALSE;
+			//$this->validDatabase = FALSE;
 			//return FALSE;
 		}
-		$this->anime_model = $container->get('anime-model');
+		$this->animeModel = $container->get('anime-model');
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database
-		if ($this->db_config['collection']['type'] === 'sqlite')
+		if ($this->dbConfig['collection']['type'] === 'sqlite')
 		{
-			$db_file_name = $this->db_config['collection']['file'];
+			$dbFileName = $this->dbConfig['collection']['file'];
 
-			if ($db_file_name !== ':memory:' && file_exists($db_file_name))
+			if ($dbFileName !== ':memory:' && file_exists($dbFileName))
 			{
-				$db_file = file_get_contents($db_file_name);
-				$this->valid_database = (strpos($db_file, 'SQLite format 3') === 0);
+				$dbFile = file_get_contents($dbFileName);
+				$this->validDatabase = (strpos($dbFile, 'SQLite format 3') === 0);
 			}
 			else
 			{
-				$this->valid_database = FALSE;
+				$this->validDatabase = FALSE;
 			}
 		}
 		else
 		{
-			$this->valid_database = TRUE;
+			$this->validDatabase = TRUE;
 		}
 	}
 
@@ -92,7 +88,7 @@ class Collection extends DB {
 	 * @param array $filter
 	 * @return array
 	 */
-	public function get_genre_list($filter = [])
+	public function getGenreList($filter = [])
 	{
 		$this->db->select('hummingbird_id, genre')
 			->from('genre_anime_set_link gl')

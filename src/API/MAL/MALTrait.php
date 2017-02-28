@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -118,7 +118,7 @@ trait MALTrait {
 	 */
 	private function getResponse(string $type, string $url, array $options = [])
 	{
-		$logger = null;
+		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('mal-request');
@@ -148,7 +148,7 @@ trait MALTrait {
 	 */
 	private function request(string $type, string $url, array $options = []): array
 	{
-		$logger = null;
+		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('mal-request');
@@ -156,7 +156,7 @@ trait MALTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
+		if ((int) $response->getStatus() > 299 OR (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
@@ -170,7 +170,7 @@ trait MALTrait {
 	/**
 	 * Remove some boilerplate for get requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return array
 	 */
 	protected function getRequest(...$args): array
@@ -181,12 +181,12 @@ trait MALTrait {
 	/**
 	 * Remove some boilerplate for post requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return array
 	 */
 	protected function postRequest(...$args): array
 	{
-		$logger = null;
+		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('mal-request');

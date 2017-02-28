@@ -1,4 +1,4 @@
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <main>
 	<h2>Add Anime to your Collection</h2>
 	<form action="<?= $action_url ?>" method="post">
@@ -39,5 +39,5 @@
 		</table>
 	</form>
 </main>
-<script src="<?= $urlGenerator->asset_url('js.php/g/anime_collection') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/anime_collection') ?>"></script>
 <?php endif ?>

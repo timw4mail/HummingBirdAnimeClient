@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
@@ -31,7 +31,7 @@ class Util {
 	 * Routes that don't require a second navigation level
 	 * @var array
 	 */
-	private static $form_pages = [
+	private static $formPages = [
 		'edit',
 		'add',
 		'update',
@@ -65,7 +65,7 @@ class Util {
 	 * @param string $b - Second item to compare
 	 * @return string
 	 */
-	public static function is_selected($a, $b)
+	public static function isSelected($a, $b)
 	{
 		return ($a === $b) ? 'selected' : '';
 	}
@@ -77,7 +77,7 @@ class Util {
 	 * @param string $b - Second item to compare
 	 * @return string
 	 */
-	public static function is_not_selected($a, $b)
+	public static function isNotSelected($a, $b)
 	{
 		return ($a !== $b) ? 'selected' : '';
 	}
@@ -87,13 +87,13 @@ class Util {
 	 *
 	 * @return bool
 	 */
-	public function is_view_page()
+	public function isViewPage()
 	{
 		$url = $this->container->get('request')
 			->getUri();
-		$page_segments = explode("/", (string) $url);
+		$pageSegments = explode("/", (string) $url);
 
-		$intersect = array_intersect($page_segments, self::$form_pages);
+		$intersect = array_intersect($pageSegments, self::$formPages);
 
 		return empty($intersect);
 	}
@@ -104,9 +104,9 @@ class Util {
 	 *
 	 * @return boolean
 	 */
-	public function is_form_page()
+	public function isFormPage()
 	{
-		return ! $this->is_view_page();
+		return ! $this->isViewPage();
 	}
 }
 

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -39,6 +39,9 @@ class XML {
 
 	/**
 	 * XML constructor
+	 *
+	 * @param string $xml
+	 * @param array $data
 	 */
 	public function __construct(string $xml = '', array $data = [])
 	{
@@ -47,6 +50,8 @@ class XML {
 
 	/**
 	 * Serialize the data to an xml string
+	 *
+	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -67,7 +72,7 @@ class XML {
 	 * Set the data to create xml from
 	 *
 	 * @param array $data
-	 * @return $this
+	 * @return self
 	 */
 	public function setData(array $data): self
 	{
@@ -89,7 +94,7 @@ class XML {
 	 * Set the xml to parse the data from
 	 *
 	 * @param string $xml
-	 * @return $this
+	 * @return self
 	 */
 	public function setXML(string $xml): self
 	{
@@ -161,20 +166,28 @@ class XML {
 		return static::toXML($this->getData());
 	}
 
+	/**
+	 * Strip whitespace from raw xml to remove irrelevant text nodes
+	 *
+	 * @param string $xml
+	 * @return string
+	 */
 	private static function stripXMLWhitespace(string $xml): string
 	{
+
 		// Get rid of unimportant text nodes by removing
 		// whitespace characters from between xml tags,
 		// except for the xml declaration tag, Which looks
 		// something like:
 		/* <?xml version="1.0" encoding="UTF-8"?> */
+		
 		return preg_replace('/([^\?])>\s+</', '$1><', $xml);
 	}
 
 	/**
 	 * Recursively create array structure based on xml structure
 	 *
-	 * @param array &$root A reference to the current array location
+	 * @param array $root A reference to the current array location
 	 * @param DOMNodeList $nodeList The current NodeList object
 	 * @return void
 	 */
@@ -187,7 +200,7 @@ class XML {
 			$current =& $root[$el->nodeName];
 
 			// It's a top level element!
-			if (is_a($el->childNodes->item(0), 'DomText') || ( ! $el->hasChildNodes()))
+			if (is_a($el->childNodes->item(0), 'DomText') OR ( ! $el->hasChildNodes()))
 			{
 				$current = $el->textContent;
 				continue;

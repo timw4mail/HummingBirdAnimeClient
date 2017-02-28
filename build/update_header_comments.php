@@ -5,7 +5,9 @@ $file_patterns = [
 	'app/bootstrap.php',
 	'migrations/*.php',
 	'src/**/*.php',
+	'src/*.php',
 	'tests/**/*.php',
+	'tests/*.php'
 ];
 
 if ( ! function_exists('glob_recursive'))
@@ -60,6 +62,7 @@ function get_tokens($source)
 
 function replace_files(array $files, $template)
 {
+	print_r($files);
 	foreach ($files as $file)
 	{
 		$source = file_get_contents($file);

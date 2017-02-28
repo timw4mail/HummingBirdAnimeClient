@@ -11,8 +11,8 @@
 	});
 
 	// Confirm deleting of list or library items
-	ac.on('form.js-delete', 'submit', function (event) {
-		let proceed = confirm("Are you ABSOLUTELY SURE you want to delete this item?");
+	ac.on('form.js-delete', 'submit', (event) => {
+		const proceed = confirm('Are you ABSOLUTELY SURE you want to delete this item?');
 
 		if (proceed === false) {
 			event.preventDefault();
@@ -21,9 +21,9 @@
 	});
 
 	// Clear the api cache
-	ac.on('.js-clear-cache', 'click', function () {
+	ac.on('.js-clear-cache', 'click', () => {
 		ac.get('/cache_purge', () => {
-			ac.showMessage('success', `Sucessfully purged api cache`);
+			ac.showMessage('success', 'Successfully purged api cache');
 		});
 	});
 

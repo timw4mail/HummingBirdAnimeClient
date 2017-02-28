@@ -1,10 +1,26 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
 
 namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Util;
 
-class UtilTest extends \AnimeClient_TestCase {
+class UtilTest extends AnimeClientTestCase {
+	
+	protected $util;
 
 	public function setUp()
 	{
@@ -15,19 +31,19 @@ class UtilTest extends \AnimeClient_TestCase {
 	public function testIsSelected()
 	{
 		// Failure to match
-		$this->assertEquals('', Util::is_selected('foo', 'bar'));
+		$this->assertEquals('', Util::isSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('selected', Util::is_selected('foo', 'foo'));
+		$this->assertEquals('selected', Util::isSelected('foo', 'foo'));
 	}
 
 	public function testIsNotSelected()
 	{
 		// Failure to match
-		$this->assertEquals('selected', Util::is_not_selected('foo', 'bar'));
+		$this->assertEquals('selected', Util::isNotSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('', Util::is_not_selected('foo', 'foo'));
+		$this->assertEquals('', Util::isNotSelected('foo', 'foo'));
 	}
 
 	public function dataIsViewPage()
@@ -62,7 +78,7 @@ class UtilTest extends \AnimeClient_TestCase {
 				'REQUEST_URI' => $uri
 			]
 		]);
-		$this->assertEquals($expected, $this->util->is_view_page());
+		$this->assertEquals($expected, $this->util->isViewPage());
 	}
 
 	/**
@@ -75,6 +91,6 @@ class UtilTest extends \AnimeClient_TestCase {
 				'REQUEST_URI' => $uri
 			]
 		]);
-		$this->assertEquals(!$expected, $this->util->is_form_page());
+		$this->assertEquals(!$expected, $this->util->isFormPage());
 	}
 }

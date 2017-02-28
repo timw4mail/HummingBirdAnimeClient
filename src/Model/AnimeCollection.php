@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -31,13 +31,13 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function get_collection()
+	public function getCollection()
 	{
-		$raw_collection = $this->_get_collection();
+		$rawCollection = $this->getCollectionFromDatabase();
 
 		$collection = [];
 
-		foreach ($raw_collection as $row)
+		foreach ($rawCollection as $row)
 		{
 			if (array_key_exists($row['media'], $collection))
 			{
@@ -57,7 +57,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function get_media_type_list()
+	public function getMediaTypeList()
 	{
 		$output = [];
 
@@ -79,7 +79,7 @@ class AnimeCollection extends Collection {
 	 * @param int $id
 	 * @return array
 	 */
-	public function get_collection_entry($id)
+	public function getCollectionEntry($id)
 	{
 		$query = $this->db->from('anime_set')
 			->where('hummingbird_id', (int)$id)
@@ -93,9 +93,9 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function _get_collection()
+	private function getCollectionFromDatabase()
 	{
-		if ( ! $this->valid_database)
+		if ( ! $this->validDatabase)
 		{
 			return [];
 		}
@@ -119,9 +119,7 @@ class AnimeCollection extends Collection {
 	 */
 	public function add($data)
 	{
-		$anime = (object)$this->anime_model->getAnimeById($data['id']);
-		$util = $this->container->get('util');
-
+		$anime = (object)$this->animeModel->getAnimeById($data['id']);
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -136,7 +134,7 @@ class AnimeCollection extends Collection {
 			'notes' => $data['notes']
 		])->insert('anime_set');
 
-		$this->update_genre($data['id']);
+		$this->updateGenre($data['id']);
 	}
 
 	/**
@@ -185,13 +183,13 @@ class AnimeCollection extends Collection {
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int $hummingbird_id
+	 * @param int $kitsuId
 	 * @return array
 	 */
-	public function get($hummingbird_id)
+	public function get($kitsuId)
 	{
 		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', $hummingbird_id)
+			->where('hummingbird_id', $kitsuId)
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
@@ -200,16 +198,16 @@ class AnimeCollection extends Collection {
 	/**
 	 * Update genre information for selected anime
 	 *
-	 * @param int $anime_id The current anime
+	 * @param int $animeId The current anime
 	 * @return void
 	 */
-	private function update_genre($anime_id)
+	private function updateGenre($animeId)
 	{
-		$genre_info = $this->get_genre_data();
-		extract($genre_info);
+		$genreInfo = $this->getGenreData();
+		extract($genreInfo);
 
 		// Get api information
-		$anime = $this->anime_model->getAnimeById($anime_id);
+		$anime = $this->animeModel->getAnimeById($animeId);
 
 		foreach ($anime['genres'] as $genre)
 		{
@@ -224,23 +222,23 @@ class AnimeCollection extends Collection {
 
 			// Update link table
 			// Get id of genre to put in link table
-			$flipped_genres = array_flip($genres);
+			$flippedGenres = array_flip($genres);
 
-			$insert_array = [
-				'hummingbird_id' => $anime_id,
-				'genre_id' => $flipped_genres[$genre]
+			$insertArray = [
+				'hummingbird_id' => $animeId,
+				'genre_id' => $flippedGenres[$genre]
 			];
 
-			if (array_key_exists($anime_id, $links))
+			if (array_key_exists($animeId, $links))
 			{
-				if ( ! in_array($flipped_genres[$genre], $links[$anime_id]))
+				if ( ! in_array($flippedGenres[$genre], $links[$animeId]))
 				{
-					$this->db->set($insert_array)->insert('genre_anime_set_link');
+					$this->db->set($insertArray)->insert('genre_anime_set_link');
 				}
 			}
 			else
 			{
-				$this->db->set($insert_array)->insert('genre_anime_set_link');
+				$this->db->set($insertArray)->insert('genre_anime_set_link');
 			}
 		}
 	}
@@ -250,7 +248,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function get_genre_data()
+	private function getGenreData()
 	{
 		$genres = [];
 		$links = [];
@@ -284,22 +282,6 @@ class AnimeCollection extends Collection {
 			'genres' => $genres,
 			'links' => $links
 		];
-	}
-
-	/**
-	 * Update genre information for the entire collection
-	 *
-	 * @return void
-	 */
-	private function update_genres()
-	{
-		// Get the anime collection
-		$collection = $this->_get_collection();
-		foreach ($collection as $anime)
-		{
-			// Get api information
-			$this->update_genre($anime['hummingbird_id']);
-		}
 	}
 }
 // End of AnimeCollectionModel.php

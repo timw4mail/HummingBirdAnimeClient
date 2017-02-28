@@ -65,7 +65,7 @@ class LogicalNotSpacingSniff implements Sniff
         $next_token = $tokens[$stackPtr + 1];
         if (T_WHITESPACE !== $previous_token['code'] || T_WHITESPACE !== $next_token['code']) {
             $error = 'Logical operator ! should always be preceded and followed with a whitespace.';
-            $phpcsFile->addError($error, $stackPtr);
+            $phpcsFile->addError($error, $stackPtr, 'badNot');
         }
     }//end process()
 

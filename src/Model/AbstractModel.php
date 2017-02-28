@@ -14,28 +14,13 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Helper;
+namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\MenuGenerator;
+use Aviat\Ion\StringWrapper;
 
 /**
- * MenuGenerator helper wrapper
+ * Base class for Models
  */
-class Menu {
-
-	use \Aviat\Ion\Di\ContainerAware;
-
-	/**
-	 * Create the html for the selected menu
-	 *
-	 * @param  string $menuName
-	 * @return string
-	 */
-	public function __invoke($menuName)
-	{
-		$generator = new MenuGenerator($this->container);
-		return $generator->generate($menuName);
-	}
-
+abstract class AbstractModel {
+	use StringWrapper;
 }
-// End of Menu.php

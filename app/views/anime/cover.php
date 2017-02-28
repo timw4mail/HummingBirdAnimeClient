@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -10,9 +10,9 @@
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<?php if ($item['private'] && ! $auth->is_authenticated()) continue; ?>
+				<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
 				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
-					<?php if ($auth->is_authenticated()): ?>
+					<?php if ($auth->isAuthenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
 					<img src="<?= $item['anime']['image'] ?>" alt="" />
@@ -25,10 +25,16 @@
 						</a>
 					</div>
 					<div class="table">
-						<?php if ($auth->is_authenticated()): ?>
+						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this anime" href="<?= $urlGenerator->url("anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
+								<a class="bracketed" title="Edit information about this anime" href="<?= 
+									$url->generate('edit', [
+										'controller' => 'anime', 
+										'id' => $item['id'], 
+										'status' => $item['watching_status']
+									]);
+							 	?>">Edit</a>
 							</span>
 						</div>
 						<?php endif ?>
@@ -55,10 +61,10 @@
 								<div class="cover_streaming_link">
 									<?php if($link['meta']['link']): ?>
 										<a href="<?= $link['link']?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-											<?= $link['meta']['logo'] ?>
+											<img class="streaming-logo" width="20" height="20" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
 										</a>
 									<?php else: ?>
-										<?= $link['meta']['logo'] ?>
+										<img class="streaming-logo" width="20" height="20" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
 									<?php endif ?>
 								</div>
 							<?php endforeach ?>
@@ -85,6 +91,6 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if ($auth->is_authenticated()): ?>
-<script src="<?= $urlGenerator->asset_url('js.php/g/edit') ?>"></script>
+<?php if ($auth->isAuthenticated()): ?>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
 <?php endif ?>

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -35,18 +35,17 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-/*?><pre><?= print_r($item, TRUE) ?></pre><?php*/
 		$manga =& $item['manga'];
 
 		$rating = (is_numeric($item['attributes']['rating']))
 			? intval(2 * $item['attributes']['rating'])
 			: '-';
 
-		$total_chapters = ($manga['attributes']['chapterCount'] > 0)
+		$totalChapters = ($manga['attributes']['chapterCount'] > 0)
 			? $manga['attributes']['chapterCount']
 			: '-';
 
-		$total_volumes = ($manga['attributes']['volumeCount'] > 0)
+		$totalVolumes = ($manga['attributes']['volumeCount'] > 0)
 			? $manga['attributes']['volumeCount']
 			: '-';
 
@@ -54,11 +53,11 @@ class MangaListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'chapters' => [
 				'read' => $item['attributes']['progress'],
-				'total' => $total_chapters
+				'total' => $totalChapters
 			],
 			'volumes' => [
 				'read' => '-', //$item['attributes']['volumes_read'],
-				'total' => $total_volumes
+				'total' => $totalVolumes
 			],
 			'manga' => [
 				'titles' => Kitsu::filterTitles($manga['attributes']),

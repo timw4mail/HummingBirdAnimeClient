@@ -1,7 +1,7 @@
 <main class="details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $data['cover_image'] ?>" alt="" />
+			<img class="cover" width="402" height="284" src="<?= $data['cover_image'] ?>" alt="" />
 			<br />
 			<br />
 			<table class="media_details">
@@ -54,21 +54,21 @@
 					</tr>
 				</thead>
 				<tbody>
-				<?php foreach($data['streaming_links'] as $streaming_link): ?>
+				<?php foreach($data['streaming_links'] as $link): ?>
 					<tr>
 						<td class="align_left">
-							<?php if ($streaming_link['meta']['link'] !== FALSE): ?>
-							<a href="<?= $streaming_link['link'] ?>">
-								<?= $streaming_link['meta']['logo'] ?>
-								&nbsp;&nbsp;<?= $streaming_link['meta']['name'] ?>
+							<?php if ($link['meta']['link'] !== FALSE): ?>
+							<a href="<?= $link['link'] ?>" title="Stream '<?= $data['title'] ?>' on <?= $link['meta']['name'] ?>">
+								<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+								&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 							</a>
 							<?php else: ?>
-								<?= $streaming_link['meta']['logo'] ?>
-								&nbsp;&nbsp;<?= $streaming_link['meta']['name'] ?>
+								<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+								&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 							<?php endif ?>
 						</td>
-						<td><?= implode(', ', $streaming_link['subs']) ?></td>
-						<td><?= implode(', ', $streaming_link['dubs']) ?></td>
+						<td><?= implode(', ', $link['subs']) ?></td>
+						<td><?= implode(', ', $link['dubs']) ?></td>
 					</tr>
 				<?php endforeach ?>
 				</tbody>

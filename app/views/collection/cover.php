@@ -1,5 +1,5 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
+<?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('collection.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
@@ -19,7 +19,7 @@
 						</a>
 					</div>
 					<div class="table">
-						<?php if ($auth->is_authenticated()): ?>
+						<?php if ($auth->isAuthenticated()): ?>
 							<div class="row">
 								<span class="edit"><a class="bracketed" href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a></span>
 								<?php /*<span class="delete"><a class="bracketed" href="<?= $urlGenerator->url("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a></span> */ ?>

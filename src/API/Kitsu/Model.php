@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -17,9 +17,11 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu as K;
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	JsonAPI,
+	Kitsu as K
+};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
 	AnimeListTransformer,
@@ -68,7 +70,9 @@ class Model {
 
 
 	/**
-	 * Constructor.
+	 * Constructor
+	 *
+	 * @param ListItem $listItem
 	 */
 	public function __construct(ListItem $listItem)
 	{
@@ -136,7 +140,7 @@ class Model {
 			return $data;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -189,7 +193,7 @@ class Model {
 			}
 		}
 
-		return null;
+		return NULL;
 	}
 
 	/**
@@ -233,6 +237,8 @@ class Model {
 	/**
 	 * Get and transform the entirety of the user's anime list
 	 *
+	 * @param int $limit
+	 * @param int $offset
 	 * @return Request
 	 */
 	public function getFullAnimeList(int $limit = 100, int $offset = 0): Request

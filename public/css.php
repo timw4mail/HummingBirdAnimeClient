@@ -1,18 +1,19 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 
 namespace Aviat\EasyMin;
 
@@ -23,21 +24,21 @@ require_once('./min.php');
  */
 class CSSMin extends BaseMin {
 
-	protected $css_root;
-	protected $path_from;
-	protected $path_to;
+	protected $cssRoot;
+	protected $pathFrom;
+	protected $pathTo;
 	protected $group;
-	protected $last_modified;
-	protected $requested_time;
+	protected $lastModified;
+	protected $requestedTime;
 
 	public function __construct(array $config, array $groups)
 	{
 		$group = $_GET['g'];
-		$this->css_root = $config['css_root'];
-		$this->path_from = $config['path_from'];
-		$this->path_to = $config['path_to'];
+		$this->cssRoot = $config['css_root'];
+		$this->pathFrom = $config['path_from'];
+		$this->pathTo = $config['path_to'];
 		$this->group = $groups[$group];
-		$this->last_modified = $this->get_last_modified();
+		$this->lastModified = $this->getLastModified();
 
 		$this->send();
 	}
@@ -49,14 +50,14 @@ class CSSMin extends BaseMin {
 	 */
 	protected function send()
 	{
-		if($this->last_modified >= $this->get_if_modified() && $this->is_not_debug())
+		if($this->lastModified >= $this->getIfModified() && $this->isNotDebug())
 		{
 			throw new FileNotChangedException();
 		}
 
 		$css = ( ! array_key_exists('debug', $_GET))
-			? $this->compress($this->get_css())
-			: $this->get_css();
+			? $this->compress($this->getCss())
+			: $this->getCss();
 
 		$this->output($css);
 	}
@@ -74,7 +75,7 @@ class CSSMin extends BaseMin {
 
 		//Remove tabs, spaces, newlines, etc.
 		$buffer = preg_replace('`\s+`', ' ', $buffer);
-		$replace = array(
+		$replace = [
 			' )' => ')',
 			') ' => ')',
 			' }' => '}',
@@ -84,7 +85,7 @@ class CSSMin extends BaseMin {
 			', ' => ',',
 			': ' => ':',
 			'; ' => ';',
-		);
+		];
 
 		//Eradicate every last space!
 		$buffer = trim(strtr($buffer, $replace));
@@ -99,17 +100,17 @@ class CSSMin extends BaseMin {
 	 *
 	 * @return int
 	 */
-	protected function get_last_modified()
+	protected function getLastModified()
 	{
-		$modified = array();
+		$modified = [];
 
 		// Get all the css files, and concatenate them together
 		if(isset($this->group))
 		{
 			foreach($this->group as $file)
 			{
-				$new_file = realpath("{$this->css_root}{$file}");
-				$modified[] = filemtime($new_file);
+				$newFile = realpath("{$this->cssRoot}{$file}");
+				$modified[] = filemtime($newFile);
 			}
 		}
 
@@ -127,19 +128,19 @@ class CSSMin extends BaseMin {
 	 *
 	 * @return string
 	 */
-	protected function get_css()
+	protected function getCss()
 	{
 		$css = '';
 
 		foreach($this->group as $file)
 		{
-			$new_file = realpath("{$this->css_root}{$file}");
-			$css .= file_get_contents($new_file);
+			$newFile = realpath("{$this->cssRoot}{$file}");
+			$css .= file_get_contents($newFile);
 		}
 
 		// Correct paths that have changed due to concatenation
 		// based on rules in the config file
-		$css = str_replace($this->path_from, $this->path_to, $css);
+		$css = str_replace($this->pathFrom, $this->pathTo, $css);
 
 		return $css;
 	}
@@ -151,7 +152,7 @@ class CSSMin extends BaseMin {
 	 */
 	protected function output($css)
 	{
-		$this->send_final_output($css, 'text/css', $this->last_modified);
+		$this->sendFinalOutput($css, 'text/css', $this->lastModified);
 	}
 }
 

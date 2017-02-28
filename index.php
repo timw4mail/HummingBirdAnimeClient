@@ -28,24 +28,13 @@ if ($timezone === '' || $timezone === FALSE)
 	ini_set('date.timezone', 'GMT');
 }
 
-/**
- * Joins paths together. Variadic to take an
- * arbitrary number of arguments
- *
- * @return string
- */
-function _dir()
-{
-	return implode(DIRECTORY_SEPARATOR, func_get_args());
-}
+// Load composer autoloader
+require __DIR__ . '/vendor/autoload.php';
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
 $APPCONF_DIR = _dir($APP_DIR, 'appConf');
 $CONF_DIR = _dir($APP_DIR, 'config');
-
-// Load composer autoloader
-require _dir(__DIR__, 'vendor/autoload.php');
 
 // -------------------------------------------------------------------------
 // Setup error handling

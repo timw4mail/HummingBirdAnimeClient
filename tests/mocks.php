@@ -3,18 +3,15 @@
  * All the mock classes that extend the classes they are used to test
  */
 
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\API as BaseApiModel;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
-use Aviat\Ion\Enum;
-use Aviat\Ion\Friend;
-use Aviat\Ion\Json;
+use Aviat\AnimeClient\Model\{
+	Anime as AnimeModel,
+	API as BaseApiModel,
+	Manga as MangaModel
+};
+use Aviat\Ion\{Enum, Friend, Json};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View;
-use Aviat\Ion\View\HtmlView;
-use Aviat\Ion\View\HttpView;
-use Aviat\Ion\View\JsonView;
-
+use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler

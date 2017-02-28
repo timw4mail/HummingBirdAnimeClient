@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -65,7 +65,7 @@ trait KitsuTrait {
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
-		if ($sessionSegment->get('auth_token') !== null && $url !== K::AUTH_URL)
+		if ($sessionSegment->get('auth_token') !== NULL && $url !== K::AUTH_URL)
 		{
 			$token = $sessionSegment->get('auth_token');
 			$request = $request->setAuth('bearer', $token);
@@ -104,14 +104,6 @@ trait KitsuTrait {
 
 		$response = wait((new Client)->request($request));
 
-		/* $logger->debug('Kitsu api response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getAllHeaders(),
-			'requestHeaders' => $request->getAllHeaders(),
-		]); */
-
 		return $response;
 	}
 
@@ -125,7 +117,7 @@ trait KitsuTrait {
 	 */
 	private function request(string $type, string $url, array $options = []): array
 	{
-		$logger = null;
+		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('kitsu-request');
@@ -133,7 +125,7 @@ trait KitsuTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
+		if ((int) $response->getStatus() > 299 OR (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
@@ -147,7 +139,7 @@ trait KitsuTrait {
 	/**
 	 * Remove some boilerplate for get requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return array
 	 */
 	protected function getRequest(...$args): array
@@ -158,7 +150,7 @@ trait KitsuTrait {
 	/**
 	 * Remove some boilerplate for patch requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return array
 	 */
 	protected function patchRequest(...$args): array
@@ -169,12 +161,12 @@ trait KitsuTrait {
 	/**
 	 * Remove some boilerplate for post requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return array
 	 */
 	protected function postRequest(...$args): array
 	{
-		$logger = null;
+		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('kitsu-request');
@@ -197,7 +189,7 @@ trait KitsuTrait {
 	/**
 	 * Remove some boilerplate for delete requests
 	 *
-	 * @param array $args
+	 * @param mixed ...$args
 	 * @return bool
 	 */
 	protected function deleteRequest(...$args): bool

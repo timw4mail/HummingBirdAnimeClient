@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
@@ -33,14 +33,14 @@ class MenuGenerator extends UrlGenerator {
 	/**
 	 * Html generation helper
 	 *
-	 * @var Aura\Html\HelperLocator
+	 * @var \Aura\Html\HelperLocator
 	 */
 	protected $helper;
 
 	/**
 	 * Request object
 	 *
-	 * @var Aura\Web\Request
+	 * @var \Psr\Http\Message\RequestInterface
 	 */
 	protected $request;
 
@@ -62,7 +62,7 @@ class MenuGenerator extends UrlGenerator {
 	 * @param array $menus
 	 * @return array
 	 */
-	protected function parse_config(array $menus)
+	protected function parseConfig(array $menus)
 	{
 		$parsed = [];
 
@@ -88,17 +88,17 @@ class MenuGenerator extends UrlGenerator {
 	public function generate($menu)
 	{
 		$menus = $this->config->get('menus');
-		$parsed_config = $this->parse_config($menus);
+		$parsedConfig = $this->parseConfig($menus);
 
 		// Bail out early on invalid menu
-		if ( ! $this->arr($parsed_config)->hasKey($menu))
+		if ( ! $this->arr($parsedConfig)->hasKey($menu))
 		{
 			return '';
 		}
 
-		$menu_config = $parsed_config[$menu];
+		$menuConfig = $parsedConfig[$menu];
 
-		foreach ($menu_config as $title => $path)
+		foreach ($menuConfig as $title => $path)
 		{
 			$has = $this->string($this->path())->contains($path);
 			$selected = ($has && strlen($this->path()) >= strlen($path));

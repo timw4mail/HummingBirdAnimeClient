@@ -1,4 +1,20 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
+
+namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
@@ -7,13 +23,14 @@ use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 
 
-class DispatcherTest extends AnimeClient_TestCase {
+class DispatcherTest extends AnimeClientTestCase {
 
 	protected $container;
 	protected $router;
 	protected $config;
+	protected $urlGenerator;
 
-	protected function _set_up($config, $uri, $host)
+	protected function doSetUp($config, $uri, $host)
 	{
 		// Set up the environment
 		$_SERVER = array_merge($_SERVER, [
@@ -47,13 +64,13 @@ class DispatcherTest extends AnimeClient_TestCase {
 
 	public function testRouterSanity()
 	{
-		$this->_set_up([], '/', 'localhost');
+		$this->doSetUp([], '/', 'localhost');
 		$this->assertTrue(is_object($this->router));
 	}
 
 	public function dataRoute()
 	{
-		$default_config = array(
+		$defaultConfig = [
 			'routes' => [
 				'routes' => [
 					'login_form' => [
@@ -88,33 +105,33 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'default_list' => 'anime'
 				]
 			],
-		);
+		];
 
 		$data = [
-			'anime_default_routing_manga' => array(
-				'config' => $default_config,
+			'anime_default_routing_manga' => [
+				'config' => $defaultConfig,
 				'controller' => 'manga',
 				'host' => "localhost",
 				'uri' => "/manga/plan_to_read",
-			),
-			'manga_default_routing_anime' => array(
-				'config' => $default_config,
+			],
+			'manga_default_routing_anime' => [
+				'config' => $defaultConfig,
 				'controller' => 'anime',
 				'host' => "localhost",
 				'uri' => "/anime/watching",
-			),
-			'anime_default_routing_anime' => array(
-				'config' => $default_config,
+			],
+			'anime_default_routing_anime' => [
+				'config' => $defaultConfig,
 				'controller' => 'anime',
 				'host' => 'localhost',
 				'uri' => '/anime/watching',
-			),
-			'manga_default_routing_manga' => array(
-				'config' => $default_config,
+			],
+			'manga_default_routing_manga' => [
+				'config' => $defaultConfig,
 				'controller' => 'manga',
 				'host' => 'localhost',
 				'uri' => '/manga/plan_to_read'
-			)
+			]
 		];
 
 		$data['manga_default_routing_anime']['config']['routes']['route_config']['default_list'] = 'manga';
@@ -128,12 +145,9 @@ class DispatcherTest extends AnimeClient_TestCase {
 	 */
 	public function testRoute($config, $controller, $host, $uri)
 	{
-		$this->_set_up($config, $uri, $host);
+		$this->doSetUp($config, $uri, $host);
 
 		$request = $this->container->get('request');
-		$aura_router = $this->container->get('aura-router');
-		$matcher = $aura_router->getMatcher();
-
 
 		// Check route setup
 		$this->assertEquals($config['routes'], $this->config->get('routes'), "Incorrect route path");
@@ -190,17 +204,17 @@ class DispatcherTest extends AnimeClient_TestCase {
 			]
 		];
 
-		$this->_set_up($config, "/", "localhost");
-		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->default_url('manga'), "Incorrect default url");
-		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->default_url('anime'), "Incorrect default url");
+		$this->doSetUp($config, "/", "localhost");
+		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->defaultUrl('manga'), "Incorrect default url");
+		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->defaultUrl('anime'), "Incorrect default url");
 
 		$this->expectException(\InvalidArgumentException::class);
-		$this->urlGenerator->default_url('foo');
+		$this->urlGenerator->defaultUrl('foo');
 	}
 
 	public function dataGetControllerList()
 	{
-		return array(
+		return [
 			'controller_list_sanity_check' => [
 				'config' => [
 					'routes' => [
@@ -243,7 +257,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 					'collection' => 'Aviat\AnimeClient\Controller\Collection',
 				]
 			]
-		);
+		];
 	}
 
 	/**
@@ -251,7 +265,7 @@ class DispatcherTest extends AnimeClient_TestCase {
 	 */
 	public function testGetControllerList($config, $expected)
 	{
-		$this->_set_up($config, '/', 'localhost');
+		$this->doSetUp($config, '/', 'localhost');
 		$this->assertEquals($expected, $this->router->getControllerList());
 	}
 }
