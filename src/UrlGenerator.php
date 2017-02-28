@@ -1,22 +1,23 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\Di\ContainerInterface;
+use InvalidArgumentException;
 
 /**
  * UrlGenerator class.
@@ -43,33 +44,17 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
+	 * @param string ...$args url segments to apend to the base asset url
 	 * @return string
 	 */
-	public function asset_url()
+	public function assetUrl(...$args): string
 	{
-		$args = func_get_args();
-		$base_url = rtrim($this->url(""), '/');
+		$baseUrl = rtrim($this->url(""), '/');
+		$baseUrl = "{$baseUrl}" . $this->__get("asset_path");
 
-		$base_url = "{$base_url}" . $this->__get("asset_path");
-
-		array_unshift($args, $base_url);
+		array_unshift($args, $baseUrl);
 
 		return implode("/", $args);
-	}
-
-	/**
-	 * Get the base url from the config
-	 *
-	 * @param string $type - (optional) The controller
-	 * @return string
-	 */
-	public function base_url($type = "anime")
-	{
-		$config_path = trim($this->__get("{$type}_path"), "/");
-
-		$path = ($config_path !== '') ? $config_path : "";
-
-		return implode("/", ['/', $this->host, $path]);
 	}
 
 	/**
@@ -78,7 +63,7 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $path
 	 * @return string
 	 */
-	public function url($path)
+	public function url(string $path): string
 	{
 		$path = trim($path, '/');
 
@@ -108,20 +93,20 @@ class UrlGenerator extends RoutingBase {
 	 * Full default path for the list pages
 	 *
 	 * @param string $type
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	public function default_url($type)
+	public function defaultUrl(string $type): string
 	{
 		$type = trim($type);
-		$default_path = $this->__get("default_{$type}_list_path");
+		$defaultPath = $this->__get("default_{$type}_list_path");
 
-		if ( ! is_null($default_path))
+		if ( ! is_null($defaultPath))
 		{
-			return $this->url("{$type}/{$default_path}");
+			return $this->url("{$type}/{$defaultPath}");
 		}
 
-		throw new \InvalidArgumentException("Invalid default type: '{$type}'");
+		throw new InvalidArgumentException("Invalid default type: '{$type}'");
 	}
 
 	/**
@@ -131,9 +116,9 @@ class UrlGenerator extends RoutingBase {
 	 * @param string $type - (optional) The controller (anime or manga), defaults to anime
 	 * @return string
 	 */
-	public function full_url($path = "", $type = "anime")
+	public function fullUrl(string $path = "", string $type = "anime"): string
 	{
-		$config_default_route = $this->__get("default_{$type}_path");
+		$configDefaultRoute = $this->__get("default_{$type}_path");
 
 		// Remove beginning/trailing slashes
 		$path = trim($path, '/');
@@ -141,7 +126,7 @@ class UrlGenerator extends RoutingBase {
 		// Set the default view
 		if ($path === '')
 		{
-			$path .= trim($config_default_route, '/');
+			$path .= trim($configDefaultRoute, '/');
 			if ($this->__get('default_to_list_view'))
 			{
 				$path .= '/list';

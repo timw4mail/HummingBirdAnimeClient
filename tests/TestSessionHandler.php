@@ -1,9 +1,25 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
 
-class TestSessionHandler implements SessionHandlerInterface {
+namespace Aviat\AnimeClient\Tests;
+
+class TestSessionHandler implements \SessionHandlerInterface {
 	
 	public $data = [];
-	public $save_path = './test_data/sessions';
+	public $savePath = './test_data/sessions';
 	
 	public function close() 
 	{
@@ -12,7 +28,7 @@ class TestSessionHandler implements SessionHandlerInterface {
 	
 	public function destroy($id) 
 	{
-		$file = "$this->save_path/$id";
+		$file = "$this->savePath/$id";
 		if (file_exists($file))
 		{
 			@unlink($file);
@@ -26,11 +42,11 @@ class TestSessionHandler implements SessionHandlerInterface {
 		return TRUE;
 	}
 	
-	public function open($save_path, $name) 
+	public function open($savePath, $name) 
 	{
-		/*if ( ! array_key_exists($save_path, $this->data))
+		/*if ( ! array_key_exists($savePath, $this->data))
 		{
-			$this->save_path = $save_path;
+			$this->savePath = $savePath;
 			$this->data = [];
 		}*/
 		return TRUE;
@@ -38,12 +54,12 @@ class TestSessionHandler implements SessionHandlerInterface {
 	
 	public function read($id) 
 	{
-		return json_decode(@file_get_contents("$this->save_path/$id"), TRUE);
+		return json_decode(@file_get_contents("$this->savePath/$id"), TRUE);
 	}
 	
 	public function write($id, $data) 
 	{
-		$file = "$this->save_path/$id";
+		$file = "$this->savePath/$id";
 		file_put_contents($file, json_encode($data));
 		
 		return TRUE;

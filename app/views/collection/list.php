@@ -1,6 +1,6 @@
 <main>
-<?php if ($auth->is_authenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->full_url('collection/add', 'anime') ?>">Add Item</a>
+<?php if ($auth->isAuthenticated()): ?>
+<a class="bracketed" href="<?= $urlGenerator->fullUrl('collection/add', 'anime') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -10,7 +10,7 @@
 	<table>
 		<thead>
 			<tr>
-				<?php if($auth->is_authenticated()): ?>
+				<?php if($auth->isAuthenticated()): ?>
 				<th>Actions</th>
 				<?php endif ?>
 				<th>Title</th>
@@ -24,10 +24,10 @@
 		<tbody>
 		<?php foreach($items as $item): ?>
 			<tr>
-				<?php if($auth->is_authenticated()): ?>
+				<?php if($auth->isAuthenticated()): ?>
 				<td>
-					<a class="bracketed" href="<?= $urlGenerator->full_url("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a>
-					<?php /*<a class="bracketed" href="<?= $urlGenerator->full_url("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a>*/ ?>
+					<a class="bracketed" href="<?= $urlGenerator->fullUrl("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a>
+					<?php /*<a class="bracketed" href="<?= $urlGenerator->fullUrl("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a>*/ ?>
 				</td>
 				<?php endif ?>
 				<td class="align_left">
@@ -49,4 +49,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script src="<?= $urlGenerator->asset_url('js.php/g/table') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/table') ?>"></script>

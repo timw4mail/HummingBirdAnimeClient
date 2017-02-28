@@ -4,6 +4,7 @@
 	--link-shadow: 1px 1px 1px #000;
 	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
 	--title-overlay: rgba(0, 0, 0, 0.45);
+	--title-overlay-fallback: #000;
 	--text-color: #ffffff;
 	--normal-padding: 0.25em 0.125em;
 	--link-hover-color: #7d12db;
@@ -306,6 +307,10 @@ a:hover, a:active {
 	margin: var(--normal-padding);
 }
 
+.media > img {
+	width: 100%;
+}
+
 .media .edit_buttons > button {
 	margin:0.5em auto;
 }
@@ -315,6 +320,7 @@ a:hover, a:active {
 	.medium_metadata > div,
 	.row {
 		text-shadow: var(--shadow);
+		background: var(--title-overlay-fallback);
 		background: var(--title-overlay);
 		color: var(--text-color);
 		padding: var(--normal-padding);
@@ -398,6 +404,7 @@ a:hover, a:active {
 
 .anime .row, .manga .row {
 	width:100%;
+	background: var(--title-overlay-fallback);
 	background: var(--title-overlay);
 	display: flex;
 	align-content: space-around;
@@ -568,6 +575,7 @@ a:hover, a:active {
 .streaming-logo {
 	width: 50px;
 	height: 50px;
+	vertical-align:middle;
 }
 
 .cover_streaming_link .streaming-logo {

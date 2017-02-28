@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -36,7 +36,7 @@ class Manga extends API
 	 * Map API constants to display constants
 	 * @var array
 	 */
-	protected $const_map = [
+	protected $constMap = [
 		MangaReadingStatus::READING => self::READING,
 		MangaReadingStatus::PLAN_TO_READ => self::PLAN_TO_READ,
 		MangaReadingStatus::ON_HOLD => self::ON_HOLD,
@@ -44,7 +44,11 @@ class Manga extends API
 		MangaReadingStatus::COMPLETED => self::COMPLETED
 	];
 
-	protected $status_map = [
+	/**
+	 * Maps url segments to their title equivalents
+	 * @var array
+	 */
+	protected $statusMap = [
 		'current' => self::READING,
 		'planned' => self::PLAN_TO_READ,
 		'completed' => self::COMPLETED,
@@ -53,15 +57,26 @@ class Manga extends API
 	];
 
 	/**
-	 * @var Aviat\AnimeClient\API\Kitsu\KitsuModel
+	 * Model for making requests to Kitsu API
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
+	
+	/**
+	 * Model for making requests to MAL API
+	 * @var \Aviat\AnimeClient\API\MAL\Model
+	 */
+	protected $malModel;
 
+	/**
+	 * Constructor
+	 *
+	 * @param ContainerInterface $container
+	 */
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
-
 		$this->kitsuModel = $container->get('kitsu-model');
+		$this->malModel = $container->get('mal-model');
 	}
 
 	/**
@@ -72,7 +87,7 @@ class Manga extends API
 	 */
 	public function getList($status)
 	{
-		$APIstatus = array_flip($this->const_map)[$status];
+		$APIstatus = array_flip($this->constMap)[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
 		return $this->mapByStatus($data)[$status];
 	}
@@ -161,7 +176,7 @@ class Manga extends API
 		];
 
 		foreach ($data as &$entry) {
-			$key = $this->status_map[$entry['reading_status']];
+			$key = $this->statusMap[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}
 

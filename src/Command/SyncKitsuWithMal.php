@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -29,7 +29,16 @@ use Aviat\Ion\Json;
  */
 class SyncKitsuWithMal extends BaseCommand {
 
+	/**
+	 * Model for making requests to Kitsu API
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 */
 	protected $kitsuModel;
+	
+	/**
+	 * Model for making requests to MAL API
+	 * @var \Aviat\AnimeClient\API\MAL\Model
+	 */
 	protected $malModel;
 
 	/**
@@ -56,12 +65,11 @@ class SyncKitsuWithMal extends BaseCommand {
 		$data = $this->diffLists();
 		$this->echoBox("Number of items that need to be added to MAL: " . count($data));
 		
-		if (! empty($data['addToMAL']))
+		if ( ! empty($data['addToMAL']))
 		{
 			$this->echoBox("Adding missing list items to MAL");
 			$this->createMALListItems($data['addToMAL']);
 		}
-		
 	}
 	
 	public function getKitsuList()
@@ -80,7 +88,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		}
 		
 		$promiseArray = (new Client())->requestMulti($requests);
-		
+
 		$responses = wait(all($promiseArray));
 		$output = [];
 
@@ -89,7 +97,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			$data = Json::decode($response->getBody());
 			$output = array_merge_recursive($output, $data);
 		}
-							   
+
 		return $output;
 	}
 
@@ -112,8 +120,6 @@ class SyncKitsuWithMal extends BaseCommand {
 		
 		return $output;
 	}
-	
-	// 2015-05-20T23:48:47.731Z
 	
 	public function formatMALList()
 	{
@@ -155,7 +161,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		{
 			$animeId = $listItem['relationships']['anime']['data']['id'];
 			$potentialMappings = $includes['anime'][$animeId]['relationships']['mappings'];
-			$malId = null;
+			$malId = NULL;
 			
 			foreach ($potentialMappings as $mappingId)
 			{
@@ -166,7 +172,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			}
 			
 			// Skip to the next item if there isn't a MAL ID
-			if ($malId === null)
+			if (is_null($malId))
 			{
 				continue;
 			}
@@ -238,11 +244,11 @@ class SyncKitsuWithMal extends BaseCommand {
 			$data = $transformer->untransform($item);
 			$requests[] = $this->malModel->createFullListItem($data);
 		}
-					 
+
 		$promiseArray = (new Client())->requestMulti($requests);
-					 
+
 		$responses = wait(all($promiseArray));
-					 
+
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToAdd[$key]['mal_id'];

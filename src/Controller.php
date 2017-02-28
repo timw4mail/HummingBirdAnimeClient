@@ -1,22 +1,24 @@
 <?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
+
+use function Aviat\AnimeClient\_dir;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
@@ -33,13 +35,13 @@ class Controller {
 
 	/**
 	 * Cache manager
-	 * @var \Aviat\Ion\Cache\CacheInterface
+	 * @var \Psr\Cache\CacheItemPoolInterface
 	 */
 	protected $cache;
 
 	/**
 	 * The global configuration object
-	 * @var Aviat\Ion\ConfigInterface $config
+	 * @var \Aviat\Ion\ConfigInterface $config
 	 */
 	protected $config;
 
@@ -69,7 +71,7 @@ class Controller {
 
 	/**
 	 * Session segment
-	 * @var [type]
+	 * @var \Aura\Session\Segment
 	 */
 	protected $session;
 
@@ -77,7 +79,7 @@ class Controller {
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $base_data = [
+	protected $baseData = [
 		'url_type' => 'anime',
 		'other_type' => 'manga',
 		'menu_name' => ''
@@ -97,24 +99,28 @@ class Controller {
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-		$this->base_data['url'] = $auraUrlGenerator;
-		$this->base_data['urlGenerator'] = $urlGenerator;
-		$this->base_data['auth'] = $container->get('auth');
-		$this->base_data['config'] = $this->config;
+		
+		$this->baseData = array_merge((array)$this->baseData, [
+			'url' => $auraUrlGenerator,
+			'urlGenerator' => $urlGenerator,
+			'auth' => $container->get('auth'),
+			'config' => $this->config
+		]);
+
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 
 		// Set a 'previous' flash value for better redirects
-		$server_params = $this->request->getServerParams();
-		if (array_key_exists('HTTP_REFERER', $server_params))
+		$serverParams = $this->request->getServerParams();
+		if (array_key_exists('HTTP_REFERER', $serverParams))
 		{
-			$this->session->setFlash('previous', $server_params['HTTP_REFERER']);
+			$this->session->setFlash('previous', $serverParams['HTTP_REFERER']);
 		}
 
 		// Set a message box if available
-		$this->base_data['message'] = $this->session->getFlash('message');
+		$this->baseData['message'] = $this->session->getFlash('message');
 	}
 
 	/**
@@ -124,8 +130,8 @@ class Controller {
 	 */
 	public function redirectToDefaultRoute()
 	{
-		$default_type = $this->config->get(['routes', 'route_config', 'default_list']);
-		$this->redirect($this->urlGenerator->default_url($default_type), 303);
+		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']);
+		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
 	}
 
 	/**
@@ -133,7 +139,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function redirect_to_previous()
+	public function redirectToPrevious()
 	{
 		$previous = $this->session->getFlash('previous');
 		$this->redirect($previous, 303);
@@ -145,31 +151,31 @@ class Controller {
 	 * @param string|null $url
 	 * @return void
 	 */
-	public function set_session_redirect($url = NULL)
+	public function setSessionRedirect($url = NULL)
 	{
-		$server_params = $this->request->getServerParams();
+		$serverParams = $this->request->getServerParams();
 
-		if ( ! array_key_exists('HTTP_REFERER', $server_params))
+		if ( ! array_key_exists('HTTP_REFERER', $serverParams))
 		{
 			return;
 		}
 
 		$util = $this->container->get('util');
-		$double_form_page = $server_params['HTTP_REFERER'] === $this->request->getUri();
+		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
 		// and the previous page is also a form type page_segments
-		if ($double_form_page)
+		if ($doubleFormPage)
 		{
 			return;
 		}
 
 		if (is_null($url))
 		{
-			$url = $util->is_view_page()
+			$url = $util->isViewPage()
 				? $this->request->url->get()
-				: $server_params['HTTP_REFERER'];
+				: $serverParams['HTTP_REFERER'];
 		}
 
 		$this->session->set('redirect_url', $url);
@@ -180,7 +186,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function session_redirect()
+	public function sessionRedirect()
 	{
 		$target = $this->session->get('redirect_url');
 		if (empty($target))
@@ -221,27 +227,27 @@ class Controller {
 	 * @throws InvalidArgumentException
 	 * @return string
 	 */
-	protected function load_partial($view, $template, array $data = [])
+	protected function loadPartial($view, $template, array $data = [])
 	{
 		$router = $this->container->get('dispatcher');
 
-		if (isset($this->base_data))
+		if (isset($this->baseData))
 		{
-			$data = array_merge($this->base_data, $data);
+			$data = array_merge($this->baseData, $data);
 		}
 
 		$route = $router->getRoute();
 		$data['route_path'] = $route ? $router->getRoute()->path : '';
 
 
-		$template_path = _dir($this->config->get('view_path'), "{$template}.php");
+		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
-		if ( ! is_file($template_path))
+		if ( ! is_file($templatePath))
 		{
 			throw new InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		return $view->renderTemplate($template_path, (array)$data);
+		return $view->renderTemplate($templatePath, (array)$data);
 	}
 
 	/**
@@ -252,17 +258,17 @@ class Controller {
 	 * @param array $data
 	 * @return void
 	 */
-	protected function render_full_page($view, $template, array $data)
+	protected function renderFullPage($view, $template, array $data)
 	{
-		$view->appendOutput($this->load_partial($view, 'header', $data));
+		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
 		if (array_key_exists('message', $data) && is_array($data['message']))
 		{
-			$view->appendOutput($this->load_partial($view, 'message', $data['message']));
+			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
 		}
 
-		$view->appendOutput($this->load_partial($view, $template, $data));
-		$view->appendOutput($this->load_partial($view, 'footer', $data));
+		$view->appendOutput($this->loadPartial($view, $template, $data));
+		$view->appendOutput($this->loadPartial($view, 'footer', $data));
 	}
 
 	/**
@@ -280,11 +286,11 @@ class Controller {
 
 		if ($status !== '')
 		{
-			$message = $this->show_message($view, 'error', $status);
+			$message = $this->showMessage($view, 'error', $status);
 		}
 
 		// Set the redirect url
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 
 		$this->outputHTML('login', [
 			'title' => 'Api login',
@@ -303,10 +309,11 @@ class Controller {
 		$post = $this->request->getParsedBody();
 		if ($auth->authenticate($post['password']))
 		{
-			return $this->session_redirect();
+			$this->sessionRedirect();
+			return;
 		}
 
-		$this->set_flash_message('Invalid username or password.');
+		$this->setFlashMessage('Invalid username or password.');
 		$this->redirect($this->urlGenerator->url('login'), 303);
 	}
 
@@ -338,19 +345,19 @@ class Controller {
 	/**
 	 * Display a generic error page
 	 *
-	 * @param int $http_code
+	 * @param int $httpCode
 	 * @param string $title
 	 * @param string $message
 	 * @param string $long_message
 	 * @return void
 	 */
-	public function errorPage($http_code, $title, $message, $long_message = "")
+	public function errorPage($httpCode, $title, $message, $long_message = "")
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
 			'long_message' => $long_message
-		], NULL, $http_code);
+		], NULL, $httpCode);
 	}
 
 	/**
@@ -361,12 +368,21 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function set_flash_message($message, $type = "info")
+	public function setFlashMessage($message, $type = "info")
 	{
-		$this->session->setFlash('message', [
+		static $messages;
+		
+		if ( ! $messages)
+		{
+			$messages = [];
+		}
+		
+		$messages[] = [
 			'message_type' => $type,
 			'message' => $message
-		]);
+		];
+		
+		$this->session->setFlash('message', $messages);
 	}
 
 	/**
@@ -393,7 +409,7 @@ class Controller {
 	 */
 	protected function showMessage($view, $type, $message)
 	{
-		return $this->load_partial($view, 'message', [
+		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
 			'message'  => $message
 		]);
@@ -416,7 +432,7 @@ class Controller {
 		}
 
 		$view->setStatusCode($code);
-		$this->render_full_page($view, $template, $data);
+		$this->renderFullPage($view, $template, $data);
 	}
 
 	/**

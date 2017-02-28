@@ -1,18 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 /**
- * Hummingbird Anime Client
+ * Hummingbird Anime List Client
  *
- * An API client for Hummingbird to manage anime and manga watch lists
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
- * PHP version 5.6
+ * PHP version 7
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2016  Timothy J. Warren
+ * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     3.1
+ * @version     4.0
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
+
 
 use const Aviat\AnimeClient\{
 	DEFAULT_CONTROLLER_METHOD,
@@ -53,7 +54,7 @@ return [
 		// ---------------------------------------------------------------------
 		'anime.add.get' => [
 			'path' => '/anime/add',
-			'action' => 'add_form',
+			'action' => 'addForm',
 			'verb' => 'get',
 		],
 		'anime.add.post' => [
@@ -82,7 +83,7 @@ return [
 		],
 		'manga.add.get' => [
 			'path' => '/manga/add',
-			'action' => 'add_form',
+			'action' => 'addForm',
 			'verb' => 'get',
 		],
 		'manga.add.post' => [
@@ -183,7 +184,7 @@ return [
 		],
 		'update.post' => [
 			'path' => '/{controller}/update_form',
-			'action' => 'form_update',
+			'action' => 'formUpdate',
 			'verb' => 'post',
 			'tokens' => [
 				'controller' => '[a-z_]+',

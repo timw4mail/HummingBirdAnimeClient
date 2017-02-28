@@ -1,4 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+	
+use Robo\Tasks;
+
 if ( ! function_exists('glob_recursive'))
 {
 	// Does not support flag GLOB_BRACE
@@ -20,7 +23,7 @@ if ( ! function_exists('glob_recursive'))
  *
  * @see http://robo.li/
  */
-class RoboFile extends \Robo\Tasks {
+class RoboFile extends Tasks {
 
 	/**
 	 * Directories used by analysis tools
@@ -102,10 +105,7 @@ class RoboFile extends \Robo\Tasks {
 	 */
 	public function coverage()
 	{
-		$this->taskPhpUnit()
-			->configFile('build/phpunit.xml')
-			->printed(true)
-			->run();
+		$this->_run(['vendor/bin/phpunit -c build']);
 	}
 
 	/**
@@ -114,9 +114,7 @@ class RoboFile extends \Robo\Tasks {
 	public function docs()
 	{
 		$cmd_parts = [
-			'cd build',
-			'../vendor/bin/phpdox',
-			'cd ..'
+			'phpdox',
 		];
 		$this->_run($cmd_parts, ' && ');
 	}
@@ -128,35 +126,12 @@ class RoboFile extends \Robo\Tasks {
 	{
 		$files = $this->getAllSourceFiles();
 
-		$chunks = array_chunk($files, 6);
+		$chunks = array_chunk($files, 12);
 
 		foreach($chunks as $chunk)
 		{
 			$this->parallelLint($chunk);
 		}
-	}
-
-
-	/**
-	 * Run mutation tests with humbug
-	 *
-	 * @param bool $stats - if true, generates stats rather than running mutation tests
-	 */
-	public function mutate($stats = FALSE)
-	{
-		$test_parts = [
-			'vendor/bin/humbug'
-		];
-
-		$stat_parts = [
-			'vendor/bin/humbug',
-			'--skip-killed=yes',
-			'-v',
-			'./build/humbug.json'
-		];
-
-		$cmd_parts = ($stats) ? $stat_parts : $test_parts;
-		$this->_run($cmd_parts);
 	}
 
 	/**
@@ -226,10 +201,8 @@ class RoboFile extends \Robo\Tasks {
 	public function test()
 	{
 		$this->lint();
-		$this->taskPHPUnit()
-			->configFile('phpunit.xml')
-			->printed(true)
-			->run();
+		
+		$this->_run(['phpunit']);
 	}
 
 	/**
@@ -275,7 +248,9 @@ class RoboFile extends \Robo\Tasks {
 		$files = array_merge(
 			glob_recursive('build/*.php'),
 			glob_recursive('src/*.php'),
+			glob_recursive('src/**/*.php'),
 			glob_recursive('tests/*.php'),
+			glob_recursive('tests/**/*.php'),
 			glob('*.php')
 		);
 

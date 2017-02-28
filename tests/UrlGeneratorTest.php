@@ -1,9 +1,25 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
+
+namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
 
-class UrlGeneratorTest extends AnimeClient_TestCase {
+class UrlGeneratorTest extends AnimeClientTestCase {
 
 	public function assetUrlProvider()
 	{
@@ -30,8 +46,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 	{
 		$urlGenerator = new UrlGenerator($this->container);
 
-		$result = call_user_func_array([$urlGenerator, 'asset_url'], $args);
-
+		$result = $urlGenerator->assetUrl(...$args);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -86,51 +101,7 @@ class UrlGeneratorTest extends AnimeClient_TestCase {
 		$this->container->setInstance('config', $config);
 		$urlGenerator = new UrlGenerator($this->container);
 
-		$result = $urlGenerator->full_url($path, $type);
-
-		$this->assertEquals($expected, $result);
-	}
-
-	public function dataBaseUrl()
-	{
-		$config = [
-			'routes' => [
-				'routes' => [],
-				'route_config' => [
-					'anime_path' => 'anime',
-					'manga_path' => 'manga',
-					'default_list' => 'manga',
-					'default_anime_path' => '/watching',
-					'default_manga_path' => '/all',
-					'default_to_list_view' => TRUE,
-				],
-			]
-		];
-
-		return [
-			'path_based_routing_anime' => [
-				'config' => $config,
-				'type' => 'anime',
-				'expected' => '//localhost/anime'
-			],
-			'path_based_routing_manga' => [
-				'config' => $config,
-				'type' => 'manga',
-				'expected' => '//localhost/manga'
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider dataBaseUrl
-	 */
-	public function testBaseUrl($config, $type, $expected)
-	{
-		$config = new Config($config);
-		$this->container->setInstance('config', $config);
-		$urlGenerator = new UrlGenerator($this->container);
-
-		$result = $urlGenerator->base_url($type);
+		$result = $urlGenerator->fullUrl($path, $type);
 
 		$this->assertEquals($expected, $result);
 	}

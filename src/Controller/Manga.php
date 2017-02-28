@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -39,9 +39,9 @@ class Manga extends Controller {
 
 	/**
 	 * Data to ve sent to all routes in this controller
-	 * @var array $base_data
+	 * @var array $baseData
 	 */
-	protected $base_data;
+	protected $baseData;
 
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ class Manga extends Controller {
 		parent::__construct($container);
 
 		$this->model = $container->get('manga-model');
-		$this->base_data = array_merge($this->base_data, [
+		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'manga_list',
 			'config' => $this->config,
 			'url_type' => 'manga',
@@ -101,7 +101,7 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
-	public function add_form()
+	public function addForm()
 	{
 		$raw_status_list = MangaReadingStatus::getConstList();
 
@@ -115,7 +115,7 @@ class Manga extends Controller {
 				->titleize();
 		}
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$this->outputHTML('manga/add', [
 			'title' => $this->config->get('whose_list') .
 				"'s Manga List &middot; Add",
@@ -141,15 +141,15 @@ class Manga extends Controller {
 
 		if ($result)
 		{
-			$this->set_flash_message('Added new manga to list', 'success');
+			$this->setFlashMessage('Added new manga to list', 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add new manga to list' . $result['body'], 'error');
+			$this->setFlashMessage('Failed to add new manga to list' . $result['body'], 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Manga extends Controller {
 	 */
 	public function edit($id, $status = "All")
 	{
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
 		$title = $this->config->get('whose_list') . "'s Manga List &middot; Edit";
 
@@ -190,7 +190,7 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
-	public function form_update()
+	public function formUpdate()
 	{
 		$data = $this->request->getParsedBody();
 
@@ -202,16 +202,16 @@ class Manga extends Controller {
 
 		if ($full_result['statusCode'] === 200)
 		{
-			$this->set_flash_message("Successfully updated manga.", 'success');
+			$this->setFlashMessage("Successfully updated manga.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update manga.', 'error');
+			$this->setFlashMessage('Failed to update manga.', 'error');
 
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -249,15 +249,15 @@ class Manga extends Controller {
 
 		if ($response)
 		{
-			$this->set_flash_message("Successfully deleted manga.", 'success');
+			$this->setFlashMessage("Successfully deleted manga.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to delete manga.', 'error');
+			$this->setFlashMessage('Failed to delete manga.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**

@@ -1,9 +1,26 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2017  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ */
+
+namespace Aviat\AnimeClient\Tests;
 
 use const Aviat\AnimeClient\SRC_DIR;
 
+use function Aviat\AnimeClient\_dir;
+
 use Aura\Web\WebFactory;
-use Aviat\AnimeClient\AnimeClient;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\{
@@ -18,7 +35,7 @@ define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 /**
  * Base class for TestCases
  */
-class AnimeClient_TestCase extends TestCase {
+class AnimeClientTestCase extends TestCase {
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;
 	const SRC_DIR = SRC_DIR;
@@ -158,4 +175,4 @@ class AnimeClient_TestCase extends TestCase {
 		return Json::decode($rawData);
 	}
 }
-// End of AnimeClient_TestCase.php
+// End of AnimeClientTestCase.php

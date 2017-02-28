@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 /**
- * Anime List Client
+ * Hummingbird Anime List Client
  *
  * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
  *
  * PHP version 7
  *
- * @package     AnimeListClient
+ * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2017  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
@@ -39,13 +39,13 @@ class Anime extends BaseController {
 
 	/**
 	 * Data to be sent to all routes in this controller
-	 * @var array $base_data
+	 * @var array $baseData
 	 */
-	protected $base_data;
+	protected $baseData;
 
 	/**
 	 * Data cache
-	 * @var Aviat\Ion\Cache\CacheInterface
+	 * @var \Psr\Cache\CachePoolInterface
 	 */
 	protected $cache;
 
@@ -60,7 +60,7 @@ class Anime extends BaseController {
 
 		$this->model = $container->get('anime-model');
 
-		$this->base_data = array_merge($this->base_data, [
+		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'anime_list',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
@@ -79,16 +79,16 @@ class Anime extends BaseController {
 	 */
 	public function index($type = AnimeWatchingStatus::WATCHING, string $view = NULL)
 	{
-		$type_title_map = [
+		$typeTitleMap = [
 			'all' => 'All',
-			AnimeWatchingStatus::WATCHING => 'Currently Watching',
-			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
-			AnimeWatchingStatus::ON_HOLD => 'On Hold',
-			AnimeWatchingStatus::DROPPED => 'Dropped',
-			AnimeWatchingStatus::COMPLETED => 'Completed'
+			'watching' => 'Currently Watching',
+			'plan_to_watch' => 'Plan to Watch',
+			'on_hold' => 'On Hold',
+			'dropped' => 'Dropped',
+			'completed' => 'Completed'
 		];
 
-		$model_map = [
+		$modelMap = [
 			'watching' => AnimeWatchingStatus::WATCHING,
 			'plan_to_watch' => AnimeWatchingStatus::PLAN_TO_WATCH,
 			'on_hold' => AnimeWatchingStatus::ON_HOLD,
@@ -97,21 +97,21 @@ class Anime extends BaseController {
 			'completed' => AnimeWatchingStatus::COMPLETED
 		];
 
-		$title = (array_key_exists($type, $type_title_map))
+		$title = (array_key_exists($type, $typeTitleMap))
 			? $this->config->get('whose_list') .
-				"'s Anime List &middot; {$type_title_map[$type]}"
+				"'s Anime List &middot; {$typeTitleMap[$type]}"
 			: '';
 
-		$view_map = [
+		$viewMap = [
 			'' => 'cover',
 			'list' => 'list'
 		];
 
 		$data = ($type !== 'all')
-			? $this->model->getList($model_map[$type])
+			? $this->model->getList($modelMap[$type])
 			: $this->model->get_all_lists();
 
-		$this->outputHTML('anime/' . $view_map[$view], [
+		$this->outputHTML('anime/' . $viewMap[$view], [
 			'title' => $title,
 			'sections' => $data
 		]);
@@ -122,7 +122,7 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function add_form()
+	public function addForm()
 	{
 		$statuses = [
 			AnimeWatchingStatus::WATCHING => 'Currently Watching',
@@ -132,7 +132,7 @@ class Anime extends BaseController {
 			AnimeWatchingStatus::COMPLETED => 'Completed'
 		];
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
 			'title' => $this->config->get('whose_list') .
 				"'s Anime List &middot; Add",
@@ -158,15 +158,15 @@ class Anime extends BaseController {
 
 		if ($result)
 		{
-			$this->set_flash_message('Added new anime to list', 'success');
+			$this->setFlashMessage('Added new anime to list', 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to add new anime to list', 'error');
+			$this->setFlashMessage('Failed to add new anime to list', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -179,19 +179,19 @@ class Anime extends BaseController {
 	public function edit($id, $status = "all")
 	{
 		$item = $this->model->getLibraryItem($id, $status);
-		$raw_status_list = AnimeWatchingStatus::getConstList();
+		$rawStatusList = AnimeWatchingStatus::getConstList();
 
 		$statuses = [];
 
-		foreach ($raw_status_list as $status_item)
+		foreach ($rawStatusList as $statusItem)
 		{
-			$statuses[$status_item] = (string) $this->string($status_item)
+			$statuses[$statusItem] = (string) $this->string($statusItem)
 				->underscored()
 				->humanize()
 				->titleize();
 		}
 
-		$this->set_session_redirect();
+		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
 			'title' => $this->config->get('whose_list') .
@@ -220,27 +220,27 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function form_update()
+	public function formUpdate()
 	{
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
-		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem($post_data);
+		$postData = $transformer->untransform($data);
+		$fullResult = $this->model->updateLibraryItem($postData);
 
-		if ($full_result['statusCode'] === 200)
+		if ($fullResult['statusCode'] === 200)
 		{
-			$this->set_flash_message("Successfully updated.", 'success');
+			$this->setFlashMessage("Successfully updated.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to update anime.', 'error');
+			$this->setFlashMessage('Failed to update anime.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
@@ -277,26 +277,26 @@ class Anime extends BaseController {
 
 		if ((bool)$response === TRUE)
 		{
-			$this->set_flash_message("Successfully deleted anime.", 'success');
+			$this->setFlashMessage("Successfully deleted anime.", 'success');
 			$this->cache->clear();
 		}
 		else
 		{
-			$this->set_flash_message('Failed to delete anime.', 'error');
+			$this->setFlashMessage('Failed to delete anime.', 'error');
 		}
 
-		$this->session_redirect();
+		$this->sessionRedirect();
 	}
 
 	/**
 	 * View details of an anime
 	 *
-	 * @param string $anime_id
+	 * @param string $animeId
 	 * @return void
 	 */
-	public function details($anime_id)
+	public function details($animeId)
 	{
-		$data = $this->model->getAnime($anime_id);
+		$data = $this->model->getAnime($animeId);
 
 		$this->outputHTML('anime/details', [
 			'title' => 'Anime &middot ' . $data['titles'][0],

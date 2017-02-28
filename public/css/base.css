@@ -371,7 +371,7 @@ hr
 img
 {
 	height:auto;
-	max-width:100%;
+	/* max-width:100%; */
 	vertical-align:baseline;
 }
 
@@ -1035,6 +1035,10 @@ a:hover, a:active {
 	margin:0.25em 0.125em;
 }
 
+.media > img {
+	width: 100%;
+}
+
 .media .edit_buttons > button {
 	margin:0.5em auto;
 }
@@ -1044,6 +1048,7 @@ a:hover, a:active {
 	.medium_metadata > div,
 	.row {
 		text-shadow:1px 2px 1px rgba(0, 0, 0, .85);
+		background:#000;
 		background:rgba(0, 0, 0, .45);
 		color:#ffffff;
 		padding:0.25em 0.125em;
@@ -1127,6 +1132,7 @@ a:hover, a:active {
 
 .anime .row, .manga .row {
 	width:100%;
+	background:#000;
 	background:rgba(0, 0, 0, .45);
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -1316,6 +1322,7 @@ a:hover, a:active {
 .streaming-logo {
 	width: 50px;
 	height: 50px;
+	vertical-align:middle;
 }
 
 .cover_streaming_link .streaming-logo {
