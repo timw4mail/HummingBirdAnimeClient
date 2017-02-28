@@ -1,5 +1,5 @@
 {
-	"name": "timw4mail/hummingbird-anime-client",
+	"name": "aviat/hummingbird-anime-client",
 	"description": "A self-hosted anime/manga client for Kitsu.",
 	"license":"MIT",
 	"autoload": {
