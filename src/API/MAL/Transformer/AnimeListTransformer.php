@@ -16,22 +16,13 @@
 
 namespace Aviat\AnimeClient\API\MAL\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for updating MAL List
  */
 class AnimeListTransformer extends AbstractTransformer {
-	
-	const STATUS_MAP = [
-		AnimeWatchingStatus::WATCHING => '1',
-		AnimeWatchingStatus::COMPLETED => '2',
-		AnimeWatchingStatus::ON_HOLD => '3',
-		AnimeWatchingStatus::DROPPED => '4',
-		AnimeWatchingStatus::PLAN_TO_WATCH => '6'
-	];
-
 	/**
 	 * Transform MAL episode data to Kitsu episode data
 	 *
@@ -45,7 +36,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		return [
 			'id' => $item['mal_id'],
 			'data' => [
-				'status' => self::STATUS_MAP[$item['watching_status']],
+				'status' => AnimeWatchingStatus::KITSU_TO_MAL[$item['watching_status']],
 				'rating' => $item['user_rating'],
 				'rewatch_value' => (int) $rewatching,
 				'times_rewatched' => $item['rewatched'],
@@ -54,12 +45,12 @@ class AnimeListTransformer extends AbstractTransformer {
 			]
 		];
 	}
-	
+
 	/**
 	 * Transform Kitsu episode data to MAL episode data
 	 *
-	 * @param array $item	
-	 * @return array 
+	 * @param array $item
+	 * @return array
 	 */
 	public function untransform(array $item): array
 	{
@@ -69,33 +60,33 @@ class AnimeListTransformer extends AbstractTransformer {
 				'episode' => $item['data']['progress']
 			]
 		];
-		
+
 		$data =& $item['data'];
-		
+
 		foreach($item['data'] as $key => $value)
 		{
-			switch($key) 
+			switch($key)
 			{
 				case 'notes':
 					$map['data']['comments'] = $value;
 				break;
-					
+
 				case 'rating':
 					$map['data']['score'] = $value * 2;
 				break;
-					
+
 				case 'reconsuming':
 					$map['data']['enable_rewatching'] = (bool) $value;
 				break;
-					
+
 				case 'reconsumeCount':
 					$map['data']['times_rewatched'] = $value;
 				break;
-					
+
 				case 'status':
-					$map['data']['status'] = self::STATUS_MAP[$value];
+					$map['data']['status'] = AnimeWatchingStatus::KITSU_TO_MAL[$value];
 				break;
-					
+
 				default:
 				break;
 			}

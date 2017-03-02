@@ -14,18 +14,17 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Kitsu\Enum;
+namespace Aviat\AnimeClient\API\Enum\AnimeWatchingStatus;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\Enum;
 
 /**
- * Possible values for current reading status of manga
+ * Possible values for watching status for the current anime
  */
-class MangaReadingStatus extends BaseEnum {
-	const READING = 'current';
-	const PLAN_TO_READ = 'planned';
-	const DROPPED = 'dropped';
-	const ON_HOLD = 'on_hold';
-	const COMPLETED = 'completed';
+class MAL extends Enum {
+	const WATCHING = 1;
+	const COMPLETED = 2;
+	const ON_HOLD = 3;
+	const DROPPED = 4;
+	const PLAN_TO_WATCH = 6;
 }
-// End of MangaReadingStatus.php
