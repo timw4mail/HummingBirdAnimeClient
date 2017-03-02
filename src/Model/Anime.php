@@ -16,12 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use function Amp\some;
-use function Amp\wait;
-
-use Amp\Artax\Client;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
-use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -29,26 +25,6 @@ use Aviat\Ion\Json;
  * Model for handling requests dealing with the anime list
  */
 class Anime extends API {
-
-	// Display constants
-	const WATCHING = 'Watching';
-	const PLAN_TO_WATCH = 'Plan to Watch';
-	const DROPPED = 'Dropped';
-	const ON_HOLD = 'On Hold';
-	const COMPLETED = 'Completed';
-
-	/**
-	 * Map of API status constants to display constants
-	 * @var array
-	 */
-	protected $const_map = [
-		AnimeWatchingStatus::WATCHING => self::WATCHING,
-		AnimeWatchingStatus::PLAN_TO_WATCH => self::PLAN_TO_WATCH,
-		AnimeWatchingStatus::ON_HOLD => self::ON_HOLD,
-		AnimeWatchingStatus::DROPPED => self::DROPPED,
-		AnimeWatchingStatus::COMPLETED => self::COMPLETED,
-	];
-
 	/**
 	 * Model for making requests to Kitsu API
 	 *
@@ -75,7 +51,7 @@ class Anime extends API {
 	 *
 	 * @param ContainerInterface $container
 	 */
-	public function __construct(ContainerInterface $container) 
+	public function __construct(ContainerInterface $container)
 	{
 		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
@@ -95,8 +71,10 @@ class Anime extends API {
 		$data = $this->kitsuModel->getAnimeList($status);
 		$this->sortByName($data, 'anime');
 
+		$key = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
+
 		$output = [];
-		$output[$this->const_map[$status]] = $data;
+		$output[$key] = $data;
 
 		return $output;
 	}
@@ -167,7 +145,7 @@ class Anime extends API {
 				$requester->addRequest($this->malModel->createListItem($malData), 'mal');
 			}
 		}
-		
+
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests(TRUE);
@@ -183,8 +161,8 @@ class Anime extends API {
 	 */
 	public function updateLibraryItem(array $data): array
 	{
-		$requester = new ParallelAPIRequest(); 
-		
+		$requester = new ParallelAPIRequest();
+
 		if ($this->useMALAPI)
 		{
 			$requester->addRequest($this->malModel->updateListItem($data), 'mal');
@@ -193,7 +171,7 @@ class Anime extends API {
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests(TRUE);
-		
+
 		return [
 			'body' => Json::decode($results[1]['kitsu']->getBody()),
 			'statusCode' => $results[1]['kitsu']->getStatus()

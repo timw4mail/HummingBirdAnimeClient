@@ -15,7 +15,7 @@
  */
 
 namespace Aviat\AnimeClient\API\Mapping;
-
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\{Route, Title};
 use Aviat\AnimeClient\API\{
 	Kitsu\Enum\AnimeWatchingStatus as Kitsu,
 	MAL\Enum\AnimeWatchingStatus as MAL
@@ -39,29 +39,39 @@ class AnimeWatchingStatus extends Enum {
 		MAL::DROPPED => Kitsu::DROPPED
 	];
 
+	const KITSU_TO_TITLE = [
+		'all' => Title::ALL,
+		Kitsu::WATCHING => Title::WATCHING,
+		Kitsu::PLAN_TO_WATCH => Title::PLAN_TO_WATCH,
+		Kitsu::ON_HOLD => Title::ON_HOLD,
+		Kitsu::DROPPED => Title::DROPPED,
+		Kitsu::COMPLETED => Title::COMPLETED
+	];
+
 	const ROUTE_TO_KITSU = [
-		'watching' => Kitsu::WATCHING,
-		'plan_to_watch' => Kitsu::PLAN_TO_WATCH,
-		'on_hold' => Kitsu::ON_HOLD,
-		'all' => 'all',
-		'dropped' => Kitsu::DROPPED,
-		'completed' => Kitsu::COMPLETED
+		Route::WATCHING => Kitsu::WATCHING,
+		Route::PLAN_TO_WATCH => Kitsu::PLAN_TO_WATCH,
+		Route::ON_HOLD => Kitsu::ON_HOLD,
+		Route::ALL => 'all',
+		Route::DROPPED => Kitsu::DROPPED,
+		Route::COMPLETED => Kitsu::COMPLETED
 	];
 
 	const ROUTE_TO_TITLE = [
-		'all' => 'All',
-		'watching' => 'Currently Watching',
-		'plan_to_watch' => 'Plan to Watch',
-		'on_hold' => 'On Hold',
-		'dropped' => 'Dropped',
-		'completed' => 'Completed'
+		Route::ALL => Title::ALL,
+		Route::WATCHING => Title::WATCHING,
+		Route::PLAN_TO_WATCH => Title::PLAN_TO_WATCH,
+		Route::ON_HOLD => Title::ON_HOLD,
+		Route::DROPPED => Title::DROPPED,
+		Route::COMPLETED => Title::COMPLETED
 	];
 
-	const KITSU_TO_TITLE = [
-		Kitsu::WATCHING => 'Currently Watching',
-		Kitsu::PLAN_TO_WATCH => 'Plan to Watch',
-		Kitsu::ON_HOLD => 'On Hold',
-		Kitsu::DROPPED => 'Dropped',
-		Kitsu::COMPLETED => 'Completed'
+	const TITLE_TO_ROUTE = [
+		Title::ALL => Route::ALL,
+		Title::WATCHING => Route::WATCHING,
+		Title::PLAN_TO_WATCH => Route::PLAN_TO_WATCH,
+		Title::ON_HOLD => Route::ON_HOLD,
+		Title::DROPPED => Route::DROPPED,
+		Title::COMPLETED => Route::COMPLETED
 	];
 }

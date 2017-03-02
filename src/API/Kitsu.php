@@ -16,11 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\{
-	AnimeAiringStatus,
-	AnimeWatchingStatus,
-	MangaReadingStatus
-};
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
 use DateTimeImmutable;
 
 const AUTH_URL = 'https://kitsu.io/api/oauth/token';
@@ -34,38 +30,6 @@ class Kitsu {
 	const AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
-
-	/**
-	 * Map of Kitsu status to label for select menus
-	 *
-	 * @return array
-	 */
-	public static function getStatusToSelectMap()
-	{
-		return [
-			AnimeWatchingStatus::WATCHING => 'Currently Watching',
-			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
-			AnimeWatchingStatus::COMPLETED => 'Completed',
-			AnimeWatchingStatus::ON_HOLD => 'On Hold',
-			AnimeWatchingStatus::DROPPED => 'Dropped'
-		];
-	}
-
-	/**
-	 * Map of Kitsu Manga status to label for select menus
-	 *
-	 * @return array
-	 */
-	public static function getStatusToMangaSelectMap()
-	{
-		return [
-			MangaReadingStatus::READING => 'Currently Reading',
-			MangaReadingStatus::PLAN_TO_READ => 'Plan to Read',
-			MangaReadingStatus::COMPLETED => 'Completed',
-			MangaReadingStatus::ON_HOLD => 'On Hold',
-			MangaReadingStatus::DROPPED => 'Dropped'
-		];
-	}
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired

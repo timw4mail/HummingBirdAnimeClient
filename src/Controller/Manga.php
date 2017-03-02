@@ -17,11 +17,7 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller;
-use Aviat\AnimeClient\API\Kitsu;
-use Aviat\AnimeClient\API\Kitsu\{
-	Enum\MangaReadingStatus as KitsuReadingStatus,
-	Transformer\MangaListTransformer
-};
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\Ion\Di\ContainerInterface;
@@ -219,7 +215,7 @@ class Manga extends Controller {
 	{
 		if ($this->request->getHeader('content-type')[0] === 'application/json')
 		{
-			$data = JSON::decode((string)$this->request->getBody());
+			$data = Json::decode((string)$this->request->getBody());
 		}
 		else
 		{

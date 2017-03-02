@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\{
 	Enum\AnimeWatchingStatus as KitsuWatchingStatus,
 	Transformer\AnimeListTransformer
