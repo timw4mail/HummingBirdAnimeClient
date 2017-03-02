@@ -18,8 +18,11 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu;
-use Aviat\AnimeClient\API\Kitsu\Enum\MangaReadingStatus;
-use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\{
+	Enum\MangaReadingStatus as KitsuReadingStatus,
+	Transformer\MangaListTransformer
+};
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\{Json, StringWrapper};
@@ -70,16 +73,9 @@ class Manga extends Controller {
 	 */
 	public function index($status = "all", $view = "")
 	{
-		$map = [
-			'all' => 'All',
-			'plan_to_read' => MangaModel::PLAN_TO_READ,
-			'reading' => MangaModel::READING,
-			'completed' => MangaModel::COMPLETED,
-			'dropped' => MangaModel::DROPPED,
-			'on_hold' => MangaModel::ON_HOLD
-		];
+		$statusTitle = MangaReadingStatus::ROUTE_TO_TITLE[$status];
 
-		$title = $this->config->get('whose_list') . "'s Manga List &middot; {$map[$status]}";
+		$title = $this->config->get('whose_list') . "'s Manga List &middot; {$statusTitle}";
 
 		$view_map = [
 			'' => 'cover',
@@ -87,7 +83,7 @@ class Manga extends Controller {
 		];
 
 		$data = ($status !== 'all')
-			? [$map[$status] => $this->model->getList($map[$status]) ]
+			? [ $statusTitle => $this->model->getList($statusTitle) ]
 			: $this->model->getList('All');
 
 		$this->outputHTML('manga/' . $view_map[$view], [
@@ -167,7 +163,7 @@ class Manga extends Controller {
 
 		$this->outputHTML('manga/edit', [
 			'title' => $title,
-			'status_list' => Kitsu::getStatusToMangaSelectMap(),
+			'status_list' => MangaReadingStatus::KITSU_TO_TITLE,
 			'item' => $item,
 			'action' => $this->container->get('url-generator')
 				->url('/manga/update_form'),

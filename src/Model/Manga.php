@@ -16,8 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\MangaReadingStatus;
-use Aviat\AnimeClient\API\Kitsu\Transformer;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
@@ -25,43 +25,12 @@ use Aviat\Ion\Di\ContainerInterface;
  */
 class Manga extends API
 {
-
-	const READING = 'Reading';
-	const PLAN_TO_READ = 'Plan to Read';
-	const DROPPED = 'Dropped';
-	const ON_HOLD = 'On Hold';
-	const COMPLETED = 'Completed';
-
-	/**
-	 * Map API constants to display constants
-	 * @var array
-	 */
-	protected $constMap = [
-		MangaReadingStatus::READING => self::READING,
-		MangaReadingStatus::PLAN_TO_READ => self::PLAN_TO_READ,
-		MangaReadingStatus::ON_HOLD => self::ON_HOLD,
-		MangaReadingStatus::DROPPED => self::DROPPED,
-		MangaReadingStatus::COMPLETED => self::COMPLETED
-	];
-
-	/**
-	 * Maps url segments to their title equivalents
-	 * @var array
-	 */
-	protected $statusMap = [
-		'current' => self::READING,
-		'planned' => self::PLAN_TO_READ,
-		'completed' => self::COMPLETED,
-		'on_hold' => self::ON_HOLD,
-		'dropped' => self::DROPPED
-	];
-
 	/**
 	 * Model for making requests to Kitsu API
 	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
-	
+
 	/**
 	 * Model for making requests to MAL API
 	 * @var \Aviat\AnimeClient\API\MAL\Model
@@ -87,7 +56,7 @@ class Manga extends API
 	 */
 	public function getList($status)
 	{
-		$APIstatus = array_flip($this->constMap)[$status];
+		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
 		return $this->mapByStatus($data)[$status];
 	}
@@ -168,15 +137,16 @@ class Manga extends API
 	private function mapByStatus($data)
 	{
 		$output = [
-			self::READING => [],
-			self::PLAN_TO_READ => [],
-			self::ON_HOLD => [],
-			self::DROPPED => [],
-			self::COMPLETED => [],
+			Title::READING => [],
+			Title::PLAN_TO_READ => [],
+			Title::ON_HOLD => [],
+			Title::DROPPED => [],
+			Title::COMPLETED => [],
 		];
 
 		foreach ($data as &$entry) {
-			$key = $this->statusMap[$entry['reading_status']];
+			$statusMap = MangaReadingStatus::KITSU_TO_TITLE;
+			$key = $statusMap[$entry['reading_status']];
 			$output[$key][] = $entry;
 		}
 
