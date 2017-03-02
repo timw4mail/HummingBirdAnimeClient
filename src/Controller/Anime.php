@@ -18,8 +18,11 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu;
-use Aviat\AnimeClient\API\Kitsu\Enum\AnimeWatchingStatus;
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\{
+	Enum\AnimeWatchingStatus as KitsuWatchingStatus,
+	Transformer\AnimeListTransformer
+};
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use Aviat\Ion\StringWrapper;
@@ -77,29 +80,11 @@ class Anime extends BaseController {
 	 * @param string $view - List or cover view
 	 * @return void
 	 */
-	public function index($type = AnimeWatchingStatus::WATCHING, string $view = NULL)
+	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL)
 	{
-		$typeTitleMap = [
-			'all' => 'All',
-			'watching' => 'Currently Watching',
-			'plan_to_watch' => 'Plan to Watch',
-			'on_hold' => 'On Hold',
-			'dropped' => 'Dropped',
-			'completed' => 'Completed'
-		];
-
-		$modelMap = [
-			'watching' => AnimeWatchingStatus::WATCHING,
-			'plan_to_watch' => AnimeWatchingStatus::PLAN_TO_WATCH,
-			'on_hold' => AnimeWatchingStatus::ON_HOLD,
-			'all' => 'all',
-			'dropped' => AnimeWatchingStatus::DROPPED,
-			'completed' => AnimeWatchingStatus::COMPLETED
-		];
-
-		$title = (array_key_exists($type, $typeTitleMap))
+		$title = (array_key_exists($type, AnimeWatchingStatus::ROUTE_TO_TITLE))
 			? $this->config->get('whose_list') .
-				"'s Anime List &middot; {$typeTitleMap[$type]}"
+				"'s Anime List &middot; " . AnimeWatchingStatus::ROUTE_TO_TITLE[$type]
 			: '';
 
 		$viewMap = [
@@ -108,7 +93,7 @@ class Anime extends BaseController {
 		];
 
 		$data = ($type !== 'all')
-			? $this->model->getList($modelMap[$type])
+			? $this->model->getList(AnimeWatchingStatus::ROUTE_TO_KITSU[$type])
 			: $this->model->get_all_lists();
 
 		$this->outputHTML('anime/' . $viewMap[$view], [
@@ -124,20 +109,12 @@ class Anime extends BaseController {
 	 */
 	public function addForm()
 	{
-		$statuses = [
-			AnimeWatchingStatus::WATCHING => 'Currently Watching',
-			AnimeWatchingStatus::PLAN_TO_WATCH => 'Plan to Watch',
-			AnimeWatchingStatus::ON_HOLD => 'On Hold',
-			AnimeWatchingStatus::DROPPED => 'Dropped',
-			AnimeWatchingStatus::COMPLETED => 'Completed'
-		];
-
 		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
 			'title' => $this->config->get('whose_list') .
 				"'s Anime List &middot; Add",
 			'action_url' => $this->urlGenerator->url('anime/add'),
-			'status_list' => $statuses
+			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE
 		]);
 	}
 
@@ -179,25 +156,13 @@ class Anime extends BaseController {
 	public function edit($id, $status = "all")
 	{
 		$item = $this->model->getLibraryItem($id, $status);
-		$rawStatusList = AnimeWatchingStatus::getConstList();
-
-		$statuses = [];
-
-		foreach ($rawStatusList as $statusItem)
-		{
-			$statuses[$statusItem] = (string) $this->string($statusItem)
-				->underscored()
-				->humanize()
-				->titleize();
-		}
-
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
 			'title' => $this->config->get('whose_list') .
 				"'s Anime List &middot; Edit",
 			'item' => $item,
-			'statuses' => Kitsu::getStatusToSelectMap(),
+			'statuses' => AnimeWatchingStatus::KITSU_TO_TITLE,
 			'action' => $this->container->get('url-generator')
 				->url('/anime/update_form'),
 		]);
@@ -252,7 +217,7 @@ class Anime extends BaseController {
 	{
 		if ($this->request->getHeader('content-type')[0] === 'application/json')
 		{
-			$data = JSON::decode((string)$this->request->getBody());
+			$data = Json::decode((string)$this->request->getBody());
 		}
 		else
 		{
@@ -294,7 +259,7 @@ class Anime extends BaseController {
 	 * @param string $animeId
 	 * @return void
 	 */
-	public function details($animeId)
+	public function details(string $animeId)
 	{
 		$data = $this->model->getAnime($animeId);
 
