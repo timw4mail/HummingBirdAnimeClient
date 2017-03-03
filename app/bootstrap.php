@@ -19,9 +19,12 @@ namespace Aviat\AnimeClient;
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\{Kitsu, MAL};
-use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
-use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
+use Aviat\AnimeClient\API\{
+	Kitsu,
+	MAL,
+	Kitsu\KitsuRequestBuilder,
+	MAL\MALRequestBuilder
+};
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
@@ -33,30 +36,30 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return function(array $config_array = []) {
+return function(array $configArray = []) {
 	$container = new Container();
 
 	// -------------------------------------------------------------------------
 	// Logging
 	// -------------------------------------------------------------------------
 
-	$app_logger = new Logger('animeclient');
-	$app_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
-	$kitsu_request_logger = new Logger('kitsu-request');
-	$kitsu_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
-	$mal_request_logger = new Logger('mal-request');
-	$mal_request_logger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
-	$container->setLogger($app_logger, 'default');
-	$container->setLogger($kitsu_request_logger, 'kitsu-request');
-	$container->setLogger($mal_request_logger, 'mal-request');
+	$appLogger = new Logger('animeclient');
+	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+	$kitsuRequestLogger = new Logger('kitsu-request');
+	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
+	$malRequestLogger = new Logger('mal-request');
+	$malRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
+	$container->setLogger($appLogger, 'default');
+	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
+	$container->setLogger($malRequestLogger, 'mal-request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$container->set('config', function() use ($config_array) {
-		return new Config($config_array);
+	$container->set('config', function() use ($configArray) {
+		return new Config($configArray);
 	});
 
 	// Create Cache Object
@@ -73,14 +76,14 @@ return function(array $config_array = []) {
 
 	// Create Html helper Object
 	$container->set('html-helper', function($container) {
-		$html_helper = (new HelperLocatorFactory)->newInstance();
-		$html_helper->set('menu', function() use ($container) {
-			$menu_helper = new Helper\Menu();
-			$menu_helper->setContainer($container);
-			return $menu_helper;
+		$htmlHelper = (new HelperLocatorFactory)->newInstance();
+		$htmlHelper->set('menu', function() use ($container) {
+			$menuHelper = new Helper\Menu();
+			$menuHelper->setContainer($container);
+			return $menuHelper;
 		});
 
-		return $html_helper;
+		return $htmlHelper;
 	});
 
 	// Create Request/Response Objects
