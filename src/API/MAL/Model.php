@@ -17,10 +17,10 @@
 namespace Aviat\AnimeClient\API\MAL;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\MAL as M;
 use Aviat\AnimeClient\API\MAL\ListItem;
 use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\XML;
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerAware;
 
 /**
@@ -61,7 +61,7 @@ class Model {
 		$createData = [
 			'id' => $data['id'],
 			'data' => [
-				'status' => M::KITSU_MAL_WATCHING_STATUS_MAP[$data['status']]
+				'status' => AnimeWatchingStatus::KITSU_TO_MAL[$data['status']]
 			]
 		];
 

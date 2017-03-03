@@ -25,22 +25,14 @@ use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\{
 use Aviat\Ion\Enum;
 
 class AnimeWatchingStatus extends Enum {
-	const MAL_TO_KITSU = [
+	const KITSU_TO_MAL = [
 		Kitsu::WATCHING => MAL::WATCHING,
 		Kitsu::PLAN_TO_WATCH => MAL::PLAN_TO_WATCH,
 		Kitsu::COMPLETED => MAL::COMPLETED,
 		Kitsu::ON_HOLD => MAL::ON_HOLD,
 		Kitsu::DROPPED => MAL::DROPPED
 	];
-
-	const KITSU_TO_MAL = [
-		MAL::WATCHING => Kitsu::WATCHING,
-		MAL::PLAN_TO_WATCH => Kitsu::PLAN_TO_WATCH,
-		MAL::COMPLETED => Kitsu::COMPLETED,
-		MAL::ON_HOLD => Kitsu::ON_HOLD,
-		MAL::DROPPED => Kitsu::DROPPED
-	];
-
+	
 	const KITSU_TO_TITLE = [
 		'all' => Title::ALL,
 		Kitsu::WATCHING => Title::WATCHING,
@@ -48,6 +40,14 @@ class AnimeWatchingStatus extends Enum {
 		Kitsu::ON_HOLD => Title::ON_HOLD,
 		Kitsu::DROPPED => Title::DROPPED,
 		Kitsu::COMPLETED => Title::COMPLETED
+	];
+
+	const MAL_TO_KITSU = [
+		MAL::WATCHING => Kitsu::WATCHING,
+		MAL::PLAN_TO_WATCH => Kitsu::PLAN_TO_WATCH,
+		MAL::COMPLETED => Kitsu::COMPLETED,
+		MAL::ON_HOLD => Kitsu::ON_HOLD,
+		MAL::DROPPED => Kitsu::DROPPED
 	];
 
 	const ROUTE_TO_KITSU = [
