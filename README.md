@@ -1,6 +1,6 @@
 # Hummingbird Anime Client
 
-A self-hosted client that allows custom formatting of data from the hummingbird api
+Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
 [![build status](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/build.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
@@ -40,12 +40,7 @@ A self-hosted client that allows custom formatting of data from the hummingbird 
 
 ### Installation
 
-1. Install via composer: `composer create-project timw4mail/hummingbird-anime-client`
-
-or
-
 1. Install via git, then install dependencies via composer: `composer install`
-
 2. Duplicate `app/config/*.toml.example` files as `app/config/*.toml`
 3. Configure settings in `app/config/config.toml` to your liking
 4. Create the following directories if they don't exist, and make sure they are world writable
