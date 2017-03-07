@@ -84,7 +84,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		for ($i = 0; $i < $count; $i++)
 		{
 			$offset = $i * $size;
-			$requests[] = $this->kitsuModel->getFullAnimeList($size, $offset);
+			$requests[] = $this->kitsuModel->getPagedAnimeList($size, $offset);
 		}
 		
 		$promiseArray = (new Client())->requestMulti($requests);
@@ -151,7 +151,7 @@ class SyncKitsuWithMal extends BaseCommand {
 	
 	public function filterKitsuList()
 	{
-		$data = $this->getKitsuList();
+		$data = $this->kitsuModel->getFullAnimeList();
 		$includes = JsonAPI::organizeIncludes($data['included']);
 		$includes['mappings'] = $this->filterMappings($includes['mappings']);
 		

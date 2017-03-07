@@ -56,6 +56,11 @@ class Manga extends API
 	 */
 	public function getList($status)
 	{
+		if ($status === 'All')
+		{
+			return $this->kitsuModel->getFullOrganizedMangaList();
+		}
+		
 		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
 		return $this->mapByStatus($data)[$status];
