@@ -9,7 +9,6 @@ vendor
 **/coverage/**
 **/docs/**
 **/node_modules/**
-public/images/*
 composer.lock
 *.sqlite
 *.db
