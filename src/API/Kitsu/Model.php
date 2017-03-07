@@ -21,10 +21,14 @@ use function Amp\{all, wait};
 use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\API\{
 	CacheTrait,
-	Enum\AnimeWatchingStatus\Title,
 	JsonAPI,
 	Kitsu as K,
-	Mapping\AnimeWatchingStatus
+	Mapping\AnimeWatchingStatus,
+	Mapping\MangaReadingStatus
+};
+use Aviat\AnimeClient\API\Enum\{
+	AnimeWatchingStatus\Title,
+	MangaReadingStatus\Kitsu as KitsuReadingStatus
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
@@ -334,7 +338,6 @@ class Model {
 
 	public function getFullOrganizedAnimeList(): array
 	{
-
 		$cacheItem = $this->cache->getItem(self::FULL_TRANSFORMED_LIST_CACHE_KEY);
 
 		if ( ! $cacheItem->isHit())
@@ -400,6 +403,19 @@ class Model {
 		}
 
 		return $cacheItem->get();
+	}
+
+	public function getFullOrganizedMangaList(): array
+	{
+		$statuses = KitsuReadingStatus::getConstList();
+		$output = [];
+		foreach ($statuses as $status)
+		{
+			$mappedStatus = MangaReadingStatus::KITSU_TO_TITLE[$status];
+			$output[$mappedStatus] = $this->getMangaList($status);
+		}
+		
+		return $output;
 	}
 
 	/**
