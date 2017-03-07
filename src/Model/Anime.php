@@ -79,6 +79,18 @@ class Anime extends API {
 		return $output;
 	}
 
+	public function getAllLists()
+	{
+		$data =  $this->kitsuModel->getFullOrganizedAnimeList();
+
+		foreach($data as $section => &$list)
+		{
+			$this->sortByName($list, 'anime');
+		}
+
+		return $data;
+	}
+
 	/**
 	 * Get information about an anime from its slug
 	 *
@@ -201,4 +213,3 @@ class Anime extends API {
 		return count($results[1]) > 0;
 	}
 }
-// End of AnimeModel.php

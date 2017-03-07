@@ -16,11 +16,15 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Amp\Artax\Request;
+use function Amp\{all, wait};
+
+use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\API\{
 	CacheTrait,
+	Enum\AnimeWatchingStatus\Title,
 	JsonAPI,
-	Kitsu as K
+	Kitsu as K,
+	Mapping\AnimeWatchingStatus
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
@@ -38,6 +42,8 @@ class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
+
+	const FULL_TRANSFORMED_LIST_CACHE_KEY = 'FullOrganizedAnimeList';
 
 	/**
 	 * Class to map anime list items
@@ -235,13 +241,14 @@ class Model {
 	}
 
 	/**
-	 * Get and transform the entirety of the user's anime list
+	 * Get the full anime list in paginated form
 	 *
 	 * @param int $limit
 	 * @param int $offset
+	 * @param string $include
 	 * @return Request
 	 */
-	public function getFullAnimeList(int $limit = 100, int $offset = 0): Request
+	public function getPagedAnimeList(int $limit = 100, int $offset = 0, $include='anime.mappings'): Request
 	{
 		$options = [
 			'query' => [
@@ -249,7 +256,7 @@ class Model {
 					'user_id' => $this->getUserIdByUsername($this->getUsername()),
 					'media_type' => 'Anime'
 				],
-				'include' => 'anime.mappings',
+				'include' => $include,
 				'page' => [
 					'offset' => $offset,
 					'limit' => $limit
@@ -259,6 +266,41 @@ class Model {
 		];
 		
 		return $this->setUpRequest('GET', 'library-entries', $options);
+	}
+	
+	/**
+	 * Get the full anime list
+	 *
+	 * @param string $include
+	 * @return Request
+	 */
+	public function getFullAnimeList($include = 'anime.mappings')
+	{
+		$count = $this->getAnimeListCount();
+		$size = 75;
+		$pages = ceil($count / $size);
+		
+		$requests = [];
+		
+		// Set up requests
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$offset = $i * $size;
+			$requests[] = $this->getPagedAnimeList($size, $offset, $include);
+		}
+		
+		$promiseArray = (new Client())->requestMulti($requests);
+
+		$responses = wait(all($promiseArray));
+		$output = [];
+
+		foreach($responses as $response)
+		{
+			$data = Json::decode($response->getBody());
+			$output = array_merge_recursive($output, $data);
+		}
+
+		return $output;
 	}
 
 	/**
@@ -288,6 +330,45 @@ class Model {
 		];
 
 		return $this->getRequest('library-entries', $options);
+	}
+
+	public function getFullOrganizedAnimeList(): array
+	{
+
+		$cacheItem = $this->cache->getItem(self::FULL_TRANSFORMED_LIST_CACHE_KEY);
+
+		if ( ! $cacheItem->isHit())
+		{
+			$output = [
+				Title::WATCHING => [],
+				Title::PLAN_TO_WATCH => [],
+				Title::ON_HOLD => [],
+				Title::DROPPED => [],
+				Title::COMPLETED => []
+			];
+			$statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
+
+			$data = $this->getFullAnimeList('media,media.genres,media.mappings,anime.streamingLinks');
+			$included = JsonAPI::organizeIncludes($data['included']);
+			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
+
+			foreach($data['data'] as $i => &$item)
+			{
+				$item['included'] = $included;
+			}
+			$transformed = $this->animeListTransformer->transformCollection($data['data']);
+
+			foreach($transformed as $item)
+			{
+				$key = $statusMap[$item['watching_status']];
+				$output[$key][] = $item;
+			}
+
+			$cacheItem->set($output);
+			$cacheItem->save();
+		}
+
+		return $cacheItem->get();
 	}
 
 	/**

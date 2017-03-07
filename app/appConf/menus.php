@@ -24,7 +24,7 @@ return [
 			'on_hold' => '/on_hold',
 			'dropped' => '/dropped',
 			'completed' => '/completed',
-			//'all' => '/all'
+			'all' => '/all'
 		]
 	],
 	'manga_list' => [
@@ -35,7 +35,7 @@ return [
 			'on_hold' => '/on_hold',
 			'dropped' => '/dropped',
 			'completed' => '/completed',
-			//'all' => '/all'
+			'all' => '/all'
 		]
 	]
 ];

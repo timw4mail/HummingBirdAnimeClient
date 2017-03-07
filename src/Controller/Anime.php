@@ -93,7 +93,7 @@ class Anime extends BaseController {
 
 		$data = ($type !== 'all')
 			? $this->model->getList(AnimeWatchingStatus::ROUTE_TO_KITSU[$type])
-			: $this->model->get_all_lists();
+			: $this->model->getAllLists();
 
 		$this->outputHTML('anime/' . $viewMap[$view], [
 			'title' => $title,
