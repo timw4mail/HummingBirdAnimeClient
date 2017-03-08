@@ -18,9 +18,8 @@ namespace Aviat\AnimeClient\Command;
 
 use function Amp\{all, wait};
 
-use Amp\Artax;
 use Amp\Artax\Client;
-use Aviat\AnimeClient\API\{JsonAPI, Kitsu, MAL};
+use Aviat\AnimeClient\API\{JsonAPI, Mapping\AnimeWatchingStatus};
 use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer as ALT;
 use Aviat\Ion\Json;
 
@@ -81,7 +80,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		$requests = [];
 		
 		// Set up requests
-		for ($i = 0; $i < $count; $i++)
+		for ($i = 0; $i < $pages; $i++)
 		{
 			$offset = $i * $size;
 			$requests[] = $this->kitsuModel->getPagedAnimeList($size, $offset);
@@ -131,7 +130,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			$output[$item['series_animedb_id']] = [
 				'id' => $item['series_animedb_id'],
 				'data' => [
-					'status' => MAL::MAL_KITSU_WATCHING_STATUS_MAP[$item['my_status']],
+					'status' => AnimeWatchingStatus::MAL_TO_KITSU[$item['my_status']],
 					'progress' => $item['my_watched_episodes'],
 					'reconsuming' => (bool) $item['my_rewatching'],
 					'reconsumeCount' => array_key_exists('times_rewatched', $item)

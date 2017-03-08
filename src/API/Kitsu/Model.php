@@ -19,25 +19,19 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use function Amp\{all, wait};
 
 use Amp\Artax\{Client, Request};
-use Aviat\AnimeClient\API\{
-	CacheTrait,
-	JsonAPI,
-	Kitsu as K,
-	Mapping\AnimeWatchingStatus,
-	Mapping\MangaReadingStatus
-};
+use Aviat\AnimeClient\API\{CacheTrait, JsonAPI, Kitsu as K};
 use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Title,
 	MangaReadingStatus\Kitsu as KitsuReadingStatus
 };
+use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
 	AnimeListTransformer,
 	MangaTransformer,
 	MangaListTransformer
 };
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Json;
+use Aviat\Ion\{Di\ContainerAware, Json};
 
 /**
  * Kitsu API Model
@@ -336,6 +330,11 @@ class Model {
 		return $this->getRequest('library-entries', $options);
 	}
 
+	/**
+	 * Get all the anine entries, that are organized for output to html
+	 *
+	 * @return array
+	 */
 	public function getFullOrganizedAnimeList(): array
 	{
 		$cacheItem = $this->cache->getItem(self::FULL_TRANSFORMED_LIST_CACHE_KEY);
@@ -405,6 +404,11 @@ class Model {
 		return $cacheItem->get();
 	}
 
+	/**
+	 * Get all Manga lists
+	 *
+	 * @return array
+	 */
 	public function getFullOrganizedMangaList(): array
 	{
 		$statuses = KitsuReadingStatus::getConstList();
@@ -556,6 +560,11 @@ class Model {
 		return $this->listItem->delete($id);
 	}
 
+	/**
+	 * Get the kitsu username from config
+	 *
+	 * @return string
+	 */
 	private function getUsername(): string
 	{
 		return $this->getContainer()
@@ -563,6 +572,13 @@ class Model {
 			->get(['kitsu_username']);
 	}
 
+	/**
+	 * Get the raw data for the anime id
+	 *
+	 * @param string $type
+	 * @param string $id
+	 * @return array
+	 */
 	private function getRawMediaDataById(string $type, string $id): array
 	{
 		$options = [
@@ -579,6 +595,13 @@ class Model {
 		return $baseData;
 	}
 
+	/**
+	 * Get media item by slug
+	 *
+	 * @param string $type
+	 * @param string $slug
+	 * @return array
+	 */
 	private function getRawMediaData(string $type, string $slug): array
 	{
 		$options = [
