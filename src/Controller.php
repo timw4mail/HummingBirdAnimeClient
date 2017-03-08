@@ -20,6 +20,7 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Aviat\AnimeClient\_dir;
 
+use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -127,7 +128,14 @@ class Controller {
 	{
 		$username = $this->config->get(['kitsu_username']);
 		$model = $this->container->get('kitsu-model');
-		$this->outputJSON($model->getUserData($username));
+		$data = $model->getUserData($username);
+		$included = JsonAPI::lightlyOrganizeIncludes($data['included']);
+		$this->outputHTML('me', [
+			'title' => 'About' . $this->config->get('whose_list'),
+			'attributes' => $data['data']['attributes'],
+			'relationships' => $data['data']['relationships'],
+			'included' => $included
+		]);
 	}
 
 	/**

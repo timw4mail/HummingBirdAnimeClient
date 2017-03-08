@@ -139,12 +139,18 @@ class Model {
 		return $data;
 	}
 
+	/**
+	 * Get profile information for the configured user
+	 *
+	 * @param string $username
+	 * @return array
+	 */
 	public function getUserData(string $username): array
 	{
 		$userId = $this->getUserIdByUsername($username);
 		$data = $this->getRequest("/users/{$userId}", [
 			'query' => [
-				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,mediaFollows,userRoles'
+				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,mediaFollows,userRoles'
 			]
 		]);
 		// $data['included'] = JsonAPI::organizeIncludes($data['included']);

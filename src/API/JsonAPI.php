@@ -111,6 +111,31 @@ class JsonAPI {
 
 		return $organized;
 	}
+	
+	public static function lightlyOrganizeIncludes(array $includes): array
+	{
+		$organized = [];
+		
+		foreach($includes as $item)
+		{
+			$type = $item['type'];
+			$id = $item['id'];
+			$organized[$type] = $organized[$type] ?? [];
+			$newItem = [];
+			
+			foreach(['attributes', 'relationships'] as $key)
+			{
+				if (array_key_exists($key, $item))
+				{
+					$newItem[$key] =  $item[$key];
+				}
+			}
+			
+			$organized[$type][$id] = $newItem;
+		}
+		
+		return $organized;
+	}
 
 	/**
 	 * Reorganize relationship mappings to make them simpler to use

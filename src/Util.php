@@ -39,7 +39,8 @@ class Util {
 		'login',
 		'logout',
 		'details',
-		'character'
+		'character',
+		'me'
 	];
 
 	/**
