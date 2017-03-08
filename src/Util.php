@@ -38,7 +38,8 @@ class Util {
 		'update_form',
 		'login',
 		'logout',
-		'details'
+		'details',
+		'character'
 	];
 
 	/**
