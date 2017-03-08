@@ -10,12 +10,31 @@
 					<td>Location</td>
 					<td><?= $attributes['location'] ?></td>
 				</tr>
+				<tr>
+					<td>Website</td>
+					<td><?= $helper->a($attributes['website'], $attributes['website']) ?></td>
+				</tr>
+				<?php if (array_key_exists('waifu', $relationships)): ?>
+				<tr>
+					<td><?= $escape->html($attributes['waifuOrHusbando']) ?></td>
+					<td>
+						<?php 
+							$dataKey = $relationships['waifu']['id'];
+							$character = $included['characters'][$dataKey]['attributes'];
+							echo $helper->a(
+								$url->generate('character', ['slug' => $character['slug']]),
+								$character['name']
+							);
+						?>
+					</td>
+				</tr>
+				<?php endif ?>
 			</table>
 		</div>
 		<div>
 			<dl>
 				<dt>About:</dt>
-				<dd><?= $attributes['bio'] ?></dd>
+				<dd><?= $escape->html($attributes['bio']) ?></dd>
 			</dl>
 			<pre><?= json_encode($attributes, \JSON_PRETTY_PRINT) ?></pre>
 			<pre><?= json_encode($relationships, \JSON_PRETTY_PRINT) ?></pre>

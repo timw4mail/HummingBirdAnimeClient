@@ -112,6 +112,12 @@ class JsonAPI {
 		return $organized;
 	}
 	
+	/**
+	 * Reorganize 'included' data 
+	 *
+	 * @param array $includes
+	 * @return array
+	 */
 	public static function lightlyOrganizeIncludes(array $includes): array
 	{
 		$organized = [];
@@ -166,5 +172,20 @@ class JsonAPI {
 		}
 
 		return $organized;
+	}
+	
+	public static function fillRelationshipsFromIncludes(array $relationships, array $includes): array
+	{
+		$output = [];
+		
+		foreach ($relationships as $key => $block)
+		{
+			if (array_key_exists('data', $block) && is_array($block['data']) && ! empty($block['data']))
+			{
+				$output[$key] = $block['data'];
+			}
+		}
+		
+		return $output;
 	}
 }
