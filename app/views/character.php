@@ -4,7 +4,7 @@
 			<img class="cover" width="402" height="284" src="<?= $data['image']['original'] ?>" alt="" />
 		</div>
 		<div>
-			<h3><?= $data['name'] ?></h3>
+			<h2><?= $data['name'] ?></h2>
 
 			<p><?= $data['description'] ?></p>
 		</div>

@@ -234,6 +234,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					'anime' => 'Aviat\AnimeClient\Controller\Anime',
 					'manga' => 'Aviat\AnimeClient\Controller\Manga',
 					'collection' => 'Aviat\AnimeClient\Controller\Collection',
+					'character' => 'Aviat\AnimeClient\Controller\Character',
 				]
 			],
 			'empty_controller_list' => [
@@ -255,6 +256,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					'anime' => 'Aviat\AnimeClient\Controller\Anime',
 					'manga' => 'Aviat\AnimeClient\Controller\Manga',
 					'collection' => 'Aviat\AnimeClient\Controller\Collection',
+					'character' => 'Aviat\AnimeClient\Controller\Character',
 				]
 			]
 		];
