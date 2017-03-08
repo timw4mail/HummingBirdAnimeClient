@@ -123,6 +123,13 @@ class Controller {
 		$this->baseData['message'] = $this->session->getFlash('message');
 	}
 
+	public function me()
+	{
+		$username = $this->config->get(['kitsu_username']);
+		$model = $this->container->get('kitsu-model');
+		$this->outputJSON($model->getUserData($username));
+	}
+
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *

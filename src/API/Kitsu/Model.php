@@ -93,7 +93,7 @@ class Model {
 	 * @param string $username
 	 * @return string
 	 */
-	public function getUserIdByUsername(string $username = NULL)
+	public function getUserIdByUsername(string $username = NULL): string
 	{
 		if (is_null($username))
 		{
@@ -117,6 +117,39 @@ class Model {
 		}
 
 		return $cacheItem->get();
+	}
+
+	/**
+	 * Get information about a character
+	 *
+	 * @param string $slug
+	 * @return array
+	 */
+	public function getCharacter(string $slug): array
+	{
+		$data = $this->getRequest('/characters', [
+			'query' => [
+				'filter' => [
+					'slug' => $slug
+				],
+				// 'include' => 'primaryMedia,castings'
+			]
+		]);
+
+		return $data;
+	}
+
+	public function getUserData(string $username): array
+	{
+		$userId = $this->getUserIdByUsername($username);
+		$data = $this->getRequest("/users/{$userId}", [
+			'query' => [
+				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,mediaFollows,userRoles'
+			]
+		]);
+		// $data['included'] = JsonAPI::organizeIncludes($data['included']);
+
+		return $data;
 	}
 
 	/**
