@@ -19,8 +19,7 @@
 					<td><?= $escape->html($attributes['waifuOrHusbando']) ?></td>
 					<td>
 						<?php 
-							$dataKey = $relationships['waifu']['id'];
-							$character = $included['characters'][$dataKey]['attributes'];
+							$character = $relationships['waifu']['attributes'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
 								$character['name']
