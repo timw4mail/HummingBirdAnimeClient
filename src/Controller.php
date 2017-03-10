@@ -71,6 +71,11 @@ class Controller {
 		$this->baseData['message'] = $this->session->getFlash('message');
 	}
 
+	/**
+	 * Show the user profile page
+	 *
+	 * @return void
+	 */
 	public function me()
 	{
 		$username = $this->config->get(['kitsu_username']);

@@ -182,7 +182,18 @@ class JsonAPI {
 		{
 			if (array_key_exists('data', $block) && is_array($block['data']) && ! empty($block['data']))
 			{
-				$output[$key] = $block['data'];
+				$output[$key] = [];
+				if (array_key_exists('type', $block['data']) && array_key_exists('id', $block['data']))
+				{
+					$output[$key] = $includes[$block['data']['type']][$block['data']['id']];
+				}
+				else
+				{
+					foreach($block['data'] as $dBlock)
+					{
+						$output[$key][] = $includes[$dBlock['type']][$dBlock['id']];
+					}
+				}
 			}
 		}
 		
