@@ -41,7 +41,7 @@ class Model {
 	use ContainerAware;
 	use KitsuTrait;
 
-	const FULL_TRANSFORMED_LIST_CACHE_KEY = 'FullOrganizedAnimeList';
+	const FULL_TRANSFORMED_LIST_CACHE_KEY = 'kitsu-full-organized-anime-list';
 
 	/**
 	 * Class to map anime list items
@@ -422,7 +422,7 @@ class Model {
 	 */
 	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
 	{
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, [$status]));
+		$cacheItem = $this->cache->getItem("kitsu-anime-list-{$status}");
 
 		if ( ! $cacheItem->isHit())
 		{
@@ -487,7 +487,7 @@ class Model {
 			]
 		];
 
-		$cacheItem = $this->cache->getItem($this->getHashForMethodCall($this, __METHOD__, $options));
+		$cacheItem = $this->cache->getItem("kitsu-manga-list-{$status}");
 
 		if ( ! $cacheItem->isHit())
 		{
