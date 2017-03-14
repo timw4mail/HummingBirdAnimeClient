@@ -254,9 +254,10 @@ class Model {
 	/**
 	 * Get the number of anime list items
 	 *
+	 * @param string $status - Optional status to filter by
 	 * @return int
 	 */
-	public function getAnimeListCount() : int
+	public function getAnimeListCount(string $status = '') : int
 	{
 		$options = [
 			'query' => [
@@ -271,6 +272,11 @@ class Model {
 			]
 		];
 		
+		if ( ! empty($status))
+		{
+			$options['query']['filter']['status'] = $status;
+		}
+		
 		$response = $this->getRequest('library-entries', $options);
 		
 		return $response['meta']['count'];
@@ -282,36 +288,38 @@ class Model {
 	 *
 	 * @param int $limit
 	 * @param int $offset
-	 * @param string $include
+	 * @param array $options
 	 * @return Request
 	 */
-	public function getPagedAnimeList(int $limit = 100, int $offset = 0, $include='anime.mappings'): Request
+	public function getPagedAnimeList(int $limit = 100, int $offset = 0, array $options = [
+		'include' => 'anime.mappings'
+	]): Request
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserIdByUsername($this->getUsername()),
-					'media_type' => 'Anime'
-				],
-				'include' => $include,
-				'page' => [
-					'offset' => $offset,
-					'limit' => $limit
-				],
-				'sort' => '-updated_at'
-			]
+		$defaultOptions = [
+			'filter' => [
+				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'media_type' => 'Anime'
+			],
+			'page' => [
+				'offset' => $offset,
+				'limit' => $limit
+			],
+			'sort' => '-updated_at'
 		];
+		$options = array_merge($defaultOptions, $options);
 		
-		return $this->setUpRequest('GET', 'library-entries', $options);
+		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 	
 	/**
 	 * Get the full anime list
 	 *
-	 * @param string $include
-	 * @return Request
+	 * @param array $options
+	 * @return array
 	 */
-	public function getFullAnimeList($include = 'anime.mappings')
+	public function getFullAnimeList(array $options = [
+		'include' => 'anime.mappings'
+	]): array
 	{
 		$count = $this->getAnimeListCount();
 		$size = 75;
@@ -323,7 +331,7 @@ class Model {
 		for ($i = 0; $i < $pages; $i++)
 		{
 			$offset = $i * $size;
-			$requests[] = $this->getPagedAnimeList($size, $offset, $include);
+			$requests[] = $this->getPagedAnimeList($size, $offset, $options);
 		}
 		
 		$promiseArray = (new Client())->requestMulti($requests);
@@ -389,7 +397,9 @@ class Model {
 			];
 			$statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
 
-			$data = $this->getFullAnimeList('media,media.genres,media.mappings,anime.streamingLinks');
+			$data = $this->getFullAnimeList([
+				'include' => 'media,media.genres,media.mappings,anime.streamingLinks'
+			]);
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
