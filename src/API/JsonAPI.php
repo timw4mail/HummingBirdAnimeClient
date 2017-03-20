@@ -167,7 +167,10 @@ class JsonAPI {
 
 			foreach ($data['data'] as $item)
 			{
-				$organized[$key][] = $item['id'];
+				if (is_array($item) && array_key_exists('id', $item))
+				{
+					$organized[$key][] = $item['id'];
+				}
 			}
 		}
 

@@ -261,9 +261,19 @@ class Anime extends BaseController {
 	public function details(string $animeId)
 	{
 		$data = $this->model->getAnime($animeId);
+		$characters = [];
+		
+		foreach($data['included'] as $included)
+		{
+			if ($included['type'] === 'characters')
+			{
+				$characters[$included['id']] = $included['attributes'];
+			}
+		}
 
 		$this->outputHTML('anime/details', [
 			'title' => 'Anime &middot ' . $data['titles'][0],
+			'characters' => $characters,
 			'data' => $data,
 		]);
 	}

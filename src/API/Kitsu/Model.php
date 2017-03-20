@@ -127,6 +127,7 @@ class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
+		// @todo catch non-existent characters and show 404
 		$data = $this->getRequest('/characters', [
 			'query' => [
 				'filter' => [
@@ -196,7 +197,9 @@ class Model {
 	{
 		// @TODO catch non-existent anime
 		$baseData = $this->getRawMediaData('anime', $slug);
-		return $this->animeTransformer->transform($baseData);
+		$transformed = $this->animeTransformer->transform($baseData);
+		$transformed['included'] = $baseData['included'];
+		return $transformed;
 	}
 
 	/**
@@ -659,7 +662,7 @@ class Model {
 					'slug' => $slug
 				],
 				'include' => ($type === 'anime')
-					? 'genres,mappings,streamingLinks'
+					? 'genres,mappings,streamingLinks,animeCharacters.character'
 					: 'genres,mappings',
 			]
 		];
