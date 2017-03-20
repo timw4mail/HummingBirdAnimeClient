@@ -17,12 +17,7 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp;
-use Amp\Artax\{
-	Client,
-	FormBody,
-	Request
-};
-use Aviat\Ion\Di\ContainerAware;
+use Amp\Artax\{FormBody, Request};
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;

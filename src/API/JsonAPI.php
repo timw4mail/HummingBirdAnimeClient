@@ -16,8 +16,6 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\Ion\Json;
-
 /**
  * Class encapsulating Json API data structure for a request or response
  */
