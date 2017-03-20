@@ -17,6 +17,9 @@
 			[<a href="<?= $urlGenerator->defaultUrl('manga') ?>">Manga List</a>]
 		<?php endif ?>
 	</span>
+	<span class="flex-no-wrap small-font">
+		[<?= $helper->a($url->generate('user_info'), 'About '. $config->get('whose_list')) ?>]
+	</span>
 	<?php if ($auth->isAuthenticated()): ?>
 		<span class="flex-no-wrap">&nbsp;</span>
 		<span class="flex-no-wrap small-font">
@@ -25,7 +28,6 @@
 		<span class="flex-no-wrap">&nbsp;</span>
 	<?php endif ?>
 	<span class="flex-no-wrap small-font">
-		[<?= $helper->a($url->generate('user_info'), 'About '. $config->get('whose_list')) ?>]
 		<?php if ($auth->isAuthenticated()): ?>
 			<a class="bracketed" href="<?= $url->generate('logout') ?>">Logout</a>
 		<?php else: ?>
