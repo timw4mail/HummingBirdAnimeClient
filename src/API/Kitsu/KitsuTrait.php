@@ -24,14 +24,12 @@ use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\AnimeClient;
 use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Json;
-use InvalidArgumentException;
-use RuntimeException;
 
 trait KitsuTrait {
 
 	/**
 	 * The request builder for the MAL API
-	 * @var MALRequestBuilder
+	 * @var KitsuRequestBuilder
 	 */
 	protected $requestBuilder;
 
@@ -57,8 +55,6 @@ trait KitsuTrait {
 	 */
 	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
-		$config = $this->container->get('config');
-
 		$request = $this->requestBuilder->newRequest($type, $url);
 
 		$sessionSegment = $this->getContainer()
@@ -100,7 +96,6 @@ trait KitsuTrait {
 	private function getResponse(string $type, string $url, array $options = [])
 	{
 		$request = $this->setUpRequest($type, $url, $options);
-		$logger = $this->container->getLogger('kitsu-request');
 
 		$response = wait((new Client)->request($request));
 
@@ -133,7 +128,7 @@ trait KitsuTrait {
 			}
 		}
 
-		return JSON::decode($response->getBody(), TRUE);
+		return Json::decode($response->getBody(), TRUE);
 	}
 
 	/**

@@ -35,9 +35,9 @@
 				<dt>About:</dt>
 				<dd><?= $escape->html($attributes['bio']) ?></dd>
 			</dl>
-			<pre><?= json_encode($attributes, \JSON_PRETTY_PRINT) ?></pre>
+			<?php /* <pre><?= json_encode($attributes, \JSON_PRETTY_PRINT) ?></pre>
 			<pre><?= json_encode($relationships, \JSON_PRETTY_PRINT) ?></pre>
-			<pre><?= json_encode($included, \JSON_PRETTY_PRINT) ?></pre>
+			<pre><?= json_encode($included, \JSON_PRETTY_PRINT) ?></pre> */ ?>
 		</div>
 	</section>
 </main>

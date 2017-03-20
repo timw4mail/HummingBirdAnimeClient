@@ -84,7 +84,7 @@
 	<h2>Characters</h2>
 	<div class="flex flex-wrap">
 	<?php foreach($characters as $char): ?>
-		<?php if (array_key_exists('image', $char)): ?>
+		<?php if ( ! empty($char['image']['original'])): ?>
 		<div class="character">
 			<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 			<?= $helper->a($link, $char['name']); ?>
