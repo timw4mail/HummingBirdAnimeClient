@@ -73,6 +73,13 @@ class Kitsu {
 					'image' => 'streaming-logos/crunchyroll.svg',
 				];
 
+			case 'www.daisuki.net':
+				return [
+					'name' => 'Daisuki',
+					'link' => TRUE,
+					'image' => 'streaming-logos/daisuki.svg'
+				];
+
 			case 'www.funimation.com':
 				return [
 					'name' => 'Funimation',
@@ -85,6 +92,13 @@ class Kitsu {
 					'name' => 'Hulu',
 					'link' => TRUE,
 					'image' => 'streaming-logos/hulu.svg',
+				];
+
+			case 'www.viewster.com':
+				return [
+					'name' => 'Viewster',
+					'link' => TRUE,
+					'image' => 'streaming-logos/viewster.svg'
 				];
 
 			// Default to Netflix, because the API links are broken,
