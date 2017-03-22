@@ -69,6 +69,11 @@ trait KitsuTrait {
 		if ($sessionSegment->get('auth_token') !== NULL && $url !== K::AUTH_URL)
 		{
 			$token = $sessionSegment->get('auth_token');
+			if ( ! $cacheItem->isHit())
+			{
+				$cacheItem->set($token);
+				$cacheItem->save();
+			}
 		}
 		else if ($sessionSegment->get('auth_token') === NULL && $cacheItem->isHit())
 		{

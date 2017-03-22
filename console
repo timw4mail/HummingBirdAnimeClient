@@ -35,9 +35,9 @@ unset($CONF_DIR);
 // ---------------------------------------------------------------------------------------------------------------------
 $console = new \ConsoleKit\Console([
 	'cache-prime' => '\Aviat\AnimeClient\Command\CachePrime',
-	'cache-clear' => '\Aviat\AnimeClient\Command\CacheClear'
+	'cache-clear' => '\Aviat\AnimeClient\Command\CacheClear',
 	'clear-cache' => '\Aviat\AnimeClient\Command\CacheClear',
-	'sync-lists' => '\Aviat\AnimeClient\Command\SyncKitsuWithMal'
+	'sync-lists' => '\Aviat\AnimeClient\Command\SyncKitsuWithMal',
 ]);
 
 $console->run();
