@@ -61,12 +61,25 @@ trait KitsuTrait {
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
+		$cache = $this->getContainer()->get('cache');
+		$cacheItem = $cache->getItem('kitsu-auth-token');
+		$token = null;
+
+
 		if ($sessionSegment->get('auth_token') !== NULL && $url !== K::AUTH_URL)
 		{
 			$token = $sessionSegment->get('auth_token');
+		}
+		else if ($sessionSegment->get('auth_token') === NULL && $cacheItem->isHit())
+		{
+			$token = $cacheItem->get();
+		}
+
+		if ( ! is_null($token))
+		{
 			$request = $request->setAuth('bearer', $token);
 		}
-		
+
 		if (array_key_exists('form_params', $options))
 		{
 			$request->setFormFields($options['form_params']);
