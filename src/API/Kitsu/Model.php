@@ -386,13 +386,19 @@ class Model {
 
 		if ( ! $cacheItem->isHit())
 		{
-			$output = [
-				Title::WATCHING => $this->getAnimeList(KitsuWatchingStatus::WATCHING),
-				Title::PLAN_TO_WATCH => $this->getAnimeList(KitsuWatchingStatus::PLAN_TO_WATCH),
-				Title::ON_HOLD => $this->getAnimeList(KitsuWatchingStatus::ON_HOLD),
-				Title::DROPPED => $this->getAnimeList(KitsuWatchingStatus::DROPPED),
-				Title::COMPLETED => $this->getAnimeList(KitsuWatchingStatus::COMPLETED)
+			$output = [];
+			$statuses = [
+				Title::WATCHING => KitsuWatchingStatus::WATCHING,
+				Title::PLAN_TO_WATCH => KitsuWatchingStatus::PLAN_TO_WATCH,
+				Title::ON_HOLD, KitsuWatchingStatus::ON_HOLD,
+				Title::DROPPED => KitsuWatchingStatus::DROPPED,
+				Title::COMPLETED => KitsuWatchingStatus::COMPLETED
 			];
+
+			foreach ($statuses as $key => $status)
+			{
+				$output[$key] = $this->getAnimeList($status) ?? [];
+			}
 
 			$cacheItem->set($output);
 			$cacheItem->save();
@@ -413,7 +419,16 @@ class Model {
 
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRawAnimeList($status);
+			$data = $this->getRawAnimeList($status) ?? [];
+
+			// Bail out on no data
+			if (empty($data))
+			{
+				$cacheItem->set([]);
+				$cacheItem->save();
+				return $cacheItem->get();
+			}
+
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
