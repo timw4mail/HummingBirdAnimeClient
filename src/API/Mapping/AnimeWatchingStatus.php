@@ -32,9 +32,8 @@ class AnimeWatchingStatus extends Enum {
 		Kitsu::ON_HOLD => MAL::ON_HOLD,
 		Kitsu::DROPPED => MAL::DROPPED
 	];
-	
+
 	const KITSU_TO_TITLE = [
-		'all' => Title::ALL,
 		Kitsu::WATCHING => Title::WATCHING,
 		Kitsu::PLAN_TO_WATCH => Title::PLAN_TO_WATCH,
 		Kitsu::ON_HOLD => Title::ON_HOLD,
@@ -54,7 +53,6 @@ class AnimeWatchingStatus extends Enum {
 		Route::WATCHING => Kitsu::WATCHING,
 		Route::PLAN_TO_WATCH => Kitsu::PLAN_TO_WATCH,
 		Route::ON_HOLD => Kitsu::ON_HOLD,
-		Route::ALL => 'all',
 		Route::DROPPED => Kitsu::DROPPED,
 		Route::COMPLETED => Kitsu::COMPLETED
 	];

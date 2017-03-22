@@ -50,7 +50,6 @@ class MangaReadingStatus extends Enum {
 	];
 
 	const ROUTE_TO_KITSU = 	[
-		Route::ALL => 'all',
 		Route::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		Route::READING => Kitsu::READING,
 		Route::COMPLETED => Kitsu::COMPLETED,
@@ -68,7 +67,6 @@ class MangaReadingStatus extends Enum {
 	];
 
 	const TITLE_TO_KITSU = [
-		Title::ALL => 'all',
 		Title::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		Title::READING => Kitsu::READING,
 		Title::COMPLETED => Kitsu::COMPLETED,
