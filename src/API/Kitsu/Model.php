@@ -22,6 +22,7 @@ use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\API\{CacheTrait, JsonAPI, Kitsu as K};
 use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Title,
+	AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
 	MangaReadingStatus\Kitsu as KitsuReadingStatus
 };
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
@@ -253,7 +254,7 @@ class Model {
 		$baseData = $this->getRawMediaData('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
-	
+
 	/**
 	 * Get the number of anime list items
 	 *
@@ -274,16 +275,16 @@ class Model {
 				'sort' => '-updated_at'
 			]
 		];
-		
+
 		if ( ! empty($status))
 		{
 			$options['query']['filter']['status'] = $status;
 		}
-		
+
 		$response = $this->getRequest('library-entries', $options);
-		
+
 		return $response['meta']['count'];
-		
+
 	}
 
 	/**
@@ -310,10 +311,10 @@ class Model {
 			'sort' => '-updated_at'
 		];
 		$options = array_merge($defaultOptions, $options);
-		
+
 		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
-	
+
 	/**
 	 * Get the full anime list
 	 *
@@ -324,19 +325,20 @@ class Model {
 		'include' => 'anime.mappings'
 	]): array
 	{
-		$count = $this->getAnimeListCount();
-		$size = 75;
+		$status = $options['filter']['status'] ?? '';
+		$count = $this->getAnimeListCount($status);
+		$size = 100;
 		$pages = ceil($count / $size);
-		
+
 		$requests = [];
-		
+
 		// Set up requests
 		for ($i = 0; $i < $pages; $i++)
 		{
 			$offset = $i * $size;
 			$requests[] = $this->getPagedAnimeList($size, $offset, $options);
 		}
-		
+
 		$promiseArray = (new Client())->requestMulti($requests);
 
 		$responses = wait(all($promiseArray));
@@ -355,29 +357,22 @@ class Model {
 	 * Get the raw (unorganized) anime list for the configured user
 	 *
 	 * @param string $status - The watching status to filter the list with
-	 * @param int $limit - The number of list entries to fetch for a page
-	 * @param int $offset - The page offset
 	 * @return array
 	 */
-	public function getRawAnimeList(string $status, int $limit = 600, int $offset = 0): array
+	public function getRawAnimeList(string $status): array
 	{
+
 		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserIdByUsername($this->getUsername()),
-					'media_type' => 'Anime',
-					'status' => $status,
-				],
-				'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
-				'page' => [
-					'offset' => $offset,
-					'limit' => $limit
-				],
-				'sort' => '-updated_at'
-			]
+			'filter' => [
+				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'media_type' => 'Anime',
+				'status' => $status,
+			],
+			'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
+			'sort' => '-updated_at'
 		];
 
-		return $this->getRequest('library-entries', $options);
+		return $this->getFullAnimeList($options);
 	}
 
 	/**
@@ -392,31 +387,12 @@ class Model {
 		if ( ! $cacheItem->isHit())
 		{
 			$output = [
-				Title::WATCHING => [],
-				Title::PLAN_TO_WATCH => [],
-				Title::ON_HOLD => [],
-				Title::DROPPED => [],
-				Title::COMPLETED => []
+				Title::WATCHING => $this->getAnimeList(KitsuWatchingStatus::WATCHING),
+				Title::PLAN_TO_WATCH => $this->getAnimeList(KitsuWatchingStatus::PLAN_TO_WATCH),
+				Title::ON_HOLD => $this->getAnimeList(KitsuWatchingStatus::ON_HOLD),
+				Title::DROPPED => $this->getAnimeList(KitsuWatchingStatus::DROPPED),
+				Title::COMPLETED => $this->getAnimeList(KitsuWatchingStatus::COMPLETED)
 			];
-			$statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
-
-			$data = $this->getFullAnimeList([
-				'include' => 'media,media.genres,media.mappings,anime.streamingLinks'
-			]);
-			$included = JsonAPI::organizeIncludes($data['included']);
-			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['included'] = $included;
-			}
-			$transformed = $this->animeListTransformer->transformCollection($data['data']);
-
-			foreach($transformed as $item)
-			{
-				$key = $statusMap[$item['watching_status']];
-				$output[$key][] = $item;
-			}
 
 			$cacheItem->set($output);
 			$cacheItem->save();
@@ -429,17 +405,15 @@ class Model {
 	 * Get the anime list for the configured user
 	 *
 	 * @param string $status - The watching status to filter the list with
-	 * @param int $limit - The number of list entries to fetch for a page
-	 * @param int $offset - The page offset
 	 * @return array
 	 */
-	public function getAnimeList(string $status, int $limit = 600, int $offset = 0): array
+	public function getAnimeList(string $status): array
 	{
 		$cacheItem = $this->cache->getItem("kitsu-anime-list-{$status}");
 
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRawAnimeList($status, $limit, $offset);
+			$data = $this->getRawAnimeList($status);
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
@@ -470,7 +444,7 @@ class Model {
 			$mappedStatus = MangaReadingStatus::KITSU_TO_TITLE[$status];
 			$output[$mappedStatus] = $this->getMangaList($status);
 		}
-		
+
 		return $output;
 	}
 
