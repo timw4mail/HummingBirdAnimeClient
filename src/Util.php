@@ -91,8 +91,7 @@ class Util {
 	 */
 	public function isViewPage()
 	{
-		$url = $this->container->get('request')
-			->getUri();
+		$url = $this->container->get('request')->getUri();
 		$pageSegments = explode("/", (string) $url);
 
 		$intersect = array_intersect($pageSegments, self::$formPages);
