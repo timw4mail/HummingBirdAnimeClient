@@ -19,9 +19,9 @@ namespace Aviat\AnimeClient\Command;
 /**
  * Clears the API Cache
  */
-class ClearCache extends BaseCommand {
+class CachePrime extends BaseCommand {
 	/**
-	 * Clear the API cache
+	 * Clear, then prime the API cache
 	 *
 	 * @param array $args
 	 * @param array $options
@@ -31,9 +31,25 @@ class ClearCache extends BaseCommand {
 	public function execute(array $args, array $options = [])
 	{
 		$this->setContainer($this->setupContainer());
-		$cache = $this->container->get('cache');
+
+		$cache = $container->get('cache');
+
+		// Save the user id, if it exists, for priming the cache
+		$userIdItem = $cache->getItem('kitsu-auth-token');
+		$userId = $userIdItem->isHit() ? $userIdItem->get : null;
+
 		$cache->clear();
-		
-		$this->echoBox('API Cache has been cleared.');
+
+		if ( ! is_null($userId))
+		{
+			$userIdItem = $cache->getItem('kitsu-auth-token');
+			$userIdItem->set($userId);
+			$userIdItem->save();
+		}
+
+		$kitsuModel = $container->get('kitsu-model');
+		$kitsuModel->getFullOrganizedAnimeList();
+
+		$this->echoBox('API Cache has been primed.');
 	}
 }
