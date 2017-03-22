@@ -32,13 +32,15 @@ class CachePrime extends BaseCommand {
 	{
 		$this->setContainer($this->setupContainer());
 
-		$cache = $container->get('cache');
+		$cache = $this->container->get('cache');
 
 		// Save the user id, if it exists, for priming the cache
 		$userIdItem = $cache->getItem('kitsu-auth-token');
-		$userId = $userIdItem->isHit() ? $userIdItem->get : null;
+		$userId = $userIdItem->isHit() ? $userIdItem->get() : null;
 
 		$cache->clear();
+
+		$this->echoBox('Cache cleared, re-priming...');
 
 		if ( ! is_null($userId))
 		{
@@ -47,8 +49,12 @@ class CachePrime extends BaseCommand {
 			$userIdItem->save();
 		}
 
-		$kitsuModel = $container->get('kitsu-model');
+		// Prime anime list cache
+		$kitsuModel = $this->container->get('kitsu-model');
 		$kitsuModel->getFullOrganizedAnimeList();
+
+		// Prime manga list cache
+		$kitsuModel->getFullOrganizedMangaList();
 
 		$this->echoBox('API Cache has been primed.');
 	}
