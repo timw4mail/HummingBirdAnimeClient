@@ -18,8 +18,6 @@ namespace Aviat\AnimeClient;
 use function Aviat\AnimeClient\loadToml;
 
 use Aviat\AnimeClient\AnimeClient;
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -35,18 +33,6 @@ require __DIR__ . '/vendor/autoload.php';
 $APP_DIR = _dir(__DIR__, 'app');
 $APPCONF_DIR = _dir($APP_DIR, 'appConf');
 $CONF_DIR = _dir($APP_DIR, 'config');
-
-// -------------------------------------------------------------------------
-// Setup error handling
-// -------------------------------------------------------------------------
-$whoops = new Run();
-
-// Set up default handler for general errors
-$defaultHandler = new PrettyPageHandler();
-$whoops->pushHandler($defaultHandler);
-
-// Register as the error handler
-$whoops->register();
 
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
