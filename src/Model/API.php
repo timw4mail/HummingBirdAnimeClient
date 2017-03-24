@@ -24,7 +24,6 @@ class API extends AbstractModel {
 	/**
 	 * Sort the list entries by their title
 	 *
-	 * @codeCoverageIgnore
 	 * @param array $array
 	 * @param string $sortKey
 	 * @return void

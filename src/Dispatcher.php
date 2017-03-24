@@ -106,7 +106,6 @@ class Dispatcher extends RoutingBase {
 	/**
 	 * Handle the current route
 	 *
-	 * @codeCoverageIgnore
 	 * @param object|null $route
 	 * @return void
 	 */
@@ -262,7 +261,7 @@ class Dispatcher extends RoutingBase {
 		// Run the appropriate controller method
 		$logger->debug('Dispatcher - controller arguments');
 		$logger->debug(print_r($params, TRUE));
-		
+
 		call_user_func_array([$controller, $method], $params);
 	}
 
