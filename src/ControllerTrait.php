@@ -26,7 +26,7 @@ use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 
 trait ControllerTrait {
-	
+
 	use ContainerAware;
 
 	/**
@@ -80,7 +80,7 @@ trait ControllerTrait {
 		'other_type' => 'manga',
 		'menu_name' => ''
 	];
-	
+
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *
@@ -228,7 +228,7 @@ trait ControllerTrait {
 		$view->appendOutput($this->loadPartial($view, $template, $data));
 		$view->appendOutput($this->loadPartial($view, 'footer', $data));
 	}
-	
+
 	/**
 	 * 404 action
 	 *
@@ -270,17 +270,17 @@ trait ControllerTrait {
 	public function setFlashMessage($message, $type = "info")
 	{
 		static $messages;
-		
+
 		if ( ! $messages)
 		{
 			$messages = [];
 		}
-		
+
 		$messages[] = [
 			'message_type' => $type,
 			'message' => $message
 		];
-		
+
 		$this->session->setFlash('message', $messages);
 	}
 
@@ -300,7 +300,6 @@ trait ControllerTrait {
 	/**
 	 * Add a message box to the page
 	 *
-	 * @codeCoverageIgnore
 	 * @param HtmlView $view
 	 * @param string $type
 	 * @param string $message
