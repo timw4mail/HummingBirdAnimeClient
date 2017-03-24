@@ -282,7 +282,8 @@ class Anime extends BaseController {
 		}
 
 		$this->outputHTML('anime/details', [
-			'title' => 'Anime &middot ' . $data['titles'][0],
+			'title' => $this->config->get('whose_list') . "'s Anime List" .
+				' &middot; Anime &middot; ' . $data['titles'][0],
 			'characters' => $characters,
 			'data' => $data,
 		]);
