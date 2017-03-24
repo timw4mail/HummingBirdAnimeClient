@@ -26,9 +26,14 @@ class Character extends BaseController {
 
 		$data = $model->getCharacter($slug);
 
-		if ( ! array_key_exists('data', $data))
+		if (( ! array_key_exists('data', $data)) || empty($data['data']))
 		{
-			return $this->notFound();
+			return $this->notFound(
+				$this->config->get('whose_list') .
+					"'s Anime List &middot; Characters &middot; " .
+					'Character not found',
+				'Character Not Found'
+			);
 		}
 
 		// $this->outputJSON($data);

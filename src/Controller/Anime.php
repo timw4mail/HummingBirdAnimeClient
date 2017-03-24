@@ -262,7 +262,17 @@ class Anime extends BaseController {
 	{
 		$data = $this->model->getAnime($animeId);
 		$characters = [];
-		
+
+		if (empty($data))
+		{
+			return $this->notFound(
+				$this->config->get('whose_list') .
+					"'s Anime List &middot; Anime &middot; " .
+					'Anime not found',
+				'Anime Not Found'
+			);
+		}
+
 		foreach($data['included'] as $included)
 		{
 			if ($included['type'] === 'characters')
