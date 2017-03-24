@@ -29,17 +29,21 @@ class Character extends BaseController {
 		if (( ! array_key_exists('data', $data)) || empty($data['data']))
 		{
 			return $this->notFound(
-				$this->config->get('whose_list') .
-					"'s Anime List &middot; Characters &middot; " .
-					'Character not found',
+				$this->formatTitle(
+					$this->config->get('whose_list') . "'s Anime List",
+					'Characters',
+					'Character not found'
+				),
 				'Character Not Found'
 			);
 		}
 
-		// $this->outputJSON($data);
 		$this->outputHTML('character', [
-			'title' => $this->config->get('whose_list') .
-				"'s Anime List &middot; Characters &middot; " . $data['data'][0]['attributes']['name'],
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime List",
+				'Characters',
+				$data['data'][0]['attributes']['name']
+			),
 			'data' => $data['data'][0]['attributes']
 		]);
 	}

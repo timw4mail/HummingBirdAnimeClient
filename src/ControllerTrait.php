@@ -302,6 +302,17 @@ trait ControllerTrait {
 	}
 
 	/**
+	 * Helper for consistent page titles
+	 *
+	 * @param string ...$parts Title segements
+	 * @return string
+	 */
+	public function formatTitle(string ...$parts) : string
+	{
+		return implode(' &middot; ', $parts);
+	}
+
+	/**
 	 * Add a message box to the page
 	 *
 	 * @param HtmlView $view
