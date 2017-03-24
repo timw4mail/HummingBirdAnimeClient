@@ -257,7 +257,15 @@ class Model {
 	public function getManga(string $mangaId): array
 	{
 		$baseData = $this->getRawMediaData('manga', $mangaId);
-		return $this->mangaTransformer->transform($baseData);
+
+		if (empty($baseData))
+		{
+			return [];
+		}
+
+		$transformed = $this->mangaTransformer->transform($baseData);
+		$transformed['included'] = $baseData['included'];
+		return $transformed;
 	}
 
 	/**
@@ -636,6 +644,12 @@ class Model {
 		];
 
 		$data = $this->getRequest("{$type}/{$id}", $options);
+
+		if (empty($data['data']))
+		{
+			return [];
+		}
+
 		$baseData = $data['data']['attributes'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
@@ -657,7 +671,7 @@ class Model {
 				],
 				'include' => ($type === 'anime')
 					? 'genres,mappings,streamingLinks,animeCharacters.character'
-					: 'genres,mappings',
+					: 'genres,mappings,mangaCharacters.character,castings.character',
 			]
 		];
 

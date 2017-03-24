@@ -30,7 +30,6 @@ class Character extends BaseController {
 		{
 			return $this->notFound(
 				$this->formatTitle(
-					$this->config->get('whose_list') . "'s Anime List",
 					'Characters',
 					'Character not found'
 				),
@@ -40,7 +39,6 @@ class Character extends BaseController {
 
 		$this->outputHTML('character', [
 			'title' => $this->formatTitle(
-				$this->config->get('whose_list') . "'s Anime List",
 				'Characters',
 				$data['data'][0]['attributes']['name']
 			),
