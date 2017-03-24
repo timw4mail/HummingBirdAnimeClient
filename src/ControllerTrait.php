@@ -234,10 +234,14 @@ trait ControllerTrait {
 	 *
 	 * @return void
 	 */
-	public function notFound()
+	public function notFound(
+		string $title = 'Sorry, page not found',
+		string $message = 'Page Not Found'
+		)
 	{
 		$this->outputHTML('404', [
-			'title' => 'Sorry, page not found'
+			'title' => $title,
+			'message' => $message,
 		], NULL, 404);
 	}
 

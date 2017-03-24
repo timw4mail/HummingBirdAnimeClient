@@ -196,8 +196,13 @@ class Model {
 	 */
 	public function getAnime(string $slug): array
 	{
-		// @TODO catch non-existent anime
 		$baseData = $this->getRawMediaData('anime', $slug);
+
+		if (empty($baseData))
+		{
+			return [];
+		}
+
 		$transformed = $this->animeTransformer->transform($baseData);
 		$transformed['included'] = $baseData['included'];
 		return $transformed;
@@ -657,6 +662,12 @@ class Model {
 		];
 
 		$data = $this->getRequest($type, $options);
+
+		if (empty($data['data']))
+		{
+			return [];
+		}
+
 		$baseData = $data['data'][0]['attributes'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
