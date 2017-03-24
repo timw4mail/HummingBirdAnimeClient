@@ -269,6 +269,27 @@ class Manga extends Controller {
 	public function details($manga_id)
 	{
 		$data = $this->model->getManga($manga_id);
+		$characters = [];
+
+		if (empty($data))
+		{
+			return $this->notFound(
+				$this->config->get('whose_list') .
+					"'s Manga List &middot; Manga &middot; " .
+					'Manga not found',
+				'Manga Not Found'
+			);
+		}
+
+		// dump($data);
+
+		foreach($data['included'] as $included)
+		{
+			if ($included['type'] === 'characters')
+			{
+				$characters[$included['id']] = $included['attributes'];
+			}
+		}
 
 		$this->outputHTML('manga/details', [
 			'title' => $this->formatTitle(
@@ -276,6 +297,7 @@ class Manga extends Controller {
 				'Manga',
 				$data['title']
 			),
+			'characters' => $characters,
 			'data' => $data,
 		]);
 	}
