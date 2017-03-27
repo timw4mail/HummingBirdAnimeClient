@@ -54,38 +54,38 @@ class SyncKitsuWithMal extends BaseCommand {
 		$this->setCache($this->container->get('cache'));
 		$this->kitsuModel = $this->container->get('kitsu-model');
 		$this->malModel = $this->container->get('mal-model');
-		
-		$malCount = count($this->getMALList());
+
+		$malCount = count($this->getMALAnimeList());
 		$kitsuCount = $this->getKitsuAnimeListPageCount();
-		
+
 		$this->echoBox("Number of MAL list items: {$malCount}");
 		$this->echoBox("Number of Kitsu list items: {$kitsuCount}");
-		
-		$data = $this->diffLists();
+
+		$data = $this->diffAnimeLists();
 		$this->echoBox("Number of items that need to be added to MAL: " . count($data));
-		
+
 		if ( ! empty($data['addToMAL']))
 		{
 			$this->echoBox("Adding missing list items to MAL");
-			$this->createMALListItems($data['addToMAL']);
+			$this->createMALAnimeListItems($data['addToMAL']);
 		}
 	}
-	
-	public function getKitsuList()
+
+	public function getKitsuAnimeList()
 	{
 		$count = $this->getKitsuAnimeListPageCount();
 		$size = 100;
 		$pages = ceil($count / $size);
-		
+
 		$requests = [];
-		
+
 		// Set up requests
 		for ($i = 0; $i < $pages; $i++)
 		{
 			$offset = $i * $size;
 			$requests[] = $this->kitsuModel->getPagedAnimeList($size, $offset);
 		}
-		
+
 		$promiseArray = (new Client())->requestMulti($requests);
 
 		$responses = wait(all($promiseArray));
@@ -100,15 +100,15 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function getMALList()
+	public function getMALAnimeList()
 	{
 		return $this->malModel->getFullList();
 	}
-	
+
 	public function filterMappings(array $includes): array
 	{
 		$output = [];
-		
+
 		foreach($includes as $id => $mapping)
 		{
 			if ($mapping['externalSite'] === 'myanimelist/anime')
@@ -116,15 +116,15 @@ class SyncKitsuWithMal extends BaseCommand {
 				$output[$id] = $mapping;
 			}
 		}
-		
+
 		return $output;
 	}
-	
-	public function formatMALList()
+
+	public function formatMALAnimeList()
 	{
-		$orig = $this->getMALList();
+		$orig = $this->getMALAnimeList();
 		$output = [];
-		
+
 		foreach($orig as $item)
 		{
 			$output[$item['series_animedb_id']] = [
@@ -144,24 +144,24 @@ class SyncKitsuWithMal extends BaseCommand {
 				]
 			];
 		}
-		
+
 		return $output;
 	}
-	
-	public function filterKitsuList()
+
+	public function filterKitsuAnimeList()
 	{
 		$data = $this->kitsuModel->getFullAnimeList();
 		$includes = JsonAPI::organizeIncludes($data['included']);
 		$includes['mappings'] = $this->filterMappings($includes['mappings']);
-		
+
 		$output = [];
-		
+
 		foreach($data['data'] as $listItem)
 		{
 			$animeId = $listItem['relationships']['anime']['data']['id'];
 			$potentialMappings = $includes['anime'][$animeId]['relationships']['mappings'];
 			$malId = NULL;
-			
+
 			foreach ($potentialMappings as $mappingId)
 			{
 				if (array_key_exists($mappingId, $includes['mappings']))
@@ -169,20 +169,20 @@ class SyncKitsuWithMal extends BaseCommand {
 					$malId = $includes['mappings'][$mappingId]['externalId'];
 				}
 			}
-			
+
 			// Skip to the next item if there isn't a MAL ID
 			if (is_null($malId))
 			{
 				continue;
 			}
-			
+
 			$output[$listItem['id']] = [
 				'id' => $listItem['id'],
 				'malId' => $malId,
 				'data' => $listItem['attributes'],
 			];
 		}
-		
+
 		return $output;
 	}
 
@@ -191,32 +191,32 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $this->kitsuModel->getAnimeListCount();
 	}
 
-	public function diffLists()
+	public function diffAnimeLists()
 	{
 		// Get libraryEntries with media.mappings from Kitsu
 		// Organize mappings, and ignore entries without mappings
-		$kitsuList = $this->filterKitsuList();
+		$kitsuList = $this->filterKitsuAnimeList();
 
 		// Get MAL list data
-		$malList = $this->formatMALList();
-		
+		$malList = $this->formatMALAnimeList();
+
 		$itemsToAddToMAL = [];
-		
+
 		foreach($kitsuList as $kitsuItem)
 		{
 			if (array_key_exists($kitsuItem['malId'], $malList))
 			{
-				// Eventually, compare the list entries, and determine which 
+				// Eventually, compare the list entries, and determine which
 				// needs to be updated
 				continue;
 			}
-			
+
 			// Looks like this item only exists on Kitsu
 			$itemsToAddToMAL[] = [
 				'mal_id' => $kitsuItem['malId'],
 				'data' => $kitsuItem['data']
 			];
-			
+
 		}
 
 		// Compare each list entry
@@ -227,17 +227,17 @@ class SyncKitsuWithMal extends BaseCommand {
 				// Otherwise, use rewatch count, then episode progress as critera for selecting the more up
 				// to date entry
 				// Based on the 'newer' entry, update the other api list item
-		
+
 		return [
 			'addToMAL' => $itemsToAddToMAL,
 		];
 	}
 
-	public function createMALListItems($itemsToAdd)
+	public function createMALAnimeListItems($itemsToAdd)
 	{
 		$transformer = new ALT();
 		$requests = [];
-		
+
 		foreach($itemsToAdd as $item)
 		{
 			$data = $transformer->untransform($item);
@@ -261,5 +261,4 @@ class SyncKitsuWithMal extends BaseCommand {
 			}
 		}
 	}
-
 }

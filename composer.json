@@ -33,7 +33,7 @@
 	"require-dev": {
 		"pdepend/pdepend": "^2.2",
 		"sebastian/phpcpd": "^3.0",
-		"theseer/phpdox": "0.9.0",
+		"theseer/phpdox": "dev-master",
 		"phploc/phploc": "^3.0",
 		"phpmd/phpmd": "^2.4",
 		"phpunit/phpunit": "^6.0",
@@ -45,7 +45,9 @@
 		"phpstan/phpstan": "^0.6.4"
 	},
 	"scripts": {
+		"build": "vendor/bin/robo build",
 		"build:css": "cd public && npm run build && cd ..",
+		"clean": "vendor/bin/robo clean",
 		"coverage": "phpdbg -qrr -- vendor/bin/phpunit -c build",
 		"docs": "vendor/bin/phpdox",
 		"phpstan": "phpstan analyse src tests",

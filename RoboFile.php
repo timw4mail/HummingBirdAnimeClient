@@ -105,7 +105,7 @@ class RoboFile extends Tasks {
 	 */
 	public function coverage()
 	{
-		$this->_run(['vendor/bin/phpunit -c build']);
+		$this->_run(['phpdbg -qrr -- vendor/bin/phpunit -c build']);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class RoboFile extends Tasks {
 	public function docs()
 	{
 		$cmd_parts = [
-			'phpdox',
+			'vendor/bin/phpdox',
 		];
 		$this->_run($cmd_parts, ' && ');
 	}

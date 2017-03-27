@@ -400,17 +400,13 @@ class Model {
 		if ( ! $cacheItem->isHit())
 		{
 			$output = [];
-			$statuses = [
-				Title::WATCHING => KitsuWatchingStatus::WATCHING,
-				Title::PLAN_TO_WATCH => KitsuWatchingStatus::PLAN_TO_WATCH,
-				Title::ON_HOLD, KitsuWatchingStatus::ON_HOLD,
-				Title::DROPPED => KitsuWatchingStatus::DROPPED,
-				Title::COMPLETED => KitsuWatchingStatus::COMPLETED
-			];
+
+			$statuses = KitsuWatchingStatus::getConstList();
 
 			foreach ($statuses as $key => $status)
 			{
-				$output[$key] = $this->getAnimeList($status) ?? [];
+				$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
+				$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
 			}
 
 			$cacheItem->set($output);
