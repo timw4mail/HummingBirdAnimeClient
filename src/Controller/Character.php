@@ -18,6 +18,9 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
 
+/**
+ * Controller for character description pages
+ */
 class Character extends BaseController {
 
 	public function index(string $slug)

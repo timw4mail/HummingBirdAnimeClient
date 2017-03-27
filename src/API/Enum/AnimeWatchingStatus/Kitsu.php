@@ -24,7 +24,7 @@ use Aviat\Ion\Enum;
 class Kitsu extends Enum {
 	const WATCHING = 'current';
 	const PLAN_TO_WATCH = 'planned';
-	const COMPLETED = 'completed';
 	const ON_HOLD = 'on_hold';
 	const DROPPED = 'dropped';
+	const COMPLETED = 'completed';
 }
