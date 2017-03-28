@@ -4,6 +4,7 @@
 * Updated to use Kitsu API after discontinuation of Hummingbird
 * Added streaming links to list entries from the Kitsu API
 * Added simple integration with MyAnimeList, so an update can cross-post to both Kitsu and MyAnimeList
+* Added character pages 
 
 ## Version 3
 * Converted user configuration to toml files
