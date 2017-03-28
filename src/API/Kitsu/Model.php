@@ -223,6 +223,33 @@ class Model {
 		return $raw;
 	}
 
+	/**
+	 * Find a media item on Kitsu by its associated MAL id
+	 *
+	 * @param string $malId
+	 * @param string $type "anime" or "manga"
+	 * @return string
+	 */
+	public function getKitsuIdFromMALId(string $malId, string $type="anime"): string
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'external_site' => "myanimelist/{$type}",
+					'external_id' => $malId
+				],
+				'fields' => [
+					'media' => 'id,slug'
+				],
+				'include' => 'media'
+			]
+		];
+
+		$raw = $this->getRequest('mappings', $options);
+
+		return $raw['included'][0]['id'];
+	}
+
 	// -------------------------------------------------------------------------
 	// ! Anime-specific methods
 	// -------------------------------------------------------------------------
