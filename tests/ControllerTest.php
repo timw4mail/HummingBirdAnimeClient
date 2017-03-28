@@ -21,12 +21,13 @@ use Aura\Web\WebFactory;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Controller\{
 	Anime as AnimeController,
+	Character as CharacterController,
 	Collection as CollectionController,
 	Manga as MangaController
 };
 
 class ControllerTest extends AnimeClientTestCase {
-	
+
 	protected $BaseController;
 
 	public function setUp()
@@ -63,6 +64,10 @@ class ControllerTest extends AnimeClientTestCase {
 		$this->assertInstanceOf(
 			'Aviat\AnimeClient\Controller',
 			new MangaController($this->container)
+		);
+		$this->assertInstanceOf(
+			'Aviat\AnimeClient\Controller',
+			new CharacterController($this->container)
 		);
 		$this->assertInstanceOf(
 			'Aviat\AnimeClient\Controller',

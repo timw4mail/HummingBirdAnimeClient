@@ -71,7 +71,10 @@ class Manga extends Controller {
 	{
 		$statusTitle = MangaReadingStatus::ROUTE_TO_TITLE[$status];
 
-		$title = $this->config->get('whose_list') . "'s Manga List &middot; {$statusTitle}";
+		$title = $this->formatTitle(
+			$this->config->get('whose_list') . "'s Manga List",
+			$statusTitle
+		);
 
 		$view_map = [
 			'' => 'cover',
@@ -109,8 +112,10 @@ class Manga extends Controller {
 
 		$this->setSessionRedirect();
 		$this->outputHTML('manga/add', [
-			'title' => $this->config->get('whose_list') .
-				"'s Manga List &middot; Add",
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Manga List",
+				'Add'
+			),
 			'action_url' => $this->urlGenerator->url('manga/add'),
 			'status_list' => $statuses
 		]);
@@ -155,7 +160,10 @@ class Manga extends Controller {
 	{
 		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
-		$title = $this->config->get('whose_list') . "'s Manga List &middot; Edit";
+		$title = $this->formatTitle(
+			$this->config->get('whose_list') . "'s Manga List",
+			'Edit'
+		);
 
 		$this->outputHTML('manga/edit', [
 			'title' => $title,
@@ -261,9 +269,35 @@ class Manga extends Controller {
 	public function details($manga_id)
 	{
 		$data = $this->model->getManga($manga_id);
+		$characters = [];
+
+		if (empty($data))
+		{
+			return $this->notFound(
+				$this->config->get('whose_list') .
+					"'s Manga List &middot; Manga &middot; " .
+					'Manga not found',
+				'Manga Not Found'
+			);
+		}
+
+		// dump($data);
+
+		foreach($data['included'] as $included)
+		{
+			if ($included['type'] === 'characters')
+			{
+				$characters[$included['id']] = $included['attributes'];
+			}
+		}
 
 		$this->outputHTML('manga/details', [
-			'title' => 'Manga &middot; ' . $data['title'],
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Manga List",
+				'Manga',
+				$data['title']
+			),
+			'characters' => $characters,
 			'data' => $data,
 		]);
 	}

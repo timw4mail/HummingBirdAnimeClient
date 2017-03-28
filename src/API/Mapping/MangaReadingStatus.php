@@ -24,6 +24,10 @@ use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{
 };
 use Aviat\Ion\Enum;
 
+/**
+ * Manga reading status mappings, among Kitsu, MAL, Page titles
+ * and url route segments
+ */
 class MangaReadingStatus extends Enum {
 	const MAL_TO_KITSU = [
 		Kitsu::READING => MAL::READING,

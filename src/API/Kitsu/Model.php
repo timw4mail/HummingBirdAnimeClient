@@ -196,8 +196,13 @@ class Model {
 	 */
 	public function getAnime(string $slug): array
 	{
-		// @TODO catch non-existent anime
 		$baseData = $this->getRawMediaData('anime', $slug);
+
+		if (empty($baseData))
+		{
+			return [];
+		}
+
 		$transformed = $this->animeTransformer->transform($baseData);
 		$transformed['included'] = $baseData['included'];
 		return $transformed;
@@ -252,7 +257,15 @@ class Model {
 	public function getManga(string $mangaId): array
 	{
 		$baseData = $this->getRawMediaData('manga', $mangaId);
-		return $this->mangaTransformer->transform($baseData);
+
+		if (empty($baseData))
+		{
+			return [];
+		}
+
+		$transformed = $this->mangaTransformer->transform($baseData);
+		$transformed['included'] = $baseData['included'];
+		return $transformed;
 	}
 
 	/**
@@ -386,13 +399,15 @@ class Model {
 
 		if ( ! $cacheItem->isHit())
 		{
-			$output = [
-				Title::WATCHING => $this->getAnimeList(KitsuWatchingStatus::WATCHING),
-				Title::PLAN_TO_WATCH => $this->getAnimeList(KitsuWatchingStatus::PLAN_TO_WATCH),
-				Title::ON_HOLD => $this->getAnimeList(KitsuWatchingStatus::ON_HOLD),
-				Title::DROPPED => $this->getAnimeList(KitsuWatchingStatus::DROPPED),
-				Title::COMPLETED => $this->getAnimeList(KitsuWatchingStatus::COMPLETED)
-			];
+			$output = [];
+
+			$statuses = KitsuWatchingStatus::getConstList();
+
+			foreach ($statuses as $key => $status)
+			{
+				$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
+				$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
+			}
 
 			$cacheItem->set($output);
 			$cacheItem->save();
@@ -413,7 +428,16 @@ class Model {
 
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRawAnimeList($status);
+			$data = $this->getRawAnimeList($status) ?? [];
+
+			// Bail out on no data
+			if (empty($data))
+			{
+				$cacheItem->set([]);
+				$cacheItem->save();
+				return $cacheItem->get();
+			}
+
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 
@@ -616,6 +640,12 @@ class Model {
 		];
 
 		$data = $this->getRequest("{$type}/{$id}", $options);
+
+		if (empty($data['data']))
+		{
+			return [];
+		}
+
 		$baseData = $data['data']['attributes'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
@@ -637,11 +667,17 @@ class Model {
 				],
 				'include' => ($type === 'anime')
 					? 'genres,mappings,streamingLinks,animeCharacters.character'
-					: 'genres,mappings',
+					: 'genres,mappings,mangaCharacters.character,castings.character',
 			]
 		];
 
 		$data = $this->getRequest($type, $options);
+
+		if (empty($data['data']))
+		{
+			return [];
+		}
+
 		$baseData = $data['data'][0]['attributes'];
 		$baseData['included'] = $data['included'];
 		return $baseData;

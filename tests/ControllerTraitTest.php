@@ -14,29 +14,26 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Model;
+namespace Aviat\AnimeClient\Tests;
 
-/**
- * Base model for api interaction
- */
-class API extends AbstractModel {
+use Aviat\AnimeClient\ControllerTrait;
 
-	/**
-	 * Sort the list entries by their title
-	 *
-	 * @param array $array
-	 * @param string $sortKey
-	 * @return void
-	 */
-	protected function sortByName(array &$array, string $sortKey)
+class ControllerTraitTest extends AnimeClientTestCase {
+
+	public function setUp()
 	{
-		$sort = [];
+		parent::setUp();
 
-		foreach ($array as $key => $item)
-		{
-			$sort[$key] = $item[$sortKey]['titles'][0];
-		}
+		$this->controller = new class {
+			use ControllerTrait;
+		};
+	}
 
-		array_multisort($sort, SORT_ASC, $array);
+	public function testFormatTitle()
+	{
+		$this->assertEquals(
+			$this->controller->formatTitle('foo', 'bar', 'baz'),
+			'foo &middot; bar &middot; baz'
+		);
 	}
 }
