@@ -22,6 +22,13 @@ namespace Aviat\AnimeClient\Model;
 class API extends AbstractModel {
 
 	/**
+	 * Whether to use the MAL api
+	 *
+	 * @var boolean
+	 */
+	protected $useMALAPI;
+
+	/**
 	 * Sort the list entries by their title
 	 *
 	 * @param array $array

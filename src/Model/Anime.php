@@ -40,23 +40,16 @@ class Anime extends API {
 	protected $malModel;
 
 	/**
-	 * Whether to use the MAL api
-	 *
-	 * @var boolean
-	 */
-	protected $useMALAPI;
-
-	/**
 	 * Anime constructor.
 	 *
 	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
 		$this->malModel = $container->get('mal-model');
 
+		$config = $container->get('config');
 		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 

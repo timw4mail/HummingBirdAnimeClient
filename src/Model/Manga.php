@@ -16,8 +16,11 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title;
-use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
+use Aviat\AnimeClient\API\{
+	Enum\MangaReadingStatus\Title,
+	Mapping\MangaReadingStatus,
+	ParallelAPIRequest
+};
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
@@ -46,6 +49,9 @@ class Manga extends API
 	{
 		$this->kitsuModel = $container->get('kitsu-model');
 		$this->malModel = $container->get('mal-model');
+
+		$config = $container->get('config');
+		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 
 	/**
@@ -60,7 +66,7 @@ class Manga extends API
 		{
 			return $this->kitsuModel->getFullOrganizedMangaList();
 		}
-		
+
 		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
 		$data = $this->kitsuModel->getMangaList($APIstatus);
 		return $this->mapByStatus($data)[$status];
