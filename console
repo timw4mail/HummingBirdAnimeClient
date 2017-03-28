@@ -1,19 +1,10 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-if ( ! function_exists('_dir'))
-{
-	/**
-	 * Joins paths together. Variadic to take an
-	 * arbitrary number of arguments
-	 *
-	 * @return string
-	 */
-	function _dir()
-	{
-		return implode(DIRECTORY_SEPARATOR, func_get_args());
-	}
-}
+// Set up autoloader for third-party dependencies
+require_once realpath(__DIR__ . '/vendor/autoload.php');
+
+use Aviat\AnimeClient\Command;
 
 $_SERVER['HTTP_HOST'] = 'localhost';
 
@@ -21,9 +12,6 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 $APP_DIR = __DIR__ . '/app/';
 $SRC_DIR = __DIR__ . '/src/';
 $CONF_DIR = realpath("${APP_DIR}/config/");
-
-// Set up autoloader for third-party dependencies
-require_once realpath(__DIR__ . '/vendor/autoload.php');
 
 // Unset 'constants'
 unset($APP_DIR);
@@ -34,10 +22,10 @@ unset($CONF_DIR);
 // Start console script
 // ---------------------------------------------------------------------------------------------------------------------
 $console = new \ConsoleKit\Console([
-	'cache-prime' => '\Aviat\AnimeClient\Command\CachePrime',
-	'cache-clear' => '\Aviat\AnimeClient\Command\CacheClear',
-	'clear-cache' => '\Aviat\AnimeClient\Command\CacheClear',
-	'sync-lists' => '\Aviat\AnimeClient\Command\SyncKitsuWithMal',
+	'cache-prime' => Command\CachePrime::class,
+	'cache-clear' => Command\CacheClear::class,
+	'clear-cache' => Command\CacheClear::class,
+	'sync-lists' => Command\SyncKitsuWithMal::class,
 ]);
 
 $console->run();

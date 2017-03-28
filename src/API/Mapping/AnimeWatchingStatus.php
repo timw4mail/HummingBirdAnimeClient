@@ -24,6 +24,10 @@ use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\{
 };
 use Aviat\Ion\Enum;
 
+/**
+ * Anime watching status mappings, among Kitsu, MAL, Page titles
+ * and url route segments
+ */
 class AnimeWatchingStatus extends Enum {
 	const KITSU_TO_MAL = [
 		Kitsu::WATCHING => MAL::WATCHING,

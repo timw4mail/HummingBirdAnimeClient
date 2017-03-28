@@ -82,8 +82,10 @@ class Anime extends BaseController {
 	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL)
 	{
 		$title = (array_key_exists($type, AnimeWatchingStatus::ROUTE_TO_TITLE))
-			? $this->config->get('whose_list') .
-				"'s Anime List &middot; " . AnimeWatchingStatus::ROUTE_TO_TITLE[$type]
+			? $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime List",
+				AnimeWatchingStatus::ROUTE_TO_TITLE[$type]
+			)
 			: '';
 
 		$viewMap = [
@@ -110,8 +112,10 @@ class Anime extends BaseController {
 	{
 		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
-			'title' => $this->config->get('whose_list') .
-				"'s Anime List &middot; Add",
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime List",
+				'Add'
+			),
 			'action_url' => $this->urlGenerator->url('anime/add'),
 			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE
 		]);
@@ -158,8 +162,10 @@ class Anime extends BaseController {
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
-			'title' => $this->config->get('whose_list') .
-				"'s Anime List &middot; Edit",
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime List",
+				'Edit'
+			),
 			'item' => $item,
 			'statuses' => AnimeWatchingStatus::KITSU_TO_TITLE,
 			'action' => $this->container->get('url-generator')
@@ -262,7 +268,17 @@ class Anime extends BaseController {
 	{
 		$data = $this->model->getAnime($animeId);
 		$characters = [];
-		
+
+		if (empty($data))
+		{
+			return $this->notFound(
+				$this->config->get('whose_list') .
+					"'s Anime List &middot; Anime &middot; " .
+					'Anime not found',
+				'Anime Not Found'
+			);
+		}
+
 		foreach($data['included'] as $included)
 		{
 			if ($included['type'] === 'characters')
@@ -272,7 +288,11 @@ class Anime extends BaseController {
 		}
 
 		$this->outputHTML('anime/details', [
-			'title' => 'Anime &middot ' . $data['titles'][0],
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime List",
+				'Anime',
+				$data['titles'][0]
+			),
 			'characters' => $characters,
 			'data' => $data,
 		]);

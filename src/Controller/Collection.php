@@ -122,7 +122,10 @@ class Collection extends BaseController {
 		$this->outputHTML('collection/' . strtolower($action), [
 			'action' => $action,
 			'action_url' => $this->urlGenerator->fullUrl('collection/' . strtolower($action)),
-			'title' => $this->config->get('whose_list') . " Anime Collection &middot; {$action}",
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Anime Collection",
+				$action
+			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
 			'item' => ($action === "Edit") ? $this->animeCollectionModel->get($id) : []
 		]);

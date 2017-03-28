@@ -47,7 +47,7 @@ class Controller {
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-		
+
 		$this->baseData = array_merge((array)$this->baseData, [
 			'url' => $auraUrlGenerator,
 			'urlGenerator' => $urlGenerator,
@@ -94,7 +94,6 @@ class Controller {
 	/**
 	 * Show the login form
 	 *
-	 * @codeCoverageIgnore
 	 * @param string $status
 	 * @return void
 	 */

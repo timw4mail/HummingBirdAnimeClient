@@ -35,4 +35,26 @@
 			<p><?= nl2br($data['synopsis']) ?></p>
 		</div>
 	</section>
+	<section>
+	<?php if (count($characters) > 0): ?>
+	<h2>Characters</h2>
+	<div class="flex flex-wrap">
+	<?php foreach($characters as $char): ?>
+		<?php if ( ! empty($char['image']['original'])): ?>
+		<div class="character">
+			<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
+			<?= $helper->a($link, $char['name']); ?>
+			<br />
+			<a href="<?= $link ?>">
+			<?= $helper->img($char['image']['original'], [
+				'width' => '225'
+			]) ?>
+			</a>
+		</div>
+		<?php endif ?>
+	<?php endforeach ?>
+	</div>
+	<?php endif ?>
+	</section>
+
 </main>

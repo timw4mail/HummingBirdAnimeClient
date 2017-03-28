@@ -26,7 +26,7 @@ use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 
 trait ControllerTrait {
-	
+
 	use ContainerAware;
 
 	/**
@@ -80,7 +80,7 @@ trait ControllerTrait {
 		'other_type' => 'manga',
 		'menu_name' => ''
 	];
-	
+
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *
@@ -228,16 +228,20 @@ trait ControllerTrait {
 		$view->appendOutput($this->loadPartial($view, $template, $data));
 		$view->appendOutput($this->loadPartial($view, 'footer', $data));
 	}
-	
+
 	/**
 	 * 404 action
 	 *
 	 * @return void
 	 */
-	public function notFound()
+	public function notFound(
+		string $title = 'Sorry, page not found',
+		string $message = 'Page Not Found'
+		)
 	{
 		$this->outputHTML('404', [
-			'title' => 'Sorry, page not found'
+			'title' => $title,
+			'message' => $message,
 		], NULL, 404);
 	}
 
@@ -270,17 +274,17 @@ trait ControllerTrait {
 	public function setFlashMessage($message, $type = "info")
 	{
 		static $messages;
-		
+
 		if ( ! $messages)
 		{
 			$messages = [];
 		}
-		
+
 		$messages[] = [
 			'message_type' => $type,
 			'message' => $message
 		];
-		
+
 		$this->session->setFlash('message', $messages);
 	}
 
@@ -298,9 +302,19 @@ trait ControllerTrait {
 	}
 
 	/**
+	 * Helper for consistent page titles
+	 *
+	 * @param string ...$parts Title segements
+	 * @return string
+	 */
+	public function formatTitle(string ...$parts) : string
+	{
+		return implode(' &middot; ', $parts);
+	}
+
+	/**
 	 * Add a message box to the page
 	 *
-	 * @codeCoverageIgnore
 	 * @param HtmlView $view
 	 * @param string $type
 	 * @param string $message

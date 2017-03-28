@@ -18,6 +18,9 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
 
+/**
+ * Controller for character description pages
+ */
 class Character extends BaseController {
 
 	public function index(string $slug)
@@ -26,15 +29,22 @@ class Character extends BaseController {
 
 		$data = $model->getCharacter($slug);
 
-		if ( ! array_key_exists('data', $data))
+		if (( ! array_key_exists('data', $data)) || empty($data['data']))
 		{
-			return $this->notFound();
+			return $this->notFound(
+				$this->formatTitle(
+					'Characters',
+					'Character not found'
+				),
+				'Character Not Found'
+			);
 		}
 
-		// $this->outputJSON($data);
 		$this->outputHTML('character', [
-			'title' => $this->config->get('whose_list') .
-				"'s Anime List &middot; Characters &middot; " . $data['data'][0]['attributes']['name'],
+			'title' => $this->formatTitle(
+				'Characters',
+				$data['data'][0]['attributes']['name']
+			),
 			'data' => $data['data'][0]['attributes']
 		]);
 	}
