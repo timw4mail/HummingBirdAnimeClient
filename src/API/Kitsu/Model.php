@@ -19,7 +19,12 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use function Amp\{all, wait};
 
 use Amp\Artax\{Client, Request};
-use Aviat\AnimeClient\API\{CacheTrait, JsonAPI, Kitsu as K};
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	JsonAPI,
+	Kitsu as K,
+	ParallelAPIRequest
+};
 use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Title,
 	AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
@@ -343,18 +348,16 @@ class Model {
 		$size = 100;
 		$pages = ceil($count / $size);
 
-		$requests = [];
+		$requester = new ParallelAPIRequest();
 
 		// Set up requests
 		for ($i = 0; $i < $pages; $i++)
 		{
 			$offset = $i * $size;
-			$requests[] = $this->getPagedAnimeList($size, $offset, $options);
+			$requester->addRequest($this->getPagedAnimeList($size, $offset, $options));
 		}
 
-		$promiseArray = (new Client())->requestMulti($requests);
-
-		$responses = wait(all($promiseArray));
+		$responses = $requester->makeRequests();
 		$output = [];
 
 		foreach($responses as $response)
