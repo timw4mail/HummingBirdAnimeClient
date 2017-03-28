@@ -33,6 +33,8 @@ class ListItem extends AbstractListItem {
 
 	private function getAuthHeader()
 	{
+		$cache = $this->getContainer()->get('cache');
+		$cacheItem = $cache->getItem('kitsu-auth-token');
 		$sessionSegment = $this->getContainer()
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
@@ -40,6 +42,12 @@ class ListItem extends AbstractListItem {
 		if ( ! is_null($sessionSegment->get('auth_token')))
 		{
 			$token = $sessionSegment->get('auth_token');
+			return "bearer {$token}";
+		}
+
+		if ($cacheItem->isHit())
+		{
+			$token = $cacheItem->get();
 			return "bearer {$token}";
 		}
 

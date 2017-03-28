@@ -62,12 +62,20 @@ class SyncKitsuWithMal extends BaseCommand {
 		$this->echoBox("Number of Kitsu list items: {$kitsuCount}");
 
 		$data = $this->diffAnimeLists();
-		$this->echoBox("Number of items that need to be added to MAL: " . count($data));
+		$this->echoBox("Number of items that need to be added to MAL: " . count($data['addToMAL']));
 
 		if ( ! empty($data['addToMAL']))
 		{
 			$this->echoBox("Adding missing list items to MAL");
 			$this->createMALAnimeListItems($data['addToMAL']);
+		}
+
+		$this->echoBox('Number of items that need to be added to Kitsu: ' . count($data['addToKitsu']));
+
+		if ( ! empty($data['addToKitsu']))
+		{
+			$this->echoBox("Adding missing list items to Kitsu");
+			$this->createKitusAnimeListItems($data['addToKitsu']);
 		}
 	}
 
@@ -137,7 +145,7 @@ class SyncKitsuWithMal extends BaseCommand {
 						? $item['times_rewatched']
 						: 0,
 					// 'notes' => ,
-					'rating' => $item['my_score'],
+					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
 						->setTimestamp((int)$item['my_last_updated'])
 						->format(\DateTime::W3C),
@@ -201,10 +209,24 @@ class SyncKitsuWithMal extends BaseCommand {
 		$malList = $this->formatMALAnimeList();
 
 		$itemsToAddToMAL = [];
+		$itemsToAddToKitsu = [];
+
+		$malIds = array_column($malList, 'id');
+		$kitsuMalIds = array_column($kitsuList, 'malId');
+		$missingMalIds = array_diff($malIds, $kitsuMalIds);
+
+		foreach($missingMalIds as $mid)
+		{
+			// print_r($malList[$mid]);
+			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
+				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid),
+				'type' => 'anime'
+			]);
+		}
 
 		foreach($kitsuList as $kitsuItem)
 		{
-			if (array_key_exists($kitsuItem['malId'], $malList))
+			if (in_array($kitsuItem['malId'], $malIds))
 			{
 				// Eventually, compare the list entries, and determine which
 				// needs to be updated
@@ -230,7 +252,35 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		return [
 			'addToMAL' => $itemsToAddToMAL,
+			'addToKitsu' => $itemsToAddToKitsu
 		];
+	}
+
+	public function createKitusAnimeListItems($itemsToAdd)
+	{
+		$requests = [];
+		foreach($itemsToAdd as $item)
+		{
+			$requests[] = $this->kitsuModel->createListItem($item);
+		}
+
+		$promiseArray = (new Client())->requestMulti($requests);
+
+		$responses = wait(all($promiseArray));
+
+		foreach($responses as $key => $response)
+		{
+			$id = $itemsToAdd[$key]['id'];
+			if ($response->getStatus() === 201)
+			{
+				$this->echoBox("Successfully create list item with id: {$id}");
+			}
+			else
+			{
+				echo $response->getBody();
+				$this->echoBox("Failed to create list item with id: {$id}");
+			}
+		}
 	}
 
 	public function createMALAnimeListItems($itemsToAdd)
