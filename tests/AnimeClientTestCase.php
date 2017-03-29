@@ -102,6 +102,10 @@ class AnimeClientTestCase extends TestCase {
 				'routes' => [
 
 				]
+			],
+			'mal' => [
+				'username' => 'foo',
+				'password' => 'bar'
 			]
 		];
 
