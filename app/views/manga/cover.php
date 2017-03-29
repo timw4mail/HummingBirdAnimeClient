@@ -10,7 +10,7 @@
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<article class="media" id="manga-<?= $item['id'] ?>">
+				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
 					<?php if ($auth->isAuthenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>

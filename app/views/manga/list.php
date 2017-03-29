@@ -18,6 +18,7 @@
 				<th>Completed Chapters</th>
 				<th># of Volumes</th>
 				<th>Type</th>
+				<th>Genres</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -40,6 +41,9 @@
 				<td><?= $item['chapters']['read'] ?> / <?= $item['chapters']['total'] ?></td>
 				<td><?= $item['volumes']['total'] ?></td>
 				<td><?= $item['manga']['type'] ?></td>
+				<td class="align_left">
+					<?= implode(', ', $item['manga']['genres']) ?>
+				</td>
 			</tr>
 			<?php endforeach ?>
 		</tbody>

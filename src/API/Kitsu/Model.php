@@ -530,7 +530,7 @@ class Model {
 					'media_type' => 'Manga',
 					'status' => $status,
 				],
-				'include' => 'media',
+				'include' => 'media,media.genres,media.mappings',
 				'page' => [
 					'offset' => $offset,
 					'limit' => $limit
@@ -544,9 +544,16 @@ class Model {
 		if ( ! $cacheItem->isHit())
 		{
 			$data = $this->getRequest('library-entries', $options);
-			$data = JsonAPI::inlineRawIncludes($data, 'manga');
 
-			$transformed = $this->mangaListTransformer->transformCollection($data);
+			$included = JsonAPI::organizeIncludes($data['included']);
+			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+
+			foreach($data['data'] as $i => &$item)
+			{
+				$item['included'] = $included;
+			}
+
+			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
 
 			$cacheItem->set($transformed);
 			$cacheItem->save();
