@@ -221,7 +221,7 @@ class Manga extends Controller {
 	 */
 	public function update()
 	{
-		if ($this->request->getHeader('content-type')[0] === 'application/json')
+		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
 			$data = Json::decode((string)$this->request->getBody());
 		}
