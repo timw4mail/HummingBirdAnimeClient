@@ -556,6 +556,73 @@ class Model {
 	}
 
 	/**
+	 * Get the number of manga list items
+	 *
+	 * @param string $status - Optional status to filter by
+	 * @return int
+	 */
+	public function getMangaListCount(string $status = '') : int
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername(),
+					'media_type' => 'Manga'
+				],
+				'page' => [
+					'limit' => 1
+				],
+				'sort' => '-updated_at'
+			]
+		];
+
+		if ( ! empty($status))
+		{
+			$options['query']['filter']['status'] = $status;
+		}
+
+		$response = $this->getRequest('library-entries', $options);
+
+		return $response['meta']['count'];
+	}
+
+	/**
+	 * Get the full manga list
+	 *
+	 * @param array $options
+	 * @return array
+	 */
+	public function getFullMangaList(array $options = [
+		'include' => 'manga.mappings'
+	]): array
+	{
+		$status = $options['filter']['status'] ?? '';
+		$count = $this->getMangaListCount($status);
+		$size = 100;
+		$pages = ceil($count / $size);
+
+		$requester = new ParallelAPIRequest();
+
+		// Set up requests
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$offset = $i * $size;
+			$requester->addRequest($this->getPagedMangaList($size, $offset, $options));
+		}
+
+		$responses = $requester->makeRequests();
+		$output = [];
+
+		foreach($responses as $response)
+		{
+			$data = Json::decode($response->getBody());
+			$output = array_merge_recursive($output, $data);
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Get all Manga lists
 	 *
 	 * @return array
@@ -571,6 +638,34 @@ class Model {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get the full manga list in paginated form
+	 *
+	 * @param int $limit
+	 * @param int $offset
+	 * @param array $options
+	 * @return Request
+	 */
+	public function getPagedMangaList(int $limit = 100, int $offset = 0, array $options = [
+		'include' => 'manga.mappings'
+	]): Request
+	{
+		$defaultOptions = [
+			'filter' => [
+				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'media_type' => 'Manga'
+			],
+			'page' => [
+				'offset' => $offset,
+				'limit' => $limit
+			],
+			'sort' => '-updated_at'
+		];
+		$options = array_merge($defaultOptions, $options);
+
+		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 
 	/**
