@@ -98,17 +98,7 @@ class Manga extends Controller {
 	 */
 	public function addForm()
 	{
-		$raw_status_list = MangaReadingStatus::getConstList();
-
-		$statuses = [];
-
-		foreach ($raw_status_list as $status_item)
-		{
-			$statuses[$status_item] = (string)$this->string($status_item)
-				->underscored()
-				->humanize()
-				->titleize();
-		}
+		$statuses = MangaReadingStatus::KITSU_TO_TITLE;
 
 		$this->setSessionRedirect();
 		$this->outputHTML('manga/add', [
@@ -245,7 +235,8 @@ class Manga extends Controller {
 	{
 		$body = $this->request->getParsedBody();
 		$id = $body['id'];
-		$response = $this->model->deleteLibraryItem($id);
+		$malId = $body['mal_id'];
+		$response = $this->model->deleteLibraryItem($id, $malId);
 
 		if ($response)
 		{
