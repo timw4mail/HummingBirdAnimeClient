@@ -694,7 +694,7 @@ class Model {
 
 		foreach($mappings as $map)
 		{
-			if ($map['externalSite'] === 'myanimelist/anime')
+			if ($map['externalSite'] === 'myanimelist/manga')
 			{
 				return $map['externalId'];
 			}
