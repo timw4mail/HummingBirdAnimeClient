@@ -17,10 +17,9 @@
 namespace Aviat\AnimeClient\API\MAL;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\MAL\ListItem;
-use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\MAL\{ListItem, Transformer\AnimeListTransformer};
 use Aviat\AnimeClient\API\XML;
-use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\Ion\Di\ContainerAware;
 
 /**
@@ -50,39 +49,53 @@ class Model {
 		$this->animeListTransformer = new AnimeListTransformer();
 		$this->listItem = $listItem;
 	}
-	
-	public function createFullListItem(array $data): Request
+
+	/**
+	 * Create a list item on MAL
+	 *
+	 * @param array $data
+	 * @param string $type "anime" or "manga"
+	 * @return Request
+	 */
+	public function createFullListItem(array $data, string $type = 'anime'): Request
 	{
-		return $this->listItem->create($data);
+		return $this->listItem->create($data, $type);
 	}
 
-	public function createListItem(array $data): Request
+	public function createListItem(array $data, string $type = 'anime'): Request
 	{
-		$createData = [
-			'id' => $data['id'],
-			'data' => [
-				'status' => AnimeWatchingStatus::KITSU_TO_MAL[$data['status']]
-			]
-		];
+		if ($type === 'anime')
+		{
+			$createData = [
+				'id' => $data['id'],
+				'data' => [
+					'status' => AnimeWatchingStatus::KITSU_TO_MAL[$data['status']]
+				]
+			];
+		}
+		elseif ($type === 'manga')
+		{
+			$createData = [
+				'id' => $data['id'],
+				'data' => [
+					'status' => MangaReadingStatus::KITSU_TO_MAL[$data['status']]
+				]
+			];
+		}
+
+
 
 		return $this->listItem->create($createData);
 	}
 
-	public function getFullList(): array
+	public function getMangaList(): array
 	{
-		$config = $this->container->get('config');
-		$userName = $config->get(['mal', 'username']);
-		$list = $this->getRequest('https://myanimelist.net/malappinfo.php', [
-			'headers' => [
-				'Accept' => 'text/xml'
-			],
-			'query' => [
-				'u' => $userName,
-				'status' => 'all'
-			]
-		]);
+		return $this->getList('manga');
+	}
 
-		return $list['myanimelist']['anime'];
+	public function getAnimeList(): array
+	{
+		return $this->getList('anime');
 	}
 
 	public function getListItem(string $listId): array
@@ -99,5 +112,23 @@ class Model {
 	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
+	}
+
+	private function getList(string $type): array
+	{
+		$config = $this->container->get('config');
+		$userName = $config->get(['mal', 'username']);
+		$list = $this->getRequest('https://myanimelist.net/malappinfo.php', [
+			'headers' => [
+				'Accept' => 'text/xml'
+			],
+			'query' => [
+				'u' => $userName,
+				'status' => 'all',
+				'type' => $type
+			]
+		]);
+
+		return $list['myanimelist'][$type];
 	}
 }

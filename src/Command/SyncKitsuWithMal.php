@@ -19,8 +19,16 @@ namespace Aviat\AnimeClient\Command;
 use function Amp\{all, wait};
 
 use Amp\Artax\Client;
-use Aviat\AnimeClient\API\{JsonAPI, Mapping\AnimeWatchingStatus};
-use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer as ALT;
+use Aviat\AnimeClient\API\{
+	JsonAPI,
+	ParallelAPIRequest,
+	Mapping\AnimeWatchingStatus,
+	Mapping\MangaReadingStatus
+};
+use Aviat\AnimeClient\API\MAL\Transformer\{
+	AnimeListTransformer as ALT,
+	MangaListTransformer as MLT
+};
 use Aviat\Ion\Json;
 
 /**
@@ -55,71 +63,71 @@ class SyncKitsuWithMal extends BaseCommand {
 		$this->kitsuModel = $this->container->get('kitsu-model');
 		$this->malModel = $this->container->get('mal-model');
 
-		$malCount = count($this->getMALAnimeList());
-		$kitsuCount = $this->getKitsuAnimeListPageCount();
+		$this->syncAnime();
+		$this->syncManga();
+	}
 
-		$this->echoBox("Number of MAL list items: {$malCount}");
-		$this->echoBox("Number of Kitsu list items: {$kitsuCount}");
+	public function syncAnime()
+	{
+		$malCount = count($this->malModel->getAnimeList());
+		$kitsuCount = $this->kitsuModel->getAnimeListCount();
+
+		$this->echoBox("Number of MAL anime list items: {$malCount}");
+		$this->echoBox("Number of Kitsu anime list items: {$kitsuCount}");
 
 		$data = $this->diffAnimeLists();
-		$this->echoBox("Number of items that need to be added to MAL: " . count($data['addToMAL']));
+
+		$this->echoBox("Number of anime items that need to be added to MAL: " . count($data['addToMAL']));
 
 		if ( ! empty($data['addToMAL']))
 		{
-			$this->echoBox("Adding missing list items to MAL");
+			$this->echoBox("Adding missing anime list items to MAL");
 			$this->createMALAnimeListItems($data['addToMAL']);
 		}
 
-		$this->echoBox('Number of items that need to be added to Kitsu: ' . count($data['addToKitsu']));
+		$this->echoBox('Number of anime items that need to be added to Kitsu: ' . count($data['addToKitsu']));
 
 		if ( ! empty($data['addToKitsu']))
 		{
-			$this->echoBox("Adding missing list items to Kitsu");
+			$this->echoBox("Adding missing anime list items to Kitsu");
 			$this->createKitusAnimeListItems($data['addToKitsu']);
 		}
 	}
 
-	public function getKitsuAnimeList()
+	public function syncManga()
 	{
-		$count = $this->getKitsuAnimeListPageCount();
-		$size = 100;
-		$pages = ceil($count / $size);
+		$malCount =  count($this->malModel->getMangaList());
+		$kitsuCount = $this->kitsuModel->getMangaListCount();
 
-		$requests = [];
+		$this->echoBox("Number of MAL manga list items: {$malCount}");
+		$this->echoBox("Number of Kitsu manga list items: {$kitsuCount}");
 
-		// Set up requests
-		for ($i = 0; $i < $pages; $i++)
+		$data = $this->diffMangaLists();
+
+		$this->echoBox("Number of manga items that need to be added to MAL: " . count($data['addToMAL']));
+
+		if ( ! empty($data['addToMAL']))
 		{
-			$offset = $i * $size;
-			$requests[] = $this->kitsuModel->getPagedAnimeList($size, $offset);
+			$this->echoBox("Adding missing manga list items to MAL");
+			$this->createMALMangaListItems($data['addToMAL']);
 		}
 
-		$promiseArray = (new Client())->requestMulti($requests);
+		$this->echoBox('Number of manga items that need to be added to Kitsu: ' . count($data['addToKitsu']));
 
-		$responses = wait(all($promiseArray));
-		$output = [];
-
-		foreach($responses as $response)
+		if ( ! empty($data['addToKitsu']))
 		{
-			$data = Json::decode($response->getBody());
-			$output = array_merge_recursive($output, $data);
+			$this->echoBox("Adding missing manga list items to Kitsu");
+			$this->createKitsuMangaListItems($data['addToKitsu']);
 		}
-
-		return $output;
 	}
 
-	public function getMALAnimeList()
-	{
-		return $this->malModel->getFullList();
-	}
-
-	public function filterMappings(array $includes): array
+	public function filterMappings(array $includes, string $type = 'anime'): array
 	{
 		$output = [];
 
 		foreach($includes as $id => $mapping)
 		{
-			if ($mapping['externalSite'] === 'myanimelist/anime')
+			if ($mapping['externalSite'] === "myanimelist/{$type}")
 			{
 				$output[$id] = $mapping;
 			}
@@ -130,7 +138,7 @@ class SyncKitsuWithMal extends BaseCommand {
 
 	public function formatMALAnimeList()
 	{
-		$orig = $this->getMALAnimeList();
+		$orig = $this->malModel->getAnimeList();
 		$output = [];
 
 		foreach($orig as $item)
@@ -144,6 +152,35 @@ class SyncKitsuWithMal extends BaseCommand {
 					'reconsumeCount' => array_key_exists('times_rewatched', $item)
 						? $item['times_rewatched']
 						: 0,
+					// 'notes' => ,
+					'rating' => $item['my_score'] / 2,
+					'updatedAt' => (new \DateTime())
+						->setTimestamp((int)$item['my_last_updated'])
+						->format(\DateTime::W3C),
+				]
+			];
+		}
+
+		return $output;
+	}
+
+	public function formatMALMangaList()
+	{
+		$orig = $this->malModel->getMangaList();
+		$output = [];
+
+		foreach($orig as $item)
+		{
+			$output[$item['series_mangadb_id']] = [
+				'id' => $item['series_mangadb_id'],
+				'data' => [
+					'my_status' => $item['my_status'],
+					'status' => MangaReadingStatus::MAL_TO_KITSU[$item['my_status']],
+					'progress' => $item['my_read_chapters'],
+					'reconsuming' => (bool) $item['my_rereadingg'],
+					/* 'reconsumeCount' => array_key_exists('times_rewatched', $item)
+						? $item['times_rewatched']
+						: 0, */
 					// 'notes' => ,
 					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
@@ -194,9 +231,84 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function getKitsuAnimeListPageCount()
+	public function filterKitsuMangaList()
 	{
-		return $this->kitsuModel->getAnimeListCount();
+		$data = $this->kitsuModel->getFullMangaList();
+		$includes = JsonAPI::organizeIncludes($data['included']);
+		$includes['mappings'] = $this->filterMappings($includes['mappings'], 'manga');
+
+		$output = [];
+
+		foreach($data['data'] as $listItem)
+		{
+			$mangaId = $listItem['relationships']['manga']['data']['id'];
+			$potentialMappings = $includes['manga'][$mangaId]['relationships']['mappings'];
+			$malId = NULL;
+
+			foreach ($potentialMappings as $mappingId)
+			{
+				if (array_key_exists($mappingId, $includes['mappings']))
+				{
+					$malId = $includes['mappings'][$mappingId]['externalId'];
+				}
+			}
+
+			// Skip to the next item if there isn't a MAL ID
+			if (is_null($malId))
+			{
+				continue;
+			}
+
+			$output[$listItem['id']] = [
+				'id' => $listItem['id'],
+				'malId' => $malId,
+				'data' => $listItem['attributes'],
+			];
+		}
+
+		return $output;
+	}
+
+	public function diffMangaLists()
+	{
+		$kitsuList = $this->filterKitsuMangaList();
+		$malList = $this->formatMALMangaList();
+
+		$itemsToAddToMAL =  [];
+		$itemsToAddToKitsu = [];
+
+		$malIds = array_column($malList, 'id');
+		$kitsuMalIds = array_column($kitsuList, 'malId');
+		$missingMalIds = array_diff($malIds, $kitsuMalIds);
+
+		foreach($missingMalIds as $mid)
+		{
+			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
+				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, 'manga'),
+				'type' => 'manga'
+			]);
+		}
+
+		foreach($kitsuList as $kitsuItem)
+		{
+			if (in_array($kitsuItem['malId'], $malIds))
+			{
+				// Eventually, compare the list entries, and determine which
+				// needs to be updated
+				continue;
+			}
+
+			// Looks like this item only exists on Kitsu
+			$itemsToAddToMAL[] = [
+				'mal_id' => $kitsuItem['malId'],
+				'data' => $kitsuItem['data']
+			];
+		}
+
+		return [
+			'addToMAL' => $itemsToAddToMAL,
+			'addToKitsu' => $itemsToAddToKitsu
+		];
 	}
 
 	public function diffAnimeLists()
@@ -256,29 +368,79 @@ class SyncKitsuWithMal extends BaseCommand {
 		];
 	}
 
-	public function createKitusAnimeListItems($itemsToAdd)
+	public function createKitsuMangaListItems($itemsToAdd)
 	{
-		$requests = [];
+		$requester = new ParallelAPIRequest();
 		foreach($itemsToAdd as $item)
 		{
-			$requests[] = $this->kitsuModel->createListItem($item);
+			$requester->addRequest($this->kitsuModel->createListItem($item));
 		}
 
-		$promiseArray = (new Client())->requestMulti($requests);
-
-		$responses = wait(all($promiseArray));
+		$responses = $requester->makeRequests();
 
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToAdd[$key]['id'];
 			if ($response->getStatus() === 201)
 			{
-				$this->echoBox("Successfully create list item with id: {$id}");
+				$this->echoBox("Successfully created Kitsu manga list item with id: {$id}");
 			}
 			else
 			{
 				echo $response->getBody();
-				$this->echoBox("Failed to create list item with id: {$id}");
+				$this->echoBox("Failed to create Kitsu manga list item with id: {$id}");
+			}
+		}
+	}
+
+	public function createMALMangaListItems($itemsToAdd)
+	{
+		$transformer = new MLT();
+		$requester = new ParallelAPIRequest();
+
+		foreach($itemsToAdd as $item)
+		{
+			$data = $transformer->untransform($item);
+			$requester->addRequest($this->malModel->createFullListItem($data, 'manga'));
+		}
+
+		$responses = $requester->makeRequests();
+
+		foreach($responses as $key => $response)
+		{
+			$id = $itemsToAdd[$key]['mal_id'];
+			if ($response->getBody() === 'Created')
+			{
+				$this->echoBox("Successfully created MAL manga list item with id: {$id}");
+			}
+			else
+			{
+				$this->echoBox("Failed to create MAL manga list item with id: {$id}");
+			}
+		}
+	}
+
+	public function createKitusAnimeListItems($itemsToAdd)
+	{
+		$requester = new ParallelAPIRequest();
+		foreach($itemsToAdd as $item)
+		{
+			$requester->addRequest($this->kitsuModel->createListItem($item));
+		}
+
+		$responses = $requester->makeRequests();
+
+		foreach($responses as $key => $response)
+		{
+			$id = $itemsToAdd[$key]['id'];
+			if ($response->getStatus() === 201)
+			{
+				$this->echoBox("Successfully created Kitsu anime list item with id: {$id}");
+			}
+			else
+			{
+				echo $response->getBody();
+				$this->echoBox("Failed to create Kitsu anime list item with id: {$id}");
 			}
 		}
 	}
@@ -286,28 +448,26 @@ class SyncKitsuWithMal extends BaseCommand {
 	public function createMALAnimeListItems($itemsToAdd)
 	{
 		$transformer = new ALT();
-		$requests = [];
+		$requester = new ParallelAPIRequest();
 
 		foreach($itemsToAdd as $item)
 		{
 			$data = $transformer->untransform($item);
-			$requests[] = $this->malModel->createFullListItem($data);
+			$requester->addRequest($this->malModel->createFullListItem($data));
 		}
 
-		$promiseArray = (new Client())->requestMulti($requests);
-
-		$responses = wait(all($promiseArray));
+		$responses = $requester->makeRequests();
 
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToAdd[$key]['mal_id'];
 			if ($response->getBody() === 'Created')
 			{
-				$this->echoBox("Successfully create list item with id: {$id}");
+				$this->echoBox("Successfully created MAL anime list item with id: {$id}");
 			}
 			else
 			{
-				$this->echoBox("Failed to create list item with id: {$id}");
+				$this->echoBox("Failed to create MAL anime list item with id: {$id}");
 			}
 		}
 	}
