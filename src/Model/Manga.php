@@ -22,6 +22,7 @@ use Aviat\AnimeClient\API\{
 	ParallelAPIRequest
 };
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
 
 /**
  * Model for handling requests dealing with the manga list
@@ -84,17 +85,6 @@ class Manga extends API
 	}
 
 	/**
-	 * Create a new manga list item
-	 *
-	 * @param array $data
-	 * @return bool
-	 */
-	public function createLibraryItem(array $data): bool
-	{
-		return $this->kitsuModel->createListItem($data);
-	}
-
-	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 *
@@ -107,6 +97,35 @@ class Manga extends API
 	}
 
 	/**
+	 * Create a new manga list item
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function createLibraryItem(array $data): bool
+	{
+		$requester = new ParallelAPIRequest();
+
+		if ($this->useMALAPI)
+		{
+			$malData = $data;
+			$malId = $this->kitsuModel->getMalIdForManga($malData['id']);
+
+			if ( ! is_null($malId))
+			{
+				$malData['id'] = $malId;
+				$requester->addRequest($this->malModel->createListItem($malData, 'manga'), 'mal');
+			}
+		}
+
+		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
+
+		$results = $requester->makeRequests(TRUE);
+
+		return count($results[1]) > 0;
+	}
+
+	/**
 	 * Update a list entry
 	 *
 	 * @param array $data
@@ -114,18 +133,44 @@ class Manga extends API
 	 */
 	public function updateLibraryItem(array $data): array
 	{
-		return $this->kitsuModel->updateListItem($data);
+		$requester = new ParallelAPIRequest();
+
+		if ($this->useMALAPI)
+		{
+			$requester->addRequest($this->malModel->updateListItem($data, 'manga'), 'mal');
+		}
+
+		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
+
+		$results = $requester->makeRequests(TRUE);
+
+		return [
+			'body' => Json::decode($results[1]['kitsu']->getBody()),
+			'statusCode' => $results[1]['kitsu']->getStatus()
+		];
 	}
 
 	/**
-	 * Remove a list entry
+	 * Delete a list entry
 	 *
-	 * @param string $itemId
+	 * @param string $id
+	 * @param string|null $malId
 	 * @return bool
 	 */
-	public function deleteLibraryItem(string $itemId): bool
+	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
-		return $this->kitsuModel->deleteListItem($itemId);
+		$requester = new ParallelAPIRequest();
+
+		if ($this->useMALAPI && ! is_null($malId))
+		{
+			$requester->addRequest($this->malModel->deleteListItem($malId, 'manga'), 'MAL');
+		}
+
+		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
+
+		$results = $requester->makeRequests(TRUE);
+
+		return count($results[1]) > 0;
 	}
 
 	/**

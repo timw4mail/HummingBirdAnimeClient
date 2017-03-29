@@ -17,7 +17,11 @@
 namespace Aviat\AnimeClient\API\MAL;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\MAL\{ListItem, Transformer\AnimeListTransformer};
+use Aviat\AnimeClient\API\MAL\{
+	ListItem,
+	Transformer\AnimeListTransformer,
+	Transformer\MangaListTransformer
+};
 use Aviat\AnimeClient\API\XML;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\Ion\Di\ContainerAware;
@@ -33,7 +37,7 @@ class Model {
 	 * @var AnimeListTransformer
 	 */
 	protected $animeListTransformer;
-	
+
 	/**
 	 * @var ListItem
 	 */
@@ -47,6 +51,7 @@ class Model {
 	public function __construct(ListItem $listItem)
 	{
 		$this->animeListTransformer = new AnimeListTransformer();
+		$this->mangaListTransformer = new MangaListTransformer();
 		$this->listItem = $listItem;
 	}
 
@@ -83,9 +88,7 @@ class Model {
 			];
 		}
 
-
-
-		return $this->listItem->create($createData);
+		return $this->listItem->create($createData, $type);
 	}
 
 	public function getMangaList(): array
@@ -103,15 +106,23 @@ class Model {
 		return [];
 	}
 
-	public function updateListItem(array $data): Request
+	public function updateListItem(array $data, string $type = 'anime'): Request
 	{
-		$updateData = $this->animeListTransformer->untransform($data);
-		return $this->listItem->update($updateData['id'], $updateData['data']);
+		if ($type === 'anime')
+		{
+			$updateData = $this->animeListTransformer->untransform($data);
+		}
+		else if ($type === 'manga')
+		{
+			$updateData = $this->mangaListTransformer->untransform($data);
+		}
+
+		return $this->listItem->update($updateData['id'], $updateData['data'], $type);
 	}
 
-	public function deleteListItem(string $id): Request
+	public function deleteListItem(string $id, string $type = 'anime'): Request
 	{
-		return $this->listItem->delete($id);
+		return $this->listItem->delete($id, $type);
 	}
 
 	private function getList(string $type): array
