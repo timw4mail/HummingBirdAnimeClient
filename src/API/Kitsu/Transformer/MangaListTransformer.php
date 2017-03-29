@@ -117,9 +117,13 @@ class MangaListTransformer extends AbstractTransformer {
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],
 				'notes' => $item['notes'],
-				'rating' => $item['new_rating'] / 2
 			],
 		];
+
+		if (is_numeric($item['new_rating']))
+		{
+			$map['data']['rating'] = $item['new_rating'] / 2;
+		}
 
 		return $map;
 	}
