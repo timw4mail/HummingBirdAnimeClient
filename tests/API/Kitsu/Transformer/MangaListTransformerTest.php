@@ -22,39 +22,51 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
 class MangaListTransformerTest extends AnimeClientTestCase {
-	
+
 	protected $dir;
 	protected $rawBefore;
 	protected $beforeTransform;
 	protected $afterTransform;
 	protected $transformer;
 
-	public function setUp() 
+	public function setUp()
 	{
 		parent::setUp();
+
+		$kitsuModel = $this->container->get('kitsu-model');
+
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-		
+
+		// Prep for transform
 		$rawBefore = Json::decodeFile("{$this->dir}/mangaListBeforeTransform.json");
-		$this->beforeTransform = JsonAPI::inlineRawIncludes($rawBefore, 'manga');
+		$included = JsonAPI::organizeIncludes($rawBefore['included']);
+		$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+		foreach($rawBefore['data'] as $i => &$item)
+		{
+			$item['included'] = $included;
+		}
+
+		$this->beforeTransform = $rawBefore['data'];
 		$this->afterTransform = Json::decodeFile("{$this->dir}/mangaListAfterTransform.json");
-		
+
 		$this->transformer = new MangaListTransformer();
 	}
-	
+
 	public function testTransform()
 	{
 		$expected = $this->afterTransform;
 		$actual = $this->transformer->transformCollection($this->beforeTransform);
-		
+
 		// Json::encodeFile("{$this->dir}/mangaListAfterTransform.json", $actual);
-		
+
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function testUntransform()
 	{
 		$input = [
-			'id' => "15084773",
+			'id' => '15084773',
+			'mal_id' => '26769',
 			'chapters_read' => 67,
 			'manga' => [
 				'titles' => ["Bokura wa Minna Kawaisou"],
@@ -71,10 +83,11 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 			'reread_count' => 0,
 			'new_rating' => 9,
 		];
-		
+
 		$actual = $this->transformer->untransform($input);
 		$expected = [
 			'id' => '15084773',
+			'mal_id' => '26769',
 			'data' => [
 				'status' => 'current',
 				'progress' => 67,
@@ -84,7 +97,7 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 				'rating' => 4.5
 			]
 		];
-		
+
 		$this->assertEquals($expected, $actual);
 	}
 
