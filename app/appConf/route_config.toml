@@ -9,7 +9,7 @@
 asset_path = "/public"
 
 # Which list should be the default?
-default_lis = "anime" # anime or manga
+default_list = "anime" # anime or manga
 
 # Default pages for anime/manga
 default_anime_list_path = "watching" # watching|plan_to_watch|on_hold|dropped|completed|all
