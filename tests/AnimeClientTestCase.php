@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\Tests;
 
 use const Aviat\AnimeClient\SRC_DIR;
 
-use function Aviat\AnimeClient\_dir;
+use function Aviat\Ion\_dir;
 
 use Aura\Web\WebFactory;
 use Aviat\Ion\Json;

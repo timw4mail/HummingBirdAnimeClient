@@ -17,8 +17,7 @@
 namespace Aviat\AnimeClient;
 
 use function Aviat\AnimeClient\loadToml;
-
-use Aviat\AnimeClient\AnimeClient;
+use function Aviat\Ion\_dir;
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
