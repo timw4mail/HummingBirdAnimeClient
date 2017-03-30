@@ -71,11 +71,9 @@ class RoutingBase {
 	 */
 	public function __get($key)
 	{
-		$routingConfig =& $this->routeConfig;
-
-		if (array_key_exists($key, $routingConfig))
+		if (array_key_exists($key, $this->routeConfig))
 		{
-			return $routingConfig[$key];
+			return $this->routeConfig[$key];
 		}
 	}
 
