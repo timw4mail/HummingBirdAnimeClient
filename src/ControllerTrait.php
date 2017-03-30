@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
-use function Aviat\AnimeClient\_dir;
+use function Aviat\Ion\_dir;
 
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
