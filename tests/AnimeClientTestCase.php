@@ -95,13 +95,11 @@ class AnimeClientTestCase extends TestCase {
 					'file' => ':memory:',
 				]
 			],
+			'route_config' => [
+				'asset_path' => '/assets'
+			],
 			'routes' => [
-				'route_config' => [
-					'asset_path' => '/assets'
-				],
-				'routes' => [
 
-				]
 			],
 			'mal' => [
 				'username' => 'foo',

@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -27,7 +27,11 @@
 			<tr id="manga-<?= $item['id'] ?>">
 				<?php if($auth->isAuthenticated()): ?>
 				<td>
-					<a class="bracketed" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
+					<a class="bracketed" href="<?= $url->generate('edit', [
+						'controller' => 'manga',
+						'id' => $item['id'],
+						'status' => $name
+					]) ?>">Edit</a>
 				</td>
 				<?php endif ?>
 				<td class="align_left">

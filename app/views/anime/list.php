@@ -30,7 +30,11 @@
 			<tr id="a-<?= $item['id'] ?>">
 				<?php if ($auth->isAuthenticated()): ?>
 				<td>
-					<a class="bracketed" href="<?= $urlGenerator->url("/anime/edit/{$item['id']}/{$item['watching_status']}") ?>">Edit</a>
+					<a class="bracketed" href="<?= $url->generate('edit', [
+						'controller' => 'anime',
+						'id' => $item['id'],
+						'status' => $item['watching_status']
+					]) ?>">Edit</a>
 				</td>
 				<?php endif ?>
 				<td class="justify">

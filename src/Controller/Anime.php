@@ -116,7 +116,7 @@ class Anime extends BaseController {
 				$this->config->get('whose_list') . "'s Anime List",
 				'Add'
 			),
-			'action_url' => $this->urlGenerator->url('anime/add'),
+			'action_url' => $this->url->generate('anime.add.post'),
 			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE
 		]);
 	}
@@ -168,8 +168,9 @@ class Anime extends BaseController {
 			),
 			'item' => $item,
 			'statuses' => AnimeWatchingStatus::KITSU_TO_TITLE,
-			'action' => $this->container->get('url-generator')
-				->url('/anime/update_form'),
+			'action' => $this->url->generate('update.post', [
+				'controller' => 'anime'
+			]),
 		]);
 	}
 

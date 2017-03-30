@@ -14,6 +14,7 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
+use function Aviat\AnimeClient\loadToml;
 
 // ----------------------------------------------------------------------------
 // Lower level configuration
@@ -23,7 +24,9 @@
 $APP_DIR = realpath(__DIR__ . '/../');
 $ROOT_DIR = realpath("{$APP_DIR}/../");
 
-$base_config = [
+$tomlConfig = loadToml(__DIR__);
+
+$base_config = array_merge($tomlConfig, [
 	'asset_dir' => "{$ROOT_DIR}/public",
 
 	// Template file path
@@ -34,6 +37,5 @@ $base_config = [
 	'img_cache_path' => "{$ROOT_DIR}/public/images",
 
 	// Included config files
-	'menus' => require 'menus.php',
 	'routes' => require 'routes.php',
-];
+]);

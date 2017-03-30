@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->fullUrl('collection/add', 'anime') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('collection.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -26,12 +26,11 @@
 			<tr>
 				<?php if($auth->isAuthenticated()): ?>
 				<td>
-					<a class="bracketed" href="<?= $urlGenerator->fullUrl("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a>
-					<?php /*<a class="bracketed" href="<?= $urlGenerator->fullUrl("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a>*/ ?>
+					<a class="bracketed" href="<?= $url->generate('collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
 				</td>
 				<?php endif ?>
 				<td class="align_left">
-					<a href="https://hummingbird.me/anime/<?= $item['slug'] ?>">
+					<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 						<?= $item['title'] ?>
 					</a>
 					<?= ( ! empty($item['alternate_title'])) ? " <br /><small> " . $item['alternate_title'] . "</small>" : "" ?>
