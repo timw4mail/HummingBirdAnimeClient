@@ -55,6 +55,7 @@ class Controller {
 			'config' => $this->config
 		]);
 
+		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');
@@ -133,7 +134,7 @@ class Controller {
 		}
 
 		$this->setFlashMessage('Invalid username or password.');
-		$this->redirect($this->urlGenerator->url('login'), 303);
+		$this->redirect($this->url->generate('login'), 303);
 	}
 
 	/**

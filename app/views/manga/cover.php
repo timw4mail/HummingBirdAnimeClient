@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -14,6 +14,7 @@
 					<?php if ($auth->isAuthenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
+						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
 					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
@@ -29,7 +30,15 @@
 						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this manga" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
+								<a class="bracketed"
+									title="Edit information about this manga"
+									href="<?= $url->generate('edit', [
+										'controller' => 'manga',
+										'id' => $item['id'],
+										'status' => $name
+									]) ?>">
+									Edit
+								</a>
 							</span>
 						</div>
 						<?php endif ?>

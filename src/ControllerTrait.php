@@ -66,6 +66,12 @@ trait ControllerTrait {
 	protected $urlGenerator;
 
 	/**
+	 * Aura url generator
+	 * @var \Aura\Router\Generator
+	 */
+	protected $url;
+
+	/**
 	 * Session segment
 	 * @var \Aura\Session\Segment
 	 */

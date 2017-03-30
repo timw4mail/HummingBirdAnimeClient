@@ -59,9 +59,8 @@ class RoutingBase {
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');
-		$baseRoutes = $this->config->get('routes');
-		$this->routes = $baseRoutes['routes'];
-		$this->routeConfig = $baseRoutes['route_config'];
+		$this->routes = $this->config->get('routes');
+		$this->routeConfig = $this->config->get('route_config');
 	}
 
 	/**
