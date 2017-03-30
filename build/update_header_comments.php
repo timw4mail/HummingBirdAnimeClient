@@ -7,7 +7,9 @@ $file_patterns = [
 	'src/**/*.php',
 	'src/*.php',
 	'tests/**/*.php',
-	'tests/*.php'
+	'tests/*.php',
+	'index.php',
+	'Robofile.php'
 ];
 
 if ( ! function_exists('glob_recursive'))
