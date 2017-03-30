@@ -17,6 +17,7 @@
 				<th>Rating</th>
 				<th>Completed Chapters</th>
 				<th># of Volumes</th>
+				<th>Attributes</th>
 				<th>Type</th>
 				<th>Genres</th>
 			</tr>
@@ -40,6 +41,18 @@
 				<td><?= $item['user_rating'] ?> / 10</td>
 				<td><?= $item['chapters']['read'] ?> / <?= $item['chapters']['total'] ?></td>
 				<td><?= $item['volumes']['total'] ?></td>
+				<td>
+                    <ul>
+					<?php if ($item['reread'] > 0): ?>
+                        <li>Reread <?= $item['reread'] ?> time(s)</li>
+					<?php endif ?>
+					<?php foreach(['rereading'] as $attr): ?>
+						<?php if($item[$attr]): ?>
+                            <li><?= ucfirst($attr); ?></li>
+						<?php endif ?>
+					<?php endforeach ?>
+                    </ul>
+				</td>
 				<td><?= $item['manga']['type'] ?></td>
 				<td class="align_left">
 					<?= implode(', ', $item['manga']['genres']) ?>

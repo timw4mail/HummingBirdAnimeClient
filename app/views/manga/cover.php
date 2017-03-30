@@ -36,6 +36,23 @@
 						<div class="row">
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
+
+						<?php if ($item['rereading']): ?>
+						<div class="row">
+							<?php foreach(['rereading'] as $attr): ?>
+							<?php if($item[$attr]): ?>
+								<span class="item-<?= $attr ?>"><?= ucfirst($attr) ?></span>
+							<?php endif ?>
+							<?php endforeach ?>
+						</div>
+						<?php endif ?>
+
+						<?php if ($item['reread'] > 0): ?>
+						<div class="row">
+							<div>Reread <?= $item['reread'] ?> time(s)</div>
+						</div>
+						<?php endif ?>
+
 						<div class="row">
 							<div class="chapter_completion">
 								Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /

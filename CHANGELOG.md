@@ -3,7 +3,9 @@
 ## Version 4
 * Updated to use Kitsu API after discontinuation of Hummingbird
 * Added streaming links to list entries from the Kitsu API
-* Added simple integration with MyAnimeList, so an update can cross-post to both Kitsu and MyAnimeList
+* Added simple integration with MyAnimeList, so an update can cross-post to both Kitsu and MyAnimeList (anime and manga)
+* Added console command to sync Kitsu and MyAnimeList data
+
 * Added character pages 
 
 ## Version 3
