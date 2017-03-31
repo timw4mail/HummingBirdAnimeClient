@@ -17,7 +17,7 @@
 
 use const Aviat\AnimeClient\{
 	DEFAULT_CONTROLLER_METHOD,
-	DEFAULT_CONTROLLER_NAMESPACE
+	DEFAULT_CONTROLLER
 };
 
 use Aviat\AnimeClient\AnimeClient;
@@ -150,25 +150,25 @@ return [
 	'cache_purge' => [
 		'path' => '/cache_purge',
 		'action' => 'clearCache',
-		'controller' => DEFAULT_CONTROLLER_NAMESPACE,
+		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'get',
 	],
 	'login' => [
 		'path' => '/login',
 		'action' => 'login',
-		'controller' => DEFAULT_CONTROLLER_NAMESPACE,
+		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'get',
 	],
 	'login.post' => [
 		'path' => '/login',
 		'action' => 'loginAction',
-		'controller' => DEFAULT_CONTROLLER_NAMESPACE,
+		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'post',
 	],
 	'logout' => [
 		'path' => '/logout',
 		'action' => 'logout',
-		'controller' => DEFAULT_CONTROLLER_NAMESPACE,
+		'controller' => DEFAULT_CONTROLLER,
 	],
 	'update' => [
 		'path' => '/{controller}/update',
@@ -204,7 +204,7 @@ return [
 	],
 	'index_redirect' => [
 		'path' => '/',
-		'controller' => DEFAULT_CONTROLLER_NAMESPACE,
+		'controller' => DEFAULT_CONTROLLER,
 		'action' => 'redirectToDefaultRoute',
 	],
 ];

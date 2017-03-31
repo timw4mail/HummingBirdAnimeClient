@@ -1,4 +1,4 @@
-<main class="details">
+<main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
 			<img class="cover" src="<?= $data['cover_image'] ?>" alt="<?= $data['title'] ?> cover image" />

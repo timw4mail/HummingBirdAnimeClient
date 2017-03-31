@@ -1250,11 +1250,14 @@ a:hover, a:active {
 .details {
 	margin:15px auto 0 auto;
 	margin: 1.5rem auto 0 auto;
-	max-width:930px;
-	max-width:93rem;
 	padding:10px;
 	padding:1rem;
 	font-size:inherit;
+}
+
+.details.fixed {
+	max-width:930px;
+	max-width:93rem;
 }
 
 .details .cover {
@@ -1293,6 +1296,14 @@ a:hover, a:active {
 
 .details .media_details td:nth-child(even) {
 	text-align:left;
+}
+
+/* ----------------------------------------------------------------------------
+	User page styles
+-----------------------------------------------------------------------------*/
+
+.small_character img {
+	max-width: 300px;
 }
 
 /* ----------------------------------------------------------------------------

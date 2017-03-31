@@ -164,7 +164,7 @@ class Model {
 		$data = $this->getRequest('/characters', [
 			'query' => [
 				'filter' => [
-					'slug' => $slug
+					'name' => $slug
 				],
 				// 'include' => 'primaryMedia,castings'
 			]
@@ -181,10 +181,17 @@ class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		$userId = $this->getUserIdByUsername($username);
-		$data = $this->getRequest("/users/{$userId}", [
+		// $userId = $this->getUserIdByUsername($username);
+		$data = $this->getRequest("/users", [
 			'query' => [
-				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,mediaFollows,userRoles'
+				'filter' => [
+					'name' => $username,
+				],
+				'fields' => [
+					// 'anime' => 'slug,name,canonicalTitle',
+					'characters' => 'slug,name,image'
+				],
+				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,mediaFollows,userRoles,favorites.item'
 			]
 		]);
 
@@ -825,6 +832,9 @@ class Model {
 			'query' => [
 				'filter' => [
 					'slug' => $slug
+				],
+				'fields' => [
+					'characters' => 'slug,name,image'
 				],
 				'include' => ($type === 'anime')
 					? 'genres,mappings,streamingLinks,animeCharacters.character'
