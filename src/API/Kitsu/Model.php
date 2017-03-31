@@ -433,6 +433,12 @@ class Model {
 			]
 		];
 		$data = $this->getRequest("anime/{$kitsuAnimeId}", $options);
+
+		if ( ! array_key_exists('included', $data))
+		{
+			return NULL;
+		}
+
 		$mappings = array_column($data['included'], 'attributes');
 
 		foreach($mappings as $map)

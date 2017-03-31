@@ -113,17 +113,6 @@ class Index extends BaseController {
 		]);
 	}
 
-	/**
-	 * Redirect to the default controller/url from an empty path
-	 *
-	 * @return void
-	 */
-	public function redirectToDefaultRoute()
-	{
-		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']);
-		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
-	}
-
 	private function organizeFavorites(array $rawfavorites): array
 	{
 		// return $rawfavorites;
