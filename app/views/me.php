@@ -2,8 +2,15 @@
 <main class="user-page details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<h2><?= $attributes['name'] ?></h2>
-			<img src="<?= $attributes['avatar']['original'] ?>" alt="" />
+			<center>
+				<h2>
+					<a title='View profile on Kisu'
+						href="https://kitsu.io/users/<?= $attributes['name'] ?>">
+						<?= $attributes['name'] ?>
+					</a>
+				</h2>
+				<img src="<?= $attributes['avatar']['original'] ?>" alt="" />
+			</center>
 			<br />
 			<br />
 			<table class="media_details">
@@ -120,8 +127,6 @@
 					</section>
 				<?php endif ?>
 			<?php endif ?>
-
-
 		</div>
 	</section>
 </main>
