@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
-use function Aviat\AnimeClient\_dir;
+use function Aviat\Ion\_dir;
 
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
@@ -31,7 +31,66 @@ use InvalidArgumentException;
  * @property Response object $response
  */
 class Controller {
-	use ControllerTrait;
+
+	use ContainerAware;
+
+	/**
+	 * Cache manager
+	 * @var \Psr\Cache\CacheItemPoolInterface
+	 */
+	protected $cache;
+
+	/**
+	 * The global configuration object
+	 * @var \Aviat\Ion\ConfigInterface $config
+	 */
+	public $config;
+
+	/**
+	 * Request object
+	 * @var object $request
+	 */
+	protected $request;
+
+	/**
+	 * Response object
+	 * @var object $response
+	 */
+	public $response;
+
+	/**
+	 * The api model for the current controller
+	 * @var object
+	 */
+	protected $model;
+
+	/**
+	 * Url generation class
+	 * @var UrlGenerator
+	 */
+	protected $urlGenerator;
+
+	/**
+	 * Aura url generator
+	 * @var \Aura\Router\Generator
+	 */
+	protected $url;
+
+	/**
+	 * Session segment
+	 * @var \Aura\Session\Segment
+	 */
+	protected $session;
+
+	/**
+	 * Common data to be sent to views
+	 * @var array
+	 */
+	protected $baseData = [
+		'url_type' => 'anime',
+		'other_type' => 'manga',
+		'menu_name' => ''
+	];
 
 	/**
 	 * Constructor
@@ -55,6 +114,7 @@ class Controller {
 			'config' => $this->config
 		]);
 
+		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
 
 		$session = $container->get('session');
@@ -72,81 +132,267 @@ class Controller {
 	}
 
 	/**
-	 * Show the user profile page
+	 * Redirect to the previous page
 	 *
 	 * @return void
 	 */
-	public function me()
+	public function redirectToPrevious()
 	{
-		$username = $this->config->get(['kitsu_username']);
-		$model = $this->container->get('kitsu-model');
-		$data = $model->getUserData($username);
-		$included = JsonAPI::lightlyOrganizeIncludes($data['included']);
-		$relationships = JsonAPI::fillRelationshipsFromIncludes($data['data']['relationships'], $included);
-		$this->outputHTML('me', [
-			'title' => 'About' . $this->config->get('whose_list'),
-			'attributes' => $data['data']['attributes'],
-			'relationships' => $relationships,
-			'included' => $included
+		$previous = $this->session->getFlash('previous');
+		$this->redirect($previous, 303);
+	}
+
+	/**
+	 * Set the current url in the session as the target of a future redirect
+	 *
+	 * @param string|null $url
+	 * @return void
+	 */
+	public function setSessionRedirect(string $url = NULL)
+	{
+		$serverParams = $this->request->getServerParams();
+
+		if ( ! array_key_exists('HTTP_REFERER', $serverParams))
+		{
+			return;
+		}
+
+		$util = $this->container->get('util');
+		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
+
+		// Don't attempt to set the redirect url if
+		// the page is one of the form type pages,
+		// and the previous page is also a form type page_segments
+		if ($doubleFormPage)
+		{
+			return;
+		}
+
+		if (is_null($url))
+		{
+			$url = $util->isViewPage()
+				? $this->request->url->get()
+				: $serverParams['HTTP_REFERER'];
+		}
+
+		$this->session->set('redirect_url', $url);
+	}
+
+	/**
+	 * Redirect to the url previously set in the  session
+	 *
+	 * @return void
+	 */
+	public function sessionRedirect()
+	{
+		$target = $this->session->get('redirect_url');
+		if (empty($target))
+		{
+			$this->notFound();
+		}
+		else
+		{
+			$this->redirect($target, 303);
+			$this->session->set('redirect_url', NULL);
+		}
+	}
+
+	/**
+	 * Get the string output of a partial template
+	 *
+	 * @param HtmlView $view
+	 * @param string $template
+	 * @param array $data
+	 * @throws InvalidArgumentException
+	 * @return string
+	 */
+	protected function loadPartial($view, string $template, array $data = [])
+	{
+		$router = $this->container->get('dispatcher');
+
+		if (isset($this->baseData))
+		{
+			$data = array_merge($this->baseData, $data);
+		}
+
+		$route = $router->getRoute();
+		$data['route_path'] = $route ? $router->getRoute()->path : '';
+
+
+		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
+
+		if ( ! is_file($templatePath))
+		{
+			throw new InvalidArgumentException("Invalid template : {$template}");
+		}
+
+		return $view->renderTemplate($templatePath, (array)$data);
+	}
+
+	/**
+	 * Render a template with header and footer
+	 *
+	 * @param HtmlView $view
+	 * @param string $template
+	 * @param array $data
+	 * @return void
+	 */
+	protected function renderFullPage($view, string $template, array $data)
+	{
+		$view->appendOutput($this->loadPartial($view, 'header', $data));
+
+		if (array_key_exists('message', $data) && is_array($data['message']))
+		{
+			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
+		}
+
+		$view->appendOutput($this->loadPartial($view, $template, $data));
+		$view->appendOutput($this->loadPartial($view, 'footer', $data));
+	}
+
+	/**
+	 * 404 action
+	 *
+	 * @return void
+	 */
+	public function notFound(
+		string $title = 'Sorry, page not found',
+		string $message = 'Page Not Found'
+		)
+	{
+		$this->outputHTML('404', [
+			'title' => $title,
+			'message' => $message,
+		], NULL, 404);
+	}
+
+	/**
+	 * Display a generic error page
+	 *
+	 * @param int $httpCode
+	 * @param string $title
+	 * @param string $message
+	 * @param string $long_message
+	 * @return void
+	 */
+	public function errorPage(int $httpCode, string $title, string $message, string $long_message = "")
+	{
+		$this->outputHTML('error', [
+			'title' => $title,
+			'message' => $message,
+			'long_message' => $long_message
+		], NULL, $httpCode);
+	}
+
+	/**
+	 * Redirect to the default controller/url from an empty path
+	 *
+	 * @return void
+	 */
+	public function redirectToDefaultRoute()
+	{
+		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']) ?? 'anime';
+		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
+	}
+
+	/**
+	 * Set a session flash variable to display a message on
+	 * next page load
+	 *
+	 * @param string $message
+	 * @param string $type
+	 * @return void
+	 */
+	public function setFlashMessage(string $message, string $type = "info")
+	{
+		static $messages;
+
+		if ( ! $messages)
+		{
+			$messages = [];
+		}
+
+		$messages[] = [
+			'message_type' => $type,
+			'message' => $message
+		];
+
+		$this->session->setFlash('message', $messages);
+	}
+
+	/**
+	 * Helper for consistent page titles
+	 *
+	 * @param string ...$parts Title segements
+	 * @return string
+	 */
+	public function formatTitle(string ...$parts) : string
+	{
+		return implode(' &middot; ', $parts);
+	}
+
+	/**
+	 * Add a message box to the page
+	 *
+	 * @param HtmlView $view
+	 * @param string $type
+	 * @param string $message
+	 * @return string
+	 */
+	protected function showMessage($view, string $type, string $message): string
+	{
+		return $this->loadPartial($view, 'message', [
+			'message_type' => $type,
+			'message'  => $message
 		]);
 	}
 
 	/**
-	 * Show the login form
+	 * Output a template to HTML, using the provided data
 	 *
-	 * @param string $status
+	 * @param string $template
+	 * @param array $data
+	 * @param HtmlView|null $view
+	 * @param int $code
 	 * @return void
 	 */
-	public function login(string $status = '')
+	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200)
 	{
-		$message = '';
-
-		$view = new HtmlView($this->container);
-
-		if ($status !== '')
+		if (is_null($view))
 		{
-			$message = $this->showMessage($view, 'error', $status);
+			$view = new HtmlView($this->container);
 		}
 
-		// Set the redirect url
-		$this->setSessionRedirect();
-
-		$this->outputHTML('login', [
-			'title' => 'Api login',
-			'message' => $message
-		], $view);
+		$view->setStatusCode($code);
+		$this->renderFullPage($view, $template, $data);
 	}
 
 	/**
-	 * Attempt login authentication
+	 * Output a JSON Response
 	 *
+	 * @param mixed $data
+	 * @param int $code - the http status code
 	 * @return void
 	 */
-	public function loginAction()
+	protected function outputJSON($data = 'Empty response', int $code = 200)
 	{
-		$auth = $this->container->get('auth');
-		$post = $this->request->getParsedBody();
-		if ($auth->authenticate($post['password']))
-		{
-			$this->sessionRedirect();
-			return;
-		}
-
-		$this->setFlashMessage('Invalid username or password.');
-		$this->redirect($this->urlGenerator->url('login'), 303);
+		(new JsonView($this->container))
+			->setStatusCode($code)
+			->setOutput($data)
+			->send();
 	}
 
 	/**
-	 * Deauthorize the current user
+	 * Redirect to the selected page
 	 *
+	 * @param string $url
+	 * @param int $code
 	 * @return void
 	 */
-	public function logout()
+	protected function redirect(string $url, int $code)
 	{
-		$auth = $this->container->get('auth');
-		$auth->logout();
-
-		$this->redirectToDefaultRoute();
+		$http = new HttpView($this->container);
+		$http->redirect($url, $code);
 	}
 }
 // End of BaseController.php

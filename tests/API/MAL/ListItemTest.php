@@ -14,26 +14,27 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Tests;
+namespace Aviat\AnimeClient\Tests\API\MAL;
 
-use Aviat\AnimeClient\ControllerTrait;
+use Aviat\AnimeClient\API\MAL\ListItem;
+use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use Aviat\Ion\Di\ContainerAware;
 
-class ControllerTraitTest extends AnimeClientTestCase {
+class ListItemTest extends AnimeClientTestCase {
+
+	protected $listItem;
 
 	public function setUp()
 	{
 		parent::setUp();
-
-		$this->controller = new class {
-			use ControllerTrait;
-		};
+		$this->listItem = new ListItem();
+		$this->listItem->setContainer($this->container);
+		$this->listItem->setRequestBuilder(new MALRequestBuilder());
 	}
 
-	public function testFormatTitle()
+	public function testGet()
 	{
-		$this->assertEquals(
-			$this->controller->formatTitle('foo', 'bar', 'baz'),
-			'foo &middot; bar &middot; baz'
-		);
+		$this->assertEquals([], $this->listItem->get('foo'));
 	}
 }

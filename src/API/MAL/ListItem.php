@@ -30,7 +30,14 @@ class ListItem {
 	use ContainerAware;
 	use MALTrait;
 
-	public function create(array $data): Request
+	/**
+	 * Create a list item
+	 *
+	 * @param array $data
+	 * @param string $type
+	 * @return Request
+	 */
+	public function create(array $data, string $type = 'anime'): Request
 	{
 		$id = $data['id'];
 		$createData = [
@@ -42,17 +49,24 @@ class ListItem {
 
 		$config = $this->container->get('config');
 
-		return $this->requestBuilder->newRequest('POST', "animelist/add/{$id}.xml")
+		return $this->requestBuilder->newRequest('POST', "{$type}list/add/{$id}.xml")
 			->setFormFields($createData)
 			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
 			->getFullRequest();
 	}
 
-	public function delete(string $id): Request
+	/**
+	 * Delete a list item
+	 *
+	 * @param string $id
+	 * @param string $type
+	 * @return Request
+	 */
+	public function delete(string $id, string $type = 'anime'): Request
 	{
 		$config = $this->container->get('config');
 
-		return $this->requestBuilder->newRequest('DELETE', "animelist/delete/{$id}.xml")
+		return $this->requestBuilder->newRequest('DELETE', "{$type}list/delete/{$id}.xml")
 			->setFormFields([
 				'id' => $id
 			])
@@ -67,7 +81,15 @@ class ListItem {
 		return [];
 	}
 
-	public function update(string $id, array $data): Request
+	/**
+	 * Update a list item
+	 *
+	 * @param string $id
+	 * @param array $data
+	 * @param string $type
+	 * @return Request
+	 */
+	public function update(string $id, array $data, string $type = 'anime'): Request
 	{
 		$config = $this->container->get('config');
 
@@ -76,7 +98,7 @@ class ListItem {
 			->addField('id', $id)
 			->addField('data', $xml);
 
-		return $this->requestBuilder->newRequest('POST', "animelist/update/{$id}.xml")
+		return $this->requestBuilder->newRequest('POST', "{$type}list/update/{$id}.xml")
 			->setFormFields([
 				'id' => $id,
 				'data' => $xml

@@ -6,11 +6,11 @@
 				<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> List
 			</a>
 			<?php if($config->get("show_{$url_type}_collection")): ?>
-				[<a href="<?= $urlGenerator->url('collection/view') ?>"><?= ucfirst($url_type) ?> Collection</a>]
+				[<a href="<?= $url->generate('collection.view') ?>"><?= ucfirst($url_type) ?> Collection</a>]
 			<?php endif ?>
 			[<a href="<?= $urlGenerator->defaultUrl($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
 		<?php else: ?>
-			<a href="<?= $urlGenerator->url('collection/view') ?>">
+			<a href="<?= $url->generate('collection.view') ?>">
 				<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> Collection
 			</a>
 			[<a href="<?= $urlGenerator->defaultUrl('anime') ?>">Anime List</a>]

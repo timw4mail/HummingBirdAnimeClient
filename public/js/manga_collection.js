@@ -8,6 +8,11 @@
 			searchResults = JSON.parse(searchResults);
 			_.$('.cssload-loader')[0].setAttribute('hidden', 'hidden');
 
+			// Give mustache a key to iterate over
+			searchResults = {
+				data: searchResults.data
+			};
+
 			Mustache.parse(tempHtml);
 			_.$('#series_list')[0].innerHTML = Mustache.render(tempHtml, searchResults);
 		});

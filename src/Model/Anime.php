@@ -40,23 +40,16 @@ class Anime extends API {
 	protected $malModel;
 
 	/**
-	 * Whether to use the MAL api
-	 *
-	 * @var boolean
-	 */
-	protected $useMALAPI;
-
-	/**
 	 * Anime constructor.
 	 *
 	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		$config = $container->get('config');
 		$this->kitsuModel = $container->get('kitsu-model');
 		$this->malModel = $container->get('mal-model');
 
+		$config = $container->get('config');
 		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 
@@ -66,7 +59,7 @@ class Anime extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	public function getList($status)
+	public function getList($status): array
 	{
 		$data = $this->kitsuModel->getAnimeList($status);
 		$this->sortByName($data, 'anime');
@@ -79,7 +72,12 @@ class Anime extends API {
 		return $output;
 	}
 
-	public function getAllLists()
+	/**
+	 * Get data for the 'all' anime page
+	 *
+	 * @return array
+	 */
+	public function getAllLists(): array
 	{
 		$data =  $this->kitsuModel->getFullOrganizedAnimeList();
 
@@ -97,7 +95,7 @@ class Anime extends API {
 	 * @param string $slug
 	 * @return array
 	 */
-	public function getAnime($slug)
+	public function getAnime(string $slug): array
 	{
 		return $this->kitsuModel->getAnime($slug);
 	}
@@ -108,7 +106,7 @@ class Anime extends API {
 	 * @param string $animeId
 	 * @return array
 	 */
-	public function getAnimeById($animeId)
+	public function getAnimeById(string $animeId): array
 	{
 		return $this->kitsuModel->getAnimeById($animeId);
 	}
@@ -119,7 +117,7 @@ class Anime extends API {
 	 * @param string $name
 	 * @return array
 	 */
-	public function search($name)
+	public function search(string $name): array
 	{
 		return $this->kitsuModel->search('anime', $name);
 	}

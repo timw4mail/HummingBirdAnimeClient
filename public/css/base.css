@@ -1025,7 +1025,7 @@ a:hover, a:active {
 	Base list styles
 ------------------------------------------------------------------------------*/
 
-.media {
+.media, .character, .small_character {
 	position:relative;
 	vertical-align:top;
 	display:inline-block;
@@ -1035,7 +1035,9 @@ a:hover, a:active {
 	margin:0.25em 0.125em;
 }
 
-.media > img {
+.media > img,
+.character > img,
+.small_character > img {
 	width: 100%;
 }
 
@@ -1076,7 +1078,9 @@ a:hover, a:active {
 		top: 0;
 	}
 
-.media:hover > .name,
+.small_character:hover > .name,
+		.character:hover > .name,
+		.media:hover > .name,
 		.media:hover > .media_metadata > div,
 		.media:hover > .medium_metadata > div,
 		.media:hover > .table .row
@@ -1094,7 +1098,11 @@ a:hover, a:active {
 			display:block;
 		}
 
-.media > .name a,
+.small_character > .name a,
+		.small_character > .name a small,
+		.character > .name a,
+		.character > .name a small,
+		.media > .name a,
 		.media > .name a small
 		{
 			background:none;
@@ -1250,17 +1258,20 @@ a:hover, a:active {
 .details {
 	margin:15px auto 0 auto;
 	margin: 1.5rem auto 0 auto;
-	max-width:930px;
-	max-width:93rem;
 	padding:10px;
 	padding:1rem;
 	font-size:inherit;
 }
 
+.details.fixed {
+	max-width:930px;
+	max-width:93rem;
+}
+
 .details .cover {
 	display: block;
 	width: 284px;
-	height: 402px;
+	/* height: 402px; */
 }
 
 .details h2 {
@@ -1293,6 +1304,58 @@ a:hover, a:active {
 
 .details .media_details td:nth-child(even) {
 	text-align:left;
+}
+
+.character,
+.small_character {
+	background: rgba(0, 0, 0, .5);
+	width: 225px;
+	height: 350px;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+.small_character a {
+		display:inline-block;
+		width: 100%;
+		height: 100%;
+	}
+
+.small_character .name,
+	.character .name {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 10;
+	}
+
+.small_character img,
+	.character img {
+		position: relative;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		        transform: translateY(-50%);
+		z-index: 5;
+		width: 100%;
+	}
+
+/* ----------------------------------------------------------------------------
+	User page styles
+-----------------------------------------------------------------------------*/
+
+.small_character {
+	width: 160px;
+	height: 250px;
+}
+
+.user-page .media-wrap {
+	text-align: left;
+}
+
+.media a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
 }
 
 /* ----------------------------------------------------------------------------

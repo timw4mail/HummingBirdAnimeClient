@@ -16,13 +16,13 @@
 
 namespace Aviat\AnimeClient\API\MAL\Transformer;
 
-use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for updating MAL List
  */
-class AnimeListTransformer extends AbstractTransformer {
+class MangaListTransformer extends AbstractTransformer {
 	/**
 	 * Identity transformation
 	 *
@@ -35,7 +35,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	}
 
 	/**
-	 * Transform Kitsu episode data to MAL episode data
+	 * Transform Kitsu data to MAL data
 	 *
 	 * @param array $item
 	 * @return array
@@ -45,7 +45,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		$map = [
 			'id' => $item['mal_id'],
 			'data' => [
-				'episode' => $item['data']['progress']
+				'chapter' => $item['data']['progress']
 			]
 		];
 
@@ -64,15 +64,15 @@ class AnimeListTransformer extends AbstractTransformer {
 				break;
 
 				case 'reconsuming':
-					$map['data']['enable_rewatching'] = (bool) $value;
+					$map['data']['enable_rereading'] = (bool) $value;
 				break;
 
 				case 'reconsumeCount':
-					$map['data']['times_rewatched'] = $value;
+					$map['data']['times_reread'] = $value;
 				break;
 
 				case 'status':
-					$map['data']['status'] = AnimeWatchingStatus::KITSU_TO_MAL[$value];
+					$map['data']['status'] = MangaReadingStatus::KITSU_TO_MAL[$value];
 				break;
 
 				default:

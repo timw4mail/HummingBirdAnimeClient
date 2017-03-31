@@ -21,24 +21,13 @@ use Yosymfony\Toml\Toml;
 define('SRC_DIR', realpath(__DIR__));
 
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
+const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Index';
 const DEFAULT_CONTROLLER_NAMESPACE = 'Aviat\AnimeClient\Controller';
-const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Anime';
+const DEFAULT_LIST_CONTROLLER = 'Aviat\AnimeClient\Controller\Anime';
 const DEFAULT_CONTROLLER_METHOD = 'index';
 const NOT_FOUND_METHOD = 'notFound';
 const ERROR_MESSAGE_METHOD = 'errorPage';
 const SRC_DIR = SRC_DIR;
-
-/**
- * Joins paths together. Variadic to take an
- * arbitrary number of arguments
- *
- * @param string[] ...$args
- * @return string
- */
-function _dir(...$args)
-{
-	return implode(DIRECTORY_SEPARATOR, $args);
-}
 
 /**
  * Load configuration options from .toml files

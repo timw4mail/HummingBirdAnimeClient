@@ -108,32 +108,5 @@ class UrlGenerator extends RoutingBase {
 
 		throw new InvalidArgumentException("Invalid default type: '{$type}'");
 	}
-
-	/**
-	 * Generate full url path from the route path based on config
-	 *
-	 * @param string $path - (optional) The route path
-	 * @param string $type - (optional) The controller (anime or manga), defaults to anime
-	 * @return string
-	 */
-	public function fullUrl(string $path = "", string $type = "anime"): string
-	{
-		$configDefaultRoute = $this->__get("default_{$type}_path");
-
-		// Remove beginning/trailing slashes
-		$path = trim($path, '/');
-
-		// Set the default view
-		if ($path === '')
-		{
-			$path .= trim($configDefaultRoute, '/');
-			if ($this->__get('default_to_list_view'))
-			{
-				$path .= '/list';
-			}
-		}
-
-		return $this->url($path);
-	}
 }
 // End of UrlGenerator.php

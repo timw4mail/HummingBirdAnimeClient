@@ -42,18 +42,6 @@ class Collection extends BaseController {
 	private $animeModel;
 
 	/**
-	 * Data to be sent to all routes in this controller
-	 * @var array $baseData
-	 */
-	protected $baseData;
-
-	/**
-	 * Url Generator class
-	 * @var UrlGenerator
-	 */
-	protected $urlGenerator;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -62,7 +50,6 @@ class Collection extends BaseController {
 	{
 		parent::__construct($container);
 
-		$this->urlGenerator = $container->get('url-generator');
 		$this->animeModel = $container->get('anime-model');
 		$this->animeCollectionModel = $container->get('anime-collection-model');
 		$this->baseData = array_merge($this->baseData, [
@@ -118,10 +105,11 @@ class Collection extends BaseController {
 		$this->setSessionRedirect();
 
 		$action = (is_null($id)) ? "Add" : "Edit";
+		$urlAction = strtolower($action);
 
-		$this->outputHTML('collection/' . strtolower($action), [
+		$this->outputHTML('collection/' . $urlAction, [
 			'action' => $action,
-			'action_url' => $this->urlGenerator->fullUrl('collection/' . strtolower($action)),
+			'action_url' => $this->url->generate("collection.{$urlAction}.post"),
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime Collection",
 				$action

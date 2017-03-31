@@ -21,7 +21,7 @@
 		"aura/router": "^3.0",
 		"aura/session": "^2.0",
 		"aviat/banker": "^1.0.0",
-		"aviat/ion": "dev-master",
+		"aviat/ion": "^2.0.0",
 		"monolog/monolog": "^1.0",
 		"psr/http-message": "~1.0",
 		"psr/log": "~1.0",
