@@ -80,31 +80,12 @@ class ControllerTest extends AnimeClientTestCase {
 		$this->assertTrue(is_object($this->BaseController));
 	}
 
-	public function dataGet()
+	public function testFormatTitle()
 	{
-		return [
-			'response' => [
-				'key' => 'response',
-			],
-			'config' => [
-				'key' => 'config',
-			]
-		];
-	}
-
-	/**
-	 * @dataProvider dataGet
-	 */
-	public function testGet($key)
-	{
-		$result = $this->BaseController->__get($key);
-		$this->assertEquals($this->container->get($key), $result);
-	}
-
-	public function testGetNull()
-	{
-		$result = $this->BaseController->__get('foo');
-		$this->assertNull($result);
+		$this->assertEquals(
+			$this->BaseController->formatTitle('foo', 'bar', 'baz'),
+			'foo &middot; bar &middot; baz'
+		);
 	}
 
 }

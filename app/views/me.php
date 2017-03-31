@@ -7,6 +7,9 @@
 			<br />
 			<table class="media_details">
 				<tr>
+					<th colspan="2">General</th>
+				</tr>
+				<tr>
 					<td>Location</td>
 					<td><?= $attributes['location'] ?></td>
 				</tr>
@@ -18,7 +21,7 @@
 				<tr>
 					<td><?= $escape->html($attributes['waifuOrHusbando']) ?></td>
 					<td>
-						<?php 
+						<?php
 							$character = $relationships['waifu']['attributes'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
@@ -28,6 +31,21 @@
 					</td>
 				</tr>
 				<?php endif ?>
+				<tr>
+					<th colspan="2">User Stats</th>
+				</tr>
+				<tr>
+					<td># of Posts</td>
+					<td><?= $attributes['postsCount'] ?></td>
+				</tr>
+				<tr>
+					<td># of Comments</td>
+					<td><?= $attributes['commentsCount'] ?></td>
+				</tr>
+				<tr>
+					<td># of Media Rated</td>
+					<td><?= $attributes['ratingsCount'] ?></td>
+				</tr>
 			</table>
 		</div>
 		<div>
@@ -35,9 +53,30 @@
 				<dt>About:</dt>
 				<dd><?= $escape->html($attributes['bio']) ?></dd>
 			</dl>
-			<?php /* <pre><?= json_encode($attributes, \JSON_PRETTY_PRINT) ?></pre>
-			<pre><?= json_encode($relationships, \JSON_PRETTY_PRINT) ?></pre>
-			<pre><?= json_encode($included, \JSON_PRETTY_PRINT) ?></pre> */ ?>
+			<?php if ( ! empty($favorites)): ?>
+			<h3>Favorites:</h3>
+				<?php if ( ! empty($favorites['characters'])): ?>
+					<section>
+					<h4>Characters</h4>
+					<div class="flex flex-wrap">
+					<?php foreach($favorites['characters'] as $char): ?>
+						<?php if ( ! empty($char['image']['original'])): ?>
+						<div class="small_character">
+							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
+							<?= $helper->a($link, $char['name']); ?>
+							<br />
+							<a href="<?= $link ?>">
+							<?= $helper->img($char['image']['original'], [
+								'width' => '225'
+							]) ?>
+							</a>
+						</div>
+						<?php endif ?>
+					<?php endforeach ?>
+					</div>
+					</section>
+				<?php endif ?>
+			<?php endif ?>
 		</div>
 	</section>
 </main>
