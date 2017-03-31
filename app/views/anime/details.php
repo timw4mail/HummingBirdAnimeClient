@@ -1,4 +1,4 @@
-<main class="details">
+<main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
 			<img class="cover" width="402" height="284" src="<?= $data['cover_image'] ?>" alt="" />
@@ -74,9 +74,6 @@
 				</tbody>
 			</table>
 			<?php endif ?>
-			
-
-			<?php /* <pre><?= print_r($characters, TRUE) ?></pre> */ ?>
 		</div>
 	</section>
 	<section>
