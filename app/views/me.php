@@ -1,11 +1,22 @@
-<main class="details">
+<?php use Aviat\AnimeClient\API\Kitsu; ?>
+<main class="user-page details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<h2><?= $attributes['name'] ?></h2>
-			<img src="<?= $attributes['avatar']['original'] ?>" alt="" />
+			<center>
+				<h2>
+					<a title='View profile on Kisu'
+						href="https://kitsu.io/users/<?= $attributes['name'] ?>">
+						<?= $attributes['name'] ?>
+					</a>
+				</h2>
+				<img src="<?= $attributes['avatar']['original'] ?>" alt="" />
+			</center>
 			<br />
 			<br />
 			<table class="media_details">
+				<tr>
+					<th colspan="2">General</th>
+				</tr>
 				<tr>
 					<td>Location</td>
 					<td><?= $attributes['location'] ?></td>
@@ -18,7 +29,7 @@
 				<tr>
 					<td><?= $escape->html($attributes['waifuOrHusbando']) ?></td>
 					<td>
-						<?php 
+						<?php
 							$character = $relationships['waifu']['attributes'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
@@ -28,6 +39,21 @@
 					</td>
 				</tr>
 				<?php endif ?>
+				<tr>
+					<th colspan="2">User Stats</th>
+				</tr>
+				<tr>
+					<td># of Posts</td>
+					<td><?= $attributes['postsCount'] ?></td>
+				</tr>
+				<tr>
+					<td># of Comments</td>
+					<td><?= $attributes['commentsCount'] ?></td>
+				</tr>
+				<tr>
+					<td># of Media Rated</td>
+					<td><?= $attributes['ratingsCount'] ?></td>
+				</tr>
 			</table>
 		</div>
 		<div>
@@ -35,9 +61,72 @@
 				<dt>About:</dt>
 				<dd><?= $escape->html($attributes['bio']) ?></dd>
 			</dl>
-			<?php /* <pre><?= json_encode($attributes, \JSON_PRETTY_PRINT) ?></pre>
-			<pre><?= json_encode($relationships, \JSON_PRETTY_PRINT) ?></pre>
-			<pre><?= json_encode($included, \JSON_PRETTY_PRINT) ?></pre> */ ?>
+			<?php if ( ! empty($favorites)): ?>
+				<?php if ( ! empty($favorites['characters'])): ?>
+					<h4>Favorite Characters</h4>
+					<section class="media-wrap">
+					<?php foreach($favorites['characters'] as $char): ?>
+						<?php if ( ! empty($char['image']['original'])): ?>
+						<article class="small_character">
+							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
+							<div class="name"><?= $helper->a($link, $char['name']); ?></div>
+							<a href="<?= $link ?>">
+							<?= $helper->img($char['image']['original']) ?>
+							</a>
+						</article>
+						<?php endif ?>
+					<?php endforeach ?>
+					</section>
+				<?php endif ?>
+				<?php if ( ! empty($favorites['anime'])): ?>
+					<h4>Favorite Anime</h4>
+					<section class="media-wrap">
+						<?php foreach($favorites['anime'] as $anime): ?>
+						<article class="media">
+							<?php
+								$link = $url->generate('anime.details', ['id' => $anime['slug']]);
+								$titles = Kitsu::filterTitles($anime);
+							?>
+							<a href="<?= $link ?>">
+								<img src="<?= $anime['posterImage']['small'] ?>" width="220" alt="" />
+							</a>
+							<div class="name">
+								<a href="<?= $link ?>">
+									<?= array_shift($titles) ?>
+									<?php foreach ($titles as $title): ?>
+										<br /><small><?= $title ?></small>
+									<?php endforeach ?>
+								</a>
+							</div>
+						</article>
+						<?php endforeach ?>
+					</section>
+				<?php endif ?>
+				<?php if ( ! empty($favorites['manga'])): ?>
+					<h4>Favorite Manga</h4>
+					<section class="media-wrap">
+						<?php foreach($favorites['manga'] as $manga): ?>
+						<article class="media">
+							<?php
+								$link = $url->generate('manga.details', ['id' => $manga['slug']]);
+								$titles = Kitsu::filterTitles($manga);
+							?>
+							<a href="<?= $link ?>">
+								<img src="<?= $manga['posterImage']['small'] ?>" width="220" alt="" />
+							</a>
+							<div class="name">
+								<a href="<?= $link ?>">
+									<?= array_shift($titles) ?>
+									<?php foreach ($titles as $title): ?>
+										<br /><small><?= $title ?></small>
+									<?php endforeach ?>
+								</a>
+							</div>
+						</article>
+						<?php endforeach ?>
+					</section>
+				<?php endif ?>
+			<?php endif ?>
 		</div>
 	</section>
 </main>

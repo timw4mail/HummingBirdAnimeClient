@@ -35,22 +35,42 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item)
 	{
-		$manga =& $item['manga'];
+		$included = $item['included'];
+		$mangaId = $item['relationships']['media']['data']['id'];
+		$manga = $included['manga'][$mangaId];
+
+		$genres = array_column($manga['relationships']['genres'], 'name') ?? [];
+		sort($genres);
 
 		$rating = (is_numeric($item['attributes']['rating']))
 			? intval(2 * $item['attributes']['rating'])
 			: '-';
 
-		$totalChapters = ($manga['attributes']['chapterCount'] > 0)
-			? $manga['attributes']['chapterCount']
+		$totalChapters = ($manga['chapterCount'] > 0)
+			? $manga['chapterCount']
 			: '-';
 
-		$totalVolumes = ($manga['attributes']['volumeCount'] > 0)
-			? $manga['attributes']['volumeCount']
+		$totalVolumes = ($manga['volumeCount'] > 0)
+			? $manga['volumeCount']
 			: '-';
+
+		$MALid = NULL;
+
+		if (array_key_exists('mappings', $manga['relationships']))
+		{
+			foreach ($manga['relationships']['mappings'] as $mapping)
+			{
+				if ($mapping['externalSite'] === 'myanimelist/manga')
+				{
+					$MALid = $mapping['externalId'];
+					break;
+				}
+			}
+		}
 
 		$map = [
 			'id' => $item['id'],
+			'mal_id' => $MALid,
 			'chapters' => [
 				'read' => $item['attributes']['progress'],
 				'total' => $totalChapters
@@ -60,13 +80,13 @@ class MangaListTransformer extends AbstractTransformer {
 				'total' => $totalVolumes
 			],
 			'manga' => [
-				'titles' => Kitsu::filterTitles($manga['attributes']),
+				'titles' => Kitsu::filterTitles($manga),
 				'alternate_title' => NULL,
-				'slug' => $manga['attributes']['slug'],
-				'url' => 'https://kitsu.io/manga/' . $manga['attributes']['slug'],
-				'type' => $manga['attributes']['mangaType'],
-				'image' => $manga['attributes']['posterImage']['small'],
-				'genres' => [], //$manga['genres'],
+				'slug' => $manga['slug'],
+				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
+				'type' => $manga['mangaType'],
+				'image' => $manga['posterImage']['small'],
+				'genres' => $genres,
 			],
 			'reading_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],
@@ -90,15 +110,20 @@ class MangaListTransformer extends AbstractTransformer {
 
 		$map = [
 			'id' => $item['id'],
+			'mal_id' => $item['mal_id'],
 			'data' => [
 				'status' => $item['status'],
 				'progress' => (int)$item['chapters_read'],
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],
 				'notes' => $item['notes'],
-				'rating' => $item['new_rating'] / 2
 			],
 		];
+
+		if (is_numeric($item['new_rating']))
+		{
+			$map['data']['rating'] = $item['new_rating'] / 2;
+		}
 
 		return $map;
 	}

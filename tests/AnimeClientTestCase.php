@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\Tests;
 
 use const Aviat\AnimeClient\SRC_DIR;
 
-use function Aviat\AnimeClient\_dir;
+use function Aviat\Ion\_dir;
 
 use Aura\Web\WebFactory;
 use Aviat\Ion\Json;
@@ -95,13 +95,15 @@ class AnimeClientTestCase extends TestCase {
 					'file' => ':memory:',
 				]
 			],
+			'route_config' => [
+				'asset_path' => '/assets'
+			],
 			'routes' => [
-				'route_config' => [
-					'asset_path' => '/assets'
-				],
-				'routes' => [
 
-				]
+			],
+			'mal' => [
+				'username' => 'foo',
+				'password' => 'bar'
 			]
 		];
 

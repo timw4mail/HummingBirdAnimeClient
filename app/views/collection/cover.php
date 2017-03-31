@@ -21,8 +21,11 @@
 					<div class="table">
 						<?php if ($auth->isAuthenticated()): ?>
 							<div class="row">
-								<span class="edit"><a class="bracketed" href="<?= $urlGenerator->url("collection/edit/{$item['hummingbird_id']}") ?>">Edit</a></span>
-								<?php /*<span class="delete"><a class="bracketed" href="<?= $urlGenerator->url("collection/delete/{$item['hummingbird_id']}") ?>">Delete</a></span> */ ?>
+								<span class="edit">
+									<a class="bracketed" href="<?= $url->generate('collection.edit.get', [
+										'id' => $item['hummingbird_id']
+									]) ?>">Edit</a>
+								</span>
 							</div>
 						<?php endif ?>
 						<div class="row">

@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $urlGenerator->url('manga/add') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -10,10 +10,11 @@
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<article class="media" id="manga-<?= $item['id'] ?>">
+				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
 					<?php if ($auth->isAuthenticated()): ?>
 					<div class="edit_buttons" hidden>
 						<button class="plus_one_chapter">+1 Chapter</button>
+						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
 					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
@@ -29,13 +30,38 @@
 						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this manga" href="<?= $urlGenerator->url("manga/edit/{$item['id']}/{$name}") ?>">Edit</a>
+								<a class="bracketed"
+									title="Edit information about this manga"
+									href="<?= $url->generate('edit', [
+										'controller' => 'manga',
+										'id' => $item['id'],
+										'status' => $name
+									]) ?>">
+									Edit
+								</a>
 							</span>
 						</div>
 						<?php endif ?>
 						<div class="row">
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
+
+						<?php if ($item['rereading']): ?>
+						<div class="row">
+							<?php foreach(['rereading'] as $attr): ?>
+							<?php if($item[$attr]): ?>
+								<span class="item-<?= $attr ?>"><?= ucfirst($attr) ?></span>
+							<?php endif ?>
+							<?php endforeach ?>
+						</div>
+						<?php endif ?>
+
+						<?php if ($item['reread'] > 0): ?>
+						<div class="row">
+							<div>Reread <?= $item['reread'] ?> time(s)</div>
+						</div>
+						<?php endif ?>
+
 						<div class="row">
 							<div class="chapter_completion">
 								Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /

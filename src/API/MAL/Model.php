@@ -17,10 +17,13 @@
 namespace Aviat\AnimeClient\API\MAL;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\MAL\ListItem;
-use Aviat\AnimeClient\API\MAL\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\MAL\{
+	ListItem,
+	Transformer\AnimeListTransformer,
+	Transformer\MangaListTransformer
+};
 use Aviat\AnimeClient\API\XML;
-use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\Ion\Di\ContainerAware;
 
 /**
@@ -34,7 +37,7 @@ class Model {
 	 * @var AnimeListTransformer
 	 */
 	protected $animeListTransformer;
-	
+
 	/**
 	 * @var ListItem
 	 */
@@ -48,27 +51,81 @@ class Model {
 	public function __construct(ListItem $listItem)
 	{
 		$this->animeListTransformer = new AnimeListTransformer();
+		$this->mangaListTransformer = new MangaListTransformer();
 		$this->listItem = $listItem;
 	}
-	
-	public function createFullListItem(array $data): Request
+
+	/**
+	 * Create a list item on MAL
+	 *
+	 * @param array $data
+	 * @param string $type "anime" or "manga"
+	 * @return Request
+	 */
+	public function createFullListItem(array $data, string $type = 'anime'): Request
 	{
-		return $this->listItem->create($data);
+		return $this->listItem->create($data, $type);
 	}
 
-	public function createListItem(array $data): Request
+	public function createListItem(array $data, string $type = 'anime'): Request
 	{
-		$createData = [
-			'id' => $data['id'],
-			'data' => [
-				'status' => AnimeWatchingStatus::KITSU_TO_MAL[$data['status']]
-			]
-		];
+		if ($type === 'anime')
+		{
+			$createData = [
+				'id' => $data['id'],
+				'data' => [
+					'status' => AnimeWatchingStatus::KITSU_TO_MAL[$data['status']]
+				]
+			];
+		}
+		elseif ($type === 'manga')
+		{
+			$createData = [
+				'id' => $data['id'],
+				'data' => [
+					'status' => MangaReadingStatus::KITSU_TO_MAL[$data['status']]
+				]
+			];
+		}
 
-		return $this->listItem->create($createData);
+		return $this->listItem->create($createData, $type);
 	}
 
-	public function getFullList(): array
+	public function getMangaList(): array
+	{
+		return $this->getList('manga');
+	}
+
+	public function getAnimeList(): array
+	{
+		return $this->getList('anime');
+	}
+
+	public function getListItem(string $listId): array
+	{
+		return [];
+	}
+
+	public function updateListItem(array $data, string $type = 'anime'): Request
+	{
+		if ($type === 'anime')
+		{
+			$updateData = $this->animeListTransformer->untransform($data);
+		}
+		else if ($type === 'manga')
+		{
+			$updateData = $this->mangaListTransformer->untransform($data);
+		}
+
+		return $this->listItem->update($updateData['id'], $updateData['data'], $type);
+	}
+
+	public function deleteListItem(string $id, string $type = 'anime'): Request
+	{
+		return $this->listItem->delete($id, $type);
+	}
+
+	private function getList(string $type): array
 	{
 		$config = $this->container->get('config');
 		$userName = $config->get(['mal', 'username']);
@@ -78,26 +135,11 @@ class Model {
 			],
 			'query' => [
 				'u' => $userName,
-				'status' => 'all'
+				'status' => 'all',
+				'type' => $type
 			]
 		]);
 
-		return $list['myanimelist']['anime'];
-	}
-
-	public function getListItem(string $listId): array
-	{
-		return [];
-	}
-
-	public function updateListItem(array $data): Request
-	{
-		$updateData = $this->animeListTransformer->untransform($data);
-		return $this->listItem->update($updateData['id'], $updateData['data']);
-	}
-
-	public function deleteListItem(string $id): Request
-	{
-		return $this->listItem->delete($id);
+		return $list['myanimelist'][$type];
 	}
 }

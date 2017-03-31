@@ -39,13 +39,13 @@ class AnimeListTransformer extends AbstractTransformer {
 
 		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
 		sort($genres);
-		
+
 		$rating = (int) 2 * $item['attributes']['rating'];
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
-		
+
 		$MALid = NULL;
 
 		if (array_key_exists('mappings', $anime['relationships']))
@@ -59,7 +59,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				}
 			}
 		}
-		
+
 		$streamingLinks = (array_key_exists('streamingLinks', $anime['relationships']))
 			? Kitsu::parseListItemStreamingLinks($included, $animeId)
 			: [];
@@ -122,8 +122,8 @@ class AnimeListTransformer extends AbstractTransformer {
 				'private' => $privacy
 			]
 		];
-		
-		if ( ! empty($item['user_rating']))
+
+		if (is_numeric($item['user_rating']))
 		{
 			$untransformed['data']['rating'] = $item['user_rating'] / 2;
 		}

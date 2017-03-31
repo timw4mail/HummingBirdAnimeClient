@@ -98,17 +98,7 @@ class Manga extends Controller {
 	 */
 	public function addForm()
 	{
-		$raw_status_list = MangaReadingStatus::getConstList();
-
-		$statuses = [];
-
-		foreach ($raw_status_list as $status_item)
-		{
-			$statuses[$status_item] = (string)$this->string($status_item)
-				->underscored()
-				->humanize()
-				->titleize();
-		}
+		$statuses = MangaReadingStatus::KITSU_TO_TITLE;
 
 		$this->setSessionRedirect();
 		$this->outputHTML('manga/add', [
@@ -116,7 +106,7 @@ class Manga extends Controller {
 				$this->config->get('whose_list') . "'s Manga List",
 				'Add'
 			),
-			'action_url' => $this->urlGenerator->url('manga/add'),
+			'action_url' => $this->url->generate('manga.add.post'),
 			'status_list' => $statuses
 		]);
 	}
@@ -169,8 +159,9 @@ class Manga extends Controller {
 			'title' => $title,
 			'status_list' => MangaReadingStatus::KITSU_TO_TITLE,
 			'item' => $item,
-			'action' => $this->container->get('url-generator')
-				->url('/manga/update_form'),
+			'action' => $this->url->generate('update.post', [
+				'controller' => 'manga'
+			]),
 		]);
 	}
 
@@ -221,7 +212,7 @@ class Manga extends Controller {
 	 */
 	public function update()
 	{
-		if ($this->request->getHeader('content-type')[0] === 'application/json')
+		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
 			$data = Json::decode((string)$this->request->getBody());
 		}
@@ -245,7 +236,8 @@ class Manga extends Controller {
 	{
 		$body = $this->request->getParsedBody();
 		$id = $body['id'];
-		$response = $this->model->deleteLibraryItem($id);
+		$malId = $body['mal_id'];
+		$response = $this->model->deleteLibraryItem($id, $malId);
 
 		if ($response)
 		{

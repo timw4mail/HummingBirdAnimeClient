@@ -29,7 +29,7 @@ use Aviat\Ion\Enum;
  * and url route segments
  */
 class MangaReadingStatus extends Enum {
-	const MAL_TO_KITSU = [
+	const KITSU_TO_MAL = [
 		Kitsu::READING => MAL::READING,
 		Kitsu::PLAN_TO_READ => MAL::PLAN_TO_READ,
 		Kitsu::COMPLETED => MAL::COMPLETED,
@@ -37,12 +37,17 @@ class MangaReadingStatus extends Enum {
 		Kitsu::DROPPED => MAL::DROPPED
 	];
 
-	const KITSU_TO_MAL = [
+	const MAL_TO_KITSU = [
+		'1' => Kitsu::READING,
+		'2' => Kitsu::COMPLETED,
+		'3' => Kitsu::ON_HOLD,
+		'4' => Kitsu::DROPPED,
+		'6' => Kitsu::PLAN_TO_READ,
 		MAL::READING => Kitsu::READING,
-		MAL::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		MAL::COMPLETED => Kitsu::COMPLETED,
 		MAL::ON_HOLD => Kitsu::ON_HOLD,
-		MAL::DROPPED => Kitsu::DROPPED
+		MAL::DROPPED => Kitsu::DROPPED,
+		MAL::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 	];
 
 	const KITSU_TO_TITLE = [
@@ -50,7 +55,7 @@ class MangaReadingStatus extends Enum {
 		Kitsu::PLAN_TO_READ => Title::PLAN_TO_READ,
 		Kitsu::COMPLETED => Title::COMPLETED,
 		Kitsu::ON_HOLD => Title::ON_HOLD,
-		Kitsu::DROPPED => Title::DROPPED
+		Kitsu::DROPPED => Title::DROPPED,
 	];
 
 	const ROUTE_TO_KITSU = 	[
@@ -58,7 +63,7 @@ class MangaReadingStatus extends Enum {
 		Route::READING => Kitsu::READING,
 		Route::COMPLETED => Kitsu::COMPLETED,
 		Route::DROPPED => Kitsu::DROPPED,
-		Route::ON_HOLD => Kitsu::ON_HOLD
+		Route::ON_HOLD => Kitsu::ON_HOLD,
 	];
 
 	const ROUTE_TO_TITLE = [
@@ -67,7 +72,7 @@ class MangaReadingStatus extends Enum {
 		Route::READING => Title::READING,
 		Route::COMPLETED => Title::COMPLETED,
 		Route::DROPPED => Title::DROPPED,
-		Route::ON_HOLD => Title::ON_HOLD
+		Route::ON_HOLD => Title::ON_HOLD,
 	];
 
 	const TITLE_TO_KITSU = [
@@ -75,6 +80,6 @@ class MangaReadingStatus extends Enum {
 		Title::READING => Kitsu::READING,
 		Title::COMPLETED => Kitsu::COMPLETED,
 		Title::DROPPED => Kitsu::DROPPED,
-		Title::ON_HOLD => Kitsu::ON_HOLD
+		Title::ON_HOLD => Kitsu::ON_HOLD,
 	];
 }

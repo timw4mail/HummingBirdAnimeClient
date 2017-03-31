@@ -8,7 +8,6 @@
 	_.on('.manga.list', 'click', '.edit_buttons button', (e) => {
 		let thisSel = e.target;
 		let parentSel = _.closestParent(e.target, 'article');
-		let mangaId = parentSel.id.replace('manga-', '');
 		let type = thisSel.classList.contains('plus_one_chapter') ? 'chapter' : 'volume';
 		let completed = parseInt(_.$(`.${type}s_read`, parentSel)[0].textContent, 10);
 		let total = parseInt(_.$(`.${type}_count`, parentSel)[0].textContent, 10);
@@ -20,7 +19,8 @@
 
 		// Setup the update data
 		let data = {
-			id: mangaId,
+			id: parentSel.dataset.kitsuId,
+			mal_id: parentSel.dataset.malId,
 			data: {
 				progress: completed
 			}

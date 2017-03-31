@@ -14,16 +14,22 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Tests;
+namespace Aviat\AnimeClient\Tests\API\MAL;
 
-use function Aviat\AnimeClient\_dir;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class AnimeClientTest extends AnimeClientTestCase {
-	/**
-	 * Basic sanity test for _dir function
-	 */
-	public function testDir()
+class ModelTest extends AnimeClientTestCase {
+
+	protected $model;
+
+	public function setUp()
 	{
-		$this->assertEquals('foo' . \DIRECTORY_SEPARATOR . 'bar', _dir('foo', 'bar'));
+		parent::setUp();
+		$this->model = $this->container->get('mal-model');
+	}
+
+	public function testGetListItem()
+	{
+		$this->assertEquals([], $this->model->getListItem('foo'));
 	}
 }
