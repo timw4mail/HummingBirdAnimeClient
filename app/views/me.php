@@ -1,4 +1,5 @@
-<main class="details">
+<?php use Aviat\AnimeClient\API\Kitsu; ?>
+<main class="user-page details">
 	<section class="flex flex-no-wrap">
 		<div>
 			<h2><?= $attributes['name'] ?></h2>
@@ -54,29 +55,73 @@
 				<dd><?= $escape->html($attributes['bio']) ?></dd>
 			</dl>
 			<?php if ( ! empty($favorites)): ?>
-			<h3>Favorites:</h3>
 				<?php if ( ! empty($favorites['characters'])): ?>
-					<section>
-					<h4>Characters</h4>
-					<div class="flex flex-wrap">
+					<h4>Favorite Characters</h4>
+					<section class="media-wrap">
 					<?php foreach($favorites['characters'] as $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
-						<div class="small_character">
+						<article class="small_character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-							<?= $helper->a($link, $char['name']); ?>
-							<br />
+							<div class="name"><?= $helper->a($link, $char['name']); ?></div>
 							<a href="<?= $link ?>">
-							<?= $helper->img($char['image']['original'], [
-								'width' => '225'
-							]) ?>
+							<?= $helper->img($char['image']['original']) ?>
 							</a>
-						</div>
+						</article>
 						<?php endif ?>
 					<?php endforeach ?>
-					</div>
+					</section>
+				<?php endif ?>
+				<?php if ( ! empty($favorites['anime'])): ?>
+					<h4>Favorite Anime</h4>
+					<section class="media-wrap">
+						<?php foreach($favorites['anime'] as $anime): ?>
+						<article class="media">
+							<?php
+								$link = $url->generate('anime.details', ['id' => $anime['slug']]);
+								$titles = Kitsu::filterTitles($anime);
+							?>
+							<a href="<?= $link ?>">
+								<img src="<?= $anime['posterImage']['small'] ?>" width="220" alt="" />
+							</a>
+							<div class="name">
+								<a href="<?= $link ?>">
+									<?= array_shift($titles) ?>
+									<?php foreach ($titles as $title): ?>
+										<br /><small><?= $title ?></small>
+									<?php endforeach ?>
+								</a>
+							</div>
+						</article>
+						<?php endforeach ?>
+					</section>
+				<?php endif ?>
+				<?php if ( ! empty($favorites['manga'])): ?>
+					<h4>Favorite Manga</h4>
+					<section class="media-wrap">
+						<?php foreach($favorites['manga'] as $manga): ?>
+						<article class="media">
+							<?php
+								$link = $url->generate('manga.details', ['id' => $manga['slug']]);
+								$titles = Kitsu::filterTitles($manga);
+							?>
+							<a href="<?= $link ?>">
+								<img src="<?= $manga['posterImage']['small'] ?>" width="220" alt="" />
+							</a>
+							<div class="name">
+								<a href="<?= $link ?>">
+									<?= array_shift($titles) ?>
+									<?php foreach ($titles as $title): ?>
+										<br /><small><?= $title ?></small>
+									<?php endforeach ?>
+								</a>
+							</div>
+						</article>
+						<?php endforeach ?>
 					</section>
 				<?php endif ?>
 			<?php endif ?>
+
+
 		</div>
 	</section>
 </main>
