@@ -90,7 +90,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		if ( ! empty($data['addToKitsu']))
 		{
 			$this->echoBox("Adding missing anime list items to Kitsu");
-			$this->createKitusListItems($data['addToKitsu'], 'anime');
+			$this->createKitsuListItems($data['addToKitsu'], 'anime');
 		}
 	}
 
@@ -373,7 +373,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		];
 	}
 
-	public function createKitusAnimeListItems($itemsToAdd, $type = 'anime')
+	public function createKitsuListItems($itemsToAdd, $type = 'anime')
 	{
 		$requester = new ParallelAPIRequest();
 		foreach($itemsToAdd as $item)
