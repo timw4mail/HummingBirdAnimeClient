@@ -57,7 +57,7 @@ class JsonAPI {
 		$included = static::organizeIncluded($data['included']);
 
 		// Inline organized data
-		foreach($data['data'] as $i => $item)
+		foreach($data['data'] as $i => &$item)
 		{
 			if (array_key_exists('relationships', $item))
 			{
@@ -66,11 +66,11 @@ class JsonAPI {
 
 					if (array_keys($props) === ['links'])
 					{
-						unset($data['data'][$i]['relationships'][$relType]);
+						unset($item['relationships'][$relType]);
 
-						if (empty($data['data'][$i]['relationships']))
+						if (empty($item['relationships']))
 						{
-							unset($data['data'][$i]['relationships']);
+							unset($item['relationships']);
 						}
 
 						continue;
@@ -78,18 +78,18 @@ class JsonAPI {
 
 					if (array_key_exists('links', $props))
 					{
-						unset($data['data'][$i]['relationships'][$relType]['links']);
+						unset($item['relationships'][$relType]['links']);
 					}
 
 					if (array_key_exists('data', $props))
 					{
 						if (empty($props['data']))
 						{
-							unset($data['data'][$i]['relationships'][$relType]['data']);
+							unset($item['relationships'][$relType]['data']);
 
-							if (empty($data['data'][$i]['relationships'][$relType]))
+							if (empty($item['relationships'][$relType]))
 							{
-								unset($data['data'][$i]['relationships'][$relType]);
+								unset($item['relationships'][$relType]);
 							}
 
 							continue;
@@ -99,7 +99,7 @@ class JsonAPI {
 						{
 							$idKey = $props['data']['id'];
 							$typeKey = $props['data']['type'];
-							$relationship =& $data['data'][$i]['relationships'][$relType];
+							$relationship =& $item['relationships'][$relType];
 							unset($relationship['data']);
 
 							if (in_array($relType, $singular))
@@ -123,7 +123,7 @@ class JsonAPI {
 							{
 								$idKey = $props['data'][$j]['id'];
 								$typeKey = $props['data'][$j]['type'];
-								$relationship =& $data['data'][$i]['relationships'][$relType];
+								$relationship =& $item['relationships'][$relType];
 
 								unset($relationship['data'][$j]);
 
@@ -235,16 +235,6 @@ class JsonAPI {
 		return $organized;
 	}
 
-	public static function inlineRawIncludes(array &$data, string $key): array
-	{
-		foreach($data['data'] as $i => &$item)
-		{
-			$item[$key] = $data['included'][$i];
-		}
-
-		return $data['data'];
-	}
-
 	/**
 	 * Take organized includes and inline them, where applicable
 	 *
@@ -306,17 +296,6 @@ class JsonAPI {
 	}
 
 	/**
-	 * Reorganize 'included' data
-	 *
-	 * @param array $includes
-	 * @return array
-	 */
-	public static function lightlyOrganizeIncludes(array $includes): array
-	{
-		return static::organizeIncluded($includes);
-	}
-
-	/**
 	 * Reorganize relationship mappings to make them simpler to use
 	 *
 	 * Remove verbose structure, and just map:
@@ -348,31 +327,5 @@ class JsonAPI {
 		}
 
 		return $organized;
-	}
-
-	public static function fillRelationshipsFromIncludes(array $relationships, array $includes): array
-	{
-		$output = [];
-
-		foreach ($relationships as $key => $block)
-		{
-			if (array_key_exists('data', $block) && is_array($block['data']) && ! empty($block['data']))
-			{
-				$output[$key] = [];
-				if (array_key_exists('type', $block['data']) && array_key_exists('id', $block['data']))
-				{
-					$output[$key] = $includes[$block['data']['type']][$block['data']['id']];
-				}
-				else
-				{
-					foreach($block['data'] as $dBlock)
-					{
-						$output[$key][] = $includes[$dBlock['type']][$dBlock['id']];
-					}
-				}
-			}
-		}
-
-		return $output;
 	}
 }
