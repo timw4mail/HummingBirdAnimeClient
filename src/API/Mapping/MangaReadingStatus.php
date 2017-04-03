@@ -16,12 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Mapping;
 
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{
-	Kitsu,
-	MAL,
-	Title,
-	Route
-};
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{Kitsu, MAL, Title, Route};
 use Aviat\Ion\Enum;
 
 /**
