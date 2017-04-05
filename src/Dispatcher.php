@@ -26,6 +26,7 @@ use const Aviat\AnimeClient\{
 
 use function Aviat\Ion\_dir;
 
+use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 
@@ -256,13 +257,24 @@ class Dispatcher extends RoutingBase {
 	{
 		$logger = $this->container->getLogger('default');
 
-		$controller = new $controllerName($this->container);
+		try
+		{
+			$controller = new $controllerName($this->container);
 
-		// Run the appropriate controller method
-		$logger->debug('Dispatcher - controller arguments');
-		$logger->debug(print_r($params, TRUE));
+			// Run the appropriate controller method
+			$logger->debug('Dispatcher - controller arguments', $params);
 
-		call_user_func_array([$controller, $method], $params);
+			call_user_func_array([$controller, $method], $params);
+		}
+		catch (FailedResponseException $e)
+		{
+			$controllerName = DEFAULT_CONTROLLER;
+			$controller = new $controllerName($this->container);
+			$controller->errorPage(500,
+				'API request timed out',
+				'Failed to retrieve data from API ☹️');
+		}
+
 	}
 
 	/**

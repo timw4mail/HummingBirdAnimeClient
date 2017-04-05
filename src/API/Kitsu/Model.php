@@ -160,13 +160,16 @@ class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		// @todo catch non-existent characters and show 404
 		$data = $this->getRequest('/characters', [
 			'query' => [
 				'filter' => [
-					'name' => $slug
+					'slug' => $slug,
 				],
-				// 'include' => 'primaryMedia,castings'
+				'fields' => [
+					'anime' => 'canonicalTitle,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,titles,slug,posterImage'
+				],
+				'include' => 'castings.person,castings.media'
 			]
 		]);
 
