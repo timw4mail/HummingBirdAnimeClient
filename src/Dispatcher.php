@@ -272,7 +272,7 @@ class Dispatcher extends RoutingBase {
 			$controller = new $controllerName($this->container);
 			$controller->errorPage(500,
 				'API request timed out',
-				'Failed to retrieve data from API ☹️');
+				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻');
 		}
 
 	}
