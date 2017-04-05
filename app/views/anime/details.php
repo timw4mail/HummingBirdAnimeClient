@@ -79,7 +79,7 @@
 
 	<?php if (count($characters) > 0): ?>
 	<h2>Characters</h2>
-	<section class="media-wrap">
+	<section class="align_left media-wrap">
 	<?php foreach($characters as $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">
