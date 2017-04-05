@@ -79,9 +79,9 @@ a:hover, a:active {
 }
 
 .justify {text-align:justify}
-.align_center {text-align:center}
-.align_left {text-align:left}
-.align_right {text-align:right}
+.align_center {text-align:center !important}
+.align_left {text-align:left !important}
+.align_right {text-align:right !important}
 
 .valign_top {vertical-align:top}
 
@@ -521,7 +521,11 @@ a:hover, a:active {
 	font-size:inherit;
 }
 
-.details.fixed {
+.description {
+	max-width:80rem;
+}
+
+.fixed {
 	max-width:93rem;
 }
 
@@ -589,6 +593,11 @@ a:hover, a:active {
 		z-index: 5;
 		width: 100%;
 	}
+
+.min-table {
+	min-width: 0;
+	margin-left: 0;
+}
 
 /* ----------------------------------------------------------------------------
 	User page styles

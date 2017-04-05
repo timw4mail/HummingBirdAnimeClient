@@ -127,13 +127,6 @@ class JsonAPI {
 								$typeKey = $props['data'][$j]['type'];
 								$relationship =& $item['relationships'][$relType];
 
-								unset($relationship['data'][$j]);
-
-								if (empty($relationship['data']))
-								{
-									unset($relationship['data']);
-								}
-
 								if ($relType === $typeKey)
 								{
 									$relationship[$idKey] = $included[$typeKey][$idKey];
