@@ -123,7 +123,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			]
 		];
 
-		if (is_numeric($item['user_rating']))
+		if (is_numeric($item['user_rating']) && $item['user_rating'] > 0)
 		{
 			$untransformed['data']['rating'] = $item['user_rating'] / 2;
 		}
