@@ -68,6 +68,19 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'private' => 'On',
 				'rewatching' => 'On'
 			]
+		], [
+			'input' => [
+				'id' => 14047983,
+				'mal_id' => '12347',
+				'watching_status' => 'current',
+				'user_rating' => 0,
+				'episodes_watched' => 12,
+				'rewatched' => 0,
+				'notes' => '',
+				'edit' => 'true',
+				'private' => 'On',
+				'rewatching' => 'On'
+			]
 		]];
 	}
 
