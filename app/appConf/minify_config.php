@@ -20,46 +20,6 @@ return [
 
 	/*
 	|--------------------------------------------------------------------------
-	| CSS Folder
-	|--------------------------------------------------------------------------
-	|
-	| The folder where css files exist, in relation to the document root
-	|
-	*/
-	'css_root' => 'css/',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Path from
-	|--------------------------------------------------------------------------
-	|
-	| Path fragment to rewrite in css files
-	|
-	*/
-	'path_from' => '',
-
-	/*
-	|--------------------------------------------------------------------------
-	| Path to
-	|--------------------------------------------------------------------------
-	|
-	| The path fragment replacement for the css files
-	|
-	*/
-	'path_to' => '',
-
-	/*
-	|--------------------------------------------------------------------------
-	| CSS Groups file
-	|--------------------------------------------------------------------------
-	|
-	| The file where the css groups are configured
-	|
-	*/
-	'css_groups_file' => __DIR__ . '/minify_css_groups.php',
-
-	/*
-	|--------------------------------------------------------------------------
 	| JS Folder
 	|--------------------------------------------------------------------------
 	|
@@ -70,13 +30,40 @@ return [
 
 	 /*
 	|--------------------------------------------------------------------------
-	| JS Groups file
+	| JS Groups
 	|--------------------------------------------------------------------------
 	|
-	| The file where the javascript groups are configured
+	| Config array for javascript files to concatenate and minify
 	|
 	*/
-	'js_groups_file' => __DIR__ . '/minify_js_groups.php',
-
+	'groups' => [
+		'base' => [
+			'base/classList.js',
+			'base/AnimeClient.js',
+		],
+		'event' => [
+			'base/events.js',
+		],
+		'table' => [
+			'base/sort_tables.js',
+		],
+		'table_edit' => [
+			'base/sort_tables.js',
+			'anime_edit.js',
+			'manga_edit.js',
+		],
+		'edit' => [
+			'anime_edit.js',
+			'manga_edit.js',
+		],
+		'anime_collection' => [
+			'lib/mustache.js',
+			'anime_collection.js',
+		],
+		'manga_collection' => [
+			'lib/mustache.js',
+			'manga_collection.js',
+		],
+	]
 ];
 // End of minify_config.php
