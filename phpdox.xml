@@ -56,7 +56,7 @@
 		</collector>
 
 		<!--  Configuration of generation process -->
-		<generator output="docs">
+		<generator>
 			<!-- @output - (Base-)Directory to store output data in -->
 
 			<!-- A generation process consists of one or more build tasks and of (optional) enrich sources -->
@@ -117,10 +117,10 @@
 			<!-- An engine and thus build node can have additional configuration child nodes, please check the documentation for the engine to find out more -->
 
 			<!--  default engine "html" -->
-			<build engine="html" output="html" />
-				<!-- <template dir="${phpDox.home}/templates/html" /> -
+			<build engine="html" output="apidocs">
+				<!-- <template dir="${phpDox.home}/templates/html" /> -->
 				<file extension="html" />
-			</build> -->
+			</build>
 
 		</generator>
 	</project>
