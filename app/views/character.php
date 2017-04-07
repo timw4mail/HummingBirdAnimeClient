@@ -72,7 +72,7 @@
 	<?php endif ?>
 
 	<section>
-		<?php if (array_key_exists('castings', $data['included'])): ?>
+		<?php if ($castCount > 0): ?>
 		<h3>Castings</h3>
 			<?php foreach($castings as $role => $entries): ?>
 				<h4><?= $role ?></h4>

@@ -52,17 +52,25 @@ class Character extends BaseController {
 				$data[0]['attributes']['name']
 			),
 			'data' => $data,
+			'castCount' => 0,
 			'castings' => []
 		];
 
 		if (array_key_exists('included', $data) && array_key_exists('castings', $data['included']))
 		{
 			$viewData['castings'] = $this->organizeCast($data['included']['castings']);
+			$viewData['castCount'] = $this->getCastCount($viewData['castings']);
 		}
 
 		$this->outputHTML('character', $viewData);
 	}
 
+	/**
+	 * Organize VA => anime relationships
+	 *
+	 * @param array $cast
+	 * @return array
+	 */
 	private function dedupeCast(array $cast): array
 	{
 		$output = [];
@@ -101,6 +109,24 @@ class Character extends BaseController {
 		}
 
 		return $output;
+	}
+	
+	private function getCastCount(array $cast): int
+	{
+		$count = 0;
+		
+		foreach($cast as $role)
+		{
+			if (
+				array_key_exists('attributes', $role) && 
+				array_key_exists('role', $role['attributes']) &&
+				( ! is_null($role['attributes']['role']))
+			) {
+				$count++;
+			}
+		}
+		
+		return $count;
 	}
 
 	private function organizeCast(array $cast): array
