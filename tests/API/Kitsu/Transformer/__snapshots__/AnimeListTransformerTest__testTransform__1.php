@@ -3,7 +3,7 @@
   'mal_id' => '33206',
   'episodes' => 
   array (
-    'watched' => 0,
+    'watched' => '-',
     'total' => '-',
     'length' => NULL,
   ),

@@ -42,16 +42,20 @@ class MangaListTransformer extends AbstractTransformer {
 		$genres = array_column($manga['relationships']['genres'], 'name') ?? [];
 		sort($genres);
 
-		$rating = (is_numeric($item['attributes']['rating']))
-			? intval(2 * $item['attributes']['rating'])
+		$rating = (int) $item['attributes']['rating'] !== 0
+			? (int) 2 * $item['attributes']['rating']
 			: '-';
 
-		$totalChapters = ($manga['chapterCount'] > 0)
+		$totalChapters = ((int) $manga['chapterCount'] !== 0)
 			? $manga['chapterCount']
 			: '-';
 
-		$totalVolumes = ($manga['volumeCount'] > 0)
+		$totalVolumes = ((int) $manga['volumeCount'] !== 0)
 			? $manga['volumeCount']
+			: '-';
+
+		$readChapters = ((int) $item['attributes']['progress'] !== 0)
+			? $item['attributes']['progress']
 			: '-';
 
 		$MALid = NULL;
@@ -72,7 +76,7 @@ class MangaListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'chapters' => [
-				'read' => $item['attributes']['progress'],
+				'read' => $readChapters,
 				'total' => $totalChapters
 			],
 			'volumes' => [
