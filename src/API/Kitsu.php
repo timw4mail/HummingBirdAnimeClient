@@ -219,7 +219,7 @@ class Kitsu {
 
 		foreach($existingTitles as $existing)
 		{
-			$isSubset = mb_stripos($existing, $title) !== FALSE;
+			$isSubset = mb_substr_count($existing, $title) > 0;
 			$diff = levenshtein($existing, $title);
 			$onlydifferentCase = (mb_strtolower($existing) === mb_strtolower($title));
 
