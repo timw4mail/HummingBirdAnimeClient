@@ -8,7 +8,7 @@
 	// Action to increment episode count
 	_.on('body.anime.list', 'click', '.plus_one', (e) => {
 		let parentSel = _.closestParent(e.target, 'article');
-		let watchedCount = parseInt(_.$('.completed_number', parentSel)[0].textContent, 10);
+		let watchedCount = parseInt(_.$('.completed_number', parentSel)[0].textContent, 10) || 0;
 		let totalCount = parseInt(_.$('.total_number', parentSel)[0].textContent, 10);
 		let title = _.$('.name a', parentSel)[0].textContent;
 

@@ -120,10 +120,14 @@ class AnimeListTransformer extends AbstractTransformer {
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
-				'progress' => $item['episodes_watched'],
 				'private' => $privacy
 			]
 		];
+
+		if (is_numeric($item['episodes_watched']) && $item['episodes_watched'] > 0)
+		{
+			$untransformed['data']['progress'] = (int) $item['episodes_watched'];
+		}
 
 		if (is_numeric($item['user_rating']) && $item['user_rating'] > 0)
 		{
