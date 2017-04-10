@@ -238,9 +238,9 @@ class Model {
 	 *
 	 * @param string $malId
 	 * @param string $type "anime" or "manga"
-	 * @return string
+	 * @return string|NULL
 	 */
-	public function getKitsuIdFromMALId(string $malId, string $type="anime"): string
+	public function getKitsuIdFromMALId(string $malId, string $type="anime")
 	{
 		$options = [
 			'query' => [
@@ -256,6 +256,11 @@ class Model {
 		];
 
 		$raw = $this->getRequest('mappings', $options);
+
+		if ( ! array_key_exists('included', $raw))
+		{
+			return NULL;
+		}
 
 		return $raw['included'][0]['id'];
 	}

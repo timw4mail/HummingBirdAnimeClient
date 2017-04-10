@@ -118,6 +118,10 @@ class Index extends BaseController {
 		// return $rawfavorites;
 		$output = [];
 
+		unset($rawfavorites['data']);
+
+		// dump($rawfavorites);
+
 		foreach($rawfavorites as $item)
 		{
 			$rank = $item['attributes']['favRank'];
