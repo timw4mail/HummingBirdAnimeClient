@@ -285,7 +285,7 @@ class Model {
 		}
 
 		$transformed = $this->animeTransformer->transform($baseData);
-		$transformed['included'] = $baseData['included'];
+		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
 		return $transformed;
 	}
 

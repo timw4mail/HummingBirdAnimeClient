@@ -280,11 +280,11 @@ class Anime extends BaseController {
 			);
 		}
 
-		foreach($data['included'] as $included)
+		if (array_key_exists('characters', $data['included']))
 		{
-			if ($included['type'] === 'characters')
+			foreach($data['included']['characters'] as $id => $character)
 			{
-				$characters[$included['id']] = $included['attributes'];
+				$characters[$id] = $character['attributes'];
 			}
 		}
 
