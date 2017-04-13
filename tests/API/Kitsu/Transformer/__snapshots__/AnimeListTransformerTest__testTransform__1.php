@@ -15,6 +15,7 @@
   ),
   'anime' => 
   array (
+    'id' => '12243',
     'age_rating' => NULL,
     'title' => 'Kobayashi-san Chi no Maid Dragon',
     'titles' => 
