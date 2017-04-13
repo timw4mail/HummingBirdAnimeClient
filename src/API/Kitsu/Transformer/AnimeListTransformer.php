@@ -82,6 +82,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'ended' => $anime['endDate']
 			],
 			'anime' => [
+				'id' => $animeId,
 				'age_rating' => $anime['ageRating'],
 				'title' => $anime['canonicalTitle'],
 				'titles' => Kitsu::filterTitles($anime),
