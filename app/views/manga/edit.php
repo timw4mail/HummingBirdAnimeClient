@@ -15,7 +15,7 @@
                     </th>
 					<th>
 						<article class="media">
-							<?= $helper->img($item['manga']['image']); ?>
+							<?= $helper->img($urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg")); ?>
 						</article>
 					</th>
 				</tr>

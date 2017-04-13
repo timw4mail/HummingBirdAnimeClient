@@ -33,7 +33,7 @@ class MangaTransformer extends AbstractTransformer {
 	public function transform($item)
 	{
 		$genres = [];
-		
+
 		foreach($item['included'] as $included)
 		{
 			if ($included['type'] === 'genres')
@@ -41,10 +41,11 @@ class MangaTransformer extends AbstractTransformer {
 				$genres[] = $included['attributes']['name'];
 			}
 		}
-		
+
 		sort($genres);
-		
+
 		return [
+			'id' => $item['id'],
 			'title' => $item['canonicalTitle'],
 			'en_title' => $item['titles']['en'],
 			'jp_title' => $item['titles']['en_jp'],

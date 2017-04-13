@@ -84,6 +84,7 @@ class MangaListTransformer extends AbstractTransformer {
 				'total' => $totalVolumes
 			],
 			'manga' => [
+				'id' => $mangaId,
 				'titles' => Kitsu::filterTitles($manga),
 				'alternate_title' => NULL,
 				'slug' => $manga['slug'],
