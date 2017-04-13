@@ -16,10 +16,16 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use function Amp\wait;
+
+use Amp\Artax\Client;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\View\HtmlView;
 
+/**
+ * Controller for handling routes that don't fit elsewhere
+ */
 class Index extends BaseController {
 
 	/**
@@ -111,6 +117,44 @@ class Index extends BaseController {
 			'relationships' => $orgData[0]['relationships'],
 			'favorites' => $this->organizeFavorites($orgData[0]['relationships']['favorites']),
 		]);
+	}
+
+	/**
+	 * Get image covers from kitsu
+	 *
+	 * @return void
+	 */
+	public function images($type, $file)
+	{
+		$kitsuUrl = 'https://media.kitsu.io/';
+		list($id, $ext) = explode('.', basename($file));
+		switch ($type)
+		{
+			case 'anime':
+				$kitsuUrl .= "anime/poster_images/{$id}/small.{$ext}";
+			break;
+
+			case 'manga':
+				$kitsuUrl .= "manga/poster_images/{$id}/small.{$ext}";
+			break;
+
+			case 'characters':
+				$kitsuUrl .= "characters/images/{$id}/original.{$ext}";
+			break;
+
+			default:
+				$this->notFound();
+				return;
+		}
+
+		$promise = (new Client)->request($kitsuUrl);
+		$response = wait($promise);
+		$data = (string) $response->getBody();
+
+		$baseSavePath = $this->config->get('img_cache_path');
+		file_put_contents("{$baseSavePath}/{$type}/{$id}.{$ext}", $data);
+		header('Content-type: ' . $response->getHeader('content-type')[0]);
+		echo (string) $response->getBody();
 	}
 
 	private function organizeFavorites(array $rawfavorites): array

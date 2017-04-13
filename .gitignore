@@ -26,3 +26,6 @@ phinx.yml
 .idea/
 Caddyfile
 build/humbuglog.txt
+public/images/anime/**
+public/images/manga/**
+public/images/characters/**

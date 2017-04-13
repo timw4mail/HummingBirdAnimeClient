@@ -1,5 +1,5 @@
 :root {
-	--default-font-list:system-ui,sans-serif;
+	--default-font-list: system-ui,sans-serif;
 	--monospace-font-list:'Anonymous Pro','Fira Code',Menlo,Monaco,Consolas,'Courier New',monospace;
 	--serif-font-list:Georgia,Times,'Times New Roman',serif;
 	-ms-text-size-adjust:100%;
