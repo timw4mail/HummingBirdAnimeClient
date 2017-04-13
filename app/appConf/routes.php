@@ -147,6 +147,16 @@ return [
 	// ---------------------------------------------------------------------
 	// Default / Shared routes
 	// ---------------------------------------------------------------------
+	'image_proxy' => [
+		'path' => '/public/images/{type}/{file}',
+		'action' => 'images',
+		'controller' => DEFAULT_CONTROLLER,
+		'verb' => 'get',
+		'tokens' => [
+			'type' => '[a-z0-9\-]+',
+			'file' => '[a-z0-9\-]+\.[a-z]{3}'
+		]
+	],
 	'cache_purge' => [
 		'path' => '/cache_purge',
 		'action' => 'clearCache',

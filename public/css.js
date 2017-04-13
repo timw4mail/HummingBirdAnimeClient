@@ -11,10 +11,11 @@ const css = fs.readFileSync('css/base.css', 'utf8');
 
 postcss()
 	.use(atImport())
-	.use(cssNext({
-		warnForDuplicates: false
-	}))
+	.use(cssNext())
 	.use(cssNano({
+		autoprefixer: false,
+		colormin: false,
+		minifyFontValues: false,
 		options: {
 			sourcemap: false
 		}

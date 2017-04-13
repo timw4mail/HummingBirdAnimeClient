@@ -2,7 +2,7 @@
 <main class="details">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" width="284" src="<?= $data[0]['attributes']['image']['original'] ?>" alt="" />
+			<img class="cover" width="284" src="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}.jpg") ?>" alt="" />
 		</div>
 		<div>
 			<h2><?= $data[0]['attributes']['name'] ?></h2>
@@ -18,14 +18,14 @@
 		<div>
 			<h4>Anime</h4>
 			<section class="align_left media-wrap">
-				<?php foreach($data['included']['anime'] as $anime): ?>
+				<?php foreach($data['included']['anime'] as $id => $anime): ?>
 				<article class="media">
 					<?php
 						$link = $url->generate('anime.details', ['id' => $anime['attributes']['slug']]);
 						$titles = Kitsu::filterTitles($anime['attributes']);
 					?>
 					<a href="<?= $link ?>">
-						<img src="<?= $anime['attributes']['posterImage']['small'] ?>" width="220" alt="" />
+						<img src="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>" width="220" alt="" />
 					</a>
 					<div class="name">
 						<a href="<?= $link ?>">
@@ -45,14 +45,14 @@
 			<h4>Manga</h4>
 			<section class="align_left media-wrap">
 
-				<?php foreach($data['included']['manga'] as $manga): ?>
+				<?php foreach($data['included']['manga'] as $id => $manga): ?>
 				<article class="media">
 					<?php
 						$link = $url->generate('manga.details', ['id' => $manga['attributes']['slug']]);
 						$titles = Kitsu::filterTitles($manga['attributes']);
 					?>
 					<a href="<?= $link ?>">
-						<img src="<?= $manga['attributes']['posterImage']['small'] ?>" width="220" alt="" />
+						<img src="<?= $urlGenerator->assetUrl("images/manga/{$id}.jpg") ?>" width="220" alt="" />
 					</a>
 					<div class="name">
 						<a href="<?= $link ?>">

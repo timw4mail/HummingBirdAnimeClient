@@ -11,7 +11,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<article class="media" id="a-<?= $item['hummingbird_id'] ?>">
-					<img src="https://media.kitsu.io/anime/poster_images/<?= $item['hummingbird_id'] ?>/small.jpg"
+					<img src="<?= $urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg") ?>"
 						alt="<?= $item['title'] ?> cover image" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
