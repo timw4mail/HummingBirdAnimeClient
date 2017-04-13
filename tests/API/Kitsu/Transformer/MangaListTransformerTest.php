@@ -47,19 +47,15 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 		}
 
 		$this->beforeTransform = $rawBefore['data'];
-		$this->afterTransform = Json::decodeFile("{$this->dir}/mangaListAfterTransform.json");
+		// $this->afterTransform = Json::decodeFile("{$this->dir}/mangaListAfterTransform.json");
 
 		$this->transformer = new MangaListTransformer();
 	}
 
 	public function testTransform()
 	{
-		$expected = $this->afterTransform;
 		$actual = $this->transformer->transformCollection($this->beforeTransform);
-
-		// Json::encodeFile("{$this->dir}/mangaListAfterTransform.json", $actual);
-
-		$this->assertEquals($expected, $actual);
+		$this->assertMatchesSnapshot($actual);
 	}
 
 	public function testUntransform()
@@ -69,6 +65,7 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 			'mal_id' => '26769',
 			'chapters_read' => 67,
 			'manga' => [
+				'id' => '12345',
 				'titles' => ["Bokura wa Minna Kawaisou"],
 				'alternate_title' => NULL,
 				'slug' => "bokura-wa-minna-kawaisou",
