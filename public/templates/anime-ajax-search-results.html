@@ -1,8 +1,9 @@
 {{#data}}
 <article class="media search">
-	<div class="name" style="background-image:url({{attributes.posterImage.small}})">
+	<div class="name">
 		<input type="radio" class="big-check" id="{{attributes.slug}}" name="id" value="{{id}}" />
 		<label for="{{attributes.slug}}">
+			<img src="/public/images/anime/{{id}}.jpg" alt="" width="220" />
 			<span class="name">
 				{{attributes.canonicalTitle}}
 				<br />

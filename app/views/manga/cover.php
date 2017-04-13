@@ -17,7 +17,7 @@
 						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
-					<img src="<?= $escape->attr($item['manga']['image']) ?>" />
+					<img src="<?= $urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg") ?>" />
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $escape->html(array_shift($item['manga']['titles'])) ?>
