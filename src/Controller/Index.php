@@ -134,6 +134,10 @@ class Index extends BaseController {
 				$kitsuUrl .= "anime/poster_images/{$id}/small.{$ext}";
 			break;
 
+			case 'avatars':
+				$kitsuUrl .= "users/avatars/{$id}/original.{$ext}";
+			break;
+
 			case 'manga':
 				$kitsuUrl .= "manga/poster_images/{$id}/small.{$ext}";
 			break;
@@ -164,8 +168,6 @@ class Index extends BaseController {
 
 		unset($rawfavorites['data']);
 
-		// dump($rawfavorites);
-
 		foreach($rawfavorites as $item)
 		{
 			$rank = $item['attributes']['favRank'];
@@ -174,7 +176,7 @@ class Index extends BaseController {
 				$output[$key] = $output[$key] ?? [];
 				foreach ($fav as $id => $data)
 				{
-					$output[$key][$rank] = $data['attributes'];
+					$output[$key][$rank] = array_merge(['id' => $id], $data['attributes']);
 				}
 			}
 

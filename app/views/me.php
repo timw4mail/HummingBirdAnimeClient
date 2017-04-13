@@ -9,7 +9,12 @@
 						<?= $attributes['name'] ?>
 					</a>
 				</h2>
-				<img src="<?= $attributes['avatar']['original'] ?>" alt="" />
+				<?php
+					$file = basename(parse_url($attributes['avatar']['original'], \PHP_URL_PATH));
+					$parts = explode('.', $file);
+					$ext = end($parts);
+				?>
+				<img src="<?= $urlGenerator->assetUrl('images/avatars', "{$data['id']}.{$ext}") ?>" alt="" />
 			</center>
 			<br />
 			<br />
@@ -65,13 +70,13 @@
 				<?php if ( ! empty($favorites['characters'])): ?>
 					<h4>Favorite Characters</h4>
 					<section class="media-wrap">
-					<?php foreach($favorites['characters'] as $char): ?>
+					<?php foreach($favorites['characters'] as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
 						<article class="small_character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 							<div class="name"><?= $helper->a($link, $char['name']); ?></div>
 							<a href="<?= $link ?>">
-							<?= $helper->img($char['image']['original']) ?>
+							<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$char['id']}.jpg")) ?>
 							</a>
 						</article>
 						<?php endif ?>
@@ -88,7 +93,7 @@
 								$titles = Kitsu::filterTitles($anime);
 							?>
 							<a href="<?= $link ?>">
-								<img src="<?= $anime['posterImage']['small'] ?>" width="220" alt="" />
+								<img src="<?= $urlGenerator->assetUrl('images/anime', "{$anime['id']}.jpg") ?>" width="220" alt="" />
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
@@ -112,7 +117,7 @@
 								$titles = Kitsu::filterTitles($manga);
 							?>
 							<a href="<?= $link ?>">
-								<img src="<?= $manga['posterImage']['small'] ?>" width="220" alt="" />
+								<img src="<?= $urlGenerator->assetUrl('images/manga', "{$manga['id']}.jpg") ?>" width="220" alt="" />
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
