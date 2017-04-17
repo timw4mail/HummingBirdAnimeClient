@@ -10,10 +10,13 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 <h1 class="flex flex-align-end flex-wrap">
 	<span class="flex-no-wrap grow-1">
 		<?php if(strpos($route_path, 'collection') === FALSE): ?>
-			<?= $whose . ucfirst($url_type) . ' List' ?>
+			<?= $helper->a(
+				$urlGenerator->defaultUrl($url_type),
+				$whose . ucfirst($url_type) . ' List'
+			) ?>
 			<?php if($config->get("show_{$url_type}_collection")): ?>
 				[<?= $helper->a(
-					$url->generate('collection.view'),
+					$url->generate('collection.view') . $extraSegment,
 					ucfirst($url_type) . ' Collection'
 				) ?>]
 			<?php endif ?>
@@ -23,8 +26,8 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 			) ?>]
 		<?php else: ?>
 			<?= $whose . ucfirst($url_type) . ' Collection' ?>
-			[<?= $helper->a($urlGenerator->defaultUrl('anime'), 'Anime List') ?>]
-			[<?= $helper->a($urlGenerator->defaultUrl('manga'), 'Manga List') ?>]
+			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
+			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
 	</span>
 
