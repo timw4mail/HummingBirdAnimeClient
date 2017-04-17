@@ -98,7 +98,7 @@ class MenuGenerator extends UrlGenerator {
 		foreach ($menuConfig as $title => $path)
 		{
 			$has = $this->string($this->path())->contains($path);
-			$selected = ($has && strlen($this->path()) >= strlen($path));
+			$selected = ($has && mb_strlen($this->path()) >= mb_strlen($path));
 
 			$link = $this->helper->a($this->url($path), $title);
 

@@ -111,7 +111,7 @@ class Index extends BaseController {
 		$data = $model->getUserData($username);
 		$orgData = JsonAPI::organizeData($data);
 		$this->outputHTML('me', [
-			'title' => 'About' . $this->config->get('whose_list'),
+			'title' => 'About ' . $this->config->get('whose_list'),
 			'data' => $orgData[0],
 			'attributes' => $orgData[0]['attributes'],
 			'relationships' => $orgData[0]['relationships'],
