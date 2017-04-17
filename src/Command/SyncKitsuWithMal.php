@@ -149,10 +149,6 @@ class SyncKitsuWithMal extends BaseCommand {
 					'status' => AnimeWatchingStatus::MAL_TO_KITSU[$item['my_status']],
 					'progress' => $item['my_watched_episodes'],
 					'reconsuming' => (bool) $item['my_rewatching'],
-					'reconsumeCount' => array_key_exists('times_rewatched', $item)
-						? $item['times_rewatched']
-						: 0,
-					// 'notes' => ,
 					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
 						->setTimestamp((int)$item['my_last_updated'])
@@ -179,10 +175,6 @@ class SyncKitsuWithMal extends BaseCommand {
 					'progress' => $item['my_read_chapters'],
 					'volumes' => $item['my_read_volumes'],
 					'reconsuming' => (bool) $item['my_rereadingg'],
-					/* 'reconsumeCount' => array_key_exists('times_rewatched', $item)
-						? $item['times_rewatched']
-						: 0, */
-					// 'notes' => ,
 					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
 						->setTimestamp((int)$item['my_last_updated'])

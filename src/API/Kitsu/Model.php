@@ -47,7 +47,7 @@ class Model {
 	use ContainerAware;
 	use KitsuTrait;
 
-	const FULL_TRANSFORMED_LIST_CACHE_KEY = 'kitsu-full-organized-anime-list';
+	const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * Class to map anime list items
@@ -382,7 +382,7 @@ class Model {
 	{
 		$status = $options['filter']['status'] ?? '';
 		$count = $this->getAnimeListCount($status);
-		$size = 100;
+		$size = static::LIST_PAGE_SIZE;
 		$pages = ceil($count / $size);
 
 		$requester = new ParallelAPIRequest();
@@ -468,7 +468,7 @@ class Model {
 	 * @param array $options
 	 * @return Request
 	 */
-	public function getPagedAnimeList(int $limit = 100, int $offset = 0, array $options = [
+	public function getPagedAnimeList(int $limit, int $offset = 0, array $options = [
 		'include' => 'anime.mappings'
 	]): Request
 	{
@@ -626,7 +626,7 @@ class Model {
 	{
 		$status = $options['filter']['status'] ?? '';
 		$count = $this->getMangaListCount($status);
-		$size = 100;
+		$size = static::LIST_PAGE_SIZE;
 		$pages = ceil($count / $size);
 
 		$requester = new ParallelAPIRequest();
@@ -676,7 +676,7 @@ class Model {
 	 * @param array $options
 	 * @return Request
 	 */
-	public function getPagedMangaList(int $limit = 100, int $offset = 0, array $options = [
+	public function getPagedMangaList(int $limit, int $offset = 0, array $options = [
 		'include' => 'manga.mappings'
 	]): Request
 	{
