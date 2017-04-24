@@ -1,7 +1,7 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $data['cover_image'] ?>" alt="<?= $data['title'] ?> cover image" />
+			<img class="cover" src="<?= $urlGenerator->assetUrl('images/manga', "{$data['id']}.jpg") ?>" alt="<?= $data['title'] ?> cover image" />
 			<br />
 			<br />
 			<table>
@@ -39,7 +39,7 @@
 	<?php if (count($characters) > 0): ?>
 	<h2>Characters</h2>
 	<section class="media-wrap">
-	<?php foreach($characters as $char): ?>
+	<?php foreach($characters as $id => $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">
 			<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
@@ -47,7 +47,7 @@
 				<?= $helper->a($link, $char['name']); ?>
 			</div>
 			<a href="<?= $link ?>">
-			<?= $helper->img($char['image']['original'], [
+			<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$id}.jpg"), [
 				'width' => '225'
 			]) ?>
 			</a>

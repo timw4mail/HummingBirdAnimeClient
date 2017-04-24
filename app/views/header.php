@@ -6,7 +6,7 @@
 	<meta http-equiv="cache-control" content="no-store" />
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
-	<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css.php/g/base/debug') ?>" />
+	<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css/app.min.css') ?>" />
 	<link rel="icon" href="<?= $urlGenerator->assetUrl('images/icons/favicon.ico') ?>" />
 	<link rel="apple-touch-icon" sizes="57x57" href="<?= $urlGenerator->assetUrl('images/icons/apple-icon-57x57.png') ?>">
 	<link rel="apple-touch-icon" sizes="60x60" href="<?= $urlGenerator->assetUrl('images/icons/apple-icon-60x60.png') ?>">
@@ -21,17 +21,19 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="<?= $urlGenerator->assetUrl('images/icons/favicon-32x32.png') ?>">
 	<link rel="icon" type="image/png" sizes="96x96" href="<?= $urlGenerator->assetUrl('images/icons/favicon-96x96.png') ?>">
 	<link rel="icon" type="image/png" sizes="16x16" href="<?= $urlGenerator->assetUrl('images/icons/favicon-16x16.png') ?>">
-	<link rel="manifest" href="/manifest.json">
 	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/base') ?>"></script>
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
 	<header>
-		<?php include 'main-menu.php' ?>
-		<?php if(isset($message) && is_array($message)):
+	<?php
+		include 'main-menu.php';
+		if(isset($message) && is_array($message))
+		{
 			foreach($message as $m)
 			{
 				extract($m);
-	 			include 'message.php';
+				include 'message.php';
 			}
-	 	endif ?>
+		}
+	?>
 	</header>

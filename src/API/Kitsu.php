@@ -219,11 +219,11 @@ class Kitsu {
 
 		foreach($existingTitles as $existing)
 		{
-			$isSubset = stripos($existing, $title) !== FALSE;
+			$isSubset = mb_substr_count($existing, $title) > 0;
 			$diff = levenshtein($existing, $title);
 			$onlydifferentCase = (mb_strtolower($existing) === mb_strtolower($title));
 
-			if ($diff < 3 OR $isSubset OR $onlydifferentCase)
+			if ($diff <= 3 OR $isSubset OR $onlydifferentCase OR mb_strlen($title) > 55)
 			{
 				return FALSE;
 			}

@@ -40,7 +40,9 @@ class AnimeListTransformer extends AbstractTransformer {
 		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
 		sort($genres);
 
-		$rating = (int) 2 * $item['attributes']['rating'];
+		$rating = (int) $item['attributes']['rating'] !== 0
+			? (int) 2 * $item['attributes']['rating']
+			: '-';
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
@@ -68,7 +70,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
-				'watched' => (int) $item['attributes']['progress'] !== '0'
+				'watched' => (int) $item['attributes']['progress'] !== 0
 					? (int) $item['attributes']['progress']
 					: '-',
 				'total' => $total_episodes,
@@ -80,6 +82,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'ended' => $anime['endDate']
 			],
 			'anime' => [
+				'id' => $animeId,
 				'age_rating' => $anime['ageRating'],
 				'title' => $anime['canonicalTitle'],
 				'titles' => Kitsu::filterTitles($anime),
@@ -93,7 +96,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
-			'user_rating' => ($rating === 0) ? '-' : (int) $rating,
+			'user_rating' => $rating,
 			'private' => (bool) $item['attributes']['private'] ?? FALSE,
 		];
 	}
@@ -118,12 +121,16 @@ class AnimeListTransformer extends AbstractTransformer {
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
-				'progress' => $item['episodes_watched'],
 				'private' => $privacy
 			]
 		];
 
-		if (is_numeric($item['user_rating']))
+		if (is_numeric($item['episodes_watched']) && $item['episodes_watched'] > 0)
+		{
+			$untransformed['data']['progress'] = (int) $item['episodes_watched'];
+		}
+
+		if (is_numeric($item['user_rating']) && $item['user_rating'] > 0)
 		{
 			$untransformed['data']['rating'] = $item['user_rating'] / 2;
 		}

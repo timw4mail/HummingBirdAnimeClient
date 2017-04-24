@@ -36,10 +36,11 @@ class AnimeTransformer extends AbstractTransformer {
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$item['genres'] = array_column($item['included']['genres'], 'name') ?? [];
 		sort($item['genres']);
-		
+
 		$titles = Kitsu::filterTitles($item);
 
 		return [
+			'id' => $item['id'],
 			'slug' => $item['slug'],
 			'title' => $titles[0],
 			'titles' => $titles,

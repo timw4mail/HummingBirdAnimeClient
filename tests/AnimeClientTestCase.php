@@ -23,6 +23,7 @@ use function Aviat\Ion\_dir;
 use Aura\Web\WebFactory;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 use Zend\Diactoros\{
 	Response as HttpResponse,
 	ServerRequestFactory
@@ -36,6 +37,9 @@ define('TEST_VIEW_DIR', __DIR__ . '/test_views');
  * Base class for TestCases
  */
 class AnimeClientTestCase extends TestCase {
+	use MatchesSnapshots;
+
+
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;
 	const SRC_DIR = SRC_DIR;

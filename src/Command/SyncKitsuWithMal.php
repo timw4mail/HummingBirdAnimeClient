@@ -63,61 +63,48 @@ class SyncKitsuWithMal extends BaseCommand {
 		$this->kitsuModel = $this->container->get('kitsu-model');
 		$this->malModel = $this->container->get('mal-model');
 
-		$this->syncAnime();
-		$this->syncManga();
+		$this->sync('anime');
+		$this->sync('manga');
 	}
 
-	public function syncAnime()
+	public function sync(string $type)
 	{
-		$malCount = count($this->malModel->getAnimeList());
-		$kitsuCount = $this->kitsuModel->getAnimeListCount();
+		$uType = ucfirst($type);
+		$malCount = count($this->malModel->{"get{$uType}List"}());
+		$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
 
-		$this->echoBox("Number of MAL anime list items: {$malCount}");
-		$this->echoBox("Number of Kitsu anime list items: {$kitsuCount}");
+		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
+		$this->echoBox("Number of Kitsu {$type} list items: {$kitsuCount}");
 
-		$data = $this->diffAnimeLists();
-
-		$this->echoBox("Number of anime items that need to be added to MAL: " . count($data['addToMAL']));
+		$data = $this->diffLists($type);
 
 		if ( ! empty($data['addToMAL']))
 		{
-			$this->echoBox("Adding missing anime list items to MAL");
-			$this->createMALListItems($data['addToMAL'], 'anime');
+			$count = count($data['addToMAL']);
+			$this->echoBox("Adding {$count} missing {$type} list items to MAL");
+			$this->createMALListItems($data['addToMAL'], $type);
 		}
-
-		$this->echoBox('Number of anime items that need to be added to Kitsu: ' . count($data['addToKitsu']));
 
 		if ( ! empty($data['addToKitsu']))
 		{
-			$this->echoBox("Adding missing anime list items to Kitsu");
-			$this->createKitsuListItems($data['addToKitsu'], 'anime');
-		}
-	}
-
-	public function syncManga()
-	{
-		$malCount =  count($this->malModel->getMangaList());
-		$kitsuCount = $this->kitsuModel->getMangaListCount();
-
-		$this->echoBox("Number of MAL manga list items: {$malCount}");
-		$this->echoBox("Number of Kitsu manga list items: {$kitsuCount}");
-
-		$data = $this->diffMangaLists();
-
-		$this->echoBox("Number of manga items that need to be added to MAL: " . count($data['addToMAL']));
-
-		if ( ! empty($data['addToMAL']))
-		{
-			$this->echoBox("Adding missing manga list items to MAL");
-			$this->createMALListItems($data['addToMAL'], 'manga');
+			$count = count($data['addToKitsu']);
+			$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
+			$this->createKitsuListItems($data['addToKitsu'], $type);
 		}
 
-		$this->echoBox('Number of manga items that need to be added to Kitsu: ' . count($data['addToKitsu']));
-
-		if ( ! empty($data['addToKitsu']))
+		if ( ! empty($data['updateMAL']))
 		{
-			$this->echoBox("Adding missing manga list items to Kitsu");
-			$this->createKitsuListItems($data['addToKitsu'], 'manga');
+			$count = count($data['updateMAL']);
+			$this->echoBox("Updating {$count} outdated MAL {$type} list items");
+			$this->updateMALListItems($data['updateMAL'], $type);
+		}
+
+		if ( ! empty($data['updateKitsu']))
+		{
+			print_r($data['updateKitsu']);
+			$count = count($data['updateKitsu']);
+			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
+			$this->updateKitsuListItems($data['updateKitsu'], $type);
 		}
 	}
 
@@ -136,6 +123,19 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
+	public function formatMALList(string $type): array
+	{
+		if ($type === 'anime')
+		{
+			return $this->formatMALAnimeList();
+		}
+
+		if ($type === 'manga')
+		{
+			return $this->formatMALMangaList();
+		}
+	}
+
 	public function formatMALAnimeList()
 	{
 		$orig = $this->malModel->getAnimeList();
@@ -149,10 +149,6 @@ class SyncKitsuWithMal extends BaseCommand {
 					'status' => AnimeWatchingStatus::MAL_TO_KITSU[$item['my_status']],
 					'progress' => $item['my_watched_episodes'],
 					'reconsuming' => (bool) $item['my_rewatching'],
-					'reconsumeCount' => array_key_exists('times_rewatched', $item)
-						? $item['times_rewatched']
-						: 0,
-					// 'notes' => ,
 					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
 						->setTimestamp((int)$item['my_last_updated'])
@@ -179,10 +175,6 @@ class SyncKitsuWithMal extends BaseCommand {
 					'progress' => $item['my_read_chapters'],
 					'volumes' => $item['my_read_volumes'],
 					'reconsuming' => (bool) $item['my_rereadingg'],
-					/* 'reconsumeCount' => array_key_exists('times_rewatched', $item)
-						? $item['times_rewatched']
-						: 0, */
-					// 'notes' => ,
 					'rating' => $item['my_score'] / 2,
 					'updatedAt' => (new \DateTime())
 						->setTimestamp((int)$item['my_last_updated'])
@@ -194,18 +186,18 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function filterKitsuAnimeList()
+	public function formatKitsuList(string $type = 'anime'): array
 	{
-		$data = $this->kitsuModel->getFullAnimeList();
+		$data = $this->kitsuModel->{'getFull' . ucfirst($type) . 'List'}();
 		$includes = JsonAPI::organizeIncludes($data['included']);
-		$includes['mappings'] = $this->filterMappings($includes['mappings']);
+		$includes['mappings'] = $this->filterMappings($includes['mappings'], $type);
 
 		$output = [];
 
 		foreach($data['data'] as $listItem)
 		{
-			$animeId = $listItem['relationships']['anime']['data']['id'];
-			$potentialMappings = $includes['anime'][$animeId]['relationships']['mappings'];
+			$id = $listItem['relationships'][$type]['data']['id'];
+			$potentialMappings = $includes[$type][$id]['relationships']['mappings'];
 			$malId = NULL;
 
 			foreach ($potentialMappings as $mappingId)
@@ -232,94 +224,14 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function filterKitsuMangaList()
-	{
-		$data = $this->kitsuModel->getFullMangaList();
-		$includes = JsonAPI::organizeIncludes($data['included']);
-		$includes['mappings'] = $this->filterMappings($includes['mappings'], 'manga');
-
-		$output = [];
-
-		foreach($data['data'] as $listItem)
-		{
-			$mangaId = $listItem['relationships']['manga']['data']['id'];
-			$potentialMappings = $includes['manga'][$mangaId]['relationships']['mappings'];
-			$malId = NULL;
-
-			foreach ($potentialMappings as $mappingId)
-			{
-				if (array_key_exists($mappingId, $includes['mappings']))
-				{
-					$malId = $includes['mappings'][$mappingId]['externalId'];
-				}
-			}
-
-			// Skip to the next item if there isn't a MAL ID
-			if (is_null($malId))
-			{
-				continue;
-			}
-
-			$output[$listItem['id']] = [
-				'id' => $listItem['id'],
-				'malId' => $malId,
-				'data' => $listItem['attributes'],
-			];
-		}
-
-		return $output;
-	}
-
-	public function diffMangaLists()
-	{
-		$kitsuList = $this->filterKitsuMangaList();
-		$malList = $this->formatMALMangaList();
-
-		$itemsToAddToMAL =  [];
-		$itemsToAddToKitsu = [];
-
-		$malIds = array_column($malList, 'id');
-		$kitsuMalIds = array_column($kitsuList, 'malId');
-		$missingMalIds = array_diff($malIds, $kitsuMalIds);
-
-		foreach($missingMalIds as $mid)
-		{
-			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
-				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, 'manga'),
-				'type' => 'manga'
-			]);
-		}
-
-		foreach($kitsuList as $kitsuItem)
-		{
-			if (in_array($kitsuItem['malId'], $malIds))
-			{
-				// Eventually, compare the list entries, and determine which
-				// needs to be updated
-				continue;
-			}
-
-			// Looks like this item only exists on Kitsu
-			$itemsToAddToMAL[] = [
-				'mal_id' => $kitsuItem['malId'],
-				'data' => $kitsuItem['data']
-			];
-		}
-
-		return [
-			'addToMAL' => $itemsToAddToMAL,
-			'addToKitsu' => $itemsToAddToKitsu
-		];
-	}
-
-	public function diffAnimeLists()
+	public function diffLists(string $type = 'anime'): array
 	{
 		// Get libraryEntries with media.mappings from Kitsu
 		// Organize mappings, and ignore entries without mappings
-		$kitsuList = $this->filterKitsuAnimeList();
+		$kitsuList = $this->formatKitsuList($type);
 
 		// Get MAL list data
-		$malList = $this->formatMALAnimeList();
+		$malList = $this->formatMALList($type);
 
 		$itemsToAddToMAL = [];
 		$itemsToAddToKitsu = [];
@@ -334,8 +246,8 @@ class SyncKitsuWithMal extends BaseCommand {
 		{
 			// print_r($malList[$mid]);
 			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
-				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid),
-				'type' => 'anime'
+				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, $type),
+				'type' => $type
 			]);
 		}
 
@@ -343,8 +255,23 @@ class SyncKitsuWithMal extends BaseCommand {
 		{
 			if (in_array($kitsuItem['malId'], $malIds))
 			{
-				// Eventually, compare the list entries, and determine which
-				// needs to be updated
+				$item = $this->compareListItems($kitsuItem, $malList[$kitsuItem['malId']]);
+
+				if (is_null($item))
+				{
+					continue;
+				}
+
+				if (in_array('kitsu', $item['updateType']))
+				{
+					$kitsuUpdateItems[] = $item['data'];
+				}
+
+				if (in_array('mal', $item['updateType']))
+				{
+					$malUpdateItems[] = $item['data'];
+				}
+
 				continue;
 			}
 
@@ -356,21 +283,180 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		}
 
-		// Compare each list entry
-			// If a list item exists only on MAL, create it on Kitsu with the existing data from MAL
-			// If a list item exists only on Kitsu, create it on MAL with the existing data from Kitsu
-			// If an item already exists on both APIS:
-				// Compare last updated dates, and use the later one
-				// Otherwise, use rewatch count, then episode progress as critera for selecting the more up
-				// to date entry
-				// Based on the 'newer' entry, update the other api list item
-
 		return [
 			'addToMAL' => $itemsToAddToMAL,
 			'updateMAL' => $malUpdateItems,
 			'addToKitsu' => $itemsToAddToKitsu,
 			'updateKitsu' => $kitsuUpdateItems
 		];
+	}
+
+	public function compareListItems(array $kitsuItem, array $malItem)
+	{
+		$compareKeys = ['status', 'progress', 'rating', 'reconsuming'];
+		$diff = [];
+		$dateDiff = (new \DateTime($kitsuItem['data']['updatedAt'])) <=> (new \DateTime($malItem['data']['updatedAt']));
+
+		foreach($compareKeys as $key)
+		{
+			$diff[$key] = $kitsuItem['data'][$key] <=> $malItem['data'][$key];
+		}
+
+		// No difference? Bail out early
+		$diffValues = array_values($diff);
+		$diffValues = array_unique($diffValues);
+		if (count($diffValues) === 1 && $diffValues[0] === 0)
+		{
+			return;
+		}
+
+		$update = [
+			'id' => $kitsuItem['id'],
+			'mal_id' => $kitsuItem['malId'],
+			'data' => []
+		];
+		$return = [
+			'updateType' => []
+		];
+
+		$sameStatus = $diff['status'] === 0;
+		$sameProgress = $diff['progress'] === 0;
+		$sameRating = $diff['rating'] === 0;
+
+
+		// If status is the same, and progress count is different, use greater progress
+		if ($sameStatus && ( ! $sameProgress))
+		{
+			if ($diff['progress'] === 1)
+			{
+				$update['data']['progress'] = $kitsuItem['data']['progress'];
+				$return['updateType'][] = 'mal';
+			}
+			else if($diff['progress'] === -1)
+			{
+				$update['data']['progress'] = $malItem['data']['progress'];
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		// If status and progress are different, it's a bit more complicated...
+		// But, at least for now, assume newer record is correct
+		if ( ! ($sameStatus || $sameProgress))
+		{
+			if ($dateDiff === 1)
+			{
+				$update['data']['status'] = $kitsuItem['data']['status'];
+
+				if ((int)$kitsuItem['data']['progress'] !== 0)
+				{
+					$update['data']['progress'] = $kitsuItem['data']['progress'];
+				}
+
+				$return['updateType'][] = 'mal';
+			}
+			else if($dateDiff === -1)
+			{
+				$update['data']['status'] = $malItem['data']['status'];
+
+				if ((int)$malItem['data']['progress'] !== 0)
+				{
+					$update['data']['progress'] = $kitsuItem['data']['progress'];
+				}
+
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		// If rating is different, use the rating from the item most recently updated
+		if ( ! $sameRating)
+		{
+			if ($dateDiff === 1)
+			{
+				$update['data']['rating'] = $kitsuItem['data']['rating'];
+				$return['updateType'][] = 'mal';
+			}
+			else if ($dateDiff === -1)
+			{
+				$update['data']['rating'] = $malItem['data']['rating'];
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		// If status is different, use the status of the more recently updated item
+		if ( ! $sameStatus)
+		{
+			if ($dateDiff === 1)
+			{
+				$update['data']['status'] = $kitsuItem['data']['status'];
+				$return['updateType'][] = 'mal';
+			}
+			else if ($dateDiff === -1)
+			{
+				$update['data']['status'] = $malItem['data']['status'];
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		$return['meta'] = [
+			'kitsu' => $kitsuItem['data'],
+			'mal' => $malItem['data'],
+			'dateDiff' => $dateDiff,
+			'diff' => $diff,
+		];
+		$return['data'] = $update;
+		$return['updateType'] = array_unique($return['updateType']);
+		return $return;
+	}
+
+	public function updateKitsuListItems($itemsToUpdate, $type = 'anime')
+	{
+		$requester = new ParallelAPIRequest();
+		foreach($itemsToUpdate as $item)
+		{
+			$requester->addRequest($this->kitsuModel->updateListItem($item));
+		}
+
+		$responses = $requester->makeRequests();
+
+		foreach($responses as $key => $response)
+		{
+			$id = $itemsToUpdate[$key]['id'];
+			if ($response->getStatus() === 200)
+			{
+				$this->echoBox("Successfully updated Kitsu {$type} list item with id: {$id}");
+			}
+			else
+			{
+				echo $response->getBody();
+				$this->echoBox("Failed to update Kitsu {$type} list item with id: {$id}");
+			}
+		}
+	}
+
+	public function updateMALListItems($itemsToUpdate, $type = 'anime')
+	{
+		$transformer = new ALT();
+		$requester = new ParallelAPIRequest();
+
+		foreach($itemsToUpdate as $item)
+		{
+			$requester->addRequest($this->malModel->updateListItem($item, $type));
+		}
+
+		$responses = $requester->makeRequests();
+
+		foreach($responses as $key => $response)
+		{
+			$id = $itemsToUpdate[$key]['mal_id'];
+			if ($response->getBody() === 'Updated')
+			{
+				$this->echoBox("Successfully updated MAL {$type} list item with id: {$id}");
+			}
+			else
+			{
+				$this->echoBox("Failed to update MAL {$type} list item with id: {$id}");
+			}
+		}
 	}
 
 	public function createKitsuListItems($itemsToAdd, $type = 'anime')

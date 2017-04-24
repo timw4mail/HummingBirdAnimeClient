@@ -22,32 +22,29 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
 class MangaTransformerTest extends AnimeClientTestCase {
-	
+
 	protected $dir;
 	protected $beforeTransform;
 	protected $afterTransform;
 	protected $transformer;
 
-	public function setUp() 
+	public function setUp()
 	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-		
+
 		$data = Json::decodeFile("{$this->dir}/mangaBeforeTransform.json");
 		$baseData = $data['data'][0]['attributes'];
 		$baseData['included'] = $data['included'];
+		$baseData['id'] = $data['data'][0]['id'];
 		$this->beforeTransform = $baseData;
-		$this->afterTransform = Json::decodeFile("{$this->dir}/mangaAfterTransform.json");
-		
+
 		$this->transformer = new MangaTransformer();
 	}
-	
+
 	public function testTransform()
 	{
 		$actual = $this->transformer->transform($this->beforeTransform);
-		$expected = $this->afterTransform;
-		//Json::encodeFile("{$this->dir}/mangaAfterTransform.json", $actual);
-		
-		$this->assertEquals($expected, $actual);
+		$this->assertMatchesSnapshot($actual);
 	}
 }

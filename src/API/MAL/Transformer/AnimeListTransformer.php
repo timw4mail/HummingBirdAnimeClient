@@ -44,9 +44,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	{
 		$map = [
 			'id' => $item['mal_id'],
-			'data' => [
-				'episode' => $item['data']['progress']
-			]
+			'data' => []
 		];
 
 		$data =& $item['data'];
@@ -55,6 +53,10 @@ class AnimeListTransformer extends AbstractTransformer {
 		{
 			switch($key)
 			{
+				case 'progress':
+					$map['data']['episode'] = $value;
+				break;
+				
 				case 'notes':
 					$map['data']['comments'] = $value;
 				break;
