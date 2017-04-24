@@ -54,7 +54,9 @@ class JsonAPI {
 		];
 
 		// Reorganize included data
-		$included = static::organizeIncluded($data['included']);
+		$included = (array_key_exists('included', $data))
+			? static::organizeIncluded($data['included'])
+			: [];
 
 		// Inline organized data
 		foreach($data['data'] as $i => &$item)
@@ -125,29 +127,21 @@ class JsonAPI {
 								$typeKey = $props['data'][$j]['type'];
 								$relationship =& $item['relationships'][$relType];
 
-								unset($relationship['data'][$j]);
-
-								if (empty($relationship['data']))
-								{
-									unset($relationship['data']);
-								}
-
 								if ($relType === $typeKey)
 								{
 									$relationship[$idKey] = $included[$typeKey][$idKey];
 									continue;
 								}
 
-								$relationship[$typeKey][$idKey] = array_merge(
-									$included[$typeKey][$idKey],
-									$relationship[$typeKey][$idKey] ?? []
-								);
+								$relationship[$typeKey][$idKey][$j] = $included[$typeKey][$idKey];
 							}
 						}
 					}
 				}
 			}
 		}
+
+		$data['data']['included'] = $included;
 
 		return $data['data'];
 	}
@@ -202,11 +196,11 @@ class JsonAPI {
 		{
 			foreach($items as $id => $item)
 			{
-				if (array_key_exists('relationships', $item))
+				if (array_key_exists('relationships', $item) && is_array($item['relationships']))
 				{
 					foreach($item['relationships'] as $relType => $props)
 					{
-						if (array_key_exists('data', $props))
+						if (array_key_exists('data', $props) && is_array($props['data']) && array_key_exists('id', $props['data']))
 						{
 							if (array_key_exists($props['data']['id'], $organized[$props['data']['type']]))
 							{

@@ -239,6 +239,13 @@ class Controller {
 	 */
 	protected function renderFullPage($view, string $template, array $data)
 	{
+		$csp = [
+			"default-src 'self'",
+			"object-src 'none'",
+			"child-src 'none'",
+		];
+
+		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
 		if (array_key_exists('message', $data) && is_array($data['message']))

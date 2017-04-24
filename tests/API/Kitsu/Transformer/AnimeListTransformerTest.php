@@ -22,33 +22,27 @@ use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
 
 class AnimeListTransformerTest extends AnimeClientTestCase {
-	
 	protected $dir;
 	protected $beforeTransform;
 	protected $afterTransform;
 	protected $transformer;
-	
+
 	public function setUp()
 	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-		
+
 		$this->beforeTransform = Json::decodeFile("{$this->dir}/animeListItemBeforeTransform.json");
-		$this->afterTransform = Json::decodeFile("{$this->dir}/animeListItemAfterTransform.json");
-		
+
 		$this->transformer = new AnimeListTransformer();
 	}
-	
+
 	public function testTransform()
 	{
-		$expected = $this->afterTransform;
 		$actual = $this->transformer->transform($this->beforeTransform);
-		
-		// Json::encodeFile("{$this->dir}/animeListItemAfterTransform.json", $actual);
-		
-		$this->assertEquals($expected, $actual);
+		$this->assertMatchesSnapshot($actual);
 	}
-	
+
 	public function dataUntransform()
 	{
 		return [[
@@ -60,19 +54,6 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'rewatched' => 0,
 				'notes' => 'Very formulaic.',
 				'edit' => true
-			],
-			'expected' => [
-				'id' => 14047981,
-				'mal_id' => null,
-				'data' => [
-					'status' => 'current',
-					'rating' => 4,
-					'reconsuming' => false,
-					'reconsumeCount' => 0,
-					'notes' => 'Very formulaic.',
-					'progress' => 38,
-					'private' => false
-				]
 			]
 		], [
 			'input' => [
@@ -86,29 +67,29 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'edit' => 'true',
 				'private' => 'On',
 				'rewatching' => 'On'
-			],
-			'expected' => [
-				'id' => 14047981,
-				'mal_id' => '12345',
-				'data' => [
-					'status' => 'current',
-					'rating' => 4,
-					'reconsuming' => true,
-					'reconsumeCount' => 0,
-					'notes' => 'Very formulaic.',
-					'progress' => 38,
-					'private' => true,
-				]
+			]
+		], [
+			'input' => [
+				'id' => 14047983,
+				'mal_id' => '12347',
+				'watching_status' => 'current',
+				'user_rating' => 0,
+				'episodes_watched' => 12,
+				'rewatched' => 0,
+				'notes' => '',
+				'edit' => 'true',
+				'private' => 'On',
+				'rewatching' => 'On'
 			]
 		]];
 	}
-	
+
 	/**
 	 * @dataProvider dataUntransform
 	 */
-	public function testUntransform($input, $expected)
+	public function testUntransform($input)
 	{
 		$actual = $this->transformer->untransform($input);
-		$this->assertEquals($expected, $actual);
+		$this->assertMatchesSnapshot($actual);
 	}
 }

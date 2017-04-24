@@ -1,37 +1,58 @@
-<?php declare(strict_types=1); namespace Aviat\AnimeClient; ?>
+<?php declare(strict_types=1);
+
+namespace Aviat\AnimeClient;
+
+$whose = $config->get('whose_list') . "'s ";
+$lastSegment = $urlGenerator->lastSegment();
+$extraSegment = $lastSegment === 'list' ? '/list' : '';
+
+?>
 <h1 class="flex flex-align-end flex-wrap">
 	<span class="flex-no-wrap grow-1">
 		<?php if(strpos($route_path, 'collection') === FALSE): ?>
-			<a href="<?= $escape->attr($urlGenerator->defaultUrl($url_type)) ?>">
-				<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> List
-			</a>
+			<?= $helper->a(
+				$urlGenerator->defaultUrl($url_type),
+				$whose . ucfirst($url_type) . ' List'
+			) ?>
 			<?php if($config->get("show_{$url_type}_collection")): ?>
-				[<a href="<?= $url->generate('collection.view') ?>"><?= ucfirst($url_type) ?> Collection</a>]
+				[<?= $helper->a(
+					$url->generate('collection.view') . $extraSegment,
+					ucfirst($url_type) . ' Collection'
+				) ?>]
 			<?php endif ?>
-			[<a href="<?= $urlGenerator->defaultUrl($other_type) ?>"><?= ucfirst($other_type) ?> List</a>]
+			[<?= $helper->a(
+				$urlGenerator->defaultUrl($other_type) . $extraSegment,
+				ucfirst($other_type) . ' List'
+			) ?>]
 		<?php else: ?>
-			<a href="<?= $url->generate('collection.view') ?>">
-				<?= $config->get('whose_list') ?>'s <?= ucfirst($url_type) ?> Collection
-			</a>
-			[<a href="<?= $urlGenerator->defaultUrl('anime') ?>">Anime List</a>]
-			[<a href="<?= $urlGenerator->defaultUrl('manga') ?>">Manga List</a>]
+			<?= $whose . ucfirst($url_type) . ' Collection' ?>
+			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
+			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
 	</span>
-	<span class="flex-no-wrap small-font">
-		[<?= $helper->a($url->generate('user_info'), 'About '. $config->get('whose_list')) ?>]
-	</span>
+
+	<span class="flex-no-wrap small-font">[<?= $helper->a(
+		$url->generate('user_info'),
+		'About '. $config->get('whose_list')
+	) ?>]</span>
+
 	<?php if ($auth->isAuthenticated()): ?>
 		<span class="flex-no-wrap">&nbsp;</span>
 		<span class="flex-no-wrap small-font">
-				<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
-			</span>
+			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+		</span>
 		<span class="flex-no-wrap">&nbsp;</span>
 	<?php endif ?>
+
 	<span class="flex-no-wrap small-font">
 		<?php if ($auth->isAuthenticated()): ?>
-			<a class="bracketed" href="<?= $url->generate('logout') ?>">Logout</a>
+			<?= $helper->a(
+				$url->generate('logout'),
+				'Logout',
+				['class' => 'bracketed']
+			) ?>
 		<?php else: ?>
-			[<a href="<?= $url->generate('login'); ?>"><?= $config->get('whose_list') ?>'s Login</a>]
+			[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
 		<?php endif ?>
 	</span>
 </h1>
@@ -40,8 +61,8 @@
 		<?= $helper->menu($menu_name) ?>
 		<br />
 		<ul>
-			<li class="<?= Util::isNotSelected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= Util::isSelected('list', $urlGenerator->lastSegment()) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+			<li class="<?= Util::isNotSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
+			<li class="<?= Util::isSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
 	<?php endif ?>
 </nav>

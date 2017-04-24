@@ -22,7 +22,7 @@ use function Amp\wait;
 
 use Amp\Artax\{Client, Request};
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\API\Kitsu as K;
+use Aviat\AnimeClient\API\{FailedResponseException, Kitsu as K};
 use Aviat\Ion\Json;
 
 trait KitsuTrait {
@@ -142,8 +142,10 @@ trait KitsuTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call', (array)$response->getBody());
+				$logger->warning('Non 200 response for api call', (array)$response);
 			}
+
+			throw new FailedResponseException('Failed to get the proper response from the API');
 		}
 
 		return Json::decode($response->getBody(), TRUE);

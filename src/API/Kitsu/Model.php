@@ -47,7 +47,7 @@ class Model {
 	use ContainerAware;
 	use KitsuTrait;
 
-	const FULL_TRANSFORMED_LIST_CACHE_KEY = 'kitsu-full-organized-anime-list';
+	const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * Class to map anime list items
@@ -160,13 +160,16 @@ class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		// @todo catch non-existent characters and show 404
 		$data = $this->getRequest('/characters', [
 			'query' => [
 				'filter' => [
-					'name' => $slug
+					'slug' => $slug,
 				],
-				// 'include' => 'primaryMedia,castings'
+				'fields' => [
+					'anime' => 'canonicalTitle,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,titles,slug,posterImage'
+				],
+				'include' => 'castings.person,castings.media'
 			]
 		]);
 
@@ -235,9 +238,9 @@ class Model {
 	 *
 	 * @param string $malId
 	 * @param string $type "anime" or "manga"
-	 * @return string
+	 * @return string|NULL
 	 */
-	public function getKitsuIdFromMALId(string $malId, string $type="anime"): string
+	public function getKitsuIdFromMALId(string $malId, string $type="anime")
 	{
 		$options = [
 			'query' => [
@@ -253,6 +256,11 @@ class Model {
 		];
 
 		$raw = $this->getRequest('mappings', $options);
+
+		if ( ! array_key_exists('included', $raw))
+		{
+			return NULL;
+		}
 
 		return $raw['included'][0]['id'];
 	}
@@ -277,7 +285,7 @@ class Model {
 		}
 
 		$transformed = $this->animeTransformer->transform($baseData);
-		$transformed['included'] = $baseData['included'];
+		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
 		return $transformed;
 	}
 
@@ -374,7 +382,7 @@ class Model {
 	{
 		$status = $options['filter']['status'] ?? '';
 		$count = $this->getAnimeListCount($status);
-		$size = 100;
+		$size = static::LIST_PAGE_SIZE;
 		$pages = ceil($count / $size);
 
 		$requester = new ParallelAPIRequest();
@@ -460,7 +468,7 @@ class Model {
 	 * @param array $options
 	 * @return Request
 	 */
-	public function getPagedAnimeList(int $limit = 100, int $offset = 0, array $options = [
+	public function getPagedAnimeList(int $limit, int $offset = 0, array $options = [
 		'include' => 'anime.mappings'
 	]): Request
 	{
@@ -618,7 +626,7 @@ class Model {
 	{
 		$status = $options['filter']['status'] ?? '';
 		$count = $this->getMangaListCount($status);
-		$size = 100;
+		$size = static::LIST_PAGE_SIZE;
 		$pages = ceil($count / $size);
 
 		$requester = new ParallelAPIRequest();
@@ -668,7 +676,7 @@ class Model {
 	 * @param array $options
 	 * @return Request
 	 */
-	public function getPagedMangaList(int $limit = 100, int $offset = 0, array $options = [
+	public function getPagedMangaList(int $limit, int $offset = 0, array $options = [
 		'include' => 'manga.mappings'
 	]): Request
 	{
@@ -821,6 +829,7 @@ class Model {
 		}
 
 		$baseData = $data['data']['attributes'];
+		$baseData['id'] = $data['id'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
 	}
@@ -856,6 +865,7 @@ class Model {
 		}
 
 		$baseData = $data['data'][0]['attributes'];
+		$baseData['id'] = $data['data'][0]['id'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
 	}

@@ -44,9 +44,7 @@ class MangaListTransformer extends AbstractTransformer {
 	{
 		$map = [
 			'id' => $item['mal_id'],
-			'data' => [
-				'chapter' => $item['data']['progress']
-			]
+			'data' => []
 		];
 
 		$data =& $item['data'];
@@ -55,6 +53,10 @@ class MangaListTransformer extends AbstractTransformer {
 		{
 			switch($key)
 			{
+				case 'progress':
+					$map['data']['chapter'] = $value;
+				break;
+
 				case 'notes':
 					$map['data']['comments'] = $value;
 				break;

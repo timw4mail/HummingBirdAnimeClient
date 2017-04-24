@@ -15,7 +15,7 @@
 					<?php if ($auth->isAuthenticated()): ?>
 					<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
 					<?php endif ?>
-					<img src="<?= $item['anime']['image'] ?>" alt="" />
+					<img src="<?= $urlGenerator->assetUrl("images/anime/{$item['anime']['id']}.jpg") ?>" alt="" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
 							<?= array_shift($item['anime']['titles']) ?>
@@ -28,17 +28,17 @@
 						<?php if ($auth->isAuthenticated()): ?>
 						<div class="row">
 							<span class="edit">
-								<a class="bracketed" title="Edit information about this anime" href="<?= 
+								<a class="bracketed" title="Edit information about this anime" href="<?=
 									$url->generate('edit', [
-										'controller' => 'anime', 
-										'id' => $item['id'], 
+										'controller' => 'anime',
+										'id' => $item['id'],
 										'status' => $item['watching_status']
 									]);
 							 	?>">Edit</a>
 							</span>
 						</div>
 						<?php endif ?>
-						
+
 						<?php if ($item['private'] || $item['rewatching']): ?>
 						<div class="row">
 							<?php foreach(['private', 'rewatching'] as $attr): ?>
@@ -48,13 +48,13 @@
 							<?php endforeach ?>
 						</div>
 						<?php endif ?>
-						
+
 						<?php if ($item['rewatched'] > 0): ?>
 						<div class="row">
 							<div>Rewatched <?= $item['rewatched'] ?> time(s)</div>
 						</div>
 						<?php endif ?>
-						
+
 						<?php if (count($item['anime']['streaming_links']) > 0): ?>
 						<div class="row">
 							<?php foreach($item['anime']['streaming_links'] as $link): ?>
@@ -70,7 +70,7 @@
 							<?php endforeach ?>
 						</div>
 						<?php endif ?>
-						
+
 						<div class="row">
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 							<div class="completion">Episodes:

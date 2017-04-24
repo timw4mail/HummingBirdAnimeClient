@@ -22,29 +22,48 @@ use Aviat\Ion\Json;
 
 // Include guzzle
 require_once('../vendor/autoload.php');
-require_once('./min.php');
+
+//Creative rewriting of /g/groupname to ?g=groupname
+$pi = $_SERVER['PATH_INFO'];
+$pia = explode('/', $pi);
+
+$piaLen = count($pia);
+$i = 1;
+
+while($i < $piaLen)
+{
+	$j = $i+1;
+	$j = (isset($pia[$j])) ? $j : $i;
+
+	$_GET[$pia[$i]] = $pia[$j];
+
+	$i = $j + 1;
+};
+
+class FileNotChangedException extends \Exception {}
 
 /**
  * Simple Javascript minfier, using google closure compiler
  */
-class JSMin extends BaseMin {
+class JSMin {
 
 	protected $jsRoot;
 	protected $jsGroup;
-	protected $jsGroupsFile;
+	protected $configFile;
 	protected $cacheFile;
 
 	protected $lastModified;
 	protected $requestedTime;
 	protected $cacheModified;
 
-	public function __construct(array $config, array $groups)
+	public function __construct(array $config, string $configFile)
 	{
 		$group = $_GET['g'];
+		$groups = $config['groups'];
 
 		$this->jsRoot = $config['js_root'];
 		$this->jsGroup = $groups[$group];
-		$this->jsGroupsFile = $config['js_groups_file'];
+		$this->configFile = $configFile;
 		$this->cacheFile = "{$this->jsRoot}cache/{$group}";
 		$this->lastModified = $this->getLastModified();
 
@@ -99,7 +118,7 @@ class JSMin extends BaseMin {
 	protected function closureCall(array $options)
 	{
 		$formFields = http_build_query($options);
-	
+
 		$request = (new Request)
 			->setMethod('POST')
 			->setUri('http://closure-compiler.appspot.com/compile')
@@ -109,7 +128,7 @@ class JSMin extends BaseMin {
 				'Content-type' => 'application/x-www-form-urlencoded'
 			])
 			->setBody($formFields);
-		
+
 		$response = wait((new Client)->request($request, [
 			Client::OP_AUTO_ENCODING => false
 		]));
@@ -128,7 +147,7 @@ class JSMin extends BaseMin {
 		$errorRes = $this->closureCall($options);
 		$errorJson = $errorRes->getBody();
 		$errorObj = Json::decode($errorJson) ?: (object)[];
-		
+
 
 		// Show error if exists
 		if ( ! empty($errorObj->errors) || ! empty($errorObj->serverErrors))
@@ -178,7 +197,7 @@ class JSMin extends BaseMin {
 
 		//Add this page too, as well as the groups file
 		$modified[] = filemtime(__FILE__);
-		$modified[] = filemtime($this->jsGroupsFile);
+		$modified[] = filemtime($this->configFile);
 
 		rsort($modified);
 		$lastModified = $modified[0];
@@ -227,14 +246,97 @@ class JSMin extends BaseMin {
 	{
 		$this->sendFinalOutput($js, 'application/javascript', $this->lastModified);
 	}
+
+		/**
+	 * Get value of the if-modified-since header
+	 *
+	 * @return int - timestamp to compare for cache control
+	 */
+	protected function getIfModified()
+	{
+		return (array_key_exists('HTTP_IF_MODIFIED_SINCE', $_SERVER))
+			? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])
+			: time();
+	}
+
+	/**
+	 * Get value of etag to compare to hash of output
+	 *
+	 * @return string - the etag to compare
+	 */
+	protected function getIfNoneMatch()
+	{
+		return (array_key_exists('HTTP_IF_NONE_MATCH', $_SERVER))
+			? $_SERVER['HTTP_IF_NONE_MATCH']
+			: '';
+	}
+
+	/**
+	 * Determine whether or not to send debug version
+	 *
+	 * @return boolean
+	 */
+	protected function isNotDebug()
+	{
+		return ! $this->isDebugCall();
+	}
+
+	/**
+	 * Determine whether or not to send debug version
+	 *
+	 * @return boolean
+	 */
+	protected function isDebugCall()
+	{
+		return array_key_exists('debug', $_GET);
+	}
+
+	/**
+	 * Send actual output to browser
+	 *
+	 * @param string $content - the body of the response
+	 * @param string $mimeType - the content type
+	 * @param int $lastModified - the last modified date
+	 * @return void
+	 */
+	protected function sendFinalOutput($content, $mimeType, $lastModified)
+	{
+		//This GZIPs the CSS for transmission to the user
+		//making file size smaller and transfer rate quicker
+		ob_start("ob_gzhandler");
+
+		$expires = $lastModified + 691200;
+		$lastModifiedDate = gmdate('D, d M Y H:i:s', $lastModified);
+		$expiresDate = gmdate('D, d M Y H:i:s', $expires);
+
+		header("Content-Type: {$mimeType}; charset=utf8");
+		header("Cache-control: public, max-age=691200, must-revalidate");
+		header("Last-Modified: {$lastModifiedDate} GMT");
+		header("Expires: {$expiresDate} GMT");
+
+		echo $content;
+
+		ob_end_flush();
+	}
+
+	/**
+	 * Send a 304 Not Modified header
+	 *
+	 * @return void
+	 */
+	public static function send304()
+	{
+		header("status: 304 Not Modified", true, 304);
+	}
 }
 
 // --------------------------------------------------------------------------
 // ! Start Minifying
 // --------------------------------------------------------------------------
 
-$config = require_once('../app/appConf/minify_config.php');
-$groups = require_once($config['js_groups_file']);
+$configFile = realpath(__DIR__ . '/../app/appConf/minify_config.php');
+$config = require_once($configFile);
+$groups = $config['groups'];
 $cacheDir = "{$config['js_root']}cache";
 
 if ( ! is_dir($cacheDir))
@@ -249,11 +351,11 @@ if ( ! array_key_exists($_GET['g'], $groups))
 
 try
 {
-	new JSMin($config, $groups);
+	new JSMin($config, $configFile);
 }
 catch (FileNotChangedException $e)
 {
-	BaseMin::send304();
+	JSMin::send304();
 }
 
 //end of js.php
