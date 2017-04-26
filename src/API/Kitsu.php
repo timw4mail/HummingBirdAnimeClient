@@ -223,7 +223,7 @@ class Kitsu {
 			$diff = levenshtein($existing, $title);
 			$onlydifferentCase = (mb_strtolower($existing) === mb_strtolower($title));
 
-			if ($diff <= 3 OR $isSubset OR $onlydifferentCase OR mb_strlen($title) > 55)
+			if ($diff <= 3 OR $isSubset OR $onlydifferentCase OR mb_strlen($title) > 55 OR mb_strlen($existing) > 60)
 			{
 				return FALSE;
 			}
