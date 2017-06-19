@@ -67,6 +67,13 @@ class Model {
 		return $this->listItem->create($data, $type);
 	}
 
+	/**
+	 * Create a list item on MAL from a Kitsu list item
+	 *
+	 * @param array $data
+	 * @param string $type "anime" or "manga"
+	 * @return Request
+	 */
 	public function createListItem(array $data, string $type = 'anime'): Request
 	{
 		if ($type === 'anime')
@@ -91,41 +98,13 @@ class Model {
 		return $this->listItem->create($createData, $type);
 	}
 
-	public function getMangaList(): array
-	{
-		return $this->getList('manga');
-	}
-
-	public function getAnimeList(): array
-	{
-		return $this->getList('anime');
-	}
-
-	public function getListItem(string $listId): array
-	{
-		return [];
-	}
-
-	public function updateListItem(array $data, string $type = 'anime'): Request
-	{
-		if ($type === 'anime')
-		{
-			$updateData = $this->animeListTransformer->untransform($data);
-		}
-		else if ($type === 'manga')
-		{
-			$updateData = $this->mangaListTransformer->untransform($data);
-		}
-
-		return $this->listItem->update($updateData['id'], $updateData['data'], $type);
-	}
-
-	public function deleteListItem(string $id, string $type = 'anime'): Request
-	{
-		return $this->listItem->delete($id, $type);
-	}
-
-	private function getList(string $type): array
+	/**
+	 * Get list info
+	 *
+	 * @param string $type "anime" or "manga"
+	 * @return array
+	 */
+	public function getList(string $type): array
 	{
 		$config = $this->container->get('config');
 		$userName = $config->get(['mal', 'username']);
@@ -140,6 +119,52 @@ class Model {
 			]
 		]);
 
-		return $list['myanimelist'][$type];
+		return $list['myanimelist'][$type] ?? [];
+	}
+
+	/**
+	 * Retrieve a list item
+	 *
+	 * Does not apply to MAL
+	 *
+	 * @param string $listId
+	 * @return array
+	 */
+	public function getListItem(string $listId): array
+	{
+		return [];
+	}
+
+	/**
+	 * Update a list item
+	 *
+	 * @param array $data
+	 * @param string $type "anime" or "manga"
+	 * @return Request
+	 */
+	public function updateListItem(array $data, string $type = 'anime'): Request
+	{
+		if ($type === 'anime')
+		{
+			$updateData = $this->animeListTransformer->untransform($data);
+		}
+		else if ($type === 'manga')
+		{
+			$updateData = $this->mangaListTransformer->untransform($data);
+		}
+
+		return $this->listItem->update($updateData['id'], $updateData['data'], $type);
+	}
+
+	/**
+	 * Delete a list item
+	 *
+	 * @param string $id
+	 * @param string $type "anime" or "manga"
+	 * @return Request
+	 */
+	public function deleteListItem(string $id, string $type = 'anime'): Request
+	{
+		return $this->listItem->delete($id, $type);
 	}
 }
