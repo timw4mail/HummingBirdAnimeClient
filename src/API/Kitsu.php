@@ -26,6 +26,8 @@ class Kitsu {
 	const AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
+	const AUTH_TOKEN_EXP_CACHE_KEY = 'kitsu-auth-token-expires';
+	const AUTH_TOKEN_REFRESH_CACHE_KEY = 'kitsu-auth-token-refresh';
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
