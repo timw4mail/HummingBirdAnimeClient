@@ -97,7 +97,7 @@ class Model {
 	 *
 	 * @param string $username
 	 * @param string $password
-	 * @return bool|string
+	 * @return bool|array
 	 */
 	public function authenticate(string $username, string $password)
 	{
@@ -107,6 +107,32 @@ class Model {
 				'grant_type' => 'password',
 				'username' => $username,
 				'password' => $password
+			]
+		]);
+
+		$data = Json::decode((string)$response->getBody());
+
+		if (array_key_exists('access_token', $data))
+		{
+			return $data;
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Extend the current session with a refresh token
+	 *
+	 * @param string $token
+	 * @return bool|array
+	 */
+	public function reAuthenticate(string $token)
+	{
+		$response = $this->getResponse('POST', K::AUTH_URL, [
+			'headers' => [],
+			'form_params' => [
+				'grant_type' => 'refresh_token',
+				'refresh_token' => $token
 			]
 		]);
 

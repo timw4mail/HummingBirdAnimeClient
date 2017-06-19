@@ -90,12 +90,73 @@ class Auth {
 			$cacheItem->set($auth['access_token']);
 			$cacheItem->save();
 
+			// Set the token expiration in the cache
+			$expire_time = $auth['created_at'] + $auth['expires_in'];
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_EXP_CACHE_KEY);
+			$cacheItem->set($expire_time);
+			$cacheItem->save();
+
+			// Set the refresh token in the cache
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
+			$cacheItem->set($auth['refresh_token']);
+			$cacheItem->save();
+
+			// Set the session values
 			$this->segment->set('auth_token', $auth['access_token']);
+			$this->segment->set('auth_token_expires', $expire_time);
+			$this->segment->set('refresh_token', $auth['refresh_token']);
 			return TRUE;
 		}
 
 		return FALSE;
 	}
+
+
+	/**
+	 * Make the call to re-authenticate with the existing refresh token
+	 *
+	 * @param string $token
+	 * @return boolean
+	 */
+	public function reAuthenticate(string $token)
+	{
+		try
+		{
+			$auth = $this->model->reAuthenticate($token);
+		}
+		catch (Exception $e)
+		{
+			return FALSE;
+		}
+
+		if (FALSE !== $auth)
+		{
+			// Set the token in the cache for command line operations
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
+			$cacheItem->set($auth['access_token']);
+			$cacheItem->save();
+
+			// Set the token expiration in the cache
+			$expire_time = $auth['created_at'] + $auth['expires_in'];
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_EXP_CACHE_KEY);
+			$cacheItem->set($expire_time);
+			$cacheItem->save();
+
+			// Set the refresh token in the cache
+			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
+			$cacheItem->set($auth['refresh_token']);
+			$cacheItem->save();
+
+			// Set the session values
+			$this->segment->set('auth_token', $auth['access_token']);
+			$this->segment->set('auth_token_expires', $expire_time);
+			$this->segment->set('refresh_token', $auth['refresh_token']);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 
 	/**
 	 * Check whether the current user is authenticated
@@ -124,7 +185,18 @@ class Auth {
 	 */
 	public function get_auth_token()
 	{
-		return $this->segment->get('auth_token', FALSE);
+		$token = $this->segment->get('auth_token', FALSE);
+		$refresh_token = $this->segment->get('refresh_token', FALSE);
+		$isExpired = time() > $this->segment->get('auth_token_expires', 0);
+
+		// Attempt to re-authenticate with refresh token
+		if ($isExpired && $refresh_token)
+		{
+			$reauthenticated = $this->reAuthenticate($refresh_token);
+			return $this->segment->get('auth_token', FALSE);
+		}
+
+		return $token;
 	}
 }
 // End of KitsuAuth.php
