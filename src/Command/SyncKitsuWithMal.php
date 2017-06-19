@@ -70,7 +70,7 @@ class SyncKitsuWithMal extends BaseCommand {
 	public function sync(string $type)
 	{
 		$uType = ucfirst($type);
-		$malCount = count($this->malModel->{"get{$uType}List"}());
+		$malCount = count($this->malModel->getList($type));
 		$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
 
 		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
@@ -138,7 +138,7 @@ class SyncKitsuWithMal extends BaseCommand {
 
 	public function formatMALAnimeList()
 	{
-		$orig = $this->malModel->getAnimeList();
+		$orig = $this->malModel->getList('anime');
 		$output = [];
 
 		foreach($orig as $item)
@@ -162,7 +162,7 @@ class SyncKitsuWithMal extends BaseCommand {
 
 	public function formatMALMangaList()
 	{
-		$orig = $this->malModel->getMangaList();
+		$orig = $this->malModel->getList('manga');
 		$output = [];
 
 		foreach($orig as $item)
