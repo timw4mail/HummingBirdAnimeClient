@@ -32,6 +32,8 @@
 			data.data.status = 'completed';
 		}
 
+		_.show(_.$('#loading-shadow')[0]);
+
 		// okay, lets actually make some changes!
 		_.ajax(_.url('/anime/update'), {
 			data,
@@ -42,11 +44,14 @@
 					_.hide(parentSel);
 				}
 
+				_.hide(_.$('#loading-shadow')[0]);
+
 				_.showMessage('success', `Successfully updated ${title}`);
 				_.$('.completed_number', parentSel)[0].textContent = ++watchedCount;
 				_.scrollToTop();
 			},
 			error: (xhr, errorType, error) => {
+				_.hide(_.$('#loading-shadow')[0]);
 				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();
 			}
