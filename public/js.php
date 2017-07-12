@@ -20,7 +20,7 @@ use function Amp\wait;
 use Amp\Artax\{Client, FormBody, Request};
 use Aviat\Ion\Json;
 
-// Include guzzle
+// Include Amp and Artax
 require_once('../vendor/autoload.php');
 
 //Creative rewriting of /g/groupname to ?g=groupname

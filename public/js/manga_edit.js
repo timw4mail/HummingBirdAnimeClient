@@ -40,6 +40,8 @@
 		// Update the total count
 		data.data.progress = ++completed;
 
+		_.show(_.$('#loading-shadow')[0]);
+
 		_.ajax(_.url('/manga/update'), {
 			data,
 			dataType: 'json',
@@ -50,12 +52,15 @@
 					_.hide(parentSel);
 				}
 
+				_.hide(_.$('#loading-shadow')[0]);
+
 				_.$(`.${type}s_read`, parentSel)[0].textContent = completed;
 				_.showMessage('success', `Sucessfully updated ${mangaName}`);
 				_.scrollToTop();
 			},
 			error: () => {
-				_.showMessage('error', `Failed to updated ${mangaName}`);
+				_.hide(_.$('#loading-shadow')[0]);
+				_.showMessage('error', `Failed to update ${mangaName}`);
 				_.scrollToTop();
 			}
 		});
