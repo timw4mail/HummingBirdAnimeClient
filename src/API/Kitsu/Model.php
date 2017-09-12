@@ -220,7 +220,7 @@ class Model {
 					// 'anime' => 'slug,name,canonicalTitle',
 					'characters' => 'slug,name,image'
 				],
-				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,mediaFollows,userRoles,favorites.item'
+				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,userRoles,favorites.item'
 			]
 		]);
 
@@ -878,8 +878,8 @@ class Model {
 					'characters' => 'slug,name,image'
 				],
 				'include' => ($type === 'anime')
-					? 'genres,mappings,streamingLinks,animeCharacters.character'
-					: 'genres,mappings,mangaCharacters.character,castings.character',
+					? 'categories,mappings,streamingLinks,animeCharacters.character'
+					: 'categories,mappings,mangaCharacters.character,castings.character',
 			]
 		];
 
