@@ -65,9 +65,9 @@
     "included": [
         {
             "id": "23",
-            "type": "genres",
+            "type": "categories",
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/23"
+                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/23"
             },
             "attributes": {
                 "name": "Super Power",
@@ -77,9 +77,9 @@
         },
         {
             "id": "11",
-            "type": "genres",
+            "type": "categories",
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/11"
+                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/11"
             },
             "attributes": {
                 "name": "Fantasy",
@@ -89,9 +89,9 @@
         },
         {
             "id": "4",
-            "type": "genres",
+            "type": "categories",
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/4"
+                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/4"
             },
             "attributes": {
                 "name": "Drama",
@@ -101,9 +101,9 @@
         },
         {
             "id": "1",
-            "type": "genres",
+            "type": "categories",
             "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/genres\/1"
+                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/1"
             },
             "attributes": {
                 "name": "Action",

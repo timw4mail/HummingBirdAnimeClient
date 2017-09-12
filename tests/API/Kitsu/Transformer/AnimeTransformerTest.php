@@ -40,9 +40,7 @@ class AnimeTransformerTest extends AnimeClientTestCase {
 
 	public function testTransform()
 	{
-		$expected = $this->afterTransform;
 		$actual = $this->transformer->transform($this->beforeTransform);
-
 		$this->assertMatchesSnapshot($actual);
 	}
 }
