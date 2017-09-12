@@ -21,10 +21,6 @@
   'url' => 'https://kitsu.io/anime/attack-on-titan',
   'genres' => 
   array (
-    0 => 'Action',
-    1 => 'Drama',
-    2 => 'Fantasy',
-    3 => 'Super Power',
   ),
   'streaming_links' => 
   array (
