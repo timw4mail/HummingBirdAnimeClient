@@ -1,6 +1,6 @@
 <?php if ($auth->isAuthenticated()): ?>
 <main>
-	<h2>Add Anime to your Collection</h2>
+	<h2>Add <?= ucfirst($collection_type) ?> to your Collection</h2>
 	<form action="<?= $action_url ?>" method="post">
 		<section>
 			<div class="cssload-loader" hidden="hidden">
@@ -8,7 +8,7 @@
 				<div class="cssload-inner cssload-two"></div>
 				<div class="cssload-inner cssload-three"></div>
 			</div>
-			<label for="search">Search for anime by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" name="search" /></label>
+			<label for="search">Search for <?= $collection_type ?> by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" name="search" /></label>
 			<section id="series_list" class="media-wrap">
 			</section>
 		</section>
@@ -39,5 +39,5 @@
 		</table>
 	</form>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/anime_collection') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$collection_type}_collection") ?>"></script>
 <?php endif ?>

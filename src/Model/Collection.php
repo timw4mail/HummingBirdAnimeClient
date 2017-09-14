@@ -25,14 +25,8 @@ use PDOException;
  * Base model for anime and manga collections
  */
 class Collection extends DB {
-	
-	use ContainerAware;
 
-	/**
-	 * Anime API Model
-	 * @var object $animeModel
-	 */
-	protected $animeModel;
+	use ContainerAware;
 
 	/**
 	 * Whether the database is valid for querying
@@ -46,7 +40,7 @@ class Collection extends DB {
 	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
-	{	
+	{
 		parent::__construct($container);
 
 		try
@@ -58,7 +52,6 @@ class Collection extends DB {
 			//$this->validDatabase = FALSE;
 			//return FALSE;
 		}
-		$this->animeModel = $container->get('anime-model');
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database

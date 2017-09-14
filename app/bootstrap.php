@@ -153,6 +153,9 @@ return function(array $configArray = []) {
 	$container->set('anime-collection-model', function($container) {
 		return new Model\AnimeCollection($container);
 	});
+	$container->set('manga-collection-model', function($container) {
+		return new Model\MangaCollection($container);
+	});
 
 	// Miscellaneous Classes
 	$container->set('auth', function($container) {

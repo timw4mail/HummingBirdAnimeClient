@@ -22,7 +22,8 @@ use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Controller\{
 	Anime as AnimeController,
 	Character as CharacterController,
-	Collection as CollectionController,
+	AnimeCollection as AnimeCollectionController,
+	MangaCollection as MangaCollectionController,
 	Manga as MangaController
 };
 
@@ -71,7 +72,11 @@ class ControllerTest extends AnimeClientTestCase {
 		);
 		$this->assertInstanceOf(
 			'Aviat\AnimeClient\Controller',
-			new CollectionController($this->container)
+			new AnimeCollectionController($this->container)
+		);
+		$this->assertInstanceOf(
+			'Aviat\AnimeClient\Controller',
+			new MangaCollectionController($this->container)
 		);
 	}
 
