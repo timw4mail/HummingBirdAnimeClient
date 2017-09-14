@@ -4,7 +4,7 @@
 
 	const search = (tempHtml, query) => {
 		_.$('.cssload-loader')[0].removeAttribute('hidden');
-		_.get(_.url('/collection/search'), {query}, (searchResults, status) => {
+		_.get(_.url('/anime-collection/search'), {query}, (searchResults, status) => {
 			searchResults = JSON.parse(searchResults);
 			_.$('.cssload-loader')[0].setAttribute('hidden', 'hidden');
 
