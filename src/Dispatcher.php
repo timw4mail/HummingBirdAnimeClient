@@ -29,11 +29,14 @@ use function Aviat\Ion\_dir;
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
+use Aviat\Ion\StringWrapper;
 
 /**
  * Basic routing/ dispatch
  */
 class Dispatcher extends RoutingBase {
+
+	use StringWrapper;
 
 	/**
 	 * The route-matching object
@@ -208,6 +211,9 @@ class Dispatcher extends RoutingBase {
 		$segments = explode('/', $path);
 		$controller = reset($segments);
 
+		$logger = $this->container->getLogger('default');
+		$logger->info('Controller: ' . $controller);
+
 		if (empty($controller))
 		{
 			$controller = $routeType;
@@ -235,7 +241,7 @@ class Dispatcher extends RoutingBase {
 		foreach ($classFiles as $file)
 		{
 			$rawClassName = basename(str_replace(".php", "", $file));
-			$path = strtolower(basename($rawClassName));
+			$path = $this->string($rawClassName)->dasherize()->__toString();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
 			$controllers[$path] = $className;

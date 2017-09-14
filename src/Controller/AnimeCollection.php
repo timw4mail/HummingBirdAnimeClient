@@ -27,7 +27,7 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Controller for Anime collection pages
  */
-class Collection extends BaseController {
+class AnimeCollection extends BaseController {
 
 	/**
 	 * The anime collection model
@@ -53,6 +53,7 @@ class Collection extends BaseController {
 		$this->animeModel = $container->get('anime-model');
 		$this->animeCollectionModel = $container->get('anime-collection-model');
 		$this->baseData = array_merge($this->baseData, [
+			'collection_type' => 'anime',
 			'menu_name' => 'collection',
 			'url_type' => 'anime',
 			'other_type' => 'manga',
@@ -109,7 +110,7 @@ class Collection extends BaseController {
 
 		$this->outputHTML('collection/' . $urlAction, [
 			'action' => $action,
-			'action_url' => $this->url->generate("collection.{$urlAction}.post"),
+			'action_url' => $this->url->generate("anime.collection.{$urlAction}.post"),
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime Collection",
 				$action

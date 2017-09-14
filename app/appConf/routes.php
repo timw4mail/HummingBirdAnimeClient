@@ -16,6 +16,7 @@
 
 
 use const Aviat\AnimeClient\{
+	DEFAULT_CONTROLLER_NAMESPACE,
 	DEFAULT_CONTROLLER_METHOD,
 	DEFAULT_CONTROLLER
 };
@@ -85,48 +86,87 @@ return [
 	// ---------------------------------------------------------------------
 	// Anime Collection Routes
 	// ---------------------------------------------------------------------
-	'collection.search' => [
-		'path' => '/collection/search',
+	'anime.collection.search' => [
+		'path' => '/anime-collection/search',
 		'action' => 'search',
 	],
-	'collection.add.get' => [
-		'path' => '/collection/add',
+	'anime.collection.add.get' => [
+		'path' => '/anime-collection/add',
 		'action' => 'form',
 		'params' => [],
 	],
-	'collection.edit.get' => [
-		'path' => '/collection/edit/{id}',
+	'anime.collection.edit.get' => [
+		'path' => '/anime-collection/edit/{id}',
 		'action' => 'form',
 		'tokens' => [
 			'id' => '[0-9]+',
 		],
 	],
-	'collection.add.post' => [
-		'path' => '/collection/add',
+	'anime.collection.add.post' => [
+		'path' => '/anime-collection/add',
 		'action' => 'add',
 		'verb' => 'post',
 	],
-	'collection.edit.post' => [
-		'path' => '/collection/edit',
+	'anime.collection.edit.post' => [
+		'path' => '/anime-collection/edit',
 		'action' => 'edit',
 		'verb' => 'post',
 	],
-	'collection.view' => [
-		'path' => '/collection/view{/view}',
+	'anime.collection.view' => [
+		'path' => '/anime-collection/view{/view}',
 		'action' => 'index',
 		'params' => [],
 		'tokens' => [
 			'view' => '[a-z_]+',
 		],
 	],
-	'collection.delete' => [
-		'path' => '/collection/delete',
+	'anime.collection.delete' => [
+		'path' => '/anime-collection/delete',
 		'action' => 'delete',
 		'verb' => 'post',
 	],
 	// ---------------------------------------------------------------------
 	// Manga Collection Routes
 	// ---------------------------------------------------------------------
+	'manga.collection.search' => [
+		'path' => '/manga-collection/search',
+		'action' => 'search',
+	],
+	'manga.collection.add.get' => [
+		'path' => '/manga-collection/add',
+		'action' => 'form',
+		'params' => [],
+	],
+	'manga.collection.edit.get' => [
+		'path' => '/manga-collection/edit/{id}',
+		'action' => 'form',
+		'tokens' => [
+			'id' => '[0-9]+',
+		],
+	],
+	'manga.collection.add.post' => [
+		'path' => '/manga-collection/add',
+		'action' => 'add',
+		'verb' => 'post',
+	],
+	'manga.collection.edit.post' => [
+		'path' => '/manga-collection/edit',
+		'action' => 'edit',
+		'verb' => 'post',
+	],
+	'manga.collection.view' => [
+		'path' => '/manga-collection/view{/view}',
+		'action' => 'index',
+		'params' => [],
+		'tokens' => [
+			'view' => '[a-z_]+',
+		],
+	],
+	'manga.collection.delete' => [
+		'path' => '/manga-collection/delete',
+		'action' => 'delete',
+		'verb' => 'post',
+	],
 	// ---------------------------------------------------------------------
 	// Other Routes
 	// ---------------------------------------------------------------------

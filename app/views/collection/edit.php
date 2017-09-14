@@ -47,7 +47,7 @@
 	</form>
 	<fieldset>
 		<legend>Danger Zone</legend>
-		<form class="js-delete" action="<?= $url->generate('collection.delete') ?>" method="post">
+		<form class="js-delete" action="<?= $url->generate($collection_type . '.collection.delete') ?>" method="post">
 			<table class="form invisible">
 				<tbody>
 				<tr>

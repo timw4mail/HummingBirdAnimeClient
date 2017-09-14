@@ -1,6 +1,6 @@
 <main>
 <?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $url->generate('collection.add.get') ?>">Add Item</a>
+<a class="bracketed" href="<?= $url->generate($collection_type . '.collection.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -26,7 +26,7 @@
 			<tr>
 				<?php if($auth->isAuthenticated()): ?>
 				<td>
-					<a class="bracketed" href="<?= $url->generate('collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
+					<a class="bracketed" href="<?= $url->generate($collection_type . '.collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
 				</td>
 				<?php endif ?>
 				<td class="align_left">

@@ -16,8 +16,14 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 			) ?>
 			<?php if($config->get("show_{$url_type}_collection")): ?>
 				[<?= $helper->a(
-					$url->generate('collection.view') . $extraSegment,
+					$url->generate("{$url_type}.collection.view") . $extraSegment,
 					ucfirst($url_type) . ' Collection'
+				) ?>]
+			<?php endif ?>
+			<?php if($config->get("show_{$other_type}_collection")): ?>
+				[<?= $helper->a(
+					$url->generate("{$other_type}.collection.view") . $extraSegment,
+					ucfirst($other_type) . ' Collection'
 				) ?>]
 			<?php endif ?>
 			[<?= $helper->a(
