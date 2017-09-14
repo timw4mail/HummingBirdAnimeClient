@@ -24,13 +24,13 @@ use PDO;
 /**
  * Model for getting anime collection data
  */
-class AnimeCollection extends Collection {
+class MangaCollection extends Collection {
 
 	/**
-	 * Anime API Model
-	 * @var object $animeModel
+	 * Manga API Model
+	 * @var object $mangaModel
 	 */
-	protected $animeModel;
+	protected $mangaModel;
 
 	/**
 	 * Create the collection model
@@ -40,7 +40,7 @@ class AnimeCollection extends Collection {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->animeModel = $container->get('anime-model');
+		$this->mangaModel = $container->get('manga-model');
 	}
 
 	/**
@@ -119,7 +119,7 @@ class AnimeCollection extends Collection {
 
 		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type,
 			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
-			->from('anime_set a')
+			->from('manga_set a')
 			->join('media', 'media.id=a.media_id', 'inner')
 			->order_by('media')
 			->order_by('title')
@@ -136,7 +136,7 @@ class AnimeCollection extends Collection {
 	 */
 	public function add($data)
 	{
-		$anime = (object)$this->animeModel->getAnimeById($data['id']);
+		$anime = (object)$this->mangaModel->getMangaById($data['id']);
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -149,7 +149,7 @@ class AnimeCollection extends Collection {
 			'episode_length' => $anime->episode_length,
 			'media_id' => $data['media_id'],
 			'notes' => $data['notes']
-		])->insert('anime_set');
+		])->insert('manga_set');
 
 		$this->updateGenre($data['id']);
 	}
@@ -173,7 +173,7 @@ class AnimeCollection extends Collection {
 
 		$this->db->set($data)
 			->where('hummingbird_id', $id)
-			->update('anime_set');
+			->update('manga_set');
 	}
 
 	/**
@@ -191,10 +191,10 @@ class AnimeCollection extends Collection {
 		}
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('genre_anime_set_link');
+			->delete('genre_manga_set_link');
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('anime_set');
+			->delete('manga_set');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class AnimeCollection extends Collection {
 	 */
 	public function get($kitsuId)
 	{
-		$query = $this->db->from('anime_set')
+		$query = $this->db->from('manga_set')
 			->where('hummingbird_id', $kitsuId)
 			->get();
 
@@ -213,18 +213,18 @@ class AnimeCollection extends Collection {
 	}
 
 	/**
-	 * Update genre information for selected anime
+	 * Update genre information for selected manga
 	 *
-	 * @param int $animeId The current anime
+	 * @param int $mangaId The current manga
 	 * @return void
 	 */
-	private function updateGenre($animeId)
+	private function updateGenre($mangaId)
 	{
 		$genreInfo = $this->getGenreData();
 		extract($genreInfo);
 
 		// Get api information
-		$anime = $this->animeModel->getAnimeById($animeId);
+		$manga = $this->mangaModel->getMangaById($mangaId);
 
 		foreach ($anime['genres'] as $genre)
 		{
@@ -242,20 +242,20 @@ class AnimeCollection extends Collection {
 			$flippedGenres = array_flip($genres);
 
 			$insertArray = [
-				'hummingbird_id' => $animeId,
+				'hummingbird_id' => $mangaId,
 				'genre_id' => $flippedGenres[$genre]
 			];
 
-			if (array_key_exists($animeId, $links))
+			if (array_key_exists($mangaId, $links))
 			{
-				if ( ! in_array($flippedGenres[$genre], $links[$animeId]))
+				if ( ! in_array($flippedGenres[$genre], $links[$mangaId]))
 				{
-					$this->db->set($insertArray)->insert('genre_anime_set_link');
+					$this->db->set($insertArray)->insert('genre_manga_set_link');
 				}
 			}
 			else
 			{
-				$this->db->set($insertArray)->insert('genre_anime_set_link');
+				$this->db->set($insertArray)->insert('genre_manga_set_link');
 			}
 		}
 	}
@@ -281,7 +281,7 @@ class AnimeCollection extends Collection {
 
 		// Get existing link table entries
 		$query = $this->db->select('hummingbird_id, genre_id')
-			->from('genre_anime_set_link')
+			->from('genre_manga_set_link')
 			->get();
 		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $link)
 		{
@@ -301,4 +301,4 @@ class AnimeCollection extends Collection {
 		];
 	}
 }
-// End of AnimeCollectionModel.php
+// End of MangaCollectionModel.php

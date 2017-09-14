@@ -32,6 +32,12 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 			) ?>]
 		<?php else: ?>
 			<?= $whose . ucfirst($url_type) . ' Collection' ?>
+			<?php if($config->get("show_{$other_type}_collection")): ?>
+				[<?= $helper->a(
+					$url->generate("{$other_type}.collection.view") . $extraSegment,
+					ucfirst($other_type) . ' Collection'
+				) ?>]
+			<?php endif ?>
 			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
 			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
