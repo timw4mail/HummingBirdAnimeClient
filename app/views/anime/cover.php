@@ -6,6 +6,12 @@
 <h3>There's nothing here!</h3>
 <?php else: ?>
 	<?php foreach ($sections as $name => $items): ?>
+	<?php if (empty($items)): ?>
+		<section class="status">
+			<h2><?= $escape->html($name) ?></h2>
+			<h3>There's nothing here!</h3>
+		</section>
+	<?php else: ?>
 		<section class="status">
 			<h2><?= $escape->html($name) ?></h2>
 			<section class="media-wrap">
@@ -88,6 +94,7 @@
 				<?php endforeach ?>
 			</section>
 		</section>
+	<?php endif ?>
 	<?php endforeach ?>
 <?php endif ?>
 </main>
