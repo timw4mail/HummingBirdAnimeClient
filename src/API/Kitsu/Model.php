@@ -403,7 +403,7 @@ class Model {
 	 * @return array
 	 */
 	public function getFullAnimeList(array $options = [
-		'include' => 'media.mappings'
+		'include' => 'anime.mappings'
 	]): array
 	{
 		$status = $options['filter']['status'] ?? '';
