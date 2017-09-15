@@ -85,6 +85,17 @@ class Manga extends API
 	}
 
 	/**
+	 * Get anime by its kitsu id
+	 *
+	 * @param string $animeId
+	 * @return array
+	 */
+	public function getMangaById(string $animeId): array
+	{
+		return $this->kitsuModel->getMangaById($animeId);
+	}
+
+	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 *
