@@ -70,7 +70,18 @@ class SyncKitsuWithMal extends BaseCommand {
 	public function sync(string $type)
 	{
 		$uType = ucfirst($type);
-		$malCount = count($this->malModel->getList($type));
+
+		// Do a little check to make sure you don't have immediate issues
+		// if you have 0 or 1 items in a list on MAL.
+		$malList = $this->malModel->getList($type);
+		$malCount = 0;
+		if ( ! empty($malList))
+		{
+			$malCount = (array_key_exists(0, $malList))
+				? count($malList)
+				: count([$malList]);
+		}
+
 		$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
 
 		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
@@ -141,6 +152,21 @@ class SyncKitsuWithMal extends BaseCommand {
 		$orig = $this->malModel->getList('anime');
 		$output = [];
 
+		// Bail early on empty list
+		if (empty($orig))
+		{
+			return [];
+		}
+
+		// Due to xml parsing differences,
+		// 1 item has no wrapping array.
+		// In this case, just re-create the
+		// wrapper array
+		if ( ! array_key_exists(0, $orig))
+		{
+			$orig = [$orig];
+		}
+
 		foreach($orig as $item)
 		{
 			$output[$item['series_animedb_id']] = [
@@ -164,6 +190,21 @@ class SyncKitsuWithMal extends BaseCommand {
 	{
 		$orig = $this->malModel->getList('manga');
 		$output = [];
+
+		// Bail early on empty list
+		if (empty($orig))
+		{
+			return [];
+		}
+
+		// Due to xml parsing differences,
+		// 1 item has no wrapping array.
+		// In this case, just re-create the
+		// wrapper array
+		if ( ! array_key_exists(0, $orig))
+		{
+			$orig = [$orig];
+		}
 
 		foreach($orig as $item)
 		{
@@ -189,6 +230,12 @@ class SyncKitsuWithMal extends BaseCommand {
 	public function formatKitsuList(string $type = 'anime'): array
 	{
 		$data = $this->kitsuModel->{'getFull' . ucfirst($type) . 'List'}();
+
+		if (empty($data))
+		{
+			return [];
+		}
+
 		$includes = JsonAPI::organizeIncludes($data['included']);
 		$includes['mappings'] = $this->filterMappings($includes['mappings'], $type);
 

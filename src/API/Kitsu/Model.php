@@ -277,7 +277,7 @@ class Model {
 				'fields' => [
 					'media' => 'id,slug'
 				],
-				'include' => 'media'
+				'include' => 'item'
 			]
 		];
 
@@ -403,7 +403,7 @@ class Model {
 	 * @return array
 	 */
 	public function getFullAnimeList(array $options = [
-		'include' => 'anime.mappings'
+		'include' => 'media.mappings'
 	]): array
 	{
 		$status = $options['filter']['status'] ?? '';
@@ -561,6 +561,18 @@ class Model {
 	}
 
 	/**
+	 * Get information about a particular manga
+	 *
+	 * @param string $mangaId
+	 * @return array
+	 */
+	public function getMangaById(string $mangaId): array
+	{
+		$baseData = $this->getRawMediaDataById('manga', $mangaId);
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	/**
 	 * Get the manga list for the configured user
 	 *
 	 * @param string $status - The reading status by which to filter the list
@@ -590,7 +602,15 @@ class Model {
 
 		if ( ! $cacheItem->isHit())
 		{
-			$data = $this->getRequest('library-entries', $options);
+			$data = $this->getRequest('library-entries', $options) ?? [];
+
+			// Bail out on no data
+			if (empty($data) || ( ! array_key_exists('included', $data)))
+			{
+				$cacheItem->set([]);
+				$cacheItem->save();
+				return $cacheItem->get();
+			}
 
 			$included = JsonAPI::organizeIncludes($data['included']);
 			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
@@ -842,8 +862,8 @@ class Model {
 		$options = [
 			'query' => [
 				'include' => ($type === 'anime')
-					? 'genres,mappings,streamingLinks'
-					: 'genres,mappings',
+					? 'categories,mappings,streamingLinks'
+					: 'categories,mappings',
 			]
 		];
 
