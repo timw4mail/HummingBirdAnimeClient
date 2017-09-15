@@ -104,7 +104,7 @@ class Model {
 	 * @param string $type "anime" or "manga"
 	 * @return array
 	 */
-	public function getList(string $type): array
+	public function getList(string $type = "anime"): array
 	{
 		$config = $this->container->get('config');
 		$userName = $config->get(['mal', 'username']);
@@ -119,7 +119,9 @@ class Model {
 			]
 		]);
 
-		return $list['myanimelist'][$type] ?? [];
+		return (array_key_exists($type, $list['myanimelist']))
+			? $list['myanimelist'][$type]
+			: [];
 	}
 
 	/**
