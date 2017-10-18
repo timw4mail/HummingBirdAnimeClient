@@ -33,7 +33,7 @@ use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
 use ConsoleKit\Command;
 use ConsoleKit\Widgets\Box;
-use Monolog\Handler\NullHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
 /**
@@ -72,7 +72,7 @@ class BaseCommand extends Command {
 		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
 
-		$di = function ($config_array) {
+		$di = function ($config_array) use ($APP_DIR) {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
@@ -80,11 +80,11 @@ class BaseCommand extends Command {
 			// -------------------------------------------------------------------------
 
 			$app_logger = new Logger('animeclient');
-			$app_logger->pushHandler(new NullHandler);
+			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
 			$kitsu_request_logger = new Logger('kitsu-request');
-			$kitsu_request_logger->pushHandler(new NullHandler);
+			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
 			$mal_request_logger = new Logger('mal-request');
-			$mal_request_logger->pushHandler(new NullHandler);
+			$mal_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/mal_request-cli.log', Logger::NOTICE));
 			$container->setLogger($app_logger, 'default');
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 			$container->setLogger($mal_request_logger, 'mal-request');
