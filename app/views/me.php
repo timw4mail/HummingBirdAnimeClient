@@ -64,7 +64,7 @@
 		<div>
 			<dl>
 				<dt>About:</dt>
-				<dd><?= $escape->html($attributes['bio']) ?></dd>
+				<dd><?= $escape->html($attributes['about']) ?></dd>
 			</dl>
 			<?php if ( ! empty($favorites)): ?>
 				<?php if ( ! empty($favorites['characters'])): ?>
