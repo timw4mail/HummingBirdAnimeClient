@@ -277,7 +277,7 @@ class Model {
 				'fields' => [
 					'media' => 'id,slug'
 				],
-				'include' => 'media'
+				'include' => 'item'
 			]
 		];
 
