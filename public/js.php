@@ -18,7 +18,7 @@ namespace Aviat\EasyMin;
 
 use function Amp\wait;
 use Amp\Artax\{Client, FormBody, Request};
-use Aviat\Ion\Json;
+use Aviat\Ion\{Json, JsonException};
 
 // Include Amp and Artax
 require_once('../vendor/autoload.php');
@@ -121,7 +121,7 @@ class JSMin {
 
 		$request = (new Request)
 			->setMethod('POST')
-			->setUri('http://closure-compiler.appspot.com/compile')
+			->setUri('https://closure-compiler.appspot.com/compile')
 			->setAllHeaders([
 				'Accept' => 'application/json',
 				'Accept-Encoding' => 'gzip',
@@ -144,17 +144,25 @@ class JSMin {
 	 */
 	protected function checkMinifyErrors($options)
 	{
-		$errorRes = $this->closureCall($options);
-		$errorJson = $errorRes->getBody();
-		$errorObj = Json::decode($errorJson) ?: (object)[];
-
-
-		// Show error if exists
-		if ( ! empty($errorObj->errors) || ! empty($errorObj->serverErrors))
+		try
 		{
-			$errorJson = Json::encode($errorObj, JSON_PRETTY_PRINT);
-			header('Content-type: application/javascript');
-			echo "console.error(${errorJson});";
+			$errorRes = $this->closureCall($options);
+			$errorJson = $errorRes->getBody();
+			$errorObj = Json::decode($errorJson) ?: (object)[];
+
+
+			// Show error if exists
+			if ( ! empty($errorObj->errors) || ! empty($errorObj->serverErrors))
+			{
+				$errorJson = Json::encode($errorObj, JSON_PRETTY_PRINT);
+				header('Content-type: application/javascript');
+				echo "console.error(${errorJson});";
+				die();
+			}
+		}
+		catch (JsonException $e)
+		{
+			print_r($e);
 			die();
 		}
 	}
