@@ -112,7 +112,7 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		if ( ! empty($data['updateKitsu']))
 		{
-			print_r($data['updateKitsu']);
+			// print_r($data['updateKitsu']);
 			$count = count($data['updateKitsu']);
 			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
 			$this->updateKitsuListItems($data['updateKitsu'], $type);
@@ -244,6 +244,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		foreach($data['data'] as $listItem)
 		{
 			$id = $listItem['relationships'][$type]['data']['id'];
+
 			$potentialMappings = $includes[$type][$id]['relationships']['mappings'];
 			$malId = NULL;
 
@@ -291,7 +292,6 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		foreach($missingMalIds as $mid)
 		{
-			// print_r($malList[$mid]);
 			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
 				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, $type),
 				'type' => $type
