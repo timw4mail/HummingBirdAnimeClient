@@ -9,4 +9,5 @@ set -xe
 echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' > /etc/apk/repositories
 apk upgrade --update && apk add --no-cache \
 	curl \
-	git
+	git \
+	ipv6
