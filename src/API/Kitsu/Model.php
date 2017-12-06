@@ -875,7 +875,7 @@ class Model {
 		}
 
 		$baseData = $data['data']['attributes'];
-		$baseData['id'] = $data['id'];
+		$baseData['id'] = $id;
 		$baseData['included'] = $data['included'];
 		return $baseData;
 	}
