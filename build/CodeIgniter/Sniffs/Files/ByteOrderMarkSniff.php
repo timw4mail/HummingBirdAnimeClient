@@ -90,7 +90,7 @@ class ByteOrderMarkSniff implements Sniff
             $fileStartHex = bin2hex(substr($fileStartString, 0, $bomByteLength));
             if ($fileStartHex === $expectedBomHex) {
                 $error = "File contains a $bomName byte order mark (BOM).";
-                $phpcsFile->addError($error, $stackPtr);
+                $phpcsFile->addError($error, $stackPtr, 123);
                 break;
             }
         }

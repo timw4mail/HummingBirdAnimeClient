@@ -18,7 +18,10 @@ namespace Aviat\AnimeClient;
 
 use Yosymfony\Toml\Toml;
 
-define('SRC_DIR', realpath(__DIR__));
+if ( ! defined('SRC_DIR'))
+{
+	\define('SRC_DIR', \realpath(__DIR__));
+}
 
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const DEFAULT_CONTROLLER = 'Aviat\AnimeClient\Controller\Index';
@@ -29,35 +32,39 @@ const NOT_FOUND_METHOD = 'notFound';
 const ERROR_MESSAGE_METHOD = 'errorPage';
 const SRC_DIR = SRC_DIR;
 
-/**
- * Load configuration options from .toml files
- *
- * @param string $path - Path to load config
- * @return array
- */
-function loadToml(string $path): array
+
+if ( ! \function_exists('Aviat\AnimeClient\loadToml'))
 {
-	$output = [];
-	$files = glob("{$path}/*.toml");
-
-	foreach ($files as $file)
+	/**
+	 * Load configuration options from .toml files
+	 *
+	 * @param string $path - Path to load config
+	 * @return array
+	 */
+	function loadToml(string $path): array
 	{
-		$key = str_replace('.toml', '', basename($file));
-		$toml = file_get_contents($file);
-		$config = Toml::Parse($toml);
+		$output = [];
+		$files = glob("{$path}/*.toml");
 
-		if ($key === 'config')
+		foreach ($files as $file)
 		{
-			foreach($config as $name => $value)
+			$key = str_replace('.toml', '', basename($file));
+			$toml = file_get_contents($file);
+			$config = Toml::parse($toml);
+
+			if ($key === 'config')
 			{
-				$output[$name] = $value;
+				foreach($config as $name => $value)
+				{
+					$output[$name] = $value;
+				}
+
+				continue;
 			}
 
-			continue;
+			$output[$key] = $config;
 		}
 
-		$output[$key] = $config;
+		return $output;
 	}
-
-	return $output;
 }
