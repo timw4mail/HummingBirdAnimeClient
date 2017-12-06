@@ -16,19 +16,17 @@
 
 namespace Aviat\AnimeClient;
 
-use const Aviat\AnimeClient\SESSION_SEGMENT;
-
 use function Aviat\Ion\_dir;
 
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 
 /**
  * Controller base, defines output methods
  *
- * @property Response object $response
+ * @property $response Response object
  */
 class Controller {
 
@@ -96,6 +94,8 @@ class Controller {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -122,7 +122,7 @@ class Controller {
 
 		// Set a 'previous' flash value for better redirects
 		$serverParams = $this->request->getServerParams();
-		if (array_key_exists('HTTP_REFERER', $serverParams))
+		if (array_key_exists('HTTP_REFERER', $serverParams) && false === stripos($serverParams['HTTP_REFERER'], 'login'))
 		{
 			$this->session->setFlash('previous', $serverParams['HTTP_REFERER']);
 		}
@@ -146,6 +146,8 @@ class Controller {
 	 * Set the current url in the session as the target of a future redirect
 	 *
 	 * @param string|null $url
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function setSessionRedirect(string $url = NULL)
@@ -159,16 +161,17 @@ class Controller {
 
 		$util = $this->container->get('util');
 		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
+		$isLoginPage = (bool) strpos($serverParams['HTTP_REFERER'], 'login');
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
 		// and the previous page is also a form type page_segments
-		if ($doubleFormPage)
+		if ($doubleFormPage || $isLoginPage)
 		{
 			return;
 		}
 
-		if (is_null($url))
+		if (null === $url)
 		{
 			$url = $util->isViewPage()
 				? $this->request->url->get()
@@ -181,6 +184,9 @@ class Controller {
 	/**
 	 * Redirect to the url previously set in the  session
 	 *
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function sessionRedirect()
@@ -204,6 +210,8 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return string
 	 */
 	protected function loadPartial($view, string $template, array $data = [])
@@ -235,6 +243,9 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	protected function renderFullPage($view, string $template, array $data)
@@ -260,6 +271,11 @@ class Controller {
 	/**
 	 * 404 action
 	 *
+	 * @param string $title
+	 * @param string $message
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function notFound(
@@ -280,6 +296,9 @@ class Controller {
 	 * @param string $title
 	 * @param string $message
 	 * @param string $long_message
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $long_message = "")
@@ -330,7 +349,7 @@ class Controller {
 	/**
 	 * Helper for consistent page titles
 	 *
-	 * @param string ...$parts Title segements
+	 * @param string[] ...$parts Title segments
 	 * @return string
 	 */
 	public function formatTitle(string ...$parts) : string
@@ -344,6 +363,9 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $type
 	 * @param string $message
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return string
 	 */
 	protected function showMessage($view, string $type, string $message): string
@@ -361,11 +383,14 @@ class Controller {
 	 * @param array $data
 	 * @param HtmlView|null $view
 	 * @param int $code
+	 * @throws InvalidArgumentException
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200)
 	{
-		if (is_null($view))
+		if (null === $view)
 		{
 			$view = new HtmlView($this->container);
 		}
@@ -379,6 +404,7 @@ class Controller {
 	 *
 	 * @param mixed $data
 	 * @param int $code - the http status code
+	 * @throws DoubleRenderException
 	 * @return void
 	 */
 	protected function outputJSON($data = 'Empty response', int $code = 200)

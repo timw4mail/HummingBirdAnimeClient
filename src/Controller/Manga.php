@@ -273,8 +273,6 @@ class Manga extends Controller {
 			);
 		}
 
-		// dump($data);
-
 		foreach($data['included'] as $included)
 		{
 			if ($included['type'] === 'characters')

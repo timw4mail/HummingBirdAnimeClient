@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient;
 
-use function Aviat\AnimeClient\loadToml;
 use function Aviat\Ion\_dir;
 
 // Work around the silly timezone error
@@ -27,7 +26,7 @@ if ($timezone === '' || $timezone === FALSE)
 }
 
 // Load composer autoloader
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
@@ -37,8 +36,8 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-require _dir($APPCONF_DIR, 'base_config.php'); // $base_config
-$di = require _dir($APP_DIR, 'bootstrap.php');
+require_once $APPCONF_DIR . '/base_config.php'; // $base_config
+$di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);
@@ -46,10 +45,9 @@ $config_array = array_merge($base_config, $config);
 $container = $di($config_array);
 
 // Unset 'constants'
-unset($APP_DIR);
-unset($CONF_DIR);
+unset($APP_DIR, $APPCONF_DIR);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route
 // -----------------------------------------------------------------------------
-$container->get('dispatcher')->__invoke();
+$container->get('dispatcher')();
