@@ -172,13 +172,13 @@ class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("/collection/view", 303);
+			$this->redirect("/anime-collection/view", 303);
 		}
 
 		$this->animeCollectionModel->delete($data);
 		$this->setFlashMessage("Successfully removed anime from collection.", 'success');
 
-		$this->redirect("/collection/view", 303);
+		$this->redirect("/anime-collection/view", 303);
 	}
 }
 // End of CollectionController.php
