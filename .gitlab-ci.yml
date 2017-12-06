@@ -5,7 +5,7 @@ test:7:
       - apk add --no-cache php7-phpdbg
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --ignore-platform-reqs
-    image: php:7.0-cli-alpine3.4
+    image: php:7.0-alpine
     script:
       - phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never
 
@@ -16,6 +16,17 @@ test:7.1:
       - apk add --no-cache php7-phpdbg
       - curl -sS https://getcomposer.org/installer | php
       - php composer.phar install --ignore-platform-reqs
-    image: php:7.1-cli-alpine3.4
+    image: php:7.1-alpine
+    script:
+      - phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never
+
+test:7.2:
+    stage: test
+    before_script:
+      - sh build/docker_install.sh > /dev/null
+      - apk add --no-cache php7-phpdbg
+      - curl -sS https://getcomposer.org/installer | php
+      - php composer.phar install --ignore-platform-reqs
+    image: php:7.2-alpine
     script:
       - phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never
