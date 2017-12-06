@@ -7,6 +7,6 @@ set -xe
 
 # Install git (the php image doesn't have it) which is required by composer
 echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' > /etc/apk/repositories
-apk upgrade --update && apk add --no-cache \
+apk add --no-cache \
 	curl \
 	git
