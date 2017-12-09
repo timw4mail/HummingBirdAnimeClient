@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
+use function Amp\Promise\wait;
+
 use Amp;
 use Amp\Artax\{FormBody, Request};
 use Aviat\Ion\Json;
@@ -23,7 +25,7 @@ use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 
 /**
- * Wrapper around Artex to make it easier to build API requests
+ * Wrapper around Artax to make it easier to build API requests
  */
 class APIRequestBuilder {
 	use LoggerAwareTrait;
@@ -60,7 +62,7 @@ class APIRequestBuilder {
 
 	/**
 	 * The current request
-	 * @var \Amp\Promise
+	 * @var \Amp\Artax\Request
 	 */
 	protected $request;
 
@@ -96,11 +98,12 @@ class APIRequestBuilder {
 	 * Set the request body
 	 *
 	 * @param FormBody|string $body
+	 * @throws \TypeError
 	 * @return self
 	 */
 	public function setBody($body): self
 	{
-		$this->request->setBody($body);
+		$this->request = $this->request->withBody($body);
 		return $this;
 	}
 
@@ -108,13 +111,26 @@ class APIRequestBuilder {
 	 * Set body as form fields
 	 *
 	 * @param array $fields Mapping of field names to values
+	 * @throws \TypeError
 	 * @return self
 	 */
 	public function setFormFields(array $fields): self
 	{
-		$this->setHeader("Content-Type", "application/x-www-form-urlencoded");
-		$body = (new FormBody)->addFields($fields);
-		$this->setBody($body);
+		$body = new FormBody();
+		$body->addFields($fields);
+
+		return $this->setBody($body);
+	}
+	
+	/**
+	 * Unset a request header
+	 *
+	 * @param string $name
+	 * @return self
+	 */
+	public function unsetHeader(string $name): self
+	{
+		$this->request = $this->request->withoutHeader($name);
 		return $this;
 	}
 
@@ -125,9 +141,17 @@ class APIRequestBuilder {
 	 * @param string $value
 	 * @return self
 	 */
-	public function setHeader(string $name, string $value): self
+	public function setHeader(string $name, string $value = NULL): self
 	{
-		$this->request->setHeader($name, $value);
+		if (NULL === $value)
+		{
+			$this->unsetHeader($name);
+		}
+		else
+		{
+			$this->request = $this->request->withHeader($name, $value);
+		}
+
 		return $this;
 	}
 
@@ -153,6 +177,7 @@ class APIRequestBuilder {
 	 * Set the request body
 	 *
 	 * @param mixed $body
+	 * @throws \TypeError
 	 * @return self
 	 */
 	public function setJsonBody($body): self
@@ -160,7 +185,7 @@ class APIRequestBuilder {
 		$requestBody = ( ! is_scalar($body))
 			? Json::encode($body)
 			: $body;
-		
+
 		return $this->setBody($requestBody);
 	}
 
@@ -179,9 +204,10 @@ class APIRequestBuilder {
 	/**
 	 * Return the promise for the current request
 	 *
-	 * @return \Amp\Promise
+	 * @throws \Throwable
+	 * @return \Amp\Artax\Request
 	 */
-	public function getFullRequest()
+	public function getFullRequest(): Request
 	{
 		$this->buildUri();
 
@@ -189,8 +215,12 @@ class APIRequestBuilder {
 		{
 			$this->logger->debug('API Request', [
 				'request_url' => $this->request->getUri(),
-				'request_headers' => $this->request->getAllHeaders(),
-				'request_body' => $this->request->getBody()
+				'request_headers' => $this->request->getHeaders(),
+				'request_body' => wait(
+					$this->request->getBody()
+						->createBodyStream()
+						->read()
+				)
 			]);
 		}
 
@@ -207,18 +237,20 @@ class APIRequestBuilder {
 	 */
 	public function newRequest(string $type, string $uri): self
 	{
-		if ( ! in_array($type, $this->validMethods))
+		if ( ! \in_array($type, $this->validMethods, TRUE))
 		{
-			throw new InvalidArgumentException('Invalid HTTP methods');
+			throw new InvalidArgumentException('Invalid HTTP method');
 		}
 
-		$this->resetState();
+		$realUrl = (strpos($uri, '//') !== FALSE)
+			? $uri
+			: $this->baseUrl . $uri;
 
-		$this->request
-			->setMethod($type)
-			->setProtocol('1.1');
-
+		$this->resetState($realUrl, $type);
 		$this->path = $uri;
+
+		// Actually create the full url!
+		$this->buildUri();
 
 		if ( ! empty($this->defaultHeaders))
 		{
@@ -231,9 +263,9 @@ class APIRequestBuilder {
 	/**
 	 * Create the full request url
 	 *
-	 * @return void
+	 * @return Request
 	 */
-	private function buildUri()
+	private function buildUri(): Request
 	{
 		$url = (strpos($this->path, '//') !== FALSE)
 			? $this->path
@@ -244,18 +276,25 @@ class APIRequestBuilder {
 			$url .= '?' . $this->query;
 		}
 
-		$this->request->setUri($url);
+		$this->request = $this->request->withUri($url);
+
+		return $this->request;
 	}
 
 	/**
 	 * Reset the class state for a new request
 	 *
+	 * @param string $url
+	 * @param string $type
 	 * @return void
 	 */
-	private function resetState()
+	private function resetState($url, $type = 'GET')
 	{
+		$requestUrl = $url ?: $this->baseUrl;
+
 		$this->path = '';
 		$this->query = '';
-		$this->request = new Request();
+		$this->request = (new Request($requestUrl))
+			->withMethod($type);
 	}
 }

@@ -18,12 +18,17 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
-use function Amp\wait;
+use function Amp\Promise\wait;
 
-use Amp\Artax\{Client, Request};
+use Amp\Artax\Request;
 use Aviat\AnimeClient\AnimeClient;
-use Aviat\AnimeClient\API\{FailedResponseException, Kitsu as K};
+use Aviat\AnimeClient\API\{
+	FailedResponseException,
+	HummingbirdClient,
+	Kitsu as K
+};
 use Aviat\Ion\Json;
+use Aviat\Ion\JsonException;
 
 trait KitsuTrait {
 
@@ -80,24 +85,29 @@ trait KitsuTrait {
 			$token = $cacheItem->get();
 		}
 
-		if ( ! is_null($token))
+		if (NULL !== $token)
 		{
 			$request = $request->setAuth('bearer', $token);
 		}
 
 		if (array_key_exists('form_params', $options))
 		{
-			$request->setFormFields($options['form_params']);
+			$request = $request->setFormFields($options['form_params']);
 		}
 
 		if (array_key_exists('query', $options))
 		{
-			$request->setQuery($options['query']);
+			$request = $request->setQuery($options['query']);
 		}
 
 		if (array_key_exists('body', $options))
 		{
-			$request->setJsonBody($options['body']);
+			$request = $request->setJsonBody($options['body']);
+		}
+
+		if (array_key_exists('headers', $options))
+		{
+			$request = $request->setHeaders($options['headers']);
 		}
 
 		return $request->getFullRequest();
@@ -113,9 +123,24 @@ trait KitsuTrait {
 	 */
 	private function getResponse(string $type, string $url, array $options = [])
 	{
+		$logger = NULL;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('kitsu-request');
+		}
+
 		$request = $this->setUpRequest($type, $url, $options);
 
-		$response = wait((new Client)->request($request));
+		$response = wait((new HummingbirdClient)->request($request));
+
+		if ($logger)
+		{
+			$logger->debug('Kitsu API Response', [
+				'response_status' => $response->getStatus(),
+				'request_headers' => $response->getOriginalRequest()->getHeaders(),
+				'response_headers' => $response->getHeaders()
+			]);
+		}
 
 		return $response;
 	}
@@ -126,6 +151,8 @@ trait KitsuTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
+	 * @throws \Aviat\Ion\JsonException
+	 * @throws FailedResponseException
 	 * @return array
 	 */
 	private function request(string $type, string $url, array $options = []): array
@@ -148,7 +175,16 @@ trait KitsuTrait {
 			throw new FailedResponseException('Failed to get the proper response from the API');
 		}
 
-		return Json::decode($response->getBody(), TRUE);
+		try
+		{
+			return Json::decode(wait($response->getBody()), TRUE);
+		}
+		catch (JsonException $e)
+		{
+			print_r($e);
+			die();
+		}
+
 	}
 
 	/**
@@ -198,7 +234,7 @@ trait KitsuTrait {
 			}
 		}
 
-		return JSON::decode($response->getBody(), TRUE);
+		return JSON::decode(wait($response->getBody()), TRUE);
 	}
 
 	/**

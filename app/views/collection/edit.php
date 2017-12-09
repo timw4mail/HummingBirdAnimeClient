@@ -13,7 +13,7 @@
 					</th>
 					<th>
 						<article class="media">
-							<?= $helper->img($item['cover_image']); ?>
+							<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
 						</article>
 					</th>
 				</tr>

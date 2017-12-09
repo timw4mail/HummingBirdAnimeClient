@@ -16,15 +16,13 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
-use Amp\Artax\{Client, FormBody, Request};
+use function Amp\Promise\wait;
+
 use Aviat\AnimeClient\API\{
+	HummingbirdClient,
 	MAL as M,
-	APIRequestBuilder,
 	XML
 };
-use Aviat\AnimeClient\API\MALRequestBuilder;
-use Aviat\Ion\Json;
-use InvalidArgumentException;
 
 trait MALTrait {
 
@@ -82,12 +80,12 @@ trait MALTrait {
 
 		if (array_key_exists('query', $options))
 		{
-			$request->setQuery($options['query']);
+			$request = $request->setQuery($options['query']);
 		}
 
 		if (array_key_exists('body', $options))
 		{
-			$request->setBody($options['body']);
+			$request = $request->setBody($options['body']);
 		}
 
 		return $request->getFullRequest();
@@ -110,14 +108,14 @@ trait MALTrait {
 		}
 
 		$request = $this->setUpRequest($type, $url, $options);
-		$response = \Amp\wait((new Client)->request($request));
+		$response = wait((new HummingbirdClient)->request($request));
 
 		$logger->debug('MAL api response', [
 			'status' => $response->getStatus(),
 			'reason' => $response->getReason(),
 			'body' => $response->getBody(),
-			'headers' => $response->getAllHeaders(),
-			'requestHeaders' => $request->getAllHeaders(),
+			'headers' => $response->getHeaders(),
+			'requestHeaders' => $request->getHeaders(),
 		]);
 
 		return $response;
@@ -149,7 +147,7 @@ trait MALTrait {
 			}
 		}
 
-		return XML::toArray((string) $response->getBody());
+		return XML::toArray(wait($response->getBody()));
 	}
 
 	/**

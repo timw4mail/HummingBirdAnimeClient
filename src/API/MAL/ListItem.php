@@ -94,9 +94,9 @@ class ListItem {
 		$config = $this->container->get('config');
 
 		$xml = XML::toXML(['entry' => $data]);
-		$body = (new FormBody)
-			->addField('id', $id)
-			->addField('data', $xml);
+		$body = new FormBody();
+		$body->addField('id', $id);
+		$body->addField('data', $xml);
 
 		return $this->requestBuilder->newRequest('POST', "{$type}list/update/{$id}.xml")
 			->setFormFields([

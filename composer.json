@@ -17,7 +17,7 @@
 	}
   },
   "require": {
-	"amphp/artax": "^2.0",
+	"amphp/artax": "^3.0",
 	"aura/html": "^2.0",
 	"aura/router": "^3.0",
 	"aura/session": "^2.0",
@@ -42,7 +42,9 @@
 	"sebastian/phpcpd": "^3.0",
 	"spatie/phpunit-snapshot-assertions": "^1.2.0",
 	"squizlabs/php_codesniffer": "^3.0.0@beta",
-	"theseer/phpdox": "^0.10.1"
+	"symfony/var-dumper": "^4.0.1",
+	"theseer/phpdox": "^0.10.1",
+    "filp/whoops": "^2.1"
   },
   "scripts": {
 	"build": "vendor/bin/robo build",

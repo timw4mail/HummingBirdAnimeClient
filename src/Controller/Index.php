@@ -16,11 +16,10 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use function Amp\wait;
+use function Amp\Promise\wait;
 
-use Amp\Artax\Client;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\API\{HummingbirdClient, JsonAPI};
 use Aviat\Ion\View\HtmlView;
 
 /**
@@ -109,13 +108,17 @@ class Index extends BaseController {
 		$username = $this->config->get(['kitsu_username']);
 		$model = $this->container->get('kitsu-model');
 		$data = $model->getUserData($username);
-		$orgData = JsonAPI::organizeData($data);
+		$orgData = JsonAPI::organizeData($data)[0];
+		$rels = $orgData['relationships'] ?? [];
+		$favorites = array_key_exists('favorites', $rels) ? $rels['favorites'] : [];
+		
+		
 		$this->outputHTML('me', [
 			'title' => 'About ' . $this->config->get('whose_list'),
-			'data' => $orgData[0],
-			'attributes' => $orgData[0]['attributes'],
-			'relationships' => $orgData[0]['relationships'],
-			'favorites' => $this->organizeFavorites($orgData[0]['relationships']['favorites']),
+			'data' => $orgData,
+			'attributes' => $orgData['attributes'],
+			'relationships' => $rels,
+			'favorites' => $this->organizeFavorites($favorites),
 		]);
 	}
 
@@ -151,14 +154,14 @@ class Index extends BaseController {
 				return;
 		}
 
-		$promise = (new Client)->request($kitsuUrl);
+		$promise = (new HummingbirdClient)->request($kitsuUrl);
 		$response = wait($promise);
-		$data = (string) $response->getBody();
+		$data = wait($response->getBody());
 
 		$baseSavePath = $this->config->get('img_cache_path');
 		file_put_contents("{$baseSavePath}/{$type}/{$id}.{$ext}", $data);
 		header('Content-type: ' . $response->getHeader('content-type')[0]);
-		echo (string) $response->getBody();
+		echo $data;
 	}
 
 	private function organizeFavorites(array $rawfavorites): array

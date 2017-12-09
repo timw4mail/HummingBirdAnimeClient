@@ -46,6 +46,5 @@ class MALTraitTest extends AnimeClientTestCase {
 		]);
 		$this->assertInstanceOf(\Amp\Artax\Request::class, $request);
 		$this->assertEquals($request->getUri(), 'https://myanimelist.net/api/foo?foo=bar');
-		$this->assertEquals($request->getBody(), '');
 	}
 }

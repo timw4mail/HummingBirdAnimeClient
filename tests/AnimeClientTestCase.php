@@ -53,9 +53,9 @@ class AnimeClientTestCase extends TestCase {
 	public static function setUpBeforeClass()
 	{
 		// Use mock session handler
-		$session_handler = new TestSessionHandler();
-		session_set_save_handler($session_handler, TRUE);
-		self::$session_handler = $session_handler;
+		//$session_handler = new TestSessionHandler();
+		//session_set_save_handler($session_handler, TRUE);
+		//self::$session_handler = $session_handler;
 
 		// Remove test cache files
 		$files = glob(_dir(TEST_DATA_DIR, 'cache', '*.json'));

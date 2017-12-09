@@ -393,12 +393,12 @@ class DoubleQuoteUsageSniff extends VariableUsageSniff
             && false === $smpl_qt_at
         ) {
             $error = 'Single-quoted strings should be used unless it contains variables, special chars like \n or single quotes.';
-            $phpcsFile->addError($error, $stackPtr);
+            $phpcsFile->addError($error, $stackPtr, 111);
         } else if (false !== $smpl_qt_at && false !== $dbl_qt_at
             && false === $has_variable && false === $has_specific_sequence
         ) {
             $warning = 'It is encouraged to use a single-quoted string, since it doesn\'t contain any variable nor special char though it mixes single and double quotes.';
-            $phpcsFile->addWarning($warning, $stackPtr);
+            $phpcsFile->addWarning($warning, $stackPtr, 222);
         }
     }//end processDoubleQuotedString()
 
@@ -426,7 +426,7 @@ class DoubleQuoteUsageSniff extends VariableUsageSniff
         $smpl_qt_at = strpos($qtString, "'");
         if (false === $has_variable && false !== $smpl_qt_at && false === $dbl_qt_at) {
             $warning = 'You may also use double-quoted strings if the string contains single quotes, so you do not have to use escape characters.';
-            $phpcsFile->addWarning($warning, $stackPtr);
+            $phpcsFile->addWarning($warning, $stackPtr, 333);
         }
     }//end processSingleQuotedString()
 

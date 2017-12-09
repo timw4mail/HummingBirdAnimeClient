@@ -16,8 +16,9 @@
 
 namespace Aviat\EasyMin;
 
-use function Amp\wait;
-use Amp\Artax\{Client, FormBody, Request};
+use function Amp\Promise\wait;
+use Amp\Artax\Request;
+use Aviat\AnimeClient\API\HummingbirdClient;
 use Aviat\Ion\{Json, JsonException};
 
 // Include Amp and Artax
@@ -113,24 +114,24 @@ class JSMin {
 	 * Makes a call to google closure compiler service
 	 *
 	 * @param array $options - Form parameters
+	 * @throws \TypeError
 	 * @return object
 	 */
 	protected function closureCall(array $options)
 	{
 		$formFields = http_build_query($options);
 
-		$request = (new Request)
-			->setMethod('POST')
-			->setUri('https://closure-compiler.appspot.com/compile')
-			->setAllHeaders([
+		$request = (new Request('https://closure-compiler.appspot.com/compile'))
+			->withMethod('POST')
+			->withHeaders([
 				'Accept' => 'application/json',
 				'Accept-Encoding' => 'gzip',
 				'Content-type' => 'application/x-www-form-urlencoded'
 			])
-			->setBody($formFields);
+			->withBody($formFields);
 
-		$response = wait((new Client)->request($request, [
-			Client::OP_AUTO_ENCODING => false
+		$response = wait((new HummingbirdClient)->request($request, [
+			HummingbirdClient::OP_AUTO_ENCODING => false
 		]));
 
 		return $response;
@@ -147,7 +148,7 @@ class JSMin {
 		try
 		{
 			$errorRes = $this->closureCall($options);
-			$errorJson = $errorRes->getBody();
+			$errorJson = wait($errorRes->getBody());
 			$errorObj = Json::decode($errorJson) ?: (object)[];
 
 
@@ -237,7 +238,7 @@ class JSMin {
 		// Now actually retrieve the compiled code
 		$options['output_info'] = 'compiled_code';
 		$res = $this->closureCall($options);
-		$json = $res->getBody();
+		$json = wait($res->getBody());
 		$obj = Json::decode($json);
 
 		//return $obj;
