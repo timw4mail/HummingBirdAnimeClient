@@ -16,21 +16,21 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp;
-use Amp\Artax\Client;
+use function Amp\call;
+use function Amp\Promise\{all, wait};
 
 /**
  * Class to simplify making and validating simultaneous requests
  */
 class ParallelAPIRequest {
-	
+
 	/**
 	 * Set of requests to make in parallel
 	 *
 	 * @var array
 	 */
 	protected $requests = [];
-	
+
 	/**
 	 * Add a request
 	 *
@@ -45,11 +45,11 @@ class ParallelAPIRequest {
 			$this->requests[$key] = $request;
 			return $this;
 		}
-		
+
 		$this->requests[] = $request;
 		return $this;
 	}
-	
+
 	/**
 	 * Add multiple requests
 	 *
@@ -61,22 +61,27 @@ class ParallelAPIRequest {
 		array_walk($requests, [$this, 'addRequest']);
 		return $this;
 	}
-	
+
 	/**
 	 * Actually make the requests
 	 *
-	 * @param bool $allowFailingRequests
-	 * @return array 
+	 * @return array
 	 */
-	public function makeRequests(bool $allowFailingRequests = FALSE): array
+	public function makeRequests(): array
 	{
-		$client = new Client();
-		$promises = $client->requestMulti($this->requests);
-		
-		$func = ($allowFailingRequests) ? '\Amp\some' : '\Amp\all';
-		
-		$results = Amp\wait($func($promises));
-		
-		return $results;
+		$client = new HummingbirdClient();
+		$promises = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$promises[$key] = call(function () use ($client, $url) {
+				$response = yield $client->request($url);
+				$body = yield $response->getBody();
+
+				return $body;
+			});
+		}
+
+		return wait(all($promises));
 	}
 }

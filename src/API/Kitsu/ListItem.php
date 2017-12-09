@@ -18,8 +18,10 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
+use function Amp\Promise\wait;
+
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\AbstractListItem;
+use Aviat\AnimeClient\API\{AbstractListItem, HummingbirdClient};
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 use RuntimeException;
@@ -113,21 +115,21 @@ class ListItem extends AbstractListItem {
 	public function get(string $id): array
 	{
 		$authHeader = $this->getAuthHeader();
-		
+
 		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
 			->setQuery([
 				'include' => 'media,media.genres,media.mappings'
 			]);
-		
+
 		if ($authHeader !== FALSE)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
-		
+
 		$request = $request->getFullRequest();
 
-		$response = \Amp\wait((new \Amp\Artax\Client)->request($request));
-		return Json::decode($response->getBody());
+		$response = wait((new HummingbirdClient)->request($request));
+		return Json::decode(wait($response->getBody()));
 	}
 
 	public function update(string $id, array $data): Request
@@ -140,15 +142,15 @@ class ListItem extends AbstractListItem {
 				'attributes' => $data
 			]
 		];
-		
+
 		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
 			->setJsonBody($requestData);
-		
+
 		if ($authHeader !== FALSE)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
-		
+
 		return $request->getFullRequest();
 	}
 }

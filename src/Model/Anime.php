@@ -158,9 +158,9 @@ class Anime extends API {
 
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
-		$results = $requester->makeRequests(TRUE);
+		$results = $requester->makeRequests();
 
-		return count($results[1]) > 0;
+		return count($results) > 0;
 	}
 
 	/**
@@ -180,11 +180,13 @@ class Anime extends API {
 
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		$results = $requester->makeRequests(TRUE);
+		$results = $requester->makeRequests();
+		$body = Json::decode($results['kitsu']);
+		$statusCode = (array_key_exists('error', $body)) ? 400: 200;
 
 		return [
-			'body' => Json::decode($results[1]['kitsu']->getBody()),
-			'statusCode' => $results[1]['kitsu']->getStatus()
+			'body' => Json::decode($results['kitsu']),
+			'statusCode' => $statusCode
 		];
 	}
 
@@ -206,8 +208,8 @@ class Anime extends API {
 
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
-		$results = $requester->makeRequests(TRUE);
+		$results = $requester->makeRequests();
 
-		return count($results[1]) > 0;
+		return count($results) > 0;
 	}
 }

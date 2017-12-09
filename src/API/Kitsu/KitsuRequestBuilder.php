@@ -16,10 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\AnimeClient\API\{
-	APIRequestBuilder,
-	Kitsu as K
-};
+use Aviat\AnimeClient\API\APIRequestBuilder;
 
 class KitsuRequestBuilder extends APIRequestBuilder {
 
@@ -27,7 +24,7 @@ class KitsuRequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = "https://kitsu.io/api/edge/";
+	protected $baseUrl = 'https://kitsu.io/api/edge/';
 
 	/**
 	 * HTTP headers to send with every request
@@ -36,9 +33,9 @@ class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	protected $defaultHeaders = [
 		'User-Agent' => "Tim's Anime Client/4.0",
-		'Accept-Encoding' => 'application/vnd.api+json',
+		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',
-		'client_id' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
-		'client_secret' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
+		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
+		'CLIENT_SECRET' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
 }

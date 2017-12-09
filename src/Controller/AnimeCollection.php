@@ -21,7 +21,6 @@ use Aviat\AnimeClient\Model\{
 	Anime as AnimeModel,
 	AnimeCollection as AnimeCollectionModel
 };
-use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerInterface;
 
 /**

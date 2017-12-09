@@ -73,14 +73,14 @@ class Auth {
 		$config = $this->container->get('config');
 		$username = $config->get(['kitsu_username']);
 
-		try
+		// try
 		{
 			$auth = $this->model->authenticate($username, $password);
 		}
-		catch (Exception $e)
+		/* catch (Exception $e)
 		{
 			return FALSE;
-		}
+		}*/
 
 
 		if (FALSE !== $auth)

@@ -16,9 +16,9 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use function Amp\{all, wait};
+use function Amp\Promise\wait;
 
-use Amp\Artax\{Client, Request};
+use Amp\Artax\Request;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
 	JsonAPI,
@@ -101,20 +101,35 @@ class Model {
 	 */
 	public function authenticate(string $username, string $password)
 	{
+		// K::AUTH_URL
 		$response = $this->getResponse('POST', K::AUTH_URL, [
-			'headers' => [],
+			'headers' => [
+				'accept' => NULL,
+				'Content-type' => 'application/x-www-form-urlencoded',
+				'client_id' => NULL,
+				'client_secret' => NULL
+			],
 			'form_params' => [
 				'grant_type' => 'password',
 				'username' => $username,
 				'password' => $password
 			]
 		]);
-
-		$data = Json::decode((string)$response->getBody());
+		$data = Json::decode(wait($response->getBody()));
+		
+		//dump($response);
 
 		if (array_key_exists('access_token', $data))
 		{
 			return $data;
+		}
+
+		if (array_key_exists('error', $data))
+		{
+			dump($data['error']);
+			dump($response);
+			die();
+			//throw new \Exception('auth error');
 		}
 
 		return FALSE;
@@ -129,14 +144,17 @@ class Model {
 	public function reAuthenticate(string $token)
 	{
 		$response = $this->getResponse('POST', K::AUTH_URL, [
-			'headers' => [],
+			'headers' => [
+				'Accept-encoding' => '*'
+
+			],
 			'form_params' => [
 				'grant_type' => 'refresh_token',
 				'refresh_token' => $token
 			]
 		]);
 
-		$data = Json::decode((string)$response->getBody());
+		$data = Json::decode(wait($response->getBody()));
 
 		if (array_key_exists('access_token', $data))
 		{
@@ -186,7 +204,7 @@ class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		$data = $this->getRequest('/characters', [
+		$data = $this->getRequest('characters', [
 			'query' => [
 				'filter' => [
 					'slug' => $slug,
@@ -211,7 +229,7 @@ class Model {
 	public function getUserData(string $username): array
 	{
 		// $userId = $this->getUserIdByUsername($username);
-		$data = $this->getRequest("/users", [
+		$data = $this->getRequest("users", [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -425,7 +443,7 @@ class Model {
 
 		foreach($responses as $response)
 		{
-			$data = Json::decode($response->getBody());
+			$data = Json::decode($response);
 			$output = array_merge_recursive($output, $data);
 		}
 
@@ -522,7 +540,6 @@ class Model {
 	 */
 	public function getRawAnimeList(string $status): array
 	{
-
 		$options = [
 			'filter' => [
 				'user_id' => $this->getUserIdByUsername($this->getUsername()),
@@ -689,7 +706,7 @@ class Model {
 
 		foreach($responses as $response)
 		{
-			$data = Json::decode($response->getBody());
+			$data = Json::decode($response);
 			$output = array_merge_recursive($output, $data);
 		}
 
