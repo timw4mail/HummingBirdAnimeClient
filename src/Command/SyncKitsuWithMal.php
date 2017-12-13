@@ -16,10 +16,11 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use function Amp\{all, wait};
+use function Amp\Promise\{all, wait};
 
 use Amp\Artax\Client;
 use Aviat\AnimeClient\API\{
+	FailedResponseException,
 	JsonAPI,
 	ParallelAPIRequest,
 	Mapping\AnimeWatchingStatus,
@@ -82,7 +83,15 @@ class SyncKitsuWithMal extends BaseCommand {
 				: count([$malList]);
 		}
 
-		$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
+		try
+		{
+			$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
+		}
+		catch (FailedResponseException $e)
+		{
+			dump($e);
+		}
+
 
 		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
 		$this->echoBox("Number of Kitsu {$type} list items: {$kitsuCount}");
@@ -93,21 +102,21 @@ class SyncKitsuWithMal extends BaseCommand {
 		{
 			$count = count($data['addToMAL']);
 			$this->echoBox("Adding {$count} missing {$type} list items to MAL");
-			$this->createMALListItems($data['addToMAL'], $type);
-		}
-
-		if ( ! empty($data['addToKitsu']))
-		{
-			$count = count($data['addToKitsu']);
-			$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
-			$this->createKitsuListItems($data['addToKitsu'], $type);
+			$this->updateMALListItems($data['addToMAL'], 'create', $type);
 		}
 
 		if ( ! empty($data['updateMAL']))
 		{
 			$count = count($data['updateMAL']);
 			$this->echoBox("Updating {$count} outdated MAL {$type} list items");
-			$this->updateMALListItems($data['updateMAL'], $type);
+			$this->updateMALListItems($data['updateMAL'], 'update', $type);
+		}
+
+		if ( ! empty($data['addToKitsu']))
+		{
+			$count = count($data['addToKitsu']);
+			$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
+			$this->updateKitsuListItems($data['addToKitsu'], 'create', $type);
 		}
 
 		if ( ! empty($data['updateKitsu']))
@@ -115,7 +124,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			// print_r($data['updateKitsu']);
 			$count = count($data['updateKitsu']);
 			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
-			$this->updateKitsuListItems($data['updateKitsu'], $type);
+			$this->updateKitsuListItems($data['updateKitsu'], 'update', $type);
 		}
 	}
 
@@ -455,12 +464,19 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $return;
 	}
 
-	public function updateKitsuListItems($itemsToUpdate, $type = 'anime')
+	public function updateKitsuListItems($itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$requester = new ParallelAPIRequest();
 		foreach($itemsToUpdate as $item)
 		{
-			$requester->addRequest($this->kitsuModel->updateListItem($item));
+			if ($action === 'update')
+			{
+				$requester->addRequest($this->kitsuModel->updateListItem($item));
+			}
+			else if ($action === 'create')
+			{
+				$requester->addRequest($this->kitsuModel->createListItem($item));
+			}
 		}
 
 		$responses = $requester->makeRequests();
@@ -468,26 +484,38 @@ class SyncKitsuWithMal extends BaseCommand {
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToUpdate[$key]['id'];
-			if ($response->getStatus() === 200)
+
+			$responseObject = Json::decode($response);
+			if ( ! array_key_exists('errors', $responseObject))
 			{
-				$this->echoBox("Successfully updated Kitsu {$type} list item with id: {$id}");
+				$verb = ($action === 'update') ? 'updated' : 'created';
+				$this->echoBox("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
 			}
 			else
 			{
-				echo $response->getBody();
-				$this->echoBox("Failed to update Kitsu {$type} list item with id: {$id}");
+				dump($responseObject);
+				$verb = ($action === 'update') ? 'update' : 'create';
+				$this->echoBox("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
 			}
 		}
 	}
 
-	public function updateMALListItems($itemsToUpdate, $type = 'anime')
+	public function updateMALListItems($itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$transformer = new ALT();
 		$requester = new ParallelAPIRequest();
 
 		foreach($itemsToUpdate as $item)
 		{
-			$requester->addRequest($this->malModel->updateListItem($item, $type));
+			if ($action === 'update')
+			{
+				$requester->addRequest($this->malModel->updateListItem($item, $type));
+			}
+			else if ($action === 'create')
+			{
+				$data = $transformer->untransform($item);
+				$requester->addRequest($this->malModel->createFullListItem($data, $type));
+			}
 		}
 
 		$responses = $requester->makeRequests();
@@ -495,65 +523,19 @@ class SyncKitsuWithMal extends BaseCommand {
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToUpdate[$key]['mal_id'];
-			if ($response->getBody() === 'Updated')
+			$goodResponse = (
+				($action === 'update' && $response === 'Updated') ||
+				($action === 'create' && $response === 'Created')
+			);
+			if ($goodResponse)
 			{
-				$this->echoBox("Successfully updated MAL {$type} list item with id: {$id}");
+				$verb = ($action === 'update') ? 'updated' : 'created';
+				$this->echoBox("Successfully {$verb} MAL {$type} list item with id: {$id}");
 			}
 			else
 			{
-				$this->echoBox("Failed to update MAL {$type} list item with id: {$id}");
-			}
-		}
-	}
-
-	public function createKitsuListItems($itemsToAdd, $type = 'anime')
-	{
-		$requester = new ParallelAPIRequest();
-		foreach($itemsToAdd as $item)
-		{
-			$requester->addRequest($this->kitsuModel->createListItem($item));
-		}
-
-		$responses = $requester->makeRequests();
-
-		foreach($responses as $key => $response)
-		{
-			$id = $itemsToAdd[$key]['id'];
-			if ($response->getStatus() === 201)
-			{
-				$this->echoBox("Successfully created Kitsu {$type} list item with id: {$id}");
-			}
-			else
-			{
-				echo $response->getBody();
-				$this->echoBox("Failed to create Kitsu {$type} list item with id: {$id}");
-			}
-		}
-	}
-
-	public function createMALListItems($itemsToAdd, $type = 'anime')
-	{
-		$transformer = new ALT();
-		$requester = new ParallelAPIRequest();
-
-		foreach($itemsToAdd as $item)
-		{
-			$data = $transformer->untransform($item);
-			$requester->addRequest($this->malModel->createFullListItem($data, $type));
-		}
-
-		$responses = $requester->makeRequests();
-
-		foreach($responses as $key => $response)
-		{
-			$id = $itemsToAdd[$key]['mal_id'];
-			if ($response->getBody() === 'Created')
-			{
-				$this->echoBox("Successfully created MAL {$type} list item with id: {$id}");
-			}
-			else
-			{
-				$this->echoBox("Failed to create MAL {$type} list item with id: {$id}");
+				$verb = ($action === 'update') ? 'update' : 'create';
+				$this->echoBox("Failed to {$verb} MAL {$type} list item with id: {$id}");
 			}
 		}
 	}
