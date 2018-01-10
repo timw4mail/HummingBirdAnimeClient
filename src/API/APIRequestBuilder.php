@@ -121,7 +121,7 @@ class APIRequestBuilder {
 
 		return $this->setBody($body);
 	}
-	
+
 	/**
 	 * Unset a request header
 	 *
@@ -225,6 +225,21 @@ class APIRequestBuilder {
 		}
 
 		return $this->request;
+	}
+
+	/**
+	 * Get the data from the response of the passed request
+	 *
+	 * @param Request $request
+	 * @return mixed
+	 * @throws \Error
+	 * @throws \Throwable
+	 * @throws \TypeError
+	 */
+	public function getResponseData(Request $request)
+	{
+		$response = wait((new HummingbirdClient)->request($request));
+		return wait($response->getBody());
 	}
 
 	/**
