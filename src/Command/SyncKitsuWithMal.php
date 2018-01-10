@@ -50,7 +50,7 @@ class SyncKitsuWithMal extends BaseCommand {
 	protected $malModel;
 
 	/**
-	 * Run the image conversion script
+	 * Run the Kitsu <=> MAL sync script
 	 *
 	 * @param array $args
 	 * @param array $options
@@ -121,7 +121,6 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		if ( ! empty($data['updateKitsu']))
 		{
-			// print_r($data['updateKitsu']);
 			$count = count($data['updateKitsu']);
 			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
 			$this->updateKitsuListItems($data['updateKitsu'], 'update', $type);
@@ -483,17 +482,17 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		foreach($responses as $key => $response)
 		{
-			$id = $itemsToUpdate[$key]['id'];
+			$responseData = Json::decode($response);
 
-			$responseObject = Json::decode($response);
-			if ( ! array_key_exists('errors', $responseObject))
+			$id = $itemsToUpdate[$key]['mal_id'];
+			if ( ! array_key_exists('errors', $responseData));
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
 				$this->echoBox("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
 			}
 			else
 			{
-				dump($responseObject);
+				dump($responseData);
 				$verb = ($action === 'update') ? 'update' : 'create';
 				$this->echoBox("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
 			}
