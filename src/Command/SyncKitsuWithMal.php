@@ -16,9 +16,6 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use function Amp\Promise\{all, wait};
-
-use Amp\Artax\Client;
 use Aviat\AnimeClient\API\{
 	FailedResponseException,
 	JsonAPI,
@@ -27,8 +24,7 @@ use Aviat\AnimeClient\API\{
 	Mapping\MangaReadingStatus
 };
 use Aviat\AnimeClient\API\MAL\Transformer\{
-	AnimeListTransformer as ALT,
-	MangaListTransformer as MLT
+	AnimeListTransformer as ALT
 };
 use Aviat\Ion\Json;
 
@@ -78,9 +74,10 @@ class SyncKitsuWithMal extends BaseCommand {
 		$malCount = 0;
 		if ( ! empty($malList))
 		{
-			$malCount = (array_key_exists(0, $malList))
-				? count($malList)
-				: count([$malList]);
+			$malCount = count(array_key_exists(0, $malList)
+				? $malList
+				: [$malList]
+			);
 		}
 
 		try
@@ -485,7 +482,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			$responseData = Json::decode($response);
 
 			$id = $itemsToUpdate[$key]['mal_id'];
-			if ( ! array_key_exists('errors', $responseData));
+			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
 				$this->echoBox("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
