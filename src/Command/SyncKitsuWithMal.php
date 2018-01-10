@@ -49,7 +49,7 @@ class SyncKitsuWithMal extends BaseCommand {
 	protected $malModel;
 
 	/**
-	 * Run the image conversion script
+	 * Run the Kitsu <=> MAL sync script
 	 *
 	 * @param array $args
 	 * @param array $options
@@ -112,7 +112,6 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		if ( ! empty($data['updateKitsu']))
 		{
-			// print_r($data['updateKitsu']);
 			$count = count($data['updateKitsu']);
 			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
 			$this->updateKitsuListItems($data['updateKitsu'], $type);
@@ -467,14 +466,16 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		foreach($responses as $key => $response)
 		{
+			$responseData = Json::decode($response);
+
 			$id = $itemsToUpdate[$key]['id'];
-			if ($response->getStatus() === 200)
+			if ( ! array_key_exists('errors', $responseData))
 			{
 				$this->echoBox("Successfully updated Kitsu {$type} list item with id: {$id}");
 			}
 			else
 			{
-				echo $response->getBody();
+				dump($responseData);
 				$this->echoBox("Failed to update Kitsu {$type} list item with id: {$id}");
 			}
 		}
@@ -495,7 +496,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToUpdate[$key]['mal_id'];
-			if ($response->getBody() === 'Updated')
+			if ($response === 'Updated')
 			{
 				$this->echoBox("Successfully updated MAL {$type} list item with id: {$id}");
 			}
@@ -518,14 +519,17 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		foreach($responses as $key => $response)
 		{
+			$responseData = Json::decode($response);
+
 			$id = $itemsToAdd[$key]['id'];
-			if ($response->getStatus() === 201)
+
+			if ( ! array_key_exists('errors', $responseData))
 			{
 				$this->echoBox("Successfully created Kitsu {$type} list item with id: {$id}");
 			}
 			else
 			{
-				echo $response->getBody();
+				dump($responseData);
 				$this->echoBox("Failed to create Kitsu {$type} list item with id: {$id}");
 			}
 		}
@@ -547,7 +551,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToAdd[$key]['mal_id'];
-			if ($response->getBody() === 'Created')
+			if ($response === 'Created')
 			{
 				$this->echoBox("Successfully created MAL {$type} list item with id: {$id}");
 			}
