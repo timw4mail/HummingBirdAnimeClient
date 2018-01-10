@@ -12,7 +12,7 @@
 	</transformations>
 	<files>
 		<directory>src</directory>
-		<!-- <directory>vendor/aviat/ion/src</directory>
-		<directory>vendor/container-interop/container-interop/src</directory> -->
+		<directory>vendor/aviat/ion/src</directory>
+		<directory>vendor/container-interop/container-interop/src</directory>
 	</files>
 </phpdoc>
