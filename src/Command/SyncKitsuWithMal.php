@@ -481,7 +481,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		{
 			$responseData = Json::decode($response);
 
-			$id = $itemsToUpdate[$key]['mal_id'];
+			$id = $itemsToUpdate[$key]['id'];
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
