@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Hummingbird Anime List Client
  *
@@ -43,7 +43,7 @@ use Amp\Artax\{
 use Amp\Artax\Cookie\{
 	Cookie,
 	CookieFormatException,
-	CookieJar, 
+	CookieJar,
 	NullCookieJar
 };
 use Amp\Artax\Internal\{
