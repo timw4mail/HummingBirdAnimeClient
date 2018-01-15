@@ -1,13 +1,50 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2018  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ */
 
 namespace Aviat\AnimeClient\API;
 
 use Amp\{
-	CancellationToken, CancelledException, Deferred, Delayed, Emitter, Failure, Loop, NullCancellationToken, Promise, Success, TimeoutCancellationToken
+	CancellationToken,
+	CancelledException,
+	Deferred,
+	Delayed,
+	Emitter,
+	Failure,
+	Loop,
+	NullCancellationToken,
+	Promise,
+	Success,
+	TimeoutCancellationToken
 };
-use Amp\Artax\{ConnectionInfo, Client, HttpException, HttpSocketPool, MetaInfo, Response, Request, TlsInfo};
+use Amp\Artax\{
+	ConnectionInfo,
+	Client,
+	HttpException,
+	HttpSocketPool,
+	MetaInfo,
+	Response,
+	Request,
+	TimeoutException,
+	TlsInfo
+};
 use Amp\Artax\Cookie\{
-	Cookie, CookieFormatException, CookieJar, NullCookieJar
+	Cookie,
+	CookieFormatException,
+	CookieJar, 
+	NullCookieJar
 };
 use Amp\Artax\Internal\{
 	CombinedCancellationToken, Parser, PublicSuffixList, RequestCycle
