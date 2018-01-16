@@ -33,7 +33,7 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 ### Requirements
 
-* PHP 7.0+
+* PHP 7.1+
 * PDO SQLite or PDO PostgreSQL (For collection tab)
 * GD
 * Redis or Memcached for caching
