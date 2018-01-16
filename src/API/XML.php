@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use DOMDocument, DOMNode, DOMNodelist;
+use DOMDocument, DOMNode, DOMNodeList;
 
 /**
  * XML <=> PHP Array codec
@@ -180,7 +180,7 @@ class XML {
 		// except for the xml declaration tag, Which looks
 		// something like:
 		/* <?xml version="1.0" encoding="UTF-8"?> */
-		
+
 		return preg_replace('/([^\?])>\s+</', '$1><', $xml);
 	}
 

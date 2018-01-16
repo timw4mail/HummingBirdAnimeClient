@@ -30,15 +30,7 @@ use Amp\{
 	TimeoutCancellationToken
 };
 use Amp\Artax\{
-	ConnectionInfo,
-	Client,
-	HttpException,
-	HttpSocketPool,
-	MetaInfo,
-	Response,
-	Request,
-	TimeoutException,
-	TlsInfo
+	ConnectionInfo, Client, DnsException, HttpException, HttpSocketPool, MetaInfo, ParseException, RequestBody, Response, Request, SocketException, TimeoutException, TlsInfo, TooManyRedirectsException
 };
 use Amp\Artax\Cookie\{
 	Cookie,

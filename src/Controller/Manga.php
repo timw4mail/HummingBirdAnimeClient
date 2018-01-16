@@ -265,12 +265,13 @@ class Manga extends Controller {
 
 		if (empty($data))
 		{
-			return $this->notFound(
+			$this->notFound(
 				$this->config->get('whose_list') .
 					"'s Manga List &middot; Manga &middot; " .
 					'Manga not found',
 				'Manga Not Found'
 			);
+			return;
 		}
 
 		foreach($data['included'] as $included)

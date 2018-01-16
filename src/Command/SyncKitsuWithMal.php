@@ -51,7 +51,6 @@ class SyncKitsuWithMal extends BaseCommand {
 	 * @param array $args
 	 * @param array $options
 	 * @return void
-	 * @throws \ConsoleKit\ConsoleException
 	 */
 	public function execute(array $args, array $options = [])
 	{
@@ -80,6 +79,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			);
 		}
 
+		$kitsuCount = 0;
 		try
 		{
 			$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();

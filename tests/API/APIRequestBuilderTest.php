@@ -116,7 +116,7 @@ class APIRequestBuilderTest extends TestCase {
 			'foo' => [
 				'bar' => 1,
 				'baz' => [2, 3, 4],
-				'bar' => [
+				'bazbar' => [
 					'a' => 1,
 					'b' => 2
 				]

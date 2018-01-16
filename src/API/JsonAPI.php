@@ -44,7 +44,7 @@ class JsonAPI {
 	 * Inline all included data
 	 *
 	 * @param array $data - The raw JsonAPI response data
-	 * @return data
+	 * @return array
 	 */
 	public static function organizeData(array $data): array
 	{
@@ -54,7 +54,7 @@ class JsonAPI {
 		];
 
 		// Reorganize included data
-		$included = (array_key_exists('included', $data))
+		$included = array_key_exists('included', $data)
 			? static::organizeIncluded($data['included'])
 			: [];
 

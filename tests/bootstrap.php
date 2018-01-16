@@ -14,8 +14,8 @@ if ($timezone === '' || $timezone === FALSE)
 // Autoloading
 // -----------------------------------------------------------------------------
 
-require __DIR__ . '/AnimeClientTestCase.php';
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/AnimeClientTestCase.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // -----------------------------------------------------------------------------
 // Ini Settings
@@ -35,7 +35,7 @@ $_SESSION = [];
 $_COOKIE = [];
 
 // Request base test case and mocks
-require __DIR__ . '/TestSessionHandler.php';
-require __DIR__ . '/mocks.php';
+require_once __DIR__ . '/TestSessionHandler.php';
+require_once __DIR__ . '/mocks.php';
 
 // End of bootstrap.php

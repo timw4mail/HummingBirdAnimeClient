@@ -185,14 +185,6 @@ class DispatcherTest extends AnimeClientTestCase {
 					'action' => ['redirect'],
 					'params' => [
 						'url' => '', // Determined by config
-						'code' => '301'
-					]
-				],
-				'index' => [
-					'path' => '/',
-					'action' => ['redirect'],
-					'params' => [
-						'url' => '', // Determined by config
 						'code' => '301',
 						'type' => 'manga'
 					]

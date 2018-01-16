@@ -28,7 +28,7 @@ class AnimeCollection extends Collection {
 
 	/**
 	 * Anime API Model
-	 * @var object $animeModel
+	 * @var Anime $animeModel
 	 */
 	protected $animeModel;
 
@@ -221,7 +221,7 @@ class AnimeCollection extends Collection {
 	private function updateGenre($animeId)
 	{
 		$genreInfo = $this->getGenreData();
-		extract($genreInfo);
+		extract($genreInfo, \EXTR_SKIP);
 
 		// Get api information
 		$anime = $this->animeModel->getAnimeById($animeId);

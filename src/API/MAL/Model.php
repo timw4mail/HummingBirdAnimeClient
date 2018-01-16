@@ -39,6 +39,11 @@ class Model {
 	protected $animeListTransformer;
 
 	/**
+	 * @var MangaListTransformer
+	 */
+	protected $mangaListTransformer;
+
+	/**
 	 * @var ListItem
 	 */
 	protected $listItem;
@@ -76,6 +81,8 @@ class Model {
 	 */
 	public function createListItem(array $data, string $type = 'anime'): Request
 	{
+		$createData = [];
+
 		if ($type === 'anime')
 		{
 			$createData = [
@@ -119,7 +126,7 @@ class Model {
 			]
 		]);
 
-		return (array_key_exists($type, $list['myanimelist']))
+		return array_key_exists($type, $list['myanimelist'])
 			? $list['myanimelist'][$type]
 			: [];
 	}
@@ -146,6 +153,8 @@ class Model {
 	 */
 	public function updateListItem(array $data, string $type = 'anime'): Request
 	{
+		$updateData = [];
+
 		if ($type === 'anime')
 		{
 			$updateData = $this->animeListTransformer->untransform($data);

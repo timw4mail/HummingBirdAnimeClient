@@ -36,7 +36,7 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return function(array $configArray = []) {
+return function (array $configArray = []) {
 	$container = new Container();
 
 	// -------------------------------------------------------------------------
@@ -49,7 +49,7 @@ return function(array $configArray = []) {
 	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
 	$malRequestLogger = new Logger('mal-request');
 	$malRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
-	$container->setLogger($appLogger, 'default');
+	$container->setLogger($appLogger);
 	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
 	$container->setLogger($malRequestLogger, 'mal-request');
 

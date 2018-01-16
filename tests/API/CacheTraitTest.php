@@ -20,21 +20,24 @@ use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
 class CacheTraitTest extends AnimeClientTestCase {
+
+	protected $testClass;
+
 	public function setUp()
 	{
 		parent::setUp();
-		$this->testClass = new class { 
-			use CacheTrait; 
+		$this->testClass = new class {
+			use CacheTrait;
 		};
 	}
-	
+
 	public function testSetGet()
 	{
 		$cachePool = $this->container->get('cache');
 		$this->testClass->setCache($cachePool);
 		$this->assertEquals($cachePool, $this->testClass->getCache());
 	}
-	
+
 	public function testGetHashForMethodCall()
 	{
 		$hash = $this->testClass->getHashForMethodCall($this, __METHOD__, []);

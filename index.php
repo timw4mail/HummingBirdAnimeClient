@@ -40,8 +40,8 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-require_once $APPCONF_DIR . '/base_config.php'; // $base_config
-$di = require $APP_DIR . '/bootstrap.php';
+$base_config = require $APPCONF_DIR . '/base_config.php';
+$di = require_once $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);

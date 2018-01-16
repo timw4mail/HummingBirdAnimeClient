@@ -34,7 +34,7 @@ class ParallelAPIRequest {
 	/**
 	 * Add a request
 	 *
-	 * @param string|Request $request
+	 * @param string|\Amp\Artax\Request $request
 	 * @param string|number $key
 	 * @return self
 	 */
@@ -53,7 +53,7 @@ class ParallelAPIRequest {
 	/**
 	 * Add multiple requests
 	 *
-	 * @param string[]|Request[] $requests
+	 * @param string[]|\Amp\Artax\Request[] $requests
 	 * @return self
 	 */
 	public function addRequests(array $requests): self
