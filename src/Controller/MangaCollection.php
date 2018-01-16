@@ -18,8 +18,8 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\{
-	manga as mangaModel,
-	mangaCollection as mangaCollectionModel
+	Manga as MangaModel,
+	MangaCollection as MangaCollectionModel
 };
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerInterface;
@@ -31,13 +31,13 @@ class MangaCollection extends BaseController {
 
 	/**
 	 * The manga collection model
-	 * @var mangaCollectionModel $mangaCollectionModel
+	 * @var MangaCollectionModel $mangaCollectionModel
 	 */
 	private $mangaCollectionModel;
 
 	/**
 	 * The manga API model
-	 * @var mangaModel $mangaModel
+	 * @var MangaModel $mangaModel
 	 */
 	private $mangaModel;
 

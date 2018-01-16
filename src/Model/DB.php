@@ -26,7 +26,7 @@ class DB extends AbstractModel {
 
 	/**
 	 * The query builder object
-	 * @var object $db
+	 * @var \Query\Query_Builder_Interface $db
 	 */
 	protected $db;
 

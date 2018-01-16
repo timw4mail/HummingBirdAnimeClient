@@ -27,7 +27,7 @@ interface ListItemInterface {
 	 * Create a list item
 	 *
 	 * @param array $data -
-	 * @return bool
+	 * @return Request
 	 */
 	public function create(array $data): Request;
 
@@ -44,7 +44,7 @@ interface ListItemInterface {
 	 *
 	 * @param string $id - The id of the list item to update
 	 * @param array $data - The data with which to update the list item
-	 * @return Response
+	 * @return Request
 	 */
 	public function update(string $id, array $data): Request;
 
@@ -52,7 +52,7 @@ interface ListItemInterface {
 	 * Delete a list item
 	 *
 	 * @param string $id - The id of the list item to delete
-	 * @return bool
+	 * @return Request
 	 */
 	public function delete(string $id): Request;
 }

@@ -28,7 +28,7 @@ class MangaCollection extends Collection {
 
 	/**
 	 * Manga API Model
-	 * @var object $mangaModel
+	 * @var Manga $mangaModel
 	 */
 	protected $mangaModel;
 
@@ -221,12 +221,12 @@ class MangaCollection extends Collection {
 	private function updateGenre($mangaId)
 	{
 		$genreInfo = $this->getGenreData();
-		extract($genreInfo);
+		extract($genreInfo, EXTR_SKIP);
 
 		// Get api information
 		$manga = $this->mangaModel->getMangaById($mangaId);
 
-		foreach ($anime['genres'] as $genre)
+		foreach ($manga['genres'] as $genre)
 		{
 			// Add genres that don't currently exist
 			if ( ! in_array($genre, $genres))

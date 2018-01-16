@@ -33,7 +33,7 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 	public function testSanity()
 	{
 		$generator = new MenuGenerator($this->container);
-		$this->assertInstanceOf('Aviat\AnimeClient\MenuGenerator', $generator);
+		$this->assertInstanceOf(MenuGenerator::class, $generator);
 	}
 
 	public function testParseConfig()

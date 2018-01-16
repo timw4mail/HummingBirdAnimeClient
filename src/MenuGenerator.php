@@ -16,8 +16,11 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\{ArrayWrapper, StringWrapper};
+use Aviat\Ion\{
+	ArrayWrapper, StringWrapper
+};
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Exception\ConfigException;
 
 /**
  * Helper object to manage menu creation and selection
@@ -80,6 +83,7 @@ class MenuGenerator extends UrlGenerator {
 	 * Generate the html structure of the menu selected
 	 *
 	 * @param string $menu
+	 * @throws ConfigException
 	 * @return string
 	 */
 	public function generate($menu)

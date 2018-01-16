@@ -26,7 +26,7 @@ $ROOT_DIR = realpath("{$APP_DIR}/../");
 
 $tomlConfig = loadToml(__DIR__);
 
-$base_config = array_merge($tomlConfig, [
+return array_merge($tomlConfig, [
 	'asset_dir' => "{$ROOT_DIR}/public",
 
 	// Template file path

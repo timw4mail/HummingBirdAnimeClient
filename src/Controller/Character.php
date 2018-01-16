@@ -35,13 +35,15 @@ class Character extends BaseController {
 
 		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
 		{
-			return $this->notFound(
+			$this->notFound(
 				$this->formatTitle(
 					'Characters',
 					'Character not found'
 				),
 				'Character Not Found'
 			);
+
+			return;
 		}
 
 		$data = JsonAPI::organizeData($rawData);
@@ -110,22 +112,22 @@ class Character extends BaseController {
 
 		return $output;
 	}
-	
+
 	private function getCastCount(array $cast): int
 	{
 		$count = 0;
-		
+
 		foreach($cast as $role)
 		{
 			if (
-				array_key_exists('attributes', $role) && 
+				array_key_exists('attributes', $role) &&
 				array_key_exists('role', $role['attributes']) &&
 				( ! is_null($role['attributes']['role']))
 			) {
 				$count++;
 			}
 		}
-		
+
 		return $count;
 	}
 

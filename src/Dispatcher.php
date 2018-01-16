@@ -18,6 +18,8 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
+use Aura\Router\Matcher;
+
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
@@ -38,7 +40,7 @@ class Dispatcher extends RoutingBase {
 
 	/**
 	 * The route matcher
-	 * @var object $matcher
+	 * @var Matcher $matcher
 	 */
 	protected $matcher;
 
@@ -72,14 +74,14 @@ class Dispatcher extends RoutingBase {
 	/**
 	 * Get the current route object, if one matches
 	 *
-	 * @return object
+	 * @return \Aura\Router\Route|false
 	 */
 	public function getRoute()
 	{
 		$logger = $this->container->getLogger('default');
 
 		$rawRoute = $this->request->getUri()->getPath();
-		$routePath = "/" . trim($rawRoute, '/');
+		$routePath = '/' . trim($rawRoute, '/');
 
 		$logger->info('Dispatcher - Routing data from get_route method');
 		$logger->info(print_r([
