@@ -2,30 +2,29 @@
 <?php declare(strict_types=1);
 
 // Set up autoloader for third-party dependencies
-require_once realpath(__DIR__ . '/vendor/autoload.php');
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Aviat\AnimeClient\Command;
 
 $_SERVER['HTTP_HOST'] = 'localhost';
 
-// Define base directories
-$APP_DIR = __DIR__ . '/app/';
-$SRC_DIR = __DIR__ . '/src/';
-$CONF_DIR = realpath("${APP_DIR}/config/");
-
-// Unset 'constants'
-unset($APP_DIR);
-unset($SRC_DIR);
-unset($CONF_DIR);
-
 // -----------------------------------------------------------------------------
 // Start console script
 // -----------------------------------------------------------------------------
-$console = new \ConsoleKit\Console([
-	'cache-prime' => Command\CachePrime::class,
-	'cache-clear' => Command\CacheClear::class,
-	'clear-cache' => Command\CacheClear::class,
-	'sync-lists' => Command\SyncKitsuWithMal::class,
-]);
+try
+{
+	(new \ConsoleKit\Console([
+		'cache:clear' => Command\CacheClear::class,
+		'cache:prime' => Command\CachePrime::class,
+		'lists:sync' => Command\SyncKitsuWithMal::class,
+		'cache-prime' => Command\CachePrime::class,
+		'cache-clear' => Command\CacheClear::class,
+		'clear-cache' => Command\CacheClear::class,
+		'sync-lists' => Command\SyncKitsuWithMal::class,
+	]))->run();
+}
+catch (\Exception $e)
+{
 
-$console->run();
+}
+

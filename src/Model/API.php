@@ -16,10 +16,13 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\Ion\StringWrapper;
+
 /**
  * Base model for api interaction
  */
-class API extends AbstractModel {
+class API {
+	use StringWrapper;
 
 	/**
 	 * Whether to use the MAL api

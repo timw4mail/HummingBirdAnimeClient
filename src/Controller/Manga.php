@@ -37,12 +37,6 @@ class Manga extends Controller {
 	protected $model;
 
 	/**
-	 * Data to ve sent to all routes in this controller
-	 * @var array $baseData
-	 */
-	protected $baseData;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container

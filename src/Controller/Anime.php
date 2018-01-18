@@ -232,9 +232,9 @@ class Anime extends BaseController {
 		$body = $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
-		if ((bool)$response === TRUE)
+		if ($response === TRUE)
 		{
-			$this->setFlashMessage("Successfully deleted anime.", 'success');
+			$this->setFlashMessage('Successfully deleted anime.', 'success');
 			$this->cache->clear();
 		}
 		else

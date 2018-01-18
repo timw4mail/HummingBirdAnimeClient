@@ -16,9 +16,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
 use PDO;
 
 /**
@@ -48,7 +46,7 @@ class MangaCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function getCollection()
+	public function getCollection(): array
 	{
 		$rawCollection = $this->getCollectionFromDatabase();
 
@@ -74,7 +72,7 @@ class MangaCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function getMediaTypeList()
+	public function getMediaTypeList(): array
 	{
 		$output = [];
 
@@ -96,10 +94,10 @@ class MangaCollection extends Collection {
 	 * @param int $id
 	 * @return array
 	 */
-	public function getCollectionEntry($id)
+	public function getCollectionEntry($id): array
 	{
 		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', (int)$id)
+			->where('hummingbird_id', $id)
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
@@ -110,7 +108,7 @@ class MangaCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function getCollectionFromDatabase()
+	private function getCollectionFromDatabase(): array
 	{
 		if ( ! $this->validDatabase)
 		{
@@ -134,7 +132,7 @@ class MangaCollection extends Collection {
 	 * @param array $data
 	 * @return void
 	 */
-	public function add($data)
+	public function add($data): void
 	{
 		$anime = (object)$this->mangaModel->getMangaById($data['id']);
 		$this->db->set([
@@ -160,7 +158,7 @@ class MangaCollection extends Collection {
 	 * @param array $data
 	 * @return void
 	 */
-	public function update($data)
+	public function update($data): void
 	{
 		// If there's no id to update, don't update
 		if ( ! array_key_exists('hummingbird_id', $data))
@@ -182,7 +180,7 @@ class MangaCollection extends Collection {
 	 * @param  array $data
 	 * @return void
 	 */
-	public function delete($data)
+	public function delete($data): void
 	{
 		// If there's no id to update, don't delete
 		if ( ! array_key_exists('hummingbird_id', $data))
@@ -200,10 +198,10 @@ class MangaCollection extends Collection {
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int $kitsuId
+	 * @param string $kitsuId
 	 * @return array
 	 */
-	public function get($kitsuId)
+	public function get($kitsuId): array
 	{
 		$query = $this->db->from('manga_set')
 			->where('hummingbird_id', $kitsuId)
@@ -215,13 +213,14 @@ class MangaCollection extends Collection {
 	/**
 	 * Update genre information for selected manga
 	 *
-	 * @param int $mangaId The current manga
+	 * @param string $mangaId The current manga
 	 * @return void
 	 */
-	private function updateGenre($mangaId)
+	private function updateGenre($mangaId): void
 	{
 		$genreInfo = $this->getGenreData();
-		extract($genreInfo, EXTR_SKIP);
+		$genres = $genreInfo['genres'];
+		$links = $genreInfo['links'];
 
 		// Get api information
 		$manga = $this->mangaModel->getMangaById($mangaId);
@@ -229,7 +228,7 @@ class MangaCollection extends Collection {
 		foreach ($manga['genres'] as $genre)
 		{
 			// Add genres that don't currently exist
-			if ( ! in_array($genre, $genres))
+			if ( ! \in_array($genre, $genres, TRUE))
 			{
 				$this->db->set('genre', $genre)
 					->insert('genres');
@@ -248,7 +247,7 @@ class MangaCollection extends Collection {
 
 			if (array_key_exists($mangaId, $links))
 			{
-				if ( ! in_array($flippedGenres[$genre], $links[$mangaId]))
+				if ( ! \in_array($flippedGenres[$genre], $links[$mangaId], TRUE))
 				{
 					$this->db->set($insertArray)->insert('genre_manga_set_link');
 				}
@@ -265,7 +264,7 @@ class MangaCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function getGenreData()
+	private function getGenreData(): array
 	{
 		$genres = [];
 		$links = [];

@@ -16,17 +16,14 @@
 
 
 use const Aviat\AnimeClient\{
-	DEFAULT_CONTROLLER_NAMESPACE,
 	DEFAULT_CONTROLLER_METHOD,
 	DEFAULT_CONTROLLER
 };
 
-use Aviat\AnimeClient\AnimeClient;
-
 // -------------------------------------------------------------------------
 // Routing Config
 //
-// Maps paths to controlers and methods
+// Maps paths to controllers and methods
 // -------------------------------------------------------------------------
 return [
 	// ---------------------------------------------------------------------

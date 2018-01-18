@@ -31,7 +31,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * @param  array  $item API library item
 	 * @return array
 	 */
-	public function transform($item)
+	public function transform($item): array
 	{
 		$included = $item['included'];
 		$animeId = $item['relationships']['media']['data']['id'];
@@ -41,7 +41,7 @@ class AnimeListTransformer extends AbstractTransformer {
 		sort($genres);
 
 		$rating = (int) $item['attributes']['rating'] !== 0
-			? (int) 2 * $item['attributes']['rating']
+			? 2 * $item['attributes']['rating']
 			: '-';
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
@@ -97,7 +97,7 @@ class AnimeListTransformer extends AbstractTransformer {
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
 			'user_rating' => $rating,
-			'private' => (bool) $item['attributes']['private'] ?? FALSE,
+			'private' => $item['attributes']['private'] ?? FALSE,
 		];
 	}
 
@@ -108,7 +108,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * @param array $item Transformed library item
 	 * @return array API library item
 	 */
-	public function untransform($item)
+	public function untransform($item): array
 	{
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
