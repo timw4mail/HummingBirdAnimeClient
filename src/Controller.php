@@ -106,7 +106,7 @@ class Controller {
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
 
-		$this->baseData = array_merge((array)$this->baseData, [
+		$this->baseData = array_merge($this->baseData, [
 			'url' => $auraUrlGenerator,
 			'urlGenerator' => $urlGenerator,
 			'auth' => $container->get('auth'),

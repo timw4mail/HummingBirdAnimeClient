@@ -1,7 +1,9 @@
 parameters:
+	autoload_files:
+		- %rootDir%/../../../tests/mocks.php
 	ignoreErrors:
 		- '#Access to an undefined property Aviat\\\Ion\\\Friend::\$[a-zA-Z0-9_]+#'
-		- '#Call to an undefined method Aviat\\\Ion\\\Friend:[a-zA-Z0-9_]+\(\)#'
-		- '#Call to an undefined method Aura\\\Html\\\HelperLocator:[a-zA-Z0-9_]+\(\)#'
-	excludes_analyze:
-		- %rootDir%/test_views/*
+		- '#Call to an undefined method Aviat\\\Ion\\\Friend::[a-zA-Z0-9_]+\(\)#'
+		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
+		- '#Undefined variable: \$var#'
+		- '#Property Amp\\Artax\\Internal\\RequestCycle::\$[a-zA-Z0-9_]+#'

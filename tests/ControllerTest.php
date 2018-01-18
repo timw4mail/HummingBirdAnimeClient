@@ -59,30 +59,30 @@ class ControllerTest extends AnimeClientTestCase {
 		$this->container->setInstance('config', $config);
 
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new AnimeController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new MangaController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new CharacterController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new AnimeCollectionController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new MangaCollectionController($this->container)
 		);
 	}
 
 	public function testBaseControllerSanity()
 	{
-		$this->assertTrue(is_object($this->BaseController));
+		$this->assertTrue(\is_object($this->BaseController));
 	}
 
 	public function testFormatTitle()

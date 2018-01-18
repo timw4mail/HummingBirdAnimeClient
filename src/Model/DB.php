@@ -17,16 +17,19 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\{ArrayWrapper, StringWrapper};
 
 /**
  * Base model for database interaction
  */
-class DB extends AbstractModel {
+class DB {
+	use ArrayWrapper;
 	use ContainerAware;
+	use StringWrapper;
 
 	/**
 	 * The query builder object
-	 * @var \Query\Query_Builder_Interface $db
+	 * @var \Query\Query_Builder_Interface
 	 */
 	protected $db;
 

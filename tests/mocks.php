@@ -72,7 +72,7 @@ class TestTransformer extends AbstractTransformer {
 }
 
 trait MockViewOutputTrait {
-	protected function output() {
+	protected function output(): void {
 		$reflect = new ReflectionClass($this);
 		$properties = $reflect->getProperties();
 		$props = [];
@@ -102,8 +102,8 @@ class MockUtil {
 }
 
 class TestView extends View {
-	public function send() {}
-	protected function output()
+	public function send(): void {}
+	protected function output(): void
 	{
 		/*$content =& $this->response->content;
 		$content->set($this->output);

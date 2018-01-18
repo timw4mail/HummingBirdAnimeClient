@@ -78,15 +78,18 @@ class Dispatcher extends RoutingBase {
 	 */
 	public function getRoute()
 	{
-		$logger = $this->container->getLogger('default');
+		$logger = $this->container->getLogger();
 
 		$rawRoute = $this->request->getUri()->getPath();
 		$routePath = '/' . trim($rawRoute, '/');
 
-		$logger->info('Dispatcher - Routing data from get_route method');
-		$logger->info(print_r([
-			'route_path' => $routePath
-		], TRUE));
+		if ($logger !== NULL)
+		{
+			$logger->info('Dispatcher - Routing data from get_route method');
+			$logger->info(print_r([
+				'route_path' => $routePath
+			], TRUE));
+		}
 
 		return $this->matcher->match($this->request);
 	}
@@ -107,16 +110,19 @@ class Dispatcher extends RoutingBase {
 	 * @param object|null $route
 	 * @return void
 	 */
-	public function __invoke($route = NULL)
+	public function __invoke($route = NULL): void
 	{
-		$logger = $this->container->getLogger('default');
+		$logger = $this->container->getLogger();
 
-		if (is_null($route))
+		if ($route === NULL)
 		{
 			$route = $this->getRoute();
 
-			$logger->info('Dispatcher - Route invoke arguments');
-			$logger->info(print_r($route, TRUE));
+			if ($logger !== NULL)
+			{
+				$logger->info('Dispatcher - Route invoke arguments');
+				$logger->info(print_r($route, TRUE));
+			}
 		}
 
 		if ($route)
@@ -147,7 +153,7 @@ class Dispatcher extends RoutingBase {
 	 * @throws \LogicException
 	 * @return array
 	 */
-	protected function processRoute($route)
+	protected function processRoute($route): array
 	{
 		if (array_key_exists('controller', $route->attributes))
 		{
@@ -155,7 +161,7 @@ class Dispatcher extends RoutingBase {
 		}
 		else
 		{
-			throw new \LogicException("Missing controller");
+			throw new \LogicException('Missing controller');
 		}
 
 		// Get the full namespace for a controller if a short name is given
@@ -181,8 +187,11 @@ class Dispatcher extends RoutingBase {
 				}
 			}
 		}
-		$logger = $this->container->getLogger('default');
-		$logger->info(json_encode($params));
+		$logger = $this->container->getLogger();
+		if ($logger !== NULL)
+		{
+			$logger->info(json_encode($params));
+		}
 
 		return [
 			'controller_name' => $controllerName,
@@ -205,8 +214,11 @@ class Dispatcher extends RoutingBase {
 		$segments = explode('/', $path);
 		$controller = reset($segments);
 
-		$logger = $this->container->getLogger('default');
-		$logger->info('Controller: ' . $controller);
+		$logger = $this->container->getLogger();
+		if ($logger !== NULL)
+		{
+			$logger->info('Controller: ' . $controller);
+		}
 
 		if (empty($controller))
 		{
@@ -234,7 +246,7 @@ class Dispatcher extends RoutingBase {
 
 		foreach ($classFiles as $file)
 		{
-			$rawClassName = basename(str_replace(".php", "", $file));
+			$rawClassName = basename(str_replace('.php', '', $file));
 			$path = $this->string($rawClassName)->dasherize()->__toString();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
@@ -262,9 +274,12 @@ class Dispatcher extends RoutingBase {
 			$controller = new $controllerName($this->container);
 
 			// Run the appropriate controller method
-			$logger->debug('Dispatcher - controller arguments', $params);
+			if ($logger !== NULL)
+			{
+				$logger->debug('Dispatcher - controller arguments', $params);
+			}
 
-			call_user_func_array([$controller, $method], $params);
+			\call_user_func_array([$controller, $method], $params);
 		}
 		catch (FailedResponseException $e)
 		{
@@ -285,11 +300,14 @@ class Dispatcher extends RoutingBase {
 	 */
 	protected function getErrorParams()
 	{
-		$logger = $this->container->getLogger('default');
+		$logger = $this->container->getLogger();
 		$failure = $this->matcher->getFailedRoute();
 
-		$logger->info('Dispatcher - failed route');
-		$logger->info(print_r($failure, TRUE));
+		if ($logger !== NULL)
+		{
+			$logger->info('Dispatcher - failed route');
+			$logger->info(print_r($failure, TRUE));
+		}
 
 		$actionMethod = ERROR_MESSAGE_METHOD;
 
@@ -354,9 +372,9 @@ class Dispatcher extends RoutingBase {
 			$route['controller'] = $controllerClass;
 
 			// Select the appropriate router method based on the http verb
-			$add = (array_key_exists('verb', $route))
+			$add = array_key_exists('verb', $route)
 				? strtolower($route['verb'])
-				: "get";
+				: 'get';
 
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))

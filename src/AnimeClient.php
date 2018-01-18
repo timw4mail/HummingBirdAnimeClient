@@ -18,21 +18,6 @@ namespace Aviat\AnimeClient;
 
 use Yosymfony\Toml\Toml;
 
-if ( ! \defined('SRC_DIR'))
-{
-	\define('SRC_DIR', \realpath(__DIR__));
-}
-
-const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
-const DEFAULT_CONTROLLER = Controller\Index::class;
-const DEFAULT_CONTROLLER_NAMESPACE = Controller::class;
-const DEFAULT_LIST_CONTROLLER = Controller\Anime::class;
-const DEFAULT_CONTROLLER_METHOD = 'index';
-const NOT_FOUND_METHOD = 'notFound';
-const ERROR_MESSAGE_METHOD = 'errorPage';
-const SRC_DIR = SRC_DIR;
-
-
 if ( ! \function_exists('Aviat\AnimeClient\loadToml'))
 {
 	/**

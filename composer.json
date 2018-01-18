@@ -4,6 +4,7 @@
   "license": "MIT",
   "autoload": {
 	"files": [
+	  "src/constants.php",
 	  "src/AnimeClient.php"
 	],
 	"psr-4": {
@@ -22,7 +23,7 @@
 	"aura/router": "^3.0",
 	"aura/session": "^2.0",
 	"aviat/banker": "^1.0.0",
-	"aviat/ion": "^2.2.0",
+	"aviat/ion": "^2.3.0",
 	"maximebf/consolekit": "^1.0",
 	"monolog/monolog": "^1.0",
 	"psr/http-message": "~1.0",
@@ -51,9 +52,16 @@
 	"build:css": "cd public && npm run build && cd ..",
 	"clean": "vendor/bin/robo clean",
 	"coverage": "phpdbg -qrr -- vendor/bin/phpunit -c build",
-	"docs": "vendor/bin/phpdox",
-	"phpstan": "phpstan analyse -l 3 ./phpstan.neon src tests",
+	"phpstan": "phpstan analyse -l 4 -c phpstan.neon src tests ./console index.php",
 	"watch:css": "cd public && npm run watch",
 	"test": "vendor/bin/phpunit"
+  },
+  "scripts-descriptions": {
+	"build": "Generate the api docs",
+	"build:css": "Generate browser css",
+	"clean": "Remove documentation generation files and folders",
+	"coverage": "Generate a test coverage report",
+	"phpstan": "Run PHP Static analysis",
+	"test": "Run the unit tests"
   }
 }

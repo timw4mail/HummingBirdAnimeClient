@@ -63,7 +63,7 @@ use function Amp\{
  * @see Client
  */
 final class HummingbirdClient implements Client {
-	const DEFAULT_USER_AGENT = 'Mozilla/5.0 (compatible; Artax)';
+	const DEFAULT_USER_AGENT = 'Hummingbird Anime Client/5.0';
 
 	private $cookieJar;
 	private $socketPool;
@@ -71,7 +71,7 @@ final class HummingbirdClient implements Client {
 	private $hasZlib;
 	private $options = [
 		self::OP_AUTO_ENCODING => true,
-		self::OP_TRANSFER_TIMEOUT => 15000,
+		self::OP_TRANSFER_TIMEOUT => 60000,
 		self::OP_MAX_REDIRECTS => 5,
 		self::OP_AUTO_REFERER => true,
 		self::OP_DISCARD_BODY => false,
@@ -89,7 +89,7 @@ final class HummingbirdClient implements Client {
 		$this->cookieJar = $cookieJar ?? new NullCookieJar;
 		$this->tlsContext = $tlsContext ?? new ClientTlsContext;
 		$this->socketPool = $socketPool ?? new HttpSocketPool;
-		$this->hasZlib = extension_loaded('zlib');
+		$this->hasZlib = \extension_loaded('zlib');
 	}
 
 	/** @inheritdoc */

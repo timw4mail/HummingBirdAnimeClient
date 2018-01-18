@@ -55,7 +55,7 @@ class APIRequestBuilder {
 	protected $defaultHeaders = [];
 
 	/**
-	 * Valid HTTP request methos
+	 * Valid HTTP request methods
 	 * @var array
 	 */
 	protected $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
