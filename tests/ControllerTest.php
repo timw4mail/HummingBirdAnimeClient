@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -59,30 +59,30 @@ class ControllerTest extends AnimeClientTestCase {
 		$this->container->setInstance('config', $config);
 
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new AnimeController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new MangaController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new CharacterController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new AnimeCollectionController($this->container)
 		);
 		$this->assertInstanceOf(
-			'Aviat\AnimeClient\Controller',
+			Controller::class,
 			new MangaCollectionController($this->container)
 		);
 	}
 
 	public function testBaseControllerSanity()
 	{
-		$this->assertTrue(is_object($this->BaseController));
+		$this->assertTrue(\is_object($this->BaseController));
 	}
 
 	public function testFormatTitle()

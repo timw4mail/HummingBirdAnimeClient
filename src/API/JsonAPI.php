@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -44,7 +44,7 @@ class JsonAPI {
 	 * Inline all included data
 	 *
 	 * @param array $data - The raw JsonAPI response data
-	 * @return data
+	 * @return array
 	 */
 	public static function organizeData(array $data): array
 	{
@@ -54,7 +54,7 @@ class JsonAPI {
 		];
 
 		// Reorganize included data
-		$included = (array_key_exists('included', $data))
+		$included = array_key_exists('included', $data)
 			? static::organizeIncluded($data['included'])
 			: [];
 
@@ -313,7 +313,7 @@ class JsonAPI {
 
 			foreach ($data['data'] as $item)
 			{
-				if (is_array($item) && array_key_exists('id', $item))
+				if (\is_array($item) && array_key_exists('id', $item))
 				{
 					$organized[$key][] = $item['id'];
 				}

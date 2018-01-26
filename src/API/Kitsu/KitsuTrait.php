@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -177,7 +177,7 @@ trait KitsuTrait {
 
 		try
 		{
-			return Json::decode(wait($response->getBody()), TRUE);
+			return Json::decode(wait($response->getBody()));
 		}
 		catch (JsonException $e)
 		{
@@ -226,7 +226,7 @@ trait KitsuTrait {
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array((int) $response->getStatus(), $validResponseCodes))
+		if ( ! \in_array((int) $response->getStatus(), $validResponseCodes, TRUE))
 		{
 			if ($logger)
 			{

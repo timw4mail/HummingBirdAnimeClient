@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,15 +18,20 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\{
+	ContainerAware,
+	ContainerInterface
+};
+use Aviat\Ion\Di\Exception\{
+	ContainerException,
+	NotFoundException
+};
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 
 /**
  * Controller base, defines output methods
- *
- * @property $response Response object
  */
 class Controller {
 
@@ -46,21 +51,15 @@ class Controller {
 
 	/**
 	 * Request object
-	 * @var object $request
+	 * @var \Psr\Http\Message\ServerRequestInterface $request
 	 */
 	protected $request;
 
 	/**
 	 * Response object
-	 * @var object $response
+	 * @var \Psr\Http\Message\ResponseInterface $response
 	 */
 	public $response;
-
-	/**
-	 * The api model for the current controller
-	 * @var object
-	 */
-	protected $model;
 
 	/**
 	 * Url generation class
@@ -94,8 +93,8 @@ class Controller {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -107,7 +106,7 @@ class Controller {
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
 
-		$this->baseData = array_merge((array)$this->baseData, [
+		$this->baseData = array_merge($this->baseData, [
 			'url' => $auraUrlGenerator,
 			'urlGenerator' => $urlGenerator,
 			'auth' => $container->get('auth'),
@@ -146,8 +145,8 @@ class Controller {
 	 * Set the current url in the session as the target of a future redirect
 	 *
 	 * @param string|null $url
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function setSessionRedirect(string $url = NULL)
@@ -174,7 +173,7 @@ class Controller {
 		if (null === $url)
 		{
 			$url = $util->isViewPage()
-				? $this->request->url->get()
+				? $this->request->getUri()->__toString()
 				: $serverParams['HTTP_REFERER'];
 		}
 

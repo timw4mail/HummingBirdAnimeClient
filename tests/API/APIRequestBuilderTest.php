@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -116,7 +116,7 @@ class APIRequestBuilderTest extends TestCase {
 			'foo' => [
 				'bar' => 1,
 				'baz' => [2, 3, 4],
-				'bar' => [
+				'bazbar' => [
 					'a' => 1,
 					'b' => 2
 				]

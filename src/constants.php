@@ -8,19 +8,19 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Model;
+namespace Aviat\AnimeClient;
 
-use Aviat\Ion\StringWrapper;
-
-/**
- * Base class for Models
- */
-abstract class AbstractModel {
-	use StringWrapper;
-}
+const DEFAULT_CONTROLLER = Controller\Index::class;
+const DEFAULT_CONTROLLER_METHOD = 'index';
+const DEFAULT_CONTROLLER_NAMESPACE = Controller::class;
+const DEFAULT_LIST_CONTROLLER = Controller\Anime::class;
+const ERROR_MESSAGE_METHOD = 'errorPage';
+const NOT_FOUND_METHOD = 'notFound';
+const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
+const SRC_DIR = __DIR__;

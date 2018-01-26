@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,8 +18,8 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\{
-	manga as mangaModel,
-	mangaCollection as mangaCollectionModel
+	Manga as MangaModel,
+	MangaCollection as MangaCollectionModel
 };
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerInterface;
@@ -31,13 +31,13 @@ class MangaCollection extends BaseController {
 
 	/**
 	 * The manga collection model
-	 * @var mangaCollectionModel $mangaCollectionModel
+	 * @var MangaCollectionModel $mangaCollectionModel
 	 */
 	private $mangaCollectionModel;
 
 	/**
 	 * The manga API model
-	 * @var mangaModel $mangaModel
+	 * @var MangaModel $mangaModel
 	 */
 	private $mangaModel;
 

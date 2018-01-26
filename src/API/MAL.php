@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,11 +16,14 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\{
-	AnimeWatchingStatus as KAWS,
-	MangaReadingStatus as KMRS
+use Aviat\AnimeClient\API\Enum\{
+	AnimeWatchingStatus\Kitsu as KAWS,
+	MangaReadingStatus\Kitsu as KMRS
 };
-use Aviat\AnimeClient\API\MAL\Enum\{AnimeWatchingStatus, MangaReadingStatus};
+use Aviat\AnimeClient\API\Enum\{
+	AnimeWatchingStatus\MAL as AnimeWatchingStatus,
+	MangaReadingStatus\MAL as MangaReadingStatus
+};
 
 /**
  * Constants and mappings for the My Anime List API
@@ -36,7 +39,7 @@ class MAL {
 		KAWS::DROPPED => AnimeWatchingStatus::DROPPED,
 		KAWS::PLAN_TO_WATCH => AnimeWatchingStatus::PLAN_TO_WATCH
 	];
-	
+
 	const MAL_KITSU_WATCHING_STATUS_MAP = [
 		1 => KAWS::WATCHING,
 		2 => KAWS::COMPLETED,

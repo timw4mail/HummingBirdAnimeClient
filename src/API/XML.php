@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use DOMDocument, DOMNode, DOMNodelist;
+use DOMDocument, DOMNode, DOMNodeList;
 
 /**
  * XML <=> PHP Array codec
@@ -180,7 +180,7 @@ class XML {
 		// except for the xml declaration tag, Which looks
 		// something like:
 		/* <?xml version="1.0" encoding="UTF-8"?> */
-		
+
 		return preg_replace('/([^\?])>\s+</', '$1><', $xml);
 	}
 
