@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -19,11 +19,7 @@ namespace Aviat\AnimeClient\Command;
 use function Aviat\AnimeClient\loadToml;
 
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\{
-	AnimeClient,
-	Model,
-	Util
-};
+use Aviat\AnimeClient\Util;
 use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\{Kitsu, MAL};
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
@@ -67,7 +63,7 @@ class BaseCommand extends Command {
 		$APP_DIR = realpath(__DIR__ . '/../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		require_once $APPCONF_DIR . '/base_config.php'; // $base_config
+		$base_config = require_once $APPCONF_DIR . '/base_config.php';
 
 		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
@@ -85,7 +81,7 @@ class BaseCommand extends Command {
 			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
 			$mal_request_logger = new Logger('mal-request');
 			$mal_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/mal_request-cli.log', Logger::NOTICE));
-			$container->setLogger($app_logger, 'default');
+			$container->setLogger($app_logger);
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 			$container->setLogger($mal_request_logger, 'mal-request');
 

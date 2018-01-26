@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,9 +16,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Kitsu;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
 use PDO;
 
 /**
@@ -28,7 +26,7 @@ class AnimeCollection extends Collection {
 
 	/**
 	 * Anime API Model
-	 * @var object $animeModel
+	 * @var Anime $animeModel
 	 */
 	protected $animeModel;
 
@@ -48,7 +46,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function getCollection()
+	public function getCollection(): array
 	{
 		$rawCollection = $this->getCollectionFromDatabase();
 
@@ -74,7 +72,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	public function getMediaTypeList()
+	public function getMediaTypeList(): array
 	{
 		$output = [];
 
@@ -93,13 +91,13 @@ class AnimeCollection extends Collection {
 	/**
 	 * Get item from collection for editing
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @return array
 	 */
-	public function getCollectionEntry($id)
+	public function getCollectionEntry($id): array
 	{
 		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', (int)$id)
+			->where('hummingbird_id', $id)
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
@@ -110,7 +108,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function getCollectionFromDatabase()
+	private function getCollectionFromDatabase(): array
 	{
 		if ( ! $this->validDatabase)
 		{
@@ -134,7 +132,7 @@ class AnimeCollection extends Collection {
 	 * @param array $data
 	 * @return void
 	 */
-	public function add($data)
+	public function add($data): void
 	{
 		$anime = (object)$this->animeModel->getAnimeById($data['id']);
 		$this->db->set([
@@ -160,7 +158,7 @@ class AnimeCollection extends Collection {
 	 * @param array $data
 	 * @return void
 	 */
-	public function update($data)
+	public function update($data): void
 	{
 		// If there's no id to update, don't update
 		if ( ! array_key_exists('hummingbird_id', $data))
@@ -182,7 +180,7 @@ class AnimeCollection extends Collection {
 	 * @param  array $data
 	 * @return void
 	 */
-	public function delete($data)
+	public function delete($data): void
 	{
 		// If there's no id to update, don't delete
 		if ( ! array_key_exists('hummingbird_id', $data))
@@ -203,7 +201,7 @@ class AnimeCollection extends Collection {
 	 * @param int $kitsuId
 	 * @return array
 	 */
-	public function get($kitsuId)
+	public function get($kitsuId): array
 	{
 		$query = $this->db->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
@@ -215,13 +213,14 @@ class AnimeCollection extends Collection {
 	/**
 	 * Update genre information for selected anime
 	 *
-	 * @param int $animeId The current anime
+	 * @param string $animeId The current anime
 	 * @return void
 	 */
-	private function updateGenre($animeId)
+	private function updateGenre($animeId): void
 	{
 		$genreInfo = $this->getGenreData();
-		extract($genreInfo);
+		$genres = $genreInfo['genres'];
+		$links = $genreInfo['links'];
 
 		// Get api information
 		$anime = $this->animeModel->getAnimeById($animeId);
@@ -229,7 +228,7 @@ class AnimeCollection extends Collection {
 		foreach ($anime['genres'] as $genre)
 		{
 			// Add genres that don't currently exist
-			if ( ! in_array($genre, $genres))
+			if ( ! \in_array($genre, $genres, TRUE))
 			{
 				$this->db->set('genre', $genre)
 					->insert('genres');
@@ -248,7 +247,7 @@ class AnimeCollection extends Collection {
 
 			if (array_key_exists($animeId, $links))
 			{
-				if ( ! in_array($flippedGenres[$genre], $links[$animeId]))
+				if ( ! \in_array($flippedGenres[$genre], $links[$animeId], TRUE))
 				{
 					$this->db->set($insertArray)->insert('genre_anime_set_link');
 				}
@@ -265,7 +264,7 @@ class AnimeCollection extends Collection {
 	 *
 	 * @return array
 	 */
-	private function getGenreData()
+	private function getGenreData(): array
 	{
 		$genres = [];
 		$links = [];

@@ -1,13 +1,42 @@
 <?php
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ *
+ * PHP version 7
+ *
+ * @package     HummingbirdAnimeClient
+ * @author      Timothy J. Warren <tim@timshomepage.net>
+ * @copyright   2015 - 2018  Timothy J. Warren
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     4.0
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ */
 
 namespace Aviat\AnimeClient\API;
 
 use Amp\{
-	CancellationToken, CancelledException, Deferred, Delayed, Emitter, Failure, Loop, NullCancellationToken, Promise, Success, TimeoutCancellationToken
+	CancellationToken,
+	CancelledException,
+	Deferred,
+	Delayed,
+	Emitter,
+	Failure,
+	Loop,
+	NullCancellationToken,
+	Promise,
+	Success,
+	TimeoutCancellationToken
 };
-use Amp\Artax\{ConnectionInfo, Client, HttpException, HttpSocketPool, MetaInfo, Response, Request, TlsInfo};
+use Amp\Artax\{
+	ConnectionInfo, Client, DnsException, HttpException, HttpSocketPool, MetaInfo, ParseException, RequestBody, Response, Request, SocketException, TimeoutException, TlsInfo, TooManyRedirectsException
+};
 use Amp\Artax\Cookie\{
-	Cookie, CookieFormatException, CookieJar, NullCookieJar
+	Cookie,
+	CookieFormatException,
+	CookieJar,
+	NullCookieJar
 };
 use Amp\Artax\Internal\{
 	CombinedCancellationToken, Parser, PublicSuffixList, RequestCycle
@@ -34,7 +63,7 @@ use function Amp\{
  * @see Client
  */
 final class HummingbirdClient implements Client {
-	const DEFAULT_USER_AGENT = 'Mozilla/5.0 (compatible; Artax)';
+	const DEFAULT_USER_AGENT = 'Hummingbird Anime Client/5.0';
 
 	private $cookieJar;
 	private $socketPool;
@@ -42,7 +71,7 @@ final class HummingbirdClient implements Client {
 	private $hasZlib;
 	private $options = [
 		self::OP_AUTO_ENCODING => true,
-		self::OP_TRANSFER_TIMEOUT => 15000,
+		self::OP_TRANSFER_TIMEOUT => 60000,
 		self::OP_MAX_REDIRECTS => 5,
 		self::OP_AUTO_REFERER => true,
 		self::OP_DISCARD_BODY => false,
@@ -60,7 +89,7 @@ final class HummingbirdClient implements Client {
 		$this->cookieJar = $cookieJar ?? new NullCookieJar;
 		$this->tlsContext = $tlsContext ?? new ClientTlsContext;
 		$this->socketPool = $socketPool ?? new HttpSocketPool;
-		$this->hasZlib = extension_loaded('zlib');
+		$this->hasZlib = \extension_loaded('zlib');
 	}
 
 	/** @inheritdoc */

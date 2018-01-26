@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,10 +17,8 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\Kitsu\{
-	Enum\AnimeWatchingStatus as KitsuWatchingStatus,
-	Transformer\AnimeListTransformer
-};
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
@@ -35,21 +33,9 @@ class Anime extends BaseController {
 
 	/**
 	 * The anime list model
-	 * @var object $model
+	 * @var \Aviat\AnimeClient\Model\Anime $model
 	 */
 	protected $model;
-
-	/**
-	 * Data to be sent to all routes in this controller
-	 * @var array $baseData
-	 */
-	protected $baseData;
-
-	/**
-	 * Data cache
-	 * @var \Psr\Cache\CachePoolInterface
-	 */
-	protected $cache;
 
 	/**
 	 * Constructor
@@ -158,7 +144,7 @@ class Anime extends BaseController {
 	 */
 	public function edit($id, $status = "all")
 	{
-		$item = $this->model->getLibraryItem($id, $status);
+		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
@@ -203,7 +189,7 @@ class Anime extends BaseController {
 
 		if ($fullResult['statusCode'] === 200)
 		{
-			$this->setFlashMessage("Successfully updated.", 'success');
+			$this->setFlashMessage('Successfully updated.', 'success');
 			$this->cache->clear();
 		}
 		else
@@ -230,7 +216,7 @@ class Anime extends BaseController {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem($data, $data);
+		$response = $this->model->updateLibraryItem($data);
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -246,9 +232,9 @@ class Anime extends BaseController {
 		$body = $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
-		if ((bool)$response === TRUE)
+		if ($response === TRUE)
 		{
-			$this->setFlashMessage("Successfully deleted anime.", 'success');
+			$this->setFlashMessage('Successfully deleted anime.', 'success');
 			$this->cache->clear();
 		}
 		else
@@ -272,12 +258,14 @@ class Anime extends BaseController {
 
 		if (empty($data))
 		{
-			return $this->notFound(
+			$this->notFound(
 				$this->config->get('whose_list') .
 					"'s Anime List &middot; Anime &middot; " .
 					'Anime not found',
 				'Anime Not Found'
 			);
+
+			return;
 		}
 
 		if (array_key_exists('characters', $data['included']))

@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -35,12 +35,6 @@ class Manga extends Controller {
 	 * @var MangaModel $model
 	 */
 	protected $model;
-
-	/**
-	 * Data to ve sent to all routes in this controller
-	 * @var array $baseData
-	 */
-	protected $baseData;
 
 	/**
 	 * Constructor
@@ -265,12 +259,13 @@ class Manga extends Controller {
 
 		if (empty($data))
 		{
-			return $this->notFound(
+			$this->notFound(
 				$this->config->get('whose_list') .
 					"'s Manga List &middot; Manga &middot; " .
 					'Manga not found',
 				'Manga Not Found'
 			);
+			return;
 		}
 
 		foreach($data['included'] as $included)

@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -33,7 +33,7 @@ class MangaListTransformer extends AbstractTransformer {
 	 * @param  array  $item manga entry item
 	 * @return array
 	 */
-	public function transform($item)
+	public function transform($item): array
 	{
 		$included = $item['included'];
 		$mangaId = $item['relationships']['media']['data']['id'];
@@ -43,7 +43,7 @@ class MangaListTransformer extends AbstractTransformer {
 		sort($genres);
 
 		$rating = (int) $item['attributes']['rating'] !== 0
-			? (int) 2 * $item['attributes']['rating']
+			? 2 * $item['attributes']['rating']
 			: '-';
 
 		$totalChapters = ((int) $manga['chapterCount'] !== 0)
@@ -109,9 +109,9 @@ class MangaListTransformer extends AbstractTransformer {
 	 * @param  array $item
 	 * @return array
 	 */
-	public function untransform($item)
+	public function untransform($item): array
 	{
-		$rereading = (array_key_exists('rereading', $item)) && (bool)$item['rereading'];
+		$rereading = array_key_exists('rereading', $item) && (bool)$item['rereading'];
 
 		$map = [
 			'id' => $item['id'],

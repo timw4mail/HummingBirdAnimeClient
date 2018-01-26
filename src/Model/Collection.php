@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,8 +16,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Model\DB;
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\ContainerInterface;
 use PDO;
 use PDOException;
 
@@ -25,8 +24,6 @@ use PDOException;
  * Base model for anime and manga collections
  */
 class Collection extends DB {
-
-	use ContainerAware;
 
 	/**
 	 * Whether the database is valid for querying
@@ -47,11 +44,7 @@ class Collection extends DB {
 		{
 			$this->db = \Query($this->dbConfig['collection']);
 		}
-		catch (PDOException $e)
-		{
-			//$this->validDatabase = FALSE;
-			//return FALSE;
-		}
+		catch (PDOException $e) {}
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database
@@ -81,7 +74,7 @@ class Collection extends DB {
 	 * @param array $filter
 	 * @return array
 	 */
-	public function getGenreList($filter = [])
+	public function getGenreList(array $filter = []): array
 	{
 		$this->db->select('hummingbird_id, genre')
 			->from('genre_anime_set_link gl')
@@ -112,7 +105,7 @@ class Collection extends DB {
 
 			if (array_key_exists($id, $output))
 			{
-				array_push($output[$id], $genre);
+				$output[$id][] = $genre;
 			}
 			else
 			{

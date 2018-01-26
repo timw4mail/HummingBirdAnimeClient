@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -37,6 +37,11 @@ class Model {
 	 * @var AnimeListTransformer
 	 */
 	protected $animeListTransformer;
+
+	/**
+	 * @var MangaListTransformer
+	 */
+	protected $mangaListTransformer;
 
 	/**
 	 * @var ListItem
@@ -76,6 +81,8 @@ class Model {
 	 */
 	public function createListItem(array $data, string $type = 'anime'): Request
 	{
+		$createData = [];
+
 		if ($type === 'anime')
 		{
 			$createData = [
@@ -119,7 +126,7 @@ class Model {
 			]
 		]);
 
-		return (array_key_exists($type, $list['myanimelist']))
+		return array_key_exists($type, $list['myanimelist'])
 			? $list['myanimelist'][$type]
 			: [];
 	}
@@ -146,6 +153,8 @@ class Model {
 	 */
 	public function updateListItem(array $data, string $type = 'anime'): Request
 	{
+		$updateData = [];
+
 		if ($type === 'anime')
 		{
 			$updateData = $this->animeListTransformer->untransform($data);

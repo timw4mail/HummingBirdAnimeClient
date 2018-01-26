@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,16 +17,19 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\{ArrayWrapper, StringWrapper};
 
 /**
  * Base model for database interaction
  */
-class DB extends AbstractModel {
+class DB {
+	use ArrayWrapper;
 	use ContainerAware;
+	use StringWrapper;
 
 	/**
 	 * The query builder object
-	 * @var object $db
+	 * @var \Query\Query_Builder_Interface
 	 */
 	protected $db;
 

@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -29,9 +29,9 @@ use Zend\Diactoros\{
 	ServerRequestFactory
 };
 
-define('ROOT_DIR', __DIR__ . '/../');
-define('TEST_DATA_DIR', __DIR__ . '/test_data');
-define('TEST_VIEW_DIR', __DIR__ . '/test_views');
+\define('ROOT_DIR', __DIR__ . '/../');
+\define('TEST_DATA_DIR', __DIR__ . '/test_data');
+\define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 
 /**
  * Base class for TestCases
@@ -141,8 +141,8 @@ class AnimeClientTestCase extends TestCase {
 			'_FILES' => $_FILES
 		];
 
-		$request = call_user_func_array(
-			['Zend\Diactoros\ServerRequestFactory', 'fromGlobals'],
+		$request = \call_user_func_array(
+			[ServerRequestFactory::class, 'fromGlobals'],
 			array_merge($default, $supers)
 		);
 		$this->container->setInstance('request', $request);

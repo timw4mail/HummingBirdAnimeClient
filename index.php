@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -40,7 +40,7 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-require_once $APPCONF_DIR . '/base_config.php'; // $base_config
+$base_config = require $APPCONF_DIR . '/base_config.php';
 $di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);

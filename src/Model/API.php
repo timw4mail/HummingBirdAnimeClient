@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,10 +16,13 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\Ion\StringWrapper;
+
 /**
  * Base model for api interaction
  */
-class API extends AbstractModel {
+class API {
+	use StringWrapper;
 
 	/**
 	 * Whether to use the MAL api

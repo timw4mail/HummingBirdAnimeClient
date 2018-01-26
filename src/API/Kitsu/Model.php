@@ -8,7 +8,7 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -116,7 +116,7 @@ class Model {
 			]
 		]);
 		$data = Json::decode(wait($response->getBody()));
-		
+
 		//dump($response);
 
 		if (array_key_exists('access_token', $data))
@@ -763,7 +763,7 @@ class Model {
 	 * Get the mal id for the manga represented by the kitsu id
 	 * to enable updating MyAnimeList
 	 *
-	 * @param string $kitsuAnimeId The id of the anime on Kitsu
+	 * @param string $kitsuMangaId The id of the manga on Kitsu
 	 * @return string|null Returns the mal id if it exists, otherwise null
 	 */
 	public function getMalIdForManga(string $kitsuMangaId)

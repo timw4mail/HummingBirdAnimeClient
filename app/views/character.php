@@ -1,5 +1,5 @@
 <?php use Aviat\AnimeClient\API\Kitsu; ?>
-<main class="details">
+<main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
 			<img class="cover" width="284" src="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}.jpg") ?>" alt="" />
@@ -40,6 +40,8 @@
 			</section>
 		</div>
 		<?php endif ?>
+	</section>
+	<section class="flex flex-no-wrap">
 		<?php if (array_key_exists('manga', $data['included'])): ?>
 		<div>
 			<h4>Manga</h4>
