@@ -253,10 +253,10 @@ class Anime extends BaseController {
 	 */
 	public function details(string $animeId)
 	{
-		$data = $this->model->getAnime($animeId);
+		$show_data = $this->model->getAnime($animeId);
 		$characters = [];
 
-		if (empty($data))
+		if (empty($show_data))
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -268,9 +268,9 @@ class Anime extends BaseController {
 			return;
 		}
 
-		if (array_key_exists('characters', $data['included']))
+		if (array_key_exists('characters', $show_data['included']))
 		{
-			foreach($data['included']['characters'] as $id => $character)
+			foreach($show_data['included']['characters'] as $id => $character)
 			{
 				$characters[$id] = $character['attributes'];
 			}
@@ -280,10 +280,10 @@ class Anime extends BaseController {
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				$data['titles'][0]
+				$show_data['titles'][0]
 			),
 			'characters' => $characters,
-			'data' => $data,
+			'show_data' => $show_data,
 		]);
 	}
 
