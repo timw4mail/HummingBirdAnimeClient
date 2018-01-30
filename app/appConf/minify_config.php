@@ -57,11 +57,11 @@ return [
 			'manga_edit.js',
 		],
 		'anime_collection' => [
-			'lib/mustache.js',
+			'anime_search_results.js',
 			'anime_collection.js',
 		],
 		'manga_collection' => [
-			'lib/mustache.js',
+			'manga_search_results.js',
 			'manga_collection.js',
 		],
 	]

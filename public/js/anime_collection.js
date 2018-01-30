@@ -2,31 +2,29 @@
 
 	'use strict';
 
-	const search = (tempHtml, query) => {
+	const search = (query) => {
+		// Show the loader
 		_.$('.cssload-loader')[0].removeAttribute('hidden');
+
+		// Do the api search
 		_.get(_.url('/anime-collection/search'), {query}, (searchResults, status) => {
 			searchResults = JSON.parse(searchResults);
+
+			// Hide the loader
 			_.$('.cssload-loader')[0].setAttribute('hidden', 'hidden');
 
-			// Give mustache a key to iterate over
-			searchResults = {
-				data: searchResults.data
-			};
-
-			Mustache.parse(tempHtml);
-			_.$('#series_list')[0].innerHTML = Mustache.render(tempHtml, searchResults);
+			// Show the results
+			_.$('#series_list')[0].innerHTML = render_anime_search_results(searchResults.data);
 		});
 	};
 
-	_.get('/public/templates/anime-ajax-search-results.html', (tempHtml) => {
-		_.on('#search', 'keyup', _.throttle(250, function(e) {
-			let query = encodeURIComponent(this.value);
+		_.on('#search', 'keyup', _.throttle(250, function() {
+			const query = encodeURIComponent(this.value);
 			if (query === '') {
 				return;
 			}
 
-			search(tempHtml, query);
+			search(query);
 		}));
-	});
 
 })(AnimeClient);

@@ -2,31 +2,22 @@
 
 	'use strict';
 
-	const search = (tempHtml, query) => {
+	const search = (query) => {
 		_.$('.cssload-loader')[0].removeAttribute('hidden');
 		_.get(_.url('/manga/search'), {query}, (searchResults, status) => {
 			searchResults = JSON.parse(searchResults);
 			_.$('.cssload-loader')[0].setAttribute('hidden', 'hidden');
-
-			// Give mustache a key to iterate over
-			searchResults = {
-				data: searchResults.data
-			};
-
-			Mustache.parse(tempHtml);
-			_.$('#series_list')[0].innerHTML = Mustache.render(tempHtml, searchResults);
+			_.$('#series_list')[0].innerHTML = render_manga_search_results(searchResults.data);
 		});
 	};
 
-	_.get('/public/templates/manga-ajax-search-results.html', (tempHtml) => {
-		_.on('#search', 'keyup', _.throttle(250, function(e) {
-			let query = encodeURIComponent(this.value);
-			if (query === '') {
-				return;
-			}
+	_.on('#search', 'keyup', _.throttle(250, function(e) {
+		let query = encodeURIComponent(this.value);
+		if (query === '') {
+			return;
+		}
 
-			search(tempHtml, query);
-		}));
-	});
+		search(query);
+	}));
 
 })(AnimeClient);

@@ -31,7 +31,8 @@
 		{
 			foreach($message as $m)
 			{
-				extract($m);
+				$message = $m['message'];
+				$message_type = $m['message_type'];
 				include 'message.php';
 			}
 		}
