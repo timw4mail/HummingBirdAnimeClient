@@ -17,10 +17,12 @@
 					<td>Episode Count</td>
 					<td><?= $show_data['episode_count'] ?? '-' ?></td>
 				</tr>
+				<?php if ( ! empty($show_data['episode_length'])): ?>
 				<tr>
 					<td>Episode Length</td>
 					<td><?= $show_data['episode_length'] ?> minutes</td>
 				</tr>
+				<?php endif ?>
 				<?php if ( ! empty($show_data['age_rating'])): ?>
 				<tr>
 					<td>Age Rating</td>
