@@ -27,11 +27,12 @@ use Aviat\AnimeClient\API\MAL\Transformer\{
 	AnimeListTransformer as ALT
 };
 use Aviat\Ion\Json;
+use DateTime;
 
 /**
  * Clears the API Cache
  */
-class SyncKitsuWithMal extends BaseCommand {
+class SyncLists extends BaseCommand {
 
 	/**
 	 * Model for making requests to Kitsu API
@@ -50,9 +51,11 @@ class SyncKitsuWithMal extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function execute(array $args, array $options = [])
+	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
@@ -63,7 +66,13 @@ class SyncKitsuWithMal extends BaseCommand {
 		$this->sync('manga');
 	}
 
-	public function sync(string $type)
+	/**
+	 * Attempt to synchronize external apis
+	 *
+	 * @param string $type anime|manga
+	 * @return void
+	 */
+	protected function sync(string $type): void
 	{
 		$uType = ucfirst($type);
 
@@ -124,7 +133,14 @@ class SyncKitsuWithMal extends BaseCommand {
 		}
 	}
 
-	public function filterMappings(array $includes, string $type = 'anime'): array
+	/**
+	 * Filter Kitsu mappings for the specified type
+	 *
+	 * @param array $includes
+	 * @param string $type
+	 * @return array
+	 */
+	protected function filterMappings(array $includes, string $type = 'anime'): array
 	{
 		$output = [];
 
@@ -139,20 +155,25 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function formatMALList(string $type): array
+	/**
+	 * Format a MAL list for comparison
+	 *
+	 * @param string $type
+	 * @return array
+	 */
+	protected function formatMALList(string $type): array
 	{
-		if ($type === 'anime')
-		{
-			return $this->formatMALAnimeList();
-		}
-
-		if ($type === 'manga')
-		{
-			return $this->formatMALMangaList();
-		}
+		$type = ucfirst($type);
+		$method = "formatMAL{$type}List";
+		return $this->$method();
 	}
 
-	public function formatMALAnimeList()
+	/**
+	 * Format a MAL anime list for comparison
+	 *
+	 * @return array
+	 */
+	protected function formatMALAnimeList(): array
 	{
 		$orig = $this->malModel->getList('anime');
 		$output = [];
@@ -191,7 +212,12 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function formatMALMangaList()
+	/**
+	 * Format a MAL manga list for comparison
+	 *
+	 * @return array
+	 */
+	protected function formatMALMangaList(): array
 	{
 		$orig = $this->malModel->getList('manga');
 		$output = [];
@@ -232,7 +258,13 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function formatKitsuList(string $type = 'anime'): array
+	/**
+	 * Format a kitsu list for the sake of comparision
+	 *
+	 * @param string $type
+	 * @return array
+	 */
+	protected function formatKitsuList(string $type = 'anime'): array
 	{
 		$data = $this->kitsuModel->{'getFull' . ucfirst($type) . 'List'}();
 
@@ -262,7 +294,7 @@ class SyncKitsuWithMal extends BaseCommand {
 			}
 
 			// Skip to the next item if there isn't a MAL ID
-			if (is_null($malId))
+			if ($malId === NULL)
 			{
 				continue;
 			}
@@ -277,7 +309,13 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $output;
 	}
 
-	public function diffLists(string $type = 'anime'): array
+	/**
+	 * Go through lists of the specified type, and determine what kind of action each item needs
+	 *
+	 * @param string $type
+	 * @return array
+	 */
+	protected function diffLists(string $type = 'anime'): array
 	{
 		// Get libraryEntries with media.mappings from Kitsu
 		// Organize mappings, and ignore entries without mappings
@@ -305,21 +343,21 @@ class SyncKitsuWithMal extends BaseCommand {
 
 		foreach($kitsuList as $kitsuItem)
 		{
-			if (in_array($kitsuItem['malId'], $malIds))
+			if (\in_array($kitsuItem['malId'], $malIds, TRUE))
 			{
 				$item = $this->compareListItems($kitsuItem, $malList[$kitsuItem['malId']]);
 
-				if (is_null($item))
+				if ($item === NULL)
 				{
 					continue;
 				}
 
-				if (in_array('kitsu', $item['updateType']))
+				if (\in_array('kitsu', $item['updateType'], TRUE))
 				{
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (in_array('mal', $item['updateType']))
+				if (\in_array('mal', $item['updateType'], TRUE))
 				{
 					$malUpdateItems[] = $item['data'];
 				}
@@ -343,11 +381,18 @@ class SyncKitsuWithMal extends BaseCommand {
 		];
 	}
 
-	public function compareListItems(array $kitsuItem, array $malItem)
+	/**
+	 * Compare two list items, and return the out of date one, if one exists
+	 *
+	 * @param array $kitsuItem
+	 * @param array $malItem
+	 * @return array|null
+	 */
+	protected function compareListItems(array $kitsuItem, array $malItem): ?array
 	{
 		$compareKeys = ['status', 'progress', 'rating', 'reconsuming'];
 		$diff = [];
-		$dateDiff = (new \DateTime($kitsuItem['data']['updatedAt'])) <=> (new \DateTime($malItem['data']['updatedAt']));
+		$dateDiff = new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime($malItem['data']['updatedAt']);
 
 		foreach($compareKeys as $key)
 		{
@@ -359,7 +404,7 @@ class SyncKitsuWithMal extends BaseCommand {
 		$diffValues = array_unique($diffValues);
 		if (count($diffValues) === 1 && $diffValues[0] === 0)
 		{
-			return;
+			return NULL;
 		}
 
 		$update = [
@@ -460,7 +505,14 @@ class SyncKitsuWithMal extends BaseCommand {
 		return $return;
 	}
 
-	public function updateKitsuListItems($itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	/**
+	 * Create/Update list items on Kitsu
+	 *
+	 * @param array $itemsToUpdate
+	 * @param string $action
+	 * @param string $type
+	 */
+	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$requester = new ParallelAPIRequest();
 		foreach($itemsToUpdate as $item)
@@ -496,7 +548,14 @@ class SyncKitsuWithMal extends BaseCommand {
 		}
 	}
 
-	public function updateMALListItems($itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	/**
+	 * Create/Update list items on MAL
+	 *
+	 * @param array $itemsToUpdate
+	 * @param string $action
+	 * @param string $type
+	 */
+	protected function updateMALListItems(array$itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$transformer = new ALT();
 		$requester = new ParallelAPIRequest();

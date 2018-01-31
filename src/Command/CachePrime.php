@@ -25,10 +25,11 @@ class CachePrime extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
-	 * @throws \ConsoleKit\ConsoleException
 	 */
-	public function execute(array $args, array $options = [])
+	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
 
@@ -42,7 +43,7 @@ class CachePrime extends BaseCommand {
 
 		$this->echoBox('Cache cleared, re-priming...');
 
-		if ( ! is_null($userId))
+		if ($userId !== NULL)
 		{
 			$userIdItem = $cache->getItem('kitsu-auth-token');
 			$userIdItem->set($userId);
