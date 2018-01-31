@@ -31,9 +31,9 @@ class AnimeTransformer extends AbstractTransformer {
 	 * @param  array  $item API library item
 	 * @return array
 	 */
-	public function transform($item)
+	public function transform($item): array
 	{
-		
+
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$genres = $item['included']['categories'] ?? [];
 		$item['genres'] = array_column($genres, 'title') ?? [];
@@ -42,21 +42,22 @@ class AnimeTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($item);
 
 		return [
-			'id' => $item['id'],
-			'slug' => $item['slug'],
-			'title' => $titles[0],
-			'titles' => $titles,
-			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
-			'cover_image' => $item['posterImage']['small'],
-			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
-			'episode_count' => $item['episodeCount'],
-			'episode_length' => $item['episodeLength'],
-			'synopsis' => $item['synopsis'],
 			'age_rating' => $item['ageRating'],
 			'age_rating_guide' => $item['ageRatingGuide'],
-			'url' => "https://kitsu.io/anime/{$item['slug']}",
+			'cover_image' => $item['posterImage']['small'],
+			'episode_count' => $item['episodeCount'],
+			'episode_length' => $item['episodeLength'],
 			'genres' => $item['genres'],
-			'streaming_links' => Kitsu::parseStreamingLinks($item['included'])
+			'id' => $item['id'],
+			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
+			'slug' => $item['slug'],
+			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
+			'streaming_links' => Kitsu::parseStreamingLinks($item['included']),
+			'synopsis' => $item['synopsis'],
+			'title' => $titles[0],
+			'titles' => $titles,
+			'trailer_id' => $item['youtubeVideoId'],
+			'url' => "https://kitsu.io/anime/{$item['slug']}",
 		];
 	}
 }

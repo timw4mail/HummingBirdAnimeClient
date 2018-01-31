@@ -117,8 +117,6 @@ class Model {
 		]);
 		$data = Json::decode(wait($response->getBody()));
 
-		//dump($response);
-
 		if (array_key_exists('access_token', $data))
 		{
 			return $data;
@@ -129,7 +127,6 @@ class Model {
 			dump($data['error']);
 			dump($response);
 			die();
-			//throw new \Exception('auth error');
 		}
 
 		return FALSE;
