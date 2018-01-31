@@ -149,7 +149,7 @@ class Controller {
 	 * @throws NotFoundException
 	 * @return void
 	 */
-	public function setSessionRedirect(string $url = NULL)
+	public function setSessionRedirect(string $url = NULL): void
 	{
 		$serverParams = $this->request->getServerParams();
 
@@ -252,13 +252,13 @@ class Controller {
 		$csp = [
 			"default-src 'self'",
 			"object-src 'none'",
-			"child-src 'none'",
+			"frame-src *.youtube.com",
 		];
 
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
-		if (array_key_exists('message', $data) && is_array($data['message']))
+		if (array_key_exists('message', $data) && \is_array($data['message']))
 		{
 			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
 		}
@@ -300,7 +300,7 @@ class Controller {
 	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function errorPage(int $httpCode, string $title, string $message, string $long_message = "")
+	public function errorPage(int $httpCode, string $title, string $message, string $long_message = ''): void
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
@@ -314,7 +314,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function redirectToDefaultRoute()
+	public function redirectToDefaultRoute(): void
 	{
 		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']) ?? 'anime';
 		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
@@ -328,7 +328,7 @@ class Controller {
 	 * @param string $type
 	 * @return void
 	 */
-	public function setFlashMessage(string $message, string $type = "info")
+	public function setFlashMessage(string $message, string $type = 'info'): void
 	{
 		static $messages;
 
@@ -406,7 +406,7 @@ class Controller {
 	 * @throws DoubleRenderException
 	 * @return void
 	 */
-	protected function outputJSON($data = 'Empty response', int $code = 200)
+	protected function outputJSON($data = 'Empty response', int $code = 200): void
 	{
 		(new JsonView($this->container))
 			->setStatusCode($code)
@@ -421,7 +421,7 @@ class Controller {
 	 * @param int $code
 	 * @return void
 	 */
-	protected function redirect(string $url, int $code)
+	protected function redirect(string $url, int $code): void
 	{
 		$http = new HttpView($this->container);
 		$http->redirect($url, $code);
