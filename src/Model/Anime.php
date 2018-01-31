@@ -149,7 +149,7 @@ class Anime extends API {
 			$malData = $data;
 			$malId = $this->kitsuModel->getMalIdForAnime($malData['id']);
 
-			if ( ! is_null($malId))
+			if ($malId !== NULL)
 			{
 				$malData['id'] = $malId;
 				$requester->addRequest($this->malModel->createListItem($malData), 'mal');
@@ -182,7 +182,7 @@ class Anime extends API {
 
 		$results = $requester->makeRequests();
 		$body = Json::decode($results['kitsu']);
-		$statusCode = (array_key_exists('error', $body)) ? 400: 200;
+		$statusCode = array_key_exists('error', $body) ? 400: 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
@@ -201,7 +201,7 @@ class Anime extends API {
 	{
 		$requester = new ParallelAPIRequest();
 
-		if ($this->useMALAPI && ! is_null($malId))
+		if ($this->useMALAPI && $malId !== NULL)
 		{
 			$requester->addRequest($this->malModel->deleteListItem($malId), 'MAL');
 		}

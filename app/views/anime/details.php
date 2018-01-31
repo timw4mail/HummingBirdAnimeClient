@@ -17,10 +17,12 @@
 					<td>Episode Count</td>
 					<td><?= $show_data['episode_count'] ?? '-' ?></td>
 				</tr>
+				<?php if ( ! empty($show_data['episode_length'])): ?>
 				<tr>
 					<td>Episode Length</td>
 					<td><?= $show_data['episode_length'] ?> minutes</td>
 				</tr>
+				<?php endif ?>
 				<?php if ( ! empty($show_data['age_rating'])): ?>
 				<tr>
 					<td>Age Rating</td>
@@ -74,12 +76,18 @@
 				</tbody>
 			</table>
 			<?php endif ?>
+			<?php if ( ! empty($show_data['trailer_id'])): ?>
+				<hr />
+				<h4>Trailer</h4>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $show_data['trailer_id'] ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+			<?php endif ?>
 		</div>
 	</section>
 
 	<?php if (count($characters) > 0): ?>
+	<hr />
 	<h2>Characters</h2>
-	<section class="align_left media-wrap">
+	<section class="align_center media-wrap">
 	<?php foreach($characters as $id => $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">
