@@ -25,10 +25,11 @@ class CacheClear extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
-	 * @throws \ConsoleKit\ConsoleException
 	 */
-	public function execute(array $args, array $options = [])
+	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
 		$cache = $this->container->get('cache');

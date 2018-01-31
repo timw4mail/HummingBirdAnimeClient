@@ -5,6 +5,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Aviat\AnimeClient\Command;
+use ConsoleKit\Console;
 
 $_SERVER['HTTP_HOST'] = 'localhost';
 
@@ -13,14 +14,10 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 // -----------------------------------------------------------------------------
 try
 {
-	(new \ConsoleKit\Console([
+	(new Console([
 		'cache:clear' => Command\CacheClear::class,
-		'cache:prime' => Command\CachePrime::class,
-		'lists:sync' => Command\SyncKitsuWithMal::class,
-		'cache-prime' => Command\CachePrime::class,
-		'cache-clear' => Command\CacheClear::class,
-		'clear-cache' => Command\CacheClear::class,
-		'sync-lists' => Command\SyncKitsuWithMal::class,
+		'cache:refresh' => Command\CachePrime::class,
+		'lists:sync' => Command\SyncLists::class,
 	]))->run();
 }
 catch (\Exception $e)
