@@ -41,6 +41,8 @@ class Anime extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -63,11 +65,14 @@ class Anime extends BaseController {
 	 *
 	 * @param string|int $type - The section of the list
 	 * @param string $view - List or cover view
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL)
+	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL): void
 	{
-		$title = (array_key_exists($type, AnimeWatchingStatus::ROUTE_TO_TITLE))
+		$title = array_key_exists($type, AnimeWatchingStatus::ROUTE_TO_TITLE)
 			? $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				AnimeWatchingStatus::ROUTE_TO_TITLE[$type]
@@ -92,9 +97,13 @@ class Anime extends BaseController {
 	/**
 	 * Form to add an anime
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function addForm()
+	public function addForm(): void
 	{
 		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
@@ -110,9 +119,11 @@ class Anime extends BaseController {
 	/**
 	 * Add an anime to the list
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function add()
+	public function add(): void
 	{
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
@@ -140,9 +151,12 @@ class Anime extends BaseController {
 	 *
 	 * @param int $id
 	 * @param string $status
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function edit($id, $status = "all")
+	public function edit($id, $status = 'all'): void
 	{
 		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
@@ -165,7 +179,7 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function search()
+	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
@@ -175,9 +189,11 @@ class Anime extends BaseController {
 	/**
 	 * Update an anime item via a form submission
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function formUpdate()
+	public function formUpdate(): void
 	{
 		$data = $this->request->getParsedBody();
 
@@ -205,7 +221,7 @@ class Anime extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function update()
+	public function update(): void
 	{
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
@@ -225,9 +241,11 @@ class Anime extends BaseController {
 	/**
 	 * Remove an anime from the list
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function delete()
+	public function delete(): void
 	{
 		$body = $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
@@ -249,9 +267,12 @@ class Anime extends BaseController {
 	 * View details of an anime
 	 *
 	 * @param string $animeId
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function details(string $animeId)
+	public function details(string $animeId): void
 	{
 		$show_data = $this->model->getAnime($animeId);
 		$characters = [];
@@ -287,5 +308,14 @@ class Anime extends BaseController {
 		]);
 	}
 
+	/**
+	 * Find anime matching the selected genre
+	 *
+	 * @param string $genre
+	 */
+	public function genre(string $genre): void
+	{
+		// @TODO: implement
+	}
 }
 // End of AnimeController.php

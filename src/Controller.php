@@ -22,10 +22,6 @@ use Aviat\Ion\Di\{
 	ContainerAware,
 	ContainerInterface
 };
-use Aviat\Ion\Di\Exception\{
-	ContainerException,
-	NotFoundException
-};
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -92,9 +88,9 @@ class Controller {
 	/**
 	 * Constructor
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -135,7 +131,7 @@ class Controller {
 	 *
 	 * @return void
 	 */
-	public function redirectToPrevious()
+	public function redirectToPrevious(): void
 	{
 		$previous = $this->session->getFlash('previous');
 		$this->redirect($previous, 303);
@@ -144,9 +140,9 @@ class Controller {
 	/**
 	 * Set the current url in the session as the target of a future redirect
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @param string|null $url
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function setSessionRedirect(string $url = NULL): void
@@ -312,6 +308,7 @@ class Controller {
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function redirectToDefaultRoute(): void

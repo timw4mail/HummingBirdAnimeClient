@@ -30,6 +30,9 @@ class Index extends BaseController {
 	/**
 	 * Purges the API cache
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function clearCache()
@@ -37,13 +40,16 @@ class Index extends BaseController {
 		$this->cache->clear();
 		$this->outputHTML('blank', [
 			'title' => 'Cache cleared'
-		], NULL, 200);
+		]);
 	}
 
 	/**
 	 * Show the login form
 	 *
 	 * @param string $status
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function login(string $status = '')
@@ -69,6 +75,10 @@ class Index extends BaseController {
 	/**
 	 * Attempt login authentication
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function loginAction()
@@ -88,6 +98,9 @@ class Index extends BaseController {
 	/**
 	 * Deauthorize the current user
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function logout()
@@ -101,6 +114,9 @@ class Index extends BaseController {
 	/**
 	 * Show the user profile page
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function me()
@@ -111,8 +127,8 @@ class Index extends BaseController {
 		$orgData = JsonAPI::organizeData($data)[0];
 		$rels = $orgData['relationships'] ?? [];
 		$favorites = array_key_exists('favorites', $rels) ? $rels['favorites'] : [];
-		
-		
+
+
 		$this->outputHTML('me', [
 			'title' => 'About ' . $this->config->get('whose_list'),
 			'data' => $orgData,
@@ -125,9 +141,17 @@ class Index extends BaseController {
 	/**
 	 * Get image covers from kitsu
 	 *
+	 * @param string $type The category of image
+	 * @param string $file The filename to look for
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
+	 * @throws \TypeError
+	 * @throws \Error
+	 * @throws \Throwable
 	 * @return void
 	 */
-	public function images($type, $file)
+	public function images(string $type, string $file): void
 	{
 		$kitsuUrl = 'https://media.kitsu.io/';
 		list($id, $ext) = explode('.', basename($file));
@@ -164,9 +188,14 @@ class Index extends BaseController {
 		echo $data;
 	}
 
+	/**
+	 * Reorganize favorites data to be more useful
+	 *
+	 * @param array $rawfavorites
+	 * @return array
+	 */
 	private function organizeFavorites(array $rawfavorites): array
 	{
-		// return $rawfavorites;
 		$output = [];
 
 		unset($rawfavorites['data']);

@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient;
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use DomainException;
 
 /**
  * Utility method class
@@ -53,6 +52,8 @@ class Util {
 	 * Set up the Util class
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -87,12 +88,14 @@ class Util {
 	/**
 	 * Determine whether to show the sub-menu
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return bool
 	 */
-	public function isViewPage()
+	public function isViewPage(): bool
 	{
 		$url = $this->container->get('request')->getUri();
-		$pageSegments = explode("/", (string) $url);
+		$pageSegments = explode('/', (string) $url);
 
 		$intersect = array_intersect($pageSegments, self::$formPages);
 
@@ -103,9 +106,11 @@ class Util {
 	 * Determine whether the page is a page with a form, and
 	 * not suitable for redirection
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return boolean
 	 */
-	public function isFormPage()
+	public function isFormPage(): bool
 	{
 		return ! $this->isViewPage();
 	}

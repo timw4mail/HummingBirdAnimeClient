@@ -27,7 +27,7 @@ use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
-use ConsoleKit\Command;
+use ConsoleKit\{Command, ConsoleException};
 use ConsoleKit\Widgets\Box;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
@@ -47,10 +47,17 @@ class BaseCommand extends Command {
 	 */
 	protected function echoBox($message)
 	{
-		echo "\n";
-		$box = new Box($this->getConsole(), $message);
-		$box->write();
-		echo "\n";
+		try
+		{
+			echo "\n";
+			$box = new Box($this->getConsole(), $message);
+			$box->write();
+			echo "\n";
+		}
+		catch (ConsoleException $e)
+		{
+			// oops
+		}
 	}
 
 	/**
@@ -58,12 +65,12 @@ class BaseCommand extends Command {
 	 *
 	 * @return Container
 	 */
-	protected function setupContainer()
+	protected function setupContainer(): Container
 	{
 		$APP_DIR = realpath(__DIR__ . '/../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		$base_config = require_once $APPCONF_DIR . '/base_config.php';
+		$base_config = require $APPCONF_DIR . '/base_config.php';
 
 		$config = loadToml($CONF_DIR);
 		$config_array = array_merge($base_config, $config);
