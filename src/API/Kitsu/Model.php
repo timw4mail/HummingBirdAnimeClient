@@ -169,7 +169,7 @@ class Model {
 	 */
 	public function getUserIdByUsername(string $username = NULL): string
 	{
-		if (is_null($username))
+		if ($username === NULL)
 		{
 			$username = $this->getUsername();
 		}

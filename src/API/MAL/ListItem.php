@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\MAL;
 
 use Amp\Artax\{FormBody, Request};
 use Aviat\AnimeClient\API\{
-	AbstractListItem,
 	XML
 };
 use Aviat\Ion\Di\ContainerAware;

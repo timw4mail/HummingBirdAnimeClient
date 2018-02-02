@@ -21,15 +21,17 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 use function Amp\Promise\wait;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\{AbstractListItem, HummingbirdClient};
+use Aviat\AnimeClient\API\{
+	HummingbirdClient,
+	ListItemInterface
+};
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
-use RuntimeException;
 
 /**
  * CRUD operations for Kitsu list items
  */
-class ListItem extends AbstractListItem {
+class ListItem implements ListItemInterface {
 	use ContainerAware;
 	use KitsuTrait;
 
@@ -41,7 +43,7 @@ class ListItem extends AbstractListItem {
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
-		if ( ! is_null($sessionSegment->get('auth_token')))
+		if ($sessionSegment->get('auth_token') !== NULL)
 		{
 			$token = $sessionSegment->get('auth_token');
 			return "bearer {$token}";

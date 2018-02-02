@@ -40,7 +40,7 @@ class ParallelAPIRequest {
 	 */
 	public function addRequest($request, $key = NULL): self
 	{
-		if ( ! is_null($key))
+		if ($key !== NULL)
 		{
 			$this->requests[$key] = $request;
 			return $this;

@@ -21,7 +21,6 @@ use Aviat\AnimeClient\Model\{
 	Manga as MangaModel,
 	MangaCollection as MangaCollectionModel
 };
-use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
@@ -45,6 +44,9 @@ class MangaCollection extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -64,9 +66,10 @@ class MangaCollection extends BaseController {
 	/**
 	 * Search for manga
 	 *
+	 * @throws \Aviat\Ion\Exception\DoubleRenderException
 	 * @return void
 	 */
-	public function search()
+	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
@@ -77,9 +80,12 @@ class MangaCollection extends BaseController {
 	 * Show the manga collection page
 	 *
 	 * @param string $view
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function index($view)
+	public function index($view): void
 	{
 		$viewMap = [
 			'' => 'cover',
@@ -99,13 +105,17 @@ class MangaCollection extends BaseController {
 	 * Show the manga collection add/edit form
 	 *
 	 * @param integer|null $id
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function form($id = NULL)
+	public function form($id = NULL): void
 	{
 		$this->setSessionRedirect();
 
-		$action = (is_null($id)) ? "Add" : "Edit";
+		$action = $id === NULL ? 'Add' : 'Edit';
 		$urlAction = strtolower($action);
 
 		$this->outputHTML('collection/' . $urlAction, [
@@ -116,13 +126,16 @@ class MangaCollection extends BaseController {
 				$action
 			),
 			'media_items' => $this->mangaCollectionModel->getMediaTypeList(),
-			'item' => ($action === "Edit") ? $this->mangaCollectionModel->get($id) : []
+			'item' => ($action === 'Edit') ? $this->mangaCollectionModel->get($id) : []
 		]);
 	}
 
 	/**
 	 * Update a collection item
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function edit()
@@ -144,6 +157,9 @@ class MangaCollection extends BaseController {
 	/**
 	 * Add a collection item
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function add()
@@ -172,13 +188,13 @@ class MangaCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("/manga-collection/view", 303);
+			$this->redirect('/manga-collection/view', 303);
 		}
 
 		$this->mangaCollectionModel->delete($data);
-		$this->setFlashMessage("Successfully removed manga from collection.", 'success');
+		$this->setFlashMessage('Successfully removed manga from collection.', 'success');
 
-		$this->redirect("/manga-collection/view", 303);
+		$this->redirect('/manga-collection/view', 303);
 	}
 }
 // End of CollectionController.php
