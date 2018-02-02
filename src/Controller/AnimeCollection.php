@@ -44,6 +44,8 @@ class AnimeCollection extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -63,6 +65,7 @@ class AnimeCollection extends BaseController {
 	/**
 	 * Search for anime
 	 *
+	 * @throws \Aviat\Ion\Exception\DoubleRenderException
 	 * @return void
 	 */
 	public function search()
@@ -76,6 +79,9 @@ class AnimeCollection extends BaseController {
 	 * Show the anime collection page
 	 *
 	 * @param string $view
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function index($view)
@@ -98,13 +104,17 @@ class AnimeCollection extends BaseController {
 	 * Show the anime collection add/edit form
 	 *
 	 * @param integer|null $id
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function form($id = NULL)
 	{
 		$this->setSessionRedirect();
 
-		$action = (is_null($id)) ? "Add" : "Edit";
+		$action = $id === NULL ? 'Add' : 'Edit';
 		$urlAction = strtolower($action);
 
 		$this->outputHTML('collection/' . $urlAction, [
@@ -115,13 +125,16 @@ class AnimeCollection extends BaseController {
 				$action
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === "Edit") ? $this->animeCollectionModel->get($id) : []
+			'item' => ($action === 'Edit') ? $this->animeCollectionModel->get($id) : []
 		]);
 	}
 
 	/**
 	 * Update a collection item
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function edit()
@@ -143,6 +156,9 @@ class AnimeCollection extends BaseController {
 	/**
 	 * Add a collection item
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function add()
@@ -171,13 +187,13 @@ class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
-			$this->redirect("/anime-collection/view", 303);
+			$this->redirect('/anime-collection/view', 303);
 		}
 
 		$this->animeCollectionModel->delete($data);
-		$this->setFlashMessage("Successfully removed anime from collection.", 'success');
+		$this->setFlashMessage('Successfully removed anime from collection.', 'success');
 
-		$this->redirect("/anime-collection/view", 303);
+		$this->redirect('/anime-collection/view', 303);
 	}
 }
 // End of CollectionController.php

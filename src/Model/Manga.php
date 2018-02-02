@@ -45,6 +45,8 @@ class Manga extends API
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -61,7 +63,7 @@ class Manga extends API
 	 * @param string $status
 	 * @return array
 	 */
-	public function getList($status)
+	public function getList($status): array
 	{
 		if ($status === 'All')
 		{
@@ -79,7 +81,7 @@ class Manga extends API
 	 * @param string $manga_id
 	 * @return array
 	 */
-	public function getManga($manga_id)
+	public function getManga($manga_id): array
 	{
 		return $this->kitsuModel->getManga($manga_id);
 	}
@@ -122,7 +124,7 @@ class Manga extends API
 			$malData = $data;
 			$malId = $this->kitsuModel->getMalIdForManga($malData['id']);
 
-			if ( ! is_null($malId))
+			if ($malId !== NULL)
 			{
 				$malData['id'] = $malId;
 				$requester->addRequest($this->malModel->createListItem($malData, 'manga'), 'mal');
@@ -155,7 +157,7 @@ class Manga extends API
 
 		$results = $requester->makeRequests();
 		$body = Json::decode($results['kitsu']);
-		$statusCode = (array_key_exists('error', $body)) ? 400: 200;
+		$statusCode = array_key_exists('error', $body) ? 400: 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
@@ -174,7 +176,7 @@ class Manga extends API
 	{
 		$requester = new ParallelAPIRequest();
 
-		if ($this->useMALAPI && ! is_null($malId))
+		if ($this->useMALAPI && $malId !== NULL)
 		{
 			$requester->addRequest($this->malModel->deleteListItem($malId, 'manga'), 'MAL');
 		}
@@ -192,7 +194,7 @@ class Manga extends API
 	 * @param string $name
 	 * @return array
 	 */
-	public function search($name)
+	public function search($name): array
 	{
 		return $this->kitsuModel->search('manga', $name);
 	}
@@ -203,7 +205,7 @@ class Manga extends API
 	 * @param array $data
 	 * @return array
 	 */
-	private function mapByStatus($data)
+	private function mapByStatus(array $data): array
 	{
 		$output = [
 			Title::READING => [],

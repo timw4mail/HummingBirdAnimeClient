@@ -27,7 +27,16 @@ class Character extends BaseController {
 
 	use ArrayWrapper;
 
-	public function index(string $slug)
+	/**
+	 * Show information about a character
+	 *
+	 * @param string $slug
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
+	 * @return void
+	 */
+	public function index(string $slug): void
 	{
 		$model = $this->container->get('kitsu-model');
 
@@ -88,8 +97,9 @@ class Character extends BaseController {
 
 
 			$person = current($role['relationships']['person']['people'])['attributes'];
+			$hasName = array_key_exists($person['name'], $people);
 
-			if ( ! array_key_exists($person['name'], $people))
+			if ( ! $hasName)
 			{
 				$people[$person['name']] = $i;
 				$role['relationships']['media']['anime'] = [current($role['relationships']['media']['anime'])];
@@ -99,15 +109,13 @@ class Character extends BaseController {
 
 				continue;
 			}
-			else if(array_key_exists($person['name'], $people))
+
+			if (array_key_exists('anime', $role['relationships']['media']))
 			{
-				if (array_key_exists('anime', $role['relationships']['media']))
-				{
-					$key = $people[$person['name']];
-					$output[$key]['relationships']['media']['anime'][] = current($role['relationships']['media']['anime']);
-				}
-				continue;
+				$key = $people[$person['name']];
+				$output[$key]['relationships']['media']['anime'][] = current($role['relationships']['media']['anime']);
 			}
+			continue;
 		}
 
 		return $output;
@@ -122,7 +130,7 @@ class Character extends BaseController {
 			if (
 				array_key_exists('attributes', $role) &&
 				array_key_exists('role', $role['attributes']) &&
-				( ! is_null($role['attributes']['role']))
+				$role['attributes']['role'] !== NULL
 			) {
 				$count++;
 			}

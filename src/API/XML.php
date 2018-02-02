@@ -174,14 +174,12 @@ class XML {
 	 */
 	private static function stripXMLWhitespace(string $xml): string
 	{
-
 		// Get rid of unimportant text nodes by removing
 		// whitespace characters from between xml tags,
 		// except for the xml declaration tag, Which looks
 		// something like:
 		/* <?xml version="1.0" encoding="UTF-8"?> */
-
-		return preg_replace('/([^\?])>\s+</', '$1><', $xml);
+		return preg_replace('/([^?])>\s+</', '$1><', $xml);
 	}
 
 	/**
@@ -191,7 +189,7 @@ class XML {
 	 * @param DOMNodeList $nodeList The current NodeList object
 	 * @return void
 	 */
-	private static function childNodesToArray(array &$root, DOMNodelist $nodeList)
+	private static function childNodesToArray(array &$root, DOMNodelist $nodeList): void
 	{
 		$length = $nodeList->length;
 		for ($i = 0; $i < $length; $i++)
@@ -200,14 +198,14 @@ class XML {
 			$current =& $root[$el->nodeName];
 
 			// It's a top level element!
-			if (is_a($el->childNodes->item(0), 'DomText') OR ( ! $el->hasChildNodes()))
+			if (( ! $el->hasChildNodes()) || is_a($el->childNodes->item(0), 'DomText'))
 			{
 				$current = $el->textContent;
 				continue;
 			}
 
 			// An empty value at the current root
-			if (is_null($current))
+			if ($current === NULL)
 			{
 				$current = [];
 				static::childNodesToArray($current, $el->childNodes);
@@ -230,7 +228,7 @@ class XML {
 				$current = [$current];
 			}
 
-			array_push($current, []);
+			$current[] = [];
 			$index = count($current) - 1;
 
 			static::childNodesToArray($current[$index], $el->childNodes);
@@ -245,7 +243,7 @@ class XML {
 	 * @param array $data The data for the current node
 	 * @return void
 	 */
-	private static function arrayPropertiesToXmlNodes(DOMDocument &$dom, DOMNode &$parent, array $data)
+	private static function arrayPropertiesToXmlNodes(DOMDocument $dom, DOMNode $parent, array $data): void
 	{
 		foreach($data as $key => $props)
 		{
@@ -260,7 +258,7 @@ class XML {
 
 			$node = $dom->createElement($key);
 
-			if (is_array($props))
+			if (\is_array($props))
 			{
 				static::arrayPropertiesToXmlNodes($dom, $node, $props);
 			}

@@ -40,6 +40,8 @@ class Manga extends Controller {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -59,9 +61,12 @@ class Manga extends Controller {
 	 *
 	 * @param string $status
 	 * @param string $view
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function index($status = "all", $view = "")
+	public function index($status = 'all', $view = ''): void
 	{
 		$statusTitle = MangaReadingStatus::ROUTE_TO_TITLE[$status];
 
@@ -88,9 +93,13 @@ class Manga extends Controller {
 	/**
 	 * Form to add an manga
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function addForm()
+	public function addForm(): void
 	{
 		$statuses = MangaReadingStatus::KITSU_TO_TITLE;
 
@@ -108,14 +117,16 @@ class Manga extends Controller {
 	/**
 	 * Add an manga to the list
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function add()
+	public function add(): void
 	{
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
-			$this->redirect("manga/add", 303);
+			$this->redirect('manga/add', 303);
 		}
 
 		$result = $this->model->createLibraryItem($data);
@@ -138,9 +149,13 @@ class Manga extends Controller {
 	 *
 	 * @param string $id
 	 * @param string $status
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function edit($id, $status = "All")
+	public function edit($id, $status = 'All'): void
 	{
 		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
@@ -164,7 +179,7 @@ class Manga extends Controller {
 	 *
 	 * @return void
 	 */
-	public function search()
+	public function search(): void
 	{
 		$query_data = $this->request->getQueryParams();
 		$this->outputJSON($this->model->search($query_data['query']));
@@ -173,9 +188,11 @@ class Manga extends Controller {
 	/**
 	 * Update an manga item via a form submission
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function formUpdate()
+	public function formUpdate(): void
 	{
 		$data = $this->request->getParsedBody();
 
@@ -202,9 +219,11 @@ class Manga extends Controller {
 	/**
 	 * Update a manga item
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function update()
+	public function update(): void
 	{
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
@@ -224,9 +243,11 @@ class Manga extends Controller {
 	/**
 	 * Remove an manga from the list
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
-	public function delete()
+	public function delete(): void
 	{
 		$body = $this->request->getParsedBody();
 		$id = $body['id'];
@@ -250,9 +271,12 @@ class Manga extends Controller {
 	 * View details of an manga
 	 *
 	 * @param string $manga_id
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function details($manga_id)
+	public function details($manga_id): void
 	{
 		$data = $this->model->getManga($manga_id);
 		$characters = [];
@@ -285,6 +309,16 @@ class Manga extends Controller {
 			'characters' => $characters,
 			'data' => $data,
 		]);
+	}
+
+	/**
+	 * Find manga matching the selected genre
+	 *
+	 * @param string $genre
+	 */
+	public function genre(string $genre): void
+	{
+		// @TODO: implement
 	}
 }
 // End of MangaController.php
