@@ -54,6 +54,9 @@ class RoutingBase {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Exception\ConfigException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -64,7 +67,7 @@ class RoutingBase {
 	}
 
 	/**
-	 * Retreive the appropriate value for the routing key
+	 * Retrieve the appropriate value for the routing key
 	 *
 	 * @param string $key
 	 * @return mixed
@@ -79,10 +82,11 @@ class RoutingBase {
 
 	/**
 	 * Get the current url path
-	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return string
 	 */
-	public function path()
+	public function path(): string
 	{
 		$request = $this->container->get('request');
 		$path = $request->getUri()->getPath();
@@ -97,10 +101,11 @@ class RoutingBase {
 
 	/**
 	 * Get the url segments
-	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return array
 	 */
-	public function segments()
+	public function segments(): array
 	{
 		$path = $this->path();
 		return explode('/', $path);
@@ -110,20 +115,24 @@ class RoutingBase {
 	 * Get a segment of the current url
 	 *
 	 * @param int $num
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return string|null
 	 */
-	public function getSegment($num)
+	public function getSegment($num): ?string
 	{
 		$segments = $this->segments();
-		return (array_key_exists($num, $segments)) ? $segments[$num] : NULL;
+		return $segments[$num] ?? NULL;
 	}
 
 	/**
 	 * Retrieve the last url segment
 	 *
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return string
 	 */
-	public function lastSegment()
+	public function lastSegment(): string
 	{
 		$segments = $this->segments();
 		return end($segments);

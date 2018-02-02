@@ -178,7 +178,7 @@ trait MALTrait {
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array((int) $response->getStatus(), $validResponseCodes))
+		if ( ! \in_array((int) $response->getStatus(), $validResponseCodes, TRUE))
 		{
 			if ($logger)
 			{

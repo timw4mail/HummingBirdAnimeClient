@@ -18,8 +18,7 @@ namespace Aviat\AnimeClient\API\MAL;
 
 use Aviat\AnimeClient\API\{
 	APIRequestBuilder,
-	MAL as M,
-	XML
+	MAL as M
 };
 
 class MALRequestBuilder extends APIRequestBuilder {

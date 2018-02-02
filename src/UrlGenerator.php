@@ -34,6 +34,8 @@ class UrlGenerator extends RoutingBase {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\ContainerException
+	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -44,17 +46,17 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param string ...$args url segments to apend to the base asset url
+	 * @param string[] ...$args
 	 * @return string
 	 */
-	public function assetUrl(...$args): string
+	public function assetUrl(string ...$args): string
 	{
-		$baseUrl = rtrim($this->url(""), '/');
-		$baseUrl = "{$baseUrl}" . $this->__get("asset_path");
+		$baseUrl = rtrim($this->url(''), '/')
+			. $this->__get('asset_path');
 
 		array_unshift($args, $baseUrl);
 
-		return implode("/", $args);
+		return implode('/', $args);
 	}
 
 	/**
@@ -82,7 +84,7 @@ class UrlGenerator extends RoutingBase {
 				$segments[$i + 1] = "";
 			}
 
-			$path_segments[$i] = preg_replace('`{.*?}`i', $segments[$i + 1], $path_segments[$i]);
+			$path_segments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $path_segments[$i]);
 		}
 		$path = implode('/', $path_segments);
 
@@ -101,7 +103,7 @@ class UrlGenerator extends RoutingBase {
 		$type = trim($type);
 		$defaultPath = $this->__get("default_{$type}_list_path");
 
-		if ( ! is_null($defaultPath))
+		if ($defaultPath !== NULL)
 		{
 			return $this->url("{$type}/{$defaultPath}");
 		}
