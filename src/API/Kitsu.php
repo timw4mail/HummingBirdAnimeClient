@@ -89,6 +89,13 @@ class Kitsu {
 					'image' => 'streaming-logos/funimation.svg',
 				];
 
+			case 'www.hidive.com':
+				return [
+					'name' => 'Hidive',
+					'link' => TRUE,
+					'image' => 'streaming-logos/hidive.svg',
+				];
+
 			case 'www.hulu.com':
 				return [
 					'name' => 'Hulu',
