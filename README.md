@@ -3,8 +3,6 @@
 Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
-[![build status](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/build.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
-[![coverage report](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/badges/develop/coverage.svg)](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/commits/develop)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/?branch=master)
 
 [[Hosted Example](https://list.timshomepage.net)]
@@ -58,6 +56,6 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 ### Server Setup
 
-See the [wiki](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/wikis/home)
+See the [wiki](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/wiki)
 for more in-depth information
 
