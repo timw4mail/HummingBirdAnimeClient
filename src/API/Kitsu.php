@@ -68,6 +68,13 @@ class Kitsu {
 	{
 		switch($hostname)
 		{
+			case 'www.amazon.com':
+				return [
+					'name' => 'Amazon Prime',
+					'link' => TRUE,
+					'image' => 'streaming-logos/amazon.svg',
+				];
+
 			case 'www.crunchyroll.com':
 				return [
 					'name' => 'Crunchyroll',
@@ -101,6 +108,13 @@ class Kitsu {
 					'name' => 'Hulu',
 					'link' => TRUE,
 					'image' => 'streaming-logos/hulu.svg',
+				];
+
+			case 'tubitv.com':
+				return [
+					'name' => 'TubiTV',
+					'link' => TRUE,
+					'image' => 'streaming-logos/tubitv.svg',
 				];
 
 			case 'www.viewster.com':
