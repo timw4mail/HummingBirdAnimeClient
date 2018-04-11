@@ -26,7 +26,6 @@ use Aviat\AnimeClient\API\{
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\API\Enum\{
-	AnimeWatchingStatus\Title,
 	AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
 	MangaReadingStatus\Kitsu as KitsuReadingStatus
 };
@@ -47,7 +46,7 @@ class Model {
 	use ContainerAware;
 	use KitsuTrait;
 
-	const LIST_PAGE_SIZE = 100;
+	protected const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * Class to map anime list items
@@ -417,7 +416,7 @@ class Model {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFullAnimeList(array $options = [
+	public function getFullRawAnimeList(array $options = [
 		'include' => 'anime.mappings'
 	]): array
 	{
@@ -441,10 +440,10 @@ class Model {
 		foreach($responses as $response)
 		{
 			$data = Json::decode($response);
-			$output = array_merge_recursive($output, $data);
+			$output[] = $data;
 		}
 
-		return $output;
+		return array_merge_recursive(...$output);
 	}
 
 	/**
@@ -547,7 +546,7 @@ class Model {
 			'sort' => '-updated_at'
 		];
 
-		return $this->getFullAnimeList($options);
+		return $this->getFullRawAnimeList($options);
 	}
 
 	// -------------------------------------------------------------------------
@@ -680,7 +679,7 @@ class Model {
 	 * @param array $options
 	 * @return array
 	 */
-	public function getFullMangaList(array $options = [
+	public function getFullRawMangaList(array $options = [
 		'include' => 'manga.mappings'
 	]): array
 	{
@@ -704,10 +703,10 @@ class Model {
 		foreach($responses as $response)
 		{
 			$data = Json::decode($response);
-			$output = array_merge_recursive($output, $data);
+			$output[] = $data;
 		}
 
-		return $output;
+		return array_merge_recursive(...$output);
 	}
 
 	/**
