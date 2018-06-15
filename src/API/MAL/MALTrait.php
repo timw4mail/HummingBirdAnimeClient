@@ -143,7 +143,7 @@ trait MALTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call', $response->getBody());
+				$logger->warning('Non 200 response for api call', (array)$response->getBody());
 			}
 		}
 
@@ -182,7 +182,7 @@ trait MALTrait {
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 201 response for POST api call', $response->getBody());
+				$logger->warning('Non 201 response for POST api call', (array)$response->getBody());
 			}
 		}
 
