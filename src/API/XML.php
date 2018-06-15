@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use DOMDocument, DOMNode, DOMNodeList;
+use DOMDocument, DOMNode, DOMNodeList, InvalidArgumentException;
 
 /**
  * XML <=> PHP Array codec
@@ -115,7 +115,13 @@ class XML {
 		$xml = static::stripXMLWhitespace($xml);
 
 		$dom = new DOMDocument();
-		$dom->loadXML($xml);
+		$hasLoaded = @$dom->loadXML($xml);
+
+		if ( ! $hasLoaded)
+		{
+			throw new InvalidArgumentException('Failed to load XML');
+		}
+
 		$root = $dom->documentElement;
 
 		$data[$root->tagName] = [];
