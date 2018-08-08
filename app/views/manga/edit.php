@@ -8,7 +8,7 @@
 			<thead>
 				<tr>
                     <th>
-                        <h3><?= $escape->html(array_shift($item['manga']['titles'])) ?></h3>
+                        <h3><?= $escape->html($item['manga']['title']) ?></h3>
 						<?php foreach($item['manga']['titles'] as $title): ?>
                             <h4><?= $escape->html($title) ?></h4>
 						<?php endforeach ?>
@@ -44,12 +44,12 @@
 						<input type="number" min="0" name="chapters_read" id="chapters_read" value="<?= $item['chapters']['read'] ?>" /> / <?= $item['chapters']['total'] ?>
 					</td>
 				</tr>
-				<? /*<tr>
+				<tr>
 					<td><label for="volumes_read">Volumes Read</label></td>
 					<td>
-						<input type="number" min="0" name="volumes_read" id="volumes_read" value="<?= $item['volumes']['read'] ?>" /> / <?= $item['volumes']['total'] ?>
+						<input type="text" disabled="disabled" min="0" name="volumes_read" id="volumes_read" value="-" /> / <?= $item['volumes']['total'] ?>
 					</td>
-				</tr> */ ?>
+				</tr>
 				<tr>
 					<td><label for="rereading_flag">Rereading?</label></td>
 					<td>

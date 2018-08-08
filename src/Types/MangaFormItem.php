@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an Anime object for display
+ * Form data for updating a Manga List item
  */
-final class AnimeFormItemData extends FormItemData {}
+final class MangaFormItem extends FormItem { }
+

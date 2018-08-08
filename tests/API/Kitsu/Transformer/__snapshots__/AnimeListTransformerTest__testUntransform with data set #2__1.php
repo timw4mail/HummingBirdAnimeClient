@@ -1,13 +1,14 @@
-<?php return array (
-  'id' => 14047983,
-  'mal_id' => '12347',
-  'data' => 
-  array (
-    'status' => 'current',
-    'reconsuming' => true,
-    'reconsumeCount' => 0,
-    'notes' => '',
-    'progress' => 12,
-    'private' => true,
-  ),
-);
+<?php return Aviat\AnimeClient\Types\AnimeFormItem::__set_state(array(
+   'id' => 14047983,
+   'mal_id' => '12347',
+   'data' => 
+  Aviat\AnimeClient\Types\AnimeFormItemData::__set_state(array(
+     'notes' => '',
+     'private' => true,
+     'progress' => 12,
+     'rating' => NULL,
+     'reconsumeCount' => 0,
+     'reconsuming' => true,
+     'status' => 'current',
+  )),
+));

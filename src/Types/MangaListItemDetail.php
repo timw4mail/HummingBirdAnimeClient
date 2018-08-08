@@ -17,6 +17,15 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an Anime object for display
+ * Type representing the manga represented by the list item
  */
-final class AnimeFormItemData extends FormItemData {}
+final class MangaListItemDetail extends AbstractType {
+	public $genres;
+	public $id;
+	public $image;
+	public $slug;
+	public $title;
+	public $titles;
+	public $type;
+	public $url;
+}

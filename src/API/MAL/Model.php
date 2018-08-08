@@ -24,7 +24,7 @@ use Aviat\AnimeClient\API\MAL\{
 };
 use Aviat\AnimeClient\API\XML;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
-use Aviat\AnimeClient\Types\{Anime, AnimeFormItem};
+use Aviat\AnimeClient\Types\{Anime, FormItem};
 use Aviat\Ion\Di\ContainerAware;
 
 /**
@@ -148,11 +148,11 @@ final class Model {
 	/**
 	 * Update a list item
 	 *
-	 * @param AnimeFormItem $data
+	 * @param FormItem $data
 	 * @param string $type "anime" or "manga"
 	 * @return Request
 	 */
-	public function updateListItem(AnimeFormItem $data, string $type = 'anime'): Request
+	public function updateListItem(FormItem $data, string $type = 'anime'): Request
 	{
 		$updateData = [];
 

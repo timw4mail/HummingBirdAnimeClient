@@ -21,14 +21,18 @@ use Aviat\AnimeClient\API\{
 	Mapping\MangaReadingStatus,
 	ParallelAPIRequest
 };
+use Aviat\AnimeClient\Types\{
+	MangaFormItem,
+	MangaListItem,
+	MangaPage
+};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
 /**
  * Model for handling requests dealing with the manga list
  */
-final class Manga extends API
-{
+class Manga extends API {
 	/**
 	 * Model for making requests to Kitsu API
 	 * @var \Aviat\AnimeClient\API\Kitsu\Model
@@ -71,17 +75,18 @@ final class Manga extends API
 		}
 
 		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
-		$data = $this->kitsuModel->getMangaList($APIstatus);
-		return $this->mapByStatus($data)[$status];
+		$data =
+			$this->mapByStatus($this->kitsuModel->getMangaList($APIstatus));
+		return $data[$status];
 	}
 
 	/**
 	 * Get the details of a manga
 	 *
 	 * @param string $manga_id
-	 * @return array
+	 * @return MangaPage
 	 */
-	public function getManga($manga_id): array
+	public function getManga($manga_id): MangaPage
 	{
 		return $this->kitsuModel->getManga($manga_id);
 	}
@@ -90,9 +95,9 @@ final class Manga extends API
 	 * Get anime by its kitsu id
 	 *
 	 * @param string $animeId
-	 * @return array
+	 * @return MangaPage
 	 */
-	public function getMangaById(string $animeId): array
+	public function getMangaById(string $animeId): MangaPage
 	{
 		return $this->kitsuModel->getMangaById($animeId);
 	}
@@ -102,9 +107,9 @@ final class Manga extends API
 	 * for editing/updating that item
 	 *
 	 * @param string $itemId
-	 * @return array
+	 * @return MangaListItem
 	 */
-	public function getLibraryItem(string $itemId): array
+	public function getLibraryItem(string $itemId): MangaListItem
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}
@@ -141,10 +146,10 @@ final class Manga extends API
 	/**
 	 * Update a list entry
 	 *
-	 * @param array $data
+	 * @param MangaFormItem $data
 	 * @return array
 	 */
-	public function updateLibraryItem(array $data): array
+	public function updateLibraryItem(MangaFormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 
@@ -221,7 +226,10 @@ final class Manga extends API
 			$output[$key][] = $entry;
 		}
 
-		foreach ($output as &$val) {
+		unset($entry);
+
+		foreach ($output as &$val)
+		{
 			$this->sortByName($val, 'manga');
 		}
 

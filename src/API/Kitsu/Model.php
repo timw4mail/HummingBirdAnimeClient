@@ -37,9 +37,11 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer
 };
 use Aviat\AnimeClient\Types\{
+	AbstractType,
 	Anime,
-	AnimeFormItem,
-	AnimeListItem
+	FormItem,
+	AnimeListItem,
+	MangaPage
 };
 use Aviat\Ion\{Di\ContainerAware, Json};
 
@@ -562,15 +564,15 @@ final class Model {
 	 * Get information about a particular manga
 	 *
 	 * @param string $slug
-	 * @return array
+	 * @return MangaPage
 	 */
-	public function getManga(string $slug): array
+	public function getManga(string $slug): MangaPage
 	{
 		$baseData = $this->getRawMediaData('manga', $slug);
 
 		if (empty($baseData))
 		{
-			return [];
+			return new MangaPage([]);
 		}
 
 		$transformed = $this->mangaTransformer->transform($baseData);
@@ -584,7 +586,7 @@ final class Model {
 	 * @param string $mangaId
 	 * @return array
 	 */
-	public function getMangaById(string $mangaId): array
+	public function getMangaById(string $mangaId): MangaPage
 	{
 		$baseData = $this->getRawMediaDataById('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
@@ -837,10 +839,10 @@ final class Model {
 	/**
 	 * Modify a list item
 	 *
-	 * @param AnimeFormItem $data
+	 * @param FormItem $data
 	 * @return Request
 	 */
-	public function updateListItem(AnimeFormItem $data): Request
+	public function updateListItem(FormItem $data): Request
 	{
 		return $this->listItem->update($data['id'], $data['data']);
 	}
