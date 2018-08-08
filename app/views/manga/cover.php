@@ -26,7 +26,7 @@
 					<img src="<?= $urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg") ?>" />
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-						<?= $escape->html(array_shift($item['manga']['titles'])) ?>
+						<?= $escape->html($item['manga']['title']) ?>
                         <?php foreach($item['manga']['titles'] as $title): ?>
                             <br /><small><?= $title ?></small>
                         <?php endforeach ?>

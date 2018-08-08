@@ -21,6 +21,17 @@ use LogicException;
 
 abstract class AbstractType implements ArrayAccess {
 	/**
+	 * Populate values for unserializing data
+	 *
+	 * @param $properties
+	 * @return mixed
+	 */
+	public static function __set_state($properties)
+	{
+		return new static($properties);
+	}
+
+	/**
 	 * Sets the properties by using the constructor
 	 *
 	 * @param array $data

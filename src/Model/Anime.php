@@ -29,7 +29,7 @@ use Aviat\Ion\Json;
 /**
  * Model for handling requests dealing with the anime list
  */
-final class Anime extends API {
+class Anime extends API {
 	/**
 	 * Model for making requests to Kitsu API
 	 *

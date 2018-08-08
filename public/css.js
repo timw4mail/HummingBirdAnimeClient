@@ -7,7 +7,7 @@ const atImport = require('postcss-import');
 const cssNext = require('postcss-cssnext');
 const cssNano = require('cssnano');
 
-const css = fs.readFileSync('css/base.css', 'utf8');
+const css = fs.readFileSync('css/base.css', 'utf-8');
 
 postcss()
 	.use(atImport())

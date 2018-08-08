@@ -19,4 +19,17 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing an Anime object for display
  */
-final class AnimeFormItemData extends FormItemData {}
+final class MangaPage extends AbstractType {
+	public $chapter_count;
+	public $cover_image;
+	public $en_title;
+	public $genres;
+	public $id;
+	public $included;
+	public $jp_title;
+	public $manga_type;
+	public $synopsis;
+	public $title;
+	public $url;
+	public $volume_count;
+}

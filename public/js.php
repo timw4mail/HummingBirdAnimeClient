@@ -22,7 +22,7 @@ use Aviat\AnimeClient\API\HummingbirdClient;
 use Aviat\Ion\{Json, JsonException};
 
 // Include Amp and Artax
-require_once('../vendor/autoload.php');
+require_once '../vendor/autoload.php';
 
 //Creative rewriting of /g/groupname to ?g=groupname
 $pi = $_SERVER['PATH_INFO'];
@@ -318,10 +318,11 @@ class JSMin {
 		$lastModifiedDate = gmdate('D, d M Y H:i:s', $lastModified);
 		$expiresDate = gmdate('D, d M Y H:i:s', $expires);
 
-		header("Content-Type: {$mimeType}; charset=utf8");
-		header("Cache-control: public, max-age=691200, must-revalidate");
-		header("Last-Modified: {$lastModifiedDate} GMT");
+		header("Content-Type: {$mimeType}; charset=utf-8");
+		header('Cache-control: public, max-age=691200, must-revalidate');
 		header("Expires: {$expiresDate} GMT");
+		header("Last-Modified: {$lastModifiedDate} GMT");
+		header('X-Content-Type-Options: no-sniff');
 
 		echo $content;
 
@@ -335,7 +336,7 @@ class JSMin {
 	 */
 	public static function send304()
 	{
-		header("status: 304 Not Modified", true, 304);
+		header('status: 304 Not Modified', true, 304);
 	}
 }
 

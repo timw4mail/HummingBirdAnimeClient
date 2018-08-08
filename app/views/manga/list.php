@@ -39,7 +39,7 @@
 					<?php endif ?>
 					<td class="align_left">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-							<?= array_shift($item['manga']['titles']) ?>
+							<?= $item['manga']['title'] ?>
 						</a>
 						<?php foreach($item['manga']['titles'] as $title): ?>
 	                        <br /><?= $title ?>
