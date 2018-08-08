@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<meta charset="utf-8"/>
 	<title><?= $title ?></title>
-	<meta charset="utf-8" />
 	<meta http-equiv="cache-control" content="no-store" />
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=1" />
 	<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css/app.min.css') ?>" />
 	<link rel="icon" href="<?= $urlGenerator->assetUrl('images/icons/favicon.ico') ?>" />
 	<link rel="apple-touch-icon" sizes="57x57" href="<?= $urlGenerator->assetUrl('images/icons/apple-icon-57x57.png') ?>">
