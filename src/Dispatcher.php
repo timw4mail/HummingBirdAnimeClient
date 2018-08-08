@@ -28,7 +28,7 @@ use Aviat\Ion\StringWrapper;
 /**
  * Basic routing/ dispatch
  */
-class Dispatcher extends RoutingBase {
+final class Dispatcher extends RoutingBase {
 
 	use StringWrapper;
 

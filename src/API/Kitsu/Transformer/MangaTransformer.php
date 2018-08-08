@@ -21,7 +21,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for anime description page
  */
-class MangaTransformer extends AbstractTransformer {
+final class MangaTransformer extends AbstractTransformer {
 
 	/**
 	 * Convert raw api response to a more

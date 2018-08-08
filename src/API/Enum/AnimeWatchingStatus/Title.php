@@ -21,7 +21,7 @@ use Aviat\Ion\Enum as Enum;
 /**
  * Possible values for current watching status of anime
  */
-class Title extends Enum {
+final class Title extends Enum {
 	const ALL = 'All';
 	const WATCHING = 'Currently Watching';
 	const PLAN_TO_WATCH = 'Plan to Watch';

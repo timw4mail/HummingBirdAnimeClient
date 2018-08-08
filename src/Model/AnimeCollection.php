@@ -22,7 +22,7 @@ use PDO;
 /**
  * Model for getting anime collection data
  */
-class AnimeCollection extends Collection {
+final class AnimeCollection extends Collection {
 
 	/**
 	 * Anime API Model

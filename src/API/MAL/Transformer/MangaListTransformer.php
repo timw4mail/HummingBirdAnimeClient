@@ -22,7 +22,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for updating MAL List
  */
-class MangaListTransformer extends AbstractTransformer {
+final class MangaListTransformer extends AbstractTransformer {
 	/**
 	 * Identity transformation
 	 *

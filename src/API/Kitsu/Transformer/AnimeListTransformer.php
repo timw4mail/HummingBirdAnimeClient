@@ -17,21 +17,27 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Types\{
+	Anime,
+	AnimeFormItem,
+	AnimeFormItemData,
+	AnimeListItem
+};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for anime list
  */
-class AnimeListTransformer extends AbstractTransformer {
+final class AnimeListTransformer extends AbstractTransformer {
 
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
 	 * @param  array  $item API library item
-	 * @return array
+	 * @return AnimeListItem
 	 */
-	public function transform($item): array
+	public function transform($item): AnimeListItem
 	{
 		$included = $item['included'];
 		$animeId = $item['relationships']['media']['data']['id'];
@@ -66,7 +72,10 @@ class AnimeListTransformer extends AbstractTransformer {
 			? Kitsu::parseListItemStreamingLinks($included, $animeId)
 			: [];
 
-		return [
+		$titles = Kitsu::filterTitles($anime);
+		$title = array_shift($titles);
+
+		return new AnimeListItem([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
@@ -81,24 +90,24 @@ class AnimeListTransformer extends AbstractTransformer {
 				'started' => $anime['startDate'],
 				'ended' => $anime['endDate']
 			],
-			'anime' => [
+			'anime' => new Anime([
 				'id' => $animeId,
 				'age_rating' => $anime['ageRating'],
-				'title' => $anime['canonicalTitle'],
-				'titles' => Kitsu::filterTitles($anime),
+				'title' => $title,
+				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
-				'image' => $anime['posterImage']['small'],
+				'show_type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
+				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
-			],
+			]),
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],
 			'rewatched' => (int) $item['attributes']['reconsumeCount'],
 			'user_rating' => $rating,
 			'private' => $item['attributes']['private'] ?? FALSE,
-		];
+		]);
 	}
 
 	/**
@@ -106,24 +115,24 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * api response format
 	 *
 	 * @param array $item Transformed library item
-	 * @return array API library item
+	 * @return AnimeFormItem API library item
 	 */
-	public function untransform($item): array
+	public function untransform($item): AnimeFormItem
 	{
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
-		$untransformed = [
+		$untransformed = new AnimeFormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['mal_id'] ?? NULL,
-			'data' => [
+			'data' => new AnimeFormItemData([
 				'status' => $item['watching_status'],
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
 				'private' => $privacy
-			]
-		];
+			])
+		]);
 
 		if (is_numeric($item['episodes_watched']) && $item['episodes_watched'] > 0)
 		{

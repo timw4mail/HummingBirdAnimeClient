@@ -26,7 +26,7 @@ use Aviat\Ion\{Json, StringWrapper};
 /**
  * Controller for manga list
  */
-class Manga extends Controller {
+final class Manga extends Controller {
 
 	use StringWrapper;
 

@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\AnimeClient\API\APIRequestBuilder;
 
-class KitsuRequestBuilder extends APIRequestBuilder {
+final class KitsuRequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests

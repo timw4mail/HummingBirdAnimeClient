@@ -18,13 +18,18 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Types\{
+	Anime as AnimeType,
+	AnimeFormItem,
+	AnimeListItem,
+};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
 /**
  * Model for handling requests dealing with the anime list
  */
-class Anime extends API {
+final class Anime extends API {
 	/**
 	 * Model for making requests to Kitsu API
 	 *
@@ -93,9 +98,9 @@ class Anime extends API {
 	 * Get information about an anime from its slug
 	 *
 	 * @param string $slug
-	 * @return array
+	 * @return AnimeType
 	 */
-	public function getAnime(string $slug): array
+	public function getAnime(string $slug): AnimeType
 	{
 		return $this->kitsuModel->getAnime($slug);
 	}
@@ -127,9 +132,9 @@ class Anime extends API {
 	 * for editing/updating that item
 	 *
 	 * @param string $itemId
-	 * @return array
+	 * @return AnimeListItem
 	 */
-	public function getLibraryItem(string $itemId): array
+	public function getLibraryItem(string $itemId): AnimeListItem
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}
@@ -166,10 +171,10 @@ class Anime extends API {
 	/**
 	 * Update a list entry
 	 *
-	 * @param array $data
+	 * @param AnimeFormItem $data
 	 * @return array
 	 */
-	public function updateLibraryItem(array $data): array
+	public function updateLibraryItem(AnimeFormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 

@@ -36,17 +36,22 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaTransformer,
 	MangaListTransformer
 };
+use Aviat\AnimeClient\Types\{
+	Anime,
+	AnimeFormItem,
+	AnimeListItem
+};
 use Aviat\Ion\{Di\ContainerAware, Json};
 
 /**
  * Kitsu API Model
  */
-class Model {
+final class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
 
-	protected const LIST_PAGE_SIZE = 100;
+	private const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * Class to map anime list items
@@ -55,27 +60,27 @@ class Model {
 	 *
 	 * @var AnimeListTransformer
 	 */
-	protected $animeListTransformer;
+	private $animeListTransformer;
 
 	/**
 	 * @var AnimeTransformer
 	 */
-	protected $animeTransformer;
+	private $animeTransformer;
 
 	/**
 	 * @var ListItem
 	 */
-	protected $listItem;
+	private $listItem;
 
 	/**
 	 * @var MangaTransformer
 	 */
-	protected $mangaTransformer;
+	private $mangaTransformer;
 
 	/**
 	 * @var MangaListTransformer
 	 */
-	protected $mangaListTransformer;
+	private $mangaListTransformer;
 
 	/**
 	 * Constructor
@@ -313,15 +318,15 @@ class Model {
 	 * Get information about a particular anime
 	 *
 	 * @param string $slug
-	 * @return array
+	 * @return Anime
 	 */
-	public function getAnime(string $slug): array
+	public function getAnime(string $slug): Anime
 	{
 		$baseData = $this->getRawMediaData('anime', $slug);
 
 		if (empty($baseData))
 		{
-			return [];
+			return new Anime();
 		}
 
 		$transformed = $this->animeTransformer->transform($baseData);
@@ -803,9 +808,9 @@ class Model {
 	 * Get the data for a specific list item, generally for editing
 	 *
 	 * @param string $listId - The unique identifier of that list item
-	 * @return array
+	 * @return mixed
 	 */
-	public function getListItem(string $listId): array
+	public function getListItem(string $listId)
 	{
 		$baseData = $this->listItem->get($listId);
 		$included = JsonAPI::organizeIncludes($baseData['included']);
@@ -813,12 +818,12 @@ class Model {
 
 		switch (TRUE)
 		{
-			case in_array('anime', array_keys($included)):
+			case array_key_exists('anime', $included): // in_array('anime', array_keys($included)):
 				$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
 				$baseData['data']['included'] = $included;
 				return $this->animeListTransformer->transform($baseData['data']);
 
-			case in_array('manga', array_keys($included)):
+			case array_key_exists('manga', $included): // in_array('manga', array_keys($included)):
 				$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
 				$baseData['data']['included'] = $included;
 				$baseData['data']['manga'] = $baseData['included'][0];
@@ -832,10 +837,10 @@ class Model {
 	/**
 	 * Modify a list item
 	 *
-	 * @param array $data
+	 * @param AnimeFormItem $data
 	 * @return Request
 	 */
-	public function updateListItem(array $data): Request
+	public function updateListItem(AnimeFormItem $data): Request
 	{
 		return $this->listItem->update($data['id'], $data['data']);
 	}

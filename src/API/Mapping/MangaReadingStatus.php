@@ -23,7 +23,7 @@ use Aviat\Ion\Enum;
  * Manga reading status mappings, among Kitsu, MAL, Page titles
  * and url route segments
  */
-class MangaReadingStatus extends Enum {
+final class MangaReadingStatus extends Enum {
 	const KITSU_TO_MAL = [
 		Kitsu::READING => MAL::READING,
 		Kitsu::PLAN_TO_READ => MAL::PLAN_TO_READ,

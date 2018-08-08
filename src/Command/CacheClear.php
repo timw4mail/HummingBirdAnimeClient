@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Command;
 /**
  * Clears the API Cache
  */
-class CacheClear extends BaseCommand {
+final class CacheClear extends BaseCommand {
 	/**
 	 * Clear the API cache
 	 *

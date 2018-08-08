@@ -39,6 +39,7 @@
 	"phpmd/phpmd": "^2.4",
 	"phpstan/phpstan": "^0.9.1",
 	"phpunit/phpunit": "^6.0",
+	"roave/security-advisories": "dev-master",
 	"robmorgan/phinx": "^0.9.1",
 	"sebastian/phpcpd": "^3.0",
 	"spatie/phpunit-snapshot-assertions": "^1.2.0",

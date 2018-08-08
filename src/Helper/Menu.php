@@ -17,13 +17,14 @@
 namespace Aviat\AnimeClient\Helper;
 
 use Aviat\AnimeClient\MenuGenerator;
+use Aviat\Ion\Di\ContainerAware;
 
 /**
  * MenuGenerator helper wrapper
  */
-class Menu {
+final class Menu {
 
-	use \Aviat\Ion\Di\ContainerAware;
+	use ContainerAware;
 
 	/**
 	 * Create the html for the selected menu

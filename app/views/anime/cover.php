@@ -24,7 +24,7 @@
 					<img src="<?= $urlGenerator->assetUrl("images/anime/{$item['anime']['id']}.jpg") ?>" alt="" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
-							<?= array_shift($item['anime']['titles']) ?>
+							<?= $item['anime']['title'] ?>
 							<?php foreach ($item['anime']['titles'] as $title): ?>
 								<br /><small><?= $title ?></small>
 							<?php endforeach ?>
@@ -85,7 +85,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="media_type"><?= $escape->html($item['anime']['type']) ?></div>
+							<div class="media_type"><?= $escape->html($item['anime']['show_type']) ?></div>
 							<div class="airing_status"><?= $escape->html($item['airing']['status']) ?></div>
 							<div class="age_rating"><?= $escape->html($item['anime']['age_rating']) ?></div>
 						</div>
