@@ -21,7 +21,7 @@ use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\{
 	Anime as AnimeType,
 	AnimeFormItem,
-	AnimeListItem,
+	AnimeListItem
 };
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
