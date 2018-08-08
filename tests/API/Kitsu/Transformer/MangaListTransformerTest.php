@@ -21,7 +21,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\{
 	MangaFormItem,
-	MangaFormItemData,
+	MangaFormItemData
 };
 use Aviat\Ion\Json;
 
