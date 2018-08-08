@@ -22,7 +22,7 @@ use DateTimeImmutable;
 /**
  * Data massaging helpers for the Kitsu API
  */
-class Kitsu {
+final class Kitsu {
 	const AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';

@@ -6,7 +6,7 @@
 				<thead>
 					<tr>
 						<th>
-							<h3><?= $escape->html(array_shift($item['anime']['titles'])) ?></h3>
+							<h3><?= $escape->html($item['anime']['title']) ?></h3>
 							<?php foreach($item['anime']['titles'] as $title): ?>
 							<h4><?= $escape->html($title) ?></h4>
 							<?php endforeach ?>

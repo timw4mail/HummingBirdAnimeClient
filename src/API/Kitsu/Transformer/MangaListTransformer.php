@@ -23,7 +23,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Data transformation class for zippered Hummingbird manga
  */
-class MangaListTransformer extends AbstractTransformer {
+final class MangaListTransformer extends AbstractTransformer {
 
 	use StringWrapper;
 

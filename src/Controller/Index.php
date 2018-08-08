@@ -25,7 +25,7 @@ use Aviat\Ion\View\HtmlView;
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-class Index extends BaseController {
+final class Index extends BaseController {
 
 	/**
 	 * Purges the API cache

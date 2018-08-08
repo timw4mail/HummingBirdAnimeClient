@@ -28,7 +28,7 @@ use Aviat\AnimeClient\API\Enum\{
 /**
  * Constants and mappings for the My Anime List API
  */
-class MAL {
+final class MAL {
 	const AUTH_URL = 'https://myanimelist.net/api/account/verify_credentials.xml';
 	const BASE_URL = 'https://myanimelist.net/api/';
 

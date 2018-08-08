@@ -27,7 +27,7 @@ use Aviat\Ion\StringWrapper;
 /**
  * Controller for Anime-related pages
  */
-class Anime extends BaseController {
+final class Anime extends BaseController {
 
 	use StringWrapper;
 
@@ -277,7 +277,7 @@ class Anime extends BaseController {
 		$show_data = $this->model->getAnime($animeId);
 		$characters = [];
 
-		if (empty($show_data))
+		if ($show_data->title === '')
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -301,7 +301,7 @@ class Anime extends BaseController {
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				$show_data['titles'][0]
+				$show_data->title
 			),
 			'characters' => $characters,
 			'show_data' => $show_data,

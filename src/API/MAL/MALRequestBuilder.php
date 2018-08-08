@@ -21,7 +21,7 @@ use Aviat\AnimeClient\API\{
 	MAL as M
 };
 
-class MALRequestBuilder extends APIRequestBuilder {
+final class MALRequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests

@@ -17,12 +17,13 @@
 namespace Aviat\AnimeClient\API\MAL\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Types\{AnimeFormItem, AnimeFormItemData};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for updating MAL List
  */
-class AnimeListTransformer extends AbstractTransformer {
+final class AnimeListTransformer extends AbstractTransformer {
 	/**
 	 * Identity transformation
 	 *
@@ -38,16 +39,14 @@ class AnimeListTransformer extends AbstractTransformer {
 	 * Transform Kitsu episode data to MAL episode data
 	 *
 	 * @param array $item
-	 * @return array
+	 * @return AnimeFormItem
 	 */
-	public function untransform(array $item): array
+	public function untransform(array $item): AnimeFormItem
 	{
-		$map = [
+		$map = new AnimeFormItem([
 			'id' => $item['mal_id'],
-			'data' => []
-		];
-
-		$data =& $item['data'];
+			'data' => new AnimeFormItemData([]),
+		]);
 
 		foreach($item['data'] as $key => $value)
 		{
@@ -56,7 +55,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				case 'progress':
 					$map['data']['episode'] = $value;
 				break;
-				
+
 				case 'notes':
 					$map['data']['comments'] = $value;
 				break;

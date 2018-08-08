@@ -42,15 +42,15 @@
 					<?php endif ?>
 					<td class="justify">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
-							<?= array_shift($item['anime']['titles']) ?>
+							<?= $item['anime']['title'] ?>
 						</a>
-	                    <?php foreach($item['anime']['titles'] as $title): ?>
-	                        <br /><?= $title ?>
-	                    <?php endforeach ?>
+						<?php foreach ($item['anime']['titles'] as $title): ?>
+							<br/><?= $title ?>
+						<?php endforeach ?>
 					</td>
 					<td><?= $item['airing']['status'] ?></td>
 					<td><?= $item['user_rating'] ?> / 10 </td>
-					<td><?= $item['anime']['type'] ?></td>
+					<td><?= $item['anime']['show_type'] ?></td>
 					<td id="<?= $item['anime']['slug'] ?>">
 						Episodes: <br />
 						<span class="completed_number"><?= $item['episodes']['watched'] ?></span>&nbsp;/&nbsp;<span class="total_number"><?= $item['episodes']['total'] ?></span>
@@ -83,8 +83,8 @@
 						<p><?= $escape->html($item['notes']) ?></p>
 					</td>
 					<td class="align_left">
-						<?php sort($item['anime']['genres']) ?>
-						<?= implode(', ', $item['anime']['genres']) ?>
+						<?php sort($item['anime']->genres) ?>
+						<?= implode(', ', $item['anime']->genres) ?>
 					</td>
 				</tr>
 				<?php endforeach ?>

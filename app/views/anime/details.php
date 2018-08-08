@@ -38,7 +38,7 @@
 			</table>
 		</div>
 		<div>
-			<h2><a rel="external" href="<?= $show_data['url'] ?>"><?= array_shift($show_data['titles']) ?></a></h2>
+			<h2><a rel="external" href="<?= $show_data['url'] ?>"><?= $show_data['title'] ?></a></h2>
             <?php foreach ($show_data['titles'] as $title): ?>
                 <h3><?= $title ?></h3>
             <?php endforeach ?>

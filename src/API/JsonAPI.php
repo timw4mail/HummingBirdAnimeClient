@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\API;
 /**
  * Class encapsulating Json API data structure for a request or response
  */
-class JsonAPI {
+final class JsonAPI {
 
 	/**
 	 * The full data array

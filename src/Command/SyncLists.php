@@ -32,7 +32,7 @@ use DateTime;
 /**
  * Clears the API Cache
  */
-class SyncLists extends BaseCommand {
+final class SyncLists extends BaseCommand {
 
 	/**
 	 * Model for making requests to Kitsu API

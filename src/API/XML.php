@@ -21,7 +21,7 @@ use DOMDocument, DOMNode, DOMNodeList, InvalidArgumentException;
 /**
  * XML <=> PHP Array codec
  */
-class XML {
+final class XML {
 
 	/**
 	 * XML representation of the data

@@ -27,7 +27,7 @@ use Aviat\Ion\Json;
 /**
  * Model for handling requests dealing with the manga list
  */
-class Manga extends API
+final class Manga extends API
 {
 	/**
 	 * Model for making requests to Kitsu API

@@ -26,7 +26,7 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Controller for Anime collection pages
  */
-class AnimeCollection extends BaseController {
+final class AnimeCollection extends BaseController {
 
 	/**
 	 * The anime collection model

@@ -14,16 +14,29 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Kitsu\Enum;
-
-use Aviat\Ion\Enum as BaseEnum;
+namespace Aviat\AnimeClient\Types;
 
 /**
- * Status of when anime is being/was/will be aired
+ * Type representing an Anime object for display
  */
-final class AnimeAiringStatus extends BaseEnum {
-	const NOT_YET_AIRED = 'Not Yet Aired';
-	const AIRING = 'Currently Airing';
-	const FINISHED_AIRING = 'Finished Airing';
+final class AnimeListItem extends AbstractType {
+	public $id;
+	public $mal_id;
+	public $episodes = [
+		'length' => 0,
+		'total' => 0,
+		'watched' => '',
+	];
+	public $airing = [
+		'status' => '',
+		'started' => '',
+		'ended' => '',
+	];
+	public $anime;
+	public $watching_status;
+	public $notes;
+	public $rewatching;
+	public $rewatched;
+	public $user_rating;
+	public $private;
 }
-// End of AnimeAiringStatus.php

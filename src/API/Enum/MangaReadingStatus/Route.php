@@ -16,12 +16,12 @@
 
 namespace Aviat\AnimeClient\API\Enum\MangaReadingStatus;
 
-use Aviat\Ion\Enum as Enum;
+use Aviat\Ion\Enum;
 
 /**
  * Possible values for current reading status of manga
  */
-class Route extends Enum {
+final class Route extends Enum {
 	const ALL = 'all';
 	const READING = 'reading';
 	const PLAN_TO_READ = 'plan_to_read';
