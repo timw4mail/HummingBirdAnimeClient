@@ -5,7 +5,12 @@
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
+<?php $i = 0; ?>
+	<div class="tabs">
 	<?php foreach ($sections as $name => $items): ?>
+			<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="collection-tab-<?= $i ?>" name="collection-tabs" />
+		<label for="collection-tab-<?= $i ?>"><?= $name ?></label>
+	<div class="content">
 	<h2><?= $name ?></h2>
 	<table>
 		<thead>
@@ -44,8 +49,10 @@
 		<?php endforeach ?>
 		</tbody>
 	</table>
-	<br />
+	</div>
+	<?php $i++ ?>
 	<?php endforeach ?>
+	</div>
 <?php endif ?>
 </main>
 <script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/table') ?>"></script>
