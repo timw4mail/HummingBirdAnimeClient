@@ -25,7 +25,7 @@ use Aviat\AnimeClient\API\{
 	HummingbirdClient,
 	ListItemInterface
 };
-use Aviat\AnimeClient\Types\AbstractType;
+use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 
@@ -112,7 +112,7 @@ final class ListItem implements ListItemInterface {
 		return Json::decode(wait($response->getBody()));
 	}
 
-	public function update(string $id, AbstractType $data): Request
+	public function update(string $id, FormItemData $data): Request
 	{
 		$authHeader = $this->getAuthHeader();
 		$requestData = [

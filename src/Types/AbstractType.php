@@ -34,12 +34,24 @@ abstract class AbstractType implements ArrayAccess {
 	/**
 	 * Sets the properties by using the constructor
 	 *
-	 * @param array $data
+	 * @param mixed $data
 	 */
-	public function __construct(array $data = [])
+	public function __construct($data = [])
 	{
-		foreach ($data as $key => $value) {
-			$this->$key = $value;
+		$typeKeys = array_keys((array)$this);
+		$dataKeys = array_keys((array)$data);
+
+		$unsetKeys = array_diff($typeKeys, $dataKeys);
+
+		foreach ($data as $key => $value)
+		{
+			$this->__set($key, $value);
+		}
+
+		// Remove unset keys so that they aren't serialized
+		foreach ($unsetKeys as $k)
+		{
+			unset($this->$k);
 		}
 	}
 
@@ -63,7 +75,16 @@ abstract class AbstractType implements ArrayAccess {
 	 */
 	public function __set($name, $value): void
 	{
-		if (!property_exists($this, $name)) {
+		$setterMethod = 'set' . ucfirst($name);
+
+		if (method_exists($this, $setterMethod))
+		{
+			$this->$setterMethod($value);
+			return;
+		}
+
+		if (!property_exists($this, $name))
+		{
 			$existing = json_encode($this);
 
 			throw new LogicException("Trying to set non-existent property: '$name'. Existing properties: $existing");
@@ -80,7 +101,8 @@ abstract class AbstractType implements ArrayAccess {
 	 */
 	public function __get($name)
 	{
-		if (property_exists($this, $name)) {
+		if (property_exists($this, $name))
+		{
 			return $this->$name;
 		}
 
@@ -127,6 +149,9 @@ abstract class AbstractType implements ArrayAccess {
 	 */
 	public function offsetUnset($offset): void
 	{
-		// Do nothing!
+		if ($this->offsetExists($offset))
+		{
+			unset($this->$offset);
+		}
 	}
 }

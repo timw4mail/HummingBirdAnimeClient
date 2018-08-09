@@ -19,4 +19,9 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing an Anime object for display
  */
-final class AnimeFormItem extends FormItem { }
+final class AnimeFormItem extends FormItem {
+	public function setData($value): void
+	{
+		$this->data = new AnimeFormItemData($value);
+	}
+}

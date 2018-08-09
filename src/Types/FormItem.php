@@ -23,5 +23,7 @@ abstract class FormItem extends AbstractType {
 	public $id;
 	public $mal_id;
 	public $data;
+
+	abstract public function setData($value): void;
 }
 

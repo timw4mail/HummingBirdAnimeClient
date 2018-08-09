@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\Types\AbstractType;
+use Aviat\AnimeClient\Types\FormItemData;
 
 /**
  * Common interface for anime and manga list item CRUD
@@ -44,10 +44,10 @@ interface ListItemInterface {
 	 * Update a list item
 	 *
 	 * @param string $id - The id of the list item to update
-	 * @param AbstractType $data - The data with which to update the list item
+	 * @param FormItemData $data - The data with which to update the list item
 	 * @return Request
 	 */
-	public function update(string $id, AbstractType $data): Request;
+	public function update(string $id, FormItemData $data): Request;
 
 	/**
 	 * Delete a list item
