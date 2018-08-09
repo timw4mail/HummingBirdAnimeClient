@@ -39,7 +39,16 @@
 			data,
 			dataType: 'json',
 			type: 'POST',
-			success: () => {
+			success: (res) => {
+				const resData = JSON.parse(res);
+
+				if (resData.errors) {
+					_.hide(_.$('#loading-shadow')[ 0 ]);
+					_.showMessage('error', `Failed to update ${title}. `);
+					_.scrollToTop();
+					return;
+				}
+
 				if (data.data.status === 'completed') {
 					_.hide(parentSel);
 				}
