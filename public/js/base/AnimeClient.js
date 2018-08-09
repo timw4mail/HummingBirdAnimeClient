@@ -273,7 +273,7 @@ var AnimeClient = (function(w) {
 					responseText = request.responseText;
 				}
 
-				if (request.status > 400) {
+				if (request.status > 299) {
 					config.error.call(null, request.status, responseText, request.response);
 				} else {
 					config.success.call(null, responseText, request.status);
