@@ -19,5 +19,10 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Form data for updating a Manga List item
  */
-final class MangaFormItem extends FormItem { }
+final class MangaFormItem extends FormItem {
+	public function setData($value): void
+	{
+		$this->data = new MangaFormItemData($value);
+	}
+}
 

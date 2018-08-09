@@ -40,6 +40,7 @@ use Aviat\AnimeClient\Types\{
 	AbstractType,
 	Anime,
 	FormItem,
+	FormItemData,
 	AnimeListItem,
 	MangaPage
 };

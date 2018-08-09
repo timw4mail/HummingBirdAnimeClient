@@ -125,13 +125,13 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$untransformed = new AnimeFormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['mal_id'] ?? NULL,
-			'data' => new AnimeFormItemData([
+			'data' => [
 				'status' => $item['watching_status'],
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
 				'private' => $privacy
-			])
+			]
 		]);
 
 		if (is_numeric($item['episodes_watched']) && $item['episodes_watched'] > 0)
