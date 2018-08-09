@@ -50,10 +50,6 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 	* public/images/manga
 5. Make sure the `console` script is executable
 
-### Using MAL API
-1. Update `app/config/mal.toml` with your username and password
-2. Enable MAL api in `app/config/config.toml`
-
 ### Server Setup
 
 See the [wiki](https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient/wiki)
