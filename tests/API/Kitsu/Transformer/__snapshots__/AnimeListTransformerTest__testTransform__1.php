@@ -16,10 +16,7 @@
    'anime' => 
   Aviat\AnimeClient\Types\Anime::__set_state(array(
      'age_rating' => NULL,
-     'age_rating_guide' => NULL,
      'cover_image' => 'https://media.kitsu.io/anime/poster_images/12243/small.jpg?1481144116',
-     'episode_count' => NULL,
-     'episode_length' => NULL,
      'genres' => 
     array (
       0 => 'Comedy',
@@ -27,22 +24,17 @@
       2 => 'Slice of Life',
     ),
      'id' => '12243',
-     'included' => NULL,
      'show_type' => 'TV',
      'slug' => 'kobayashi-san-chi-no-maid-dragon',
-     'status' => NULL,
      'streaming_links' => 
     array (
     ),
-     'synopsis' => NULL,
      'title' => 'Kobayashi-san Chi no Maid Dragon',
      'titles' => 
     array (
       0 => 'Miss Kobayashi\'s Dragon Maid',
       1 => '小林さんちのメイドラゴン',
     ),
-     'trailer_id' => NULL,
-     'url' => NULL,
   )),
    'watching_status' => 'current',
    'notes' => NULL,

@@ -6,7 +6,6 @@
      'notes' => '',
      'private' => true,
      'progress' => 12,
-     'rating' => NULL,
      'reconsumeCount' => 0,
      'reconsuming' => true,
      'status' => 'current',

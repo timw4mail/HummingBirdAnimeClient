@@ -8,7 +8,6 @@
   array (
   ),
    'id' => 32344,
-   'included' => NULL,
    'show_type' => 'TV',
    'slug' => 'attack-on-titan',
    'status' => 'Finished Airing',
