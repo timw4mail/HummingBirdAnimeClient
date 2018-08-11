@@ -20,6 +20,7 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{
+	Anilist,
 	Kitsu,
 	MAL,
 	Kitsu\KitsuRequestBuilder,
@@ -45,11 +46,14 @@ return function (array $configArray = []) {
 
 	$appLogger = new Logger('animeclient');
 	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+	$anilistRequestLogger = new Logger('anilist-request');
+	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
 	$kitsuRequestLogger = new Logger('kitsu-request');
 	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
 	$malRequestLogger = new Logger('mal-request');
 	$malRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
 	$container->setLogger($appLogger);
+	$container->setLogger($anilistRequestLogger, 'anilist-request');
 	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
 	$container->setLogger($malRequestLogger, 'mal-request');
 

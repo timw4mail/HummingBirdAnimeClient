@@ -71,12 +71,18 @@ class Manga extends API {
 	{
 		if ($status === 'All')
 		{
-			return $this->kitsuModel->getFullOrganizedMangaList();
+			$data = $this->kitsuModel->getFullOrganizedMangaList();
+			foreach($data as &$section)
+			{
+				$this->sortByName($section, 'manga');
+			}
+			
+			return $data;
 		}
 
 		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
-		$data =
-			$this->mapByStatus($this->kitsuModel->getMangaList($APIstatus));
+		$data = $this->mapByStatus($this->kitsuModel->getMangaList($APIstatus));
+		$this->sortByName($data[$status], 'manga');
 		return $data[$status];
 	}
 
@@ -227,11 +233,6 @@ class Manga extends API {
 		}
 
 		unset($entry);
-
-		foreach ($output as &$val)
-		{
-			$this->sortByName($val, 'manga');
-		}
 
 		return $output;
 	}

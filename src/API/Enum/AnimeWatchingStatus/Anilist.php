@@ -14,14 +14,18 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient;
+namespace Aviat\AnimeClient\API\Enum\AnimeWatchingStatus;
 
-const DEFAULT_CONTROLLER = Controller\Index::class;
-const DEFAULT_CONTROLLER_METHOD = 'index';
-const DEFAULT_CONTROLLER_NAMESPACE = Controller::class;
-const DEFAULT_LIST_CONTROLLER = Controller\Anime::class;
-const ERROR_MESSAGE_METHOD = 'errorPage';
-const NOT_FOUND_METHOD = 'notFound';
-const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
-const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/4.0";
+use Aviat\Ion\Enum;
+
+/**
+ * Possible values for watching status for the current anime
+ */
+final class Anilist extends Enum {
+	const WATCHING = 'CURRENT';
+	const COMPLETED = 'COMPLETED';
+	const ON_HOLD = 'PAUSED';
+	const DROPPED = 'DROPPED';
+	const PLAN_TO_WATCH = 'PLANNING';
+	const REPEATING = 'REPEATING';
+}

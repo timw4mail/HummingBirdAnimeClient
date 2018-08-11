@@ -71,6 +71,24 @@ final class Index extends BaseController {
 			'message' => $message
 		], $view);
 	}
+	
+	/**
+	 * Redirect to Anilist to start Oauth flow
+	 */
+	public function anilistRedirect()
+	{
+		
+	}
+	
+	/**
+	 * Oauth callback for Anilist API
+	 */
+	public function anilistCallback()
+	{
+		$this->outputHTML('blank', [
+			'title' => 'Oauth!'
+		]);
+	}
 
 	/**
 	 * Attempt login authentication
