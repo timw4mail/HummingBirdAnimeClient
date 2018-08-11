@@ -7,7 +7,7 @@ $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
 
 ?>
-<h1 class="flex flex-align-end flex-wrap">
+<div id="main-nav" class="flex flex-align-end flex-wrap">
 	<span class="flex-no-wrap grow-1">
 		<?php if(strpos($route_path, 'collection') === FALSE): ?>
 			<?= $helper->a(
@@ -67,7 +67,7 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 			[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
 		<?php endif ?>
 	</span>
-</h1>
+</div>
 <nav>
 	<?php if ($container->get('util')->isViewPage()): ?>
 		<?= $helper->menu($menu_name) ?>

@@ -1,23 +1,23 @@
 <?php if ($auth->isAuthenticated()): ?>
 	<main>
-		<h1>
-			Edit <?= $item['manga']['titles'][0] ?>
-		</h1>
+		<h2>
+			Edit Manga List Item
+		</h2>
 		<form action="<?= $action ?>" method="post">
 		<table class="form">
 			<thead>
 				<tr>
-                    <th>
-                        <h3><?= $escape->html($item['manga']['title']) ?></h3>
-						<?php foreach($item['manga']['titles'] as $title): ?>
-                            <h4><?= $escape->html($title) ?></h4>
-						<?php endforeach ?>
-                    </th>
 					<th>
 						<article class="media">
 							<?= $helper->img($urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg")); ?>
 						</article>
 					</th>
+                    <th class="align_left">
+                        <h3><?= $escape->html($item['manga']['title']) ?></h3>
+						<?php foreach($item['manga']['titles'] as $title): ?>
+                            <h4><?= $escape->html($title) ?></h4>
+						<?php endforeach ?>
+                    </th>
 				</tr>
 			</thead>
 			<tbody>

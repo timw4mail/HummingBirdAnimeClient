@@ -1,4 +1,4 @@
-<main>
+<main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
@@ -24,27 +24,13 @@
 					<img src="<?= $urlGenerator->assetUrl("images/anime/{$item['anime']['id']}.jpg") ?>" alt="" />
 					<div class="name">
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
-							<?= $item['anime']['title'] ?>
+							<span class="canonical"><?= $item['anime']['title'] ?></span>
 							<?php foreach ($item['anime']['titles'] as $title): ?>
 								<br /><small><?= $title ?></small>
 							<?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">
-						<?php if ($auth->isAuthenticated()): ?>
-						<div class="row">
-							<span class="edit">
-								<a class="bracketed" title="Edit information about this anime" href="<?=
-									$url->generate('edit', [
-										'controller' => 'anime',
-										'id' => $item['id'],
-										'status' => $item['watching_status']
-									]);
-							 	?>">Edit</a>
-							</span>
-						</div>
-						<?php endif ?>
-
 						<?php if ($item['private'] || $item['rewatching']): ?>
 						<div class="row">
 							<?php foreach(['private', 'rewatching'] as $attr): ?>
@@ -75,6 +61,20 @@
 								</div>
 							<?php endforeach ?>
 						</div>
+						<?php endif ?>
+
+						<?php if ($auth->isAuthenticated()): ?>
+							<div class="row">
+							<span class="edit">
+								<a class="bracketed" title="Edit information about this anime" href="<?=
+								$url->generate('edit', [
+									'controller' => 'anime',
+									'id' => $item['id'],
+									'status' => $item['watching_status']
+								]);
+								?>">Edit</a>
+							</span>
+							</div>
 						<?php endif ?>
 
 						<div class="row">

@@ -1,16 +1,15 @@
-const LightTableSorter = (function() {
-	let _cellIndex, _onClickEvent, _order, _reset, _sort, _text, _th, _toggle;
-	_th = null;
-	_cellIndex = null;
-	_order = '';
-	_text = function(row) {
-		return row.cells.item(_cellIndex).textContent.toLowerCase();
+'use strict';
+const LightTableSorter = (() => {
+	let th = null;
+	let cellIndex = null;
+	let order = '';
+	const text = (row) => {
+		return row.cells.item(cellIndex).textContent.toLowerCase();
 	};
-	_sort = function(a, b) {
-		let n, textA, textB;
-		textA = _text(a);
-		textB = _text(b);
-		n = parseInt(textA, 10);
+	const sort = (a, b) => {
+		let textA = text(a);
+		let textB = text(b);
+		const n = parseInt(textA, 10);
 		if (n) {
 			textA = n;
 			textB = parseInt(textB, 10);
@@ -23,51 +22,49 @@ const LightTableSorter = (function() {
 		}
 		return 0;
 	};
-	_toggle = function() {
-		let c;
-		c = _order !== 'sorting_asc' ? 'sorting_asc' : 'sorting_desc';
-		_th.className = (_th.className.replace(_order, '') + ' ' + c).trim();
-		return _order = c;
+	const toggle = () => {
+		const c = order !== 'sorting_asc' ? 'sorting_asc' : 'sorting_desc';
+		th.className = (th.className.replace(order, '') + ' ' + c).trim();
+		return order = c;
 	};
-	_reset = function() {
-		_th.className = _th.className.replace('sorting_asc', 'sorting').replace('sorting_desc', 'sorting');
-		return _order = '';
+	const reset = () => {
+		th.classList.remove('sorting_asc', 'sorting_desc');
+		th.classList.add('sorting');
+		return order = '';
 	};
-	_onClickEvent = function(e) {
-		let row, rows, tbody, _i, _len;
-		if (_th && (_cellIndex !== e.target.cellIndex)) {
-			_reset();
+	const onClickEvent = (e) => {
+		if (th && (cellIndex !== e.target.cellIndex)) {
+			reset();
 		}
-		_th = e.target;
-		if (_th.nodeName.toLowerCase() === 'th') {
-			_cellIndex = _th.cellIndex;
-			tbody = _th.offsetParent.getElementsByTagName('tbody')[0];
-			rows = tbody.rows;
+		th = e.target;
+		if (th.nodeName.toLowerCase() === 'th') {
+			cellIndex = th.cellIndex;
+			const tbody = th.offsetParent.getElementsByTagName('tbody')[0];
+			let rows = Array.from(tbody.rows);
 			if (rows) {
-				rows = Array.prototype.slice.call(rows, 0);
-				rows = Array.prototype.sort.call(rows, _sort);
-				if (_order === 'sorting_asc') {
-					Array.prototype.reverse.call(rows);
+				rows.sort(sort);
+				if (order === 'sorting_asc') {
+					rows.reverse();
 				}
-				_toggle();
+				toggle();
 				tbody.innerHtml = '';
-				for (_i = 0, _len = rows.length; _i < _len; _i++) {
-					row = rows[_i];
+
+				rows.forEach(row => {
 					tbody.appendChild(row);
-				}
+				});
 			}
 		}
 	};
 	return {
-		init: function() {
+		init: () => {
 			let ths = document.getElementsByTagName('th');
-			let _results = [];
-			for (let _i = 0, _len = ths.length; _i < _len; _i++) {
-				let th = ths[_i];
-				th.className = 'sorting';
-				_results.push(th.onclick = _onClickEvent);
+			let results = [];
+			for (let i = 0, len = ths.length; i < len; i++) {
+				let th = ths[i];
+				th.classList.add('sorting');
+				results.push(th.onclick = onClickEvent);
 			}
-			return _results;
+			return results;
 		}
 	};
 })();
