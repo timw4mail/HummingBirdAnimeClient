@@ -8,12 +8,11 @@
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
-
 
 use const Aviat\AnimeClient\{
 	DEFAULT_CONTROLLER_METHOD,
@@ -184,6 +183,16 @@ return [
 	// ---------------------------------------------------------------------
 	// Default / Shared routes
 	// ---------------------------------------------------------------------
+	'anilist-redirect' => [
+		'path' => '/anilist-redirect',
+		'action' => 'anilistRedirect',
+		'controller' => DEFAULT_CONTROLLER,	
+	],
+	'anilist-oauth' => [
+		'path' => '/anilist-oauth',
+		'action' => 'anilistCallback',
+		'controller' => DEFAULT_CONTROLLER,	
+	],
 	'image_proxy' => [
 		'path' => '/public/images/{type}/{file}',
 		'action' => 'images',

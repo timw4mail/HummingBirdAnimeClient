@@ -39,8 +39,8 @@ final class AnimeTransformer extends AbstractTransformer {
 		$item['genres'] = array_column($genres, 'title') ?? [];
 		sort($item['genres']);
 
-		$titles = Kitsu::filterTitles($item);
-		$title = array_shift($titles);
+		$title = $item['canonicalTitle'];
+		$titles = array_diff($item['titles'], [$title]);
 
 		return new Anime([
 			'age_rating' => $item['ageRating'],

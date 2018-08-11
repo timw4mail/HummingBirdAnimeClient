@@ -14,22 +14,25 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\MAL;
+namespace Aviat\AnimeClient\API\Anilist;
 
 use const Aviat\AnimeClient\USER_AGENT;
 
-use Aviat\AnimeClient\API\{
-	APIRequestBuilder,
-	MAL as M
-};
+use Aviat\AnimeClient\API\APIRequestBuilder;
 
-final class MALRequestBuilder extends APIRequestBuilder {
+final class AnilistRequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = M::BASE_URL;
+	protected $baseUrl = 'https://kitsu.io/api/edge/';
+	
+	/**
+	 * Valid HTTP request methods
+	 * @var array
+	 */
+	protected $validMethods = ['POST'];
 
 	/**
 	 * HTTP headers to send with every request
@@ -37,15 +40,10 @@ final class MALRequestBuilder extends APIRequestBuilder {
 	 * @var array
 	 */
 	protected $defaultHeaders = [
-		'Accept' => 'text/xml',
-		'Accept-Encoding' => 'gzip',
-		'Content-type' => 'application/x-www-form-urlencoded',
 		'User-Agent' => USER_AGENT,
+		'Accept' => 'application/vnd.api+json',
+		'Content-Type' => 'application/vnd.api+json',
+		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
+		'CLIENT_SECRET' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
-
-	/**
-	 * Valid HTTP request methos
-	 * @var array
-	 */
-	protected $validMethods = ['GET', 'POST', 'DELETE'];
 }

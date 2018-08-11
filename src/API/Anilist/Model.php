@@ -14,14 +14,10 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient;
+namespace Aviat\AnimeClient\API\Anilist;
 
-const DEFAULT_CONTROLLER = Controller\Index::class;
-const DEFAULT_CONTROLLER_METHOD = 'index';
-const DEFAULT_CONTROLLER_NAMESPACE = Controller::class;
-const DEFAULT_LIST_CONTROLLER = Controller\Anime::class;
-const ERROR_MESSAGE_METHOD = 'errorPage';
-const NOT_FOUND_METHOD = 'notFound';
-const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
-const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/4.0";
+/**
+ * Anilist API Model
+ */
+final class Model {
+}
