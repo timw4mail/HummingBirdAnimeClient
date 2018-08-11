@@ -1,8 +1,10 @@
 @import "./marx.css";
 
 :root {
+	--blue-link: rgb(18, 113, 219);
 	--link-shadow: 1px 1px 1px #000;
-	--shadow: 1px 2px 1px rgba(0, 0, 0, 0.85);
+	--white-link-shadow: 1px 1px 1px #fff;
+	--shadow: 2px 2px 2px #000;
 	--title-overlay: rgba(0, 0, 0, 0.45);
 	--title-overlay-fallback: #000;
 	--text-color: #ffffff;
@@ -13,28 +15,32 @@
 	--radius: 5px;
 }
 
-template, [hidden="hidden"], .media[hidden] {display:none}
+template, [hidden="hidden"], .media[hidden] {
+	display: none
+}
 
-body {margin: 0.5em;}
+body {
+	margin: 0.5em;
+}
 
 button {
-	background:rgba(255,255,255,0.65);
+	background: rgba(255, 255, 255, 0.65);
 	margin: 0;
 }
 
 table {
-	min-width:85%;
+	min-width: 85%;
 	margin: 0 auto;
 }
 
 td {
-	padding:1em;
-	padding:1rem;
+	padding: 1em;
+	padding: 1rem;
 }
 
 thead td, thead th {
-	padding:0.5em;
-	padding:0.5rem;
+	padding: 0.5em;
+	padding: 0.5rem;
 }
 
 input[type=number] {
@@ -54,63 +60,111 @@ a:hover, a:active {
 ------------------------------------------------------------------------------*/
 
 .bracketed {
-	color:  var(--edit-link-color);
+	color: var(--edit-link-color);
 }
-.bracketed, h1 a {
+
+.bracketed, #main-nav a {
 	text-shadow: var(--link-shadow);
 }
-.bracketed:before {content: '[\00a0'}
-.bracketed:after {content: '\00a0]'}
+
+.bracketed:before {
+	content: '[\00a0'
+}
+
+.bracketed:after {
+	content: '\00a0]'
+}
+
 .bracketed:hover, .bracketed:active {
 	color: var(--edit-link-hover-color)
 }
 
-.grow-1 {flex-grow: 1}
-.flex-wrap {flex-wrap: wrap}
-.flex-no-wrap {flex-wrap: nowrap}
-.flex-align-end {align-items: flex-end}
-.flex-align-space-around {align-content: space-around}
-.flex-justify-space-around {justify-content: space-around}
-.flex-self-center {align-self:center}
-.flex {display: flex}
-
-.small-font {
-	font-size:1.6rem;
+.grow-1 {
+	flex-grow: 1
 }
 
-.justify {text-align:justify}
-.align_center {text-align:center !important}
-.align_left {text-align:left !important}
-.align_right {text-align:right !important}
+.flex-wrap {
+	flex-wrap: wrap
+}
 
-.valign_top {vertical-align:top}
+.flex-no-wrap {
+	flex-wrap: nowrap
+}
 
-.no_border {border:none}
+.flex-align-end {
+	align-items: flex-end
+}
+
+.flex-align-space-around {
+	align-content: space-around
+}
+
+.flex-justify-space-around {
+	justify-content: space-around
+}
+
+.flex-self-center {
+	align-self: center
+}
+
+.flex {
+	display: flex
+}
+
+.small-font {
+	font-size: 1.6rem;
+}
+
+.justify {
+	text-align: justify
+}
+
+.align_center {
+	text-align: center !important
+}
+
+.align_left {
+	text-align: left !important
+}
+
+.align_right {
+	text-align: right !important
+}
+
+.valign_top {
+	vertical-align: top
+}
+
+.no_border {
+	border: none
+}
 
 .media-wrap {
-	text-align:center;
-	margin:0 auto;
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
 }
 
 .danger {
 	background-color: #ff4136;
 	border-color: #924949;
-	color:#fff;
+	color: #fff;
 }
 
 .danger:hover, .danger:active {
 	background-color: #924949;
 	border-color: #ff4136;
-	color:#fff;
+	color: #fff;
 }
 
 .user-btn {
 	border-color: var(--edit-link-color);
 	color: var(--edit-link-color);
 	text-shadow: var(--link-shadow);
-	padding:0 0.5em;
-	padding:0 0.5rem;
+	padding: 0 0.5em;
+	padding: 0 0.5rem;
 }
+
 .user-btn:hover, .user-btn:active {
 	border-color: var(--edit-link-hover-color);
 	background-color: var(--edit-link-hover-color);
@@ -118,6 +172,20 @@ a:hover, a:active {
 
 .full_width {
 	width: 100%;
+}
+
+/* -----------------------------------------------------------------------------
+	Main Nav
+------------------------------------------------------------------------------*/
+#main-nav {
+	font-family: var(--default-font-list);
+	margin: 2em 0 1.6em;
+	margin: 2rem 0 1.6rem;
+	border-bottom: .1rem solid rgba(0, 0, 0, 0.2);
+	font-size: 3.6em;
+	font-size: 3.6rem;
+	font-style: normal;
+	font-weight: 500;
 }
 
 /* -----------------------------------------------------------------------------
@@ -145,21 +213,21 @@ a:hover, a:active {
 	left: 0%;
 	top: 0%;
 	animation: cssload-rotate-one 1.15s linear infinite;
-	border-bottom: 3px solid rgb(0,0,0);
+	border-bottom: 3px solid rgb(0, 0, 0);
 }
 
 .cssload-inner.cssload-two {
 	right: 0%;
 	top: 0%;
 	animation: cssload-rotate-two 1.15s linear infinite;
-	border-right: 3px solid rgb(0,0,0);
+	border-right: 3px solid rgb(0, 0, 0);
 }
 
 .cssload-inner.cssload-three {
 	right: 0%;
 	bottom: 0%;
 	animation: cssload-rotate-three 1.15s linear infinite;
-	border-top: 3px solid rgb(0,0,0);
+	border-top: 3px solid rgb(0, 0, 0);
 }
 
 @keyframes cssload-rotate-one {
@@ -195,62 +263,69 @@ a:hover, a:active {
 .sorting,
 .sorting_asc,
 .sorting_desc {
-	vertical-align:text-bottom;
+	vertical-align: text-bottom;
 }
+
 .sorting::before {
 	content: " ↕\00a0";
 }
+
 .sorting_asc::before {
 	content: " ↑\00a0";
 }
+
 .sorting_desc::before {
 	content: " ↓\00a0";
 }
 
-.form { width:100%; }
+.form {
+	width: 100%;
+}
 
 .form thead th, .form thead tr {
 	background: inherit;
-	border:0;
+	border: 0;
 }
 
 .form tr > td:nth-child(odd) {
-	text-align:right;
-	min-width:25px;
-	max-width:30%;
+	text-align: right;
+	min-width: 25px;
+	max-width: 30%;
 }
+
 .form tr > td:nth-child(even) {
-	text-align:left;
-	width:70%;
+	text-align: left;
+	width: 70%;
 }
 
 .invisible tbody > tr:nth-child(odd) {
 	background: inherit;
 }
+
 .invisible tr, .invisible td, .invisible th {
-	border:0;
+	border: 0;
 }
 
 /* -----------------------------------------------------------------------------
 	Message boxes
 ------------------------------------------------------------------------------*/
 
-.message{
-	position:relative;
-	margin:0.5em auto;
-	padding:0.5em;
-	width:95%;
+.message {
+	position: relative;
+	margin: 0.5em auto;
+	padding: 0.5em;
+	width: 95%;
 }
 
-.message .close{
-	width:1em;
-	height:1em;
-	position:absolute;
-	right:0.5em;
-	top:0.5em;
-	text-align:center;
-	vertical-align:middle;
-	line-height:1em;
+.message .close {
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	right: 0.5em;
+	top: 0.5em;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 1em;
 }
 
 .message:hover .close:after {
@@ -258,53 +333,55 @@ a:hover, a:active {
 }
 
 .message:hover {
-	cursor:pointer;
+	cursor: pointer;
 }
 
-.message .icon{
-	left:0.5em;
-	top:0.5em;
-	margin-right:1em;
+.message .icon {
+	left: 0.5em;
+	top: 0.5em;
+	margin-right: 1em;
 }
 
-.message.error{
-	border:1px solid #924949;
+.message.error {
+	border: 1px solid #924949;
 	background: #f3e6e6;
 }
 
-	.message.error .icon::after {
-		content: '✘';
-	}
+.message.error .icon::after {
+	content: '✘';
+}
 
-.message.success{
-	border:1px solid #1f8454;
+.message.success {
+	border: 1px solid #1f8454;
 	background: #70dda9;
 }
-	.message.success .icon::after {
-		content: '✔'
-	}
 
-.message.info{
-	border:1px solid #bfbe3a;
+.message.success .icon::after {
+	content: '✔'
+}
+
+.message.info {
+	border: 1px solid #bfbe3a;
 	background: #FFFFCC;
 }
 
-	.message.info .icon::after {
-		content: '⚠';
-	}
+.message.info .icon::after {
+	content: '⚠';
+}
 
 /* -----------------------------------------------------------------------------
 	Base list styles
 ------------------------------------------------------------------------------*/
 
 .media, .character, .small_character {
-	position:relative;
-	vertical-align:top;
-	display:inline-block;
-	text-align:center;
-	width:220px;
-	height:311px;
+	position: relative;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+	width: 220px;
+	height: 311px;
 	margin: var(--normal-padding);
+	z-index: 0;
 }
 
 .media > img,
@@ -314,80 +391,111 @@ a:hover, a:active {
 }
 
 .media .edit_buttons > button {
-	margin:0.5em auto;
+	margin: 0.5em auto;
 }
 
-	.name,
-	.media_metadata > div,
-	.medium_metadata > div,
-	.row {
-		text-shadow: var(--shadow);
-		background: var(--title-overlay-fallback);
-		background: var(--title-overlay);
-		color: var(--text-color);
-		padding: var(--normal-padding);
-		text-align:right;
-	}
+.name,
+.media_metadata > div,
+.medium_metadata > div,
+.row {
+	text-shadow: var(--shadow);
+	color: var(--text-color);
+	padding: var(--normal-padding);
+	text-align: right;
+	z-index: 2;
+}
 
-	.media_type, .age_rating {
-		text-align:left;
-	}
+.media_type, .age_rating {
+	text-align: left;
+}
 
-	.media > .media_metadata {
-		position:absolute;
-		bottom:0;
-		right:0;
-	}
+.media > .media_metadata {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
 
-	.media > .medium_metadata {
-		position:absolute;
-		bottom: 0;
-		left:0;
-	}
+.media > .medium_metadata {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
 
-	.media > .name {
-		position:absolute;
-		top: 0;
-	}
-		.small_character:hover > .name,
-		.character:hover > .name,
-		.media:hover > .name,
-		.media:hover > .media_metadata > div,
-		.media:hover > .medium_metadata > div,
-		.media:hover > .table .row
-		{
-			transition: .25s ease;
-			background:rgba(0,0,0,0.75);
-		}
+.media > .name {
+	position: absolute;
+	top: 0;
+}
 
-		.media:hover > button[hidden],
-		.media:hover > .edit_buttons[hidden]
-		{
-			transition: .25s ease;
-			display:block;
-		}
+.media > .name a {
+	transition: none;
+}
 
-		.small_character > .name a,
-		.small_character > .name a small,
-		.character > .name a,
-		.character > .name a small,
-		.media > .name a,
-		.media > .name a small
-		{
-			background:none;
-			color:#fff;
-			text-shadow: var(--shadow);
-		}
+.media .name a::before {
+	/* background: var(--title-overlay-fallback);
+    background: var(--title-overlay); */
+	content: '';
+	display: block;
+	height: 311px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 220px;
+	z-index: -1; /* Put the pseudo-element behind its parent */
+}
 
+.media-list .media:hover .name a::before {
+	/* transition: .25s ease; */
+	background: rgba(0, 0, 0, 0.75);
+}
 
+.media > .name span.canonical {
+	font-weight: bold;
+}
+
+.media > .name small {
+	font-weight: normal;
+}
+
+.media:hover .name {
+	background: rgba(0, 0, 0, 0.75);
+}
+
+.media-list .media > .name a:hover,
+.media-list .media > .name a:hover small {
+	color: var(--blue-link);
+}
+
+.media:hover > button[hidden],
+.media:hover > .edit_buttons[hidden] {
+
+	transition: .25s ease;
+	display: block;
+}
+
+.media:hover {
+	transition: .25s ease;
+}
+
+.small_character > .name a,
+.small_character > .name a small,
+.character > .name a,
+.character > .name a small,
+.media > .name a,
+.media > .name a small {
+	background: none;
+	color: #fff;
+	text-shadow: var(--shadow);
+}
 
 /* -----------------------------------------------------------------------------
 	Anime-list-specific styles
 ------------------------------------------------------------------------------*/
 .anime .name, .manga .name {
-	text-align:center;
-	width:100%;
-	padding:0.5em 0.25em;
+	background: var(--title-overlay-fallback);
+	background: var(--title-overlay);
+	text-align: center;
+	width: 100%;
+	padding: 0.5em 0.25em;
 }
 
 .anime .media_type,
@@ -398,116 +506,143 @@ a:hover, a:active {
 .anime .edit,
 .anime .delete {
 	background: none;
-	text-align:center;
+	text-align: center;
 }
 
-
 .anime .table, .manga .table {
-	position:absolute;
-	bottom:0;
-	left:0;
-	width:100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
 }
 
 .anime .row, .manga .row {
-	width:100%;
-	background: var(--title-overlay-fallback);
-	background: var(--title-overlay);
+	width: 100%;
 	display: flex;
 	align-content: space-around;
 	justify-content: space-around;
-	text-align:center;
-	padding:0 inherit;
+	text-align: center;
+	padding: 0 inherit;
 }
 
 .anime .row > span, .manga .row > span {
-	text-align:left;
+	text-align: left;
+	z-index: 2;
 }
 
 .anime .row > div, .manga .row > div {
-	font-size:0.8em;
-	display:flex-item;
-	align-self:center;
-	text-align:center;
-	vertical-align:middle;
+	font-size: 0.8em;
+	display: flex-item;
+	align-self: center;
+	text-align: center;
+	vertical-align: middle;
+	z-index: 2;
 }
 
 .anime .media > button.plus_one {
-	position:absolute;
+	border-color: hsla(0, 0%, 100%, .65);
+	position: absolute;
 	top: 138px;
 	top: calc(50% - 21.5px);
 	left: 44px;
 	left: calc(50% - 66.5px);
+	z-index: 50;
+}
+
+.anime .media > button.plus_one:hover {
+	color: hsla(0, 0%, 100%, .65);
+	background: #888;
+}
+
+.anime .media > button.plus_one:active {
+	background: #444;
 }
 
 /* -----------------------------------------------------------------------------
 	Manga-list-specific styles
 ------------------------------------------------------------------------------*/
 .manga .row {
-	padding:1px;
+	padding: 1px;
 }
 
 .manga .media {
-	border:1px solid #ddd;
-	height:310px;
-	margin:0.25em;
+	border: 1px solid #ddd;
+	height: 310px;
+	margin: 0.25em;
 }
 
 .manga .media > .edit_buttons {
-	position:absolute;
+	position: absolute;
 	top: 86px;
-	top: calc(50% - 58.5px);
+	/* top: calc(50% - 58.5px); */
+	top: calc(50% - 22.4px);
 	left: 43.5px;
 	left: calc(50% - 66.5px);
+	z-index: 50;
 }
 
+.manga .media > .edit_buttons button {
+	border-color: hsla(0, 0%, 100%, .65);
+}
+
+.manga .media > .edit_buttons:hover button {
+	color: hsla(0, 0%, 100%, .65);
+	background: #888;
+}
+
+.manga .media > .edit_buttons button:active {
+	background: #444;
+}
 
 /* -----------------------------------------------------------------------------
 	Search page styles
 ------------------------------------------------------------------------------*/
 .media.search > .name {
-	background-color:#555;
-	background-color: rgba(000,000,000,0.35);
+	background-color: #555;
+	background-color: rgba(000, 000, 000, 0.35);
 	background-size: cover;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
 
 .big-check {
-	display:none;
+	display: none;
 }
 
 .big-check:checked + label {
 	transition: .25s ease;
-	background:rgba(0,0,0,0.75);
+	background: rgba(0, 0, 0, 0.75);
 }
 
 .big-check:checked + label:after {
 	content: '✓';
 	font-size: 15em;
 	font-size: 15rem;
-	text-align:center;
+	text-align: center;
 	color: greenyellow;
-	position:absolute;
-	top:147px;
-	left:0;
-	height:100%;
-	width:100%;
+	position: absolute;
+	top: 147px;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
 }
 
 #series_list article.media {
-	position:relative;
+	position: relative;
 }
+
 #series_list .name, #series_list .name label {
-	position:absolute;
-	display:block;
-	top:0;
-	left:0;
-	height:100%;
-	width:100%;
-	vertical-align:middle;
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	vertical-align: middle;
 	line-height: 1.25em;
 }
+
 #series_list .name small {
 	color: #fff;
 }
@@ -517,16 +652,16 @@ a:hover, a:active {
 -----------------------------------------------------------------------------*/
 .details {
 	margin: 1.5rem auto 0 auto;
-	padding:1rem;
-	font-size:inherit;
+	padding: 1rem;
+	font-size: inherit;
 }
 
 .description {
-	max-width:80rem;
+	max-width: 80rem;
 }
 
 .fixed {
-	max-width:93rem;
+	max-width: 93rem;
 }
 
 .details .cover {
@@ -544,55 +679,63 @@ a:hover, a:active {
 }
 
 .details .media_details {
-	max-width:300px;
+	max-width: 300px;
 }
-	.details .media_details td {
-		padding:0 1.5rem;
-	}
+
+.details .media_details td {
+	padding: 0 1.5rem;
+}
 
 .details p {
-	text-align:justify;
+	text-align: justify;
 }
 
 .details .media_details td:nth-child(odd) {
-	width:1%;
-	white-space:nowrap;
-	text-align:right;
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
 }
+
 .details .media_details td:nth-child(even) {
-	text-align:left;
+	text-align: left;
 }
 
 .character,
 .small_character {
-	background: rgba(0,0,0,0.5);
+	/* background: rgba(0,0,0,0.5); */
 	width: 225px;
 	height: 350px;
 	vertical-align: middle;
 	white-space: nowrap;
 }
-	.small_character a {
-		display:inline-block;
-		width: 100%;
-		height: 100%;
-	}
 
-	.small_character .name,
-	.character .name {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		z-index: 10;
-	}
+.character:hover .name,
+.small_character:hover .name {
+	background: rgba(0, 0, 0, 0.8);
+}
 
-	.small_character img,
-	.character img {
-		position: relative;
-		top: 50%;
-		transform: translateY(-50%);
-		z-index: 5;
-		width: 100%;
-	}
+.small_character a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+.small_character .name,
+.character .name {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+}
+
+.small_character img,
+.character img {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 5;
+	width: 100%;
+}
 
 .min-table {
 	min-width: 0;
@@ -623,17 +766,17 @@ a:hover, a:active {
 
 @media screen and (max-width: 40em) {
 	nav a {
-		line-height:4em;
-		line-height:4rem;
+		line-height: 4em;
+		line-height: 4rem;
 	}
 
 	.media {
-		margin:2px 0;
+		margin: 2px 0;
 	}
 
 	main {
-		padding:0 0,5em 0.5em;
-		padding:0 0.5rem 0.5rem;
+		padding: 0 0, 5em 0.5em;
+		padding: 0 0.5rem 0.5rem;
 	}
 }
 
@@ -643,12 +786,22 @@ a:hover, a:active {
 .streaming-logo {
 	width: 50px;
 	height: 50px;
-	vertical-align:middle;
+	vertical-align: middle;
+}
+
+.cover_streaming_link {
+	display:none;
+}
+
+.media:hover .cover_streaming_link {
+	display: block;
 }
 
 .cover_streaming_link .streaming-logo {
 	width: 20px;
 	height: 20px;
+	-webkit-filter: drop-shadow(0 -1px 4px #fff);
+	filter: drop-shadow(0 -1px 4px #fff);
 }
 
 /* ----------------------------------------------------------------------------
@@ -660,32 +813,32 @@ a:hover, a:active {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0,0,0,0.8);
+	background: rgba(0, 0, 0, 0.8);
 	z-index: 500;
 }
 
-	#loading-shadow .loading-wrapper {
-		position: fixed;
-		z-index: 501;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display:flex;
-		align-items: center;
-		justify-content: center;
-	}
+#loading-shadow .loading-wrapper {
+	position: fixed;
+	z-index: 501;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	#loading-shadow .loading-content {
-		position: relative;
-		color: #fff
-	}
+#loading-shadow .loading-content {
+	position: relative;
+	color: #fff
+}
 
-	.loading-content .cssload-inner.cssload-one,
-	.loading-content .cssload-inner.cssload-two,
-	.loading-content .cssload-inner.cssload-three {
-		border-color: #fff
-	}
+.loading-content .cssload-inner.cssload-one,
+.loading-content .cssload-inner.cssload-two,
+.loading-content .cssload-inner.cssload-three {
+	border-color: #fff
+}
 
 /* ----------------------------------------------------------------------------
 CSS Tabs
@@ -694,7 +847,7 @@ CSS Tabs
 	display: flex;
 	flex-wrap: wrap;
 	background: #efefef;
-	box-shadow: 0 48px 80px -32px rgba(0,0,0,0.3);
+	box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
 	margin-top: 1.5em;
 }
 
@@ -735,7 +888,7 @@ CSS Tabs
 	color: #000;
 }
 
-.tabs [type=radio]:checked + label + .content{
+.tabs [type=radio]:checked + label + .content {
 	border: 1px solid #e5e5e5;
 	border-top: 0;
 	display: block;

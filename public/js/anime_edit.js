@@ -49,7 +49,7 @@
 					return;
 				}
 
-				if (data.data.status === 'completed') {
+				if (resData.data.attributes.status === 'completed') {
 					_.hide(parentSel);
 				}
 

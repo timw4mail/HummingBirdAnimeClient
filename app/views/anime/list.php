@@ -1,4 +1,4 @@
-<main>
+<main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
