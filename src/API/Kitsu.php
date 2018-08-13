@@ -247,7 +247,7 @@ final class Kitsu {
 			$isSubset = mb_substr_count($existing, $title) > 0;
 			$diff = levenshtein(mb_strtolower($existing), mb_strtolower($title));
 
-			if ($diff <= 4 || $isSubset || mb_strlen($title) > 40 || mb_strlen($existing) > 40)
+			if ($diff <= 4 || $isSubset || mb_strlen($title) > 45 || mb_strlen($existing) > 50)
 			{
 				return FALSE;
 			}
