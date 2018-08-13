@@ -16,12 +16,14 @@
 			<tbody>
 				<tr>
 					<td rowspan="4" class="align_center">
+						<article class="media">
 						<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
+						</article>
 					</td>
 				</tr>
 				<tr>
 					<td class="align_right"><label for="media_id">Media</label></td>
-					<td class="align_left" width="100%">
+					<td class="align_left">
 						<select name="media_id" id="media_id">
 						<?php foreach($media_items as $id => $name): ?>
 							<option <?= $item['media_id'] == $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>

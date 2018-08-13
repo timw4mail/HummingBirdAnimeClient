@@ -2,7 +2,7 @@
 	<main>
 		<h2>Edit Anime List Item</h2>
 		<form action="<?= $action ?>" method="post">
-			<table class="form">
+			<table class="invisible form">
 				<thead>
 					<tr>
 						<th>
@@ -11,14 +11,16 @@
 							<h4><?= $escape->html($title) ?></h4>
 							<?php endforeach ?>
 						</th>
-						<th>
-							<article class="media">
-								<?= $helper->img($urlGenerator->assetUrl('images/anime', "{$item['anime']['id']}.jpg")) ?>
-							</article>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
+					<tr>
+						<td rowspan="9">
+							<article class="media">
+								<?= $helper->img($urlGenerator->assetUrl('images/anime', "{$item['anime']['id']}.jpg")) ?>
+							</article>
+						</td>
+					</tr>
 					<tr>
 						<td><label for="private">Is Private?</label></td>
 						<td>

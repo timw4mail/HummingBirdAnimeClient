@@ -73,8 +73,8 @@
 								Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /
 									<span class="chapter_count"><?= $item['chapters']['total'] ?></span>
 							</div>
-						</div>
-						<div class="row">
+						<?php /* </div>
+						<div class="row"> */ ?>
 							<div class="volume_completion">
 								Volumes: <span class="volume_count"><?= $item['volumes']['total'] ?></span>
 							</div>
