@@ -25,7 +25,7 @@ use Aviat\Ion\View\HtmlView;
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-class Index extends BaseController {
+final class Index extends BaseController {
 
 	/**
 	 * Purges the API cache
@@ -70,6 +70,24 @@ class Index extends BaseController {
 			'title' => 'Api login',
 			'message' => $message
 		], $view);
+	}
+	
+	/**
+	 * Redirect to Anilist to start Oauth flow
+	 */
+	public function anilistRedirect()
+	{
+		
+	}
+	
+	/**
+	 * Oauth callback for Anilist API
+	 */
+	public function anilistCallback()
+	{
+		$this->outputHTML('blank', [
+			'title' => 'Oauth!'
+		]);
 	}
 
 	/**

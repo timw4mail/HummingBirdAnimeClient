@@ -20,6 +20,7 @@ use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Types\AnimeFormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use Aviat\Ion\StringWrapper;
@@ -27,7 +28,7 @@ use Aviat\Ion\StringWrapper;
 /**
  * Controller for Anime-related pages
  */
-class Anime extends BaseController {
+final class Anime extends BaseController {
 
 	use StringWrapper;
 
@@ -201,7 +202,7 @@ class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem($postData);
+		$fullResult = $this->model->updateLibraryItem(new AnimeFormItem($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -232,7 +233,7 @@ class Anime extends BaseController {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem($data);
+		$response = $this->model->updateLibraryItem(new AnimeFormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -277,7 +278,7 @@ class Anime extends BaseController {
 		$show_data = $this->model->getAnime($animeId);
 		$characters = [];
 
-		if (empty($show_data))
+		if ($show_data->title === '')
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -301,7 +302,7 @@ class Anime extends BaseController {
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				$show_data['titles'][0]
+				$show_data->title
 			),
 			'characters' => $characters,
 			'show_data' => $show_data,

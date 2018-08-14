@@ -28,7 +28,7 @@ use Exception;
 /**
  * Kitsu API Authentication
  */
-class Auth {
+final class Auth {
 	use CacheTrait;
 	use ContainerAware;
 
@@ -37,14 +37,14 @@ class Auth {
 	 *
 	 * @var Model
 	 */
-	protected $model;
+	private $model;
 
 	/**
 	 * Session object
 	 *
 	 * @var \Aura\Session\Segment
 	 */
-	protected $segment;
+	private $segment;
 
 	/**
 	 * Constructor

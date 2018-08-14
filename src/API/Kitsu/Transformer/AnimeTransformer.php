@@ -17,31 +17,32 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
+use Aviat\AnimeClient\Types\Anime;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for anime description page
  */
-class AnimeTransformer extends AbstractTransformer {
+final class AnimeTransformer extends AbstractTransformer {
 
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
 	 * @param  array  $item API library item
-	 * @return array
+	 * @return Anime
 	 */
-	public function transform($item): array
+	public function transform($item): Anime
 	{
-
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$genres = $item['included']['categories'] ?? [];
 		$item['genres'] = array_column($genres, 'title') ?? [];
 		sort($item['genres']);
 
-		$titles = Kitsu::filterTitles($item);
+		$title = $item['canonicalTitle'];
+		$titles = array_diff($item['titles'], [$title]);
 
-		return [
+		return new Anime([
 			'age_rating' => $item['ageRating'],
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'cover_image' => $item['posterImage']['small'],
@@ -54,10 +55,10 @@ class AnimeTransformer extends AbstractTransformer {
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
 			'streaming_links' => Kitsu::parseStreamingLinks($item['included']),
 			'synopsis' => $item['synopsis'],
-			'title' => $titles[0],
+			'title' => $title,
 			'titles' => $titles,
 			'trailer_id' => $item['youtubeVideoId'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
-		];
+		]);
 	}
 }

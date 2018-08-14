@@ -1,4 +1,4 @@
-<main>
+<main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
@@ -14,7 +14,7 @@
 			<thead>
 				<tr>
 					<?php if ($auth->isAuthenticated()): ?>
-					<th>&nbsp;</th>
+					<td>&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
 					<th>Rating</th>
@@ -39,7 +39,7 @@
 					<?php endif ?>
 					<td class="align_left">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-							<?= array_shift($item['manga']['titles']) ?>
+							<?= $item['manga']['title'] ?>
 						</a>
 						<?php foreach($item['manga']['titles'] as $title): ?>
 	                        <br /><?= $title ?>

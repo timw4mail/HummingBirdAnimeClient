@@ -16,35 +16,37 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\Types\MangaPage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for anime description page
  */
-class MangaTransformer extends AbstractTransformer {
+final class MangaTransformer extends AbstractTransformer {
 
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
 	 * @param  array  $item API library item
-	 * @return array
+	 * @return MangaPage
 	 */
-	public function transform($item)
+	public function transform($item): MangaPage
 	{
+		// \dump($item);
 		$genres = [];
 
 		foreach($item['included'] as $included)
 		{
-			if ($included['type'] === 'genres')
+			if ($included['type'] === 'categories')
 			{
-				$genres[] = $included['attributes']['name'];
+				$genres[] = $included['attributes']['title'];
 			}
 		}
 
 		sort($genres);
 
-		return [
+		return new MangaPage([
 			'id' => $item['id'],
 			'title' => $item['canonicalTitle'],
 			'en_title' => $item['titles']['en'],
@@ -56,7 +58,7 @@ class MangaTransformer extends AbstractTransformer {
 			'synopsis' => $item['synopsis'],
 			'url' => "https://kitsu.io/manga/{$item['slug']}",
 			'genres' => $genres,
-		];
+		]);
 	}
 
 	private function count(int $value = NULL)

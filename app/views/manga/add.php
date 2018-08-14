@@ -13,7 +13,7 @@
 			</section>
 		</section>
 		<br />
-		<table class="form">
+		<table class="invisible form">
 			<tbody>
 				<tr>
 					<td><label for="status">Reading Status</label></td>

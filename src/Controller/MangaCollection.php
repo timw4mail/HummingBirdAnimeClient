@@ -26,7 +26,7 @@ use Aviat\Ion\Di\ContainerInterface;
 /**
  * Controller for manga collection pages
  */
-class MangaCollection extends BaseController {
+final class MangaCollection extends BaseController {
 
 	/**
 	 * The manga collection model

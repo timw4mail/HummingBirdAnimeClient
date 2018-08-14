@@ -21,7 +21,7 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for current reading status of manga
  */
-class Kitsu extends Enum {
+final class Kitsu extends Enum {
 	const READING = 'current';
 	const PLAN_TO_READ = 'planned';
 	const DROPPED = 'dropped';

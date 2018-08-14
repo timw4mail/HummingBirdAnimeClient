@@ -16,12 +16,14 @@
 
 namespace Aviat\AnimeClient\API\MAL;
 
+use const Aviat\AnimeClient\USER_AGENT;
+
 use Aviat\AnimeClient\API\{
 	APIRequestBuilder,
 	MAL as M
 };
 
-class MALRequestBuilder extends APIRequestBuilder {
+final class MALRequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests
@@ -38,7 +40,7 @@ class MALRequestBuilder extends APIRequestBuilder {
 		'Accept' => 'text/xml',
 		'Accept-Encoding' => 'gzip',
 		'Content-type' => 'application/x-www-form-urlencoded',
-		'User-Agent' => "Tim's Anime Client/4.0"
+		'User-Agent' => USER_AGENT,
 	];
 
 	/**

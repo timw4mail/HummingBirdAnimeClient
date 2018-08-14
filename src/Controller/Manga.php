@@ -20,13 +20,14 @@ use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\AnimeClient\Types\MangaFormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\{Json, StringWrapper};
 
 /**
  * Controller for manga list
  */
-class Manga extends Controller {
+final class Manga extends Controller {
 
 	use StringWrapper;
 
@@ -200,7 +201,7 @@ class Manga extends Controller {
 		// large form-based updates
 		$transformer = new MangaListTransformer();
 		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem($post_data);
+		$full_result = $this->model->updateLibraryItem(new MangaFormItem($post_data));
 
 		if ($full_result['statusCode'] === 200)
 		{
@@ -234,7 +235,7 @@ class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem($data);
+		$response = $this->model->updateLibraryItem(new MangaFormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);

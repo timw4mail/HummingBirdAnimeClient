@@ -16,14 +16,31 @@
 
 namespace Aviat\AnimeClient\API\Mapping;
 
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{Kitsu, MAL, Title, Route};
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{Anilist, Kitsu, MAL, Title, Route};
 use Aviat\Ion\Enum;
 
 /**
  * Manga reading status mappings, among Kitsu, MAL, Page titles
  * and url route segments
  */
-class MangaReadingStatus extends Enum {
+final class MangaReadingStatus extends Enum {
+	const ANILIST_TO_KITSU = [
+		Anilist::READING => Kitsu::READING,
+		Anilist::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
+		Anilist::COMPLETED => Kitsu::COMPLETED,
+		Anilist::ON_HOLD => Kitsu::ON_HOLD,
+		Anilist::DROPPED => Kitsu::DROPPED	
+	];
+	
+	const KITSU_TO_ANILIST = [
+		Kitsu::READING => Anilist::READING,
+		Kitsu::PLAN_TO_READ => Anilist::PLAN_TO_READ,
+		Kitsu::COMPLETED => Anilist::COMPLETED,
+		Kitsu::ON_HOLD => Anilist::ON_HOLD,
+		Kitsu::DROPPED => Anilist::DROPPED
+	];
+	
+	
 	const KITSU_TO_MAL = [
 		Kitsu::READING => MAL::READING,
 		Kitsu::PLAN_TO_READ => MAL::PLAN_TO_READ,

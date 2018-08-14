@@ -25,7 +25,7 @@ use Aviat\Ion\Exception\ConfigException;
 /**
  * Helper object to manage menu creation and selection
  */
-class MenuGenerator extends UrlGenerator {
+final class MenuGenerator extends UrlGenerator {
 
 	use ArrayWrapper;
 	use StringWrapper;

@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Command;
 /**
  * Clears the API Cache
  */
-class CachePrime extends BaseCommand {
+final class CachePrime extends BaseCommand {
 	/**
 	 * Clear, then prime the API cache
 	 *
