@@ -44,7 +44,7 @@ class API {
 
 		foreach ($array as $key => $item)
 		{
-			$sort[$key] = $item[$sortKey]['titles'][0];
+			$sort[$key] = $item[$sortKey]['title'];
 		}
 
 		array_multisort($sort, SORT_ASC, $array);

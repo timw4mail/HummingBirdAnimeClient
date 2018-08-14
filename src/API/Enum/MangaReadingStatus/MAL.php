@@ -21,7 +21,7 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for watching status for the current anime
  */
-class MAL extends Enum {
+final class MAL extends Enum {
 	const READING = 'reading';
 	const COMPLETED = 'completed';
 	const ON_HOLD = 'onhold';

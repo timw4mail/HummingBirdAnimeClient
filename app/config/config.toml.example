@@ -11,8 +11,5 @@ whose_list = "Tim"
 # do you wish to show the anime collection?
 show_anime_collection = true
 
-# do you have a My Anime List account set up in mal.toml?
-use_mal_api = false
-
 # path to public directory on the server
 asset_dir = "/../../public"

@@ -23,7 +23,7 @@ use Aviat\Ion\ArrayWrapper;
 /**
  * Controller for character description pages
  */
-class Character extends BaseController {
+final class Character extends BaseController {
 
 	use ArrayWrapper;
 

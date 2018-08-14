@@ -20,12 +20,13 @@ use Amp\Artax\{FormBody, Request};
 use Aviat\AnimeClient\API\{
 	XML
 };
+use Aviat\AnimeClient\Types\AbstractType;
 use Aviat\Ion\Di\ContainerAware;
 
 /**
  * CRUD operations for MAL list items
  */
-class ListItem {
+final class ListItem {
 	use ContainerAware;
 	use MALTrait;
 
@@ -84,11 +85,11 @@ class ListItem {
 	 * Update a list item
 	 *
 	 * @param string $id
-	 * @param array $data
+	 * @param AbstractType $data
 	 * @param string $type
 	 * @return Request
 	 */
-	public function update(string $id, array $data, string $type = 'anime'): Request
+	public function update(string $id, AbstractType $data, string $type = 'anime'): Request
 	{
 		$config = $this->container->get('config');
 

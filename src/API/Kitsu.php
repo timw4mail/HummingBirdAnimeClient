@@ -22,7 +22,7 @@ use DateTimeImmutable;
 /**
  * Data massaging helpers for the Kitsu API
  */
-class Kitsu {
+final class Kitsu {
 	const AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
@@ -143,7 +143,10 @@ class Kitsu {
 	 */
 	public static function parseStreamingLinks(array $included): array
 	{
-		if ( ! array_key_exists('streamingLinks', $included))
+		if (
+			( ! array_key_exists('streamingLinks', $included)) ||
+			count($included['streamingLinks']) === 0
+		)
 		{
 			return [];
 		}
@@ -152,7 +155,16 @@ class Kitsu {
 
 		foreach ($included['streamingLinks'] as $streamingLink)
 		{
-			$host = parse_url($streamingLink['url'], \PHP_URL_HOST);
+			$url = $streamingLink['url'];
+
+			// 'Fix' links that start with the hostname,
+			// rather than a protocol
+			if (strpos($url, '//') === FALSE)
+			{
+				$url = '//' . $url;
+			}
+
+			$host = parse_url($url, \PHP_URL_HOST);
 
 			$links[] = [
 				'meta' => static::getServiceMetaData($host),
@@ -182,17 +194,7 @@ class Kitsu {
 
 			if (count($anime['relationships']['streamingLinks']) > 0)
 			{
-				foreach ($anime['relationships']['streamingLinks'] as $streamingLink)
-				{
-					$host = parse_url($streamingLink['url'], \PHP_URL_HOST);
-
-					$links[] = [
-						'meta' => static::getServiceMetaData($host),
-						'link' => $streamingLink['url'],
-						'subs' => $streamingLink['subs'],
-						'dubs' => $streamingLink['dubs']
-					];
-				}
+				return static::parseStreamingLinks($anime['relationships']);
 			}
 
 			return $links;
@@ -243,10 +245,9 @@ class Kitsu {
 		foreach($existingTitles as $existing)
 		{
 			$isSubset = mb_substr_count($existing, $title) > 0;
-			$diff = levenshtein($existing, $title);
-			$onlydifferentCase = (mb_strtolower($existing) === mb_strtolower($title));
+			$diff = levenshtein(mb_strtolower($existing), mb_strtolower($title));
 
-			if ($diff <= 3 OR $isSubset OR $onlydifferentCase OR mb_strlen($title) > 55 OR mb_strlen($existing) > 60)
+			if ($diff <= 4 || $isSubset || mb_strlen($title) > 45 || mb_strlen($existing) > 50)
 			{
 				return FALSE;
 			}

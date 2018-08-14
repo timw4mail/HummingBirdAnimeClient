@@ -28,9 +28,12 @@ if ($timezone === '' || $timezone === FALSE)
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-$whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-$whoops->register();
+// if (array_key_exists('ENV', $_ENV) && $_ENV['ENV'] === 'development')
+{
+	$whoops = new \Whoops\Run;
+	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops->register();
+}
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');

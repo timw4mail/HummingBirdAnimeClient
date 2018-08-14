@@ -25,38 +25,16 @@ use Aviat\AnimeClient\API\{
 	HummingbirdClient,
 	ListItemInterface
 };
+use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 
 /**
  * CRUD operations for Kitsu list items
  */
-class ListItem implements ListItemInterface {
+final class ListItem implements ListItemInterface {
 	use ContainerAware;
 	use KitsuTrait;
-
-	private function getAuthHeader()
-	{
-		$cache = $this->getContainer()->get('cache');
-		$cacheItem = $cache->getItem('kitsu-auth-token');
-		$sessionSegment = $this->getContainer()
-			->get('session')
-			->getSegment(SESSION_SEGMENT);
-
-		if ($sessionSegment->get('auth_token') !== NULL)
-		{
-			$token = $sessionSegment->get('auth_token');
-			return "bearer {$token}";
-		}
-
-		if ($cacheItem->isHit())
-		{
-			$token = $cacheItem->get();
-			return "bearer {$token}";
-		}
-
-		return FALSE;
-	}
 
 	public function create(array $data): Request
 	{
@@ -134,7 +112,7 @@ class ListItem implements ListItemInterface {
 		return Json::decode(wait($response->getBody()));
 	}
 
-	public function update(string $id, array $data): Request
+	public function update(string $id, FormItemData $data): Request
 	{
 		$authHeader = $this->getAuthHeader();
 		$requestData = [
@@ -154,5 +132,26 @@ class ListItem implements ListItemInterface {
 		}
 
 		return $request->getFullRequest();
+	}
+
+	private function getAuthHeader()
+	{
+		$cache = $this->getContainer()->get('cache');
+		$cacheItem = $cache->getItem('kitsu-auth-token');
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		if ($sessionSegment->get('auth_token') !== NULL) {
+			$token = $sessionSegment->get('auth_token');
+			return "bearer {$token}";
+		}
+
+		if ($cacheItem->isHit()) {
+			$token = $cacheItem->get();
+			return "bearer {$token}";
+		}
+
+		return FALSE;
 	}
 }

@@ -2,7 +2,7 @@
 <main>
 	<h2>Edit Anime Collection Item</h2>
 	<form action="<?= $action_url ?>" method="post">
-		<table class="form">
+		<table class="invisible form" style="border:0">
 			<thead>
 				<tr>
 					<th>
@@ -11,17 +11,19 @@
 						<h4><?= $item['alternate_title'] ?></h4>
 						<?php endif ?>
 					</th>
-					<th>
-						<article class="media">
-							<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
-						</article>
-					</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><label for="media_id">Media</label></td>
-					<td>
+					<td rowspan="4" class="align_center">
+						<article class="media">
+						<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
+						</article>
+					</td>
+				</tr>
+				<tr>
+					<td class="align_right"><label for="media_id">Media</label></td>
+					<td class="align_left">
 						<select name="media_id" id="media_id">
 						<?php foreach($media_items as $id => $name): ?>
 							<option <?= $item['media_id'] == $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>

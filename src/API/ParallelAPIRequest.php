@@ -22,14 +22,14 @@ use function Amp\Promise\{all, wait};
 /**
  * Class to simplify making and validating simultaneous requests
  */
-class ParallelAPIRequest {
+final class ParallelAPIRequest {
 
 	/**
 	 * Set of requests to make in parallel
 	 *
 	 * @var array
 	 */
-	protected $requests = [];
+	private $requests = [];
 
 	/**
 	 * Add a request
@@ -76,9 +76,7 @@ class ParallelAPIRequest {
 		{
 			$promises[$key] = call(function () use ($client, $url) {
 				$response = yield $client->request($url);
-				$body = yield $response->getBody();
-
-				return $body;
+				return yield $response->getBody();
 			});
 		}
 

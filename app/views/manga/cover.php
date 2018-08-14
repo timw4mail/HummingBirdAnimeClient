@@ -1,4 +1,4 @@
-<main>
+<main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
@@ -26,7 +26,7 @@
 					<img src="<?= $urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg") ?>" />
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-						<?= $escape->html(array_shift($item['manga']['titles'])) ?>
+						<?= $escape->html($item['manga']['title']) ?>
                         <?php foreach($item['manga']['titles'] as $title): ?>
                             <br /><small><?= $title ?></small>
                         <?php endforeach ?>
@@ -73,8 +73,8 @@
 								Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /
 									<span class="chapter_count"><?= $item['chapters']['total'] ?></span>
 							</div>
-						</div>
-						<div class="row">
+						<?php /* </div>
+						<div class="row"> */ ?>
 							<div class="volume_completion">
 								Volumes: <span class="volume_count"><?= $item['volumes']['total'] ?></span>
 							</div>
