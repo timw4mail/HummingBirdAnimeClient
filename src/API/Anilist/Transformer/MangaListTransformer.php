@@ -16,13 +16,18 @@
 
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
+use Aviat\AnimeClient\Types\MangaFormItem;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
-class MangaListTransformer extends AbstractTransformer
-{
+class MangaListTransformer extends AbstractTransformer {
 
 	public function transform($item)
 	{
 
+	}
+
+	public function untransform(array $item): MangaFormItem
+	{
+		return new MangaFormItem($item);
 	}
 }

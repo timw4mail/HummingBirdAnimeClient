@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\API\MAL\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
-use Aviat\AnimeClient\Types\{AnimeFormItem, AnimeFormItemData};
+use Aviat\AnimeClient\Types\AnimeFormItem;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -43,10 +43,10 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function untransform(array $item): AnimeFormItem
 	{
-		$map = new AnimeFormItem([
+		$map = [
 			'id' => $item['mal_id'],
-			'data' => new AnimeFormItemData([]),
-		]);
+			'data' => [],
+		];
 
 		foreach($item['data'] as $key => $value)
 		{
@@ -81,6 +81,6 @@ final class AnimeListTransformer extends AbstractTransformer {
 			}
 		}
 
-		return $map;
+		return new AnimeFormItem($map);
 	}
 }

@@ -1,0 +1,5 @@
+query ($id: Int) {
+	Media (type: ANIME, malId: $id) {
+		id
+	}
+}
