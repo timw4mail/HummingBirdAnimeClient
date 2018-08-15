@@ -144,6 +144,20 @@ return function (array $configArray = []) {
 		$model->setRequestBuilder($requestBuilder);
 		return $model;
 	});
+	$container->set('anilist-model', function($container) {
+		$requestBuilder = new Anilist\AnilistRequestBuilder();
+		$requestBuilder->setLogger($container->getLogger('anilist-request'));
+
+		$listItem = new Anilist\ListItem();
+		$listItem->setContainer($container);
+		$listItem->setRequestBuilder($requestBuilder);
+
+		$model = new Anilist\Model($listItem);
+		$model->setContainer($container);
+		$model->setRequestBuilder($requestBuilder);
+
+		return $model;
+	});
 
 	$container->set('api-model', function($container) {
 		return new Model\API($container);
