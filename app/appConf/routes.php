@@ -186,12 +186,12 @@ return [
 	'anilist-redirect' => [
 		'path' => '/anilist-redirect',
 		'action' => 'anilistRedirect',
-		'controller' => DEFAULT_CONTROLLER,	
+		'controller' => DEFAULT_CONTROLLER,
 	],
 	'anilist-oauth' => [
 		'path' => '/anilist-oauth',
 		'action' => 'anilistCallback',
-		'controller' => DEFAULT_CONTROLLER,	
+		'controller' => DEFAULT_CONTROLLER,
 	],
 	'image_proxy' => [
 		'path' => '/public/images/{type}/{file}',
@@ -206,6 +206,12 @@ return [
 	'cache_purge' => [
 		'path' => '/cache_purge',
 		'action' => 'clearCache',
+		'controller' => DEFAULT_CONTROLLER,
+		'verb' => 'get',
+	],
+	'settings' => [
+		'path' => '/settings',
+		'action' => 'settings',
 		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'get',
 	],

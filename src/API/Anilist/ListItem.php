@@ -17,9 +17,6 @@
 namespace Aviat\AnimeClient\API\Anilist;
 
 use Amp\Artax\{FormBody, Request};
-use Aviat\AnimeClient\API\{
-	XML
-};
 use Aviat\AnimeClient\Types\AbstractType;
 use Aviat\Ion\Di\ContainerAware;
 
@@ -27,8 +24,8 @@ use Aviat\Ion\Di\ContainerAware;
  * CRUD operations for MAL list items
  */
 final class ListItem {
-	use ContainerAware;
 	use AnilistTrait;
+	use ContainerAware;
 
 	/**
 	 * Create a list item
@@ -39,20 +36,7 @@ final class ListItem {
 	 */
 	public function create(array $data, string $type = 'anime'): Request
 	{
-		$id = $data['id'];
-		$createData = [
-			'id' => $id,
-			'data' => XML::toXML([
-				'entry' => $data['data']
-			])
-		];
-
-		$config = $this->container->get('config');
-
-		return $this->requestBuilder->newRequest('POST', "{$type}list/add/{$id}.xml")
-			->setFormFields($createData)
-			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
-			->getFullRequest();
+		// @TODO: implement
 	}
 
 	/**
@@ -64,21 +48,12 @@ final class ListItem {
 	 */
 	public function delete(string $id, string $type = 'anime'): Request
 	{
-		$config = $this->container->get('config');
-
-		return $this->requestBuilder->newRequest('DELETE', "{$type}list/delete/{$id}.xml")
-			->setFormFields([
-				'id' => $id
-			])
-			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
-			->getFullRequest();
-
-		// return $response->getBody() === 'Deleted'
+		// @TODO: implement
 	}
 
 	public function get(string $id): array
 	{
-		return [];
+		// @TODO: implement
 	}
 
 	/**
@@ -91,19 +66,6 @@ final class ListItem {
 	 */
 	public function update(string $id, AbstractType $data, string $type = 'anime'): Request
 	{
-		$config = $this->container->get('config');
-
-		$xml = XML::toXML(['entry' => $data]);
-		$body = new FormBody();
-		$body->addField('id', $id);
-		$body->addField('data', $xml);
-
-		return $this->requestBuilder->newRequest('POST', "{$type}list/update/{$id}.xml")
-			->setFormFields([
-				'id' => $id,
-				'data' => $xml
-			])
-			->setBasicAuth($config->get(['mal','username']), $config->get(['mal', 'password']))
-			->getFullRequest();
+		// @TODO: implement
 	}
 }

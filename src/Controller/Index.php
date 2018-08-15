@@ -71,15 +71,21 @@ final class Index extends BaseController {
 			'message' => $message
 		], $view);
 	}
-	
+
 	/**
 	 * Redirect to Anilist to start Oauth flow
 	 */
 	public function anilistRedirect()
 	{
-		
+		$redirectUrl = 'https://anilist.co/api/v2/oauth/authorize?' .
+			http_build_query([
+				'client_id' => 271,
+				'response_type' => 'code',
+			]);
+
+		$this->redirect($redirectUrl, 301);
 	}
-	
+
 	/**
 	 * Oauth callback for Anilist API
 	 */
@@ -153,6 +159,20 @@ final class Index extends BaseController {
 			'attributes' => $orgData['attributes'],
 			'relationships' => $rels,
 			'favorites' => $this->organizeFavorites($favorites),
+		]);
+	}
+
+	/**
+	 * Show the user settings, if logged in
+	 */
+	public function settings()
+	{
+		$auth = $this->container->get('auth');
+		$this->outputHTML('settings', [
+			'auth' => $auth,
+			'title' => $this->config->get('whose_list') . "'s Settings",
+			'base_settings' => $this->config->get('default_config'),
+			'user_settings' => $this->config->get('user_config_settings'),
 		]);
 	}
 

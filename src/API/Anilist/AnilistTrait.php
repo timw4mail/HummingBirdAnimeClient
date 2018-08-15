@@ -14,7 +14,7 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\MAL;
+namespace Aviat\AnimeClient\API\Anilist;
 
 use function Amp\Promise\wait;
 
@@ -52,7 +52,7 @@ trait AnilistTrait {
 	/**
 	 * Set the request builder object
 	 *
-	 * @param MALRequestBuilder $requestBuilder
+	 * @param AnilistRequestBuilder $requestBuilder
 	 * @return self
 	 */
 	public function setRequestBuilder($requestBuilder): self
@@ -63,31 +63,14 @@ trait AnilistTrait {
 
 	/**
 	 * Create a request object
-	 *
-	 * @param string $type
+
 	 * @param string $url
 	 * @param array $options
 	 * @return \Amp\Artax\Response
 	 */
-	public function setUpRequest(string $type, string $url, array $options = [])
+	public function setUpRequest(string $url, array $options = [])
 	{
-		$config = $this->container->get('config');
-
-		$request = $this->requestBuilder
-			->newRequest($type, $url)
-			->setBasicAuth($config->get(['mal','username']), $config->get(['mal','password']));
-
-		if (array_key_exists('query', $options))
-		{
-			$request = $request->setQuery($options['query']);
-		}
-
-		if (array_key_exists('body', $options))
-		{
-			$request = $request->setBody($options['body']);
-		}
-
-		return $request->getFullRequest();
+		// @TODO Implement
 	}
 
 	/**
@@ -106,10 +89,10 @@ trait AnilistTrait {
 			$logger = $this->container->getLogger('mal-request');
 		}
 
-		$request = $this->setUpRequest($type, $url, $options);
+		$request = $this->setUpRequest($url, $options);
 		$response = wait((new HummingbirdClient)->request($request));
 
-		$logger->debug('MAL api response', [
+		$logger->debug('Anilist response', [
 			'status' => $response->getStatus(),
 			'reason' => $response->getReason(),
 			'body' => $response->getBody(),

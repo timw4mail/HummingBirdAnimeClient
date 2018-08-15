@@ -17,7 +17,7 @@ try
 	(new Console([
 		'cache:clear' => Command\CacheClear::class,
 		'cache:refresh' => Command\CachePrime::class,
-		'lists:sync' => Command\SyncLists::class,
+		// 'lists:sync' => Command\SyncLists::class,
 	]))->run();
 }
 catch (\Exception $e)

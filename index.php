@@ -48,6 +48,9 @@ $di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
 $config_array = array_merge($base_config, $config);
+// User config
+$config_array['default_config'] = $base_config;
+$config_array['user_config_settings'] = $config;
 
 $container = $di($config_array);
 
