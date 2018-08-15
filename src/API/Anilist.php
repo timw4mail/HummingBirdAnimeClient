@@ -41,11 +41,27 @@ final class Anilist {
 	];
 
 	const ANILIST_KITSU_WATCHING_STATUS_MAP = [
-		'CURRENT' => KAWS::WATCHING,
-		'COMPLETED' => KAWS::COMPLETED,
-		'PAUSED' => KAWS::ON_HOLD,
-		'DROPPED' => KAWS::DROPPED,
-		'PLANNING' => KAWS::PLAN_TO_WATCH,
+		AnimeWatchingStatus::WATCHING => KAWS::WATCHING,
+		AnimeWatchingStatus::COMPLETED => KAWS::COMPLETED,
+		AnimeWatchingStatus::ON_HOLD => KAWS::ON_HOLD,
+		AnimeWatchingStatus::DROPPED => KAWS::DROPPED,
+		AnimeWatchingStatus::PLAN_TO_WATCH => KAWS::PLAN_TO_WATCH,
+	];
+
+	const KITSU_ANILIST_READING_STATUS_MAP = [
+		KMRS::READING => MangaReadingStatus::READING,
+		KMRS::COMPLETED => MangaReadingStatus::COMPLETED,
+		KMRS::ON_HOLD => MangaReadingStatus::ON_HOLD,
+		KMRS::DROPPED => MangaReadingStatus::DROPPED,
+		KMRS::PLAN_TO_READ => MangaReadingStatus::PLAN_TO_READ,
+	];
+
+	const ANILIST_KITSU_READING_STATUS_MAP = [
+		MangaReadingStatus::READING => KMRS::READING,
+		MangaReadingStatus::COMPLETED => KMRS::COMPLETED,
+		MangaReadingStatus::ON_HOLD => KMRS::ON_HOLD,
+		MangaReadingStatus::DROPPED => KMRS::DROPPED,
+		MangaReadingStatus::PLAN_TO_READ => KMRS::PLAN_TO_READ,
 	];
 
 	public static function getIdToWatchingStatusMap()
@@ -67,7 +83,8 @@ final class Anilist {
 			'COMPLETED' => MangaReadingStatus::COMPLETED,
 			'PAUSED' => MangaReadingStatus::ON_HOLD,
 			'DROPPED' => MangaReadingStatus::DROPPED,
-			'PLANNING' => MangaReadingStatus::PLAN_TO_READ
+			'PLANNING' => MangaReadingStatus::PLAN_TO_READ,
+			'REPEATING' => MangaReadingStatus::READING,
 		];
 	}
 }

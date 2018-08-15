@@ -1,0 +1,56 @@
+query ($name: String) {
+	MediaListCollection(userName: $name, type: ANIME) {
+		lists {
+			entries {
+				id
+				mediaId
+				score
+				progress
+				repeat
+				private
+				notes
+				status
+				media {
+					id
+					idMal
+					title {
+						romaji
+						english
+						native
+						userPreferred
+					}
+					type
+					format
+					status
+					episodes
+					season
+					genres
+					synonyms
+					countryOfOrigin
+					source
+					trailer {
+						id
+					}
+					coverImage {
+						large
+						medium
+					}
+					bannerImage
+					tags {
+						id
+					}
+					externalLinks {
+						id
+					}
+					mediaListEntry {
+						id
+					}
+				}
+				user {
+					id
+				}
+			}
+		}
+	}
+}
+
