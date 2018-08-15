@@ -16,14 +16,20 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
+use Amp\Artax\Request;
+use Amp\Artax\Response;
 use function Amp\Promise\wait;
 
 use Aviat\AnimeClient\API\{
 	Anilist,
 	HummingbirdClient
 };
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+use Aviat\Ion\Json;
+use Aviat\Ion\Di\ContainerAware;
 
 trait AnilistTrait {
+	use ContainerAware;
 
 	/**
 	 * The request builder for the MAL API
@@ -66,27 +72,92 @@ trait AnilistTrait {
 
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Artax\Response
+	 * @return Request
 	 */
-	public function setUpRequest(string $url, array $options = [])
+	public function setUpRequest(string $url, array $options = []): Request
 	{
-		// @TODO Implement
+		$config = $this->getContainer()->get('config');
+		$anilistConfig = $config->get('anilist');
+
+		$request = $this->requestBuilder->newRequest('POST', $url);
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		$authenticated = $sessionSegment->get('auth_token') !== NULL;
+
+		if ($authenticated)
+		{
+			$request = $request->setAuth('bearer', $anilistConfig['access_token']);
+		}
+
+		if (array_key_exists('form_params', $options)) {
+			$request = $request->setFormFields($options['form_params']);
+		}
+
+		if (array_key_exists('query', $options)) {
+			$request = $request->setQuery($options['query']);
+		}
+
+		if (array_key_exists('body', $options)) {
+			$request = $request->setJsonBody($options['body']);
+		}
+
+		if (array_key_exists('headers', $options)) {
+			$request = $request->setHeaders($options['headers']);
+		}
+
+		return $request->getFullRequest();
+	}
+
+	/**
+	 * Run a GraphQL API query
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return array
+	 */
+	public function runQuery(string $name, array $variables = []): array
+	{
+		$file = realpath(__DIR__ . "/GraphQL/Queries/{$name}.graphql");
+		if ( ! file_exists($file))
+		{
+			throw new \LogicException('GraphQL query file does not exist.');
+		}
+
+		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
+		$query = file_get_contents($file);
+		$body = [
+			'query' => $query
+		];
+
+		if ( ! empty($variables))
+		{
+			$body['variables'] = [];
+			foreach($variables as $key => $val)
+			{
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->postRequest([
+			'body' => $body
+		]);
 	}
 
 	/**
 	 * Make a request
 	 *
-	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Artax\Response
+	 * @return Response
 	 */
-	private function getResponse(string $type, string $url, array $options = [])
+	private function getResponse(string $url, array $options = []): Response
 	{
 		$logger = NULL;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('mal-request');
+			$logger = $this->container->getLogger('anilist-request');
 		}
 
 		$request = $this->setUpRequest($url, $options);
@@ -104,14 +175,12 @@ trait AnilistTrait {
 	}
 
 	/**
-	 * Make a request
+	 * Remove some boilerplate for post requests
 	 *
-	 * @param string $type
-	 * @param string $url
 	 * @param array $options
 	 * @return array
 	 */
-	private function request(string $type, string $url, array $options = []): array
+	protected function postRequest(array $options = []): array
 	{
 		$logger = NULL;
 		if ($this->getContainer())
@@ -119,44 +188,19 @@ trait AnilistTrait {
 			$logger = $this->container->getLogger('anilist-request');
 		}
 
-		$response = $this->getResponse($type, $url, $options);
-
-		if ((int) $response->getStatus() > 299 OR (int) $response->getStatus() < 200)
-		{
-			if ($logger)
-			{
-				$logger->warning('Non 200 response for api call', (array)$response->getBody());
-			}
-		}
-
-		return XML::toArray(wait($response->getBody()));
-	}
-
-	/**
-	 * Remove some boilerplate for post requests
-	 *
-	 * @param mixed ...$args
-	 * @return array
-	 */
-	protected function postRequest(...$args): array
-	{
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('anilist-request');
-		}
-
-		$response = $this->getResponse('POST', ...$args);
+		$response = $this->getResponse(Anilist::BASE_URL, $options);
 		$validResponseCodes = [200, 201];
 
-		if ( ! \in_array((int) $response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 201 response for POST api call', (array)$response->getBody());
+				$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
 			}
 		}
 
-		return XML::toArray($response->getBody());
+		// dump(wait($response->getBody()));
+
+		return Json::decode(wait($response->getBody()));
 	}
 }

@@ -14,18 +14,15 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Enum\MangaReadingStatus;
+namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\Transformer\AbstractTransformer;
 
-/**
- * Possible values for watching status for the current anime
- */
-final class Anilist extends Enum {
-	const READING = 'CURRENT';
-	const COMPLETED = 'COMPLETED';
-	const ON_HOLD = 'PAUSED';
-	const DROPPED = 'DROPPED';
-	const PLAN_TO_READ = 'PLANNING';
-	const REPEATING = 'REPEATING';
+class MangaListTransformer extends AbstractTransformer
+{
+
+	public function transform($item)
+	{
+
+	}
 }

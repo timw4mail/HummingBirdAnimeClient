@@ -39,127 +39,17 @@ final class Model
 	public function __construct(ListItem $listItem)
 	{
 		$this->listItem = $listItem;
+
 	}
 
-	public function getAnimeList()
+	public function getAnimeList(): array
 	{
-		$graphQL = <<<GQL
-{
-	MediaListCollection(userId: 103470, type: ANIME) {
-    lists {
-      entries {
-        id
-        mediaId
-        score
-        progress
-        status
-        media {
-          id
-          idMal
-          title {
-            romaji
-            english
-            native
-            userPreferred
-          }
-          type
-          format
-          status
-          episodes
-          season
-          genres
-          synonyms
-          countryOfOrigin
-          source
-          trailer {
-            id
-          }
-          coverImage {
-            large
-            medium
-          }
-          bannerImage
-          tags {
-            id
-          }
-          externalLinks {
-            id
-          }
-          mediaListEntry {
-            id
-          }
-        }
-        user {
-          id
-        }
-      }
-    }
-  } 
-}
-GQL;
+		return $this->runQuery('UserAnimeList', ['name' => 'timw4mail']);
 	}
 
-	public function getMangaList()
+	public function getMangaList(): array
 	{
-		$graphQL = <<<GQL
-{
-	MediaListCollection(userId: 103470, type: MANGA) {
-    lists {
-      entries {
-        id
-        mediaId
-        score
-        progress
-        progressVolumes
-        repeat
-        private
-        notes
-        status
-        media {
-          id
-          idMal
-          title {
-            romaji
-            english
-            native
-            userPreferred
-          }
-          type
-          format
-          status
-          chapters
-          volumes
-          genres
-          synonyms
-          countryOfOrigin
-          source
-          trailer {
-            id
-          }
-          coverImage {
-            large
-            medium
-          }
-          bannerImage
-          tags {
-            id
-          }
-          externalLinks {
-            id
-          }
-          mediaListEntry {
-            id
-          }
-        }
-        user {
-          id
-        }
-      }
-    }
-  } 
-}
-GQL;
-
+		return $this->runQuery('UserMangaList', ['name' => 'timw4mail']);
 	}
 
 	// -------------------------------------------------------------------------
