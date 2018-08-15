@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
+use Aviat\AnimeClient\Types\AnimeFormItem;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 class AnimeListTransformer extends AbstractTransformer {
@@ -23,5 +24,10 @@ class AnimeListTransformer extends AbstractTransformer {
 	public function transform($item)
 	{
 
+	}
+
+	public function untransform(array $item): AnimeFormItem
+	{
+		return new AnimeFormItem($item);
 	}
 }
