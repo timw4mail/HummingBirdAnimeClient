@@ -16,40 +16,78 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\Toml;
 
-if ( ! \function_exists('Aviat\AnimeClient\loadToml'))
+/**
+ * Load configuration options from .toml files
+ *
+ * @param string $path - Path to load config
+ * @return array
+ */
+function loadToml(string $path): array
 {
-	/**
-	 * Load configuration options from .toml files
-	 *
-	 * @param string $path - Path to load config
-	 * @return array
-	 */
-	function loadToml(string $path): array
+	$output = [];
+	$files = glob("{$path}/*.toml");
+
+	foreach ($files as $file)
 	{
-		$output = [];
-		$files = glob("{$path}/*.toml");
+		$key = str_replace('.toml', '', basename($file));
+		$config = Toml::parseFile($file);
 
-		foreach ($files as $file)
+		if ($key === 'config')
 		{
-			$key = str_replace('.toml', '', basename($file));
-			$toml = file_get_contents($file);
-			$config = Toml::parse($toml);
-
-			if ($key === 'config')
+			foreach($config as $name => $value)
 			{
-				foreach($config as $name => $value)
-				{
-					$output[$name] = $value;
-				}
-
-				continue;
+				$output[$name] = $value;
 			}
 
-			$output[$key] = $config;
+			continue;
 		}
 
-		return $output;
+		$output[$key] = $config;
 	}
+
+	return $output;
+}
+
+/**
+ * Check that folder permissions are correct for proper operation
+ *
+ * @param ConfigInterface $config
+ * @return array
+ */
+function checkFolderPermissions(ConfigInterface $config): array
+{
+	$errors = [];
+	$publicDir = $config->get('asset_dir');
+
+	$pathMap = [
+		'app/logs' => realpath(__DIR__ . '/../app/logs'),
+		'public/js/cache' => "{$publicDir}/js/cache",
+		'public/images/avatars' => "{$publicDir}/images/avatars",
+		'public/images/anime' => "{$publicDir}/images/anime",
+		'public/images/characters' => "{$publicDir}/images/characters",
+		'public/images/manga' => "{$publicDir}/images/manga",
+		'public/images/people' => "{$publicDir}/images/people",
+	];
+
+	foreach ($pathMap as $pretty => $actual)
+	{
+		// Make sure the folder exists first
+		if ( ! is_dir($actual))
+		{
+			$errors['missing'][] = $pretty;
+			continue;
+		}
+
+		$writable = is_writable($actual) && is_executable($actual);
+
+		if ( ! $writable)
+		{
+			$errors['writable'][] = $pretty;
+		}
+	}
+
+	return $errors;
 }

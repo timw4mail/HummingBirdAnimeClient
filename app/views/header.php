@@ -24,6 +24,7 @@
 	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/base') ?>"></script>
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
+	<?php include 'setup-check.php' ?>
 	<header>
 	<?php
 		include 'main-menu.php';
