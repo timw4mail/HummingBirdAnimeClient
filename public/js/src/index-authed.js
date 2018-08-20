@@ -1,4 +1,4 @@
-import './base/events';
+import './index';
 
 import './anime_collection';
 import './anime_edit';

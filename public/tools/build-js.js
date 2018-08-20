@@ -11,31 +11,33 @@ const plugins = [
 	})
 ];
 
+const defaultOutput = {
+	format: 'iife',
+	sourcemap: true,
+}
+
 
 export default [{
 	input: './js/src/index.js',
 	output: {
+		...defaultOutput,
 		file: './js/scripts.min.js',
-		format: 'iife',
-		sourcemap: true,
 		sourcemapFile: './js/scripts.min.js.map',
 	},
 	plugins,
 }, {
 	input: './js/src/index-authed.js',
 	output: {
+		...defaultOutput,
 		file: './js/scripts-authed.min.js',
-		format: 'iife',
-		sourcemap: true,
 		sourcemapFile: './js/scripts-authed.min.js.map',
 	},
 	plugins,
 }, {
 	input: './js/src/base/sort_tables.js',
 	output: {
+		...defaultOutput,
 		file: './js/tables.min.js',
-		format: 'iife',
-		sourcemap: true,
 		sourcemapFile: './js/tables.min.js.map',
 	},
 	plugins,
