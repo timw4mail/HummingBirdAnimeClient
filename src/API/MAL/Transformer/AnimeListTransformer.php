@@ -38,10 +38,10 @@ final class AnimeListTransformer extends AbstractTransformer {
 	/**
 	 * Transform Kitsu episode data to MAL episode data
 	 *
-	 * @param array $item
-	 * @return AnimeFormItem
+	 * @param mixed $item
+	 * @return array
 	 */
-	public function untransform(array $item): AnimeFormItem
+	public function untransform($item): array
 	{
 		$map = [
 			'id' => $item['mal_id'],
@@ -81,6 +81,6 @@ final class AnimeListTransformer extends AbstractTransformer {
 			}
 		}
 
-		return new AnimeFormItem($map);
+		return $map;
 	}
 }

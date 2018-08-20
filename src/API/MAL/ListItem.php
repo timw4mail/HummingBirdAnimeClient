@@ -85,11 +85,11 @@ final class ListItem {
 	 * Update a list item
 	 *
 	 * @param string $id
-	 * @param AbstractType $data
+	 * @param array $data
 	 * @param string $type
 	 * @return Request
 	 */
-	public function update(string $id, AbstractType $data, string $type = 'anime'): Request
+	public function update(string $id, array $data, string $type = 'anime'): Request
 	{
 		$config = $this->container->get('config');
 

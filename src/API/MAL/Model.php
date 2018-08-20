@@ -148,11 +148,11 @@ final class Model {
 	/**
 	 * Update a list item
 	 *
-	 * @param FormItem $data
+	 * @param array $data
 	 * @param string $type "anime" or "manga"
 	 * @return Request
 	 */
-	public function updateListItem(FormItem $data, string $type = 'anime'): Request
+	public function updateListItem($data, string $type = 'anime'): Request
 	{
 		$updateData = [];
 

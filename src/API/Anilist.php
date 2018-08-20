@@ -29,10 +29,10 @@ use Aviat\AnimeClient\API\Enum\{
  * Constants and mappings for the Anilist API
  */
 final class Anilist {
-	const AUTH_URL = 'https://anilist.co/api/v2/oauth/authorize';
-	const BASE_URL = 'https://graphql.anilist.co';
+	public const AUTH_URL = 'https://anilist.co/api/v2/oauth/authorize';
+	public const BASE_URL = 'https://graphql.anilist.co';
 
-	const KITSU_ANILIST_WATCHING_STATUS_MAP = [
+	public const KITSU_ANILIST_WATCHING_STATUS_MAP = [
 		KAWS::WATCHING => AnimeWatchingStatus::WATCHING,
 		KAWS::COMPLETED => AnimeWatchingStatus::COMPLETED,
 		KAWS::ON_HOLD => AnimeWatchingStatus::ON_HOLD,
@@ -40,7 +40,7 @@ final class Anilist {
 		KAWS::PLAN_TO_WATCH => AnimeWatchingStatus::PLAN_TO_WATCH,
 	];
 
-	const ANILIST_KITSU_WATCHING_STATUS_MAP = [
+	public const ANILIST_KITSU_WATCHING_STATUS_MAP = [
 		AnimeWatchingStatus::WATCHING => KAWS::WATCHING,
 		AnimeWatchingStatus::COMPLETED => KAWS::COMPLETED,
 		AnimeWatchingStatus::ON_HOLD => KAWS::ON_HOLD,
@@ -48,7 +48,7 @@ final class Anilist {
 		AnimeWatchingStatus::PLAN_TO_WATCH => KAWS::PLAN_TO_WATCH,
 	];
 
-	const KITSU_ANILIST_READING_STATUS_MAP = [
+	public const KITSU_ANILIST_READING_STATUS_MAP = [
 		KMRS::READING => MangaReadingStatus::READING,
 		KMRS::COMPLETED => MangaReadingStatus::COMPLETED,
 		KMRS::ON_HOLD => MangaReadingStatus::ON_HOLD,
@@ -56,7 +56,7 @@ final class Anilist {
 		KMRS::PLAN_TO_READ => MangaReadingStatus::PLAN_TO_READ,
 	];
 
-	const ANILIST_KITSU_READING_STATUS_MAP = [
+	public const ANILIST_KITSU_READING_STATUS_MAP = [
 		MangaReadingStatus::READING => KMRS::READING,
 		MangaReadingStatus::COMPLETED => KMRS::COMPLETED,
 		MangaReadingStatus::ON_HOLD => KMRS::ON_HOLD,

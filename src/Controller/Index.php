@@ -170,9 +170,8 @@ final class Index extends BaseController {
 		$auth = $this->container->get('auth');
 		$this->outputHTML('settings', [
 			'auth' => $auth,
+			'config' => $this->config,
 			'title' => $this->config->get('whose_list') . "'s Settings",
-			'base_settings' => $this->config->get('default_config'),
-			'user_settings' => $this->config->get('user_config_settings'),
 		]);
 	}
 

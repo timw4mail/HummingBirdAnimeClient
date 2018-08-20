@@ -10,6 +10,3 @@ whose_list = "Tim"
 
 # do you wish to show the anime collection?
 show_anime_collection = true
-
-# path to public directory on the server
-asset_dir = "/../../public"
