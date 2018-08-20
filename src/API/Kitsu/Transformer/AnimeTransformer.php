@@ -40,7 +40,7 @@ final class AnimeTransformer extends AbstractTransformer {
 		sort($item['genres']);
 
 		$title = $item['canonicalTitle'];
-		$titles = array_diff($item['titles'], [$title]);
+		$titles = array_unique(array_diff($item['titles'], [$title]));
 
 		return new Anime([
 			'age_rating' => $item['ageRating'],

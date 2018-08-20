@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Types;
 use ArrayAccess;
 use LogicException;
 
-abstract class AbstractType implements ArrayAccess {
+class AbstractType implements ArrayAccess {
 	/**
 	 * Populate values for unserializing data
 	 *

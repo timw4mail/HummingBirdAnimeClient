@@ -37,17 +37,15 @@ final class MangaListTransformer extends AbstractTransformer {
 	/**
 	 * Transform Kitsu data to MAL data
 	 *
-	 * @param array $item
-	 * @return array
+	 * @param mixed $item
+	 * @return
 	 */
-	public function untransform(array $item): array
+	public function untransform($item): array
 	{
 		$map = [
-			'id' => $item['mal_id'],
+			'id' => $item['mal_id'] ?? $item['malId'],
 			'data' => []
 		];
-
-		$data =& $item['data'];
 
 		foreach($item['data'] as $key => $value)
 		{

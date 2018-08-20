@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\ConfigInterface;
-use Yosymfony\Toml\Toml;
+use Yosymfony\Toml\{Toml, TomlBuilder};
 
 /**
  * Load configuration options from .toml files
@@ -52,6 +52,86 @@ function loadToml(string $path): array
 }
 
 /**
+ * Is the array sequential, not associative?
+ *
+ * @param mixed $array
+ * @return bool
+ */
+function isSequentialArray($array): bool
+{
+	if ( ! is_array($array))
+	{
+		return FALSE;
+	}
+
+	$i = 0;
+	foreach ($array as $k => $v)
+	{
+		if ($k !== $i++)
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
+function _iterateToml(TomlBuilder $builder, $data, $parentKey = NULL): void
+{
+	foreach ($data as $key => $value)
+	{
+		if ($value === NULL)
+		{
+			continue;
+		}
+
+
+		if (is_scalar($value) || isSequentialArray($value))
+		{
+			// $builder->addTable('');
+			$builder->addValue($key, $value);
+			continue;
+		}
+
+		$newKey = ($parentKey !== NULL)
+			? "{$parentKey}.{$key}"
+			: $key;
+
+		if ( ! isSequentialArray($value))
+		{
+			$builder->addTable($newKey);
+		}
+
+		_iterateToml($builder, $value, $newKey);
+	}
+}
+
+/**
+ * Serialize config data into a Toml file
+ *
+ * @param mixed $data
+ * @return string
+ */
+function arrayToToml($data): string
+{
+	$builder = new TomlBuilder();
+
+	_iterateToml($builder, $data);
+
+	return $builder->getTomlString();
+}
+
+/**
+ * Serialize toml back to an array
+ *
+ * @param string $toml
+ * @return array
+ */
+function tomlToArray(string $toml): array
+{
+	return Toml::parse($toml);
+}
+
+/**
  * Check that folder permissions are correct for proper operation
  *
  * @param ConfigInterface $config
@@ -64,7 +144,6 @@ function checkFolderPermissions(ConfigInterface $config): array
 
 	$pathMap = [
 		'app/logs' => realpath(__DIR__ . '/../app/logs'),
-		'public/js/cache' => "{$publicDir}/js/cache",
 		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",
 		'public/images/characters' => "{$publicDir}/images/characters",

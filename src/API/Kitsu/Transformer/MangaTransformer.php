@@ -33,7 +33,6 @@ final class MangaTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): MangaPage
 	{
-		// \dump($item);
 		$genres = [];
 
 		foreach($item['included'] as $included)
@@ -46,11 +45,13 @@ final class MangaTransformer extends AbstractTransformer {
 
 		sort($genres);
 
+		$title = $item['canonicalTitle'];
+		$titles = array_unique(array_diff($item['titles'], [$title]));
+
 		return new MangaPage([
 			'id' => $item['id'],
-			'title' => $item['canonicalTitle'],
-			'en_title' => $item['titles']['en'],
-			'jp_title' => $item['titles']['en_jp'],
+			'title' => $title,
+			'titles' => $titles,
 			'cover_image' => $item['posterImage']['small'],
 			'manga_type' => $item['mangaType'],
 			'chapter_count' => $this->count($item['chapterCount']),

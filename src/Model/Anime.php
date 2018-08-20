@@ -109,9 +109,9 @@ class Anime extends API {
 	 * Get anime by its kitsu id
 	 *
 	 * @param string $animeId
-	 * @return array
+	 * @return AnimeType
 	 */
-	public function getAnimeById(string $animeId): array
+	public function getAnimeById(string $animeId): AnimeType
 	{
 		return $this->kitsuModel->getAnimeById($animeId);
 	}

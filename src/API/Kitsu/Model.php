@@ -341,9 +341,9 @@ final class Model {
 	 * Get information about a particular anime
 	 *
 	 * @param string $animeId
-	 * @return array
+	 * @return Anime
 	 */
-	public function getAnimeById(string $animeId): array
+	public function getAnimeById(string $animeId): Anime
 	{
 		$baseData = $this->getRawMediaDataById('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
@@ -455,7 +455,7 @@ final class Model {
 	}
 
 	/**
-	 * Get all the anine entries, that are organized for output to html
+	 * Get all the anime entries, that are organized for output to html
 	 *
 	 * @return array
 	 */
