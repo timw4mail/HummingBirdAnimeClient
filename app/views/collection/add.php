@@ -39,5 +39,4 @@
 		</table>
 	</form>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$collection_type}_collection") ?>"></script>
 <?php endif ?>

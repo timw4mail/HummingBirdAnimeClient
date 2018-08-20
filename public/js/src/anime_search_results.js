@@ -1,4 +1,4 @@
-function render_manga_search_results (data) {
+export function render_anime_search_results (data) {
 	const results = [];
 
 	data.forEach(x => {
@@ -12,7 +12,7 @@ function render_manga_search_results (data) {
 				<div class="name">
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
 					<label for="${item.slug}">
-						<img src="/public/images/manga/${x.id}.jpg" alt="" width="220" />
+						<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>

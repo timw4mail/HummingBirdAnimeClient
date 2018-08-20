@@ -27,9 +27,9 @@
 		</div>
 		<div>
 			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
-			<?php if( ! empty($data['en_title'])): ?>
-				<h3><?= $data['en_title'] ?></h3>
-			<?php endif ?>
+			<?php foreach($data['titles'] as $title): ?>
+				<h3><?= $title ?></h3>
+			<?php endforeach ?>
 
 			<br />
 			<p><?= nl2br($data['synopsis']) ?></p>

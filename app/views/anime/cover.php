@@ -98,6 +98,3 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if ($auth->isAuthenticated()): ?>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
-<?php endif ?>

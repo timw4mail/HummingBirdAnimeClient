@@ -72,4 +72,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/table') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>

@@ -1,4 +1,3 @@
-'use strict';
 const LightTableSorter = (() => {
 	let th = null;
 	let cellIndex = null;
