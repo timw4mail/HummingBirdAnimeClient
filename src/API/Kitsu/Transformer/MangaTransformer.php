@@ -46,7 +46,8 @@ final class MangaTransformer extends AbstractTransformer {
 		sort($genres);
 
 		$title = $item['canonicalTitle'];
-		$titles = array_unique(array_diff($item['titles'], [$title]));
+		$rawTitles = array_values($item['titles']);
+		$titles = array_unique(array_diff($rawTitles, [$title]));
 
 		return new MangaPage([
 			'id' => $item['id'],

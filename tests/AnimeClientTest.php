@@ -51,8 +51,6 @@ class AnimeClientTest extends AnimeClientTestCase
 
 		$toml = arrayToToml($arr);
 
-		echo $toml . "\n";
-
 		$parsedArray = tomlToArray($toml);
 
 		$this->assertEquals($arr, $parsedArray);
