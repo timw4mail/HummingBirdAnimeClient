@@ -21,7 +21,7 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="<?= $urlGenerator->assetUrl('images/icons/favicon-32x32.png') ?>">
 	<link rel="icon" type="image/png" sizes="96x96" href="<?= $urlGenerator->assetUrl('images/icons/favicon-96x96.png') ?>">
 	<link rel="icon" type="image/png" sizes="16x16" href="<?= $urlGenerator->assetUrl('images/icons/favicon-16x16.png') ?>">
-	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/base') ?>"></script>
+
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
 	<?php include 'setup-check.php' ?>

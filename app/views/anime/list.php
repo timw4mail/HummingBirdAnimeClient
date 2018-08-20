@@ -94,5 +94,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php $group = ($auth->isAuthenticated()) ? 'table_edit' : 'table' ?>
-<script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$group}") ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>

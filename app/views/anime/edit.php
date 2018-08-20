@@ -109,5 +109,4 @@
 			</form>
 		</fieldset>
 	</main>
-	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
 <?php endif ?>

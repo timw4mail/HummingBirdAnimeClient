@@ -10,6 +10,10 @@
 		</div>
 	</div>
 </section>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/event') ?>"></script>
+<?php if ($auth->isAuthenticated()): ?>
+<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
+<?php else: ?>
+<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<?php endif ?>
 </body>
 </html>
