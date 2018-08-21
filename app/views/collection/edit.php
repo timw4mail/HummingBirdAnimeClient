@@ -3,22 +3,24 @@
 	<h2>Edit Anime Collection Item</h2>
 	<form action="<?= $action_url ?>" method="post">
 		<table class="invisible form" style="border:0">
-			<thead>
-				<tr>
-					<th>
-						<h3><?= $escape->html($item['title']) ?></h3>
-						<?php if($item['alternate_title'] != ""): ?>
-						<h4><?= $item['alternate_title'] ?></h4>
-						<?php endif ?>
-					</th>
-				</tr>
-			</thead>
 			<tbody>
 				<tr>
-					<td rowspan="4" class="align_center">
+					<td rowspan="6" class="align_center">
 						<article class="media">
 						<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
 						</article>
+					</td>
+				</tr>
+				<tr>
+					<td class="align_right"><label for="title">Title</label></td>
+					<td class="align_left">
+						<input type="text" name="title" value="<?= $item['title'] ?>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="align_right"><label for="title">Alternate Title</label></td>
+					<td class="align_left">
+						<input type="text" name="alternate_title" value="<?= $item['alternate_title'] ?>"/>
 					</td>
 				</tr>
 				<tr>

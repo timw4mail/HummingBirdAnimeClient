@@ -15,5 +15,6 @@
 	<td><?= $item['episode_length'] ?></td>
 	<td><?= $item['show_type'] ?></td>
 	<td><?= $item['age_rating'] ?></td>
+	<td class="align_left"><?= implode(', ', $item['genres']) ?></td>
 	<td class="align_left"><?= $item['notes'] ?></td>
 </tr>
