@@ -121,9 +121,20 @@ final class AnimeCollection extends Collection {
 			->join('media', 'media.id=a.media_id', 'inner')
 			->order_by('media')
 			->order_by('title')
+			->group_by('a.hummingbird_id')
 			->get();
 
-		return $query->fetchAll(PDO::FETCH_ASSOC);
+		// Add genres associated with each item
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$genres = $this->getGenresForList();
+
+		foreach($rows as &$row)
+		{
+			$row['genres'] = $genres[$row['hummingbird_id']];
+			sort($row['genres']);
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -208,6 +219,24 @@ final class AnimeCollection extends Collection {
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
+	}
+
+	private function getGenresForList(): array
+	{
+		$query = $this->db->select('hummingbird_id, genre')
+			->from('genres g')
+			->join('genre_anime_set_link gasl', 'gasl.genre_id=g.id')
+			->get();
+
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$output = [];
+
+		foreach($rows as $row)
+		{
+			$output[$row['hummingbird_id']][] = $row['genre'];
+		}
+
+		return $output;
 	}
 
 	/**
