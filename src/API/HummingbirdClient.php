@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
  * PHP version 7
  *
