@@ -33,7 +33,7 @@ use Aviat\Ion\JsonException;
 trait KitsuTrait {
 
 	/**
-	 * The request builder for the MAL API
+	 * The request builder for the Kitsu API
 	 * @var KitsuRequestBuilder
 	 */
 	protected $requestBuilder;

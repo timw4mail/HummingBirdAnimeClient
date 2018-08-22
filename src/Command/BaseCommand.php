@@ -21,9 +21,8 @@ use function Aviat\AnimeClient\loadToml;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\Util;
 use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\{Kitsu, MAL};
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
-use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
@@ -86,11 +85,8 @@ class BaseCommand extends Command {
 			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
 			$kitsu_request_logger = new Logger('kitsu-request');
 			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
-			$mal_request_logger = new Logger('mal-request');
-			$mal_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/mal_request-cli.log', Logger::NOTICE));
 			$container->setLogger($app_logger);
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
-			$container->setLogger($mal_request_logger, 'mal-request');
 
 			// Create Config Object
 			$container->set('config', function() use ($config_array) {
@@ -124,19 +120,6 @@ class BaseCommand extends Command {
 
 				$cache = $container->get('cache');
 				$model->setCache($cache);
-				return $model;
-			});
-			$container->set('mal-model', function($container) {
-				$requestBuilder = new MALRequestBuilder();
-				$requestBuilder->setLogger($container->getLogger('mal-request'));
-
-				$listItem = new MAL\ListItem();
-				$listItem->setContainer($container);
-				$listItem->setRequestBuilder($requestBuilder);
-
-				$model = new MAL\Model($listItem);
-				$model->setContainer($container);
-				$model->setRequestBuilder($requestBuilder);
 				return $model;
 			});
 
