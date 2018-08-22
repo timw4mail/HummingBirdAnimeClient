@@ -2,7 +2,7 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
  * PHP version 7
  *
@@ -32,7 +32,7 @@ trait AnilistTrait {
 	use ContainerAware;
 
 	/**
-	 * The request builder for the MAL API
+	 * The request builder for the Anilist API
 	 * @var AnilistRequestBuilder
 	 */
 	protected $requestBuilder;
