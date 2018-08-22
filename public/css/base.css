@@ -605,6 +605,10 @@ a:hover, a:active {
 	background-repeat: no-repeat;
 }
 
+.media.search > .row {
+	z-index: 6;
+}
+
 .big-check {
 	display: none;
 }
