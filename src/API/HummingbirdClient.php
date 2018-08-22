@@ -311,7 +311,7 @@ final class HummingbirdClient implements Client {
 			$request = $request->withoutHeader('Transfer-Encoding');
 		} else {
 			if ($bodyLength > 0) {
-				$request = $request->withHeader("Content-Length", $bodyLength);
+				$request = $request->withHeader("Content-Length", (string)$bodyLength);
 				$request = $request->withoutHeader("Transfer-Encoding");
 			} else {
 				$request = $request->withHeader("Transfer-Encoding", "chunked");
