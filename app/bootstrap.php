@@ -22,9 +22,7 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{
 	Anilist,
 	Kitsu,
-	MAL,
-	Kitsu\KitsuRequestBuilder,
-	MAL\MALRequestBuilder
+	Kitsu\KitsuRequestBuilder
 };
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
@@ -50,12 +48,9 @@ return function (array $configArray = []) {
 	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
 	$kitsuRequestLogger = new Logger('kitsu-request');
 	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
-	$malRequestLogger = new Logger('mal-request');
-	$malRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
 	$container->setLogger($appLogger);
 	$container->setLogger($anilistRequestLogger, 'anilist-request');
 	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
-	$container->setLogger($malRequestLogger, 'mal-request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
@@ -129,19 +124,6 @@ return function (array $configArray = []) {
 
 		$cache = $container->get('cache');
 		$model->setCache($cache);
-		return $model;
-	});
-	$container->set('mal-model', function($container) {
-		$requestBuilder = new MALRequestBuilder();
-		$requestBuilder->setLogger($container->getLogger('mal-request'));
-
-		$listItem = new MAL\ListItem();
-		$listItem->setContainer($container);
-		$listItem->setRequestBuilder($requestBuilder);
-
-		$model = new MAL\Model($listItem);
-		$model->setContainer($container);
-		$model->setRequestBuilder($requestBuilder);
 		return $model;
 	});
 	$container->set('anilist-model', function($container) {

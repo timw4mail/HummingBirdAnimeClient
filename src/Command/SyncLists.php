@@ -19,12 +19,7 @@ namespace Aviat\AnimeClient\Command;
 use Aviat\AnimeClient\API\{
 	FailedResponseException,
 	JsonAPI,
-	ParallelAPIRequest,
-	Mapping\AnimeWatchingStatus,
-	Mapping\MangaReadingStatus
-};
-use Aviat\AnimeClient\API\MAL\Transformer\{
-	AnimeListTransformer as ALT
+	ParallelAPIRequest
 };
 use Aviat\Ion\Json;
 use DateTime;
@@ -41,12 +36,6 @@ final class SyncLists extends BaseCommand {
 	protected $kitsuModel;
 
 	/**
-	 * Model for making requests to MAL API
-	 * @var \Aviat\AnimeClient\API\MAL\Model
-	 */
-	protected $malModel;
-
-	/**
 	 * Run the Kitsu <=> MAL sync script
 	 *
 	 * @param array $args
@@ -60,7 +49,6 @@ final class SyncLists extends BaseCommand {
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
 		$this->kitsuModel = $this->container->get('kitsu-model');
-		$this->malModel = $this->container->get('mal-model');
 
 		$this->sync('anime');
 		$this->sync('manga');
@@ -78,7 +66,7 @@ final class SyncLists extends BaseCommand {
 
 		// Do a little check to make sure you don't have immediate issues
 		// if you have 0 or 1 items in a list on MAL.
-		$malList = $this->malModel->getList($type);
+		/* $malList = $this->malModel->getList($type);
 		$malCount = 0;
 		if ( ! empty($malList))
 		{
@@ -86,7 +74,7 @@ final class SyncLists extends BaseCommand {
 				? $malList
 				: [$malList]
 			);
-		}
+		} */
 
 		$kitsuCount = 0;
 		try
@@ -99,12 +87,12 @@ final class SyncLists extends BaseCommand {
 		}
 
 
-		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
+		// $this->echoBox("Number of MAL {$type} list items: {$malCount}");
 		$this->echoBox("Number of Kitsu {$type} list items: {$kitsuCount}");
 
 		$data = $this->diffLists($type);
 
-		if ( ! empty($data['addToMAL']))
+		/* if ( ! empty($data['addToMAL']))
 		{
 			$count = count($data['addToMAL']);
 			$this->echoBox("Adding {$count} missing {$type} list items to MAL");
@@ -116,7 +104,7 @@ final class SyncLists extends BaseCommand {
 			$count = count($data['updateMAL']);
 			$this->echoBox("Updating {$count} outdated MAL {$type} list items");
 			$this->updateMALListItems($data['updateMAL'], 'update', $type);
-		}
+		} */
 
 		if ( ! empty($data['addToKitsu']))
 		{
@@ -161,19 +149,19 @@ final class SyncLists extends BaseCommand {
 	 * @param string $type
 	 * @return array
 	 */
-	protected function formatMALList(string $type): array
+	/* protected function formatMALList(string $type): array
 	{
 		$type = ucfirst($type);
 		$method = "formatMAL{$type}List";
 		return $this->$method();
-	}
+	} */
 
 	/**
 	 * Format a MAL anime list for comparison
 	 *
 	 * @return array
 	 */
-	protected function formatMALAnimeList(): array
+	/* protected function formatMALAnimeList(): array
 	{
 		$orig = $this->malModel->getList('anime');
 		$output = [];
@@ -210,14 +198,14 @@ final class SyncLists extends BaseCommand {
 		}
 
 		return $output;
-	}
+	} */
 
 	/**
 	 * Format a MAL manga list for comparison
 	 *
 	 * @return array
 	 */
-	protected function formatMALMangaList(): array
+	/* protected function formatMALMangaList(): array
 	{
 		$orig = $this->malModel->getList('manga');
 		$output = [];
@@ -256,7 +244,7 @@ final class SyncLists extends BaseCommand {
 		}
 
 		return $output;
-	}
+	} */
 
 	/**
 	 * Format a kitsu list for the sake of comparision
@@ -322,26 +310,26 @@ final class SyncLists extends BaseCommand {
 		$kitsuList = $this->formatKitsuList($type);
 
 		// Get MAL list data
-		$malList = $this->formatMALList($type);
+		// $malList = $this->formatMALList($type);
 
 		$itemsToAddToMAL = [];
 		$itemsToAddToKitsu = [];
 		$malUpdateItems = [];
 		$kitsuUpdateItems = [];
 
-		$malIds = array_column($malList, 'id');
-		$kitsuMalIds = array_column($kitsuList, 'malId');
-		$missingMalIds = array_diff($malIds, $kitsuMalIds);
+		// $malIds = array_column($malList, 'id');
+		// $kitsuMalIds = array_column($kitsuList, 'malId');
+		// $missingMalIds = array_diff($malIds, $kitsuMalIds);
 
-		foreach($missingMalIds as $mid)
+		/* foreach($missingMalIds as $mid)
 		{
 			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
 				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, $type),
 				'type' => $type
 			]);
-		}
+		} */
 
-		foreach($kitsuList as $kitsuItem)
+		/* foreach($kitsuList as $kitsuItem)
 		{
 			if (\in_array($kitsuItem['malId'], $malIds, TRUE))
 			{
@@ -371,11 +359,11 @@ final class SyncLists extends BaseCommand {
 				'data' => $kitsuItem['data']
 			];
 
-		}
+		} */
 
 		return [
-			'addToMAL' => $itemsToAddToMAL,
-			'updateMAL' => $malUpdateItems,
+			// 'addToMAL' => $itemsToAddToMAL,
+			// 'updateMAL' => $malUpdateItems,
 			'addToKitsu' => $itemsToAddToKitsu,
 			'updateKitsu' => $kitsuUpdateItems
 		];
@@ -555,7 +543,7 @@ final class SyncLists extends BaseCommand {
 	 * @param string $action
 	 * @param string $type
 	 */
-	protected function updateMALListItems(array$itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	/* protected function updateMALListItems(array$itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$transformer = new ALT();
 		$requester = new ParallelAPIRequest();
@@ -593,5 +581,5 @@ final class SyncLists extends BaseCommand {
 				$this->echoBox("Failed to {$verb} MAL {$type} list item with id: {$id}");
 			}
 		}
-	}
+	} */
 }

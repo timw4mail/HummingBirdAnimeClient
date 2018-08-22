@@ -25,13 +25,6 @@ class API {
 	use StringWrapper;
 
 	/**
-	 * Whether to use the MAL api
-	 *
-	 * @var boolean
-	 */
-	protected $useMALAPI;
-
-	/**
 	 * Sort the list entries by their title
 	 *
 	 * @param array $array

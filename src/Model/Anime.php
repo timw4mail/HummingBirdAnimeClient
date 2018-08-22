@@ -38,13 +38,6 @@ class Anime extends API {
 	protected $kitsuModel;
 
 	/**
-	 * Model for making requests to MAL API
-	 *
-	 * @var \Aviat\AnimeClient\API\MAL\Model
-	 */
-	protected $malModel;
-
-	/**
 	 * Anime constructor.
 	 *
 	 * @param ContainerInterface $container
@@ -52,10 +45,6 @@ class Anime extends API {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->kitsuModel = $container->get('kitsu-model');
-		$this->malModel = $container->get('mal-model');
-
-		$config = $container->get('config');
-		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 
 	/**
@@ -148,19 +137,6 @@ class Anime extends API {
 	public function createLibraryItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$malData = $data;
-			$malId = $this->kitsuModel->getMalIdForAnime($malData['id']);
-
-			if ($malId !== NULL)
-			{
-				$malData['id'] = $malId;
-				$requester->addRequest($this->malModel->createListItem($malData), 'mal');
-			}
-		}
-
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests();
@@ -177,12 +153,6 @@ class Anime extends API {
 	public function updateLibraryItem(AnimeFormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$requester->addRequest($this->malModel->updateListItem($data), 'mal');
-		}
-
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests();
@@ -205,12 +175,6 @@ class Anime extends API {
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI && $malId !== NULL)
-		{
-			$requester->addRequest($this->malModel->deleteListItem($malId), 'MAL');
-		}
-
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
 		$results = $requester->makeRequests();

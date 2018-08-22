@@ -40,12 +40,6 @@ class Manga extends API {
 	protected $kitsuModel;
 
 	/**
-	 * Model for making requests to MAL API
-	 * @var \Aviat\AnimeClient\API\MAL\Model
-	 */
-	protected $malModel;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -55,10 +49,6 @@ class Manga extends API {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->kitsuModel = $container->get('kitsu-model');
-		$this->malModel = $container->get('mal-model');
-
-		$config = $container->get('config');
-		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
 	}
 
 	/**
@@ -76,7 +66,7 @@ class Manga extends API {
 			{
 				$this->sortByName($section, 'manga');
 			}
-			
+
 			return $data;
 		}
 
@@ -129,19 +119,6 @@ class Manga extends API {
 	public function createLibraryItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$malData = $data;
-			$malId = $this->kitsuModel->getMalIdForManga($malData['id']);
-
-			if ($malId !== NULL)
-			{
-				$malData['id'] = $malId;
-				$requester->addRequest($this->malModel->createListItem($malData, 'manga'), 'mal');
-			}
-		}
-
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests();
@@ -158,12 +135,6 @@ class Manga extends API {
 	public function updateLibraryItem(MangaFormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$requester->addRequest($this->malModel->updateListItem($data, 'manga'), 'mal');
-		}
-
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
 		$results = $requester->makeRequests();
@@ -186,12 +157,6 @@ class Manga extends API {
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI && $malId !== NULL)
-		{
-			$requester->addRequest($this->malModel->deleteListItem($malId, 'manga'), 'MAL');
-		}
-
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
 		$results = $requester->makeRequests();
