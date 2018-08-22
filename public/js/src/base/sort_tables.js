@@ -2,9 +2,7 @@ const LightTableSorter = (() => {
 	let th = null;
 	let cellIndex = null;
 	let order = '';
-	const text = (row) => {
-		return row.cells.item(cellIndex).textContent.toLowerCase();
-	};
+	const text = (row) => row.cells.item(cellIndex).textContent.toLowerCase();
 	const sort = (a, b) => {
 		let textA = text(a);
 		let textB = text(b);
