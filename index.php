@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\Types\Config as ConfigType;
+
 use function Aviat\Ion\_dir;
 
 // Work around the silly timezone error
@@ -43,19 +45,17 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-$base_config = require $APPCONF_DIR . '/base_config.php';
+$baseConfig = require $APPCONF_DIR . '/base_config.php';
 $di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
-$config_array = array_merge($base_config, $config);
-// User config
-$config_array['default_config'] = $base_config;
-$config_array['user_config_settings'] = $config;
+$configArray = array_merge($baseConfig, $config);
 
-$container = $di($config_array);
+$checkedConfig = (new ConfigType($configArray))->toArray();
+$container = $di($checkedConfig);
 
 // Unset 'constants'
-unset($APP_DIR, $APPCONF_DIR);
+unset($APP_DIR, $CONF_DIR, $APPCONF_DIR);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route
