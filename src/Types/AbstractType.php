@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Types;
 use ArrayAccess;
 use LogicException;
 
-class AbstractType implements ArrayAccess {
+abstract class AbstractType implements ArrayAccess {
 	/**
 	 * Populate values for unserializing data
 	 *
@@ -83,7 +83,7 @@ class AbstractType implements ArrayAccess {
 			return;
 		}
 
-		if (!property_exists($this, $name))
+		if ( ! property_exists($this, $name))
 		{
 			$existing = json_encode($this);
 
@@ -153,5 +153,32 @@ class AbstractType implements ArrayAccess {
 		{
 			unset($this->$offset);
 		}
+	}
+
+	/**
+	 * Recursively cast properties to an array
+	 *
+	 * @param null $parent
+	 * @return mixed
+	 */
+	public function toArray($parent = null)
+	{
+		$object = $parent ?? $this;
+
+		if (is_scalar($object))
+		{
+			return $object;
+		}
+
+		$output = [];
+
+		foreach ($object as $key => $value)
+		{
+			$output[$key] = is_scalar($value)
+				? $value
+				: $this->toArray((array) $value);
+		}
+
+		return $output;
 	}
 }

@@ -215,6 +215,12 @@ return [
 		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'get',
 	],
+	'settings-post' => [
+		'path' => '/settings',
+		'action' => 'settings',
+		'controller' => DEFAULT_CONTROLLER,
+		'verb' => 'post',
+	],
 	'login' => [
 		'path' => '/login',
 		'action' => 'login',

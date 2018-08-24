@@ -28,6 +28,8 @@ $tomlConfig = loadToml(__DIR__);
 
 return array_merge($tomlConfig, [
 	'asset_dir' => "{$ROOT_DIR}/public",
+	'base_config_dir' => __DIR__,
+	'config_dir' => "{$APP_DIR}/config",
 
 	// Template file path
 	'view_path' => "{$APP_DIR}/views",

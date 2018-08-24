@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * Hummingbird Anime List Client
  *
@@ -51,6 +51,7 @@ use Amp\Socket\{
 use Amp\Uri\{
 	InvalidUriException, Uri
 };
+use const Aviat\AnimeClient\USER_AGENT;
 use function Amp\{
 	asyncCall, call
 };
@@ -63,7 +64,7 @@ use function Amp\{
  * @see Client
  */
 final class HummingbirdClient implements Client {
-	const DEFAULT_USER_AGENT = 'Hummingbird Anime Client/5.0';
+	const DEFAULT_USER_AGENT = USER_AGENT;
 
 	private $cookieJar;
 	private $socketPool;

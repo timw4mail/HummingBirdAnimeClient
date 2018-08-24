@@ -43,7 +43,6 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 3. Configure settings in `app/config/config.toml` to your liking
 4. Create the following directories if they don't exist, and make sure they are world writable
 	* app/logs
-	* public/js/cache
 	* public/images/avatars
 	* public/images/anime
 	* public/images/characters
