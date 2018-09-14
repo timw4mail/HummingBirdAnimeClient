@@ -1,5 +1,5 @@
-import _ from './base/AnimeClient'
-import { renderAnimeSearchResults } from './template-helpers'
+import _ from './base/AnimeClient.js'
+import { renderAnimeSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	// Show the loader

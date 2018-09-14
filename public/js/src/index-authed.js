@@ -1,4 +1,4 @@
-import './index';
+import './index.js';
 
-import './anime';
-import './manga';
+import './anime.js';
+import './manga.js';
