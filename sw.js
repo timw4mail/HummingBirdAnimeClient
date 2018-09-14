@@ -21,7 +21,7 @@ async function update (request) {
 	return response;
 }
 
-function refresh (response) {
+/* function refresh (response) {
 	return self.clients.matchAll().then(clients => {
 		clients.forEach(client => {
 			const message = {
@@ -33,7 +33,7 @@ function refresh (response) {
 			client.postMessage(JSON.stringify(message));
 		})
 	});
-}
+} */
 
 self.addEventListener('install', event => {
 	console.log('Public Folder Worker installed');
@@ -70,6 +70,6 @@ self.addEventListener('fetch', event => {
 	});
 
 	event.waitUntil(
-		update(event.request).then(refresh)
+		update(event.request)
 	);
 });

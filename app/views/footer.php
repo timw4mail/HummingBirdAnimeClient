@@ -11,9 +11,11 @@
 	</div>
 </section>
 <?php if ($auth->isAuthenticated()): ?>
-<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
+<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
+<script type="module" src="<?= $urlGenerator->assetUrl('js/src/index-authed.js') ?>"></script>
 <?php else: ?>
-<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<script type="module" src="<?= $urlGenerator->assetUrl('js/src/index.js') ?>"></script>
 <?php endif ?>
 </body>
 </html>

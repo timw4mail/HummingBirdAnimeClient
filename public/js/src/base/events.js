@@ -1,4 +1,4 @@
-import _ from './AnimeClient';
+import _ from './AnimeClient.js';
 /**
  * Event handlers
  */

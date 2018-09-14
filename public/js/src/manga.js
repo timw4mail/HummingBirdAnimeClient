@@ -1,5 +1,5 @@
-import _ from './base/AnimeClient'
-import { renderMangaSearchResults } from './template-helpers'
+import _ from './base/AnimeClient.js'
+import { renderMangaSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	_.$('.cssload-loader')[ 0 ].removeAttribute('hidden');
