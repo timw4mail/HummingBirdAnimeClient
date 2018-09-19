@@ -11,8 +11,8 @@ const search = (query) => {
 };
 
 if (_.hasElement('.manga #search')) {
-	_.on('#search', 'keyup', _.throttle(250, function (e) {
-		let query = encodeURIComponent(this.value);
+	_.on('#search', 'keyup', _.throttle(250, (e) => {
+		let query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}

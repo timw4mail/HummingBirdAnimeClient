@@ -3,8 +3,8 @@ import _ from './AnimeClient.js';
  * Event handlers
  */
 // Close event for messages
-_.on('header', 'click', '.message', function () {
-	_.hide(this);
+_.on('header', 'click', '.message', (e) => {
+	_.hide(e.target);
 });
 
 // Confirm deleting of list or library items

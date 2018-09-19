@@ -45,7 +45,7 @@ export const AnimeClient = {
 	 * @param {string} selector
 	 * @returns {boolean}
 	 */
-	hasElement(selector) {
+	hasElement (selector) {
 		return AnimeClient.$(selector).length > 0;
 	},
 	/**
@@ -53,7 +53,7 @@ export const AnimeClient = {
 	 *
 	 * @return {void}
 	 */
-	scrollToTop() {
+	scrollToTop () {
 		window.scroll(0,0);
 	},
 	/**
@@ -62,7 +62,7 @@ export const AnimeClient = {
 	 * @param  {string|Element} sel - the selector of the element to hide
 	 * @return {void}
 	 */
-	hide(sel) {
+	hide (sel) {
 		sel.setAttribute('hidden', 'hidden');
 	},
 	/**
@@ -71,7 +71,7 @@ export const AnimeClient = {
 	 * @param  {string|Element} sel - the selector of the element to hide
 	 * @return {void}
 	 */
-	show(sel) {
+	show (sel) {
 		sel.removeAttribute('hidden');
 	},
 	/**
@@ -81,7 +81,7 @@ export const AnimeClient = {
 	 * @param  {string} message - the message itself
 	 * @return {void}
 	 */
-	showMessage(type, message) {
+	showMessage (type, message) {
 		let template =
 			`<div class='message ${type}'>
 				<span class='icon'></span>
@@ -103,7 +103,7 @@ export const AnimeClient = {
 	 * @param  {string} parentSelector - selector for the parent element
 	 * @return {HTMLElement|null} - the parent element
 	 */
-	closestParent(current, parentSelector) {
+	closestParent (current, parentSelector) {
 		if (Element.prototype.closest !== undefined) {
 			return current.closest(parentSelector);
 		}
@@ -124,7 +124,7 @@ export const AnimeClient = {
 	 * @param  {string} path - url path
 	 * @return {string} - full url
 	 */
-	url(path) {
+	url (path) {
 		let uri = `//${document.location.host}`;
 		uri += (path.charAt(0) === '/') ? path : `/${path}`;
 
@@ -140,7 +140,7 @@ export const AnimeClient = {
 	 * @param {Object} [scope] - the 'this' object for the function
 	 * @return {Function}
 	 */
-	throttle(interval, fn, scope) {
+	throttle (interval, fn, scope) {
 		let wait = false;
 		return function (...args) {
 			const context = scope || this;
@@ -193,8 +193,8 @@ function delegateEvent(sel, target, event, listener) {
  * @param  {function} [listener] - event listener callback
  * @return {void}
  */
-AnimeClient.on = function (sel, event, target, listener) {
-	if (arguments.length === 3) {
+AnimeClient.on = (sel, event, target, listener) => {
+	if (listener === undefined) {
 		listener = target;
 		AnimeClient.$(sel).forEach((el) => {
 			addEvent(el, event, listener);
@@ -246,15 +246,21 @@ function ajaxSerialize(data) {
  * @param  {Object} config  - the configuration object
  * @return {void}
  */
-AnimeClient.ajax = function(url, config) {
+AnimeClient.ajax = (url, config) => {
 	// Set some sane defaults
-	config = config || {};
-	config.data = config.data || {};
-	config.type = config.type || 'GET';
-	config.dataType = config.dataType || '';
-	config.success = config.success || AnimeClient.noop;
-	config.mimeType = config.mimeType || 'application/x-www-form-urlencoded';
-	config.error = config.error || AnimeClient.noop;
+	const defaultConfig = {
+		data: {},
+		type: 'GET',
+		dataType: '',
+		success: AnimeClient.noop,
+		mimeType: 'application/x-www-form-urlencoded',
+		error: AnimeClient.noop
+	}
+
+	config = {
+		...defaultConfig,
+		...config,
+	}
 
 	let request = new XMLHttpRequest();
 	let method = String(config.type).toUpperCase();
@@ -312,7 +318,7 @@ AnimeClient.ajax = function(url, config) {
  * @param {object|function} data
  * @param {function} [callback]
  */
-AnimeClient.get = function(url, data, callback = null) {
+AnimeClient.get = (url, data, callback = null) => {
 	if (callback === null) {
 		callback = data;
 		data = {};
