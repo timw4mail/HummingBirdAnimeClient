@@ -18,8 +18,8 @@ const search = (query) => {
 };
 
 if (_.hasElement('.anime #search')) {
-	_.on('#search', 'keyup', _.throttle(250, function () {
-		const query = encodeURIComponent(this.value);
+	_.on('#search', 'keyup', _.throttle(250, (e) => {
+		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
@@ -82,7 +82,7 @@ _.on('body.anime.list', 'click', '.plus_one', (e) => {
 			_.$('.completed_number', parentSel)[ 0 ].textContent = ++watchedCount;
 			_.scrollToTop();
 		},
-		error: (xhr, errorType, error) => {
+		error: () => {
 			_.hide(_.$('#loading-shadow')[ 0 ]);
 			_.showMessage('error', `Failed to update ${title}. `);
 			_.scrollToTop();
