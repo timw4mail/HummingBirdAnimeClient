@@ -261,21 +261,34 @@ final class Model {
 		$options = [
 			'query' => [
 				'filter' => [
-					'text' => $query
+					'text' => $query,
 				],
 				'page' => [
 					'offset' => 0,
 					'limit' => 20
 				],
+				'include' => 'mappings'
 			]
 		];
 
 		$raw = $this->getRequest($type, $options);
+		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
 
 		foreach ($raw['data'] as &$item)
 		{
 			$item['attributes']['titles'] = K::filterTitles($item['attributes']);
 			array_shift($item['attributes']['titles']);
+
+			// Map the mal_id if it exists for syncing with other APIs
+			foreach($item['relationships']['mappings']['data'] as $rel)
+			{
+				$mapping = $raw['included']['mappings'][$rel['id']];
+
+				if ($mapping['attributes']['externalSite'] === "myanimelist/{$type}")
+				{
+					$item['mal_id'] = $mapping['attributes']['externalId'];
+				}
+			}
 		}
 
 		return $raw;

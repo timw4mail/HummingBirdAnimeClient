@@ -48,7 +48,7 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function delete(string $id, string $type = 'anime'): Request
 	{
-		// @TODO: implement
+		return $this->mutateRequest('DeleteMediaListEntry', ['id' => $id]);
 	}
 
 	/**
@@ -86,15 +86,22 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
+		$array = $data->toArray();
+
+		$notes = $data['notes'] ?? '';
+		$progress = array_key_exists('progress', $array) ? $data['progress'] : 0;
+		$rating = array_key_exists('rating', $array) ? $data['rating'] : NULL;
+		$status = $data['status'];
+
 		// @TODO Handle weirdness with reWatching
 		return $this->mutateRequest('UpdateMediaListEntry', [
 			'id' => $id,
-			'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']],
-			'score' => $data['rating'] * 20,
-			'progress' => $data['progress'],
+			'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$status],
+			'score' => $rating * 20,
+			'progress' => $progress,
 			'repeat' => (int)$data['reconsumeCount'],
 			'private' => (bool)$data['private'],
-			'notes' => $data['notes'],
+			'notes' => $notes,
 		]);
 	}
 }

@@ -41,16 +41,6 @@ final class Model
 		$this->listItem = $listItem;
 	}
 
-	public function getAnimeList(): array
-	{
-		return $this->runQuery('UserAnimeList', ['name' => 'timw4mail']);
-	}
-
-	public function getMangaList(): array
-	{
-		return $this->runQuery('UserMangaList', ['name' => 'timw4mail']);
-	}
-
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
@@ -66,7 +56,7 @@ final class Model
 	{
 		$createData = [];
 
-		$mediaId = $this->getMediaIdFromMalId($data['malId'], strtoupper($type));
+		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], strtoupper($type));
 
 		if ($type === 'anime') {
 			$createData = [
@@ -92,7 +82,12 @@ final class Model
 	public function getListItem(string $malId): array
 	{
 		$id = $this->getListIdFromMalId($malId);
-		return $this->listItem->get($id)['data']['MediaList'];
+
+		$data = $this->listItem->get($id)['data'];
+
+		return ($data !== null)
+			? $data['MediaList']
+			: [];
 	}
 
 	/**
@@ -124,12 +119,14 @@ final class Model
 	/**
 	 * Remove a list item
 	 *
-	 * @param string $id - The id of the list item to remove
+	 * @param string $malId - The id of the list item to remove
 	 * @return Request
 	 */
-	public function deleteListItem(string $id): Request
+	public function deleteListItem(string $malId): Request
 	{
-		return $this->listItem->delete($id);
+		$item_id = $this->getListIdFromMalId($malId);
+
+		return $this->listItem->delete($item_id);
 	}
 
 	/**
@@ -138,10 +135,10 @@ final class Model
 	 * @param string $malId
 	 * @return string
 	 */
-	public function getListIdFromMalId(string $malId): string
+	public function getListIdFromMalId(string $malId): ?string
 	{
 		$info = $this->runQuery('ListItemIdByMalId', ['id' => $malId]);
-		return (string)$info['data']['Media']['mediaListEntry']['id'];
+		return (string)$info['data']['Media']['mediaListEntry']['id'] ?? NULL;
 	}
 
 	/**
@@ -149,13 +146,15 @@ final class Model
 	 *
 	 * @param string $malId
 	 * @param string $type
-	 * @return array
+	 * @return string
 	 */
-	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): array
+	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
 	{
-		return $this->runQuery('MediaIdByMalId', [
+		$info = $this->runQuery('MediaIdByMalId', [
 			'id' => $malId,
 			'type' => $type
 		]);
+
+		return (string)$info['data']['Media']['id'];
 	}
 }

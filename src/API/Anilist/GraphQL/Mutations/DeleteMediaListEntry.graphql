@@ -1,7 +1,9 @@
 mutation (
-$id: Int
+	$id: Int
 ) {
 	DeleteMediaListEntry (
 		id: $id
-	)
+	) {
+		deleted
+	}
 }

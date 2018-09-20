@@ -1,4 +1,4 @@
-import closure from 'rollup-plugin-closure-compiler-js';
+import closure from '@ampproject/rollup-plugin-closure-compiler';
 
 const plugins = [
 	closure({
@@ -15,7 +15,6 @@ const defaultOutput = {
 	format: 'iife',
 	sourcemap: true,
 }
-
 
 export default [{
 	input: './js/src/index.js',
