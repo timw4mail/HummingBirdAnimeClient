@@ -122,7 +122,7 @@ class Anime extends API {
 	 */
 	public function search(string $name): array
 	{
-		return $this->kitsuModel->search('anime', $name);
+		return $this->kitsuModel->search('anime', urldecode($name));
 	}
 
 	/**
@@ -137,10 +137,21 @@ class Anime extends API {
 		$item = $this->kitsuModel->getListItem($itemId);
 		$array = $item->toArray();
 
-		if ($item->mal_id !== NULL)
+		if ( ! empty($item->mal_id))
 		{
 			$anilistInfo = $this->anilistModel->getListItem($item['mal_id']);
+
+			if (empty($anilistInfo))
+			{
+				return $item;
+			}
+
 			$array['anilist_item_id'] = $anilistInfo['id'];
+		}
+
+		if (is_array($array['notes']))
+		{
+			$array['notes'] = '';
 		}
 
 		return new AnimeListItem($array);
@@ -157,7 +168,20 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
+		// @TODO Make sure Anilist integration is optional
+		if (array_key_exists('mal_id', $data)) {
+			$requester->addRequest($this->anilistModel->createListItem($data), 'anilist');
+		}
+
 		$results = $requester->makeRequests();
+
+		// Debug info
+		/* $body = Json::decode($results['anilist']);
+		if ($body['errors'])
+		{
+			dump($body);
+			die();
+		} */
 
 		return count($results) > 0;
 	}
@@ -233,7 +257,19 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
+		// @TODO Make sure Anilist integration is optional
+		if ($malId !== null) {
+			$requester->addRequest($this->anilistModel->deleteListItem($malId), 'anilist');
+		}
+
 		$results = $requester->makeRequests();
+
+		// Debug info
+		/* $body = Json::decode($results['anilist']);
+		if (isset($body['errors'])) {
+			dump($body);
+			die();
+		} */
 
 		return count($results) > 0;
 	}

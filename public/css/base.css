@@ -609,7 +609,7 @@ a:hover, a:active {
 	z-index: 6;
 }
 
-.big-check {
+.big-check, .mal-check {
 	display: none;
 }
 

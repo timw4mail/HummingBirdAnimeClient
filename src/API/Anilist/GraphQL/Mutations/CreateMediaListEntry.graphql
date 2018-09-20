@@ -3,7 +3,10 @@ mutation (
 	$status: MediaListStatus,
 ) {
 	SaveMediaListEntry (
-		mediaId: $id
+		mediaId: $id,
 		status: $status
-	)
+	) {
+		mediaId
+		status
+	}
 }

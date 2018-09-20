@@ -127,9 +127,15 @@ final class Anime extends BaseController {
 	public function add(): void
 	{
 		$data = $this->request->getParsedBody();
+
+		if (empty($data['mal_id']))
+		{
+			unset($data['mal_id']);
+		}
+
 		if ( ! array_key_exists('id', $data))
 		{
-			$this->redirect("anime/add", 303);
+			$this->redirect('anime/add', 303);
 		}
 
 		$result = $this->model->createLibraryItem($data);
@@ -236,32 +242,8 @@ final class Anime extends BaseController {
 	}
 
 	/**
-	 * Update an anime item
-	 *
-	 * @return void
-	 */
-	public function update(): void
-	{
-		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
-		{
-			$data = Json::decode((string)$this->request->getBody());
-		}
-		else
-		{
-			$data = $this->request->getParsedBody();
-		}
-
-		$response = $this->model->updateLibraryItem(new AnimeFormItem($data));
-
-		$this->cache->clear();
-		$this->outputJSON($response['body'], $response['statusCode']);
-	}
-
-	/**
 	 * Remove an anime from the list
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function delete(): void

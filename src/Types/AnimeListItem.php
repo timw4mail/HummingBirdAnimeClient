@@ -34,7 +34,7 @@ final class AnimeListItem extends AbstractType {
 		'ended' => '',
 	];
 	public $anime;
-	public $notes;
+	public $notes = '';
 	public $private;
 	public $rewatching;
 	public $rewatched;
