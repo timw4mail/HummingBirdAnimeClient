@@ -1,5 +1,6 @@
 <?php return Aviat\AnimeClient\Types\AnimeFormItem::__set_state(array(
    'id' => 14047983,
+   'anilist_item_id' => NULL,
    'mal_id' => '12347',
    'data' => 
   Aviat\AnimeClient\Types\AnimeFormItemData::__set_state(array(
