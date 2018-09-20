@@ -30,6 +30,14 @@ use Aviat\Ion\Json;
  * Model for handling requests dealing with the anime list
  */
 class Anime extends API {
+
+	/**
+	 * Model for making requests to Anilist API
+	 *
+	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 */
+	protected $anilistModel;
+
 	/**
 	 * Model for making requests to Kitsu API
 	 *
@@ -44,6 +52,7 @@ class Anime extends API {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
+		$this->anilistModel = $container->get('anilist-model');
 		$this->kitsuModel = $container->get('kitsu-model');
 	}
 
@@ -125,7 +134,16 @@ class Anime extends API {
 	 */
 	public function getLibraryItem(string $itemId): AnimeListItem
 	{
-		return $this->kitsuModel->getListItem($itemId);
+		$item = $this->kitsuModel->getListItem($itemId);
+		$array = $item->toArray();
+
+		if ($item->mal_id !== NULL)
+		{
+			$anilistInfo = $this->anilistModel->getListItem($item['mal_id']);
+			$array['anilist_item_id'] = $anilistInfo['id'];
+		}
+
+		return new AnimeListItem($array);
 	}
 
 	/**
@@ -145,6 +163,35 @@ class Anime extends API {
 	}
 
 	/**
+	 * Increment progress for the specified anime
+	 *
+	 * @param AnimeFormItem $data
+	 * @return array
+	 */
+	public function incrementLibraryItem(AnimeFormItem $data): array
+	{
+		$requester = new ParallelAPIRequest();
+		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
+
+		$array = $data->toArray();
+
+		// @TODO Make sure Anilist integration is optional
+		if (array_key_exists('mal_id', $array)) {
+			$requester->addRequest($this->anilistModel->incrementListItem($data), 'anilist');
+		}
+
+		$results = $requester->makeRequests();
+
+		$body = Json::decode($results['kitsu']);
+		$statusCode = array_key_exists('error', $body) ? 400 : 200;
+
+		return [
+			'body' => Json::decode($results['kitsu']),
+			'statusCode' => $statusCode
+		];
+	}
+
+	/**
 	 * Update a list entry
 	 *
 	 * @param AnimeFormItem $data
@@ -155,7 +202,16 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
+		$array = $data->toArray();
+
+		// @TODO Make sure Anilist integration is optional
+		if (array_key_exists('mal_id', $array))
+		{
+			$requester->addRequest($this->anilistModel->updateListItem($data), 'anilist');
+		}
+
 		$results = $requester->makeRequests();
+
 		$body = Json::decode($results['kitsu']);
 		$statusCode = array_key_exists('error', $body) ? 400: 200;
 

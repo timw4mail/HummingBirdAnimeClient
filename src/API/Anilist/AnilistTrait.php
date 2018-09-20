@@ -145,6 +145,40 @@ trait AnilistTrait {
 		]);
 	}
 
+	public function mutateRequest (string $name, array $variables = []): Request
+	{
+		$file = realpath(__DIR__ . "/GraphQL/Mutations/{$name}.graphql");
+		if (!file_exists($file)) {
+			throw new \LogicException('GraphQL mutation file does not exist.');
+		}
+
+		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
+		$query = file_get_contents($file);
+
+		$body = [
+			'query' => $query
+		];
+
+		if (!empty($variables)) {
+			$body['variables'] = [];
+			foreach ($variables as $key => $val) {
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->setUpRequest(Anilist::BASE_URL, [
+			'body' => $body,
+		]);
+	}
+
+	public function mutate (string $name, array $variables = []): array
+	{
+		$request = $this->mutateRequest($name, $variables);
+		$response = $this->getResponseFromRequest($request);
+
+		return Json::decode(wait($response->getBody()));
+	}
+
 	/**
 	 * Make a request
 	 *
@@ -161,6 +195,26 @@ trait AnilistTrait {
 		}
 
 		$request = $this->setUpRequest($url, $options);
+		$response = wait((new HummingbirdClient)->request($request));
+
+		$logger->debug('Anilist response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+			'requestHeaders' => $request->getHeaders(),
+		]);
+
+		return $response;
+	}
+
+	private function getResponseFromRequest(Request $request): Response
+	{
+		$logger = NULL;
+		if ($this->getContainer()) {
+			$logger = $this->container->getLogger('anilist-request');
+		}
+
 		$response = wait((new HummingbirdClient)->request($request));
 
 		$logger->debug('Anilist response', [

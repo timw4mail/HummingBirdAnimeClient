@@ -838,6 +838,17 @@ final class Model {
 	}
 
 	/**
+	 * Increase the progress count for a list item
+	 *
+	 * @param FormItem $data
+	 * @return Request
+	 */
+	public function incrementListItem(FormItem $data): Request
+	{
+		return $this->listItem->increment($data['id'], $data['data']);
+	}
+
+	/**
 	 * Modify a list item
 	 *
 	 * @param FormItem $data

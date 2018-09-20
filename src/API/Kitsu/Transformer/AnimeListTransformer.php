@@ -20,7 +20,6 @@ use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
 	Anime,
 	AnimeFormItem,
-	AnimeFormItemData,
 	AnimeListItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -124,6 +123,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 
 		$untransformed = new AnimeFormItem([
 			'id' => $item['id'],
+			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],

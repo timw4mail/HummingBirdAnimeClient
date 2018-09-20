@@ -39,7 +39,6 @@ final class Model
 	public function __construct(ListItem $listItem)
 	{
 		$this->listItem = $listItem;
-
 	}
 
 	public function getAnimeList(): array
@@ -67,19 +66,17 @@ final class Model
 	{
 		$createData = [];
 
+		$mediaId = $this->getMediaIdFromMalId($data['malId'], strtoupper($type));
+
 		if ($type === 'anime') {
 			$createData = [
-				'id' => $data['id'],
-				'data' => [
-					'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']]
-				]
+				'id' => $mediaId,
+				'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']],
 			];
 		} elseif ($type === 'manga') {
 			$createData = [
-				'id' => $data['id'],
-				'data' => [
-					'status' => MangaReadingStatus::KITSU_TO_ANILIST[$data['status']]
-				]
+				'id' => $mediaId,
+				'status' => MangaReadingStatus::KITSU_TO_ANILIST[$data['status']],
 			];
 		}
 
@@ -89,12 +86,26 @@ final class Model
 	/**
 	 * Get the data for a specific list item, generally for editing
 	 *
-	 * @param string $listId - The unique identifier of that list item
+	 * @param string $malId - The unique identifier of that list item
 	 * @return mixed
 	 */
-	public function getListItem(string $listId)
+	public function getListItem(string $malId): array
 	{
-		// @TODO: implement
+		$id = $this->getListIdFromMalId($malId);
+		return $this->listItem->get($id)['data']['MediaList'];
+	}
+
+	/**
+	 * Increase the watch count for the current list item
+	 *
+	 * @param FormItem $data
+	 * @return Request
+	 */
+	public function incrementListItem(FormItem $data): Request
+	{
+		$id = $this->getListIdFromMalId($data['mal_id']);
+
+		return $this->listItem->increment($id, $data['data']);
 	}
 
 	/**
@@ -105,7 +116,9 @@ final class Model
 	 */
 	public function updateListItem(FormItem $data): Request
 	{
-		return $this->listItem->update($data['id'], $data['data']);
+		$id = $this->getListIdFromMalId($data['mal_id']);
+
+		return $this->listItem->update($id, $data['data']);
 	}
 
 	/**
@@ -117,5 +130,32 @@ final class Model
 	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
+	}
+
+	/**
+	 * Get the id of the specific list entry from the malId
+	 *
+	 * @param string $malId
+	 * @return string
+	 */
+	public function getListIdFromMalId(string $malId): string
+	{
+		$info = $this->runQuery('ListItemIdByMalId', ['id' => $malId]);
+		return (string)$info['data']['Media']['mediaListEntry']['id'];
+	}
+
+	/**
+	 * Get the Anilist media id from the malId
+	 *
+	 * @param string $malId
+	 * @param string $type
+	 * @return array
+	 */
+	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): array
+	{
+		return $this->runQuery('MediaIdByMalId', [
+			'id' => $malId,
+			'type' => $type
+		]);
 	}
 }

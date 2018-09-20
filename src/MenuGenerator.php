@@ -62,7 +62,7 @@ final class MenuGenerator extends UrlGenerator {
 	 * @param array $menus
 	 * @return array
 	 */
-	protected function parseConfig(array $menus)
+	protected function parseConfig(array $menus) : array
 	{
 		$parsed = [];
 
@@ -86,7 +86,7 @@ final class MenuGenerator extends UrlGenerator {
 	 * @throws ConfigException
 	 * @return string
 	 */
-	public function generate($menu)
+	public function generate($menu) : string
 	{
 		$menus = $this->config->get('menus');
 		$parsedConfig = $this->parseConfig($menus);
@@ -114,7 +114,7 @@ final class MenuGenerator extends UrlGenerator {
 		}
 
 		// Create the menu html
-		return $this->helper->ul();
+		return (string) $this->helper->ul();
 	}
 }
 // End of MenuGenerator.php

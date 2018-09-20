@@ -44,6 +44,8 @@ class Config extends AbstractType {
 	public function setAnilist ($data): void
 	{
 		$this->anilist = new class($data) extends AbstractType {
+			public $enabled;
+
 			public $client_id;
 			public $client_secret;
 			public $redirect_uri;

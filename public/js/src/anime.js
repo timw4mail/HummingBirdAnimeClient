@@ -58,7 +58,7 @@ _.on('body.anime.list', 'click', '.plus_one', (e) => {
 	_.show(_.$('#loading-shadow')[ 0 ]);
 
 	// okay, lets actually make some changes!
-	_.ajax(_.url('/anime/update'), {
+	_.ajax(_.url('/anime/increment'), {
 		data,
 		dataType: 'json',
 		type: 'POST',

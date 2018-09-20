@@ -21,6 +21,7 @@ namespace Aviat\AnimeClient\Types;
  */
 abstract class FormItem extends AbstractType {
 	public $id;
+	public $anilist_item_id;
 	public $mal_id;
 	public $data;
 

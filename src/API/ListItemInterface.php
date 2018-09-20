@@ -41,6 +41,15 @@ interface ListItemInterface {
 	public function get(string $id): array;
 
 	/**
+	 * Increase progress on a list item
+	 *
+	 * @param string $id
+	 * @param FormItemData $data
+	 * @return Request
+	 */
+	public function increment(string $id, FormItemData $data): Request;
+
+	/**
 	 * Update a list item
 	 *
 	 * @param string $id - The id of the list item to update
