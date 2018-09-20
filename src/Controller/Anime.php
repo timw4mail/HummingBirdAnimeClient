@@ -150,14 +150,10 @@ final class Anime extends BaseController {
 	/**
 	 * Form to edit details about a series
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @param string $status
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
-	 * @return void
 	 */
-	public function edit($id, $status = 'all'): void
+	public function edit(string $id, $status = 'all'): void
 	{
 		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
@@ -215,6 +211,28 @@ final class Anime extends BaseController {
 		}
 
 		$this->sessionRedirect();
+	}
+
+	/**
+	 * Increase the watched count for an anime item
+	 *
+	 * @return void
+	 */
+	public function increment(): void
+	{
+		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
+		{
+			$data = Json::decode((string)$this->request->getBody());
+		}
+		else
+		{
+			$data = $this->request->getParsedBody();
+		}
+
+		$response = $this->model->incrementLibraryItem(new AnimeFormItem($data));
+
+		$this->cache->clear();
+		$this->outputJSON($response['body'], $response['statusCode']);
 	}
 
 	/**

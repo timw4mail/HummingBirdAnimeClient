@@ -112,6 +112,11 @@ final class ListItem implements ListItemInterface {
 		return Json::decode(wait($response->getBody()));
 	}
 
+	public function increment(string $id, FormItemData $data): Request
+	{
+		return $this->update($id, $data);
+	}
+
 	public function update(string $id, FormItemData $data): Request
 	{
 		$authHeader = $this->getAuthHeader();

@@ -43,6 +43,11 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
 			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
+		<?php if ($auth->isAuthenticated()): ?>
+			<span class="flex-no-wrap small-font">
+			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+		</span>
+		<?php endif ?>
 	</span>
 
 	<span class="flex-no-wrap small-font">[<?= $helper->a(
@@ -51,24 +56,25 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 	) ?>]</span>
 
 	<?php if ($auth->isAuthenticated()): ?>
-		<span class="flex-no-wrap">&nbsp;</span>
 		<span class="flex-no-wrap small-font">
-			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+		<?= $helper->a(
+			$url->generate('settings'),
+			'Settings',
+			['class' => 'bracketed']
+		) ?>
 		</span>
-		<span class="flex-no-wrap">&nbsp;</span>
+		<span class="flex-no-wrap small-font">
+		<?= $helper->a(
+			$url->generate('logout'),
+			'Logout',
+			['class' => 'bracketed']
+		) ?>
+		</span>
+	<?php else: ?>
+		<span class="flex-no-wrap small-font">
+		[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
+		</span>
 	<?php endif ?>
-
-	<span class="flex-no-wrap small-font">
-		<?php if ($auth->isAuthenticated()): ?>
-			<?= $helper->a(
-				$url->generate('logout'),
-				'Logout',
-				['class' => 'bracketed']
-			) ?>
-		<?php else: ?>
-			[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
-		<?php endif ?>
-	</span>
 </div>
 <nav>
 	<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>

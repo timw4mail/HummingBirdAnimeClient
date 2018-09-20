@@ -229,7 +229,7 @@ class Controller {
 			throw new InvalidArgumentException("Invalid template : {$template}");
 		}
 
-		return $view->renderTemplate($templatePath, (array)$data);
+		return $view->renderTemplate($templatePath, $data);
 	}
 
 	/**
@@ -345,7 +345,7 @@ class Controller {
 	/**
 	 * Helper for consistent page titles
 	 *
-	 * @param string[] ...$parts Title segments
+	 * @param string[] $parts Title segments
 	 * @return string
 	 */
 	public function formatTitle(string ...$parts) : string

@@ -238,6 +238,14 @@ return [
 		'action' => 'logout',
 		'controller' => DEFAULT_CONTROLLER,
 	],
+	'increment' => [
+		'path' => '/{controller}/increment',
+		'action' => 'increment',
+		'verb' => 'post',
+		'tokens' => [
+			'controller' => '[a-z_]+',
+		],
+	],
 	'update' => [
 		'path' => '/{controller}/update',
 		'action' => 'update',

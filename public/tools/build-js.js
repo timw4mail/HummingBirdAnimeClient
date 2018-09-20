@@ -6,7 +6,7 @@ const plugins = [
 		compilationLevel: 'SIMPLE', //'WHITESPACE_ONLY', //'ADVANCED',
 		createSourceMap: true,
 		env: 'BROWSER',
-		languageIn: 'ES6',
+		languageIn: 'ECMASCRIPT_2018',
 		languageOut: 'ES5'
 	})
 ];

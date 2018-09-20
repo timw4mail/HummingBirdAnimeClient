@@ -22,6 +22,7 @@ namespace Aviat\AnimeClient\Types;
 final class AnimeListItem extends AbstractType {
 	public $id;
 	public $mal_id;
+	public $anilist_item_id;
 	public $episodes = [
 		'length' => 0,
 		'total' => 0,
@@ -33,10 +34,10 @@ final class AnimeListItem extends AbstractType {
 		'ended' => '',
 	];
 	public $anime;
-	public $watching_status;
 	public $notes;
+	public $private;
 	public $rewatching;
 	public $rewatched;
 	public $user_rating;
-	public $private;
+	public $watching_status;
 }

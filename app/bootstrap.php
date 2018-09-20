@@ -35,7 +35,7 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return function (array $configArray = []) {
+return function ($configArray = []) {
 	$container = new Container();
 
 	// -------------------------------------------------------------------------
