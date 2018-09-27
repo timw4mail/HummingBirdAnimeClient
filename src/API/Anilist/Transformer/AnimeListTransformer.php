@@ -16,22 +16,51 @@
 
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
-use Aviat\AnimeClient\Types\{AnimeListItem, AnimeFormItem};
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnilistStatus;
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Types\{Anime, AnimeListItem, AnimeFormItem};
+
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 class AnimeListTransformer extends AbstractTransformer {
 
 	public function transform($item): AnimeListItem
 	{
-		dump($item); die();
+		return new AnimeListItem([]);
+	}
 
-		return new AnimeListItem([
-
+	/**
+	 * Transform Anilist list item to Kitsu form update format
+	 *
+	 * @param array $item
+	 * @return AnimeFormItem
+	 */
+	public function untransform(array $item): AnimeFormItem
+	{
+		return new AnimeFormItem([
+			'id' => $item['id'],
+			'mal_id' => $item['media']['idMal'],
+			'data' => [
+				'notes' => $item['notes'] ?? '',
+				'private' => $item['private'],
+				'progress' => $item['progress'],
+				'rating' => $item['score'],
+				'reconsumeCount' => $item['repeat'],
+				'reconsuming' => $item['status'] === AnilistStatus::REPEATING,
+				'status' => AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
+			]
 		]);
 	}
 
-	public function untransform(array $item): AnimeFormItem
+	/**
+	 * Transform a set of structures
+	 *
+	 * @param  array|object $collection
+	 * @return array
+	 */
+	public function untransformCollection($collection): array
 	{
-		return new AnimeFormItem($item);
+		$list = (array)$collection;
+		return array_map([$this, 'untransform'], $list);
 	}
 }

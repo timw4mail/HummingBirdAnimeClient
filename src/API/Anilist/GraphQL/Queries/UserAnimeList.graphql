@@ -24,7 +24,6 @@ query ($name: String) {
 					status
 					episodes
 					season
-					seasonYear
 					genres
 					synonyms
 					countryOfOrigin

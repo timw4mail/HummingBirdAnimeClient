@@ -19,6 +19,7 @@ namespace Aviat\AnimeClient\API\Anilist;
 use Amp\Artax\Request;
 
 use Aviat\AnimeClient\API\ListItemInterface;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnilistStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\FormItemData;
 
@@ -29,7 +30,7 @@ final class ListItem implements ListItemInterface{
 	use AnilistTrait;
 
 	/**
-	 * Create a list item
+	 * Create a minimal list item
 	 *
 	 * @param array $data
 	 * @return Request
@@ -37,6 +38,17 @@ final class ListItem implements ListItemInterface{
 	public function create(array $data): Request
 	{
 		return $this->mutateRequest('CreateMediaListEntry', $data);
+	}
+
+	/**
+	 * Create a fleshed-out list item
+	 *
+	 * @param array $data
+	 * @return Request
+	 */
+	public function createFull(array $data): Request
+	{
+		return $this->mutateRequest('CreateFullMediaListEntry', $data);
 	}
 
 	/**
@@ -85,23 +97,25 @@ final class ListItem implements ListItemInterface{
 	 * @return Request
 	 */
 	public function update(string $id, FormItemData $data): Request
-	{
+	{	
 		$array = $data->toArray();
 
 		$notes = $data['notes'] ?? '';
 		$progress = array_key_exists('progress', $array) ? $data['progress'] : 0;
+		$private = array_key_exists('private', $array) ? (bool)$data['private'] : false;
 		$rating = array_key_exists('rating', $array) ? $data['rating'] : NULL;
-		$status = $data['status'];
-
-		// @TODO Handle weirdness with reWatching
-		return $this->mutateRequest('UpdateMediaListEntry', [
-			'id' => $id,
-			'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$status],
-			'score' => $rating * 20,
+		$status = ($data['reconsuming'] === true) ? AnilistStatus::REPEATING : AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']];
+		
+		$updateData = [
+			'id' => (int)$id,
+			'status' => $status,
+			'score' => $rating * 10,
 			'progress' => $progress,
 			'repeat' => (int)$data['reconsumeCount'],
-			'private' => (bool)$data['private'],
+			'private' => $private,
 			'notes' => $notes,
-		]);
+		];
+
+		return $this->mutateRequest('UpdateMediaListEntry', $updateData);
 	}
 }

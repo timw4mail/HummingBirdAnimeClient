@@ -37,11 +37,8 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer
 };
 use Aviat\AnimeClient\Types\{
-	AbstractType,
 	Anime,
 	FormItem,
-	FormItemData,
-	AnimeListItem,
 	MangaPage
 };
 use Aviat\Ion\{Di\ContainerAware, Json};

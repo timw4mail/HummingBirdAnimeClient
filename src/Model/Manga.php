@@ -34,6 +34,19 @@ use Aviat\Ion\Json;
  */
 class Manga extends API {
 	/**
+	 * Is the Anilist API enabled?
+	 *
+	 * @var boolean
+	 */
+	protected $anilistEnabled;
+
+	/**
+	 * Model for making requests to the Anilist API
+	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 */
+	protected $anilistModel;
+
+	/**
 	 * Model for making requests to Kitsu API
 	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
@@ -43,12 +56,14 @@ class Manga extends API {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
+		$this->anilistModel = $container->get('anilist-model');
 		$this->kitsuModel = $container->get('kitsu-model');
+
+		$config = $container->get('config');
+		$this->anilistEnabled = (bool)$config->get(['anilist', 'enabled']);
 	}
 
 	/**
@@ -121,6 +136,11 @@ class Manga extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
+		if (array_key_exists('mal_id', $data) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->createListItem($data, 'MANGA'), 'anilist');
+		}
+
 		$results = $requester->makeRequests();
 
 		return count($results) > 0;
@@ -137,9 +157,44 @@ class Manga extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
+		$array = $data->toArray();
+
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->updateListItem($data, 'MANGA'), 'anilist');
+		}
+
 		$results = $requester->makeRequests();
 		$body = Json::decode($results['kitsu']);
 		$statusCode = array_key_exists('error', $body) ? 400: 200;
+
+		return [
+			'body' => Json::decode($results['kitsu']),
+			'statusCode' => $statusCode
+		];
+	}
+
+	/**
+	 * Increase the progress of a list entry
+	 *
+	 * @param MangaFormItem $data
+	 * @return array
+	 */
+	public function incrementLibraryItem(MangaFormItem $data): array
+	{
+		$requester = new ParallelAPIRequest();
+		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
+
+		$array = $data->toArray();
+
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->incrementListItem($data, 'MANGA'), 'anilist');
+		}
+
+		$results = $requester->makeRequests();
+		$body = Json::decode($results['kitsu']);
+		$statusCode = array_key_exists('error', $body) ? 400 : 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
@@ -158,6 +213,11 @@ class Manga extends API {
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
+
+		if ($malId !== null && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->deleteListItem($malId, 'MANGA'), 'anilist');
+		}
 
 		$results = $requester->makeRequests();
 

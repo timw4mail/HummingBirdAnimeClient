@@ -45,8 +45,8 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
 		sort($genres);
 
-		$rating = (int) $item['attributes']['rating'] !== 0
-			? 2 * $item['attributes']['rating']
+		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
+			? $item['attributes']['ratingTwenty'] / 2
 			: '-';
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
@@ -141,7 +141,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 
 		if (is_numeric($item['user_rating']) && $item['user_rating'] > 0)
 		{
-			$untransformed['data']['rating'] = $item['user_rating'] / 2;
+			$untransformed['data']['ratingTwenty'] = $item['user_rating'] * 2;
 		}
 
 		return $untransformed;

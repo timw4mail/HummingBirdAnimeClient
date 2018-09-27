@@ -1,0 +1,27 @@
+query ($name: String, $type: MediaType) {
+	MediaListCollection(userName: $name, type: $type) {
+		lists {
+			entries {
+				id
+				mediaId
+				score
+				progress
+				progressVolumes
+				repeat
+				private
+				notes
+				status
+				media {
+					id
+					idMal
+					title {
+						romaji
+						english
+						native
+						userPreferred
+					}
+				}
+			}
+		}
+	}
+}

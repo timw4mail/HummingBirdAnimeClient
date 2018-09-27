@@ -1,0 +1,7 @@
+query ($id: Int, $userName: String) {
+	MediaList (mediaId: $id, userName: $userName) {
+		id
+		userId
+		mediaId
+	}
+}

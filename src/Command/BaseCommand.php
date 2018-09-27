@@ -21,6 +21,7 @@ use function Aviat\AnimeClient\loadToml;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\Util;
 use Aviat\AnimeClient\API\CacheTrait;
+use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
 use Aviat\Banker\Pool;
@@ -85,7 +86,10 @@ class BaseCommand extends Command {
 			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
 			$kitsu_request_logger = new Logger('kitsu-request');
 			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
+			$anilistRequestLogger = new Logger('anilist-request');
+			$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
 			$container->setLogger($app_logger);
+			$container->setLogger($anilistRequestLogger, 'anilist-request');
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 
 			// Create Config Object
@@ -120,6 +124,20 @@ class BaseCommand extends Command {
 
 				$cache = $container->get('cache');
 				$model->setCache($cache);
+				return $model;
+			});
+			$container->set('anilist-model', function ($container) {
+				$requestBuilder = new Anilist\AnilistRequestBuilder();
+				$requestBuilder->setLogger($container->getLogger('anilist-request'));
+
+				$listItem = new Anilist\ListItem();
+				$listItem->setContainer($container);
+				$listItem->setRequestBuilder($requestBuilder);
+
+				$model = new Anilist\Model($listItem);
+				$model->setContainer($container);
+				$model->setRequestBuilder($requestBuilder);
+
 				return $model;
 			});
 
