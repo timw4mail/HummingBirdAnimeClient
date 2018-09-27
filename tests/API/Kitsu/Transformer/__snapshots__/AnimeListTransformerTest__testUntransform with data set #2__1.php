@@ -1,9 +1,9 @@
-<?php return Aviat\AnimeClient\Types\AnimeFormItem::__set_state(array(
+<?php return Aviat\AnimeClient\Types\FormItem::__set_state(array(
    'id' => 14047983,
    'anilist_item_id' => NULL,
    'mal_id' => '12347',
-   'data' => 
-  Aviat\AnimeClient\Types\AnimeFormItemData::__set_state(array(
+   'data' =>
+  Aviat\AnimeClient\Types\FormItemData::__set_state(array(
      'notes' => '',
      'private' => true,
      'progress' => 12,
