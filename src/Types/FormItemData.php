@@ -24,6 +24,7 @@ abstract class FormItemData extends AbstractType {
 	public $private;
 	public $progress;
 	public $rating;
+	public $ratingTwenty;
 	public $reconsumeCount;
 	public $reconsuming;
 	public $status;

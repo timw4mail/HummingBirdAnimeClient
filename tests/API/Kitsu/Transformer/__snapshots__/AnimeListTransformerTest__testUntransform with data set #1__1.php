@@ -7,7 +7,7 @@
      'notes' => 'Very formulaic.',
      'private' => true,
      'progress' => 38,
-     'rating' => 4,
+     'ratingTwenty' => 16,
      'reconsumeCount' => 0,
      'reconsuming' => true,
      'status' => 'current',

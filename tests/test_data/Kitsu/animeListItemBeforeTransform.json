@@ -12,6 +12,7 @@
         "notes": null,
         "private": false,
         "rating": null,
+		"ratingTwenty": null,
         "updatedAt": "2017-01-13T01:32:31.832Z"
     },
     "relationships": {
