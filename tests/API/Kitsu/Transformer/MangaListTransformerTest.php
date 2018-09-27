@@ -20,8 +20,8 @@ use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\{
-	MangaFormItem,
-	MangaFormItemData
+	FormItem,
+	FormItemData
 };
 use Aviat\Ion\Json;
 
@@ -86,10 +86,10 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 		];
 
 		$actual = $this->transformer->untransform($input);
-		$expected = new MangaFormItem([
+		$expected = new FormItem([
 			'id' => '15084773',
 			'mal_id' => '26769',
-			'data' => new MangaFormItemData([
+			'data' => new FormItemData([
 				'status' => 'current',
 				'progress' => 67,
 				'reconsuming' => false,
