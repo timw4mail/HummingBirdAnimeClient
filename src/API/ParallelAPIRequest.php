@@ -66,6 +66,7 @@ final class ParallelAPIRequest {
 	 * Actually make the requests
 	 *
 	 * @return array
+	 * @throws \Throwable
 	 */
 	public function makeRequests(): array
 	{

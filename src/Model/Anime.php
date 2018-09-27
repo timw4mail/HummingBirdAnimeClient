@@ -32,6 +32,13 @@ use Aviat\Ion\Json;
 class Anime extends API {
 
 	/**
+	 * Is the Anilist API enabled?
+	 *
+	 * @var boolean
+	 */
+	protected $anilistEnabled;
+
+	/**
 	 * Model for making requests to Anilist API
 	 *
 	 * @var \Aviat\AnimeClient\API\Anilist\Model
@@ -54,6 +61,9 @@ class Anime extends API {
 	{
 		$this->anilistModel = $container->get('anilist-model');
 		$this->kitsuModel = $container->get('kitsu-model');
+
+		$config = $container->get('config');
+		$this->anilistEnabled = (bool) $config->get(['anilist', 'enabled']);
 	}
 
 	/**
@@ -137,18 +147,6 @@ class Anime extends API {
 		$item = $this->kitsuModel->getListItem($itemId);
 		$array = $item->toArray();
 
-		if ( ! empty($item->mal_id))
-		{
-			$anilistInfo = $this->anilistModel->getListItem($item['mal_id']);
-
-			if (empty($anilistInfo))
-			{
-				return $item;
-			}
-
-			$array['anilist_item_id'] = $anilistInfo['id'];
-		}
-
 		if (is_array($array['notes']))
 		{
 			$array['notes'] = '';
@@ -168,9 +166,9 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
-		// @TODO Make sure Anilist integration is optional
-		if (array_key_exists('mal_id', $data)) {
-			$requester->addRequest($this->anilistModel->createListItem($data), 'anilist');
+		if (array_key_exists('mal_id', $data) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->createListItem($data, 'ANIME'), 'anilist');
 		}
 
 		$results = $requester->makeRequests();
@@ -199,9 +197,9 @@ class Anime extends API {
 
 		$array = $data->toArray();
 
-		// @TODO Make sure Anilist integration is optional
-		if (array_key_exists('mal_id', $array)) {
-			$requester->addRequest($this->anilistModel->incrementListItem($data), 'anilist');
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->incrementListItem($data, 'ANIME'), 'anilist');
 		}
 
 		$results = $requester->makeRequests();
@@ -228,10 +226,9 @@ class Anime extends API {
 
 		$array = $data->toArray();
 
-		// @TODO Make sure Anilist integration is optional
-		if (array_key_exists('mal_id', $array))
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
 		{
-			$requester->addRequest($this->anilistModel->updateListItem($data), 'anilist');
+			$requester->addRequest($this->anilistModel->updateListItem($data, 'ANIME'), 'anilist');
 		}
 
 		$results = $requester->makeRequests();
@@ -257,9 +254,9 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
-		// @TODO Make sure Anilist integration is optional
-		if ($malId !== null) {
-			$requester->addRequest($this->anilistModel->deleteListItem($malId), 'anilist');
+		if ($malId !== null && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->deleteListItem($malId, 'ANIME'), 'anilist');
 		}
 
 		$results = $requester->makeRequests();

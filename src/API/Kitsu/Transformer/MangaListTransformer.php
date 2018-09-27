@@ -46,8 +46,8 @@ final class MangaListTransformer extends AbstractTransformer {
 		$genres = array_column($manga['relationships']['genres'], 'name') ?? [];
 		sort($genres);
 
-		$rating = (int) $item['attributes']['rating'] !== 0
-			? 2 * $item['attributes']['rating']
+		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
+			? $item['attributes']['ratingTwenty'] / 2
 			: '-';
 
 		$totalChapters = ((int) $manga['chapterCount'] !== 0)
@@ -138,7 +138,7 @@ final class MangaListTransformer extends AbstractTransformer {
 
 		if (is_numeric($item['new_rating']) && $item['new_rating'] > 0)
 		{
-			$map['data']['rating'] = $item['new_rating'] / 2;
+			$map['data']['ratingTwenty'] = $item['new_rating'] * 2;
 		}
 
 		return $map;

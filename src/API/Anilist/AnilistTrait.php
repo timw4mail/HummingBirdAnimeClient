@@ -84,26 +84,30 @@ trait AnilistTrait {
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
-		$authenticated = $sessionSegment->get('auth_token') !== NULL;
+		//$authenticated = $sessionSegment->get('auth_token') !== NULL;
 
-		if ($authenticated)
+		//if ($authenticated)
 		{
 			$request = $request->setAuth('bearer', $anilistConfig['access_token']);
 		}
 
-		if (array_key_exists('form_params', $options)) {
+		if (array_key_exists('form_params', $options))
+		{
 			$request = $request->setFormFields($options['form_params']);
 		}
 
-		if (array_key_exists('query', $options)) {
+		if (array_key_exists('query', $options))
+		{
 			$request = $request->setQuery($options['query']);
 		}
 
-		if (array_key_exists('body', $options)) {
+		if (array_key_exists('body', $options))
+		{
 			$request = $request->setJsonBody($options['body']);
 		}
 
-		if (array_key_exists('headers', $options)) {
+		if (array_key_exists('headers', $options))
+		{
 			$request = $request->setHeaders($options['headers']);
 		}
 
@@ -148,7 +152,8 @@ trait AnilistTrait {
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
 		$file = realpath(__DIR__ . "/GraphQL/Mutations/{$name}.graphql");
-		if (!file_exists($file)) {
+		if (!file_exists($file))
+		{
 			throw new \LogicException('GraphQL mutation file does not exist.');
 		}
 
@@ -161,7 +166,8 @@ trait AnilistTrait {
 
 		if (!empty($variables)) {
 			$body['variables'] = [];
-			foreach ($variables as $key => $val) {
+			foreach ($variables as $key => $val)
+			{
 				$body['variables'][$key] = $val;
 			}
 		}
@@ -211,7 +217,8 @@ trait AnilistTrait {
 	private function getResponseFromRequest(Request $request): Response
 	{
 		$logger = NULL;
-		if ($this->getContainer()) {
+		if ($this->getContainer())
+		{
 			$logger = $this->container->getLogger('anilist-request');
 		}
 
@@ -236,14 +243,21 @@ trait AnilistTrait {
 	 */
 	protected function postRequest(array $options = []): array
 	{
+		$response = $this->getResponse(Anilist::BASE_URL, $options);
+		$validResponseCodes = [200, 201];
+		
 		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('anilist-request');
+			$logger->debug('Anilist response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				//'requestHeaders' => $request->getHeaders(),
+			]);
 		}
-
-		$response = $this->getResponse(Anilist::BASE_URL, $options);
-		$validResponseCodes = [200, 201];
 
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{

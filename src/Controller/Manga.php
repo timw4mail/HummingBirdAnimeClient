@@ -130,6 +130,11 @@ final class Manga extends Controller {
 			$this->redirect('manga/add', 303);
 		}
 
+		if (empty($data['mal_id']))
+		{
+			unset($data['mal_id']);
+		}
+
 		$result = $this->model->createLibraryItem($data);
 
 		if ($result)
@@ -182,8 +187,9 @@ final class Manga extends Controller {
 	 */
 	public function search(): void
 	{
-		$query_data = $this->request->getQueryParams();
-		$this->outputJSON($this->model->search($query_data['query']));
+		$queryParams = $this->request->getQueryParams();
+		$query = $queryParams['query'];
+		$this->outputJSON($this->model->search($query));
 	}
 
 	/**
@@ -218,13 +224,9 @@ final class Manga extends Controller {
 	}
 
 	/**
-	 * Update a manga item
-	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @return void
+	 * Increment the progress of a manga item
 	 */
-	public function update(): void
+	public function increment(): void
 	{
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
@@ -235,7 +237,7 @@ final class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem(new MangaFormItem($data));
+		$response = $this->model->incrementLibraryItem(new MangaFormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -251,13 +253,11 @@ final class Manga extends Controller {
 	public function delete(): void
 	{
 		$body = $this->request->getParsedBody();
-		$id = $body['id'];
-		$malId = $body['mal_id'];
-		$response = $this->model->deleteLibraryItem($id, $malId);
+		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
 		if ($response)
 		{
-			$this->setFlashMessage("Successfully deleted manga.", 'success');
+			$this->setFlashMessage('Successfully deleted manga.', 'success');
 			$this->cache->clear();
 		}
 		else
