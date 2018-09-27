@@ -20,7 +20,7 @@ use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\{
 	Anime as AnimeType,
-	AnimeFormItem,
+	FormItem,
 	AnimeListItem
 };
 use Aviat\Ion\Di\ContainerInterface;
@@ -187,10 +187,10 @@ class Anime extends API {
 	/**
 	 * Increment progress for the specified anime
 	 *
-	 * @param AnimeFormItem $data
+	 * @param FormItem $data
 	 * @return array
 	 */
-	public function incrementLibraryItem(AnimeFormItem $data): array
+	public function incrementLibraryItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
@@ -216,10 +216,10 @@ class Anime extends API {
 	/**
 	 * Update a list entry
 	 *
-	 * @param AnimeFormItem $data
+	 * @param FormItem $data
 	 * @return array
 	 */
-	public function updateLibraryItem(AnimeFormItem $data): array
+	public function updateLibraryItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');

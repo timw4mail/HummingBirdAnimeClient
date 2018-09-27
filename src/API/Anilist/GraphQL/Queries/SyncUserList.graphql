@@ -11,6 +11,7 @@ query ($name: String, $type: MediaType) {
 				private
 				notes
 				status
+				updatedAt
 				media {
 					id
 					idMal

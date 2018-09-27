@@ -26,7 +26,7 @@ abstract class AbstractType implements ArrayAccess {
 	 * @param $properties
 	 * @return mixed
 	 */
-	public static function __set_state($properties)
+	public static function __set_state($properties): self
 	{
 		return new static($properties);
 	}
@@ -165,7 +165,7 @@ abstract class AbstractType implements ArrayAccess {
 	{
 		$object = $parent ?? $this;
 
-		if (is_scalar($object))
+		if (is_scalar($object) || empty($object))
 		{
 			return $object;
 		}
@@ -174,7 +174,7 @@ abstract class AbstractType implements ArrayAccess {
 
 		foreach ($object as $key => $value)
 		{
-			$output[$key] = is_scalar($value)
+			$output[$key] = (is_scalar($value) || empty($value))
 				? $value
 				: $this->toArray((array) $value);
 		}

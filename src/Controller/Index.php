@@ -175,6 +175,16 @@ final class Index extends BaseController {
 		]);
 	}
 
+	public function settings_post()
+	{
+		$auth = $this->container->get('auth');
+		$this->outputHTML('settings', [
+			'auth' => $auth,
+			'config' => $this->config,
+			'title' => $this->config->get('whose_list') . "'s Settings",
+		]);
+	}
+
 	/**
 	 * Get image covers from kitsu
 	 *

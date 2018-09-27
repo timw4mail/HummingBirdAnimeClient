@@ -16,14 +16,18 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\
-{FailedResponseException, JsonAPI, Kitsu\Transformer\MangaListTransformer, ParallelAPIRequest};
+use Aviat\AnimeClient\API\{
+	FailedResponseException,
+	JsonAPI,
+	Kitsu\Transformer\MangaListTransformer,
+	ParallelAPIRequest
+};
 use Aviat\AnimeClient\API\Anilist\Transformer\{
 	AnimeListTransformer as AALT,
-	MangaListTransformer as AMLT,
+	MangaListTransformer as AMLT
 };
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
-use Aviat\AnimeClient\Types\{AnimeFormItem, MangaFormItem};
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Json;
 use DateTime;
 
@@ -49,9 +53,9 @@ final class SyncLists extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @return void
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws \Throwable
 	 */
 	public function execute(array $args, array $options = []): void
 	{
@@ -65,10 +69,10 @@ final class SyncLists extends BaseCommand {
 	}
 
 	/**
-	 * Attempt to synchronize external apis
+	 * Attempt to synchronize external APIs
 	 *
-	 * @param string $type anime|manga
-	 * @return void
+	 * @param string $type
+	 * @throws \Throwable
 	 */
 	protected function sync(string $type): void
 	{
@@ -157,6 +161,8 @@ final class SyncLists extends BaseCommand {
 	 * Format an Anilist anime list for comparison
 	 *
 	 * @return array
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	protected function formatAnilistAnimeList(): array
 	{
@@ -188,6 +194,8 @@ final class SyncLists extends BaseCommand {
 	 * Format an Anilist manga list for comparison
 	 *
 	 * @return array
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	protected function formatAnilistMangaList(): array
 	{
@@ -223,7 +231,8 @@ final class SyncLists extends BaseCommand {
 	 */
 	protected function formatKitsuList(string $type = 'anime'): array
 	{
-		$data = $this->kitsuModel->{'getFullRaw' . ucfirst($type) . 'List'}();
+		$method = 'getFullRaw' . ucfirst($type) . 'List';
+		$data = $this->kitsuModel->$method();
 
 		if (empty($data))
 		{
@@ -294,14 +303,14 @@ final class SyncLists extends BaseCommand {
 			] : [
 				114638, // Cells at Work: Black
 			];
-		
+
 		$malIds = array_keys($anilistList);
 		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
 		$missingMalIds = array_diff($malIds, $kitsuMalIds);
 		$missingMalIds = array_diff($missingMalIds, $malBlackList);
 
 		foreach($missingMalIds as $mid)
-		{	
+		{
 			$itemsToAddToKitsu[] = array_merge($anilistList[$mid]['data'], [
 				'id' => $this->kitsuModel->getKitsuIdFromMALId((string)$mid, $type),
 				'type' => $type
@@ -311,8 +320,8 @@ final class SyncLists extends BaseCommand {
 		foreach($kitsuList as $kitsuItem)
 		{
 			$malId = $kitsuItem['malId'];
-			
-			if (in_array($malId, $malBlackList))
+
+			if (\in_array((int)$malId, $malBlackList, TRUE))
 			{
 				continue;
 			}
@@ -341,7 +350,7 @@ final class SyncLists extends BaseCommand {
 
 				continue;
 			}
-			
+
 			$statusMap = ($type === 'anime') ? AnimeWatchingStatus::class : MangaReadingStatus::class;
 
 			// Looks like this item only exists on Kitsu
@@ -356,13 +365,9 @@ final class SyncLists extends BaseCommand {
 					'repeat' => $kItem['reconsumeCount'],
 					'score' => $kItem['ratingTwenty'] / 2,
 					'status' => $newItemStatus,
-				], // $kitsuItem['data']
+				],
 			];
-
 		}
-		
-		//dump($itemsToAddToAnilist);
-		//die();
 
 		return [
 			'addToAnilist' => $itemsToAddToAnilist,
@@ -390,6 +395,7 @@ final class SyncLists extends BaseCommand {
 			'status',
 		];
 		$diff = [];
+		$dateDiff = new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime((string)$anilistItem['data']['updatedAt']);
 
 		// Correct differences in notation
 		$kitsuItem['data']['rating'] = $kitsuItem['data']['ratingTwenty'] / 2;
@@ -429,7 +435,6 @@ final class SyncLists extends BaseCommand {
 			$return['updateType'][] = 'kitsu';
 		}
 
-
 		// If status is the same, and progress count is different, use greater progress
 		if ($sameStatus && ( ! $sameProgress))
 		{
@@ -444,17 +449,24 @@ final class SyncLists extends BaseCommand {
 				$return['updateType'][] = 'kitsu';
 			}
 		}
-		
-		// If status is different, go with Kitsu
+
+		// If status is different, use the status of the more recently updated item
 		if ( ! $sameStatus)
 		{
-			$update['data']['status'] = $kitsuItem['data']['status'];
-			$return['updateType'][] = 'anilist';
+			if ($dateDiff === 1)
+			{
+				$update['data']['status'] = $kitsuItem['data']['status'];
+				$return['updateType'][] = 'anilist';
+			} else if ($dateDiff === -1)
+			{
+				$update['data']['status'] = $anilistItem['data']['status'];
+				$return['updateType'][] = 'kitsu';
+			}
 		}
 
 		// If status and progress are different, it's a bit more complicated...
 		// But, at least for now, assume newer record is correct
-		/* if ( ! ($sameStatus || $sameProgress))
+		if ( ! ($sameStatus || $sameProgress))
 		{
 			if ($dateDiff === 1)
 			{
@@ -478,18 +490,17 @@ final class SyncLists extends BaseCommand {
 
 				$return['updateType'][] = 'kitsu';
 			}
-		}*/
+		}
 
-		// If rating is different, use the kitsu rating, unless the other rating
-		// is set, and the kitsu rating is not set
+		// Use the first set rating, otherwise use the newer rating
 		if ( ! $sameRating)
 		{
-			if ($kitsuItem['data']['rating'] !== 0)
+			if ($kitsuItem['data']['rating'] !== 0 && $dateDiff === 1)
 			{
 				$update['data']['rating'] = $kitsuItem['data']['rating'];
 				$return['updateType'][] = 'anilist';
 			}
-			else
+			else if($dateDiff === -1)
 			{
 				$update['data']['rating'] = $anilistItem['data']['rating'];
 				$return['updateType'][] = 'kitsu';
@@ -526,30 +537,17 @@ final class SyncLists extends BaseCommand {
 			}
 		}
 
-		// If status is different, use the status of the more recently updated item
-		/* if ( ! $sameStatus)
-		{
-			if ($dateDiff === 1)
-			{
-				$update['data']['status'] = $kitsuItem['data']['status'];
-				$return['updateType'][] = 'anilist';
-			}
-			else if ($dateDiff === -1)
-			{
-				$update['data']['status'] = $anilistItem['data']['status'];
-				$return['updateType'][] = 'kitsu';
-			}
-		} */
+
 
 		$return['meta'] = [
 			'kitsu' => $kitsuItem['data'],
 			'anilist' => $anilistItem['data'],
-			// 'dateDiff' => $dateDiff,
+			'dateDiff' => $dateDiff,
 			'diff' => $diff,
 		];
 		$return['data'] = $update;
 		$return['updateType'] = array_unique($return['updateType']);
-		
+
 		// Fill in missing data values for update on Anlist
 		// so I don't have to create a really complex graphql query
 		// to handle each combination of fields
@@ -564,11 +562,11 @@ final class SyncLists extends BaseCommand {
 				'reconsuming' => $kitsuItem['data']['reconsuming'],
 				'status' => $kitsuItem['data']['status'],
 			];
-			
+
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
 		}
 
-		// dump($return);
+		dump($return);
 
 		return $return;
 	}
@@ -579,18 +577,17 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
+	 * @throws \Throwable
 	 */
 	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$requester = new ParallelAPIRequest();
 		foreach($itemsToUpdate as $item)
 		{
-			$typeClass = '\\Aviat\\AnimeClient\\Types\\' . ucFirst($type) . 'FormItem';
-			
 			if ($action === 'update')
 			{
 				$requester->addRequest(
-					$this->kitsuModel->updateListItem(new $typeClass($item))
+					$this->kitsuModel->updateListItem(new FormItem($item))
 				);
 			}
 			else if ($action === 'create')
@@ -626,19 +623,18 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
+	 * @throws \Throwable
 	 */
-	protected function updateAnilistListItems(array$itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	protected function updateAnilistListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
 		$requester = new ParallelAPIRequest();
-		
-		$typeClass = '\\Aviat\\AnimeClient\\Types\\' . ucFirst($type) . 'FormItem';
 
 		foreach($itemsToUpdate as $item)
 		{
 			if ($action === 'update')
-			{	
+			{
 				$requester->addRequest(
-					$this->anilistModel->updateListItem(new $typeClass($item), $type)
+					$this->anilistModel->updateListItem(new FormItem($item), $type)
 				);
 			}
 			else if ($action === 'create')
