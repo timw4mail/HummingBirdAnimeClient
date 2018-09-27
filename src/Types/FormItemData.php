@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an Anime object for display
+ * Type representing a Media object for editing/syncing
  */
-abstract class FormItemData extends AbstractType {
+class FormItemData extends AbstractType {
 	public $notes;
 	public $private;
 	public $progress;
@@ -28,4 +28,5 @@ abstract class FormItemData extends AbstractType {
 	public $reconsumeCount;
 	public $reconsuming;
 	public $status;
+	public $updatedAt;
 }

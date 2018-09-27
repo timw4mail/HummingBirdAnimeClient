@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
 	Anime,
-	AnimeFormItem,
+	FormItem,
 	AnimeListItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -95,7 +95,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
+				'show_type' => $this->string($anime['subtype'])->upperCaseFirst()->__toString(),
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
@@ -114,14 +114,14 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 * api response format
 	 *
 	 * @param array $item Transformed library item
-	 * @return AnimeFormItem API library item
+	 * @return FormItem API library item
 	 */
-	public function untransform($item): AnimeFormItem
+	public function untransform($item): FormItem
 	{
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
-		$untransformed = new AnimeFormItem([
+		$untransformed = new FormItem([
 			'id' => $item['id'],
 			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,

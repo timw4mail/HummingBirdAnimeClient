@@ -67,7 +67,7 @@ final class Auth {
 	 * @param  string $password
 	 * @return boolean
 	 */
-	public function authenticate($password)
+	public function authenticate(string $password): bool
 	{
 		$config = $this->container->get('config');
 		$username = $config->get(['kitsu_username']);
@@ -117,7 +117,7 @@ final class Auth {
 	 * @param string $token
 	 * @return boolean
 	 */
-	public function reAuthenticate(string $token)
+	public function reAuthenticate(string $token): bool
 	{
 		try
 		{
@@ -162,7 +162,7 @@ final class Auth {
 	 *
 	 * @return boolean
 	 */
-	public function isAuthenticated()
+	public function isAuthenticated(): bool
 	{
 		return ($this->get_auth_token() !== FALSE);
 	}
@@ -172,7 +172,7 @@ final class Auth {
 	 *
 	 * @return void
 	 */
-	public function logout()
+	public function logout(): void
 	{
 		$this->segment->clear();
 	}
@@ -185,14 +185,18 @@ final class Auth {
 	public function get_auth_token()
 	{
 		$token = $this->segment->get('auth_token', FALSE);
-		$refresh_token = $this->segment->get('refresh_token', FALSE);
+		$refreshToken = $this->segment->get('refresh_token', FALSE);
 		$isExpired = time() > $this->segment->get('auth_token_expires', 0);
 
 		// Attempt to re-authenticate with refresh token
-		if ($isExpired && $refresh_token)
+		if ($isExpired && $refreshToken)
 		{
-			$reauthenticated = $this->reAuthenticate($refresh_token);
-			return $this->segment->get('auth_token', FALSE);
+			if ($this->reAuthenticate($refreshToken))
+			{
+				return $this->segment->get('auth_token', FALSE);
+			}
+
+			return FALSE;
 		}
 
 		return $token;

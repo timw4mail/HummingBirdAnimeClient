@@ -52,6 +52,26 @@ function loadToml(string $path): array
 }
 
 /**
+ * Load configuration from toml files, keyed by the original file
+ *
+ * @param string $path
+ * @return array
+ */
+function loadTomlByFile(string $path): array
+{
+	$output = [];
+	$files = glob("{$path}/*.toml");
+
+	foreach ($files as $file)
+	{
+		$config = Toml::parseFile($file);
+		$output[basename($file)] = $config;
+	}
+
+	return $output;
+}
+
+/**
  * Is the array sequential, not associative?
  *
  * @param mixed $array

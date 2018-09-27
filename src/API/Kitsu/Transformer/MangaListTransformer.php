@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
-	MangaFormItem, MangaFormItemData,
+	FormItem, FormItemData,
 	MangaListItem, MangaListItemDetail
 };
 use Aviat\Ion\StringWrapper;
@@ -97,7 +97,7 @@ final class MangaListTransformer extends AbstractTransformer {
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => $manga['mangaType'],
+				'type' => $this->string($manga['subtype'])->upperCaseFirst()->__toString(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => $item['attributes']['status'],
@@ -114,16 +114,16 @@ final class MangaListTransformer extends AbstractTransformer {
 	 * Untransform data to update the api
 	 *
 	 * @param  array $item
-	 * @return MangaFormItem
+	 * @return FormItem
 	 */
-	public function untransform($item): MangaFormItem
+	public function untransform($item): FormItem
 	{
 		$rereading = array_key_exists('rereading', $item) && (bool)$item['rereading'];
 
-		$map = new MangaFormItem([
+		$map = new FormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['mal_id'],
-			'data' => new MangaFormItemData([
+			'data' => new FormItemData([
 				'status' => $item['status'],
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],

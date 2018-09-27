@@ -18,9 +18,11 @@ namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Anilist as AnilistStatus;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
-use Aviat\AnimeClient\Types\MangaFormItem;
+use Aviat\AnimeClient\Types\FormItem;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
+
+use DateTime;
 
 class MangaListTransformer extends AbstractTransformer {
 
@@ -33,11 +35,11 @@ class MangaListTransformer extends AbstractTransformer {
 	 * Transform Anilist list item to Kitsu form update format
 	 *
 	 * @param array $item
-	 * @return MangaFormItem
+	 * @return FormItem
 	 */
-	public function untransform(array $item): MangaFormItem
+	public function untransform(array $item): FormItem
 	{
-		return new MangaFormItem([
+		return new FormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['media']['idMal'],
 			'data' => [
@@ -48,6 +50,9 @@ class MangaListTransformer extends AbstractTransformer {
 				'reconsumeCount' => $item['repeat'],
 				'reconsuming' => $item['status'] === AnilistStatus::REPEATING,
 				'status' => MangaReadingStatus::ANILIST_TO_KITSU[$item['status']],
+				'updatedAt' => (new DateTime())
+					->setTimestamp($item['updatedAt'])
+					->format(DateTime::W3C),
 			]
 		]);
 	}

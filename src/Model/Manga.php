@@ -22,7 +22,7 @@ use Aviat\AnimeClient\API\{
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\Types\{
-	MangaFormItem,
+	FormItem,
 	MangaListItem,
 	MangaPage
 };
@@ -149,10 +149,10 @@ class Manga extends API {
 	/**
 	 * Update a list entry
 	 *
-	 * @param MangaFormItem $data
+	 * @param FormItem $data
 	 * @return array
 	 */
-	public function updateLibraryItem(MangaFormItem $data): array
+	public function updateLibraryItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
@@ -177,10 +177,10 @@ class Manga extends API {
 	/**
 	 * Increase the progress of a list entry
 	 *
-	 * @param MangaFormItem $data
+	 * @param FormItem $data
 	 * @return array
 	 */
-	public function incrementLibraryItem(MangaFormItem $data): array
+	public function incrementLibraryItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');

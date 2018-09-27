@@ -61,7 +61,7 @@ _.on('.manga.list', 'click', '.edit_buttons button', (e) => {
 
 	_.show(_.$('#loading-shadow')[ 0 ]);
 
-	_.ajax(_.url('/manga/update'), {
+	_.ajax(_.url('/manga/increment'), {
 		data,
 		dataType: 'json',
 		type: 'POST',

@@ -20,7 +20,7 @@ use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
-use Aviat\AnimeClient\Types\AnimeFormItem;
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use Aviat\Ion\StringWrapper;
@@ -204,7 +204,7 @@ final class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(new AnimeFormItem($postData));
+		$fullResult = $this->model->updateLibraryItem(new FormItem($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -235,7 +235,7 @@ final class Anime extends BaseController {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->incrementLibraryItem(new AnimeFormItem($data));
+		$response = $this->model->incrementLibraryItem(new FormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);

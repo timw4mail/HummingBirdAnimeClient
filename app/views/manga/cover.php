@@ -49,6 +49,7 @@
 						</div>
 						<?php endif ?>
 						<div class="row">
+							<div><?= $item['manga']['type'] ?></div>
 							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
 
