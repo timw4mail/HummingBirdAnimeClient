@@ -568,7 +568,7 @@ final class SyncLists extends BaseCommand {
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
 		}
 
-		dump($return);
+		// dump($return);
 
 		return $return;
 	}

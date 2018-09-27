@@ -95,7 +95,7 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 				'reconsuming' => false,
 				'reconsumeCount' => 0,
 				'notes' => '',
-				'rating' => 4.5
+				'ratingTwenty' => 18,
 			])
 		]);
 
