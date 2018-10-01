@@ -63,7 +63,7 @@ final class ParallelAPIRequest {
 	}
 
 	/**
-	 * Actually make the requests
+	 * Make the requests, and return the body for each
 	 *
 	 * @return array
 	 * @throws \Throwable
@@ -78,6 +78,27 @@ final class ParallelAPIRequest {
 			$promises[$key] = call(function () use ($client, $url) {
 				$response = yield $client->request($url);
 				return yield $response->getBody();
+			});
+		}
+
+		return wait(all($promises));
+	}
+
+	/**
+	 * Make the requests and return the response objects
+	 *
+	 * @return array
+	 * @throws \Throwable
+	 */
+	public function getResponses(): array
+	{
+		$client = new HummingbirdClient();
+		$promises = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$promises[$key] = call(function () use ($client, $url) {
+				return yield $client->request($url);
 			});
 		}
 

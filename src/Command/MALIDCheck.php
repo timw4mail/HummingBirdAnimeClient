@@ -16,11 +16,14 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use const Aviat\AnimeClient\MILLI_FROM_NANO;
+use const Aviat\AnimeClient\SRC_DIR;
+
+use function Amp\Promise\wait;
 
 use Aviat\AnimeClient\API\{
 	APIRequestBuilder,
 	JsonAPI,
-	FailedResponseException,
 	ParallelAPIRequest
 };
 
@@ -38,6 +41,7 @@ final class MALIDCheck extends BaseCommand {
 	 * @param array $options
 	 * @throws \Aviat\Ion\Di\Exception\ContainerException
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws \Throwable
 	 */
 	public function execute(array $args, array $options = []): void
 	{
@@ -45,30 +49,25 @@ final class MALIDCheck extends BaseCommand {
 		$this->setCache($this->container->get('cache'));
 		$this->kitsuModel = $this->container->get('kitsu-model');
 
-		// @TODO: Stuff!
-	}
+		$kitsuAnimeIdList = $this->formatKitsuList('anime');
+		$animeCount = count($kitsuAnimeIdList);
+		$this->echoBox("{$animeCount} mappings for Anime");
+		$animeMappings = $this->checkMALIds($kitsuAnimeIdList, 'anime');
+		$this->mappingStatus($animeMappings, $animeCount, 'anime');
 
-	private function getListIds()
-	{
-		$this->getListCounts('anime');
-		$this->getListCounts('manga');
+		$kitsuMangaIdList = $this->formatKitsuList('manga');
+		$mangaCount = count($kitsuMangaIdList);
+		$this->echoBox("{$mangaCount} mappings for Manga");
+		$mangaMappings = $this->checkMALIds($kitsuMangaIdList, 'manga');
+		$this->mappingStatus($mangaMappings, $mangaCount, 'manga');
 
-	}
+		$publicDir = realpath(SRC_DIR . '/../public') . '/';
+		file_put_contents($publicDir . 'mal_mappings.json', Json::encode([
+			'anime' => $animeMappings,
+			'manga' => $mangaMappings,
+		]));
 
-	private function getListCounts($type): void
-	{
-		$uType = ucfirst($type);
-
-		$kitsuCount = 0;
-		try
-		{
-			$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
-		} catch (FailedResponseException $e)
-		{
-			dump($e);
-		}
-
-		$this->echoBox("Number of Kitsu {$type} list items: {$kitsuCount}");
+		$this->echoBox('Mapping file saved to "' . $publicDir . 'mal_mappings.json' . '"');
 	}
 
 	/**
@@ -77,9 +76,12 @@ final class MALIDCheck extends BaseCommand {
 	 * @param string $type
 	 * @return array
 	 */
-	protected function formatKitsuList(string $type = 'anime'): array
+	private function formatKitsuList(string $type = 'anime'): array
 	{
-		$data = $this->kitsuModel->{'getFull' . ucfirst($type) . 'List'}();
+		$options = [
+			'include' => 'media,media.mappings',
+		];
+		$data = $this->kitsuModel->{'getFullRaw' . ucfirst($type) . 'List'}($options);
 
 		if (empty($data))
 		{
@@ -87,15 +89,23 @@ final class MALIDCheck extends BaseCommand {
 		}
 
 		$includes = JsonAPI::organizeIncludes($data['included']);
-		$includes['mappings'] = $this->filterMappings($includes['mappings'], $type);
+
+		// Only bother with mappings from MAL that are of the specified media type
+		$includes['mappings'] = array_filter($includes['mappings'], function ($mapping) use ($type) {
+			return $mapping['externalSite'] === "myanimelist/{$type}";
+		});
 
 		$output = [];
 
 		foreach ($data['data'] as $listItem)
 		{
-			$id = $listItem['relationships'][$type]['data']['id'];
+			$id = $listItem['relationships']['media']['data']['id'];
+			$mediaItem = $includes[$type][$id];
 
-			$potentialMappings = $includes[$type][$id]['relationships']['mappings'];
+			// Set titles
+			$listItem['titles'] = $mediaItem['titles'];
+
+			$potentialMappings = $mediaItem['relationships']['mappings'];
 			$malId = NULL;
 
 			foreach ($potentialMappings as $mappingId)
@@ -112,81 +122,132 @@ final class MALIDCheck extends BaseCommand {
 				continue;
 			}
 
-			$output[$listItem['id']] = [
-				'id' => $listItem['id'],
-				'malId' => $malId,
-				'data' => $listItem['attributes'],
-			];
+			// Group by malIds to simplify lookup of media details
+			// for checking validity of the malId mappings
+			$output[$malId] = $listItem;
 		}
+
+		ksort($output);
 
 		return $output;
 	}
 
 	/**
-	 * Filter Kitsu mappings for the specified type
+	 * Check for valid Kitsu -> MAL mapping
 	 *
-	 * @param array $includes
+	 * @param array $kitsuList
 	 * @param string $type
 	 * @return array
+	 * @throws \Throwable
 	 */
-	protected function filterMappings(array $includes, string $type = 'anime'): array
+	private function checkMALIds(array $kitsuList, string $type): array
 	{
-		$output = [];
+		$goodMappings = [];
+		$badMappings = [];
+		$suspectMappings = [];
 
-		foreach ($includes as $id => $mapping)
+		$responses = $this->makeMALRequests(array_keys($kitsuList), $type);
+
+		// If the page returns a 404, put it in the bad mappings list
+		// otherwise, do a search against the titles, to see if the mapping
+		// seems valid
+		foreach($responses as $id => $response)
 		{
-			if ($mapping['externalSite'] === "myanimelist/{$type}")
+			$body = wait($response->getBody());
+			$titles = $kitsuList[$id]['titles'];
+
+			if ($response->getStatus() === 404)
 			{
-				$output[$id] = $mapping;
+				dump($titles);
+				die();
+				$badMappings[$id] = $titles;
+			}
+			else
+			{
+				$titleMatches = FALSE;
+
+				// Attempt to determine if the id matches
+				// By searching for a matching title
+				foreach($titles as $title)
+				{
+					if (empty($title))
+					{
+						continue;
+					}
+
+					if (mb_stripos($body, $title) !== FALSE)
+					{
+						// echo "MAL id {$id} seems to match \"{$title}\"\n";
+
+						$titleMatches = TRUE;
+						$goodMappings[$id] = $title;
+
+						// Continue on outer loop
+						continue 2;
+					}
+				}
+
+				if ( ! $titleMatches)
+				{
+					$suspectMappings[$id] = $titles;
+				}
+				else
+				{
+					$goodMappings[$id] = $titles;
+				}
 			}
 		}
 
-		return $output;
+		return [
+			'good' => $goodMappings,
+			'bad' => $badMappings,
+			'suspect' => $suspectMappings,
+		];
 	}
 
-	protected function checkMALIds(array $kitsuList, string $type)
+	private function makeMALRequests(array $ids, string $type): array
 	{
-		$requester = new ParallelAPIRequest();
+		$baseUrl = "https://myanimelist.net/{$type}/";
+
+		$requestChunks = array_chunk($ids, 10, TRUE);
+		$responses = [];
+
+		// Chunk parallel requests so that we don't hit rate
+		// limiting, and get spurious 404 HTML responses
+		foreach($requestChunks as $idChunk)
+		{
+			$requester = new ParallelAPIRequest();
+
+			foreach($idChunk as $id)
+			{
+				$request = APIRequestBuilder::simpleRequest($baseUrl . $id);
+				echo "Checking {$baseUrl}{$id} \n";
+				$requester->addRequest($request, (string)$id);
+			}
+
+			foreach($requester->getResponses() as $id => $response)
+			{
+				$responses[$id] = $response;
+			}
+
+			echo "Finished checking chunk of 10 entries\n";
+
+			// Rate limiting is annoying :(
+			sleep(1);
+			// time_nanosleep(1,  0 * MILLI_FROM_NANO);
+		}
+
+		return $responses;
 	}
 
-	/**
-	 * Create/Update list items on Kitsu
-	 *
-	 * @param array $itemsToUpdate
-	 * @param string $action
-	 * @param string $type
-	 */
-	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	private function mappingStatus(array $mapping, int $count, string $type): void
 	{
-		$requester = new ParallelAPIRequest();
-		foreach ($itemsToUpdate as $item)
-		{
-			if ($action === 'update')
-			{
-				$requester->addRequest($this->kitsuModel->updateListItem($item));
-			} else if ($action === 'create')
-			{
-				$requester->addRequest($this->kitsuModel->createListItem($item));
-			}
-		}
+		$good = count($mapping['good']);
+		$bad = count($mapping['bad']);
+		$suspect = count($mapping['suspect']);
 
-		$responses = $requester->makeRequests();
+		$uType = ucfirst($type);
 
-		foreach ($responses as $key => $response)
-		{
-			$responseData = Json::decode($response);
-
-			$id = $itemsToUpdate[$key]['id'];
-			if ( ! array_key_exists('errors', $responseData))
-			{
-				$verb = ($action === 'update') ? 'updated' : 'created';
-				$this->echoBox("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
-			} else
-			{
-				dump($responseData);
-				$verb = ($action === 'update') ? 'update' : 'create';
-				$this->echoBox("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
-			}
-		}
+		$this->echoBox("{$uType} mappings: {$good}/{$count} Good, {$suspect}/{$count} Suspect, {$bad}/{$count} Broken");
 	}
 }
