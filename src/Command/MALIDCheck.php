@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -233,8 +233,8 @@ final class MALIDCheck extends BaseCommand {
 			echo "Finished checking chunk of 10 entries\n";
 
 			// Rate limiting is annoying :(
-			sleep(1);
-			// time_nanosleep(1,  0 * MILLI_FROM_NANO);
+			// sleep(1);
+			// time_nanosleep(0,  250 * MILLI_FROM_NANO);
 		}
 
 		return $responses;
