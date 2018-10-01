@@ -89,14 +89,14 @@ final class Model
 			throw new InvalidArgumentException('Media id missing');
 		}
 
-		if ($type === 'anime')
+		if ($type === 'ANIME')
 		{
 			$createData = [
 				'id' => $mediaId,
 				'status' => AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']],
 			];
 		}
-		elseif ($type === 'manga')
+		elseif ($type === 'MANGA')
 		{
 			$createData = [
 				'id' => $mediaId,

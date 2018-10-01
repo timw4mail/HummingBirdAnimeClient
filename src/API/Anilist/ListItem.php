@@ -97,19 +97,19 @@ final class ListItem implements ListItemInterface{
 	 * @return Request
 	 */
 	public function update(string $id, FormItemData $data): Request
-	{	
+	{
 		$array = $data->toArray();
 
 		$notes = $data['notes'] ?? '';
 		$progress = array_key_exists('progress', $array) ? $data['progress'] : 0;
 		$private = array_key_exists('private', $array) ? (bool)$data['private'] : false;
-		$rating = array_key_exists('rating', $array) ? $data['rating'] : NULL;
+		$rating = array_key_exists('ratingTwenty', $array) ? $data['ratingTwenty'] : NULL;
 		$status = ($data['reconsuming'] === true) ? AnilistStatus::REPEATING : AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']];
-		
+
 		$updateData = [
 			'id' => (int)$id,
 			'status' => $status,
-			'score' => $rating * 10,
+			'score' => $rating * 5,
 			'progress' => $progress,
 			'repeat' => (int)$data['reconsumeCount'],
 			'private' => $private,
