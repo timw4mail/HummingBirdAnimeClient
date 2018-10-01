@@ -67,6 +67,18 @@ class APIRequestBuilder {
 	protected $request;
 
 	/**
+	 * Do a basic minimal GET request
+	 *
+	 * @param string $uri
+	 * @return Request
+	 */
+	public static function simpleRequest(string $uri): Request
+	{
+		return (new Request($uri))
+			->withHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0 ');
+	}
+
+	/**
 	 * Set an authorization header
 	 *
 	 * @param string $type The type of authorization, eg, basic, bearer, etc.
