@@ -201,7 +201,7 @@ final class Index extends BaseController {
 	public function images(string $type, string $file): void
 	{
 		$kitsuUrl = 'https://media.kitsu.io/';
-		list($id, $ext) = explode('.', basename($file));
+		[$id, $ext] = explode('.', basename($file));
 		switch ($type)
 		{
 			case 'anime':

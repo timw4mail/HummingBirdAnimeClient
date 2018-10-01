@@ -66,6 +66,8 @@ final class SyncLists extends BaseCommand {
 
 		$this->sync('anime');
 		$this->sync('manga');
+
+		$this->echoBox('Finished syncing lists');
 	}
 
 	/**
@@ -363,7 +365,7 @@ final class SyncLists extends BaseCommand {
 					'private' => $kItem['private'],
 					'progress' => $kItem['progress'],
 					'repeat' => $kItem['reconsumeCount'],
-					'score' => $kItem['ratingTwenty'] / 2,
+					'score' => $kItem['ratingTwenty'] * 5, // 100 point score on Anilist
 					'status' => $newItemStatus,
 				],
 			];
@@ -425,7 +427,7 @@ final class SyncLists extends BaseCommand {
 		$sameNotes = $diff['notes'] === 0;
 		$sameStatus = $diff['status'] === 0;
 		$sameProgress = $diff['progress'] === 0;
-		$sameRating = $diff['rating'] === 0;
+		$sameRating = $diff['ratingTwenty'] === 0;
 		$sameRewatchCount = $diff['reconsumeCount'] === 0;
 
 		// If an item is completed, make sure the 'reconsuming' flag is false
@@ -497,12 +499,12 @@ final class SyncLists extends BaseCommand {
 		{
 			if ($kitsuItem['data']['rating'] !== 0 && $dateDiff === 1)
 			{
-				$update['data']['rating'] = $kitsuItem['data']['rating'];
+				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
 				$return['updateType'][] = 'anilist';
 			}
 			else if($dateDiff === -1)
 			{
-				$update['data']['rating'] = $anilistItem['data']['rating'];
+				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
 				$return['updateType'][] = 'kitsu';
 			}
 		}
@@ -557,7 +559,7 @@ final class SyncLists extends BaseCommand {
 				'notes' => $kitsuItem['data']['notes'],
 				'private' => $kitsuItem['data']['private'],
 				'progress' => $kitsuItem['data']['progress'],
-				'rating' => $kitsuItem['data']['rating'],
+				'rating' => $kitsuItem['data']['ratingTwenty'] * 5,
 				'reconsumeCount' => $kitsuItem['data']['reconsumeCount'],
 				'reconsuming' => $kitsuItem['data']['reconsuming'],
 				'status' => $kitsuItem['data']['status'],
