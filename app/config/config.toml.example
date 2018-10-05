@@ -10,3 +10,21 @@ whose_list = "Tim"
 
 # do you wish to show the anime collection?
 show_anime_collection = true
+
+# do you wish to show the manga collection?
+show_manga_collection = false
+
+################################################################################
+# Default views and paths
+################################################################################
+
+# Path to public directory, where images/css/javascript are located,
+# appended to the url
+asset_path = "/public"
+
+# Which list should be the default?
+default_list = "anime" # anime or manga
+
+# Default pages for anime/manga
+default_anime_list_path = "watching" # watching|plan_to_watch|on_hold|dropped|completed|all
+default_manga_list_path = "reading" # reading|plan_to_read|on_hold|dropped|completed|all

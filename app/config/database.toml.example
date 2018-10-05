@@ -2,7 +2,6 @@
 #                            Database Configuration                            #
 ################################################################################
 
-[collection]
 type = "sqlite"
 host = ""
 user = ""
