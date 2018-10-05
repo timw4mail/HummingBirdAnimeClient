@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Router\Matcher;
+use Aura\Router\{Matcher, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
@@ -314,7 +314,7 @@ final class Dispatcher extends RoutingBase {
 		$params = [];
 
 		switch($failure->failedRule) {
-			case 'Aura\Router\Rule\Allows':
+			case Rule\Allows::class:
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
@@ -322,7 +322,7 @@ final class Dispatcher extends RoutingBase {
 				];
 			break;
 
-			case 'Aura\Router\Rule\Accepts':
+			case Rule\Accepts::class:
 				$params = [
 					'http_code' => 406,
 					'title' => '406 Not Acceptable',

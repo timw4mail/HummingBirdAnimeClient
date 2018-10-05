@@ -79,7 +79,7 @@ final class Index extends BaseController {
 	{
 		$redirectUrl = 'https://anilist.co/api/v2/oauth/authorize?' .
 			http_build_query([
-				'client_id' => 271,
+				'client_id' => $this->config->get(['anilist', 'client_id']),
 				'response_type' => 'code',
 			]);
 
@@ -109,6 +109,7 @@ final class Index extends BaseController {
 	{
 		$auth = $this->container->get('auth');
 		$post = $this->request->getParsedBody();
+
 		if ($auth->authenticate($post['password']))
 		{
 			$this->sessionRedirect();

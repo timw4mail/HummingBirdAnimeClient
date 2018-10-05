@@ -121,16 +121,16 @@ final class Model {
 		]);
 		$data = Json::decode(wait($response->getBody()));
 
-		if (array_key_exists('access_token', $data))
-		{
-			return $data;
-		}
-
 		if (array_key_exists('error', $data))
 		{
 			dump($data['error']);
 			dump($response);
 			die();
+		}
+
+		if (array_key_exists('access_token', $data))
+		{
+			return $data;
 		}
 
 		return FALSE;
@@ -376,9 +376,7 @@ final class Model {
 			// Bail out on no data
 			if (empty($data))
 			{
-				$cacheItem->set([]);
-				$cacheItem->save();
-				return $cacheItem->get();
+				return [];
 			}
 
 			$included = JsonAPI::organizeIncludes($data['included']);
@@ -638,9 +636,7 @@ final class Model {
 			// Bail out on no data
 			if (empty($data) || ( ! array_key_exists('included', $data)))
 			{
-				$cacheItem->set([]);
-				$cacheItem->save();
-				return $cacheItem->get();
+				return [];
 			}
 
 			$included = JsonAPI::organizeIncludes($data['included']);

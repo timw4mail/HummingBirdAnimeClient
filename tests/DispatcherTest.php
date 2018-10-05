@@ -98,7 +98,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					]
 				],
 			],
-			'route_config' => [
+			'config' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
 				'default_list' => 'anime'
@@ -132,8 +132,8 @@ class DispatcherTest extends AnimeClientTestCase {
 			]
 		];
 
-		$data['manga_default_routing_anime']['config']['route_config']['default_list'] = 'manga';
-		$data['manga_default_routing_manga']['config']['route_config']['default_list'] = 'manga';
+		$data['manga_default_routing_anime']['config']['default_list'] = 'manga';
+		$data['manga_default_routing_manga']['config']['default_list'] = 'manga';
 
 		return $data;
 	}
@@ -167,7 +167,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	public function testDefaultRoute()
 	{
 		$config = [
-			'route_config' => [
+			'config' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
 				'default_anime_list_path' => "watching",
@@ -192,11 +192,12 @@ class DispatcherTest extends AnimeClientTestCase {
 			]
 		];
 
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->doSetUp($config, "/", "localhost");
 		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->defaultUrl('manga'), "Incorrect default url");
 		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->defaultUrl('anime'), "Incorrect default url");
 
-		$this->expectException(\InvalidArgumentException::class);
 		$this->urlGenerator->defaultUrl('foo');
 	}
 
@@ -205,16 +206,12 @@ class DispatcherTest extends AnimeClientTestCase {
 		return [
 			'controller_list_sanity_check' => [
 				'config' => [
-					'routes' => [
-
-					],
-					'route_config' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_list_path' => "watching",
-						'default_manga_list_path' => 'all',
-						'default_list' => 'manga'
-					],
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_anime_list_path' => "watching",
+					'default_manga_list_path' => 'all',
+					'default_list' => 'manga',
+					'routes' => [],
 				],
 				'expected' => [
 					'anime' => 'Aviat\AnimeClient\Controller\Anime',
@@ -230,13 +227,11 @@ class DispatcherTest extends AnimeClientTestCase {
 					'routes' => [
 
 					],
-					'route_config' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_path' => "/anime/watching",
-						'default_manga_path' => '/manga/all',
-						'default_list' => 'manga'
-					],
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_anime_path' => "/anime/watching",
+					'default_manga_path' => '/manga/all',
+					'default_list' => 'manga'
 				],
 				'expected' => [
 					'anime' => 'Aviat\AnimeClient\Controller\Anime',

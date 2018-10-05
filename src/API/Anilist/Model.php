@@ -118,9 +118,9 @@ final class Model
 	{
 		$createData = $data['data'];
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id']);
-		
+
 		$createData['id'] = $mediaId;
-		
+
 		return $this->listItem->createFull($createData);
 	}
 
@@ -192,22 +192,22 @@ final class Model
 		$mediaId = $this->getMediaIdFromMalId($malId, $type);
 		return $this->getListIdFromMediaId($mediaId);
 	}
-	
+
 	/**
 	 * Get the Anilist media id from its MAL id
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
 	 */
-	private function getListIdFromMediaId(string $mediaId)
+	private function getListIdFromMediaId(string $mediaId): string
 	{
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
-		
+
 		$info = $this->runQuery('ListItemIdByMediaId', [
 			'id' => $mediaId,
 			'userName' => $anilistUser,
 		]);
-		
+
 		/* dump([
 			'media_id' => $mediaId,
 			'userName' => $anilistUser,
@@ -231,7 +231,7 @@ final class Model
 			'id' => $malId,
 			'type' => mb_strtoupper($type),
 		]);
-		
+
 		/* dump([
 			'mal_id' => $malId,
 			'response' => $info,

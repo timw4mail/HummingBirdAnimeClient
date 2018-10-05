@@ -17,11 +17,10 @@
 namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
-use LogicException;
 
 abstract class AbstractType implements ArrayAccess {
 	/**
-	 * Populate values for unserializing data
+	 * Populate values for un-serializing data
 	 *
 	 * @param $properties
 	 * @return mixed
@@ -87,7 +86,7 @@ abstract class AbstractType implements ArrayAccess {
 		{
 			$existing = json_encode($this);
 
-			throw new LogicException("Trying to set non-existent property: '$name'. Existing properties: $existing");
+			throw new UndefinedPropertyException("Trying to set undefined property: '$name'. Existing properties: $existing");
 		}
 
 		$this->$name = $value;
@@ -106,7 +105,7 @@ abstract class AbstractType implements ArrayAccess {
 			return $this->$name;
 		}
 
-		throw new LogicException("Trying to get non-existent property: '$name'");
+		throw new UndefinedPropertyException("Trying to get undefined property: '$name'");
 	}
 
 	/**
