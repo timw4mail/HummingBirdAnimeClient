@@ -45,12 +45,6 @@ class RoutingBase {
 	protected $routes;
 
 	/**
-	 * Route configuration options
-	 * @var array
-	 */
-	protected $routeConfig;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
@@ -63,20 +57,19 @@ class RoutingBase {
 		$this->container = $container;
 		$this->config = $container->get('config');
 		$this->routes = $this->config->get('routes');
-		$this->routeConfig = $this->config->get('route_config');
 	}
 
 	/**
 	 * Retrieve the appropriate value for the routing key
 	 *
-	 * @param string $key
+	 * @param string|int|array $key
 	 * @return mixed
 	 */
 	public function __get($key)
 	{
-		if (array_key_exists($key, $this->routeConfig))
+		if ($this->config->has($key))
 		{
-			return $this->routeConfig[$key];
+			return $this->config->get($key);
 		}
 	}
 

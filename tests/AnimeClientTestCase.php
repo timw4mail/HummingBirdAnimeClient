@@ -70,7 +70,7 @@ class AnimeClientTestCase extends TestCase {
 		$APP_DIR = _dir($ROOT_DIR, 'app');
 
 		$config_array = [
-			'asset_path' => '//localhost/assets/',
+			'asset_path' => '/assets',
 			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
 			'cache' => [
@@ -99,16 +99,9 @@ class AnimeClientTestCase extends TestCase {
 					'file' => ':memory:',
 				]
 			],
-			'route_config' => [
-				'asset_path' => '/assets'
-			],
 			'routes' => [
 
 			],
-			'mal' => [
-				'username' => 'foo',
-				'password' => 'bar'
-			]
 		];
 
 		// Set up DI container

@@ -51,7 +51,7 @@ class ControllerTest extends AnimeClientTestCase {
 	public function testControllersSanity()
 	{
 		$config = $this->container->get('config');
-		$config->set(['database', 'collection'], [
+		$config->set('database', [
 			'type' => 'sqlite',
 			'database' => '',
 			'file' => ":memory:"

@@ -21,9 +21,13 @@ class Config extends AbstractType {
 	public $anilist;
 	public $cache;
 	public $database;
-	public $route_config;
 
 	// Settings in config.toml
+	public $asset_path; // Path to public folder for urls
+	public $default_anime_list_path;
+	public $default_list;
+	public $default_manga_list_path;
+	public $default_view_type;
 	public $kitsu_username;
 	public $show_anime_collection;
 	public $show_manga_collection;
@@ -34,7 +38,7 @@ class Config extends AbstractType {
 	public $routes;
 
 	// Generated config values
-	public $asset_dir;
+	public $asset_dir; // Path to public folder for local files
 	public $base_config_dir;
 	public $config_dir;
 	public $data_cache_path;
@@ -43,57 +47,16 @@ class Config extends AbstractType {
 
 	public function setAnilist ($data): void
 	{
-		$this->anilist = new class($data) extends AbstractType {
-			public $enabled;
-
-			public $client_id;
-			public $client_secret;
-			public $redirect_uri;
-
-			public $access_token;
-			public $refresh_token;
-
-			public $user_id;
-			public $username;
-		};
+		$this->anilist = new Config\Anilist($data);
 	}
 
 	public function setCache ($data): void
 	{
-		$this->cache = new class($data) extends AbstractType {
-			public $driver;
-			public $connection;
-			public $options;
-		};
+		$this->cache = new Config\Cache($data);
 	}
 
 	public function setDatabase ($data): void
 	{
-		$this->database = new class($data) extends AbstractType {
-			public $collection;
-
-			public function setCollection ($data): void
-			{
-				$this->collection = new class($data) extends AbstractType {
-					public $type;
-					public $host;
-					public $user;
-					public $pass;
-					public $port;
-					public $database;
-					public $file;
-				};
-			}
-		};
-	}
-
-	public function setRoute_config ($data): void
-	{
-		$this->route_config = new class($data) extends AbstractType {
-			public $asset_path;
-			public $default_list;
-			public $default_anime_list_path;
-			public $default_manga_list_path;
-		};
+		$this->database = new Config\Database($data);
 	}
 }

@@ -42,15 +42,15 @@ class Collection extends DB {
 
 		try
 		{
-			$this->db = \Query($this->dbConfig['collection']);
+			$this->db = \Query($this->dbConfig);
 		}
 		catch (PDOException $e) {}
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database
-		if ($this->dbConfig['collection']['type'] === 'sqlite')
+		if ($this->dbConfig['type'] === 'sqlite')
 		{
-			$dbFileName = $this->dbConfig['collection']['file'];
+			$dbFileName = $this->dbConfig['file'];
 
 			if ($dbFileName !== ':memory:' && file_exists($dbFileName))
 			{
