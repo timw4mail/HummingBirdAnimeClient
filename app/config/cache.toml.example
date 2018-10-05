@@ -2,7 +2,7 @@
 #                                 Cache Setup                                  #
 ################################################################################
 
-# See https://git.timshomepage.net/timw4mail/banker for more information
+# See https://git.timshomepage.net/aviat/banker for more information
 
 # Available drivers are apcu, memcache, memcached, redis or null
 # Null cache driver means no caching

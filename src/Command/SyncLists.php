@@ -19,7 +19,6 @@ namespace Aviat\AnimeClient\Command;
 use Aviat\AnimeClient\API\{
 	FailedResponseException,
 	JsonAPI,
-	Kitsu\Transformer\MangaListTransformer,
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\API\Anilist\Transformer\{
