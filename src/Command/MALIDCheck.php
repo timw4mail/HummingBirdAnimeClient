@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use const Aviat\AnimeClient\MILLI_FROM_NANO;
 use const Aviat\AnimeClient\SRC_DIR;
 
 use function Amp\Promise\wait;
@@ -158,8 +157,6 @@ final class MALIDCheck extends BaseCommand {
 
 			if ($response->getStatus() === 404)
 			{
-				dump($titles);
-				die();
 				$badMappings[$id] = $titles;
 			}
 			else
@@ -177,8 +174,6 @@ final class MALIDCheck extends BaseCommand {
 
 					if (mb_stripos($body, $title) !== FALSE)
 					{
-						// echo "MAL id {$id} seems to match \"{$title}\"\n";
-
 						$titleMatches = TRUE;
 						$goodMappings[$id] = $title;
 
@@ -209,7 +204,7 @@ final class MALIDCheck extends BaseCommand {
 	{
 		$baseUrl = "https://myanimelist.net/{$type}/";
 
-		$requestChunks = array_chunk($ids, 10, TRUE);
+		$requestChunks = array_chunk($ids, 50, TRUE);
 		$responses = [];
 
 		// Chunk parallel requests so that we don't hit rate
@@ -221,7 +216,6 @@ final class MALIDCheck extends BaseCommand {
 			foreach($idChunk as $id)
 			{
 				$request = APIRequestBuilder::simpleRequest($baseUrl . $id);
-				echo "Checking {$baseUrl}{$id} \n";
 				$requester->addRequest($request, (string)$id);
 			}
 
@@ -229,12 +223,6 @@ final class MALIDCheck extends BaseCommand {
 			{
 				$responses[$id] = $response;
 			}
-
-			echo "Finished checking chunk of 10 entries\n";
-
-			// Rate limiting is annoying :(
-			// sleep(1);
-			// time_nanosleep(0,  250 * MILLI_FROM_NANO);
 		}
 
 		return $responses;
