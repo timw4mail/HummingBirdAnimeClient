@@ -81,6 +81,11 @@ return function ($configArray = []) {
 			$menuHelper->setContainer($container);
 			return $menuHelper;
 		});
+		$htmlHelper->set('field', function() use ($container) {
+			$formHelper = new Helper\Form();
+			$formHelper->setContainer($container);
+			return $formHelper;
+		});
 
 		return $htmlHelper;
 	});
@@ -155,6 +160,11 @@ return function ($configArray = []) {
 	});
 	$container->set('manga-collection-model', function($container) {
 		return new Model\MangaCollection($container);
+	});
+	$container->set('settings-model', function($container) {
+		$model =  new Model\Settings($container->get('config'));
+		$model->setContainer($container);
+		return $model;
 	});
 
 	// Miscellaneous Classes

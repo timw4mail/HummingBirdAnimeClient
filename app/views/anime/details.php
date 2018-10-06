@@ -1,7 +1,11 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" width="402" height="284" src="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}.jpg") ?>" alt="" />
+			<picture class="cover">
+				<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}-original.webp") ?>" type="image/webp">
+				<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}-original.jpg") ?>" type="image/jpeg">
+				<img src="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}-original.jpg") ?>" alt="" />
+			</picture>
 			<br />
 			<br />
 			<table class="media_details">
@@ -96,9 +100,11 @@
 				<?= $helper->a($link, $char['name']); ?>
 			</div>
 			<a href="<?= $link ?>">
-			<?= $helper->img($urlGenerator->assetUrl("images/characters/{$id}.jpg"), [
-				'width' => '225'
-			]) ?>
+				<picture>
+					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.webp") ?>" type="image/webp">
+					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" type="image/jpeg">
+					<img src="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" alt="" />
+				</picture>
 			</a>
 		</article>
 		<?php endif ?>

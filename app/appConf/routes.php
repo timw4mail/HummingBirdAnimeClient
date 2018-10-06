@@ -200,7 +200,7 @@ return [
 		'verb' => 'get',
 		'tokens' => [
 			'type' => '[a-z0-9\-]+',
-			'file' => '[a-z0-9\-]+\.[a-z]{3}'
+			'file' => '[a-z0-9\-]+\.[a-z]{3,4}'
 		]
 	],
 	'cache_purge' => [

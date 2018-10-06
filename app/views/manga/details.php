@@ -1,7 +1,11 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" src="<?= $urlGenerator->assetUrl('images/manga', "{$data['id']}.jpg") ?>" alt="<?= $data['title'] ?> cover image" />
+			<picture class="cover">
+				<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$data['id']}-original.webp") ?>" type="image/webp">
+				<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$data['id']}-original.jpg") ?>" type="image/jpeg">
+				<img src="<?= $urlGenerator->assetUrl("images/manga/{$data['id']}-original.jpg") ?>" alt="" />
+			</picture>
 			<br />
 			<br />
 			<table>
@@ -47,9 +51,14 @@
 				<?= $helper->a($link, $char['name']); ?>
 			</div>
 			<a href="<?= $link ?>">
-			<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$id}.jpg"), [
+				<picture>
+					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.webp") ?>" type="image/webp">
+					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" type="image/jpeg">
+					<img src="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" alt="" />
+				</picture>
+			<?php /*<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$id}.jpg"), [
 				'width' => '225'
-			]) ?>
+			]) ?> */ ?>
 			</a>
 		</article>
 		<?php endif ?>

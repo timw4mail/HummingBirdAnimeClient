@@ -384,6 +384,12 @@ a:hover, a:active {
 	z-index: 0;
 }
 
+.details picture.cover,
+picture.cover {
+	display: initial;
+	width: 100%;
+}
+
 .media > img,
 .character > img,
 .small_character > img {
@@ -913,5 +919,25 @@ CSS Tabs
 	.tabs .content {
 		order: 99;
 	}
+}
+
+/* ----------------------------------------------------------------------------
+Settings page forms
+-----------------------------------------------------------------------------*/
+fieldset.box {
+	display: inline-block;
+	vertical-align:top;
+	width:40%;
+	margin: 2em;
+}
+
+fieldset.box section {
+	margin: 0 auto;
+	text-align:center;
+}
+
+fieldset.box article {
+	margin: auto;
+	text-align:left;
 }
 
