@@ -76,7 +76,11 @@
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 							<div class="name"><?= $helper->a($link, $char['name']); ?></div>
 							<a href="<?= $link ?>">
-							<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$char['id']}.jpg")) ?>
+								<picture>
+									<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.webp") ?>" type="image/webp">
+									<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.jpg") ?>" type="image/jpeg">
+									<img src="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.jpg") ?>" alt="" />
+								</picture>
 							</a>
 						</article>
 						<?php endif ?>
@@ -93,7 +97,11 @@
 								$titles = Kitsu::filterTitles($anime);
 							?>
 							<a href="<?= $link ?>">
-								<img src="<?= $urlGenerator->assetUrl('images/anime', "{$anime['id']}.jpg") ?>" width="220" alt="" />
+								<picture width="220">
+									<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.webp") ?>" type="image/webp">
+									<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.jpg") ?>" type="image/jpeg">
+									<img src="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.jpg") ?>" width="220" alt="" />
+								</picture>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
@@ -117,7 +125,11 @@
 								$titles = Kitsu::filterTitles($manga);
 							?>
 							<a href="<?= $link ?>">
-								<img src="<?= $urlGenerator->assetUrl('images/manga', "{$manga['id']}.jpg") ?>" width="220" alt="" />
+								<picture width="220">
+									<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.webp") ?>" type="image/webp">
+									<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.jpg") ?>" type="image/jpeg">
+									<img src="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.jpg") ?>" width="220" alt="" />
+								</picture>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
