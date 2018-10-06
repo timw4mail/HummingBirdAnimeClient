@@ -22,7 +22,12 @@ export function renderAnimeSearchResults (data) {
 					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
 					<label for="${item.slug}">
-						<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
+						<picture width="220">
+							<source srcset="/public/images/anime/${x.id}.webp" type="image/webp" />
+							<source srcset="/public/images/anime/${x.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
+						</picture>
+						
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>
@@ -58,7 +63,11 @@ export function renderMangaSearchResults (data) {
 					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
 					<label for="${item.slug}">
-						<img src="/public/images/manga/${x.id}.jpg" alt="" width="220" />
+						<picture width="220">
+							<source srcset="/public/images/manga/${x.id}.webp" type="image/webp" />
+							<source srcset="/public/images/manga/${x.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/manga/${x.id}.jpg" alt="" width="220" />
+						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>

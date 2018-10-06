@@ -11,7 +11,7 @@
 			<table>
 				<tr>
 					<td>Manga Type</td>
-					<td><?= $data['manga_type'] ?></td>
+					<td><?= ucfirst($data['manga_type']) ?></td>
 				</tr>
 				<tr>
 					<td>Volume Count</td>
@@ -56,9 +56,6 @@
 					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" type="image/jpeg">
 					<img src="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" alt="" />
 				</picture>
-			<?php /*<?= $helper->img($urlGenerator->assetUrl('images/characters', "{$id}.jpg"), [
-				'width' => '225'
-			]) ?> */ ?>
 			</a>
 		</article>
 		<?php endif ?>
