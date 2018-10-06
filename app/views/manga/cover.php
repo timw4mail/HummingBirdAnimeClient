@@ -23,7 +23,11 @@
 						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
-					<img src="<?= $urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg") ?>" />
+					<picture>
+						<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.webp") ?>" type="image/webp">
+						<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.jpg") ?>" type="image/jpeg">
+						<img src="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.jpg") ?>" alt="" />
+					</picture>
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $escape->html($item['manga']['title']) ?>

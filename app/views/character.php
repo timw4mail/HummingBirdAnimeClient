@@ -2,7 +2,11 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<img class="cover" width="284" src="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}.jpg") ?>" alt="" />
+			<picture class="cover">
+				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.webp") ?>" type="image/webp">
+				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.jpg") ?>" type="image/jpeg">
+				<img src="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.jpg") ?>" alt="" />
+			</picture>
 		</div>
 		<div>
 			<h2><?= $data[0]['attributes']['name'] ?></h2>

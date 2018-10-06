@@ -86,11 +86,11 @@ class Controller {
 	];
 
 	/**
-	 * Constructor
+	 * Controller constructor.
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -140,10 +140,9 @@ class Controller {
 	/**
 	 * Set the current url in the session as the target of a future redirect
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @param string|null $url
-	 * @return void
+	 * @param string|NULL $url
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	public function setSessionRedirect(string $url = NULL): void
 	{
@@ -180,8 +179,8 @@ class Controller {
 	 * Redirect to the url previously set in the  session
 	 *
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
 	public function sessionRedirect()
@@ -205,8 +204,8 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return string
 	 */
 	protected function loadPartial($view, string $template, array $data = [])
@@ -239,8 +238,8 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
 	protected function renderFullPage($view, string $template, array $data)
@@ -269,8 +268,8 @@ class Controller {
 	 * @param string $title
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
 	public function notFound(
@@ -292,8 +291,8 @@ class Controller {
 	 * @param string $message
 	 * @param string $long_message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $long_message = ''): void
@@ -313,7 +312,7 @@ class Controller {
 	 */
 	public function redirectToDefaultRoute(): void
 	{
-		$defaultType = $this->config->get(['routes', 'route_config', 'default_list']) ?? 'anime';
+		$defaultType = $this->config->get('default_list') ?? 'anime';
 		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
 	}
 
@@ -360,8 +359,8 @@ class Controller {
 	 * @param string $type
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return string
 	 */
 	protected function showMessage($view, string $type, string $message): string
@@ -380,8 +379,8 @@ class Controller {
 	 * @param HtmlView|null $view
 	 * @param int $code
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
 	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200)
@@ -393,6 +392,7 @@ class Controller {
 
 		$view->setStatusCode($code);
 		$this->renderFullPage($view, $template, $data);
+		exit();
 	}
 
 	/**
@@ -407,8 +407,9 @@ class Controller {
 	{
 		(new JsonView($this->container))
 			->setStatusCode($code)
-			->setOutput($data)
-			->send();
+			->setOutput($data);
+			// ->send();
+		exit();
 	}
 
 	/**

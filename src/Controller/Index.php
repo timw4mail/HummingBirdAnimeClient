@@ -20,12 +20,21 @@ use function Amp\Promise\wait;
 
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\{HummingbirdClient, JsonAPI};
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\View\HtmlView;
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
 final class Index extends BaseController {
+	private $settingsModel;
+
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+
+		$this->settingsModel = $container->get('settings-model');
+	}
 
 	/**
 	 * Purges the API cache
@@ -91,6 +100,7 @@ final class Index extends BaseController {
 	 */
 	public function anilistCallback()
 	{
+		dump($_GET);
 		$this->outputHTML('blank', [
 			'title' => 'Oauth!'
 		]);
@@ -169,8 +179,10 @@ final class Index extends BaseController {
 	public function settings()
 	{
 		$auth = $this->container->get('auth');
+		$form = $this->settingsModel->getSettingsForm();
 		$this->outputHTML('settings', [
 			'auth' => $auth,
+			'form' => $form,
 			'config' => $this->config,
 			'title' => $this->config->get('whose_list') . "'s Settings",
 		]);
@@ -191,6 +203,7 @@ final class Index extends BaseController {
 	 *
 	 * @param string $type The category of image
 	 * @param string $file The filename to look for
+	 * @param bool $display Whether to output the image to the server
 	 * @throws \Aviat\Ion\Di\ContainerException
 	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @throws \InvalidArgumentException
@@ -199,26 +212,30 @@ final class Index extends BaseController {
 	 * @throws \Throwable
 	 * @return void
 	 */
-	public function images(string $type, string $file): void
+	public function images(string $type, string $file, $display = TRUE): void
 	{
 		$kitsuUrl = 'https://media.kitsu.io/';
-		[$id, $ext] = explode('.', basename($file));
+		$fileName = str_replace('-original', '', $file);
+		[$id, $ext] = explode('.', basename($fileName));
 		switch ($type)
 		{
 			case 'anime':
-				$kitsuUrl .= "anime/poster_images/{$id}/small.{$ext}";
+				$kitsuUrl .= "anime/poster_images/{$id}/small.jpg";
+				$width = 220;
 			break;
 
 			case 'avatars':
-				$kitsuUrl .= "users/avatars/{$id}/original.{$ext}";
+				$kitsuUrl .= "users/avatars/{$id}/original.jpg";
 			break;
 
 			case 'manga':
-				$kitsuUrl .= "manga/poster_images/{$id}/small.{$ext}";
+				$kitsuUrl .= "manga/poster_images/{$id}/small.jpg";
+				$width = 220;
 			break;
 
 			case 'characters':
-				$kitsuUrl .= "characters/images/{$id}/original.{$ext}";
+				$kitsuUrl .= "characters/images/{$id}/original.jpg";
+				$width = 225;
 			break;
 
 			default:
@@ -231,9 +248,38 @@ final class Index extends BaseController {
 		$data = wait($response->getBody());
 
 		$baseSavePath = $this->config->get('img_cache_path');
-		file_put_contents("{$baseSavePath}/{$type}/{$id}.{$ext}", $data);
-		header('Content-type: ' . $response->getHeader('content-type')[0]);
-		echo $data;
+		$filePrefix = "{$baseSavePath}/{$type}/{$id}";
+
+		[$origWidth, $origHeight] = getimagesizefromstring($data);
+		$gdImg = imagecreatefromstring($data);
+		$resizedImg = imagescale($gdImg, $width ?? $origWidth);
+
+		// save the webp versions
+		imagewebp($gdImg, "{$filePrefix}-original.webp");
+		imagewebp($resizedImg, "{$filePrefix}.webp");
+
+		// save the scaled jpeg file
+		imagejpeg($resizedImg, "{$filePrefix}.jpg");
+
+		imagedestroy($gdImg);
+		imagedestroy($resizedImg);
+
+		// And the original
+		file_put_contents("{$filePrefix}-original.jpg", $data);
+
+		if ($display)
+		{
+			$contentType = ($ext === 'webp')
+				? "image/webp"
+				: $response->getHeader('content-type')[0];
+
+			$outputFile = (strpos($file, '-original') !== FALSE)
+				? "{$filePrefix}-original.{$ext}"
+				: "{$filePrefix}.{$ext}";
+
+			header("Content-Type: {$contentType}");
+			echo file_get_contents($outputFile);
+		}
 	}
 
 	/**
