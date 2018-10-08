@@ -19,16 +19,20 @@ $nestedPrefix = 'config';
 <form action="<?= $url->generate('settings-post') ?>" method="POST">
 	<main class='form'>
 		<button type="submit">Save Changes</button>
-		<br />
-		<?php foreach ($form as $section => $fields): ?>
-		<fieldset class="box">
-			<legend><?= $sectionMapping[$section] ?></legend>
-			<section class='form'>
-				<?php require __DIR__ . '/_form.php' ?>
-			</section>
-		</fieldset>
-		<?php endforeach ?>
+		<div class="tabs">
+			<?php $i = 0; ?>
 
+			<?php foreach ($form as $section => $fields): ?>
+				<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="settings-tab<?= $i ?>"
+					name="settings-tabs"
+				/>
+				<label for="settings-tab<?= $i ?>"><h3><?= $sectionMapping[$section] ?></h3></label>
+				<section class="content">
+					<?php require __DIR__ . '/_form.php' ?>
+				</section>
+				<?php $i++; ?>
+			<?php endforeach ?>
+		</div>
 		<hr />
 		<?php foreach ($hiddenFields as $field): ?>
 			<?= $field ?>

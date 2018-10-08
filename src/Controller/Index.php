@@ -164,6 +164,9 @@ final class Index extends BaseController {
 	{
 		$auth = $this->container->get('auth');
 		$form = $this->settingsModel->getSettingsForm();
+
+		// dump($this->session->getFlash('message'));
+
 		$this->outputHTML('settings', [
 			'auth' => $auth,
 			'form' => $form,

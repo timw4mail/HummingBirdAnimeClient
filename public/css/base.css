@@ -861,7 +861,7 @@ CSS Tabs
 	margin-top: 1.5em;
 }
 
-.tabs label {
+.tabs > label {
 	border: 1px solid #e5e5e5;
 	width: 100%;
 	padding: 20px 30px;
@@ -874,31 +874,31 @@ CSS Tabs
 	/* margin-left: 4em; */
 }
 
-.tabs label:hover {
+.tabs > label:hover {
 	background: #d8d8d8;
 }
 
-.tabs label:active {
+.tabs > label:active {
 	background: #ccc;
 }
 
-.tabs [type=radio]:focus + label {
+.tabs > [type=radio]:focus + label {
 	box-shadow: inset 0px 0px 0px 3px #2aa1c0;
 	z-index: 1;
 }
 
-.tabs [type=radio] {
+.tabs > [type=radio] {
 	position: absolute;
 	opacity: 0;
 }
 
-.tabs [type=radio]:checked + label {
+.tabs > [type=radio]:checked + label {
 	border-bottom: 1px solid #fff;
 	background: #fff;
 	color: #000;
 }
 
-.tabs [type=radio]:checked + label + .content {
+.tabs > [type=radio]:checked + label + .content {
 	border: 1px solid #e5e5e5;
 	border-top: 0;
 	display: block;
@@ -912,32 +912,12 @@ CSS Tabs
 }
 
 @media (min-width: 600px) {
-	.tabs label {
+	.tabs > label {
 		width: auto;
 	}
 
 	.tabs .content {
 		order: 99;
 	}
-}
-
-/* ----------------------------------------------------------------------------
-Settings page forms
------------------------------------------------------------------------------*/
-fieldset.box {
-	display: inline-block;
-	vertical-align:top;
-	width:40%;
-	margin: 2em;
-}
-
-fieldset.box section {
-	margin: 0 auto;
-	text-align:center;
-}
-
-fieldset.box article {
-	margin: auto;
-	text-align:left;
 }
 
