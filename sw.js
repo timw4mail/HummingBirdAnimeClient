@@ -61,6 +61,12 @@ self.addEventListener('activate', event => {
 
 // Pull css, images, and javascript from cache
 self.addEventListener('fetch', event => {
+	// Only cache things with a file extension,
+	// Ignore other requests
+	if ( ! event.request.url.includes('/public/')) {
+		return;
+	}
+
 	fromCache(event.request).then(cached => {
 		if (cached !== undefined) {
 			event.respondWith(cached);

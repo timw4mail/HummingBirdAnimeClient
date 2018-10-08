@@ -16,6 +16,9 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use function Aviat\AnimeClient\arrayToToml;
+use function Aviat\Ion\_dir;
+
 use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
 
 use Aviat\Ion\ConfigInterface;
@@ -36,7 +39,12 @@ final class Settings {
 	 */
 	private const SETTINGS_MAP = [
 		'anilist' => [
-
+			'enabled' => [
+				'type' => 'boolean',
+				'title' => 'Enable Anilist Integration',
+				'default' => FALSE,
+				'description' => 'Enable syncing data between Kitsu and Anilist. Requires appropriate API keys to be set in config',
+			],
 		],
 		'config' => [
 			'kitsu_username' => [
@@ -265,22 +273,88 @@ final class Settings {
 		return $output;
 	}
 
-	public function validateSettings(array $settings): bool
+	public function validateSettings(array $settings)
 	{
+		$config = (new Config($settings))->toArray();
+
+		$looseConfig = [];
+		$keyedConfig = [];
+
+		// Convert 'boolean' values to true and false
+		// Also order keys so they can be saved properly
+		foreach ($config as $key => $val)
+		{
+			if (is_scalar($val))
+			{
+				if ($val === '1')
+				{
+					$looseConfig[$key] = TRUE;
+				}
+				elseif ($val === '0')
+				{
+					$looseConfig[$key] = FALSE;
+				}
+				else
+				{
+					$looseConfig[$key] = $val;
+				}
+			}
+			elseif (is_array($val))
+			{
+				foreach($val as $k => $v)
+				{
+					if ($v === '1')
+					{
+						$keyedConfig[$key][$k] = TRUE;
+					}
+					elseif($v === '0')
+					{
+						$keyedConfig[$key][$k] = FALSE;
+					}
+					else
+					{
+						$keyedConfig[$key][$k] = $v;
+					}
+				}
+			}
+		}
+
+		ksort($looseConfig);
+		ksort($keyedConfig);
+
+		$output = [];
+
+		foreach($looseConfig as $k => $v)
+		{
+			$output[$k] = $v;
+		}
+
+		foreach($keyedConfig as $k => $v)
+		{
+			$output[$k] = $v;
+		}
+
+		return $output;
+	}
+
+	public function saveSettingsFile(array $settings): bool
+	{
+		$settings = $settings['config'];
+
 		try
 		{
-			new Config($settings);
+			$settings = $this->validateSettings($settings);
 		}
 		catch (UndefinedPropertyException $e)
 		{
 			return FALSE;
 		}
 
-		return TRUE;
-	}
+		$savePath = realpath(_dir(__DIR__, '..', '..', 'app', 'config'));
+		$saveFile = _dir($savePath, 'admin-override.toml');
 
-	public function saveSettingsFile()
-	{
+		$saved = file_put_contents($saveFile, arrayToToml($settings));
 
+		return $saved !== FALSE;
 	}
 }

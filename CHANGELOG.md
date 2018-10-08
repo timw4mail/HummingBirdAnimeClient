@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 4.1
+* Removed MAL integration, added Anilist Integration
+* Now uses WebP cache images when the browser supports it
+* Replaces JS minifier with pre-minified scripts (Removes the need for one caching folder, too)
+* Updated console command to sync Kitsu and Anilist data
+
 ## Version 4
 * Updated to use Kitsu API after discontinuation of Hummingbird
 * Added streaming links to list entries from the Kitsu API

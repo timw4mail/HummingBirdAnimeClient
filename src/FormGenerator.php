@@ -83,7 +83,7 @@ final class FormGenerator {
 				$params['attribs']['label'] = $form['description'];
 				$params['attribs']['value'] = TRUE;
 				$params['attribs']['value_unchecked'] = '0'; */
-				
+
 				$params['type'] = 'radio';
 				$params['options'] = [
 					'1' => 'Yes',

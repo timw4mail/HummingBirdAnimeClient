@@ -49,7 +49,13 @@ $baseConfig = require $APPCONF_DIR . '/base_config.php';
 $di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
-$configArray = array_merge($baseConfig, $config);
+
+$overrideFile = $CONF_DIR . '/admin-override.toml';
+$overrideConfig = file_exists($overrideFile)
+	? loadTomlFile($overrideFile)
+	: [];
+
+$configArray = array_merge($baseConfig, $config, $overrideConfig);
 
 $checkedConfig = (new ConfigType($configArray))->toArray();
 $container = $di($checkedConfig);
