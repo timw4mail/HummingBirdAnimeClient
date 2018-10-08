@@ -144,11 +144,13 @@ final class Settings {
 						'type' => 'string',
 						'title' => 'Cache Port',
 						'description' => 'Port of the cache backend to connect to',
+						'default' => NULL,
 					],
 					'password' => [
 						'type' => 'string',
 						'title' => 'Cache Password',
 						'description' => 'Password to connect to cache backend',
+						'default' => NULL,
 					],
 					'database' => [
 						'type' => 'string',
@@ -187,7 +189,8 @@ final class Settings {
 			'port' => [
 				'type' => 'string',
 				'title' => 'Port',
-				'description' => 'Database connection port'
+				'description' => 'Database connection port',
+				'default' =>  NULL,
 			],
 			'database' => [
 				'type' => 'string',
@@ -246,6 +249,12 @@ final class Settings {
 				{
 					foreach($value['fields'] as $k => $field)
 					{
+						if (empty($values[$key][$k]))
+						{
+							unset($value['fields'][$k]);
+							continue;
+						}
+
 						$value['fields'][$k]['disabled'] = FALSE;
 						$value['fields'][$k]['display'] = TRUE;
 						$value['fields'][$k]['readonly'] = FALSE;
