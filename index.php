@@ -55,7 +55,7 @@ $overrideConfig = file_exists($overrideFile)
 	? loadTomlFile($overrideFile)
 	: [];
 
-$configArray = array_merge($baseConfig, $config, $overrideConfig);
+$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
 $checkedConfig = (new ConfigType($configArray))->toArray();
 $container = $di($checkedConfig);

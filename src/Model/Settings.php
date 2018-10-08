@@ -45,20 +45,30 @@ final class Settings {
 				'default' => FALSE,
 				'description' => 'Enable syncing data between Kitsu and Anilist. Requires appropriate API keys to be set in config',
 			],
+			'client_id' => [
+				'type' => 'string',
+				'title' => 'Anilist API Client ID',
+				'default' => '',
+				'description' => 'The client id for your Anilist API application',
+			],
+			'client_secret' => [
+				'type' => 'string',
+				'title' => 'Anilist API Client Secret',
+				'default' => '',
+				'description' => 'The client secret for your Anilist API application',
+			],
 		],
 		'config' => [
 			'kitsu_username' => [
 				'type' => 'string',
 				'title' => 'Kitsu Username',
 				'default' => '',
-				'readonly' => TRUE,
 				'description' => 'Username of the account to pull list data from.',
 			],
 			'whose_list' => [
 				'type' => 'string',
 				'title' => 'Whose List',
 				'default' => 'Somebody',
-				'readonly' => TRUE,
 				'description' => 'Name of the owner of the list data.',
 			],
 			'show_anime_collection' => [
@@ -72,11 +82,6 @@ final class Settings {
 				'title' => 'Show Manga Collection',
 				'default' => FALSE,
 				'description' => 'Should the manga collection be shown?',
-			],
-			'asset_path' => [
-				'type' => 'string',
-				'display' => FALSE,
-				'description' => 'Path to public directory, where images/css/javascript are located',
 			],
 			'default_list' => [
 				'type' => 'select',
@@ -241,16 +246,20 @@ final class Settings {
 				{
 					foreach($value['fields'] as $k => $field)
 					{
-						$value['fields'][$k]['value'] = $values[$key][$k] ?? '';
+						$value['fields'][$k]['disabled'] = FALSE;
 						$value['fields'][$k]['display'] = TRUE;
 						$value['fields'][$k]['readonly'] = FALSE;
-						$value['fields'][$k]['disabled'] = FALSE;
+						$value['fields'][$k]['value'] = $values[$key][$k] ?? '';
 					}
 				}
 
-				if (is_scalar($values[$key]))
+				if (array_key_exists($key, $values) && is_scalar($values[$key]))
 				{
 					$value['value'] = $values[$key];
+				}
+				else
+				{
+					$value['value'] = $value['default'] ?? '';
 				}
 
 				foreach (['readonly', 'disabled'] as $flag)
