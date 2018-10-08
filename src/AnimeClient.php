@@ -33,6 +33,11 @@ function loadToml(string $path): array
 	foreach ($files as $file)
 	{
 		$key = str_replace('.toml', '', basename($file));
+		if ($key === 'admin-override')
+		{
+			continue;
+		}
+
 		$config = Toml::parseFile($file);
 
 		if ($key === 'config')
@@ -69,6 +74,17 @@ function loadTomlByFile(string $path): array
 	}
 
 	return $output;
+}
+
+/**
+ * Load config from one specific TOML file
+ *
+ * @param string $filename
+ * @return array
+ */
+function loadTomlFile(string $filename): array
+{
+	return Toml::parseFile($filename);
 }
 
 /**

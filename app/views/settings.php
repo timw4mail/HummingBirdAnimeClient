@@ -6,6 +6,7 @@ if ( ! $auth->isAuthenticated())
 }
 
 $sectionMapping = [
+	'anilist' => 'Anilist API Integration',
 	'config' => 'General Settings',
 	'cache' => 'Caching',
 	'database' => 'Collection Database Settings',
@@ -15,9 +16,7 @@ $hiddenFields = [];
 $nestedPrefix = 'config';
 ?>
 
-<pre><?= print_r($_POST, TRUE) ?></pre>
-
-<form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
+<form action="<?= $url->generate('settings-post') ?>" method="POST">
 	<main class='form'>
 		<button type="submit">Save Changes</button>
 		<br />

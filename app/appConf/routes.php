@@ -216,8 +216,8 @@ return [
 		'verb' => 'get',
 	],
 	'settings-post' => [
-		'path' => '/settings',
-		'action' => 'settings',
+		'path' => '/settings-save',
+		'action' => 'settings_post',
 		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'post',
 	],

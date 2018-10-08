@@ -39,9 +39,6 @@ final class Index extends BaseController {
 	/**
 	 * Purges the API cache
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function clearCache()
@@ -56,9 +53,6 @@ final class Index extends BaseController {
 	 * Show the login form
 	 *
 	 * @param string $status
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function login(string $status = '')
@@ -109,10 +103,6 @@ final class Index extends BaseController {
 	/**
 	 * Attempt login authentication
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function loginAction()
@@ -133,9 +123,6 @@ final class Index extends BaseController {
 	/**
 	 * Deauthorize the current user
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function logout()
@@ -149,9 +136,6 @@ final class Index extends BaseController {
 	/**
 	 * Show the user profile page
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function me()
@@ -188,14 +172,28 @@ final class Index extends BaseController {
 		]);
 	}
 
+	/**
+	 * Attempt to save the user's settings
+	 *
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 */
 	public function settings_post()
 	{
-		$auth = $this->container->get('auth');
-		$this->outputHTML('settings', [
-			'auth' => $auth,
-			'config' => $this->config,
-			'title' => $this->config->get('whose_list') . "'s Settings",
-		]);
+		$post = $this->request->getParsedBody();
+
+		// dump($post);
+		$saved = $this->settingsModel->saveSettingsFile($post);
+
+		if ($saved)
+		{
+			$this->setFlashMessage('Saved config settings.', 'success');
+		}
+		else
+		{
+			$this->setFlashMessage('Failed to save config file.', 'error');
+		}
+
+		$this->redirect($this->url->generate('settings'), 303);
 	}
 
 	/**
@@ -250,7 +248,7 @@ final class Index extends BaseController {
 		$baseSavePath = $this->config->get('img_cache_path');
 		$filePrefix = "{$baseSavePath}/{$type}/{$id}";
 
-		[$origWidth, $origHeight] = getimagesizefromstring($data);
+		[$origWidth] = getimagesizefromstring($data);
 		$gdImg = imagecreatefromstring($data);
 		$resizedImg = imagescale($gdImg, $width ?? $origWidth);
 
