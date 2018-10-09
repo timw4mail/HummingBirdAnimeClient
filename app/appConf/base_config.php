@@ -33,7 +33,7 @@ return array_merge($tomlConfig, [
 
 	// Routing defaults
 	'asset_path' => '/public',
-	'default_list' => 'anime',
+	'default_list' => 'anime', //anime|manga
 	'default_anime_list_path' => 'watching', // watching|plan_to_watch|on_hold|dropped|completed|all
 	'default_manga_list_path' => 'reading', // reading|plan_to_read|on_hold|dropped|completed|all
 	'default_view_type' => 'cover_view', // cover_view|list_view
