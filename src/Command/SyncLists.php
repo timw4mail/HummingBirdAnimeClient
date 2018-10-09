@@ -330,7 +330,6 @@ final class SyncLists extends BaseCommand {
 			if (array_key_exists($malId, $anilistList))
 			{
 				$anilistItem = $anilistList[$malId];
-				// dump($anilistItem);
 
 				$item = $this->compareListItems($kitsuItem, $anilistItem);
 
@@ -426,7 +425,7 @@ final class SyncLists extends BaseCommand {
 		$sameNotes = $diff['notes'] === 0;
 		$sameStatus = $diff['status'] === 0;
 		$sameProgress = $diff['progress'] === 0;
-		$sameRating = $diff['ratingTwenty'] === 0;
+		$sameRating = $diff['rating'] === 0;
 		$sameRewatchCount = $diff['reconsumeCount'] === 0;
 
 		// If an item is completed, make sure the 'reconsuming' flag is false
@@ -538,8 +537,6 @@ final class SyncLists extends BaseCommand {
 			}
 		}
 
-
-
 		$return['meta'] = [
 			'kitsu' => $kitsuItem['data'],
 			'anilist' => $anilistItem['data'],
@@ -566,8 +563,6 @@ final class SyncLists extends BaseCommand {
 
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
 		}
-
-		dump($return);
 
 		return $return;
 	}

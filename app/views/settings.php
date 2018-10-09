@@ -17,7 +17,7 @@ $nestedPrefix = 'config';
 ?>
 
 <form action="<?= $url->generate('settings-post') ?>" method="POST">
-	<main class='form'>
+	<main class='settings form'>
 		<button type="submit">Save Changes</button>
 		<div class="tabs">
 			<?php $i = 0; ?>
@@ -33,7 +33,7 @@ $nestedPrefix = 'config';
 				<?php $i++; ?>
 			<?php endforeach ?>
 		</div>
-		<hr />
+		<br />
 		<?php foreach ($hiddenFields as $field): ?>
 			<?= $field ?>
 		<?php endforeach ?>

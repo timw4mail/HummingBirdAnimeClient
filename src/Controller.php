@@ -312,7 +312,7 @@ class Controller {
 	 */
 	public function redirectToDefaultRoute(): void
 	{
-		$defaultType = $this->config->get('default_list') ?? 'anime';
+		$defaultType = $this->config->get('default_list');
 		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
 	}
 
