@@ -16,11 +16,15 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
+use function Amp\Promise\wait;
+
 use InvalidArgumentException;
 
 use Amp\Artax\Request;
+use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Json;
 
 /**
  * Anilist API Model
@@ -46,6 +50,42 @@ final class Model
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Attempt to get an auth token
+	 *
+	 * @param string $code - The request token
+	 * @param string $redirectUri - The oauth callback url
+	 * @return array
+	 */
+	public function authenticate(string $code, string $redirectUri): array
+	{
+		$config = $this->getContainer()->get('config');
+		$request = $this->requestBuilder
+			->newRequest('POST', Anilist::TOKEN_URL)
+			->setJsonBody([
+				'grant_type' => 'authorization_code',
+				'client_id' => $config->get(['anilist', 'client_id']),
+				'client_secret' => $config->get(['anilist', 'client_secret']),
+				'redirect_uri' => $redirectUri,
+				'code' => $code,
+			])
+			->getFullRequest();
+
+		$response = $this->getResponseFromRequest($request);
+
+		return Json::decode(wait($response->getBody()));
+	}
+
+	/**
+	 * Check auth status with simple API call
+	 *
+	 * @return array
+	 */
+	public function checkAuth(): array
+	{
+		return $this->runQuery('CheckLogin');
+	}
 
 	/**
 	 * Get user list data for syncing with Kitsu

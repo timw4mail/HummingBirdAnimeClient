@@ -27,12 +27,21 @@ use Aviat\Ion\View\HtmlView;
  * Controller for handling routes that don't fit elsewhere
  */
 final class Index extends BaseController {
+	/**
+	 * @var \Aviat\API\Anilist\Model
+	 */
+	private $anilistModel;
+
+	/**
+	 * @var \Aviat\AnimeClient\Model\Settings
+	 */
 	private $settingsModel;
 
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 
+		$this->anilistModel = $container->get('anilist-model');
 		$this->settingsModel = $container->get('settings-model');
 	}
 
@@ -83,10 +92,11 @@ final class Index extends BaseController {
 		$redirectUrl = 'https://anilist.co/api/v2/oauth/authorize?' .
 			http_build_query([
 				'client_id' => $this->config->get(['anilist', 'client_id']),
+				'redirect_uri' => $this->urlGenerator->url('/anilist-oauth'),
 				'response_type' => 'code',
 			]);
 
-		$this->redirect($redirectUrl, 301);
+		$this->redirect($redirectUrl, 303);
 	}
 
 	/**
@@ -94,10 +104,47 @@ final class Index extends BaseController {
 	 */
 	public function anilistCallback()
 	{
-		dump($_GET);
-		$this->outputHTML('blank', [
-			'title' => 'Oauth!'
-		]);
+		$query = $this->request->getQueryParams();
+		$authCode = $query['code'];
+		$uri = $this->urlGenerator->url('/anilist-oauth');
+
+		$authData = $this->anilistModel->authenticate($authCode, $uri);
+		$settings = $this->settingsModel->getSettings();
+
+		if (array_key_exists('error', $authData))
+		{
+			$this->errorPage(400, 'Error Linking Account', $authData['hint']);
+			return;
+		}
+
+		// Update the override config file
+		$anilistSettings = [
+			'access_token' => $authData['access_token'],
+			'access_token_expires' => (time() - 10) + $authData['expires_in'],
+			'refresh_token' => $authData['refresh_token'],
+		];
+
+		$newSettings = $settings;
+		$newSettings['anilist'] = array_merge($settings['anilist'], $anilistSettings);
+
+		foreach($newSettings['config'] as $key => $value)
+		{
+			$newSettings[$key] = $value;
+		}
+		unset($newSettings['config']);
+
+		$saved = $this->settingsModel->saveSettingsFile($newSettings);
+
+		if ($saved)
+		{
+			$this->setFlashMessage('Linked Anilist Account', 'success');
+		}
+		else
+		{
+			$this->setFlashMessage('Error Linking Anilist Account', 'error');
+		}
+
+		$this->redirect($this->url->generate('settings'), 303);
 	}
 
 	/**
@@ -165,11 +212,13 @@ final class Index extends BaseController {
 		$auth = $this->container->get('auth');
 		$form = $this->settingsModel->getSettingsForm();
 
-		// dump($this->session->getFlash('message'));
+		$hasAnilistLogin = $this->config->has(['anilist','access_token']);
 
 		$this->outputHTML('settings', [
+			'anilistModel' => $this->anilistModel,
 			'auth' => $auth,
 			'form' => $form,
+			'hasAnilistLogin' => $hasAnilistLogin,
 			'config' => $this->config,
 			'title' => $this->config->get('whose_list') . "'s Settings",
 		]);
@@ -183,6 +232,7 @@ final class Index extends BaseController {
 	public function settings_post()
 	{
 		$post = $this->request->getParsedBody();
+		unset($post['settings-tabs']);
 
 		// dump($post);
 		$saved = $this->settingsModel->saveSettingsFile($post);

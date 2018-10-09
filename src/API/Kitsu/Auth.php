@@ -170,9 +170,11 @@ final class Auth {
 	 */
 	public function get_auth_token()
 	{
+		$now = time();
+
 		$token = $this->segment->get('auth_token', FALSE);
 		$refreshToken = $this->segment->get('refresh_token', FALSE);
-		$isExpired = time() >= $this->segment->get('auth_token_expires', 0);
+		$isExpired = time() > $this->segment->get('auth_token_expires', $now + 5000);
 
 		// Attempt to re-authenticate with refresh token
 		/* if ($isExpired && $refreshToken)

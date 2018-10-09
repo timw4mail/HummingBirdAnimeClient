@@ -57,26 +57,6 @@ function loadToml(string $path): array
 }
 
 /**
- * Load configuration from toml files, keyed by the original file
- *
- * @param string $path
- * @return array
- */
-function loadTomlByFile(string $path): array
-{
-	$output = [];
-	$files = glob("{$path}/*.toml");
-
-	foreach ($files as $file)
-	{
-		$config = Toml::parseFile($file);
-		$output[basename($file)] = $config;
-	}
-
-	return $output;
-}
-
-/**
  * Load config from one specific TOML file
  *
  * @param string $filename
@@ -179,6 +159,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$publicDir = $config->get('asset_dir');
 
 	$pathMap = [
+		'app/config' => realpath(__DIR__ . '/../app/config'),
 		'app/logs' => realpath(__DIR__ . '/../app/logs'),
 		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",

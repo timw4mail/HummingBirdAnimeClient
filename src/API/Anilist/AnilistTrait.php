@@ -16,15 +16,17 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
+use const Aviat\AnimeClient\USER_AGENT;
+
+use function Amp\Promise\wait;
+
 use Amp\Artax\Request;
 use Amp\Artax\Response;
-use function Amp\Promise\wait;
 
 use Aviat\AnimeClient\API\{
 	Anilist,
 	HummingbirdClient
 };
-use const Aviat\AnimeClient\SESSION_SEGMENT;
 use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerAware;
 
@@ -52,7 +54,7 @@ trait AnilistTrait {
 		'Accept' => 'application/json',
 		'Accept-Encoding' => 'gzip',
 		'Content-type' => 'application/json',
-		'User-Agent' => "Tim's Anime Client/4.0"
+		'User-Agent' => USER_AGENT,
 	];
 
 	/**
@@ -80,13 +82,10 @@ trait AnilistTrait {
 		$anilistConfig = $config->get('anilist');
 
 		$request = $this->requestBuilder->newRequest('POST', $url);
-		$sessionSegment = $this->getContainer()
-			->get('session')
-			->getSegment(SESSION_SEGMENT);
 
-		//$authenticated = $sessionSegment->get('auth_token') !== NULL;
-
-		//if ($authenticated)
+		// You can only authenticate the request if you
+		// actually have an access_token saved
+		if ($config->has(['anilist', 'access_token']))
 		{
 			$request = $request->setAuth('bearer', $anilistConfig['access_token']);
 		}
@@ -245,7 +244,7 @@ trait AnilistTrait {
 	{
 		$response = $this->getResponse(Anilist::BASE_URL, $options);
 		$validResponseCodes = [200, 201];
-		
+
 		$logger = NULL;
 		if ($this->getContainer())
 		{

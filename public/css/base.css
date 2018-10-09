@@ -310,7 +310,7 @@ a:hover, a:active {
 	Message boxes
 ------------------------------------------------------------------------------*/
 
-.message {
+.message, .static-message {
 	position: relative;
 	margin: 0.5em auto;
 	padding: 0.5em;
@@ -342,7 +342,7 @@ a:hover, a:active {
 	margin-right: 1em;
 }
 
-.message.error {
+.message.error, .static-message.error {
 	border: 1px solid #924949;
 	background: #f3e6e6;
 }
@@ -351,7 +351,7 @@ a:hover, a:active {
 	content: '✘';
 }
 
-.message.success {
+.message.success, .static-message.success {
 	border: 1px solid #1f8454;
 	background: #70dda9;
 }
@@ -360,7 +360,7 @@ a:hover, a:active {
 	content: '✔'
 }
 
-.message.info {
+.message.info, .static-message.info {
 	border: 1px solid #bfbe3a;
 	background: #FFFFCC;
 }

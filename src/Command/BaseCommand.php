@@ -70,12 +70,18 @@ class BaseCommand extends Command {
 		$APP_DIR = realpath(__DIR__ . '/../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		$base_config = require $APPCONF_DIR . '/base_config.php';
+		$baseConfig = require $APPCONF_DIR . '/base_config.php';
 
 		$config = loadToml($CONF_DIR);
-		$config_array = array_merge($base_config, $config);
 
-		$di = function ($config_array) use ($APP_DIR) {
+		$overrideFile = $CONF_DIR . '/admin-override.toml';
+		$overrideConfig = file_exists($overrideFile)
+			? loadTomlFile($overrideFile)
+			: [];
+
+		$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
+
+		$di = function ($configArray) use ($APP_DIR) {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
@@ -93,8 +99,8 @@ class BaseCommand extends Command {
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 
 			// Create Config Object
-			$container->set('config', function() use ($config_array) {
-				return new Config($config_array);
+			$container->set('config', function() use ($configArray) {
+				return new Config($configArray);
 			});
 
 			// Create Cache Object
@@ -148,6 +154,6 @@ class BaseCommand extends Command {
 			return $container;
 		};
 
-		return $di($config_array);
+		return $di($configArray);
 	}
 }
