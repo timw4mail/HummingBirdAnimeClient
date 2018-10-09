@@ -33,21 +33,25 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 * PHP 7.1+
 * PDO SQLite or PDO PostgreSQL (For collection tab)
-* GD
+* GD extension for caching images
+
+### Highly Recommended
 * Redis or Memcached for caching
 
 ### Installation
 
 1. Install via git, then install dependencies via composer: `composer install`
-2. Duplicate `app/config/*.toml.example` files as `app/config/*.toml`
+2. Duplicate `app/config/config.toml.example` file as `app/config/config.toml`
 3. Configure settings in `app/config/config.toml` to your liking
 4. Create the following directories if they don't exist, and make sure they are world writable
+	* app/config
 	* app/logs
 	* public/images/avatars
 	* public/images/anime
 	* public/images/characters
 	* public/images/manga
 5. Make sure the `console` script is executable
+6. Additional settings are on the settings page once you log in.
 
 ### Server Setup
 
