@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use function Aviat\AnimeClient\loadToml;
+use function Aviat\AnimeClient\loadTomlFile;
 
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\Util;
