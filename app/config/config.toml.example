@@ -3,10 +3,10 @@
 ################################################################################
 
 # Username for anime and manga lists
-kitsu_username = "timw4mail"
+kitsu_username = "johnsmith"
 
 # Whose list is it?
-whose_list = "Tim"
+whose_list = "Someone"
 
 # do you wish to show the anime collection?
 show_anime_collection = true
@@ -17,10 +17,6 @@ show_manga_collection = false
 ################################################################################
 # Default views and paths
 ################################################################################
-
-# Path to public directory, where images/css/javascript are located,
-# appended to the url
-asset_path = "/public"
 
 # Which list should be the default?
 default_list = "anime" # anime or manga
