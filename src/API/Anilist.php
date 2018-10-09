@@ -30,6 +30,7 @@ use Aviat\AnimeClient\API\Enum\{
  */
 final class Anilist {
 	public const AUTH_URL = 'https://anilist.co/api/v2/oauth/authorize';
+	public const TOKEN_URL = 'https://anilist.co/api/v2/oauth/token';
 	public const BASE_URL = 'https://graphql.anilist.co';
 
 	public const KITSU_ANILIST_WATCHING_STATUS_MAP = [

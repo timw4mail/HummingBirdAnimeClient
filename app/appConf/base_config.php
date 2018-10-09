@@ -30,6 +30,14 @@ return array_merge($tomlConfig, [
 	'asset_dir' => "{$ROOT_DIR}/public",
 	'base_config_dir' => __DIR__,
 	'config_dir' => "{$APP_DIR}/config",
+	
+	// No config defaults
+	'kitsu_username' => 'timw4mail',
+	'whose_list' => 'Someone',
+	'cache' => [
+		'connection' => [],
+		'driver' => 'null',
+	],
 
 	// Routing defaults
 	'asset_path' => '/public',

@@ -3,14 +3,6 @@
 // $fields
 // $hiddenFields
 // $nestedPrefix
-if ( ! function_exists('subfieldRender'))
-{
-	function subfieldRender ($nestedPrefix, $fields, &$hiddenFields, $helper, $section)
-	{
-		include '_form.php';
-	}
-}
-
 ?>
 
 <?php foreach ($fields as $name => $field): ?>
@@ -18,7 +10,7 @@ if ( ! function_exists('subfieldRender'))
 	<?php if ($field['type'] === 'subfield'): ?>
 		<section>
 			<h4><?= $field['title'] ?></h4>
-			<?php subfieldRender($fieldname, $field['fields'], $hiddenFields, $helper, $section); ?>
+			<?php include_once '_form.php'; ?>
 		</section>
 	<?php elseif ( ! empty($field['display'])): ?>
 		<article>

@@ -23,11 +23,10 @@ class Anilist extends AbstractType {
 
 	public $client_id;
 	public $client_secret;
-	public $redirect_uri;
 
 	public $access_token;
+	public $access_token_expires;
 	public $refresh_token;
 
-	public $user_id;
 	public $username;
 }

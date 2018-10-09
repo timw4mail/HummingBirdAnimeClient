@@ -60,6 +60,16 @@ final class SyncLists extends BaseCommand {
 	{
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
+
+		$config = $this->container->get('config');
+		$anilistEnabled = $config->get(['anilist', 'enabled']);
+
+		if ( ! $anilistEnabled)
+		{
+			$this->echoBox('Anlist API is not enabled. Can not sync.');
+			return;
+		}
+
 		$this->anilistModel = $this->container->get('anilist-model');
 		$this->kitsuModel = $this->container->get('kitsu-model');
 

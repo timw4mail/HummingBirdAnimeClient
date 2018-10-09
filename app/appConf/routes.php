@@ -187,11 +187,13 @@ return [
 		'path' => '/anilist-redirect',
 		'action' => 'anilistRedirect',
 		'controller' => DEFAULT_CONTROLLER,
+		'verb' => 'get',
 	],
-	'anilist-oauth' => [
+	'anilist-callback' => [
 		'path' => '/anilist-oauth',
 		'action' => 'anilistCallback',
 		'controller' => DEFAULT_CONTROLLER,
+		'verb' => 'get',
 	],
 	'image_proxy' => [
 		'path' => '/public/images/{type}/{file}',

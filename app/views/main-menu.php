@@ -43,7 +43,7 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
 			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
-		<?php if ($auth->isAuthenticated()): ?>
+		<?php if ($auth->isAuthenticated() && $config->get(['cache', 'driver']) !== 'null'): ?>
 			<span class="flex-no-wrap small-font">
 			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
 		</span>

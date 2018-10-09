@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use const Aviat\AnimeClient\SETTINGS_MAP;
+
 use function Aviat\AnimeClient\arrayToToml;
 use function Aviat\Ion\_dir;
 
@@ -34,177 +36,6 @@ final class Settings {
 
 	private $config;
 
-	/**
-	 * Map the config values to types and form fields
-	 */
-	private const SETTINGS_MAP = [
-		'anilist' => [
-			'enabled' => [
-				'type' => 'boolean',
-				'title' => 'Enable Anilist Integration',
-				'default' => FALSE,
-				'description' => 'Enable syncing data between Kitsu and Anilist. Requires appropriate API keys to be set in config',
-			],
-			'client_id' => [
-				'type' => 'string',
-				'title' => 'Anilist API Client ID',
-				'default' => '',
-				'description' => 'The client id for your Anilist API application',
-			],
-			'client_secret' => [
-				'type' => 'string',
-				'title' => 'Anilist API Client Secret',
-				'default' => '',
-				'description' => 'The client secret for your Anilist API application',
-			],
-		],
-		'config' => [
-			'kitsu_username' => [
-				'type' => 'string',
-				'title' => 'Kitsu Username',
-				'default' => '',
-				'description' => 'Username of the account to pull list data from.',
-			],
-			'whose_list' => [
-				'type' => 'string',
-				'title' => 'Whose List',
-				'default' => 'Somebody',
-				'description' => 'Name of the owner of the list data.',
-			],
-			'show_anime_collection' => [
-				'type' => 'boolean',
-				'title' => 'Show Anime Collection',
-				'default' => FALSE,
-				'description' => 'Should the anime collection be shown?',
-			],
-			'show_manga_collection' => [
-				'type' => 'boolean',
-				'title' => 'Show Manga Collection',
-				'default' => FALSE,
-				'description' => 'Should the manga collection be shown?',
-			],
-			'default_list' => [
-				'type' => 'select',
-				'title' => 'Default List',
-				'description' => 'Which list to show by default.',
-				'options' => [
-					'Anime' => 'anime',
-					'Manga' => 'manga',
-				],
-			],
-			'default_anime_list_path' => [ //watching|plan_to_watch|on_hold|dropped|completed|all
-				'type' => 'select',
-				'title' => 'Default Anime List Section',
-				'description' => 'Which part of the anime list to show by default.',
-				'options' => [
-					'Watching' => 'watching',
-					'Plan to Watch' => 'plan_to_watch',
-					'On Hold' => 'on_hold',
-					'Dropped' => 'dropped',
-					'Completed' => 'completed',
-					'All' => 'all',
-				]
-			],
-			'default_manga_list_path' => [ //reading|plan_to_read|on_hold|dropped|completed|all
-				'type' => 'select',
-				'title' => 'Default Manga List Section',
-				'description' => 'Which part of the manga list to show by default.',
-				'options' => [
-					'Reading' => 'reading',
-					'Plan to Read' => 'plan_to_read',
-					'On Hold' => 'on_hold',
-					'Dropped' => 'dropped',
-					'Completed' => 'completed',
-					'All' => 'all',
-				]
-			]
-		],
-		'cache' => [
-			'driver' => [
-				'type' => 'select',
-				'title' => 'Cache Type',
-				'description' => 'The Cache backend',
-				'options' => [
-					'APCu' => 'apcu',
-					'Memcached' => 'memcached',
-					'Redis' => 'redis',
-					'No Cache' => 'null'
-				],
-			],
-			'connection' => [
-				'type' => 'subfield',
-				'title' => 'Connection',
-				'fields' => [
-					'host' => [
-						'type' => 'string',
-						'title' => 'Cache Host',
-						'description' => 'Host of the cache backend to connect to',
-					],
-					'port' => [
-						'type' => 'string',
-						'title' => 'Cache Port',
-						'description' => 'Port of the cache backend to connect to',
-						'default' => NULL,
-					],
-					'password' => [
-						'type' => 'string',
-						'title' => 'Cache Password',
-						'description' => 'Password to connect to cache backend',
-						'default' => NULL,
-					],
-					'database' => [
-						'type' => 'string',
-						'title' => 'Cache Database',
-						'description' => 'Cache database number for Redis',
-					],
-				],
-			],
-		],
-		'database' => [
-			'type' => [
-				'type' => 'select',
-				'title' => 'Database Type',
-				'options' => [
-					'MySQL' => 'mysql',
-					'PostgreSQL' => 'pgsql',
-					'SQLite' => 'sqlite',
-				],
-				'description' => 'Type of database to connect to',
-			],
-			'host' => [
-				'type' => 'string',
-				'title' => 'Host',
-				'description' => 'The host of the database server',
-			],
-			'user' => [
-				'type' => 'string',
-				'title' => 'User',
-				'description' => 'Database connection user',
-			],
-			'pass' => [
-				'type' => 'string',
-				'title' => 'Password',
-				'description' => 'Database connection password'
-			],
-			'port' => [
-				'type' => 'string',
-				'title' => 'Port',
-				'description' => 'Database connection port',
-				'default' =>  NULL,
-			],
-			'database' => [
-				'type' => 'string',
-				'title' => 'Database Name',
-				'description' => 'Name of the database/schema to connect to',
-			],
-			'file' => [
-				'type' => 'string',
-				'title' => 'Database File',
-				'description' => 'Path to the database file, if required by the current database type.'
-			],
-		],
-	];
-
 	public function __construct(ConfigInterface $config)
 	{
 		$this->config = $config;
@@ -216,7 +47,7 @@ final class Settings {
 			'config' => [],
 		];
 
-		foreach(static::SETTINGS_MAP as $file => $values)
+		foreach(SETTINGS_MAP as $file => $values)
 		{
 			if ($file === 'config')
 			{
@@ -243,7 +74,9 @@ final class Settings {
 
 		foreach($settings as $file => $values)
 		{
-			foreach(static::SETTINGS_MAP[$file] as $key => $value)
+			$values = $values ?? [];
+
+			foreach(SETTINGS_MAP[$file] as $key => $value)
 			{
 				if ($value['type'] === 'subfield')
 				{
@@ -317,7 +150,7 @@ final class Settings {
 					$looseConfig[$key] = $val;
 				}
 			}
-			elseif (is_array($val))
+			elseif (is_array($val) && ! empty($val))
 			{
 				foreach($val as $k => $v)
 				{
@@ -357,7 +190,11 @@ final class Settings {
 
 	public function saveSettingsFile(array $settings): bool
 	{
-		$settings = $settings['config'];
+		$configWrapped = (count(array_keys($settings)) === 1 && array_key_exists('config', $settings));
+		if ($configWrapped)
+		{
+			$settings = $settings['config'];
+		}
 
 		try
 		{
@@ -365,6 +202,9 @@ final class Settings {
 		}
 		catch (UndefinedPropertyException $e)
 		{
+			dump($e);
+			dump($settings);
+			die();
 			return FALSE;
 		}
 
