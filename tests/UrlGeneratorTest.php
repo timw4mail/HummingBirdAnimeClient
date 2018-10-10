@@ -28,13 +28,13 @@ class UrlGeneratorTest extends AnimeClientTestCase {
 				'args' => [
 					'images'
 				],
-				'expected' => '//localhost/assets/images',
+				'expected' => 'http://localhost/assets/images',
 			],
 			'multiple arguments' => [
 				'args' => [
 					'images', 'anime', 'foo.png'
 				],
-				'expected' => '//localhost/assets/images/anime/foo.png'
+				'expected' => 'http://localhost/assets/images/anime/foo.png'
 			]
 		];
 	}
