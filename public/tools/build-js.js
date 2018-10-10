@@ -1,13 +1,13 @@
-import closure from '@ampproject/rollup-plugin-closure-compiler';
+import closure from 'rollup-plugin-closure-compiler-js';
 
 const plugins = [
 	closure({
 		assumeFunctionWrapper: true,
-		compilationLevel: 'SIMPLE', //'WHITESPACE_ONLY', //'ADVANCED',
+		compilationLevel: 'WHITESPACE_ONLY', //'ADVANCED',
 		createSourceMap: true,
 		env: 'BROWSER',
 		languageIn: 'ECMASCRIPT_2018',
-		languageOut: 'ES5'
+		languageOut: 'ES3'
 	})
 ];
 

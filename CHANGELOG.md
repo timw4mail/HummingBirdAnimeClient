@@ -5,6 +5,7 @@
 * Now uses WebP cache images when the browser supports it
 * Replaces JS minifier with pre-minified scripts (Removes the need for one caching folder, too)
 * Updated console command to sync Kitsu and Anilist data
+* Added page to update settings without having to edit config files
 
 ## Version 4
 * Updated to use Kitsu API after discontinuation of Hummingbird
