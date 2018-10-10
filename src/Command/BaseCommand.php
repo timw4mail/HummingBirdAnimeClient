@@ -19,12 +19,15 @@ namespace Aviat\AnimeClient\Command;
 use function Aviat\AnimeClient\loadToml;
 use function Aviat\AnimeClient\loadTomlFile;
 
+use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
+use Aviat\AnimeClient\UrlGenerator;
 use Aviat\AnimeClient\Util;
 use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
+use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
@@ -32,6 +35,7 @@ use ConsoleKit\{Command, ConsoleException};
 use ConsoleKit\Widgets\Box;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Zend\Diactoros\{Response, ServerRequestFactory};
 
 /**
  * Base class for console command setup
@@ -111,6 +115,25 @@ class BaseCommand extends Command {
 				return new Pool($config, $logger);
 			});
 
+			// Create Aura Router Object
+			$container->set('aura-router', function() {
+				return new RouterContainer;
+			});
+
+			// Create Request/Response Objects
+			$container->set('request', function() {
+				return ServerRequestFactory::fromGlobals(
+					$_SERVER,
+					$_GET,
+					$_POST,
+					$_COOKIE,
+					$_FILES
+				);
+			});
+			$container->set('response', function() {
+				return new Response;
+			});
+
 			// Create session Object
 			$container->set('session', function() {
 				return (new SessionFactory())->newInstance($_COOKIE);
@@ -146,6 +169,19 @@ class BaseCommand extends Command {
 				$model->setRequestBuilder($requestBuilder);
 
 				return $model;
+			});
+			$container->set('settings-model', function($container) {
+				$model =  new Model\Settings($container->get('config'));
+				$model->setContainer($container);
+				return $model;
+			});
+
+			$container->set('auth', function($container) {
+				return new Kitsu\Auth($container);
+			});
+
+			$container->set('url-generator', function($container) {
+				return new UrlGenerator($container);
 			});
 
 			$container->set('util', function($container) {
