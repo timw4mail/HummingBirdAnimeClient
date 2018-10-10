@@ -88,7 +88,7 @@ class UrlGenerator extends RoutingBase {
 		}
 		$path = implode('/', $path_segments);
 
-		$scheme = (isset($_SERVER['HTTPS'])) ? 'https:' : '';
+		$scheme = (isset($_SERVER['HTTPS'])) ? 'https:' : 'http';
 
 		return "{$scheme}//{$this->host}/{$path}";
 	}
