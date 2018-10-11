@@ -6,8 +6,8 @@ pipeline {
 				docker { image 'php:7.1-alpine' }
 			}
 			steps {
-				sh 'chmod +x build/docker_install.sh'
-				sh 'build/docker_install.sh'
+				sh 'chmod +x ./build/docker_install.sh'
+				sh 'sh build/docker_install.sh'
 				sh 'apk add --no-cache php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'php composer.phar install --ignore-platform-reqs'
@@ -19,8 +19,8 @@ pipeline {
 				docker { image 'php:7.2-alpine' }
 			}
 			steps {
-				sh 'chmod +x build/docker_install.sh'
-				sh 'build/docker_install.sh'
+				sh 'chmod +x ./build/docker_install.sh'
+				sh 'sh build/docker_install.sh'
 				sh 'apk add --no-cache php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'php composer.phar install --ignore-platform-reqs'
