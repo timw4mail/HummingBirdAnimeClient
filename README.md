@@ -3,7 +3,7 @@
 Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/timw4mail/HummingBirdAnimeClient/?branch=master)
+[![Build Status](https://jenkins.timshomepage.net/buildStatus/icon?job=aviat/HummingBirdAnimeClient/develop)](https://jenkins.timshomepage.net/job/aviat/HummingBirdAnimeClient/develop)
 
 [[Hosted Example](https://list.timshomepage.net)]
 
