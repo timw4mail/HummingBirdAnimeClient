@@ -3,7 +3,10 @@ pipeline {
 	stages {
 		stage('PHP 7.1') {
 			agent {
-				docker { image 'php:7.1-alpine' }
+				docker {
+				    image 'php:7.1-alpine'
+				    args '-u root --privileged'
+				}
 			}
 			steps {
 				sh 'chmod +x ./build/docker_install.sh'
@@ -16,7 +19,10 @@ pipeline {
 		}
 		stage('PHP 7.2') {
 			agent {
-				docker { image 'php:7.2-alpine' }
+				docker {
+				    image 'php:7.2-alpine'
+				    args '-u root --privileged'
+				}
 			}
 			steps {
 				sh 'chmod +x ./build/docker_install.sh'
