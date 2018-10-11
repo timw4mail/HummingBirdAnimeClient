@@ -29,6 +29,7 @@ class Config extends AbstractType {
 	public $default_manga_list_path;
 	public $default_view_type;
 	public $kitsu_username;
+	public $secure_urls = TRUE;
 	public $show_anime_collection;
 	public $show_manga_collection;
 	public $whose_list;
