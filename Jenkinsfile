@@ -3,9 +3,9 @@ pipeline {
 	stages {
 		stage('PHP 7.1') {
 			agent {
+				docker { image 'php:7.1-alpine' }
 				label 'php-7.1'
 			}
-			docker { image 'php:7.1-alpine' }
 			steps {
 				sh 'build/docker_install.sh > /dev/null'
 				'apk add --no-cache php7-phpdbg'
@@ -16,9 +16,9 @@ pipeline {
 		}
 		stage('PHP 7.2') {
 			agent {
+				docker { image 'php:7.2-alpine' }
 				label 'php-7.2'
 			}
-			docker { image 'php:7.2-alpine' }
 			steps {
 				sh 'build/docker_install.sh > /dev/null'
 				'apk add --no-cache php7-phpdbg'
