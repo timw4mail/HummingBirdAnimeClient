@@ -130,7 +130,12 @@ final class AnimeCollection extends Collection {
 
 		foreach($rows as &$row)
 		{
-			$row['genres'] = $genres[$row['hummingbird_id']];
+			$id = $row['hummingbird_id'];
+
+			$row['genres'] = array_key_exists($id, $genres)
+				? $genres[$id]
+				: [];
+
 			sort($row['genres']);
 		}
 
