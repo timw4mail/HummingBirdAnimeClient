@@ -24,3 +24,13 @@ default_list = "anime" # anime or manga
 # Default pages for anime/manga
 default_anime_list_path = "watching" # watching|plan_to_watch|on_hold|dropped|completed|all
 default_manga_list_path = "reading" # reading|plan_to_read|on_hold|dropped|completed|all
+
+################################################################################
+# Not on Settings Page
+#
+# These settings are not available to change on the settings page
+################################################################################
+
+# Use HTTPs for URLs
+# It is not recommended to change this setting
+secure_urls = true

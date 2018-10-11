@@ -34,19 +34,20 @@ class UrlGenerator extends RoutingBase {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
+
 		$this->host = $container->get('request')->getServerParams()['HTTP_HOST'];
 	}
 
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param string[] ...$args
+	 * @param string ...$args
 	 * @return string
 	 */
 	public function assetUrl(string ...$args): string
@@ -88,9 +89,7 @@ class UrlGenerator extends RoutingBase {
 		}
 		$path = implode('/', $path_segments);
 
-		$isHttps = $_SERVER['SERVER_PORT'] === '443' || isset($_SERVER['HTTPS']);
-
-		$scheme = ($isHttps) ? 'https:' : 'http:';
+		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
 
 		return "{$scheme}//{$this->host}/{$path}";
 	}
