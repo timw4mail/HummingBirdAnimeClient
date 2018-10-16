@@ -35,12 +35,9 @@ final class MangaTransformer extends AbstractTransformer {
 	{
 		$genres = [];
 
-		foreach($item['included'] as $included)
+		foreach($included['categories'] as $cat)
 		{
-			if ($included['type'] === 'categories')
-			{
-				$genres[] = $included['attributes']['title'];
-			}
+			$genres[] = $cat['title'];
 		}
 
 		sort($genres);

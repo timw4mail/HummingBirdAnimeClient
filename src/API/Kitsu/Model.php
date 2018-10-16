@@ -558,7 +558,7 @@ final class Model {
 				'media_type' => 'Anime',
 				'status' => $status,
 			],
-			'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
+			'include' => 'media,media.categories,media.mappings,anime.streamingLinks',
 			'sort' => '-updated_at'
 		];
 
@@ -618,7 +618,7 @@ final class Model {
 					'media_type' => 'Manga',
 					'status' => $status,
 				],
-				'include' => 'media,media.genres,media.mappings',
+				'include' => 'media,media.categories,media.mappings',
 				'page' => [
 					'offset' => $offset,
 					'limit' => $limit

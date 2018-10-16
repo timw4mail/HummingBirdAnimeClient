@@ -42,7 +42,13 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$animeId = $item['relationships']['media']['data']['id'];
 		$anime = $included['anime'][$animeId];
 
-		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
+		$genres = [];
+
+		foreach($anime['relationships']['categories'] as $genre)
+		{
+			$genres[] = $genre['title'];
+		}
+
 		sort($genres);
 
 		$rating = (int) $item['attributes']['ratingTwenty'] !== 0

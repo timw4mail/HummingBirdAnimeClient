@@ -43,7 +43,13 @@ final class MangaListTransformer extends AbstractTransformer {
 		$mangaId = $item['relationships']['media']['data']['id'];
 		$manga = $included['manga'][$mangaId];
 
-		$genres = array_column($manga['relationships']['genres'], 'name') ?? [];
+		$genres = [];
+
+		foreach ($manga['relationships']['categories'] as $genre)
+		{
+			$genres[] = $genre['title'];
+		}
+
 		sort($genres);
 
 		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
