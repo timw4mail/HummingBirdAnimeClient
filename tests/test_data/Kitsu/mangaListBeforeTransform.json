@@ -419,30 +419,30 @@
         "mangaType": "manga"
       },
       "relationships": {
-        "genres": {
+        "categories": {
           "links": {
-            "self": "https://kitsu.io/api/edge/manga/20286/relationships/genres",
-            "related": "https://kitsu.io/api/edge/manga/20286/genres"
+            "self": "https://kitsu.io/api/edge/manga/20286/relationships/categories",
+            "related": "https://kitsu.io/api/edge/manga/20286/categories"
           },
           "data": [
             {
-              "type": "genres",
+              "type": "categories",
               "id": "3"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "21"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "24"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "16"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "14"
             }
           ]
@@ -554,30 +554,30 @@
         "mangaType": "manga"
       },
       "relationships": {
-        "genres": {
+        "categories": {
           "links": {
-            "self": "https://kitsu.io/api/edge/manga/47/relationships/genres",
-            "related": "https://kitsu.io/api/edge/manga/47/genres"
+            "self": "https://kitsu.io/api/edge/manga/47/relationships/categories",
+            "related": "https://kitsu.io/api/edge/manga/47/categories"
           },
           "data": [
             {
-              "type": "genres",
+              "type": "categories",
               "id": "3"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "13"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "34"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "14"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "25"
             }
           ]
@@ -689,38 +689,38 @@
         "mangaType": "manga"
       },
       "relationships": {
-        "genres": {
+        "categories": {
           "links": {
-            "self": "https://kitsu.io/api/edge/manga/11777/relationships/genres",
-            "related": "https://kitsu.io/api/edge/manga/11777/genres"
+            "self": "https://kitsu.io/api/edge/manga/11777/relationships/categories",
+            "related": "https://kitsu.io/api/edge/manga/11777/categories"
           },
           "data": [
             {
-              "type": "genres",
+              "type": "categories",
               "id": "3"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "9"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "13"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "24"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "45"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "14"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "25"
             }
           ]
@@ -832,22 +832,22 @@
         "mangaType": "manga"
       },
       "relationships": {
-        "genres": {
+        "categories": {
           "links": {
-            "self": "https://kitsu.io/api/edge/manga/27175/relationships/genres",
-            "related": "https://kitsu.io/api/edge/manga/27175/genres"
+            "self": "https://kitsu.io/api/edge/manga/27175/relationships/categories",
+            "related": "https://kitsu.io/api/edge/manga/27175/categories"
           },
           "data": [
             {
-              "type": "genres",
+              "type": "categories",
               "id": "24"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "16"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "14"
             }
           ]
@@ -954,22 +954,22 @@
         "mangaType": "manga"
       },
       "relationships": {
-        "genres": {
+        "categories": {
           "links": {
-            "self": "https://kitsu.io/api/edge/manga/25491/relationships/genres",
-            "related": "https://kitsu.io/api/edge/manga/25491/genres"
+            "self": "https://kitsu.io/api/edge/manga/25491/relationships/categories",
+            "related": "https://kitsu.io/api/edge/manga/25491/categories"
           },
           "data": [
             {
-              "type": "genres",
+              "type": "categories",
               "id": "3"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "24"
             },
             {
-              "type": "genres",
+              "type": "categories",
               "id": "16"
             }
           ]
@@ -1026,120 +1026,120 @@
     },
     {
       "id": "3",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/3"
+        "self": "https://kitsu.io/api/edge/categories/3"
       },
       "attributes": {
-        "name": "Comedy",
+        "title": "Comedy",
         "slug": "comedy",
         "description": null
       }
     },
     {
       "id": "21",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/21"
+        "self": "https://kitsu.io/api/edge/categories/21"
       },
       "attributes": {
-        "name": "Thriller",
+        "title": "Thriller",
         "slug": "thriller",
         "description": null
       }
     },
     {
       "id": "24",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/24"
+        "self": "https://kitsu.io/api/edge/categories/24"
       },
       "attributes": {
-        "name": "School",
+        "title": "School",
         "slug": "school",
         "description": null
       }
     },
     {
       "id": "16",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/16"
+        "self": "https://kitsu.io/api/edge/categories/16"
       },
       "attributes": {
-        "name": "Slice of Life",
+        "title": "Slice of Life",
         "slug": "slice-of-life",
         "description": ""
       }
     },
     {
       "id": "14",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/14"
+        "self": "https://kitsu.io/api/edge/categories/14"
       },
       "attributes": {
-        "name": "Romance",
+        "title": "Romance",
         "slug": "romance",
         "description": ""
       }
     },
     {
       "id": "13",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/13"
+        "self": "https://kitsu.io/api/edge/categories/13"
       },
       "attributes": {
-        "name": "Sports",
+        "title": "Sports",
         "slug": "sports",
         "description": null
       }
     },
     {
       "id": "34",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/34"
+        "self": "https://kitsu.io/api/edge/categories/34"
       },
       "attributes": {
-        "name": "Harem",
+        "title": "Harem",
         "slug": "harem",
         "description": null
       }
     },
     {
       "id": "25",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/25"
+        "self": "https://kitsu.io/api/edge/categories/25"
       },
       "attributes": {
-        "name": "Ecchi",
+        "title": "Ecchi",
         "slug": "ecchi",
         "description": ""
       }
     },
     {
       "id": "9",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/9"
+        "self": "https://kitsu.io/api/edge/categories/9"
       },
       "attributes": {
-        "name": "Supernatural",
+        "title": "Supernatural",
         "slug": "supernatural",
         "description": null
       }
     },
     {
       "id": "45",
-      "type": "genres",
+      "type": "categories",
       "links": {
-        "self": "https://kitsu.io/api/edge/genres/45"
+        "self": "https://kitsu.io/api/edge/categories/45"
       },
       "attributes": {
-        "name": "Gender Bender",
+        "title": "Gender Bender",
         "slug": "gender-bender",
         "description": ""
       }
@@ -1244,7 +1244,7 @@
     "count": 5
   },
   "links": {
-    "first": "https://kitsu.io/api/edge/library-entries?fields%5Busers%5D=id&filter%5Bmedia_type%5D=Manga&filter%5Bstatus%5D=1&filter%5Buser_id%5D=2644&include=media%2Cmedia.genres%2Cmedia.mappings&page%5Blimit%5D=200&page%5Boffset%5D=0&sort=-updated_at",
-    "last": "https://kitsu.io/api/edge/library-entries?fields%5Busers%5D=id&filter%5Bmedia_type%5D=Manga&filter%5Bstatus%5D=1&filter%5Buser_id%5D=2644&include=media%2Cmedia.genres%2Cmedia.mappings&page%5Blimit%5D=200&page%5Boffset%5D=0&sort=-updated_at"
+    "first": "https://kitsu.io/api/edge/library-entries?fields%5Busers%5D=id&filter%5Bmedia_type%5D=Manga&filter%5Bstatus%5D=1&filter%5Buser_id%5D=2644&include=media%2Cmedia.categories%2Cmedia.mappings&page%5Blimit%5D=200&page%5Boffset%5D=0&sort=-updated_at",
+    "last": "https://kitsu.io/api/edge/library-entries?fields%5Busers%5D=id&filter%5Bmedia_type%5D=Manga&filter%5Bstatus%5D=1&filter%5Buser_id%5D=2644&include=media%2Cmedia.categories%2Cmedia.mappings&page%5Blimit%5D=200&page%5Boffset%5D=0&sort=-updated_at"
   }
 }
