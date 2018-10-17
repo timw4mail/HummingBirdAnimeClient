@@ -66,33 +66,35 @@ final class Kitsu {
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
+		$hostname = str_replace('www.', '', $hostname);
+
 		$serviceMap = [
-			'www.amazon.com' => [
+			'amazon.com' => [
 				'name' => 'Amazon Prime',
 				'link' => TRUE,
 				'image' => 'streaming-logos/amazon.svg',
 			],
-			'www.crunchyroll.com' => [
+			'crunchyroll.com' => [
 				'name' => 'Crunchyroll',
 				'link' => TRUE,
 				'image' => 'streaming-logos/crunchyroll.svg',
 			],
-			'www.daisuki.net' => [
+			'daisuki.net' => [
 				'name' => 'Daisuki',
 				'link' => TRUE,
 				'image' => 'streaming-logos/daisuki.svg'
 			],
-			'wwww.funimation.com' => [
+			'funimation.com' => [
 				'name' => 'Funimation',
 				'link' => TRUE,
 				'image' => 'streaming-logos/funimation.svg',
 			],
-			'www.hidive.com' => [
+			'hidive.com' => [
 				'name' => 'Hidive',
 				'link' => TRUE,
 				'image' => 'streaming-logos/hidive.svg',
 			],
-			'www.hulu.com' => [
+			'hulu.com' => [
 				'name' => 'Hulu',
 				'link' => TRUE,
 				'image' => 'streaming-logos/hulu.svg',
@@ -102,7 +104,7 @@ final class Kitsu {
 				'link' => TRUE,
 				'image' => 'streaming-logos/tubitv.svg',
 			],
-			'www.viewster.com' => [
+			'viewster.com' => [
 				'name' => 'Viewster',
 				'link' => TRUE,
 				'image' => 'streaming-logos/viewster.svg'
