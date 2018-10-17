@@ -66,73 +66,61 @@ final class Kitsu {
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
-		switch($hostname)
+		$serviceMap = [
+			'www.amazon.com' => [
+				'name' => 'Amazon Prime',
+				'link' => TRUE,
+				'image' => 'streaming-logos/amazon.svg',
+			],
+			'www.crunchyroll.com' => [
+				'name' => 'Crunchyroll',
+				'link' => TRUE,
+				'image' => 'streaming-logos/crunchyroll.svg',
+			],
+			'www.daisuki.net' => [
+				'name' => 'Daisuki',
+				'link' => TRUE,
+				'image' => 'streaming-logos/daisuki.svg'
+			],
+			'wwww.funimation.com' => [
+				'name' => 'Funimation',
+				'link' => TRUE,
+				'image' => 'streaming-logos/funimation.svg',
+			],
+			'www.hidive.com' => [
+				'name' => 'Hidive',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hidive.svg',
+			],
+			'www.hulu.com' => [
+				'name' => 'Hulu',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hulu.svg',
+			],
+			'tubitv.com' => [
+				'name' => 'TubiTV',
+				'link' => TRUE,
+				'image' => 'streaming-logos/tubitv.svg',
+			],
+			'www.viewster.com' => [
+				'name' => 'Viewster',
+				'link' => TRUE,
+				'image' => 'streaming-logos/viewster.svg'
+			],
+		];
+
+		if (array_key_exists($hostname, $serviceMap))
 		{
-			case 'www.amazon.com':
-				return [
-					'name' => 'Amazon Prime',
-					'link' => TRUE,
-					'image' => 'streaming-logos/amazon.svg',
-				];
-
-			case 'www.crunchyroll.com':
-				return [
-					'name' => 'Crunchyroll',
-					'link' => TRUE,
-					'image' => 'streaming-logos/crunchyroll.svg',
-				];
-
-			case 'www.daisuki.net':
-				return [
-					'name' => 'Daisuki',
-					'link' => TRUE,
-					'image' => 'streaming-logos/daisuki.svg'
-				];
-
-			case 'www.funimation.com':
-				return [
-					'name' => 'Funimation',
-					'link' => TRUE,
-					'image' => 'streaming-logos/funimation.svg',
-				];
-
-			case 'www.hidive.com':
-				return [
-					'name' => 'Hidive',
-					'link' => TRUE,
-					'image' => 'streaming-logos/hidive.svg',
-				];
-
-			case 'www.hulu.com':
-				return [
-					'name' => 'Hulu',
-					'link' => TRUE,
-					'image' => 'streaming-logos/hulu.svg',
-				];
-
-			case 'tubitv.com':
-				return [
-					'name' => 'TubiTV',
-					'link' => TRUE,
-					'image' => 'streaming-logos/tubitv.svg',
-				];
-
-			case 'www.viewster.com':
-				return [
-					'name' => 'Viewster',
-					'link' => TRUE,
-					'image' => 'streaming-logos/viewster.svg'
-				];
-
-			// Default to Netflix, because the API links are broken,
-			// and there's no other real identifier for Netflix
-			default:
-				return [
-					'name' => 'Netflix',
-					'link' => FALSE,
-					'image' => 'streaming-logos/netflix.svg',
-				];
+			return $serviceMap[$hostname];
 		}
+
+		// Default to Netflix, because the API links are broken,
+		// and there's no other real identifier for Netflix
+		return [
+			'name' => 'Netflix',
+			'link' => FALSE,
+			'image' => 'streaming-logos/netflix.svg',
+		];
 	}
 
 	/**
