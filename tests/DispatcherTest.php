@@ -218,6 +218,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					'manga' => 'Aviat\AnimeClient\Controller\Manga',
 					'anime-collection' => 'Aviat\AnimeClient\Controller\AnimeCollection',
 					'manga-collection' => 'Aviat\AnimeClient\Controller\MangaCollection',
+					'people' => 'Aviat\AnimeClient\Controller\People',
 					'character' => 'Aviat\AnimeClient\Controller\Character',
 					'index' => 'Aviat\AnimeClient\Controller\Index',
 				]
@@ -238,6 +239,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					'manga' => 'Aviat\AnimeClient\Controller\Manga',
 					'anime-collection' => 'Aviat\AnimeClient\Controller\AnimeCollection',
 					'manga-collection' => 'Aviat\AnimeClient\Controller\MangaCollection',
+					'people' => 'Aviat\AnimeClient\Controller\People',
 					'character' => 'Aviat\AnimeClient\Controller\Character',
 					'index' => 'Aviat\AnimeClient\Controller\Index',
 				]
