@@ -839,23 +839,22 @@ final class Model {
 		$baseData = $this->listItem->get($listId);
 		$included = JsonAPI::organizeIncludes($baseData['included']);
 
-
-		switch (TRUE)
+		if (array_key_exists('anime', $included))
 		{
-			case array_key_exists('anime', $included): // in_array('anime', array_keys($included)):
-				$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-				$baseData['data']['included'] = $included;
-				return $this->animeListTransformer->transform($baseData['data']);
-
-			case array_key_exists('manga', $included): // in_array('manga', array_keys($included)):
-				$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
-				$baseData['data']['included'] = $included;
-				$baseData['data']['manga'] = $baseData['included'][0];
-				return $this->mangaListTransformer->transform($baseData['data']);
-
-			default:
-				return $baseData['data'];
+			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
+			$baseData['data']['included'] = $included;
+			return $this->animeListTransformer->transform($baseData['data']);
 		}
+
+		if (array_key_exists('manga', $included))
+		{
+			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+			$baseData['data']['included'] = $included;
+			$baseData['data']['manga'] = $baseData['included'][0];
+			return $this->mangaListTransformer->transform($baseData['data']);
+		}
+
+		return $baseData['data'];
 	}
 
 	/**
