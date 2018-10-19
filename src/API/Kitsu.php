@@ -45,17 +45,17 @@ final class Kitsu {
 		$isDoneAiring = $now > $endAirDate;
 		$isCurrentlyAiring = ($now > $startAirDate) && ! $isDoneAiring;
 
-		switch (TRUE)
+		if ($isCurrentlyAiring)
 		{
-			case $isCurrentlyAiring:
-				return AnimeAiringStatus::AIRING;
-
-			case $isDoneAiring:
-				return AnimeAiringStatus::FINISHED_AIRING;
-
-			default:
-				return AnimeAiringStatus::NOT_YET_AIRED;
+			return AnimeAiringStatus::AIRING;
 		}
+
+		if ($isDoneAiring)
+		{
+			return AnimeAiringStatus::FINISHED_AIRING;
+		}
+
+		return AnimeAiringStatus::NOT_YET_AIRED;
 	}
 
 	/**
