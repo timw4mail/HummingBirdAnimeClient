@@ -61,6 +61,11 @@ final class JsonAPI {
 		// Inline organized data
 		foreach($data['data'] as $i => &$item)
 		{
+			if ( ! is_array($item))
+			{
+				continue;
+			}
+
 			if (array_key_exists('relationships', $item))
 			{
 				foreach($item['relationships'] as $relType => $props)

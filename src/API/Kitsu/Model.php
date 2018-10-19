@@ -222,6 +222,21 @@ final class Model {
 	}
 
 	/**
+	 * Get information about a person
+	 *
+	 * @param string $id
+	 * @return array
+	 */
+	public function getPerson(string $id): array
+	{
+		return $this->getRequest("people/{$id}", [
+			'query' => [
+				'include' => 'castings,castings.media,staff,staff.media,voices'
+			],
+		]);
+	}
+
+	/**
 	 * Get profile information for the configured user
 	 *
 	 * @param string $username
@@ -585,7 +600,7 @@ final class Model {
 		}
 
 		$transformed = $this->mangaTransformer->transform($baseData);
-		$transformed['included'] = $baseData['included'];
+		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
 		return $transformed;
 	}
 
@@ -936,8 +951,8 @@ final class Model {
 					'characters' => 'slug,name,image'
 				],
 				'include' => ($type === 'anime')
-					? 'categories,mappings,streamingLinks,animeCharacters.character'
-					: 'categories,mappings,mangaCharacters.character,castings.character',
+					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character'
+					: 'staff,staff.person,categories,mappings,mangaCharacters.character,castings.character',
 			]
 		];
 

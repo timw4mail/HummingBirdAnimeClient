@@ -19,6 +19,10 @@ namespace Aviat\AnimeClient;
 use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\{Toml, TomlBuilder};
 
+// ----------------------------------------------------------------------------
+//! TOML Functions
+// ----------------------------------------------------------------------------
+
 /**
  * Load configuration options from .toml files
  *
@@ -65,30 +69,6 @@ function loadToml(string $path): array
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
-}
-
-/**
- * Is the array sequential, not associative?
- *
- * @param mixed $array
- * @return bool
- */
-function isSequentialArray($array): bool
-{
-	if ( ! is_array($array))
-	{
-		return FALSE;
-	}
-
-	$i = 0;
-	foreach ($array as $k => $v)
-	{
-		if ($k !== $i++)
-		{
-			return FALSE;
-		}
-	}
-	return TRUE;
 }
 
 function _iterateToml(TomlBuilder $builder, $data, $parentKey = NULL): void
@@ -147,6 +127,34 @@ function tomlToArray(string $toml): array
 	return Toml::parse($toml);
 }
 
+// ----------------------------------------------------------------------------
+//! Misc Functions
+// ----------------------------------------------------------------------------
+
+/**
+ * Is the array sequential, not associative?
+ *
+ * @param mixed $array
+ * @return bool
+ */
+function isSequentialArray($array): bool
+{
+	if ( ! is_array($array))
+	{
+		return FALSE;
+	}
+
+	$i = 0;
+	foreach ($array as $k => $v)
+	{
+		if ($k !== $i++)
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
 /**
  * Check that folder permissions are correct for proper operation
  *
@@ -186,4 +194,38 @@ function checkFolderPermissions(ConfigInterface $config): array
 	}
 
 	return $errors;
+}
+
+/**
+ * Generate the path for the cached image from the original iamge
+ *
+ * @param string $kitsuUrl
+ * @return string
+ */
+function getLocalImg ($kitsuUrl): string
+{
+	if ( ! is_string($kitsuUrl))
+	{
+		return '/404';
+	}
+
+	$parts = parse_url($kitsuUrl);
+
+	if ($parts === FALSE)
+	{
+		return '/404';
+	}
+
+	$file = basename($parts['path']);
+	$fileParts = explode('.', $file);
+	$ext = array_pop($fileParts);
+	$segments = explode('/', trim($parts['path'], '/'));
+
+	// dump($segments);
+
+	$type = $segments[0] === 'users' ? $segments[1] : $segments[0];
+
+	$id = $segments[count($segments) - 2];
+
+	return implode('/', ['images', $type, "{$id}.{$ext}"]);
 }

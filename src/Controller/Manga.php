@@ -280,6 +280,7 @@ final class Manga extends Controller {
 	public function details($manga_id): void
 	{
 		$data = $this->model->getManga($manga_id);
+		$staff = [];
 		$characters = [];
 
 		if (empty($data))
@@ -293,13 +294,43 @@ final class Manga extends Controller {
 			return;
 		}
 
-		foreach($data['included'] as $included)
+		if (array_key_exists('characters', $data['included']))
 		{
-			if ($included['type'] === 'characters')
+			foreach ($data['included']['characters'] as $id => $character)
 			{
-				$characters[$included['id']] = $included['attributes'];
+				$characters[$id] = $character['attributes'];
 			}
 		}
+
+		if (array_key_exists('mediaStaff', $data['included']))
+		{
+			foreach ($data['included']['mediaStaff'] as $id => $person)
+			{
+				$personDetails = [];
+				foreach ($person['relationships']['person']['people'] as $p)
+				{
+					$personDetails = $p['attributes'];
+				}
+
+				$role = $person['attributes']['role'];
+
+				if ( ! array_key_exists($role, $staff))
+				{
+					$staff[$role] = [];
+				}
+
+				$staff[$role][$id] = [
+					'name' => $personDetails['name'] ?? '??',
+					'image' => $personDetails['image'],
+				];
+			}
+		}
+
+		uasort($characters, function ($a, $b) {
+			return $a['name'] <=> $b['name'];
+		});
+
+		// dump($staff);
 
 		$this->outputHTML('manga/details', [
 			'title' => $this->formatTitle(
@@ -309,6 +340,7 @@ final class Manga extends Controller {
 			),
 			'characters' => $characters,
 			'data' => $data,
+			'staff' => $staff,
 		]);
 	}
 

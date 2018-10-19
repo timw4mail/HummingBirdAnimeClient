@@ -268,35 +268,44 @@ final class Index extends BaseController {
 		$kitsuUrl = 'https://media.kitsu.io/';
 		$fileName = str_replace('-original', '', $file);
 		[$id, $ext] = explode('.', basename($fileName));
-		switch ($type)
+
+		$typeMap = [
+			'anime' => [
+				'kitsuUrl' => "anime/poster_images/{$id}/medium.{$ext}",
+				'width' => 220,
+			],
+			'avatars' => [
+				'kitsuUrl' => "users/avatars/{$id}/original.{$ext}",
+				'width' => null,
+			],
+			'characters' => [
+				'kitsuUrl' => "characters/images/{$id}/original.{$ext}",
+				'width' => 225,
+			],
+			'manga' => [
+				'kitsuUrl' => "manga/poster_images/{$id}/medium.{$ext}",
+				'width' => 220,
+			],
+			'people' => [
+				'kitsuUrl' => "people/images/{$id}/original.{$ext}",
+				'width' => null,
+			],
+		];
+
+		if ( ! array_key_exists($type, $typeMap))
 		{
-			case 'anime':
-				$kitsuUrl .= "anime/poster_images/{$id}/small.jpg";
-				$width = 220;
-			break;
-
-			case 'avatars':
-				$kitsuUrl .= "users/avatars/{$id}/original.jpg";
-			break;
-
-			case 'manga':
-				$kitsuUrl .= "manga/poster_images/{$id}/small.jpg";
-				$width = 220;
-			break;
-
-			case 'characters':
-				$kitsuUrl .= "characters/images/{$id}/original.jpg";
-				$width = 225;
-			break;
-
-			default:
-				$this->notFound();
-				return;
+			$this->notFound();
+			return;
 		}
+
+		$kitsuUrl .= $typeMap[$type]['kitsuUrl'];
+		$width = $typeMap[$type]['width'];
 
 		$promise = (new HummingbirdClient)->request($kitsuUrl);
 		$response = wait($promise);
 		$data = wait($response->getBody());
+
+		// echo "Fetching {$kitsuUrl}\n";
 
 		$baseSavePath = $this->config->get('img_cache_path');
 		$filePrefix = "{$baseSavePath}/{$type}/{$id}";

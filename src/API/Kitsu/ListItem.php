@@ -103,7 +103,7 @@ final class ListItem implements ListItemInterface {
 
 		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
 			->setQuery([
-				'include' => 'media,media.genres,media.mappings'
+				'include' => 'media,media.categories,media.mappings'
 			]);
 
 		if ($authHeader !== FALSE)
