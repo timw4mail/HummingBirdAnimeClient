@@ -16,20 +16,8 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\{
-	FailedResponseException,
-	JsonAPI,
-	ParallelAPIRequest
-};
-use Aviat\AnimeClient\API\Anilist\Transformer\{
-	AnimeListTransformer as AALT,
-	MangaListTransformer as AMLT
-};
-use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
+use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\Controller\Index;
-use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Ion\Json;
-use DateTime;
 
 /**
  * Clears out image cache directories, then re-creates the image cache
@@ -69,9 +57,11 @@ final class UpdateThumbnails extends BaseCommand {
 			{
 				$this->controller->images($type, "{$id}.jpg", FALSE);
 			}
+
+			$this->echoBox("Finished regenerating {$type} thumbnails");
 		}
 
-		$this->echoBox('Finished regenerating thumbnails');
+		$this->echoBox('Finished regenerating all thumbnails');
 	}
 
 	public function clearThumbs()

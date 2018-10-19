@@ -174,6 +174,14 @@ return [
 			'slug' => '[a-z0-9\-]+'
 		]
 	],
+	'person' => [
+		'path' => '/people/{id}',
+		'action' => 'index',
+		'params' => [],
+		'tokens' => [
+			'id' => '[a-z0-9\-]+'
+		]
+	],
 	'user_info' => [
 		'path' => '/me',
 		'action' => 'me',

@@ -1,4 +1,7 @@
-<?php use Aviat\AnimeClient\API\Kitsu; ?>
+<?php
+use function Aviat\AnimeClient\getLocalImg;
+use Aviat\AnimeClient\API\Kitsu;
+?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
@@ -89,14 +92,19 @@
 						<th>Cast Member</th>
 						<th>Series</th>
 					</tr>
-					<?php foreach($casting as $c):?>
+					<?php foreach($casting as $cid => $c):?>
 					<tr>
 						<td style="width:229px">
 							<article class="character">
-								<img src="<?= $c['person']['image'] ?>" alt="" />
+								<?php
+									$link = $url->generate('person', ['id' => $c['person']['id']]);
+								?>
+								<a href="<?= $link ?>">
+								<img src="<?= $urlGenerator->assetUrl(getLocalImg($c['person']['image'])) ?>" alt="" />
 								<div class="name">
 									<?= $c['person']['name'] ?>
 								</div>
+								</a>
 							</article>
 						</td>
 						<td>
@@ -108,7 +116,7 @@
 									$titles = Kitsu::filterTitles($series['attributes']);
 								?>
 								<a href="<?= $link ?>">
-									<img src="<?= $series['attributes']['posterImage']['small'] ?>" width="220" alt="" />
+									<img src="<?= $urlGenerator->assetUrl(getLocalImg($series['attributes']['posterImage']['small'])) ?>" width="220" alt="" />
 								</a>
 								<div class="name">
 									<a href="<?= $link ?>">

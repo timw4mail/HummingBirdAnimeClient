@@ -275,10 +275,11 @@ final class Anime extends BaseController {
 	 */
 	public function details(string $animeId): void
 	{
-		$show_data = $this->model->getAnime($animeId);
+		$data = $this->model->getAnime($animeId);
 		$characters = [];
+		$staff = [];
 
-		if ($show_data->title === '')
+		if ($data->title === '')
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -290,22 +291,56 @@ final class Anime extends BaseController {
 			return;
 		}
 
-		if (array_key_exists('characters', $show_data['included']))
+		if (array_key_exists('characters', $data['included']))
 		{
-			foreach($show_data['included']['characters'] as $id => $character)
+
+
+			foreach($data['included']['characters'] as $id => $character)
 			{
 				$characters[$id] = $character['attributes'];
 			}
 		}
 
+		if (array_key_exists('mediaStaff', $data['included']))
+		{
+			foreach ($data['included']['mediaStaff'] as $id => $person)
+			{
+				$personDetails = [];
+				foreach ($person['relationships']['person']['people'] as $p)
+				{
+					$personDetails = $p['attributes'];
+				}
+
+				$role = $person['attributes']['role'];
+
+				if ( ! array_key_exists($role, $staff))
+				{
+					$staff[$role] = [];
+				}
+
+				$staff[$role][$id] = [
+					'name' => $personDetails['name'] ?? '??',
+					'image' => $personDetails['image'],
+				];
+			}
+		}
+
+		uasort($characters, function ($a, $b) {
+			return $a['name'] <=> $b['name'];
+		});
+
+		// dump($characters);
+		// dump($staff);
+
 		$this->outputHTML('anime/details', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				$show_data->title
+				$data->title
 			),
 			'characters' => $characters,
-			'show_data' => $show_data,
+			'show_data' => $data,
+			'staff' => $staff,
 		]);
 	}
 
