@@ -101,27 +101,28 @@ final class JsonAPI {
 
 							continue;
 						}
+
 						// Single data item
-						else if (array_key_exists('id', $props['data']))
+						if (array_key_exists('id', $props['data']))
 						{
 							$idKey = $props['data']['id'];
-							$typeKey = $props['data']['type'];
+							$dataType = $props['data']['type'];
 							$relationship =& $item['relationships'][$relType];
 							unset($relationship['data']);
 
-							if (in_array($relType, $singular))
+							if (\in_array($relType, $singular, TRUE))
 							{
-								$relationship = $included[$typeKey][$idKey];
+								$relationship = $included[$dataType][$idKey];
 								continue;
 							}
 
-							if ($relType === $typeKey)
+							if ($relType === $dataType)
 							{
-								$relationship[$idKey] = $included[$typeKey][$idKey];
+								$relationship[$idKey] = $included[$dataType][$idKey];
 								continue;
 							}
 
-							$relationship[$typeKey][$idKey] = $included[$typeKey][$idKey];
+							$relationship[$dataType][$idKey] = $included[$dataType][$idKey];
 						}
 						// Multiple data items
 						else
@@ -129,16 +130,16 @@ final class JsonAPI {
 							foreach($props['data'] as $j => $datum)
 							{
 								$idKey = $props['data'][$j]['id'];
-								$typeKey = $props['data'][$j]['type'];
+								$dataType = $props['data'][$j]['type'];
 								$relationship =& $item['relationships'][$relType];
 
-								if ($relType === $typeKey)
+								if ($relType === $dataType)
 								{
-									$relationship[$idKey] = $included[$typeKey][$idKey];
+									$relationship[$idKey] = $included[$dataType][$idKey];
 									continue;
 								}
 
-								$relationship[$typeKey][$idKey][$j] = $included[$typeKey][$idKey];
+								$relationship[$dataType][$idKey][$j] = $included[$dataType][$idKey];
 							}
 						}
 					}
@@ -201,29 +202,33 @@ final class JsonAPI {
 		{
 			foreach($items as $id => $item)
 			{
-				if (array_key_exists('relationships', $item) && is_array($item['relationships']))
+				if (array_key_exists('relationships', $item) && \is_array($item['relationships']))
 				{
 					foreach($item['relationships'] as $relType => $props)
 					{
-						if (array_key_exists('data', $props) && is_array($props['data']) && array_key_exists('id', $props['data']))
+						if (array_key_exists('data', $props) && \is_array($props['data']) && array_key_exists('id', $props['data']))
 						{
-							if (array_key_exists($props['data']['id'], $organized[$props['data']['type']]))
+							$idKey = $props['data']['id'];
+							$dataType = $props['data']['type'];
+
+							if ( ! array_key_exists($dataType, $organized))
 							{
-								$idKey = $props['data']['id'];
-								$typeKey = $props['data']['type'];
+								$organized[$dataType] = [];
+							}
 
+							$relationship =& $organized[$type][$id]['relationships'][$relType];
+							unset($relationship['links']);
+							unset($relationship['data']);
 
-								$relationship =& $organized[$type][$id]['relationships'][$relType];
-								unset($relationship['links']);
-								unset($relationship['data']);
+							if ($relType === $dataType)
+							{
+								$relationship[$idKey] = $included[$dataType][$idKey];
+								continue;
+							}
 
-								if ($relType === $typeKey)
-								{
-									$relationship[$idKey] = $included[$typeKey][$idKey];
-									continue;
-								}
-
-								$relationship[$typeKey][$idKey] = $organized[$typeKey][$idKey];
+							if (array_key_exists($idKey, $organized[$dataType]))
+							{
+								$relationship[$dataType][$idKey] = $organized[$dataType][$idKey];
 							}
 						}
 					}

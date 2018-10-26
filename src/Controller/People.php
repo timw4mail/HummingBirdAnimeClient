@@ -62,11 +62,12 @@ final class People extends BaseController {
 
 		if (array_key_exists('included', $data) && array_key_exists('castings', $data['included']))
 		{
+			$viewData['included'] = $data['included'];
 			$viewData['castings'] = $this->organizeCast($data['included']['castings']);
 			$viewData['castCount'] = count($viewData['castings']);
 		}
 
-		$this->outputHTML('person', $viewData);
+		$this->outputHTML('person/index', $viewData);
 	}
 
 	protected function organizeCast(array $cast): array
@@ -82,6 +83,52 @@ final class People extends BaseController {
 
 			$roleName = $role['attributes']['role'];
 			$media = $role['relationships']['media'];
+			$chars = $role['relationships']['character']['characters'] ?? [];
+
+			if ( ! array_key_exists($roleName, $output))
+			{
+				$output[$roleName] = [
+					'characters' => [],
+				];
+			}
+
+			if ( ! empty($chars))
+			{
+				$relatedMedia = [];
+
+				if (array_key_exists('anime', $media))
+				{
+					foreach($media['anime'] as $sid => $series)
+					{
+						$relatedMedia[$sid] = $series['attributes'];
+					}
+				}
+
+				foreach($chars as $cid => $character)
+				{
+					// To make sure all the media are properly associated,
+					// merge the found media for this iteration with
+					// existing media, making sure to preserve array keys
+					$existingMedia = array_key_exists($cid, $output[$roleName]['characters'])
+						? $output[$roleName]['characters'][$cid]['media']
+						: [];
+
+					$includedMedia = array_replace_recursive($existingMedia, $relatedMedia);
+
+					uasort($includedMedia, function ($a, $b) {
+						return $a['canonicalTitle'] <=> $b['canonicalTitle'];
+					});
+
+					$output[$roleName]['characters'][$cid] = [
+						'character' => $character['attributes'],
+						'media' => $includedMedia,
+					];
+				}
+
+				uasort($output[$roleName]['characters'], function ($a, $b) {
+					return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
+				});
+			}
 
 			if (array_key_exists('anime', $media))
 			{
@@ -99,7 +146,7 @@ final class People extends BaseController {
 				{
 					$output[$roleName]['manga'][$sid] = $series;
 				}
-				uasort($output[$roleName]['anime'], function ($a, $b) {
+				uasort($output[$roleName]['manga'], function ($a, $b) {
 					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
 				});
 			}

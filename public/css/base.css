@@ -91,6 +91,10 @@ a:hover, a:active {
 	flex-wrap: nowrap
 }
 
+.flex-align-start {
+	align-content: flex-start;
+}
+
 .flex-align-end {
 	align-items: flex-end
 }
@@ -99,12 +103,20 @@ a:hover, a:active {
 	align-content: space-around
 }
 
+.flex-justify-start {
+	justify-content: flex-start;
+}
+
 .flex-justify-space-around {
 	justify-content: space-around
 }
 
 .flex-self-center {
 	align-self: center
+}
+
+.flex-space-evenly {
+	justify-content: space-evenly;
 }
 
 .flex {
@@ -671,7 +683,13 @@ picture.cover {
 }
 
 .fixed {
-	max-width: 93rem;
+	max-width: 100rem;
+	/* max-width: 80%; */
+	margin: 0 auto;
+}
+
+.fixed .text {
+	max-width: 600px;
 }
 
 .details .cover {
@@ -684,12 +702,8 @@ picture.cover {
 	margin-top: 0;
 }
 
-.details .flex > div {
+.details .flex > * {
 	margin: 1rem;
-}
-
-.details .media_details {
-	max-width: 300px;
 }
 
 .details .media_details td {
@@ -750,6 +764,15 @@ picture.cover {
 .min-table {
 	min-width: 0;
 	margin-left: 0;
+}
+
+aside.info {
+	max-width: 390px;
+}
+
+aside.info picture, aside.info img {
+	display: block;
+	margin: 0 auto;
 }
 
 /* ----------------------------------------------------------------------------

@@ -1,5 +1,4 @@
 <?php
-use function Aviat\AnimeClient\getLocalImg;
 use Aviat\AnimeClient\API\Kitsu;
 ?>
 <main class="details fixed">
@@ -27,7 +26,11 @@ use Aviat\AnimeClient\API\Kitsu;
 			<h3>Castings</h3>
 			<?php foreach ($castings as $role => $entries): ?>
 				<h4><?= $role ?></h4>
+				<?php if($role === 'Voice Actor'): ?>
+					<?php include 'character-mapping.php' ?>
+				<?php else: ?>
 				<?php foreach ($entries as $type => $casting): ?>
+					<?php if ($type === 'characters') continue; ?>
 					<?php if ( ! empty($entries['manga'])): ?>
 					<h5><?= ucfirst($type) ?></h5>
 					<?php endif ?>
@@ -68,6 +71,7 @@ use Aviat\AnimeClient\API\Kitsu;
 					</section>
 					<br />
 				<?php endforeach ?>
+				<?php endif ?>
 			<?php endforeach ?>
 		<?php endif ?>
 	</section>

@@ -24,6 +24,7 @@
 	"aura/session": "^2.0",
 	"aviat/banker": "^1.0.0",
 	"aviat/ion": "^2.4.1",
+	"ext-iconv": "*",
 	"ext-json": "*",
 	"ext-gd":"*",
 	"ext-pdo": "*",

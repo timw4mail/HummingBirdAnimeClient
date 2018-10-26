@@ -4,18 +4,29 @@ use Aviat\AnimeClient\API\Kitsu;
 ?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
-		<div>
-			<picture class="cover">
+		<aside class="info cover">
+			<picture>
 				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.webp") ?>" type="image/webp">
 				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.jpg") ?>" type="image/jpeg">
 				<img src="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.jpg") ?>" alt="" />
 			</picture>
-		</div>
-		<div>
-			<h2><?= $data[0]['attributes']['name'] ?></h2>
+			<?php if ( ! empty($data[0]['attributes']['otherNames'])): ?>
+				<h3>Nicknames / Other names</h3>
+				<?php foreach ($data[0]['attributes']['otherNames'] as $name): ?>
+					<h4><?= $name ?></h4>
+				<?php endforeach ?>
+			<?php endif ?>
+		</aside>
+		<article class="text">
+			<h2><?= $data['name'] ?></h2>
+			<?php foreach ($data['names'] as $name): ?>
+				<h3><?= $name ?></h3>
+			<?php endforeach ?>
+
+			<hr />
 
 			<p class="description"><?= $data[0]['attributes']['description'] ?></p>
-		</div>
+		</article>
 	</section>
 
 	<?php if (array_key_exists('anime', $data['included']) || array_key_exists('manga', $data['included'])): ?>
