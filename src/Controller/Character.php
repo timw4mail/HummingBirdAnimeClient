@@ -59,6 +59,14 @@ class Character extends BaseController {
 
 		$data = JsonAPI::organizeData($rawData);
 
+		$data['names'] = array_unique(
+			array_merge(
+				[ $data[0]['attributes']['canonicalName'] ],
+				$data[0]['attributes']['names']
+			)
+		);
+		$data['name'] = array_shift($data['names']);
+
 		if (array_key_exists('included', $data))
 		{
 			if (array_key_exists('anime', $data['included']))

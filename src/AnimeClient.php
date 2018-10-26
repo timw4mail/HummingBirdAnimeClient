@@ -206,14 +206,14 @@ function getLocalImg ($kitsuUrl): string
 {
 	if ( ! is_string($kitsuUrl))
 	{
-		return '/404';
+		return 'images/404/404.png';
 	}
 
 	$parts = parse_url($kitsuUrl);
 
 	if ($parts === FALSE)
 	{
-		return '/404';
+		return 'images/404/404.png';
 	}
 
 	$file = basename($parts['path']);
@@ -221,11 +221,51 @@ function getLocalImg ($kitsuUrl): string
 	$ext = array_pop($fileParts);
 	$segments = explode('/', trim($parts['path'], '/'));
 
-	// dump($segments);
-
 	$type = $segments[0] === 'users' ? $segments[1] : $segments[0];
 
 	$id = $segments[count($segments) - 2];
 
 	return implode('/', ['images', $type, "{$id}.{$ext}"]);
+}
+
+/**
+ * Create a transparent placeholder image
+ *
+ * @param string $path
+ * @param int $width
+ * @param int $height
+ * @param string $text
+ */
+function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable')
+{
+	$width = $width ?? 200;
+	$height = $height ?? 200;
+
+	$img = imagecreate($width, $height);
+
+	$path = rtrim($path, '/');
+
+	// Background is the first color by default
+	imagecolorallocatealpha($img, 255, 255, 255, 127);
+	$textColor = imagecolorallocate($img, 64, 64, 64);
+
+	imagealphablending($img, TRUE);
+
+	// Generate placeholder text
+	$fontSize = 10;
+	$fontWidth = imagefontwidth($fontSize);
+	$fontHeight = imagefontheight($fontSize);
+	$length = strlen($text);
+	$textWidth = $length * $fontWidth;
+	$fxPos = (int) ceil((imagesx($img) - $textWidth) / 2);
+	$fyPos = (int) ceil((imagesy($img) - $fontHeight) / 2);
+
+	// Add the image text
+	imagestring($img, $fontSize, $fxPos, $fyPos, $text, $textColor);
+
+	// Save the images
+	imagesavealpha($img, TRUE);
+	imagepng($img, $path . '/placeholder.png', 9);
+
+	imagedestroy($img);
 }

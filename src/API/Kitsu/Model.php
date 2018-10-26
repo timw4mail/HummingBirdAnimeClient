@@ -229,11 +229,26 @@ final class Model {
 	 */
 	public function getPerson(string $id): array
 	{
-		return $this->getRequest("people/{$id}", [
-			'query' => [
-				'include' => 'castings,castings.media,staff,staff.media,voices'
-			],
-		]);
+		$cacheItem = $this->cache->getItem("kitsu-person-{$id}");
+
+		if ( ! $cacheItem->isHit())
+		{
+			$data = $this->getRequest("people/{$id}", [
+				'query' => [
+					'fields' => [
+						'characters' => 'canonicalName,slug,image',
+						'anime' => 'canonicalTitle,titles,slug,posterImage',
+						'manga' => 'canonicalTitle,titles,slug,posterImage',
+					],
+					'include' => 'castings.character,castings.media'
+				],
+			]);
+
+			$cacheItem->set($data);
+			$cacheItem->save();
+		}
+
+		return $cacheItem->get();
 	}
 
 	/**

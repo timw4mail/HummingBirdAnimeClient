@@ -1,6 +1,6 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
-		<div>
+		<aside class="info">
 			<picture class="cover">
 				<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$data['id']}-original.webp") ?>" type="image/webp">
 				<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$data['id']}-original.jpg") ?>" type="image/jpeg">
@@ -28,8 +28,8 @@
 					</td>
 				</tr>
 			</table>
-		</div>
-		<div>
+		</aside>
+		<article class="text">
 			<h2><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
 			<?php foreach($data['titles'] as $title): ?>
 				<h3><?= $title ?></h3>
@@ -37,12 +37,12 @@
 
 			<br />
 			<p><?= nl2br($data['synopsis']) ?></p>
-		</div>
+		</article>
 	</section>
 
 	<?php if (count($characters) > 0): ?>
 	<h2>Characters</h2>
-	<section class="media-wrap">
+	<section class="media-wrap flex flex-wrap flex-justify-start">
 	<?php foreach($characters as $id => $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">

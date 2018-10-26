@@ -20,6 +20,8 @@ use Aviat\AnimeClient\Types\Config as ConfigType;
 
 use function Aviat\Ion\_dir;
 
+setlocale(LC_CTYPE, 'en_US');
+
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
 if ($timezone === '' || $timezone === FALSE)

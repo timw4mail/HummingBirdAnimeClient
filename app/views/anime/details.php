@@ -1,6 +1,6 @@
 <main class="details fixed">
-	<section class="flex flex-no-wrap">
-		<div>
+	<section class="flex">
+		<aside class="info">
 			<picture class="cover">
 				<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}-original.webp") ?>" type="image/webp">
 				<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$show_data['id']}-original.jpg") ?>" type="image/jpeg">
@@ -40,8 +40,8 @@
 					</td>
 				</tr>
 			</table>
-		</div>
-		<div>
+		</aside>
+		<article class="text">
 			<h2><a rel="external" href="<?= $show_data['url'] ?>"><?= $show_data['title'] ?></a></h2>
             <?php foreach ($show_data['titles'] as $title): ?>
                 <h3><?= $title ?></h3>
@@ -85,13 +85,13 @@
 				<h4>Trailer</h4>
 				<iframe width="560" height="315" src="https://www.youtube.com/embed/<?= $show_data['trailer_id'] ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 			<?php endif ?>
-		</div>
+		</article>
 	</section>
 
 	<?php if (count($characters) > 0): ?>
-	<hr />
+	<br />
 	<h2>Characters</h2>
-	<section class="align_center media-wrap">
+	<section class="media-wrap flex flex-wrap flex-justify-start">
 	<?php foreach($characters as $id => $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">

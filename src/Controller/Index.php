@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use function Aviat\AnimeClient\createPlaceholderImage;
 use function Amp\Promise\wait;
 
 use Aviat\AnimeClient\Controller as BaseController;
@@ -269,45 +270,60 @@ final class Index extends BaseController {
 		$fileName = str_replace('-original', '', $file);
 		[$id, $ext] = explode('.', basename($fileName));
 
+		$baseSavePath = $this->config->get('img_cache_path');
+
 		$typeMap = [
 			'anime' => [
 				'kitsuUrl' => "anime/poster_images/{$id}/medium.{$ext}",
 				'width' => 220,
+				'height' => 312,
 			],
 			'avatars' => [
 				'kitsuUrl' => "users/avatars/{$id}/original.{$ext}",
 				'width' => null,
+				'height' => null,
 			],
 			'characters' => [
 				'kitsuUrl' => "characters/images/{$id}/original.{$ext}",
 				'width' => 225,
+				'height' => 350,
 			],
 			'manga' => [
 				'kitsuUrl' => "manga/poster_images/{$id}/medium.{$ext}",
 				'width' => 220,
+				'height' => 312,
 			],
 			'people' => [
 				'kitsuUrl' => "people/images/{$id}/original.{$ext}",
 				'width' => null,
+				'height' => null,
 			],
 		];
 
 		if ( ! array_key_exists($type, $typeMap))
 		{
-			$this->notFound();
+			$this->getPlaceholder($baseSavePath, 100, 100);
 			return;
 		}
 
 		$kitsuUrl .= $typeMap[$type]['kitsuUrl'];
 		$width = $typeMap[$type]['width'];
+		$height = $typeMap[$type]['height'];
 
 		$promise = (new HummingbirdClient)->request($kitsuUrl);
 		$response = wait($promise);
+
+		if ($response->getStatus() !== 200)
+		{
+			if ($display)
+			{
+				$this->getPlaceholder("{$baseSavePath}/{$type}", $width, $height);
+			}
+			return;
+		}
+
 		$data = wait($response->getBody());
 
-		// echo "Fetching {$kitsuUrl}\n";
-
-		$baseSavePath = $this->config->get('img_cache_path');
 		$filePrefix = "{$baseSavePath}/{$type}/{$id}";
 
 		[$origWidth] = getimagesizefromstring($data);
@@ -370,5 +386,20 @@ final class Index extends BaseController {
 		}
 
 		return $output;
+	}
+
+	private function getPlaceholder (string $path, ?int $width = 200, ?int $height = NULL): void
+	{
+		$height = $height ?? $width;
+
+		$filename = $path . '/placeholder.png';
+
+		if ( ! file_exists($path . '/placeholder.png'))
+		{
+			createPlaceholderImage($path, $width, $height);
+		}
+
+		header('Content-Type: image/png');
+		echo file_get_contents($filename);
 	}
 }
