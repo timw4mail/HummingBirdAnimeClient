@@ -373,8 +373,6 @@ final class Model {
 		}
 
 		return $this->animeTransformer->transform($baseData);
-		// $transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
-		// return $transformed;
 	}
 
 	/**
@@ -614,9 +612,7 @@ final class Model {
 			return new MangaPage([]);
 		}
 
-		$transformed = $this->mangaTransformer->transform($baseData);
-		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
-		return $transformed;
+		return $this->mangaTransformer->transform($baseData);
 	}
 
 	/**

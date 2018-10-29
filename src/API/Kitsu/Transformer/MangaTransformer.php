@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\Types\MangaPage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
@@ -35,31 +36,33 @@ final class MangaTransformer extends AbstractTransformer {
 	{
 		$genres = [];
 
-		foreach($item['included'] as $included)
-		{
-			if ($included['type'] === 'categories')
-			{
-				$genres[] = $included['attributes']['title'];
-			}
-		}
+		$item['included'] = JsonAPI::organizeIncluded($item['included']);
 
-		sort($genres);
+		if (array_key_exists('categories', $item['included']))
+		{
+			foreach ($item['included']['categories'] as $cat)
+			{
+				$genres[] = $cat['attributes']['title'];
+			}
+			sort($genres);
+		}
 
 		$title = $item['canonicalTitle'];
 		$rawTitles = array_values($item['titles']);
 		$titles = array_unique(array_diff($rawTitles, [$title]));
 
 		return new MangaPage([
+			'chapter_count' => $this->count($item['chapterCount']),
+			'cover_image' => $item['posterImage']['small'],
+			'genres' => $genres,
 			'id' => $item['id'],
+			'included' => $item['included'],
+			'manga_type' => $item['mangaType'],
+			'synopsis' => $item['synopsis'],
 			'title' => $title,
 			'titles' => $titles,
-			'cover_image' => $item['posterImage']['small'],
-			'manga_type' => $item['mangaType'],
-			'chapter_count' => $this->count($item['chapterCount']),
-			'volume_count' => $this->count($item['volumeCount']),
-			'synopsis' => $item['synopsis'],
 			'url' => "https://kitsu.io/manga/{$item['slug']}",
-			'genres' => $genres,
+			'volume_count' => $this->count($item['volumeCount']),
 		]);
 	}
 
