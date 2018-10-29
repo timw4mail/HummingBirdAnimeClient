@@ -195,6 +195,7 @@ final class JsonAPI {
 			}
 
 			$organized[$type][$id] = $newItem;
+			$organized[$type][$id]['original'] = $item;
 		}
 
 		// Second pass, go through and fill missing relationships in the first pass
@@ -211,14 +212,10 @@ final class JsonAPI {
 							$idKey = $props['data']['id'];
 							$dataType = $props['data']['type'];
 
-							if ( ! array_key_exists($dataType, $organized))
-							{
-								$organized[$dataType] = [];
-							}
-
 							$relationship =& $organized[$type][$id]['relationships'][$relType];
 							unset($relationship['links']);
 							unset($relationship['data']);
+							$relationship['foo'] = TRUE;
 
 							if ($relType === $dataType)
 							{
@@ -258,8 +255,16 @@ final class JsonAPI {
 			$inlined[$key][$itemId] = $item;
 
 			foreach($item['relationships'] as $type => $ids)
-			{
+			{	
 				$inlined[$key][$itemId]['relationships'][$type] = [];
+				
+				if ( ! array_key_exists($type, $included)) continue;
+				
+				if (array_key_exists('data', $ids ))
+				{
+					$ids = array_column($ids['data'], 'id');
+				}
+				
 				foreach($ids as $id)
 				{
 					$inlined[$key][$itemId]['relationships'][$type][$id] = $included[$type][$id];
@@ -282,12 +287,19 @@ final class JsonAPI {
 	public static function organizeIncludes(array $includes): array
 	{
 		$organized = [];
+		$types = array_unique(array_column($includes, 'type'));
+		sort($types);
+
+		foreach ($types as $type)
+		{
+			$organized[$type] = [];
+		}
 
 		foreach ($includes as $item)
 		{
 			$type = $item['type'];
 			$id = $item['id'];
-			$organized[$type] = $organized[$type] ?? [];
+
 			$organized[$type][$id] = $item['attributes'];
 
 			if (array_key_exists('relationships', $item))
@@ -310,16 +322,15 @@ final class JsonAPI {
 	 */
 	public static function organizeRelationships(array $relationships): array
 	{
-		$organized = [];
+		$organized = $relationships;
 
 		foreach($relationships as $key => $data)
 		{
+			$organized[$key] = $organized[$key] ?? [];
 			if ( ! array_key_exists('data', $data))
 			{
 				continue;
 			}
-
-			$organized[$key] = $organized[$key] ?? [];
 
 			foreach ($data['data'] as $item)
 			{

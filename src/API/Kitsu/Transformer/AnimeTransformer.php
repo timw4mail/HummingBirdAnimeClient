@@ -50,6 +50,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'episode_length' => $item['episodeLength'],
 			'genres' => $item['genres'],
 			'id' => $item['id'],
+			'included' => $item['included'],
 			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
 			'slug' => $item['slug'],
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
