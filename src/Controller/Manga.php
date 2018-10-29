@@ -294,11 +294,25 @@ final class Manga extends Controller {
 			return;
 		}
 
-		if (array_key_exists('characters', $data['included']))
+		// dd($data['included']);
+
+		if (array_key_exists('mediaCharacters', $data['included']))
 		{
-			foreach ($data['included']['characters'] as $id => $character)
+			$mediaCharacters = $data['included']['mediaCharacters'];
+
+			foreach ($mediaCharacters as $rel)
 			{
-				$characters[$id] = $character['attributes'];
+				// dd($rel);
+				// $charId = $rel['relationships']['character']['data']['id'];
+				$role = $rel['attributes']['role'];
+
+				foreach($rel['relationships']['character']['characters'] as $charId => $char)
+				{
+					if (array_key_exists($charId, $data['included']['characters']))
+					{
+						$characters[$role][$charId] = $char['attributes'];
+					}
+				}
 			}
 		}
 
@@ -326,11 +340,22 @@ final class Manga extends Controller {
 			}
 		}
 
-		uasort($characters, function ($a, $b) {
-			return $a['name'] <=> $b['name'];
-		});
+		if ( ! empty($characters['main']))
+		{
+			uasort($characters['main'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
 
-		// dump($staff);
+		if ( ! empty($characters['supporting']))
+		{
+			uasort($characters['supporting'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		ksort($characters);
+		ksort($staff);
 
 		$this->outputHTML('manga/details', [
 			'title' => $this->formatTitle(

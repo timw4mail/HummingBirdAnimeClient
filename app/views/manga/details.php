@@ -41,25 +41,36 @@
 	</section>
 
 	<?php if (count($characters) > 0): ?>
-	<h2>Characters</h2>
-	<section class="media-wrap flex flex-wrap flex-justify-start">
-	<?php foreach($characters as $id => $char): ?>
-		<?php if ( ! empty($char['image']['original'])): ?>
-		<article class="character">
-			<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-			<div class="name">
-				<?= $helper->a($link, $char['name']); ?>
-			</div>
-			<a href="<?= $link ?>">
-				<picture>
-					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.webp") ?>" type="image/webp">
-					<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" type="image/jpeg">
-					<img src="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" alt="" />
-				</picture>
-			</a>
-		</article>
-		<?php endif ?>
-	<?php endforeach ?>
-	</section>
+		<br />
+		<hr />
+		<h2>Characters</h2>
+		<?php foreach ($characters as $role => $list): ?>
+			<h3><?= ucfirst($role) ?></h3>
+			<section class="media-wrap flex flex-wrap flex-justify-start">
+				<?php foreach ($list as $id => $char): ?>
+					<?php if ( ! empty($char['image']['original'])): ?>
+						<article class="character">
+							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
+							<div class="name">
+								<?= $helper->a($link, $char['name']); ?>
+							</div>
+							<a href="<?= $link ?>">
+								<picture>
+									<source
+										srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.webp") ?>"
+										type="image/webp"
+									>
+									<source
+										srcset="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>"
+										type="image/jpeg"
+									>
+									<img src="<?= $urlGenerator->assetUrl("images/characters/{$id}.jpg") ?>" alt="" />
+								</picture>
+							</a>
+						</article>
+					<?php endif ?>
+				<?php endforeach ?>
+			</section>
+		<?php endforeach ?>
 	<?php endif ?>
 </main>
