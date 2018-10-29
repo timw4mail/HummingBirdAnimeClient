@@ -21,11 +21,11 @@ use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 
 class JsonAPITest extends TestCase {
-	
+
 	protected $startData;
 	protected $organizedIncludes;
 	protected $inlineIncluded;
-	
+
 	public function setUp()
 	{
 		$dir = __DIR__ . '/../test_data/JsonAPI';
@@ -33,20 +33,24 @@ class JsonAPITest extends TestCase {
 		$this->organizedIncludes = Json::decodeFile("{$dir}/organizedIncludes.json");
 		$this->inlineIncluded = Json::decodeFile("{$dir}/inlineIncluded.json");
 	}
-	
+
 	public function testOrganizeIncludes()
 	{
 		$expected = $this->organizedIncludes;
 		$actual = JsonAPI::organizeIncludes($this->startData['included']);
 
+		// file_put_contents(__DIR__ . '/../test_data/JsonAPI/organizedIncludes.json', json_Encode($actual));
+
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function testInlineIncludedRelationships()
 	{
 		$expected = $this->inlineIncluded;
 		$actual = JsonAPI::inlineIncludedRelationships($this->organizedIncludes, 'anime');
-		
+
+		// file_put_contents(__DIR__ . '/../test_data/JsonAPI/inlineIncluded.json', json_Encode($actual));
+
 		$this->assertEquals($expected, $actual);
 	}
 }
