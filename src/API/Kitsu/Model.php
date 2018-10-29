@@ -966,10 +966,11 @@ final class Model {
 					'characters' => 'slug,name,image',
 					'mappings' => 'externalSite,externalId',
 					'animeCharacters' => 'character,role',
+					'mediaCharacters' => 'character,role',
 				],
 				'include' => ($type === 'anime')
 					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character'
-					: 'staff,staff.person,categories,mappings,mangaCharacters.character',
+					: 'staff,staff.person,categories,mappings,characters.character',
 			]
 		];
 

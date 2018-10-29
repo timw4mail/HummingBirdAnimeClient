@@ -43,7 +43,20 @@ use Aviat\AnimeClient\API\Kitsu;
 						$titles = Kitsu::filterTitles($anime['attributes']);
 					?>
 					<a href="<?= $link ?>">
-						<img src="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>" width="220" alt="" />
+						<picture>
+							<source
+								srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.webp") ?>"
+								type="image/webp"
+							>
+							<source
+								srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
+								type="image/jpeg"
+							>
+							<img
+								src="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
+								alt=""
+							/>
+						</picture>
 					</a>
 					<div class="name">
 						<a href="<?= $link ?>">

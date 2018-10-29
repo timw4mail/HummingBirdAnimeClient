@@ -725,12 +725,23 @@ picture.cover {
 }
 
 .character,
-.small_character {
+.small_character,
+.person {
 	/* background: rgba(0,0,0,0.5); */
 	width: 225px;
 	height: 350px;
 	vertical-align: middle;
 	white-space: nowrap;
+	position: relative;
+}
+
+.person {
+	width: 225px;
+	height: 338px;
+}
+
+.character a {
+	height: 350px;
 }
 
 .character:hover .name,
@@ -753,12 +764,23 @@ picture.cover {
 }
 
 .small_character img,
-.character img {
-	position: relative;
+.character img,
+.small_character picture,
+.character picture,
+.person img,
+.person picture {
+	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
+	left: 50%;
+	transform: translate(-50%, -50%);
 	z-index: 5;
-	width: 100%;
+	max-height: 350px;
+	max-width: 225px;
+}
+
+.person img,
+.person picture {
+	max-height: 338px;
 }
 
 .min-table {

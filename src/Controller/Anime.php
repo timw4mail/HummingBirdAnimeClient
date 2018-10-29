@@ -309,31 +309,39 @@ final class Anime extends BaseController {
 
 		if (array_key_exists('mediaStaff', $data['included']))
 		{
-			foreach ($data['included']['mediaStaff'] as $id => $person)
+			foreach ($data['included']['mediaStaff'] as $id => $staffing)
 			{
-				$personId = $person['relationships']['person']['data']['id'];
+				$personId = $staffing['relationships']['person']['data']['id'];
 				$personDetails = $data['included']['people'][$personId];
 
-				$role = $person['role'];
+				$role = $staffing['role'];
 
 				if ( ! array_key_exists($role, $staff))
 				{
 					$staff[$role] = [];
 				}
 
-				$staff[$role][$id] = [
+				$staff[$role][$personId] = [
+					'id' => $personId,
 					'name' => $personDetails['name'] ?? '??',
 					'image' => $personDetails['image'],
 				];
 			}
 		}
 
-		uasort($characters['main'], function ($a, $b) {
-			return $a['name'] <=> $b['name'];
-		});
-		uasort($characters['supporting'], function ($a, $b) {
-			return $a['name'] <=> $b['name'];
-		});
+		if ( ! empty($characters['main']))
+		{
+			uasort($characters['main'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		if ( ! empty($characters['supporting']))
+		{
+			uasort($characters['supporting'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
 
 		ksort($characters);
 		ksort($staff);

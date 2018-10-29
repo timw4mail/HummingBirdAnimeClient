@@ -324,12 +324,12 @@ final class JsonAPI {
 
 		foreach($relationships as $key => $data)
 		{
+			$organized[$key] = $organized[$key] ?? [];
+
 			if ( ! array_key_exists('data', $data))
 			{
 				continue;
 			}
-
-			$organized[$key] = $organized[$key] ?? [];
 
 			foreach ($data['data'] as $item)
 			{
