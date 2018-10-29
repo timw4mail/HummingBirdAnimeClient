@@ -73,4 +73,39 @@
 			</section>
 		<?php endforeach ?>
 	<?php endif ?>
+
+	<?php if (count($staff) > 0): ?>
+		<br />
+		<hr />
+		<h2>Staff</h2>
+
+		<?php foreach ($staff as $role => $people): ?>
+			<h3><?= $role ?></h3>
+			<section class='media-wrap flex flex-wrap flex-justify-start'>
+				<?php foreach ($people as $pid => $person): ?>
+					<article class='character person'>
+						<?php $link = $url->generate('person', ['id' => $pid]) ?>
+						<div class="name">
+							<a href="<?= $link ?>">
+								<?= $person['name'] ?>
+							</a>
+						</div>
+						<a href="<?= $link ?>">
+							<picture>
+								<source
+									srcset="<?= $urlGenerator->assetUrl("images/people/{$pid}.webp") ?>"
+									type="image/webp"
+								>
+								<source
+									srcset="<?= $urlGenerator->assetUrl("images/people/{$pid}.jpg") ?>"
+									type="image/jpeg"
+								>
+								<img src="<?= $urlGenerator->assetUrl("images/people/{$pid}.jpg") ?>" alt="" />
+							</picture>
+						</a>
+					</article>
+				<?php endforeach ?>
+			</section>
+		<?php endforeach ?>
+	<?php endif ?>
 </main>
