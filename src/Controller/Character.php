@@ -16,8 +16,6 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use function Aviat\AnimeClient\getLocalImg;
-
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\Ion\ArrayWrapper;

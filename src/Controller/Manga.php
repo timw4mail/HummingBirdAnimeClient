@@ -294,8 +294,6 @@ final class Manga extends Controller {
 			return;
 		}
 
-		// dd($data['included']);
-
 		if (array_key_exists('mediaCharacters', $data['included']))
 		{
 			$mediaCharacters = $data['included']['mediaCharacters'];
@@ -318,25 +316,23 @@ final class Manga extends Controller {
 
 		if (array_key_exists('mediaStaff', $data['included']))
 		{
-			foreach ($data['included']['mediaStaff'] as $id => $person)
+			foreach ($data['included']['mediaStaff'] as $id => $staffing)
 			{
-				$personDetails = [];
-				foreach ($person['relationships']['person']['people'] as $p)
+				$role = $staffing['attributes']['role'];
+
+				foreach($staffing['relationships']['person']['people'] as $personId => $personDetails)
 				{
-					$personDetails = $p['attributes'];
+					if ( ! array_key_exists($role, $staff))
+					{
+						$staff[$role] = [];
+					}
+
+					$staff[$role][$personId] = [
+						'id' => $personId,
+						'name' => $personDetails['attributes']['name'] ?? '??',
+						'image' => $personDetails['attributes']['image'],
+					];
 				}
-
-				$role = $person['attributes']['role'];
-
-				if ( ! array_key_exists($role, $staff))
-				{
-					$staff[$role] = [];
-				}
-
-				$staff[$role][$id] = [
-					'name' => $personDetails['name'] ?? '??',
-					'image' => $personDetails['image'],
-				];
 			}
 		}
 
