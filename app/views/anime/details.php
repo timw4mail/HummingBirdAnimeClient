@@ -89,10 +89,12 @@
 	</section>
 
 	<?php if (count($characters) > 0): ?>
-	<br />
+	<hr />
 	<h2>Characters</h2>
+	<?php foreach($characters as $role => $list): ?>
+	<h3><?= ucfirst($role) ?></h3>
 	<section class="media-wrap flex flex-wrap flex-justify-start">
-	<?php foreach($characters as $id => $char): ?>
+	<?php foreach($list as $id => $char): ?>
 		<?php if ( ! empty($char['image']['original'])): ?>
 		<article class="character">
 			<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>

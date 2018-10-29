@@ -372,9 +372,9 @@ final class Model {
 			return new Anime();
 		}
 
-		$transformed = $this->animeTransformer->transform($baseData);
-		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
-		return $transformed;
+		return $this->animeTransformer->transform($baseData);
+		// $transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
+		// return $transformed;
 	}
 
 	/**
@@ -962,11 +962,14 @@ final class Model {
 					'slug' => $slug
 				],
 				'fields' => [
-					'characters' => 'slug,name,image'
+					'categories' => 'slug,title',
+					'characters' => 'slug,name,image',
+					'mappings' => 'externalSite,externalId',
+					'animeCharacters' => 'character,role',
 				],
 				'include' => ($type === 'anime')
 					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character'
-					: 'staff,staff.person,categories,mappings,mangaCharacters.character,castings.character',
+					: 'staff,staff.person,categories,mappings,mangaCharacters.character',
 			]
 		];
 
