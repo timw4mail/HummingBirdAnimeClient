@@ -195,7 +195,6 @@ final class JsonAPI {
 			}
 
 			$organized[$type][$id] = $newItem;
-			$organized[$type][$id]['original'] = $item;
 		}
 
 		// Second pass, go through and fill missing relationships in the first pass
@@ -215,7 +214,6 @@ final class JsonAPI {
 							$relationship =& $organized[$type][$id]['relationships'][$relType];
 							unset($relationship['links']);
 							unset($relationship['data']);
-							$relationship['foo'] = TRUE;
 
 							if ($relType === $dataType)
 							{
@@ -255,16 +253,16 @@ final class JsonAPI {
 			$inlined[$key][$itemId] = $item;
 
 			foreach($item['relationships'] as $type => $ids)
-			{	
+			{
 				$inlined[$key][$itemId]['relationships'][$type] = [];
-				
+
 				if ( ! array_key_exists($type, $included)) continue;
-				
+
 				if (array_key_exists('data', $ids ))
 				{
 					$ids = array_column($ids['data'], 'id');
 				}
-				
+
 				foreach($ids as $id)
 				{
 					$inlined[$key][$itemId]['relationships'][$type][$id] = $included[$type][$id];
@@ -326,11 +324,12 @@ final class JsonAPI {
 
 		foreach($relationships as $key => $data)
 		{
-			$organized[$key] = $organized[$key] ?? [];
 			if ( ! array_key_exists('data', $data))
 			{
 				continue;
 			}
+
+			$organized[$key] = $organized[$key] ?? [];
 
 			foreach ($data['data'] as $item)
 			{
