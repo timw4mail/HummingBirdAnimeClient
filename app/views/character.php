@@ -4,7 +4,7 @@ use Aviat\AnimeClient\API\Kitsu;
 ?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
-		<aside class="info cover">
+		<div>
 			<picture>
 				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.webp") ?>" type="image/webp">
 				<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$data[0]['id']}-original.jpg") ?>" type="image/jpeg">
@@ -16,8 +16,8 @@ use Aviat\AnimeClient\API\Kitsu;
 					<h4><?= $name ?></h4>
 				<?php endforeach ?>
 			<?php endif ?>
-		</aside>
-		<article class="text">
+		</div>
+		<div>
 			<h2><?= $data['name'] ?></h2>
 			<?php foreach ($data['names'] as $name): ?>
 				<h3><?= $name ?></h3>
@@ -26,7 +26,7 @@ use Aviat\AnimeClient\API\Kitsu;
 			<hr />
 
 			<p class="description"><?= $data[0]['attributes']['description'] ?></p>
-		</article>
+		</div>
 	</section>
 
 	<?php if (array_key_exists('anime', $data['included']) || array_key_exists('manga', $data['included'])): ?>
@@ -147,7 +147,7 @@ use Aviat\AnimeClient\API\Kitsu;
 											</article>
 										</td>
 										<td>
-											<section class="align_left media-wrap">
+											<section class="align_left media-wrap-flex">
 												<?php foreach ($c['series'] as $series): ?>
 													<article class="media">
 														<?php
