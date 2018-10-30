@@ -111,6 +111,10 @@ a:hover, a:active {
 	justify-content: space-around
 }
 
+.flex-center {
+	justify-content: center;
+}
+
 .flex-self-center {
 	align-self: center
 }
@@ -152,9 +156,21 @@ a:hover, a:active {
 }
 
 .media-wrap {
-	text-align: center;
+	text-align: left;
 	margin: 0 auto;
 	position: relative;
+}
+
+.media-wrap-flex {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-evenly;
+	justify-content: space-between;
+	position:relative;
+}
+
+td .media-wrap-flex {
+	justify-content: center;
 }
 
 .danger {
@@ -453,6 +469,7 @@ picture.cover {
 }
 
 .media > .name a {
+	display: inline-block;
 	transition: none;
 }
 
