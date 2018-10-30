@@ -396,6 +396,10 @@ a:hover, a:active {
 	z-index: 0;
 }
 
+.small_character {
+
+}
+
 .details picture.cover,
 picture.cover {
 	display: initial;
@@ -406,6 +410,10 @@ picture.cover {
 .character > img,
 .small_character > img {
 	width: 100%;
+}
+
+.small_character {
+
 }
 
 .media .edit_buttons > button {
@@ -803,6 +811,12 @@ aside.info picture, aside.info img {
 .small_character {
 	width: 160px;
 	height: 250px;
+}
+
+.small_character img,
+.small_character picture {
+	max-height: 250px;
+	max-width: 160px;
 }
 
 .user-page .media-wrap {
