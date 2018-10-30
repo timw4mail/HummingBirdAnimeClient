@@ -88,6 +88,12 @@
 		</article>
 	</section>
 
+	<?php /* if(count($characters) > 0 && count($staff) > 0): ?>
+	<div class="tabs">
+		<?php $i = 0; ?>
+	</div>
+	<?php endif */ ?>
+
 	<?php if (count($characters) > 0): ?>
 	<br />
 	<hr />

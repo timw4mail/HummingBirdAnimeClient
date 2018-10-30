@@ -186,22 +186,32 @@ final class Index extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function me()
+	public function about($username = 'me')
 	{
-		$username = $this->config->get(['kitsu_username']);
+		$isMainUser = $username === 'me';
+
+		$username = $isMainUser
+			? $this->config->get(['kitsu_username'])
+			: $username;
 		$model = $this->container->get('kitsu-model');
 		$data = $model->getUserData($username);
 		$orgData = JsonAPI::organizeData($data)[0];
 		$rels = $orgData['relationships'] ?? [];
 		$favorites = array_key_exists('favorites', $rels) ? $rels['favorites'] : [];
 
+		$timeOnAnime = $this->formatAnimeTime($orgData['attributes']['lifeSpentOnAnime']);
+
+		$whom = $isMainUser
+			? $this->config->get('whose_list')
+			: $username;
 
 		$this->outputHTML('me', [
-			'title' => 'About ' . $this->config->get('whose_list'),
+			'title' => 'About ' . $whom,
 			'data' => $orgData,
 			'attributes' => $orgData['attributes'],
 			'relationships' => $rels,
 			'favorites' => $this->organizeFavorites($favorites),
+			'timeOnAnime' => $timeOnAnime,
 		]);
 	}
 
@@ -330,18 +340,25 @@ final class Index extends BaseController {
 		$gdImg = imagecreatefromstring($data);
 		$resizedImg = imagescale($gdImg, $width ?? $origWidth);
 
-		// save the webp versions
-		imagewebp($gdImg, "{$filePrefix}-original.webp");
-		imagewebp($resizedImg, "{$filePrefix}.webp");
+		if ($ext === 'gif')
+		{
+			file_put_contents("{$filePrefix}.gif", $data);
+		}
+		else
+		{
+			// save the webp versions
+			imagewebp($gdImg, "{$filePrefix}-original.webp");
+			imagewebp($resizedImg, "{$filePrefix}.webp");
 
-		// save the scaled jpeg file
-		imagejpeg($resizedImg, "{$filePrefix}.jpg");
+			// save the scaled jpeg file
+			imagejpeg($resizedImg, "{$filePrefix}.jpg");
+
+			// And the original
+			file_put_contents("{$filePrefix}-original.jpg", $data);
+		}
 
 		imagedestroy($gdImg);
 		imagedestroy($resizedImg);
-
-		// And the original
-		file_put_contents("{$filePrefix}-original.jpg", $data);
 
 		if ($display)
 		{
@@ -388,6 +405,13 @@ final class Index extends BaseController {
 		return $output;
 	}
 
+	/**
+	 * Get a placeholder for a missing image
+	 *
+	 * @param string $path
+	 * @param int|null $width
+	 * @param int|null $height
+	 */
 	private function getPlaceholder (string $path, ?int $width = 200, ?int $height = NULL): void
 	{
 		$height = $height ?? $width;
@@ -401,5 +425,40 @@ final class Index extends BaseController {
 
 		header('Content-Type: image/png');
 		echo file_get_contents($filename);
+	}
+
+	/**
+	 * Format the time spent on anime in a more readable format
+	 *
+	 * @param int $minutes
+	 * @return string
+	 */
+	private function formatAnimeTime (int $minutes): string
+	{
+		$minutesPerDay = 1440;
+		$minutesPerYear = $minutesPerDay * 365;
+
+		// Minutes short of a year
+		$years = (int)floor($minutes / $minutesPerYear);
+		$minutes %= $minutesPerYear;
+
+		// Minutes short of a day
+		$extraMinutes = $minutes % $minutesPerDay;
+
+		$days = ($minutes - $extraMinutes) / $minutesPerDay;
+
+		// Minutes short of an hour
+		$remMinutes = $extraMinutes % 60;
+
+		$hours = ($extraMinutes - $remMinutes) / 60;
+
+		$output = "{$days} days, {$hours} hours, and {$remMinutes} minutes.";
+
+		if ($years > 0)
+		{
+			$output = "{$years} year(s),{$output}";
+		}
+
+		return $output;
 	}
 }

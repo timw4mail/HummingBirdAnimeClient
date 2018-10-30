@@ -266,10 +266,11 @@ final class Model {
 					'name' => $username,
 				],
 				'fields' => [
-					// 'anime' => 'slug,name,canonicalTitle',
-					'characters' => 'slug,name,image'
+					'anime' => 'slug,canonicalTitle,posterImage',
+					'manga' => 'slug,canonicalTitle,posterImage',
+					'characters' => 'slug,canonicalName,image'
 				],
-				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,userRoles,favorites.item'
+				'include' => 'waifu,favorites.item,stats'
 			]
 		]);
 
