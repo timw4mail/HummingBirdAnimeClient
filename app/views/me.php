@@ -1,20 +1,15 @@
-<?php use Aviat\AnimeClient\API\Kitsu; ?>
+<?php
+use function Aviat\AnimeClient\getLocalImg;
+use Aviat\AnimeClient\API\Kitsu;
+?>
 <main class="user-page details">
 	<section class="flex flex-no-wrap">
 		<div>
 			<center>
-				<h2>
-					<a title='View profile on Kisu'
-						href="https://kitsu.io/users/<?= $attributes['name'] ?>">
-						<?= $attributes['name'] ?>
-					</a>
-				</h2>
 				<?php
-					$file = basename(parse_url($attributes['avatar']['original'], \PHP_URL_PATH));
-					$parts = explode('.', $file);
-					$ext = end($parts);
+					$avatar = getLocalImg($attributes['avatar']['original']);
 				?>
-				<img src="<?= $urlGenerator->assetUrl('images/avatars', "{$data['id']}.{$ext}") ?>" alt="" />
+				<img src="<?= $urlGenerator->assetUrl($avatar) ?>" alt="" />
 			</center>
 			<br />
 			<br />
@@ -38,7 +33,7 @@
 							$character = $relationships['waifu']['attributes'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
-								$character['name']
+								$character['canonicalName']
 							);
 						?>
 					</td>
@@ -46,6 +41,10 @@
 				<?php endif ?>
 				<tr>
 					<th colspan="2">User Stats</th>
+				</tr>
+				<tr>
+					<td>Time spent watching anime:</td>
+					<td><?= $timeOnAnime ?></td>
 				</tr>
 				<tr>
 					<td># of Posts</td>
@@ -62,19 +61,30 @@
 			</table>
 		</div>
 		<div>
+			<h2>
+				<a
+					title='View profile on Kisu'
+					href="https://kitsu.io/users/<?= $attributes['slug'] ?>"
+				>
+					<?= $attributes['name'] ?>
+				</a>
+			</h2>
+
 			<dl>
-				<dt>About:</dt>
+				<dt><h3>About:</h3></dt>
 				<dd><?= $escape->html($attributes['about']) ?></dd>
 			</dl>
+
 			<?php if ( ! empty($favorites)): ?>
+			<h3>Favorites</h3>
 				<?php if ( ! empty($favorites['characters'])): ?>
-					<h4>Favorite Characters</h4>
+					<h4>Characters</h4>
 					<section class="media-wrap">
 					<?php foreach($favorites['characters'] as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
 						<article class="small_character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-							<div class="name"><?= $helper->a($link, $char['name']); ?></div>
+							<div class="name"><?= $helper->a($link, $char['canonicalName']); ?></div>
 							<a href="<?= $link ?>">
 								<picture>
 									<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.webp") ?>" type="image/webp">
@@ -88,7 +98,7 @@
 					</section>
 				<?php endif ?>
 				<?php if ( ! empty($favorites['anime'])): ?>
-					<h4>Favorite Anime</h4>
+					<h4>Anime</h4>
 					<section class="media-wrap">
 						<?php foreach($favorites['anime'] as $anime): ?>
 						<article class="media">
@@ -116,7 +126,7 @@
 					</section>
 				<?php endif ?>
 				<?php if ( ! empty($favorites['manga'])): ?>
-					<h4>Favorite Manga</h4>
+					<h4>Manga</h4>
 					<section class="media-wrap">
 						<?php foreach($favorites['manga'] as $manga): ?>
 						<article class="media">

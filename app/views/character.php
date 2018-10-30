@@ -31,82 +31,158 @@ use Aviat\AnimeClient\API\Kitsu;
 
 	<?php if (array_key_exists('anime', $data['included']) || array_key_exists('manga', $data['included'])): ?>
 	<h3>Media</h3>
-	<section class="flex flex-no-wrap">
+	<div class="tabs">
 		<?php if (array_key_exists('anime', $data['included'])): ?>
-		<div>
-			<h4>Anime</h4>
-			<section class="align_left media-wrap">
-				<?php foreach($data['included']['anime'] as $id => $anime): ?>
-				<article class="media">
-					<?php
-						$link = $url->generate('anime.details', ['id' => $anime['attributes']['slug']]);
-						$titles = Kitsu::filterTitles($anime['attributes']);
-					?>
+		<input checked="checked" type="radio" id="media-anime" name="media-tabs" />
+		<label for="media-anime"><h4> Anime </h4></label>
+
+		<section class="align_left media-wrap content">
+			<?php foreach($data['included']['anime'] as $id => $anime): ?>
+			<article class="media">
+				<?php
+					$link = $url->generate('anime.details', ['id' => $anime['attributes']['slug']]);
+					$titles = Kitsu::filterTitles($anime['attributes']);
+				?>
+				<a href="<?= $link ?>">
+					<picture>
+						<source
+							srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.webp") ?>"
+							type="image/webp"
+						>
+						<source
+							srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
+							type="image/jpeg"
+						>
+						<img
+							src="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
+							alt=""
+						/>
+					</picture>
+				</a>
+				<div class="name">
 					<a href="<?= $link ?>">
-						<picture>
-							<source
-								srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.webp") ?>"
-								type="image/webp"
-							>
-							<source
-								srcset="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
-								type="image/jpeg"
-							>
-							<img
-								src="<?= $urlGenerator->assetUrl("images/anime/{$id}.jpg") ?>"
-								alt=""
-							/>
-						</picture>
+						<?= array_shift($titles) ?>
+						<?php foreach ($titles as $title): ?>
+							<br /><small><?= $title ?></small>
+						<?php endforeach ?>
 					</a>
-					<div class="name">
-						<a href="<?= $link ?>">
-							<?= array_shift($titles) ?>
-							<?php foreach ($titles as $title): ?>
-								<br /><small><?= $title ?></small>
-							<?php endforeach ?>
-						</a>
-					</div>
-				</article>
-				<?php endforeach ?>
-			</section>
-		</div>
+				</div>
+			</article>
+			<?php endforeach ?>
+		</section>
 		<?php endif ?>
-	</section>
-	<section class="flex flex-no-wrap">
+
 		<?php if (array_key_exists('manga', $data['included'])): ?>
-		<div>
-			<h4>Manga</h4>
-			<section class="align_left media-wrap">
+		<input type="radio" id="media-manga" name="media-tabs" />
+		<label for="media-manga"><h4>Manga</h4></label>
 
-				<?php foreach($data['included']['manga'] as $id => $manga): ?>
-				<article class="media">
-					<?php
-						$link = $url->generate('manga.details', ['id' => $manga['attributes']['slug']]);
-						$titles = Kitsu::filterTitles($manga['attributes']);
-					?>
+		<section class="align_left media-wrap content">
+
+			<?php foreach($data['included']['manga'] as $id => $manga): ?>
+			<article class="media">
+				<?php
+					$link = $url->generate('manga.details', ['id' => $manga['attributes']['slug']]);
+					$titles = Kitsu::filterTitles($manga['attributes']);
+				?>
+				<a href="<?= $link ?>">
+					<img src="<?= $urlGenerator->assetUrl("images/manga/{$id}.jpg") ?>" width="220" alt="" />
+				</a>
+				<div class="name">
 					<a href="<?= $link ?>">
-						<img src="<?= $urlGenerator->assetUrl("images/manga/{$id}.jpg") ?>" width="220" alt="" />
+						<?= array_shift($titles) ?>
+						<?php foreach ($titles as $title): ?>
+							<br /><small><?= $title ?></small>
+						<?php endforeach ?>
 					</a>
-					<div class="name">
-						<a href="<?= $link ?>">
-							<?= array_shift($titles) ?>
-							<?php foreach ($titles as $title): ?>
-								<br /><small><?= $title ?></small>
-							<?php endforeach ?>
-						</a>
-					</div>
-				</article>
-				<?php endforeach ?>
-
-			</section>
-		</div>
+				</div>
+			</article>
+			<?php endforeach ?>
+		</section>
 		<?php endif ?>
-	</section>
+	</div>
 	<?php endif ?>
 
 	<section>
 		<?php if ($castCount > 0): ?>
 		<h3>Castings</h3>
+			<?php
+			$vas = $castings['Voice Actor'];
+			unset($castings['Voice Actor']);
+			ksort($vas)
+			?>
+
+			<?php if ( ! empty($vas)): ?>
+				<h4>Voice Actors</h4>
+
+				<div class="tabs">
+					<?php $i = 0; ?>
+
+					<?php foreach($vas as $language => $casting): ?>
+						<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="character-va<?= $i ?>"
+							name="character-vas"
+						/>
+						<label for="character-va<?= $i ?>"><h5><?= $language ?></h5></label>
+						<section class="content">
+							<table style='width:100%'>
+								<tr>
+									<th>Cast Member</th>
+									<th>Series</th>
+								</tr>
+								<?php foreach($casting as $cid => $c): ?>
+									<tr>
+										<td style="width:229px">
+											<article class="character">
+												<?php
+												$link = $url->generate('person', ['id' => $c['person']['id']]);
+												?>
+												<a href="<?= $link ?>">
+													<img
+														src="<?= $urlGenerator->assetUrl(getLocalImg($c['person']['image'])) ?>"
+														alt=""
+													/>
+													<div class="name">
+														<?= $c['person']['name'] ?>
+													</div>
+												</a>
+											</article>
+										</td>
+										<td>
+											<section class="align_left media-wrap">
+												<?php foreach ($c['series'] as $series): ?>
+													<article class="media">
+														<?php
+														$link = $url->generate('anime.details', ['id' => $series['attributes']['slug']]);
+														$titles = Kitsu::filterTitles($series['attributes']);
+														?>
+														<a href="<?= $link ?>">
+															<img
+																src="<?= $urlGenerator->assetUrl(getLocalImg($series['attributes']['posterImage']['small'])) ?>"
+																width="220" alt=""
+															/>
+														</a>
+														<div class="name">
+															<a href="<?= $link ?>">
+																<?= array_shift($titles) ?>
+																<?php foreach ($titles as $title): ?>
+																	<br />
+																	<small><?= $title ?></small>
+																<?php endforeach ?>
+															</a>
+														</div>
+													</article>
+												<?php endforeach ?>
+											</section>
+										</td>
+									</tr>
+								<?php endforeach ?>
+							</table>
+						</section>
+						<?php $i++ ?>
+					<?php endforeach ?>
+				</div>
+			<?php endif ?>
+
+
 			<?php foreach($castings as $role => $entries): ?>
 				<h4><?= $role ?></h4>
 				<?php foreach($entries as $language => $casting): ?>

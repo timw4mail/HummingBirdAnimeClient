@@ -183,10 +183,13 @@ return [
 		]
 	],
 	'user_info' => [
-		'path' => '/me',
-		'action' => 'me',
-		'controller' => 'me',
+		'path' => '/about/{user}',
+		'action' => 'about',
+		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'get',
+		'tokens' => [
+			'user' => '.*?'
+		]
 	],
 	// ---------------------------------------------------------------------
 	// Default / Shared routes

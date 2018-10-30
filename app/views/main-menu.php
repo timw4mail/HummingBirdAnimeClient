@@ -51,7 +51,7 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 	</span>
 
 	<span class="flex-no-wrap small-font">[<?= $helper->a(
-		$url->generate('user_info'),
+		$url->generate('user_info', ['user' => 'me']),
 		'About '. $config->get('whose_list')
 	) ?>]</span>
 
