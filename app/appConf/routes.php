@@ -191,12 +191,12 @@ $routes = [
 	'anilist-redirect' => [
 		'path' => '/anilist-redirect',
 		'action' => 'anilistRedirect',
-		'controller' => 'user',
+		'controller' => 'settings',
 	],
 	'anilist-callback' => [
 		'path' => '/anilist-oauth',
 		'action' => 'anilistCallback',
-		'controller' => 'user',
+		'controller' => 'settings',
 	],
 	'image_proxy' => [
 		'path' => '/public/images/{type}/{file}',
