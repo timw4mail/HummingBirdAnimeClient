@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Tests;
 
 use function Aviat\AnimeClient\arrayToToml;
+use function Aviat\AnimeClient\isSequentialArray;
 use function Aviat\AnimeClient\tomlToArray;
 
 class AnimeClientTest extends AnimeClientTestCase
@@ -54,5 +55,13 @@ class AnimeClientTest extends AnimeClientTestCase
 		$parsedArray = tomlToArray($toml);
 
 		$this->assertEquals($arr, $parsedArray);
+	}
+
+	public function testIsSequentialArray()
+	{
+		$this->assertFalse(isSequentialArray(0));
+		$this->assertFalse(isSequentialArray([50 => 'foo']));
+		$this->assertTrue(isSequentialArray([]));
+		$this->assertTrue(isSequentialArray([1,2,3,4,5]));
 	}
 }

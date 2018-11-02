@@ -25,49 +25,86 @@ final class Picture {
 
 	use ContainerAware;
 
+	private const MIME_MAP = [
+		'apng' => 'image/vnd.mozilla.apng',
+		'bmp' => 'image/bmp',
+		'gif' => 'image/gif',
+		'ico' => 'image/x-icon',
+		'jpeg' => 'image/jpeg',
+		'jpf' => 'image/jpx',
+		'jpg' => 'image/jpeg',
+		'jpx' => 'image/jpx',
+		'png' => 'image/png',
+		'svg' => 'image/svg+xml',
+		'tif' => 'image/tiff',
+		'tiff' => 'image/tiff',
+		'webp' => 'image/webp',
+	];
+
+	private const SIMPLE_IMAGE_TYPES = [
+		'gif',
+		'jpeg',
+		'jpg',
+		'png',
+	];
+
 	/**
-	 * Create the html f
+	 * Create the html for an html picture element
 	 *
-	 * @param string $webp
+	 * @param string $uri
 	 * @param string $fallbackExt
 	 * @param array $picAttrs
 	 * @param array $imgAttrs
 	 * @return string
 	 */
-	public function __invoke(string $webp, string $fallbackExt = 'jpg', $picAttrs = [], $imgAttrs = []): string
+	public function __invoke(string $uri, string $fallbackExt = 'jpg', array $picAttrs = [], array $imgAttrs = []): string
 	{
 		$urlGenerator = $this->container->get('url-generator');
 		$helper = $this->container->get('html-helper');
-		
+
 		// If it is a placeholder image, make the
 		// fallback a png, not a jpg
-		if (strpos($webp, 'placeholder') !== FALSE)
+		if (strpos($uri, 'placeholder') !== FALSE)
 		{
 			$fallbackExt = 'png';
 		}
 
-		if (strpos($webp, '//') === FALSE)
+		if (strpos($uri, '//') === FALSE)
 		{
-			$webp = $urlGenerator->assetUrl($webp);
+			$uri = $urlGenerator->assetUrl($uri);
 		}
-		
 
-		$urlParts = explode('.', $webp);
+		$urlParts = explode('.', $uri);
 		$ext = array_pop($urlParts);
 		$path = implode('.', $urlParts);
 
-		$mime = $ext === 'jpg'
-			? 'image/jpeg'
-			: "image/{$ext}";
-		$fallbackMime = $fallbackExt === 'jpg'
-			? 'image/jpeg'
-			: "image/{$fallbackExt}";
+		$mime = array_key_exists($ext, static::MIME_MAP)
+			? static::MIME_MAP[$ext]
+			: 'image/jpeg';
+
+		$fallbackMime = array_key_exists($fallbackExt, static::MIME_MAP)
+			? static::MIME_MAP[$fallbackExt]
+			: 'image/jpeg';
+
+		// For image types that are well-established, just return a
+		// simple <img /> element instead
+		if (
+			$ext === $fallbackExt ||
+			\in_array($ext, static::SIMPLE_IMAGE_TYPES, TRUE)
+		)
+		{
+			$attrs = ( ! empty($imgAttrs))
+				? $imgAttrs
+				: $picAttrs;
+
+			return $helper->img($uri, $attrs);
+		}
 
 		$fallbackImg = "{$path}.{$fallbackExt}";
 
 		$pictureChildren = [
 			$helper->void('source', [
-				'srcset' => $webp,
+				'srcset' => $uri,
 				'type' => $mime,
 			]),
 			$helper->void('source', [
