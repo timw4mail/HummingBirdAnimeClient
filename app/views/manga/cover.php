@@ -23,17 +23,13 @@
 						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
-					<picture>
-						<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.webp") ?>" type="image/webp">
-						<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.jpg") ?>" type="image/jpeg">
-						<img src="<?= $urlGenerator->assetUrl("images/manga/{$item['manga']['id']}.jpg") ?>" alt="" />
-					</picture>
+					<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $escape->html($item['manga']['title']) ?>
-                        <?php foreach($item['manga']['titles'] as $title): ?>
-                            <br /><small><?= $title ?></small>
-                        <?php endforeach ?>
+						<?php foreach($item['manga']['titles'] as $title): ?>
+							<br /><small><?= $title ?></small>
+						<?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">

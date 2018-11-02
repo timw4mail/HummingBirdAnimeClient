@@ -48,7 +48,6 @@ $nestedPrefix = 'config';
 								'Update Access Token'
 							) ?>
 						<?php endif ?>
-
 					<?php endif ?>
 				</section>
 				<?php $i++; ?>

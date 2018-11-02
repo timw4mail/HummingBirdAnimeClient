@@ -15,6 +15,9 @@
  */
 
 use const Aviat\AnimeClient\{
+	ALPHA_SLUG_PATTERN,
+	NUM_PATTERN,
+	SLUG_PATTERN,
 	DEFAULT_CONTROLLER_METHOD,
 	DEFAULT_CONTROLLER
 };
@@ -24,14 +27,13 @@ use const Aviat\AnimeClient\{
 //
 // Maps paths to controllers and methods
 // -------------------------------------------------------------------------
-return [
+$routes = [
 	// ---------------------------------------------------------------------
 	// Anime List Routes
 	// ---------------------------------------------------------------------
 	'anime.add.get' => [
 		'path' => '/anime/add',
 		'action' => 'addForm',
-		'verb' => 'get',
 	],
 	'anime.add.post' => [
 		'path' => '/anime/add',
@@ -42,7 +44,7 @@ return [
 		'path' => '/anime/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => '[a-z0-9\-]+',
+			'id' => SLUG_PATTERN,
 		],
 	],
 	'anime.delete' => [
@@ -60,7 +62,6 @@ return [
 	'manga.add.get' => [
 		'path' => '/manga/add',
 		'action' => 'addForm',
-		'verb' => 'get',
 	],
 	'manga.add.post' => [
 		'path' => '/manga/add',
@@ -76,7 +77,7 @@ return [
 		'path' => '/manga/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => '[a-z0-9\-]+',
+			'id' => SLUG_PATTERN,
 		],
 	],
 	// ---------------------------------------------------------------------
@@ -89,13 +90,12 @@ return [
 	'anime.collection.add.get' => [
 		'path' => '/anime-collection/add',
 		'action' => 'form',
-		'params' => [],
 	],
 	'anime.collection.edit.get' => [
 		'path' => '/anime-collection/edit/{id}',
 		'action' => 'form',
 		'tokens' => [
-			'id' => '[0-9]+',
+			'id' => NUM_PATTERN,
 		],
 	],
 	'anime.collection.add.post' => [
@@ -110,10 +110,8 @@ return [
 	],
 	'anime.collection.view' => [
 		'path' => '/anime-collection/view{/view}',
-		'action' => 'index',
-		'params' => [],
 		'tokens' => [
-			'view' => '[a-z_]+',
+			'view' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'anime.collection.delete' => [
@@ -131,13 +129,12 @@ return [
 	'manga.collection.add.get' => [
 		'path' => '/manga-collection/add',
 		'action' => 'form',
-		'params' => [],
 	],
 	'manga.collection.edit.get' => [
 		'path' => '/manga-collection/edit/{id}',
 		'action' => 'form',
 		'tokens' => [
-			'id' => '[0-9]+',
+			'id' => NUM_PATTERN,
 		],
 	],
 	'manga.collection.add.post' => [
@@ -152,10 +149,8 @@ return [
 	],
 	'manga.collection.view' => [
 		'path' => '/manga-collection/view{/view}',
-		'action' => 'index',
-		'params' => [],
 		'tokens' => [
-			'view' => '[a-z_]+',
+			'view' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'manga.collection.delete' => [
@@ -168,27 +163,26 @@ return [
 	// ---------------------------------------------------------------------
 	'character' => [
 		'path' => '/character/{slug}',
-		'action' => 'index',
-		'params' => [],
 		'tokens' => [
-			'slug' => '[a-z0-9\-]+'
+			'slug' => SLUG_PATTERN
 		]
 	],
 	'person' => [
 		'path' => '/people/{id}',
-		'action' => 'index',
-		'params' => [],
 		'tokens' => [
-			'id' => '[a-z0-9\-]+'
+			'id' => SLUG_PATTERN
 		]
 	],
+	'default_user_info' => [
+		'path' => '/me',
+		'action' => 'me',
+		'controller' => 'user',
+	],
 	'user_info' => [
-		'path' => '/about/{user}',
-		'action' => 'about',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
+		'path' => '/user/{username}',
+		'controller' => 'user',
 		'tokens' => [
-			'user' => '.*?'
+			'username' => '.*?'
 		]
 	],
 	// ---------------------------------------------------------------------
@@ -197,66 +191,53 @@ return [
 	'anilist-redirect' => [
 		'path' => '/anilist-redirect',
 		'action' => 'anilistRedirect',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
+		'controller' => 'user',
 	],
 	'anilist-callback' => [
 		'path' => '/anilist-oauth',
 		'action' => 'anilistCallback',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
+		'controller' => 'user',
 	],
 	'image_proxy' => [
 		'path' => '/public/images/{type}/{file}',
-		'action' => 'images',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
+		'action' => 'cache',
+		'controller' => 'images',
 		'tokens' => [
-			'type' => '[a-z0-9\-]+',
+			'type' => SLUG_PATTERN,
 			'file' => '[a-z0-9\-]+\.[a-z]{3,4}'
 		]
 	],
 	'cache_purge' => [
 		'path' => '/cache_purge',
 		'action' => 'clearCache',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
 	],
 	'settings' => [
 		'path' => '/settings',
-		'action' => 'settings',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
 	],
 	'settings-post' => [
-		'path' => '/settings-save',
-		'action' => 'settings_post',
-		'controller' => DEFAULT_CONTROLLER,
+		'path' => '/settings/update',
+		'action' => 'update',
 		'verb' => 'post',
 	],
 	'login' => [
 		'path' => '/login',
 		'action' => 'login',
-		'controller' => DEFAULT_CONTROLLER,
-		'verb' => 'get',
 	],
 	'login.post' => [
 		'path' => '/login',
 		'action' => 'loginAction',
-		'controller' => DEFAULT_CONTROLLER,
 		'verb' => 'post',
 	],
 	'logout' => [
 		'path' => '/logout',
 		'action' => 'logout',
-		'controller' => DEFAULT_CONTROLLER,
 	],
 	'increment' => [
 		'path' => '/{controller}/increment',
 		'action' => 'increment',
 		'verb' => 'post',
 		'tokens' => [
-			'controller' => '[a-z_]+',
+			'controller' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'update' => [
@@ -264,7 +245,7 @@ return [
 		'action' => 'update',
 		'verb' => 'post',
 		'tokens' => [
-			'controller' => '[a-z_]+',
+			'controller' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'update.post' => [
@@ -272,28 +253,46 @@ return [
 		'action' => 'formUpdate',
 		'verb' => 'post',
 		'tokens' => [
-			'controller' => '[a-z_]+',
+			'controller' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'edit' => [
 		'path' => '/{controller}/edit/{id}/{status}',
 		'action' => 'edit',
 		'tokens' => [
-			'id' => '[0-9a-z_]+',
+			'id' => SLUG_PATTERN,
 			'status' => '([a-zA-Z\-_]|%20)+',
 		],
 	],
 	'list' => [
 		'path' => '/{controller}/{type}{/view}',
-		'action' => DEFAULT_CONTROLLER_METHOD,
 		'tokens' => [
-			'type' => '[a-z_]+',
-			'view' => '[a-z_]+',
+			'type' => ALPHA_SLUG_PATTERN,
+			'view' => ALPHA_SLUG_PATTERN,
 		],
 	],
 	'index_redirect' => [
 		'path' => '/',
-		'controller' => DEFAULT_CONTROLLER,
 		'action' => 'redirectToDefaultRoute',
 	],
 ];
+
+$defaultMap = [
+	'action' => DEFAULT_CONTROLLER_METHOD,
+	'controller' => DEFAULT_CONTROLLER,
+	'params' => [],
+	'verb' => 'get',
+];
+
+foreach ($routes as &$route)
+{
+	foreach($defaultMap as $key => $val)
+	{
+		if ( ! array_key_exists($key, $route))
+		{
+			$route[$key] = $val;
+		}
+	}
+}
+
+return $routes;

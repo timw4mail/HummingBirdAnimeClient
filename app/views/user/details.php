@@ -7,9 +7,11 @@ use Aviat\AnimeClient\API\Kitsu;
 		<div>
 			<center>
 				<?php
-					$avatar = getLocalImg($attributes['avatar']['original']);
+					$avatar = $urlGenerator->assetUrl(
+						getLocalImg($attributes['avatar']['original'], FALSE)
+					);
+					echo $helper->img($avatar, ['alt' => '']);
 				?>
-				<img src="<?= $urlGenerator->assetUrl($avatar) ?>" alt="" />
 			</center>
 			<br />
 			<br />
@@ -47,6 +49,14 @@ use Aviat\AnimeClient\API\Kitsu;
 					<td><?= $timeOnAnime ?></td>
 				</tr>
 				<tr>
+					<td># of Anime episodes watched</td>
+					<td><?= $stats['anime-amount-consumed']['units'] ?></td>
+				</tr>
+				<tr>
+					<td># of Manga chapters read</td>
+					<td><?= $stats['manga-amount-consumed']['units'] ?></td>
+				</tr>
+				<tr>
 					<td># of Posts</td>
 					<td><?= $attributes['postsCount'] ?></td>
 				</tr>
@@ -62,12 +72,12 @@ use Aviat\AnimeClient\API\Kitsu;
 		</div>
 		<div>
 			<h2>
-				<a
-					title='View profile on Kisu'
-					href="https://kitsu.io/users/<?= $attributes['slug'] ?>"
-				>
-					<?= $attributes['name'] ?>
-				</a>
+				<?= $helper->a(
+					"https://kitsu.io/users/{$attributes['slug']}",
+					$attributes['name'], [
+						'title' => 'View profile on Kitsu'
+					])
+				?>
 			</h2>
 
 			<dl>
@@ -86,11 +96,7 @@ use Aviat\AnimeClient\API\Kitsu;
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 							<div class="name"><?= $helper->a($link, $char['canonicalName']); ?></div>
 							<a href="<?= $link ?>">
-								<picture>
-									<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.webp") ?>" type="image/webp">
-									<source srcset="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.jpg") ?>" type="image/jpeg">
-									<img src="<?= $urlGenerator->assetUrl("images/characters/{$char['id']}.jpg") ?>" alt="" />
-								</picture>
+								<?= $helper->picture("images/characters/{$char['id']}.webp") ?>
 							</a>
 						</article>
 						<?php endif ?>
@@ -107,11 +113,7 @@ use Aviat\AnimeClient\API\Kitsu;
 								$titles = Kitsu::filterTitles($anime);
 							?>
 							<a href="<?= $link ?>">
-								<picture width="220">
-									<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.webp") ?>" type="image/webp">
-									<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.jpg") ?>" type="image/jpeg">
-									<img src="<?= $urlGenerator->assetUrl("images/anime/{$anime['id']}.jpg") ?>" width="220" alt="" />
-								</picture>
+								<?= $helper->picture("images/anime/{$anime['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
@@ -135,11 +137,7 @@ use Aviat\AnimeClient\API\Kitsu;
 								$titles = Kitsu::filterTitles($manga);
 							?>
 							<a href="<?= $link ?>">
-								<picture width="220">
-									<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.webp") ?>" type="image/webp">
-									<source srcset="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.jpg") ?>" type="image/jpeg">
-									<img src="<?= $urlGenerator->assetUrl("images/manga/{$manga['id']}.jpg") ?>" width="220" alt="" />
-								</picture>
+								<?= $helper->picture("images/manga/{$manga['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">

@@ -17,7 +17,7 @@
 					<tr>
 						<td rowspan="9">
 							<article class="media">
-								<?= $helper->img($urlGenerator->assetUrl('images/anime', "{$item['anime']['id']}.jpg")) ?>
+								<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
 							</article>
 						</td>
 					</tr>
@@ -89,11 +89,9 @@
 				</tbody>
 			</table>
 		</form>
-		<br />
-		<br />
-		<fieldset>
-			<legend>Danger Zone</legend>
-			<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
+		<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
+			<fieldset>
+				<legend>Danger Zone</legend>
 				<table class="form invisible">
 					<tbody>
 						<tr>
@@ -110,7 +108,7 @@
 						</tr>
 					</tbody>
 				</table>
-			</form>
-		</fieldset>
+			</fieldset>
+		</form>
 	</main>
 <?php endif ?>

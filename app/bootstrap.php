@@ -86,6 +86,11 @@ return function ($configArray = []) {
 			$formHelper->setContainer($container);
 			return $formHelper;
 		});
+		$htmlHelper->set('picture', function() use ($container) {
+			$pictureHelper = new Helper\Picture();
+			$pictureHelper->setContainer($container);
+			return $pictureHelper;
+		});
 
 		return $htmlHelper;
 	});

@@ -23,3 +23,16 @@ _.on('.js-clear-cache', 'click', () => {
 		_.showMessage('success', 'Successfully purged api cache');
 	});
 });
+
+// Alleviate some page jumping
+ _.on('.vertical-tabs input', 'change', (event) => {
+	const el = event.currentTarget.parentElement;
+	const rect = el.getBoundingClientRect();
+
+	const top = rect.top + window.pageYOffset;
+
+	window.scrollTo({
+		top,
+		behavior: 'smooth',
+	});
+});
