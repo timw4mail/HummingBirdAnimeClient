@@ -11,8 +11,8 @@
 				<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="collection-tab-<?= $i ?>"
 																  name="collection-tabs"/>
 				<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
-				<div class="content">
-					<table>
+				<div class="content full-height">
+					<table class="full_width">
 						<thead>
 						<tr>
 							<?php if ($auth->isAuthenticated()): ?>

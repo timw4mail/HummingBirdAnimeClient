@@ -1,10 +1,5 @@
 <article class="media" id="a-<?= $item['hummingbird_id'] ?>">
-	<picture>
-		<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.webp") ?>" type="image/webp">
-		<source srcset="<?= $urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg") ?>" type="image/jpeg">
-		<img src="<?= $urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg") ?>" alt="<?= $item['title'] ?> cover image" />
-	</picture>
-
+	<?= $helper->picture("images/anime/{$item['hummingbird_id']}.webp") ?>
 	<div class="name">
 		<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 			<?= $item['title'] ?>
