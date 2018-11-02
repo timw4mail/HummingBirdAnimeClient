@@ -71,7 +71,14 @@ function loadTomlFile(string $filename): array
 	return Toml::parseFile($filename);
 }
 
-function _iterateToml(TomlBuilder $builder, $data, $parentKey = NULL): void
+/**
+ * Recursively create a toml file from a data array
+ *
+ * @param TomlBuilder $builder
+ * @param iterable $data
+ * @param null $parentKey
+ */
+function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
 {
 	foreach ($data as $key => $value)
 	{
@@ -107,7 +114,7 @@ function _iterateToml(TomlBuilder $builder, $data, $parentKey = NULL): void
  * @param mixed $data
  * @return string
  */
-function arrayToToml($data): string
+function arrayToToml(iterable $data): string
 {
 	$builder = new TomlBuilder();
 
@@ -197,28 +204,31 @@ function checkFolderPermissions(ConfigInterface $config): array
 }
 
 /**
- * Generate the path for the cached image from the original iamge
+ * Generate the path for the cached image from the original image
  *
  * @param string $kitsuUrl
+ * @param bool $webp
  * @return string
  */
-function getLocalImg ($kitsuUrl): string
+function getLocalImg ($kitsuUrl, $webp = TRUE): string
 {
 	if ( ! is_string($kitsuUrl))
 	{
-		return 'images/404/404.png';
+		return 'images/placeholder.webp';
 	}
 
 	$parts = parse_url($kitsuUrl);
 
 	if ($parts === FALSE)
 	{
-		return 'images/404/404.png';
+		return 'images/placeholder.webp';
 	}
 
 	$file = basename($parts['path']);
 	$fileParts = explode('.', $file);
 	$ext = array_pop($fileParts);
+	$ext = $webp ? 'webp' : $ext;
+
 	$segments = explode('/', trim($parts['path'], '/'));
 
 	$type = $segments[0] === 'users' ? $segments[1] : $segments[0];
@@ -241,12 +251,15 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	$width = $width ?? 200;
 	$height = $height ?? 200;
 
-	$img = imagecreate($width, $height);
+	$img = imagecreatetruecolor($width, $height);
+	imagealphablending($img, TRUE);
 
 	$path = rtrim($path, '/');
 
 	// Background is the first color by default
-	imagecolorallocatealpha($img, 255, 255, 255, 127);
+	$fillColor = imagecolorallocatealpha($img, 255, 255, 255, 127);
+	imagefill($img, 0, 0, $fillColor);
+	
 	$textColor = imagecolorallocate($img, 64, 64, 64);
 
 	imagealphablending($img, TRUE);
@@ -266,6 +279,13 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	// Save the images
 	imagesavealpha($img, TRUE);
 	imagepng($img, $path . '/placeholder.png', 9);
-
 	imagedestroy($img);
+	
+	$pngImage = imagecreatefrompng($path . '/placeholder.png');
+	imagealphablending($pngImage, TRUE);
+	imagesavealpha($pngImage, TRUE);
+	
+	imagewebp($pngImage, $path . '/placeholder.webp');
+
+	imagedestroy($pngImage);
 }

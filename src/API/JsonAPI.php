@@ -141,6 +141,8 @@ final class JsonAPI {
 
 								$relationship[$dataType][$idKey][$j] = $included[$dataType][$idKey];
 							}
+
+							unset($item['relationships'][$relType]['data']);
 						}
 					}
 				}
@@ -221,6 +223,11 @@ final class JsonAPI {
 								continue;
 							}
 
+							if ( ! array_key_exists($dataType, $organized))
+							{
+								$organized[$dataType] = [];
+							}
+
 							if (array_key_exists($idKey, $organized[$dataType]))
 							{
 								$relationship[$dataType][$idKey] = $organized[$dataType][$idKey];
@@ -298,7 +305,10 @@ final class JsonAPI {
 			$type = $item['type'];
 			$id = $item['id'];
 
-			$organized[$type][$id] = $item['attributes'];
+			if (array_key_exists('attributes', $item))
+			{
+				$organized[$type][$id] = $item['attributes'];
+			}
 
 			if (array_key_exists('relationships', $item))
 			{

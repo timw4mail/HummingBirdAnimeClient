@@ -23,7 +23,7 @@ use Aviat\AnimeClient\Controller\Index;
  * Clears out image cache directories, then re-creates the image cache
  * for manga and anime
  */
-final class UpdateThumbnails extends BaseCommand {
+final class UpdateThumbnails extends ClearThumbnails {
 	/**
 	 * Model for making requests to Kitsu API
 	 * @var \Aviat\AnimeClient\API\Kitsu\Model
@@ -43,12 +43,10 @@ final class UpdateThumbnails extends BaseCommand {
 		$this->controller = new Index($this->container);
 		$this->kitsuModel = $this->container->get('kitsu-model');
 
-		$this->clearThumbs();
+		// Clear the existing thunbnails
+		parent::execute($args, $options);
 
 		$ids = $this->getImageList();
-
-		// print_r($ids);
-		// echo json_encode($ids, \JSON_PRETTY_PRINT);
 
 		// Resave the images
 		foreach($ids as $type => $typeIds)
@@ -62,26 +60,6 @@ final class UpdateThumbnails extends BaseCommand {
 		}
 
 		$this->echoBox('Finished regenerating all thumbnails');
-	}
-
-	public function clearThumbs()
-	{
-		$imgDir = realpath(__DIR__ . '/../../public/images');
-
-		$paths = [
-			'anime/*.jpg',
-			'anime/*.webp',
-			'manga/*.jpg',
-			'manga/*.webp',
-			'characters/*.jpg',
-			'characters/*.webp',
-		];
-
-		foreach($paths as $path)
-		{
-			$cmd = "rm -rf {$imgDir}/{$path}";
-			exec($cmd);
-		}
 	}
 
 	public function getImageList()

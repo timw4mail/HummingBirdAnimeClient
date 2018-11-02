@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient;
 
-const DEFAULT_CONTROLLER = Controller\Index::class;
+const DEFAULT_CONTROLLER = Controller\Misc::class;
 const DEFAULT_CONTROLLER_METHOD = 'index';
 const DEFAULT_CONTROLLER_NAMESPACE = Controller::class;
 const DEFAULT_LIST_CONTROLLER = Controller\Anime::class;
@@ -24,7 +24,12 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const NOT_FOUND_METHOD = 'notFound';
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/4.0";
+const USER_AGENT = "Tim's Anime Client/4.1";
+
+// Regex patterns
+const ALPHA_SLUG_PATTERN = '[a-z_]+';
+const NUM_PATTERN = '[0-9]+';
+const SLUG_PATTERN = '[a-z0-9\-]+';
 
 // Why doesn't this already exist?
 const MILLI_FROM_NANO = 1000 * 1000;
@@ -129,7 +134,7 @@ const SETTINGS_MAP = [
 				],
 			],
 		],
-		/*'options' => [
+		/* 'options' => [
 			'type' => 'subfield',
 			'title' => 'Options',
 			'fields' => [],

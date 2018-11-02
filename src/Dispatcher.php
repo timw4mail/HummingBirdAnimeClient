@@ -363,9 +363,15 @@ final class Dispatcher extends RoutingBase {
 				? $controllerMap[$routeType]
 				: DEFAULT_CONTROLLER;
 
-			if (array_key_exists($routeType, $controllerMap))
+			// If there's an explicit controller, try to find
+			// the full namespaced class name
+			if (array_key_exists('controller', $route))
 			{
-				$controllerClass = $controllerMap[$routeType];
+				$controllerKey = $route['controller'];
+				if (array_key_exists($controllerKey, $controllerMap))
+				{
+					$controllerClass = $controllerMap[$controllerKey];
+				}
 			}
 
 			// Prepend the controller to the route parameters

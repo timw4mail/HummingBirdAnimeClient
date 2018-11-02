@@ -108,7 +108,7 @@ class Anime extends API {
 	 * @param string $slug
 	 * @return AnimeType
 	 */
-	public function getAnime(string $slug): AnimeType
+	public function getAnime(string $slug)
 	{
 		return $this->kitsuModel->getAnime($slug);
 	}
@@ -172,14 +172,6 @@ class Anime extends API {
 		}
 
 		$results = $requester->makeRequests();
-
-		// Debug info
-		/* $body = Json::decode($results['anilist']);
-		if ($body['errors'])
-		{
-			dump($body);
-			die();
-		} */
 
 		return count($results) > 0;
 	}
@@ -260,13 +252,6 @@ class Anime extends API {
 		}
 
 		$results = $requester->makeRequests();
-
-		// Debug info
-		/* $body = Json::decode($results['anilist']);
-		if (isset($body['errors'])) {
-			dump($body);
-			die();
-		} */
 
 		return count($results) > 0;
 	}
