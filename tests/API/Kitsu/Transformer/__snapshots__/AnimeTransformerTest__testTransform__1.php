@@ -300,8 +300,9 @@
    'title' => 'Attack on Titan',
    'titles' => 
   array (
-    'en_jp' => 'Shingeki no Kyojin',
-    'ja_jp' => '進撃の巨人',
+    0 => 'Attack on Titan',
+    1 => 'Shingeki no Kyojin',
+    2 => '進撃の巨人',
   ),
    'trailer_id' => 'n4Nj6Y_SNYI',
    'url' => 'https://kitsu.io/anime/attack-on-titan',
