@@ -14,7 +14,7 @@
 			<thead>
 				<tr>
 					<?php if($auth->isAuthenticated()): ?>
-					<td class="no_border">&nbsp;</td>
+					<td class="no-border">&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
 					<th>Airing Status</th>
@@ -82,7 +82,7 @@
 					<td>
 						<p><?= $escape->html($item['notes']) ?></p>
 					</td>
-					<td class="align_left">
+					<td class="align-left">
 						<?php sort($item['anime']->genres) ?>
 						<?= implode(', ', $item['anime']->genres) ?>
 					</td>

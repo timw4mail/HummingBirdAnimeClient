@@ -15,7 +15,7 @@ use Aviat\AnimeClient\API\Kitsu;
 			</center>
 			<br />
 			<br />
-			<table class="media_details">
+			<table class="media-details">
 				<tr>
 					<th colspan="2">General</th>
 				</tr>
@@ -92,7 +92,7 @@ use Aviat\AnimeClient\API\Kitsu;
 					<section class="media-wrap">
 					<?php foreach($favorites['characters'] as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
-						<article class="small_character">
+						<article class="small-character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 							<div class="name"><?= $helper->a($link, $char['canonicalName']); ?></div>
 							<a href="<?= $link ?>">

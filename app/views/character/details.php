@@ -130,7 +130,7 @@ use Aviat\AnimeClient\API\Kitsu;
 											</article>
 										</td>
 										<td width="75%">
-											<section class="align_left media-wrap-flex">
+											<section class="align-left media-wrap-flex">
 												<?php foreach ($c['series'] as $series): ?>
 													<article class="media">
 														<?php
@@ -188,7 +188,7 @@ use Aviat\AnimeClient\API\Kitsu;
 									</article>
 								</td>
 								<td>
-									<section class="align_left media-wrap">
+									<section class="align-left media-wrap">
 										<?php foreach ($c['series'] as $series): ?>
 											<article class="media">
 												<?php

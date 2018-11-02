@@ -9,7 +9,7 @@
 				<div class="cssload-inner cssload-three"></div>
 			</div>
 			<label for="search">Search for anime by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" /></label>
-			<section id="series_list" class="media-wrap">
+			<section id="series-list" class="media-wrap">
 			</section>
 		</section>
 		<br />

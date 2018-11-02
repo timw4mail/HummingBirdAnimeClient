@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="completion">Episodes: <?= $item['episode_count'] ?></div>
 			<div class="media_type"><?= $item['show_type'] ?></div>
-			<div class="age_rating"><?= $item['age_rating'] ?></div>
+			<div class="age-rating"><?= $item['age_rating'] ?></div>
 		</div>
 	</div>
 </article>
