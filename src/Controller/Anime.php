@@ -279,7 +279,7 @@ final class Anime extends BaseController {
 		$characters = [];
 		$staff = [];
 
-		if ($data->title === '')
+		if (empty($data))
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -326,6 +326,10 @@ final class Anime extends BaseController {
 					'name' => $personDetails['name'] ?? '??',
 					'image' => $personDetails['image'],
 				];
+
+				usort($staff[$role], function ($a, $b) {
+					return $a['name'] <=> $b['name'];
+				});
 			}
 		}
 

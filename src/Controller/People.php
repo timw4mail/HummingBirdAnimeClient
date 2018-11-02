@@ -49,105 +49,109 @@ final class People extends BaseController {
 		}
 
 		$data = JsonAPI::organizeData($rawData);
+		$included = JsonAPI::organizeIncludes($rawData['included']);
+
+		$orgData = $this->organizeData($included);
 
 		$viewData = [
+			'included' => $included,
 			'title' => $this->formatTitle(
 				'People',
 				$data['attributes']['name']
 			),
 			'data' => $data,
 			'castCount' => 0,
-			'castings' => []
+			'castings' => [],
+			'characters' => $orgData['characters'],
+			'staff' => $orgData['staff'],
 		];
 
-		if (array_key_exists('included', $data) && array_key_exists('castings', $data['included']))
-		{
-			$viewData['included'] = $data['included'];
-			$viewData['castings'] = $this->organizeCast($data['included']['castings']);
-			$viewData['castCount'] = count($viewData['castings']);
-		}
-
-		$this->outputHTML('person/index', $viewData);
+		$this->outputHTML('person/details', $viewData);
 	}
 
-	protected function organizeCast(array $cast): array
+	protected function organizeData(array $data): array
 	{
-		$output = [];
+		$output = [
+			'characters' => [
+				'main' => [],
+				'supporting' => [],
+			],
+			'staff' => [],
+		];
 
-		foreach ($cast as $id => $role)
+		if (array_key_exists('characterVoices', $data))
 		{
-			if (empty($role['attributes']['role']))
+			foreach ($data['characterVoices'] as $cv)
 			{
-				continue;
-			}
+				$mcId = $cv['relationships']['mediaCharacter']['data']['id'];
 
-			$roleName = $role['attributes']['role'];
-			$media = $role['relationships']['media'];
-			$chars = $role['relationships']['character']['characters'] ?? [];
+				if ( ! array_key_exists($mcId, $data['mediaCharacters']))
+				{
+					continue;
+				}
 
-			if ( ! array_key_exists($roleName, $output))
-			{
-				$output[$roleName] = [
-					'characters' => [],
+				$mc = $data['mediaCharacters'][$mcId];
+
+				$role = $mc['role'];
+
+				$charId = $mc['relationships']['character']['data']['id'];
+				$mediaId = $mc['relationships']['media']['data']['id'];
+
+				$existingMedia = array_key_exists($charId, $output['characters'][$role])
+					? $output['characters'][$role][$charId]['media']
+					: [];
+
+				$relatedMedia = [
+					$mediaId => $data['anime'][$mediaId],
+				];
+
+				$includedMedia = array_replace_recursive($existingMedia, $relatedMedia);
+
+				uasort($includedMedia, function ($a, $b) {
+					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
+				});
+
+				$character = $data['characters'][$charId];
+
+				$output['characters'][$role][$charId] = [
+					'character' => $character,
+					'media' => $includedMedia,
 				];
 			}
+		}
 
-			if ( ! empty($chars))
+		if (array_key_exists('mediaStaff', $data))
+		{
+			foreach($data['mediaStaff'] as $rid => $role)
 			{
-				$relatedMedia = [];
-
-				if (array_key_exists('anime', $media))
-				{
-					foreach($media['anime'] as $sid => $series)
-					{
-						$relatedMedia[$sid] = $series['attributes'];
-					}
-				}
-
-				foreach($chars as $cid => $character)
-				{
-					// To make sure all the media are properly associated,
-					// merge the found media for this iteration with
-					// existing media, making sure to preserve array keys
-					$existingMedia = array_key_exists($cid, $output[$roleName]['characters'])
-						? $output[$roleName]['characters'][$cid]['media']
-						: [];
-
-					$includedMedia = array_replace_recursive($existingMedia, $relatedMedia);
-
-					uasort($includedMedia, function ($a, $b) {
-						return $a['canonicalTitle'] <=> $b['canonicalTitle'];
-					});
-
-					$output[$roleName]['characters'][$cid] = [
-						'character' => $character['attributes'],
-						'media' => $includedMedia,
-					];
-				}
-
-				uasort($output[$roleName]['characters'], function ($a, $b) {
-					return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
-				});
+				$roleName = $role['role'];
+				$mediaType = $role['relationships']['media']['data']['type'];
+				$mediaId = $role['relationships']['media']['data']['id'];
+				$media = $data[$mediaType][$mediaId];
+				$output['staff'][$roleName][$mediaType][$mediaId] = $media;
 			}
+		}
 
+		uasort($output['characters']['main'], function ($a, $b) {
+			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
+		});
+		uasort($output['characters']['supporting'], function ($a, $b) {
+			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
+		});
+		ksort($output['staff']);
+		foreach($output['staff'] as $role => &$media)
+		{
 			if (array_key_exists('anime', $media))
 			{
-				foreach($media['anime'] as $sid => $series)
-				{
-					$output[$roleName]['anime'][$sid] = $series;
-				}
-				uasort($output[$roleName]['anime'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
+				uasort($media['anime'], function ($a, $b) {
+					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
 				});
 			}
-			else if (array_key_exists('manga', $media))
+
+			if (array_key_exists('manga', $media))
 			{
-				foreach ($media['manga'] as $sid => $series)
-				{
-					$output[$roleName]['manga'][$sid] = $series;
-				}
-				uasort($output[$roleName]['manga'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
+				uasort($media['manga'], function ($a, $b) {
+					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
 				});
 			}
 		}

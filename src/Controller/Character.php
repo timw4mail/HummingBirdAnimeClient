@@ -101,7 +101,7 @@ class Character extends BaseController {
 			}
 		}
 
-		$this->outputHTML('character', $viewData);
+		$this->outputHTML('character/details', $viewData);
 	}
 
 	/**
