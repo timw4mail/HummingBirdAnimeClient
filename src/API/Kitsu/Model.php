@@ -235,15 +235,20 @@ final class Model {
 		{
 			$data = $this->getRequest("people/{$id}", [
 				'query' => [
+					'filter' => [
+						'id' => $id,
+					],
 					'fields' => [
 						'characters' => 'canonicalName,slug,image',
+						'characterVoices' => 'mediaCharacter',
 						'anime' => 'canonicalTitle,titles,slug,posterImage',
 						'manga' => 'canonicalTitle,titles,slug,posterImage',
+						'mediaCharacters' => 'role,media,character',
+						'mediaStaff' => 'role,media,person',
 					],
-					'include' => 'castings.character,castings.media'
+					'include' => 'voices.mediaCharacter.media,voices.mediaCharacter.character,staff.media',
 				],
 			]);
-
 			$cacheItem->set($data);
 			$cacheItem->save();
 		}
@@ -268,7 +273,7 @@ final class Model {
 				'fields' => [
 					'anime' => 'slug,canonicalTitle,posterImage',
 					'manga' => 'slug,canonicalTitle,posterImage',
-					'characters' => 'slug,canonicalName,image'
+					'characters' => 'slug,canonicalName,image',
 				],
 				'include' => 'waifu,favorites.item,stats'
 			]
@@ -364,13 +369,13 @@ final class Model {
 	 * @param string $slug
 	 * @return Anime
 	 */
-	public function getAnime(string $slug): Anime
+	public function getAnime(string $slug)
 	{
 		$baseData = $this->getRawMediaData('anime', $slug);
 
 		if (empty($baseData))
 		{
-			return new Anime();
+			return (new Anime([]))->toArray();
 		}
 
 		return $this->animeTransformer->transform($baseData);
@@ -966,7 +971,7 @@ final class Model {
 					'mediaCharacters' => 'character,role',
 				],
 				'include' => ($type === 'anime')
-					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character'
+					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character,characters.character'
 					: 'staff,staff.person,categories,mappings,characters.character',
 			]
 		];

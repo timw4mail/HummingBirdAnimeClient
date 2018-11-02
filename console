@@ -17,6 +17,10 @@ try
 	(new Console([
 		'cache:clear' => Command\CacheClear::class,
 		'cache:refresh' => Command\CachePrime::class,
+		'clear:cache' => Command\CacheClear::class,
+		'clear:thumbnails' => Command\ClearThumbnails::class,
+		'refresh:cache' => Command\CachePrime::class,
+		'refresh:thumbnails' => Command\UpdateThumbnails::class,
 		'regenerate-thumbnails' => Command\UpdateThumbnails::class,
 		'lists:sync' => Command\SyncLists::class,
 		'mal_id:check' => Command\MALIDCheck::class,
