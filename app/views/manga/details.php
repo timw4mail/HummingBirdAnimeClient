@@ -5,7 +5,7 @@
 
 			<br />
 
-			<table class="media_details">
+			<table class="media-details">
 				<tr>
 					<td>Manga Type</td>
 					<td><?= ucfirst($data['manga_type']) ?></td>
@@ -49,7 +49,7 @@
 				<section class="content media-wrap flex flex-wrap flex-justify-start">
 					<?php foreach ($list as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
-							<article class="<?= $role === 'supporting' ? 'small_' : '' ?>character">
+							<article class="<?= $role === 'supporting' ? 'small-' : '' ?>character">
 								<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 								<div class="name">
 									<?= $helper->a($link, $char['name']); ?>

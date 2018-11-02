@@ -137,23 +137,23 @@ a:hover, a:active {
 	text-align: justify
 }
 
-.align_center {
+.align-center {
 	text-align: center !important
 }
 
-.align_left {
+.align-left {
 	text-align: left !important
 }
 
-.align_right {
+.align-right {
 	text-align: right !important
 }
 
-.valign_top {
+.valign-top {
 	vertical-align: top
 }
 
-.no_border {
+.no-border {
 	border: none
 }
 
@@ -201,7 +201,7 @@ td .media-wrap-flex {
 	background-color: var(--edit-link-hover-color);
 }
 
-.full_width {
+.full-width {
 	width: 100%;
 }
 
@@ -300,8 +300,8 @@ td .media-wrap-flex {
 	Table sorting and form styles
 ------------------------------------------------------------------------------*/
 .sorting,
-.sorting_asc,
-.sorting_desc {
+.sorting-asc,
+.sorting-desc {
 	vertical-align: text-bottom;
 }
 
@@ -309,11 +309,11 @@ td .media-wrap-flex {
 	content: " ↕\00a0";
 }
 
-.sorting_asc::before {
+.sorting-asc::before {
 	content: " ↑\00a0";
 }
 
-.sorting_desc::before {
+.sorting-desc::before {
 	content: " ↓\00a0";
 }
 
@@ -421,7 +421,7 @@ td .media-wrap-flex {
 	Base list styles
 ------------------------------------------------------------------------------*/
 
-.media, .character, .small_character {
+.media, .character, .small-character {
 	position: relative;
 	vertical-align: top;
 	display: inline-block;
@@ -441,17 +441,17 @@ picture.cover {
 
 .media > img,
 .character > img,
-.small_character > img {
+.small-character > img {
 	width: 100%;
 }
 
-.media .edit_buttons > button {
+.media .edit-buttons > button {
 	margin: 0.5em auto;
 }
 
 .name,
-.media_metadata > div,
-.medium_metadata > div,
+.media-metadata > div,
+.medium-metadata > div,
 .row {
 	text-shadow: var(--shadow);
 	color: var(--text-color);
@@ -460,17 +460,17 @@ picture.cover {
 	z-index: 2;
 }
 
-.media_type, .age_rating {
+.media-type, .age-rating {
 	text-align: left;
 }
 
-.media > .media_metadata {
+.media > .media-metadata {
 	position: absolute;
 	bottom: 0;
 	right: 0;
 }
 
-.media > .medium_metadata {
+.media > .medium-metadata {
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -522,7 +522,7 @@ picture.cover {
 }
 
 .media:hover > button[hidden],
-.media:hover > .edit_buttons[hidden] {
+.media:hover > .edit-buttons[hidden] {
 
 	transition: .25s ease;
 	display: block;
@@ -532,8 +532,8 @@ picture.cover {
 	transition: .25s ease;
 }
 
-.small_character > .name a,
-.small_character > .name a small,
+.small-character > .name a,
+.small-character > .name a small,
 .character > .name a,
 .character > .name a small,
 .media > .name a,
@@ -554,11 +554,11 @@ picture.cover {
 	padding: 0.5em 0.25em;
 }
 
-.anime .media_type,
-.anime .airing_status,
-.anime .user_rating,
+.anime .media-type,
+.anime .airing-status,
+.anime .user-rating,
 .anime .completion,
-.anime .age_rating,
+.anime .age-rating,
 .anime .edit,
 .anime .delete {
 	background: none;
@@ -597,7 +597,7 @@ picture.cover {
 	z-index: 2;
 }
 
-.anime .media > button.plus_one {
+.anime .media > button.plus-one {
 	border-color: hsla(0, 0%, 100%, .65);
 	position: absolute;
 	top: 138px;
@@ -607,12 +607,12 @@ picture.cover {
 	z-index: 50;
 }
 
-.anime .media > button.plus_one:hover {
+.anime .media > button.plus-one:hover {
 	color: hsla(0, 0%, 100%, .65);
 	background: #888;
 }
 
-.anime .media > button.plus_one:active {
+.anime .media > button.plus-one:active {
 	background: #444;
 }
 
@@ -629,7 +629,7 @@ picture.cover {
 	margin: 0.25em;
 }
 
-.manga .media > .edit_buttons {
+.manga .media > .edit-buttons {
 	position: absolute;
 	top: 86px;
 	/* top: calc(50% - 58.5px); */
@@ -639,16 +639,16 @@ picture.cover {
 	z-index: 40;
 }
 
-.manga .media > .edit_buttons button {
+.manga .media > .edit-buttons button {
 	border-color: hsla(0, 0%, 100%, .65);
 }
 
-.manga .media > .edit_buttons:hover button {
+.manga .media > .edit-buttons:hover button {
 	color: hsla(0, 0%, 100%, .65);
 	background: #888;
 }
 
-.manga .media > .edit_buttons button:active {
+.manga .media > .edit-buttons button:active {
 	background: #444;
 }
 
@@ -690,11 +690,11 @@ picture.cover {
 	z-index: 5;
 }
 
-#series_list article.media {
+#series-list article.media {
 	position: relative;
 }
 
-#series_list .name, #series_list .name label {
+#series-list .name, #series-list .name label {
 	position: absolute;
 	display: block;
 	top: 0;
@@ -705,7 +705,7 @@ picture.cover {
 	line-height: 1.25em;
 }
 
-#series_list .name small {
+#series-list .name small {
 	color: #fff;
 }
 
@@ -740,7 +740,7 @@ picture.cover {
 	margin: 1rem;
 }
 
-.details .media_details td {
+.details .media-details td {
 	padding: 0 1.5rem;
 }
 
@@ -748,13 +748,13 @@ picture.cover {
 	text-align: justify;
 }
 
-.details .media_details td:nth-child(odd) {
+.details .media-details td:nth-child(odd) {
 	width: 1%;
 	white-space: nowrap;
 	text-align: right;
 }
 
-.details .media_details td:nth-child(even) {
+.details .media-details td:nth-child(even) {
 	text-align: left;
 }
 
@@ -764,7 +764,7 @@ picture.cover {
 }
 
 .character,
-.small_character,
+.small-character,
 .person {
 	/* background: rgba(0,0,0,0.5); */
 	width: 225px;
@@ -779,7 +779,7 @@ picture.cover {
 	height: 338px;
 }
 
-.small_person {
+.small-person {
 	width: 200px;
 	height: 300px;
 }
@@ -789,17 +789,17 @@ picture.cover {
 }
 
 .character:hover .name,
-.small_character:hover .name {
+.small-character:hover .name {
 	background: rgba(0, 0, 0, 0.8);
 }
 
-.small_character a {
+.small-character a {
 	display: inline-block;
 	width: 100%;
 	height: 100%;
 }
 
-.small_character .name,
+.small-character .name,
 .character .name {
 	position: absolute;
 	bottom: 0;
@@ -807,9 +807,9 @@ picture.cover {
 	z-index: 10;
 }
 
-.small_character img,
+.small-character img,
 .character img,
-.small_character picture,
+.small-character picture,
 .character picture,
 .person img,
 .person picture {
@@ -827,8 +827,8 @@ picture.cover {
 	max-height: 338px;
 }
 
-.small_person img,
-.small_person picture {
+.small-person img,
+.small-person picture {
 	max-height: 300px;
 	max-width: 200px;
 }
@@ -855,13 +855,13 @@ aside.info picture, aside.info img {
 /* ----------------------------------------------------------------------------
 	User page styles
 -----------------------------------------------------------------------------*/
-.small_character {
+.small-character {
 	width: 160px;
 	height: 250px;
 }
 
-.small_character img,
-.small_character picture {
+.small-character img,
+.small-character picture {
 	max-height: 250px;
 	max-width: 160px;
 }
@@ -905,15 +905,15 @@ aside.info picture, aside.info img {
 	vertical-align: middle;
 }
 
-.cover_streaming_link {
+.cover-streaming-link {
 	display:none;
 }
 
-.media:hover .cover_streaming_link {
+.media:hover .cover-streaming-link {
 	display: block;
 }
 
-.cover_streaming_link .streaming-logo {
+.cover-streaming-link .streaming-logo {
 	width: 20px;
 	height: 20px;
 	-webkit-filter: drop-shadow(0 -1px 4px #fff);
@@ -1013,7 +1013,7 @@ CSS Tabs
 	background: #fff;
 	width: 100%;
 	margin: 0 auto;
-	
+
 	overflow: auto;
 	/* text-align: center; */
 }

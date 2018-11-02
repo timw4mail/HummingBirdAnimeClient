@@ -13,7 +13,7 @@ const search = (query) => {
 		_.$('.cssload-loader')[ 0 ].setAttribute('hidden', 'hidden');
 
 		// Show the results
-		_.$('#series_list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
+		_.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
 	});
 };
 
@@ -29,7 +29,7 @@ if (_.hasElement('.anime #search')) {
 }
 
 // Action to increment episode count
-_.on('body.anime.list', 'click', '.plus_one', (e) => {
+_.on('body.anime.list', 'click', '.plus-one', (e) => {
 	let parentSel = _.closestParent(e.target, 'article');
 	let watchedCount = parseInt(_.$('.completed_number', parentSel)[ 0 ].textContent, 10) || 0;
 	let totalCount = parseInt(_.$('.total_number', parentSel)[ 0 ].textContent, 10);

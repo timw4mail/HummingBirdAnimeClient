@@ -6,7 +6,7 @@ const search = (query) => {
 	_.get(_.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		_.$('.cssload-loader')[ 0 ].setAttribute('hidden', 'hidden');
-		_.$('#series_list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
+		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
 	});
 };
 
@@ -24,10 +24,10 @@ if (_.hasElement('.manga #search')) {
 /**
  * Javascript for editing manga, if logged in
  */
-_.on('.manga.list', 'click', '.edit_buttons button', (e) => {
+_.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	let thisSel = e.target;
 	let parentSel = _.closestParent(e.target, 'article');
-	let type = thisSel.classList.contains('plus_one_chapter') ? 'chapter' : 'volume';
+	let type = thisSel.classList.contains('plus-one-chapter') ? 'chapter' : 'volume';
 	let completed = parseInt(_.$(`.${type}s_read`, parentSel)[ 0 ].textContent, 10) || 0;
 	let total = parseInt(_.$(`.${type}_count`, parentSel)[ 0 ].textContent, 10);
 	let mangaName = _.$('.name', parentSel)[ 0 ].textContent;

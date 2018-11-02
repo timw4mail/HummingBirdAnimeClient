@@ -1,7 +1,7 @@
-import closure from 'rollup-plugin-closure-compiler-js';
+import compiler from '@ampproject/rollup-plugin-closure-compiler';
 
 const plugins = [
-	closure({
+	compiler({
 		assumeFunctionWrapper: true,
 		compilationLevel: 'WHITESPACE_ONLY', //'ADVANCED',
 		createSourceMap: true,

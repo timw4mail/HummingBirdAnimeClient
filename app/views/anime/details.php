@@ -6,9 +6,9 @@
 
 			<br />
 
-			<table class="media_details">
+			<table class="media-details">
 				<tr>
-					<td class="align_right">Airing Status</td>
+					<td class="align-right">Airing Status</td>
 					<td><?= $show_data['status'] ?></td>
 				</tr>
 				<tr>
@@ -50,10 +50,10 @@
 			<?php if (count($show_data['streaming_links']) > 0): ?>
 				<hr />
 				<h4>Streaming on:</h4>
-				<table class="full_width invisible">
+				<table class="full-width invisible">
 					<thead>
 					<tr>
-						<th class="align_left">Service</th>
+						<th class="align-left">Service</th>
 						<th>Subtitles</th>
 						<th>Dubs</th>
 					</tr>
@@ -61,7 +61,7 @@
 					<tbody>
 					<?php foreach ($show_data['streaming_links'] as $link): ?>
 						<tr>
-							<td class="align_left">
+							<td class="align-left">
 								<?php if ($link['meta']['link'] !== FALSE): ?>
 									<a
 										href="<?= $link['link'] ?>"
@@ -115,7 +115,7 @@
 				<section class="content media-wrap flex flex-wrap flex-justify-start">
 					<?php foreach ($list as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
-							<article class="<?= $role === 'supporting' ? 'small_' : '' ?>character">
+							<article class="<?= $role === 'supporting' ? 'small-' : '' ?>character">
 								<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 								<div class="name">
 									<?= $helper->a($link, $char['name']); ?>
@@ -146,7 +146,7 @@
 					<label for="staff-role<?= $i ?>"><?= $role ?></label>
 					<section class='content media-wrap flex flex-wrap flex-justify-start'>
 						<?php foreach ($people as $pid => $person): ?>
-							<article class='character small_person'>
+							<article class='character small-person'>
 								<?php $link = $url->generate('person', ['id' => $person['id']]) ?>
 								<div class="name">
 									<a href="<?= $link ?>">

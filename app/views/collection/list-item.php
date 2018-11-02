@@ -5,7 +5,7 @@
 			   href="<?= $url->generate($collection_type . '.collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
 		</td>
 	<?php endif ?>
-	<td class="align_left">
+	<td class="align-left">
 		<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 			<?= $item['title'] ?>
 		</a>
@@ -15,6 +15,6 @@
 	<td><?= $item['episode_length'] ?></td>
 	<td><?= $item['show_type'] ?></td>
 	<td><?= $item['age_rating'] ?></td>
-	<td class="align_left"><?= implode(', ', $item['genres']) ?></td>
-	<td class="align_left"><?= $item['notes'] ?></td>
+	<td class="align-left"><?= implode(', ', $item['genres']) ?></td>
+	<td class="align-left"><?= $item['notes'] ?></td>
 </tr>

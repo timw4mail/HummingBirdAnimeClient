@@ -4,7 +4,7 @@
  	data-mal-id="<?= $item['mal_id'] ?>"
 >
 	<?php if ($auth->isAuthenticated()): ?>
-		<button title="Increment episode count" class="plus_one" hidden>+1 Episode</button>
+		<button title="Increment episode count" class="plus-one" hidden>+1 Episode</button>
 	<?php endif ?>
 	<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
 
@@ -37,7 +37,7 @@
 		<?php if (count($item['anime']['streaming_links']) > 0): ?>
 			<div class="row">
 				<?php foreach ($item['anime']['streaming_links'] as $link): ?>
-					<div class="cover_streaming_link">
+					<div class="cover-streaming-link">
 						<?php if ($link['meta']['link']): ?>
 							<a href="<?= $link['link'] ?>"
 							   title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
@@ -70,7 +70,7 @@
 		<?php endif ?>
 
 		<div class="row">
-			<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
+			<div class="user-rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 			<div class="completion">Episodes:
 				<span class="completed_number"><?= $item['episodes']['watched'] ?></span> /
 				<span class="total_number"><?= $item['episodes']['total'] ?></span>
@@ -78,8 +78,8 @@
 		</div>
 		<div class="row">
 			<div class="media_type"><?= $escape->html($item['anime']['show_type']) ?></div>
-			<div class="airing_status"><?= $escape->html($item['airing']['status']) ?></div>
-			<div class="age_rating"><?= $escape->html($item['anime']['age_rating']) ?></div>
+			<div class="airing-status"><?= $escape->html($item['airing']['status']) ?></div>
+			<div class="age-rating"><?= $escape->html($item['anime']['age_rating']) ?></div>
 		</div>
 	</div>
 </article>

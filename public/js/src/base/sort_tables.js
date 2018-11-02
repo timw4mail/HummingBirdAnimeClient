@@ -20,12 +20,12 @@ const LightTableSorter = (() => {
 		return 0;
 	};
 	const toggle = () => {
-		const c = order !== 'sorting_asc' ? 'sorting_asc' : 'sorting_desc';
+		const c = order !== 'sorting-asc' ? 'sorting-asc' : 'sorting-desc';
 		th.className = (th.className.replace(order, '') + ' ' + c).trim();
 		return order = c;
 	};
 	const reset = () => {
-		th.classList.remove('sorting_asc', 'sorting_desc');
+		th.classList.remove('sorting-asc', 'sorting-desc');
 		th.classList.add('sorting');
 		return order = '';
 	};
@@ -40,7 +40,7 @@ const LightTableSorter = (() => {
 			let rows = Array.from(tbody.rows);
 			if (rows) {
 				rows.sort(sort);
-				if (order === 'sorting_asc') {
+				if (order === 'sorting-asc') {
 					rows.reverse();
 				}
 				toggle();

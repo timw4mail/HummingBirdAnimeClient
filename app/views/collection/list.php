@@ -12,7 +12,7 @@
 																  name="collection-tabs"/>
 				<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
 				<div class="content full-height">
-					<table class="full_width">
+					<table class="full-width">
 						<thead>
 						<tr>
 							<?php if ($auth->isAuthenticated()): ?>

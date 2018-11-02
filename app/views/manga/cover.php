@@ -18,9 +18,9 @@
 				<?php foreach($items as $item): ?>
 				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
 					<?php if ($auth->isAuthenticated()): ?>
-					<div class="edit_buttons" hidden>
-						<button class="plus_one_chapter">+1 Chapter</button>
-						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
+					<div class="edit-buttons" hidden>
+						<button class="plus-one-chapter">+1 Chapter</button>
+						<?php /* <button class="plus-one-volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
 					<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
@@ -50,7 +50,7 @@
 						<?php endif ?>
 						<div class="row">
 							<div><?= $item['manga']['type'] ?></div>
-							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
+							<div class="user-rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
 
 						<?php if ($item['rereading']): ?>

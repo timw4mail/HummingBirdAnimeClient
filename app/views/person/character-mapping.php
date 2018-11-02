@@ -25,7 +25,7 @@ use Aviat\AnimeClient\API\Kitsu;
 								<?php $imgPath = ($character['character']['image'] === NULL)
 									? 'images/characters/empty.png'
 									: getLocalImg($character['character']['image']['original']);
-									
+
 									echo $helper->picture($imgPath);
 								?>
 								<div class="name">
@@ -35,7 +35,7 @@ use Aviat\AnimeClient\API\Kitsu;
 						</article>
 					</td>
 					<td>
-						<section class="align_left media-wrap">
+						<section class="align-left media-wrap">
 							<?php foreach ($character['media'] as $sid => $series): ?>
 								<article class="media">
 									<?php
