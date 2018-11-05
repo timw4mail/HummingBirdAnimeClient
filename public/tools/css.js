@@ -7,7 +7,7 @@ const atImport = require('postcss-import');
 const cssNext = require('postcss-cssnext');
 const cssNano = require('cssnano');
 
-const css = fs.readFileSync('css/base.css', 'utf-8');
+const css = fs.readFileSync('css/all.css', 'utf-8');
 
 postcss()
 	.use(atImport())
@@ -21,7 +21,7 @@ postcss()
 		}
 	}))
 	.process(css, {
-		from: 'css/base.css',
+		from: 'css/all.css',
 		to: 'css/app.min.css'
 	}).then(result => {
 		fs.writeFileSync('css/app.min.css', result.css);
