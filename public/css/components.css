@@ -1,0 +1,264 @@
+/* -----------------------------------------------------------------------------
+	CSS loading icon
+------------------------------------------------------------------------------*/
+.cssload-loader {
+	position: relative;
+	left: calc(50% - 31px);
+	width: 62px;
+	height: 62px;
+	border-radius: 50%;
+	perspective: 780px;
+}
+
+.cssload-inner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	border-radius: 50%;
+}
+
+.cssload-inner.cssload-one {
+	left: 0%;
+	top: 0%;
+	animation: cssload-rotate-one 1.15s linear infinite;
+	border-bottom: 3px solid rgb(0, 0, 0);
+}
+
+.cssload-inner.cssload-two {
+	right: 0%;
+	top: 0%;
+	animation: cssload-rotate-two 1.15s linear infinite;
+	border-right: 3px solid rgb(0, 0, 0);
+}
+
+.cssload-inner.cssload-three {
+	right: 0%;
+	bottom: 0%;
+	animation: cssload-rotate-three 1.15s linear infinite;
+	border-top: 3px solid rgb(0, 0, 0);
+}
+
+@keyframes cssload-rotate-one {
+	0% {
+		transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+	}
+	100% {
+		transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+	}
+}
+
+@keyframes cssload-rotate-two {
+	0% {
+		transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+	}
+	100% {
+		transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+	}
+}
+
+@keyframes cssload-rotate-three {
+	0% {
+		transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+	}
+	100% {
+		transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+	}
+}
+
+/* ----------------------------------------------------------------------------
+	Loading overlay
+-----------------------------------------------------------------------------*/
+#loading-shadow {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 500;
+}
+
+#loading-shadow .loading-wrapper {
+	position: fixed;
+	z-index: 501;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#loading-shadow .loading-content {
+	position: relative;
+	color: #fff
+}
+
+.loading-content .cssload-inner.cssload-one,
+.loading-content .cssload-inner.cssload-two,
+.loading-content .cssload-inner.cssload-three {
+	border-color: #fff
+}
+
+/* ----------------------------------------------------------------------------
+CSS Tabs
+-----------------------------------------------------------------------------*/
+.tabs {
+	display: inline-block;
+	display: flex;
+	flex-wrap: wrap;
+	background: #efefef;
+	box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+	margin-top: 1.5em;
+}
+
+.tabs > label {
+	border: 1px solid #e5e5e5;
+	width: 100%;
+	padding: 20px 30px;
+	background: #e5e5e5;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 18px;
+	color: #7f7f7f;
+	transition: background 0.1s, color 0.1s;
+	/* margin-left: 4em; */
+}
+
+.tabs > label:hover {
+	background: #d8d8d8;
+}
+
+.tabs > label:active {
+	background: #ccc;
+}
+
+.tabs > [type=radio]:focus + label {
+	box-shadow: inset 0px 0px 0px 3px #2aa1c0;
+	z-index: 1;
+}
+
+.tabs > [type=radio] {
+	position: absolute;
+	opacity: 0;
+}
+
+.tabs > [type=radio]:checked + label {
+	border-bottom: 1px solid #fff;
+	background: #fff;
+	color: #000;
+}
+
+.tabs > [type=radio]:checked + label + .content {
+	border: 1px solid #e5e5e5;
+	border-top: 0;
+	display: block;
+	padding: 15px;
+	background: #fff;
+	width: 100%;
+	margin: 0 auto;
+	overflow: auto;
+	/* text-align: center; */
+}
+
+.tabs .content {
+	display: none;
+	max-height: 950px;
+	border: 1px solid #e5e5e5;
+	border-top: 0;
+	padding: 15px;
+	background: #fff;
+	width: 100%;
+	margin: 0 auto;
+	overflow: auto;
+}
+
+.tabs .content.full-height {
+	max-height: none;
+}
+
+@media (min-width: 800px) {
+	.tabs > label {
+		width: auto;
+	}
+
+	.tabs .content {
+		order: 99;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ Vertical Tabs
+ ----------------------------------------------------------------------------*/
+
+.vertical-tabs {
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+	margin: 0 auto;
+	position: relative;
+	width: 100%;
+}
+
+.vertical-tabs input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+}
+
+.vertical-tabs .tab {
+	align-items: center;
+	display: inline-block;
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.vertical-tabs .tab label {
+	align-items: center;
+	background: #e5e5e5;
+	border: 1px solid #e5e5e5;
+	color: #7f7f7f;
+	cursor: pointer;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 0 20px;
+	width: 28%;
+}
+
+.vertical-tabs .tab label:hover {
+	background: #d8d8d8;
+}
+
+.vertical-tabs .tab label:active {
+	background: #ccc;
+}
+
+.vertical-tabs .tab .content {
+	display: none;
+	border: 1px solid #e5e5e5;
+	border-left: 0;
+	border-right: 0;
+	max-height: 950px;
+	overflow: auto;
+}
+
+.vertical-tabs .tab .content.full-height {
+	max-height: none;
+}
+
+.vertical-tabs [type=radio]:checked + label {
+	border: 0;
+	background: #fff;
+	color: #000;
+	width: 38%;
+}
+
+.vertical-tabs [type=radio]:focus + label {
+	box-shadow: inset 0px 0px 0px 3px #2aa1c0;
+	z-index: 1;
+}
+
+.vertical-tabs [type=radio]:checked ~ .content {
+	display: block;
+}
+

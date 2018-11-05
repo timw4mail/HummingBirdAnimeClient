@@ -17,7 +17,7 @@
 					<tr>
 						<td rowspan="9">
 							<article class="media">
-								<?= $helper->img($urlGenerator->assetUrl('images/anime', "{$item['anime']['id']}.jpg")) ?>
+								<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
 							</article>
 						</td>
 					</tr>
@@ -79,7 +79,9 @@
 						<td>&nbsp;</td>
 						<td>
 							<input type="hidden" value="<?= $item['id'] ?>" name="id" />
-							<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id" />
+							<?php if ( ! empty($item['mal_id'])): ?>
+							<input type="hidden" value="<?= $item['mal_id'] ?? '' ?>" name="mal_id" />
+							<?php endif ?>
 							<input type="hidden" value="true" name="edit" />
 							<button type="submit">Submit</button>
 						</td>
@@ -87,11 +89,9 @@
 				</tbody>
 			</table>
 		</form>
-		<br />
-		<br />
-		<fieldset>
-			<legend>Danger Zone</legend>
-			<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
+		<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
+			<fieldset>
+				<legend>Danger Zone</legend>
 				<table class="form invisible">
 					<tbody>
 						<tr>
@@ -100,14 +100,15 @@
 							</td>
 							<td>
 								<input type="hidden" value="<?= $item['id'] ?>" name="id" />
-								<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id" />
+								<?php if (!empty($item['mal_id'])): ?>
+									<input type="hidden" value="<?= $item['mal_id'] ?? '' ?>" name="mal_id" />
+								<?php endif ?>
 								<button type="submit" class="danger">Delete Entry</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</form>
-		</fieldset>
+			</fieldset>
+		</form>
 	</main>
-	<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
 <?php endif ?>

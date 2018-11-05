@@ -1,0 +1,14 @@
+query ($id: Int) {
+	MediaList (id: $id) {
+		id
+		userId
+		mediaId
+		status
+		score(format: POINT_10)
+		progress
+		progressVolumes
+		repeat
+		private
+		notes
+	}
+}

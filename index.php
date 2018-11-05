@@ -2,21 +2,25 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\Types\Config as ConfigType;
+
 use function Aviat\Ion\_dir;
+
+setlocale(LC_CTYPE, 'en_US');
 
 // Work around the silly timezone error
 $timezone = ini_get('date.timezone');
@@ -43,16 +47,23 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-$base_config = require $APPCONF_DIR . '/base_config.php';
+$baseConfig = require $APPCONF_DIR . '/base_config.php';
 $di = require $APP_DIR . '/bootstrap.php';
 
 $config = loadToml($CONF_DIR);
-$config_array = array_merge($base_config, $config);
 
-$container = $di($config_array);
+$overrideFile = $CONF_DIR . '/admin-override.toml';
+$overrideConfig = file_exists($overrideFile)
+	? loadTomlFile($overrideFile)
+	: [];
+
+$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
+
+$checkedConfig = (new ConfigType($configArray))->toArray();
+$container = $di($checkedConfig);
 
 // Unset 'constants'
-unset($APP_DIR, $APPCONF_DIR);
+unset($APP_DIR, $CONF_DIR, $APPCONF_DIR);
 
 // -----------------------------------------------------------------------------
 // Dispatch to the current route

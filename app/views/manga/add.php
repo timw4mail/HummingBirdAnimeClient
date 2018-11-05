@@ -9,7 +9,7 @@
 				<div class="cssload-inner cssload-three"></div>
 			</div>
 			<label for="search">Search for manga by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" /></label>
-			<section id="series_list" class="media-wrap">
+			<section id="series-list" class="media-wrap">
 			</section>
 		</section>
 		<br />
@@ -36,5 +36,4 @@
 		</table>
 	</form>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/manga_collection') ?>"></script>
 <?php endif ?>

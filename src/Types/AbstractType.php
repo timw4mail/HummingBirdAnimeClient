@@ -2,31 +2,30 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
-use LogicException;
 
 abstract class AbstractType implements ArrayAccess {
 	/**
-	 * Populate values for unserializing data
+	 * Populate values for un-serializing data
 	 *
 	 * @param $properties
 	 * @return mixed
 	 */
-	public static function __set_state($properties)
+	public static function __set_state($properties): self
 	{
 		return new static($properties);
 	}
@@ -83,11 +82,11 @@ abstract class AbstractType implements ArrayAccess {
 			return;
 		}
 
-		if (!property_exists($this, $name))
+		if ( ! property_exists($this, $name))
 		{
 			$existing = json_encode($this);
 
-			throw new LogicException("Trying to set non-existent property: '$name'. Existing properties: $existing");
+			throw new UndefinedPropertyException("Trying to set undefined property: '$name'. Existing properties: $existing");
 		}
 
 		$this->$name = $value;
@@ -106,7 +105,7 @@ abstract class AbstractType implements ArrayAccess {
 			return $this->$name;
 		}
 
-		throw new LogicException("Trying to get non-existent property: '$name'");
+		throw new UndefinedPropertyException("Trying to get undefined property: '$name'");
 	}
 
 	/**
@@ -153,5 +152,32 @@ abstract class AbstractType implements ArrayAccess {
 		{
 			unset($this->$offset);
 		}
+	}
+
+	/**
+	 * Recursively cast properties to an array
+	 *
+	 * @param null $parent
+	 * @return mixed
+	 */
+	public function toArray($parent = null)
+	{
+		$object = $parent ?? $this;
+
+		if (is_scalar($object) || empty($object))
+		{
+			return $object;
+		}
+
+		$output = [];
+
+		foreach ($object as $key => $value)
+		{
+			$output[$key] = (is_scalar($value) || empty($value))
+				? $value
+				: $this->toArray((array) $value);
+		}
+
+		return $output;
 	}
 }

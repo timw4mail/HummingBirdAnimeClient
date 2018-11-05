@@ -8,6 +8,214 @@
   array (
   ),
    'id' => 32344,
+   'included' => 
+  array (
+    'categories' => 
+    array (
+      23 => 
+      array (
+        'name' => 'Super Power',
+        'slug' => 'super-power',
+        'description' => NULL,
+      ),
+      11 => 
+      array (
+        'name' => 'Fantasy',
+        'slug' => 'fantasy',
+        'description' => '',
+      ),
+      4 => 
+      array (
+        'name' => 'Drama',
+        'slug' => 'drama',
+        'description' => '',
+      ),
+      1 => 
+      array (
+        'name' => 'Action',
+        'slug' => 'action',
+        'description' => '',
+      ),
+    ),
+    'mappings' => 
+    array (
+      5686 => 
+      array (
+        'externalSite' => 'myanimelist/anime',
+        'externalId' => '16498',
+        'relationships' => 
+        array (
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/mappings/5686/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/mappings/5686/media',
+            ),
+          ),
+        ),
+      ),
+      14153 => 
+      array (
+        'externalSite' => 'thetvdb/series',
+        'externalId' => '267440',
+        'relationships' => 
+        array (
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/mappings/14153/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/mappings/14153/media',
+            ),
+          ),
+        ),
+      ),
+      15073 => 
+      array (
+        'externalSite' => 'thetvdb/season',
+        'externalId' => '514060',
+        'relationships' => 
+        array (
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/mappings/15073/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/mappings/15073/media',
+            ),
+          ),
+        ),
+      ),
+    ),
+    'streamingLinks' => 
+    array (
+      103 => 
+      array (
+        'url' => 'http://www.crunchyroll.com/attack-on-titan',
+        'subs' => 
+        array (
+          0 => 'en',
+        ),
+        'dubs' => 
+        array (
+          0 => 'ja',
+        ),
+        'relationships' => 
+        array (
+          'streamer' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/103/relationships/streamer',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/103/streamer',
+            ),
+          ),
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/103/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/103/media',
+            ),
+          ),
+        ),
+      ),
+      102 => 
+      array (
+        'url' => 'http://www.hulu.com/attack-on-titan',
+        'subs' => 
+        array (
+          0 => 'en',
+        ),
+        'dubs' => 
+        array (
+          0 => 'ja',
+        ),
+        'relationships' => 
+        array (
+          'streamer' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/102/relationships/streamer',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/102/streamer',
+            ),
+          ),
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/102/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/102/media',
+            ),
+          ),
+        ),
+      ),
+      101 => 
+      array (
+        'url' => 'http://www.funimation.com/shows/attack-on-titan/videos/episodes',
+        'subs' => 
+        array (
+          0 => 'en',
+        ),
+        'dubs' => 
+        array (
+          0 => 'ja',
+        ),
+        'relationships' => 
+        array (
+          'streamer' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/101/relationships/streamer',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/101/streamer',
+            ),
+          ),
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/101/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/101/media',
+            ),
+          ),
+        ),
+      ),
+      100 => 
+      array (
+        'url' => 't',
+        'subs' => 
+        array (
+          0 => 'en',
+        ),
+        'dubs' => 
+        array (
+          0 => 'ja',
+        ),
+        'relationships' => 
+        array (
+          'streamer' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/100/relationships/streamer',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/100/streamer',
+            ),
+          ),
+          'media' => 
+          array (
+            'links' => 
+            array (
+              'self' => 'https://kitsu.io/api/edge/streaming-links/100/relationships/media',
+              'related' => 'https://kitsu.io/api/edge/streaming-links/100/media',
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
    'show_type' => 'TV',
    'slug' => 'attack-on-titan',
    'status' => 'Finished Airing',
@@ -35,11 +243,11 @@
     array (
       'meta' => 
       array (
-        'name' => 'Hulu',
+        'name' => 'Funimation',
         'link' => true,
-        'image' => 'streaming-logos/hulu.svg',
+        'image' => 'streaming-logos/funimation.svg',
       ),
-      'link' => 'http://www.hulu.com/attack-on-titan',
+      'link' => 'http://www.funimation.com/shows/attack-on-titan/videos/episodes',
       'subs' => 
       array (
         0 => 'en',
@@ -53,11 +261,11 @@
     array (
       'meta' => 
       array (
-        'name' => 'Funimation',
+        'name' => 'Hulu',
         'link' => true,
-        'image' => 'streaming-logos/funimation.svg',
+        'image' => 'streaming-logos/hulu.svg',
       ),
-      'link' => 'http://www.funimation.com/shows/attack-on-titan/videos/episodes',
+      'link' => 'http://www.hulu.com/attack-on-titan',
       'subs' => 
       array (
         0 => 'en',
@@ -92,8 +300,9 @@
    'title' => 'Attack on Titan',
    'titles' => 
   array (
-    'en_jp' => 'Shingeki no Kyojin',
-    'ja_jp' => '進撃の巨人',
+    0 => 'Attack on Titan',
+    1 => 'Shingeki no Kyojin',
+    2 => '進撃の巨人',
   ),
    'trailer_id' => 'n4Nj6Y_SNYI',
    'url' => 'https://kitsu.io/anime/attack-on-titan',

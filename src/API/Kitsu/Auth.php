@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -67,20 +67,12 @@ final class Auth {
 	 * @param  string $password
 	 * @return boolean
 	 */
-	public function authenticate($password)
+	public function authenticate(string $password): bool
 	{
 		$config = $this->container->get('config');
-		$username = $config->get(['kitsu_username']);
+		$username = $config->get('kitsu_username');
 
-		// try
-		{
-			$auth = $this->model->authenticate($username, $password);
-		}
-		/* catch (Exception $e)
-		{
-			return FALSE;
-		}*/
-
+		$auth = $this->model->authenticate($username, $password);
 
 		if (FALSE !== $auth)
 		{
@@ -104,6 +96,7 @@ final class Auth {
 			$this->segment->set('auth_token', $auth['access_token']);
 			$this->segment->set('auth_token_expires', $expire_time);
 			$this->segment->set('refresh_token', $auth['refresh_token']);
+
 			return TRUE;
 		}
 
@@ -117,16 +110,9 @@ final class Auth {
 	 * @param string $token
 	 * @return boolean
 	 */
-	public function reAuthenticate(string $token)
+	public function reAuthenticate(string $token): bool
 	{
-		try
-		{
-			$auth = $this->model->reAuthenticate($token);
-		}
-		catch (Exception $e)
-		{
-			return FALSE;
-		}
+		$auth = $this->model->reAuthenticate($token);
 
 		if (FALSE !== $auth)
 		{
@@ -162,7 +148,7 @@ final class Auth {
 	 *
 	 * @return boolean
 	 */
-	public function isAuthenticated()
+	public function isAuthenticated(): bool
 	{
 		return ($this->get_auth_token() !== FALSE);
 	}
@@ -172,7 +158,7 @@ final class Auth {
 	 *
 	 * @return void
 	 */
-	public function logout()
+	public function logout(): void
 	{
 		$this->segment->clear();
 	}
@@ -184,16 +170,22 @@ final class Auth {
 	 */
 	public function get_auth_token()
 	{
+		$now = time();
+
 		$token = $this->segment->get('auth_token', FALSE);
-		$refresh_token = $this->segment->get('refresh_token', FALSE);
-		$isExpired = time() > $this->segment->get('auth_token_expires', 0);
+		$refreshToken = $this->segment->get('refresh_token', FALSE);
+		$isExpired = time() > $this->segment->get('auth_token_expires', $now + 5000);
 
 		// Attempt to re-authenticate with refresh token
-		if ($isExpired && $refresh_token)
+		/* if ($isExpired && $refreshToken)
 		{
-			$reauthenticated = $this->reAuthenticate($refresh_token);
-			return $this->segment->get('auth_token', FALSE);
-		}
+			if ($this->reAuthenticate($refreshToken))
+			{
+				return $this->segment->get('auth_token', FALSE);
+			}
+
+			return FALSE;
+		} */
 
 		return $token;
 	}

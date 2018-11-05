@@ -1,0 +1,27 @@
+mutation (
+	$id: Int,
+	$notes: String,
+	$private: Boolean,
+	$progress: Int,
+	$repeat: Int,
+	$status: MediaListStatus,
+	$score: Int,
+) {
+	SaveMediaListEntry (
+		mediaId: $id,
+		notes: $notes,
+		private: $private,
+		progress: $progress,
+		repeat: $repeat,
+		scoreRaw: $score,
+		status: $status
+	) {
+		mediaId
+		notes
+		private
+		progress
+		repeat
+		score(format: POINT_10)
+		status
+	}
+}

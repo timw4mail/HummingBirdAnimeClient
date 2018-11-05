@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -21,11 +21,11 @@ use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 
 class JsonAPITest extends TestCase {
-	
+
 	protected $startData;
 	protected $organizedIncludes;
 	protected $inlineIncluded;
-	
+
 	public function setUp()
 	{
 		$dir = __DIR__ . '/../test_data/JsonAPI';
@@ -33,20 +33,24 @@ class JsonAPITest extends TestCase {
 		$this->organizedIncludes = Json::decodeFile("{$dir}/organizedIncludes.json");
 		$this->inlineIncluded = Json::decodeFile("{$dir}/inlineIncluded.json");
 	}
-	
+
 	public function testOrganizeIncludes()
 	{
 		$expected = $this->organizedIncludes;
 		$actual = JsonAPI::organizeIncludes($this->startData['included']);
 
+		// file_put_contents(__DIR__ . '/../test_data/JsonAPI/organizedIncludes.json', json_Encode($actual));
+
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function testInlineIncludedRelationships()
 	{
 		$expected = $this->inlineIncluded;
 		$actual = JsonAPI::inlineIncludedRelationships($this->organizedIncludes, 'anime');
-		
+
+		// file_put_contents(__DIR__ . '/../test_data/JsonAPI/inlineIncluded.json', json_Encode($actual));
+
 		$this->assertEquals($expected, $actual);
 	}
 }

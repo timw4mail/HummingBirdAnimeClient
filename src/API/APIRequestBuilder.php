@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -65,6 +65,18 @@ class APIRequestBuilder {
 	 * @var \Amp\Artax\Request
 	 */
 	protected $request;
+
+	/**
+	 * Do a basic minimal GET request
+	 *
+	 * @param string $uri
+	 * @return Request
+	 */
+	public static function simpleRequest(string $uri): Request
+	{
+		return (new Request($uri))
+			->withHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0 ');
+	}
 
 	/**
 	 * Set an authorization header

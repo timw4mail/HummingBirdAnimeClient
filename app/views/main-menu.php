@@ -5,6 +5,8 @@ namespace Aviat\AnimeClient;
 $whose = $config->get('whose_list') . "'s ";
 $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
+$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') !== FALSE;
+$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 
 ?>
 <div id="main-nav" class="flex flex-align-end flex-wrap">
@@ -41,35 +43,41 @@ $extraSegment = $lastSegment === 'list' ? '/list' : '';
 			[<?= $helper->a($urlGenerator->defaultUrl('anime') . $extraSegment, 'Anime List') ?>]
 			[<?= $helper->a($urlGenerator->defaultUrl('manga') . $extraSegment, 'Manga List') ?>]
 		<?php endif ?>
+		<?php if ($auth->isAuthenticated() && $config->get(['cache', 'driver']) !== 'null'): ?>
+			<span class="flex-no-wrap small-font">
+			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+		</span>
+		<?php endif ?>
 	</span>
 
 	<span class="flex-no-wrap small-font">[<?= $helper->a(
-		$url->generate('user_info'),
+		$url->generate('default_user_info'),
 		'About '. $config->get('whose_list')
 	) ?>]</span>
 
 	<?php if ($auth->isAuthenticated()): ?>
-		<span class="flex-no-wrap">&nbsp;</span>
 		<span class="flex-no-wrap small-font">
-			<button type="button" class="js-clear-cache user-btn">Clear API Cache</button>
+		<?= $helper->a(
+			$url->generate('settings'),
+			'Settings',
+			['class' => 'bracketed']
+		) ?>
 		</span>
-		<span class="flex-no-wrap">&nbsp;</span>
+		<span class="flex-no-wrap small-font">
+		<?= $helper->a(
+			$url->generate('logout'),
+			'Logout',
+			['class' => 'bracketed']
+		) ?>
+		</span>
+	<?php else: ?>
+		<span class="flex-no-wrap small-font">
+		[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
+		</span>
 	<?php endif ?>
-
-	<span class="flex-no-wrap small-font">
-		<?php if ($auth->isAuthenticated()): ?>
-			<?= $helper->a(
-				$url->generate('logout'),
-				'Logout',
-				['class' => 'bracketed']
-			) ?>
-		<?php else: ?>
-			[<?= $helper->a($url->generate('login'), "{$whose} Login") ?>]
-		<?php endif ?>
-	</span>
 </div>
 <nav>
-	<?php if ($container->get('util')->isViewPage()): ?>
+	<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 		<?= $helper->menu($menu_name) ?>
 		<br />
 		<ul>

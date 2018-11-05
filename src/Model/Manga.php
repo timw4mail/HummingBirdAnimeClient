@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,7 +22,7 @@ use Aviat\AnimeClient\API\{
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\Types\{
-	MangaFormItem,
+	FormItem,
 	MangaListItem,
 	MangaPage
 };
@@ -34,31 +34,36 @@ use Aviat\Ion\Json;
  */
 class Manga extends API {
 	/**
+	 * Is the Anilist API enabled?
+	 *
+	 * @var boolean
+	 */
+	protected $anilistEnabled;
+
+	/**
+	 * Model for making requests to the Anilist API
+	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 */
+	protected $anilistModel;
+
+	/**
 	 * Model for making requests to Kitsu API
 	 * @var \Aviat\AnimeClient\API\Kitsu\Model
 	 */
 	protected $kitsuModel;
 
 	/**
-	 * Model for making requests to MAL API
-	 * @var \Aviat\AnimeClient\API\MAL\Model
-	 */
-	protected $malModel;
-
-	/**
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
+		$this->anilistModel = $container->get('anilist-model');
 		$this->kitsuModel = $container->get('kitsu-model');
-		$this->malModel = $container->get('mal-model');
 
 		$config = $container->get('config');
-		$this->useMALAPI = $config->get(['use_mal_api']) === TRUE;
+		$this->anilistEnabled = (bool)$config->get(['anilist', 'enabled']);
 	}
 
 	/**
@@ -76,7 +81,7 @@ class Manga extends API {
 			{
 				$this->sortByName($section, 'manga');
 			}
-			
+
 			return $data;
 		}
 
@@ -129,20 +134,12 @@ class Manga extends API {
 	public function createLibraryItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$malData = $data;
-			$malId = $this->kitsuModel->getMalIdForManga($malData['id']);
-
-			if ($malId !== NULL)
-			{
-				$malData['id'] = $malId;
-				$requester->addRequest($this->malModel->createListItem($malData, 'manga'), 'mal');
-			}
-		}
-
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
+
+		if (array_key_exists('mal_id', $data) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->createListItem($data, 'MANGA'), 'anilist');
+		}
 
 		$results = $requester->makeRequests();
 
@@ -152,23 +149,52 @@ class Manga extends API {
 	/**
 	 * Update a list entry
 	 *
-	 * @param MangaFormItem $data
+	 * @param FormItem $data
 	 * @return array
 	 */
-	public function updateLibraryItem(MangaFormItem $data): array
+	public function updateLibraryItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI)
-		{
-			$requester->addRequest($this->malModel->updateListItem($data, 'manga'), 'mal');
-		}
-
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
+
+		$array = $data->toArray();
+
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->updateListItem($data, 'MANGA'), 'anilist');
+		}
 
 		$results = $requester->makeRequests();
 		$body = Json::decode($results['kitsu']);
 		$statusCode = array_key_exists('error', $body) ? 400: 200;
+
+		return [
+			'body' => Json::decode($results['kitsu']),
+			'statusCode' => $statusCode
+		];
+	}
+
+	/**
+	 * Increase the progress of a list entry
+	 *
+	 * @param FormItem $data
+	 * @return array
+	 */
+	public function incrementLibraryItem(FormItem $data): array
+	{
+		$requester = new ParallelAPIRequest();
+		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
+
+		$array = $data->toArray();
+
+		if (array_key_exists('mal_id', $array) && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->incrementListItem($data, 'MANGA'), 'anilist');
+		}
+
+		$results = $requester->makeRequests();
+		$body = Json::decode($results['kitsu']);
+		$statusCode = array_key_exists('error', $body) ? 400 : 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
@@ -186,13 +212,12 @@ class Manga extends API {
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{
 		$requester = new ParallelAPIRequest();
-
-		if ($this->useMALAPI && $malId !== NULL)
-		{
-			$requester->addRequest($this->malModel->deleteListItem($malId, 'manga'), 'MAL');
-		}
-
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
+
+		if ($malId !== null && $this->anilistEnabled)
+		{
+			$requester->addRequest($this->anilistModel->deleteListItem($malId, 'MANGA'), 'anilist');
+		}
 
 		$results = $requester->makeRequests();
 

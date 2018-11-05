@@ -2,20 +2,21 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests;
 
+use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
@@ -65,7 +66,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	public function testRouterSanity()
 	{
 		$this->doSetUp([], '/', 'localhost');
-		$this->assertTrue(is_object($this->router));
+		$this->assertInternalType('object', $this->router);
 	}
 
 	public function dataRoute()
@@ -98,7 +99,7 @@ class DispatcherTest extends AnimeClientTestCase {
 					]
 				],
 			],
-			'route_config' => [
+			'config' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
 				'default_list' => 'anime'
@@ -109,14 +110,14 @@ class DispatcherTest extends AnimeClientTestCase {
 			'anime_default_routing_manga' => [
 				'config' => $defaultConfig,
 				'controller' => 'manga',
-				'host' => "localhost",
-				'uri' => "/manga/plan_to_read",
+				'host' => 'localhost',
+				'uri' => '/manga/plan_to_read',
 			],
 			'manga_default_routing_anime' => [
 				'config' => $defaultConfig,
 				'controller' => 'anime',
-				'host' => "localhost",
-				'uri' => "/anime/watching",
+				'host' => 'localhost',
+				'uri' => '/anime/watching',
 			],
 			'anime_default_routing_anime' => [
 				'config' => $defaultConfig,
@@ -132,8 +133,8 @@ class DispatcherTest extends AnimeClientTestCase {
 			]
 		];
 
-		$data['manga_default_routing_anime']['config']['route_config']['default_list'] = 'manga';
-		$data['manga_default_routing_manga']['config']['route_config']['default_list'] = 'manga';
+		$data['manga_default_routing_anime']['config']['default_list'] = 'manga';
+		$data['manga_default_routing_manga']['config']['default_list'] = 'manga';
 
 		return $data;
 	}
@@ -148,29 +149,29 @@ class DispatcherTest extends AnimeClientTestCase {
 		$request = $this->container->get('request');
 
 		// Check route setup
-		$this->assertEquals($config['routes'], $this->config->get('routes'), "Incorrect route path");
-		$this->assertTrue(is_array($this->router->getOutputRoutes()));
+		$this->assertEquals($config['routes'], $this->config->get('routes'), 'Incorrect route path');
+		$this->assertInternalType('array', $this->router->getOutputRoutes());
 
 		// Check environment variables
 		$this->assertEquals($uri, $request->getServerParams()['REQUEST_URI']);
 		$this->assertEquals($host, $request->getServerParams()['HTTP_HOST']);
 
 		// Make sure the route is an anime type
-		//$this->assertTrue($matcher->count() > 0, "0 routes");
-		$this->assertEquals($controller, $this->router->getController(), "Incorrect Route type");
+		//$this->assertTrue($matcher->count() > 0, '0 routes');
+		$this->assertEquals($controller, $this->router->getController(), 'Incorrect Route type');
 
 		// Make sure the route matches, by checking that it is actually an object
 		$route = $this->router->getRoute();
-		$this->assertInstanceOf('Aura\\Router\\Route', $route, "Route is invalid, not matched");
+		$this->assertInstanceOf(\Aura\Router\Route::class, $route, 'Route is invalid, not matched');
 	}
 
 	public function testDefaultRoute()
 	{
 		$config = [
-			'route_config' => [
+			'config' => [
 				'anime_path' => 'anime',
 				'manga_path' => 'manga',
-				'default_anime_list_path' => "watching",
+				'default_anime_list_path' => 'watching',
 				'default_manga_list_path' => 'all',
 				'default_list' => 'manga'
 			],
@@ -192,60 +193,52 @@ class DispatcherTest extends AnimeClientTestCase {
 			]
 		];
 
-		$this->doSetUp($config, "/", "localhost");
-		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->defaultUrl('manga'), "Incorrect default url");
-		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->defaultUrl('anime'), "Incorrect default url");
-
 		$this->expectException(\InvalidArgumentException::class);
+
+		$this->doSetUp($config, '/', 'localhost');
+		$this->assertEquals('//localhost/manga/all', $this->urlGenerator->defaultUrl('manga'), 'Incorrect default url');
+		$this->assertEquals('//localhost/anime/watching', $this->urlGenerator->defaultUrl('anime'), 'Incorrect default url');
+
 		$this->urlGenerator->defaultUrl('foo');
 	}
 
 	public function dataGetControllerList()
 	{
+		$expectedList = [
+			'anime' => Controller\Anime::class,
+			'anime-collection' => Controller\AnimeCollection::class,
+			'character' => Controller\Character::class,
+			'misc' => Controller\Misc::class,
+			'manga' => Controller\Manga::class,
+			'manga-collection' => Controller\MangaCollection::class,
+			'people' => Controller\People::class,
+			'settings' => Controller\Settings::class,
+			'user' => Controller\User::class,
+			'images' => Controller\Images::class,
+		];
+
 		return [
 			'controller_list_sanity_check' => [
 				'config' => [
-					'routes' => [
-
-					],
-					'route_config' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_list_path' => "watching",
-						'default_manga_list_path' => 'all',
-						'default_list' => 'manga'
-					],
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_anime_list_path' => 'watching',
+					'default_manga_list_path' => 'all',
+					'default_list' => 'manga',
+					'routes' => [],
 				],
-				'expected' => [
-					'anime' => 'Aviat\AnimeClient\Controller\Anime',
-					'manga' => 'Aviat\AnimeClient\Controller\Manga',
-					'anime-collection' => 'Aviat\AnimeClient\Controller\AnimeCollection',
-					'manga-collection' => 'Aviat\AnimeClient\Controller\MangaCollection',
-					'character' => 'Aviat\AnimeClient\Controller\Character',
-					'index' => 'Aviat\AnimeClient\Controller\Index',
-				]
+				'expected' => $expectedList,
 			],
 			'empty_controller_list' => [
 				'config' => [
-					'routes' => [
-
-					],
-					'route_config' => [
-						'anime_path' => 'anime',
-						'manga_path' => 'manga',
-						'default_anime_path' => "/anime/watching",
-						'default_manga_path' => '/manga/all',
-						'default_list' => 'manga'
-					],
+					'anime_path' => 'anime',
+					'manga_path' => 'manga',
+					'default_anime_path' => '/anime/watching',
+					'default_manga_path' => '/manga/all',
+					'default_list' => 'manga',
+					'routes' => [],
 				],
-				'expected' => [
-					'anime' => 'Aviat\AnimeClient\Controller\Anime',
-					'manga' => 'Aviat\AnimeClient\Controller\Manga',
-					'anime-collection' => 'Aviat\AnimeClient\Controller\AnimeCollection',
-					'manga-collection' => 'Aviat\AnimeClient\Controller\MangaCollection',
-					'character' => 'Aviat\AnimeClient\Controller\Character',
-					'index' => 'Aviat\AnimeClient\Controller\Index',
-				]
+				'expected' => $expectedList
 			]
 		];
 	}

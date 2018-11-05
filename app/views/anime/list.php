@@ -14,7 +14,7 @@
 			<thead>
 				<tr>
 					<?php if($auth->isAuthenticated()): ?>
-					<td class="no_border">&nbsp;</td>
+					<td class="no-border">&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
 					<th>Airing Status</th>
@@ -72,17 +72,27 @@
 						<?php foreach($item['anime']['streaming_links'] as $link): ?>
 							<?php if ($link['meta']['link'] !== FALSE): ?>
 								<a href="<?= $link['link'] ?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-									<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+									<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+										'class' => 'streaming-logo',
+										'width' => 50,
+										'height' => 50,
+										'alt' => "{$link['meta']['name']} logo",
+									]); ?>
 								</a>
 							<?php else: ?>
-								<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+								<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+									'class' => 'streaming-logo',
+									'width' => 50,
+									'height' => 50,
+									'alt' => "{$link['meta']['name']} logo",
+								]); ?>
 							<?php endif ?>
 						<?php endforeach ?>
 					</td>
 					<td>
 						<p><?= $escape->html($item['notes']) ?></p>
 					</td>
-					<td class="align_left">
+					<td class="align-left">
 						<?php sort($item['anime']->genres) ?>
 						<?= implode(', ', $item['anime']->genres) ?>
 					</td>
@@ -94,5 +104,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php $group = ($auth->isAuthenticated()) ? 'table_edit' : 'table' ?>
-<script defer="defer" src="<?= $urlGenerator->assetUrl("js.php/g/{$group}") ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>

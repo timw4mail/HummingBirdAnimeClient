@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,8 +20,8 @@ use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\{
-	MangaFormItem,
-	MangaFormItemData
+	FormItem,
+	FormItemData
 };
 use Aviat\Ion\Json;
 
@@ -86,16 +86,16 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 		];
 
 		$actual = $this->transformer->untransform($input);
-		$expected = new MangaFormItem([
+		$expected = new FormItem([
 			'id' => '15084773',
 			'mal_id' => '26769',
-			'data' => new MangaFormItemData([
+			'data' => new FormItemData([
 				'status' => 'current',
 				'progress' => 67,
 				'reconsuming' => false,
 				'reconsumeCount' => 0,
 				'notes' => '',
-				'rating' => 4.5
+				'ratingTwenty' => 18,
 			])
 		]);
 

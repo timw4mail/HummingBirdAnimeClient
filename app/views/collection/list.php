@@ -10,10 +10,9 @@
 			<?php foreach ($sections as $name => $items): ?>
 				<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="collection-tab-<?= $i ?>"
 																  name="collection-tabs"/>
-				<label for="collection-tab-<?= $i ?>"><?= $name ?></label>
-				<div class="content">
-					<h2><?= $name ?></h2>
-					<table>
+				<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
+				<div class="content full-height">
+					<table class="full-width">
 						<thead>
 						<tr>
 							<?php if ($auth->isAuthenticated()): ?>
@@ -24,6 +23,7 @@
 							<th>Episode Length</th>
 							<th>Show Type</th>
 							<th>Age Rating</th>
+							<th>Genres</th>
 							<th>Notes</th>
 						</tr>
 						</thead>
@@ -39,4 +39,4 @@
 		</div>
 	<?php endif ?>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/table') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>

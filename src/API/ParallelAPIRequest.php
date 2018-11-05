@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -63,9 +63,10 @@ final class ParallelAPIRequest {
 	}
 
 	/**
-	 * Actually make the requests
+	 * Make the requests, and return the body for each
 	 *
 	 * @return array
+	 * @throws \Throwable
 	 */
 	public function makeRequests(): array
 	{
@@ -77,6 +78,27 @@ final class ParallelAPIRequest {
 			$promises[$key] = call(function () use ($client, $url) {
 				$response = yield $client->request($url);
 				return yield $response->getBody();
+			});
+		}
+
+		return wait(all($promises));
+	}
+
+	/**
+	 * Make the requests and return the response objects
+	 *
+	 * @return array
+	 * @throws \Throwable
+	 */
+	public function getResponses(): array
+	{
+		$client = new HummingbirdClient();
+		$promises = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$promises[$key] = call(function () use ($client, $url) {
+				return yield $client->request($url);
 			});
 		}
 

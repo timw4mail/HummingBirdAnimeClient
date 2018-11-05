@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,7 +20,7 @@ use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
-use Aviat\AnimeClient\Types\AnimeFormItem;
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 use Aviat\Ion\StringWrapper;
@@ -127,9 +127,15 @@ final class Anime extends BaseController {
 	public function add(): void
 	{
 		$data = $this->request->getParsedBody();
+
+		if (empty($data['mal_id']))
+		{
+			unset($data['mal_id']);
+		}
+
 		if ( ! array_key_exists('id', $data))
 		{
-			$this->redirect("anime/add", 303);
+			$this->redirect('anime/add', 303);
 		}
 
 		$result = $this->model->createLibraryItem($data);
@@ -150,14 +156,10 @@ final class Anime extends BaseController {
 	/**
 	 * Form to edit details about a series
 	 *
-	 * @param int $id
+	 * @param string $id
 	 * @param string $status
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
-	 * @return void
 	 */
-	public function edit($id, $status = 'all'): void
+	public function edit(string $id, $status = 'all'): void
 	{
 		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
@@ -202,7 +204,7 @@ final class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(new AnimeFormItem($postData));
+		$fullResult = $this->model->updateLibraryItem(new FormItem($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -218,11 +220,11 @@ final class Anime extends BaseController {
 	}
 
 	/**
-	 * Update an anime item
+	 * Increase the watched count for an anime item
 	 *
 	 * @return void
 	 */
-	public function update(): void
+	public function increment(): void
 	{
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
@@ -233,7 +235,7 @@ final class Anime extends BaseController {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem(new AnimeFormItem($data));
+		$response = $this->model->incrementLibraryItem(new FormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -242,8 +244,6 @@ final class Anime extends BaseController {
 	/**
 	 * Remove an anime from the list
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
 	 */
 	public function delete(): void
@@ -275,10 +275,11 @@ final class Anime extends BaseController {
 	 */
 	public function details(string $animeId): void
 	{
-		$show_data = $this->model->getAnime($animeId);
+		$data = $this->model->getAnime($animeId);
 		$characters = [];
+		$staff = [];
 
-		if ($show_data->title === '')
+		if (empty($data))
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -290,22 +291,77 @@ final class Anime extends BaseController {
 			return;
 		}
 
-		if (array_key_exists('characters', $show_data['included']))
+		if (array_key_exists('animeCharacters', $data['included']))
 		{
-			foreach($show_data['included']['characters'] as $id => $character)
+			$animeCharacters = $data['included']['animeCharacters'];
+
+			foreach ($animeCharacters as $rel)
 			{
-				$characters[$id] = $character['attributes'];
+				$charId = $rel['relationships']['character']['data']['id'];
+				$role = $rel['role'];
+
+				if (array_key_exists($charId, $data['included']['characters']))
+				{
+					$characters[$role][$charId] = $data['included']['characters'][$charId];
+				}
 			}
 		}
+
+		if (array_key_exists('mediaStaff', $data['included']))
+		{
+			foreach ($data['included']['mediaStaff'] as $id => $staffing)
+			{
+				$personId = $staffing['relationships']['person']['data']['id'];
+				$personDetails = $data['included']['people'][$personId];
+
+				$role = $staffing['role'];
+
+				if ( ! array_key_exists($role, $staff))
+				{
+					$staff[$role] = [];
+				}
+
+				$staff[$role][$personId] = [
+					'id' => $personId,
+					'name' => $personDetails['name'] ?? '??',
+					'image' => $personDetails['image'],
+				];
+
+				usort($staff[$role], function ($a, $b) {
+					return $a['name'] <=> $b['name'];
+				});
+			}
+		}
+
+		if ( ! empty($characters['main']))
+		{
+			uasort($characters['main'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		if ( ! empty($characters['supporting']))
+		{
+			uasort($characters['supporting'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		ksort($characters);
+		ksort($staff);
+
+		// dump($characters);
+		// dump($staff);
 
 		$this->outputHTML('anime/details', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				$show_data->title
+				$data->title
 			),
 			'characters' => $characters,
-			'show_data' => $show_data,
+			'show_data' => $data,
+			'staff' => $staff,
 		]);
 	}
 

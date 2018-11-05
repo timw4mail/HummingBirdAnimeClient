@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -121,9 +121,25 @@ final class AnimeCollection extends Collection {
 			->join('media', 'media.id=a.media_id', 'inner')
 			->order_by('media')
 			->order_by('title')
+			->group_by('a.hummingbird_id')
 			->get();
 
-		return $query->fetchAll(PDO::FETCH_ASSOC);
+		// Add genres associated with each item
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$genres = $this->getGenresForList();
+
+		foreach($rows as &$row)
+		{
+			$id = $row['hummingbird_id'];
+
+			$row['genres'] = array_key_exists($id, $genres)
+				? $genres[$id]
+				: [];
+
+			sort($row['genres']);
+		}
+
+		return $rows;
 	}
 
 	/**
@@ -208,6 +224,24 @@ final class AnimeCollection extends Collection {
 			->get();
 
 		return $query->fetch(PDO::FETCH_ASSOC);
+	}
+
+	private function getGenresForList(): array
+	{
+		$query = $this->db->select('hummingbird_id, genre')
+			->from('genres g')
+			->join('genre_anime_set_link gasl', 'gasl.genre_id=g.id')
+			->get();
+
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$output = [];
+
+		foreach($rows as $row)
+		{
+			$output[$row['hummingbird_id']][] = $row['genre'];
+		}
+
+		return $output;
 	}
 
 	/**

@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -37,11 +37,8 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer
 };
 use Aviat\AnimeClient\Types\{
-	AbstractType,
 	Anime,
 	FormItem,
-	FormItemData,
-	AnimeListItem,
 	MangaPage
 };
 use Aviat\Ion\{Di\ContainerAware, Json};
@@ -124,16 +121,16 @@ final class Model {
 		]);
 		$data = Json::decode(wait($response->getBody()));
 
-		if (array_key_exists('access_token', $data))
-		{
-			return $data;
-		}
-
 		if (array_key_exists('error', $data))
 		{
 			dump($data['error']);
 			dump($response);
 			die();
+		}
+
+		if (array_key_exists('access_token', $data))
+		{
+			return $data;
 		}
 
 		return FALSE;
@@ -225,6 +222,41 @@ final class Model {
 	}
 
 	/**
+	 * Get information about a person
+	 *
+	 * @param string $id
+	 * @return array
+	 */
+	public function getPerson(string $id): array
+	{
+		$cacheItem = $this->cache->getItem("kitsu-person-{$id}");
+
+		if ( ! $cacheItem->isHit())
+		{
+			$data = $this->getRequest("people/{$id}", [
+				'query' => [
+					'filter' => [
+						'id' => $id,
+					],
+					'fields' => [
+						'characters' => 'canonicalName,slug,image',
+						'characterVoices' => 'mediaCharacter',
+						'anime' => 'canonicalTitle,titles,slug,posterImage',
+						'manga' => 'canonicalTitle,titles,slug,posterImage',
+						'mediaCharacters' => 'role,media,character',
+						'mediaStaff' => 'role,media,person',
+					],
+					'include' => 'voices.mediaCharacter.media,voices.mediaCharacter.character,staff.media',
+				],
+			]);
+			$cacheItem->set($data);
+			$cacheItem->save();
+		}
+
+		return $cacheItem->get();
+	}
+
+	/**
 	 * Get profile information for the configured user
 	 *
 	 * @param string $username
@@ -239,10 +271,11 @@ final class Model {
 					'name' => $username,
 				],
 				'fields' => [
-					// 'anime' => 'slug,name,canonicalTitle',
-					'characters' => 'slug,name,image'
+					'anime' => 'slug,canonicalTitle,posterImage',
+					'manga' => 'slug,canonicalTitle,posterImage',
+					'characters' => 'slug,canonicalName,image',
 				],
-				'include' => 'waifu,pinnedPost,blocks,linkedAccounts,profileLinks,profileLinks.profileLinkSite,userRoles,favorites.item'
+				'include' => 'waifu,favorites.item,stats'
 			]
 		]);
 
@@ -261,21 +294,34 @@ final class Model {
 		$options = [
 			'query' => [
 				'filter' => [
-					'text' => $query
+					'text' => $query,
 				],
 				'page' => [
 					'offset' => 0,
 					'limit' => 20
 				],
+				'include' => 'mappings'
 			]
 		];
 
 		$raw = $this->getRequest($type, $options);
+		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
 
 		foreach ($raw['data'] as &$item)
 		{
 			$item['attributes']['titles'] = K::filterTitles($item['attributes']);
 			array_shift($item['attributes']['titles']);
+
+			// Map the mal_id if it exists for syncing with other APIs
+			foreach($item['relationships']['mappings']['data'] as $rel)
+			{
+				$mapping = $raw['included']['mappings'][$rel['id']];
+
+				if ($mapping['attributes']['externalSite'] === "myanimelist/{$type}")
+				{
+					$item['mal_id'] = $mapping['attributes']['externalId'];
+				}
+			}
 		}
 
 		return $raw;
@@ -323,27 +369,25 @@ final class Model {
 	 * @param string $slug
 	 * @return Anime
 	 */
-	public function getAnime(string $slug): Anime
+	public function getAnime(string $slug)
 	{
 		$baseData = $this->getRawMediaData('anime', $slug);
 
 		if (empty($baseData))
 		{
-			return new Anime();
+			return (new Anime([]))->toArray();
 		}
 
-		$transformed = $this->animeTransformer->transform($baseData);
-		$transformed['included'] = JsonAPI::organizeIncluded($baseData['included']);
-		return $transformed;
+		return $this->animeTransformer->transform($baseData);
 	}
 
 	/**
 	 * Get information about a particular anime
 	 *
 	 * @param string $animeId
-	 * @return array
+	 * @return Anime
 	 */
-	public function getAnimeById(string $animeId): array
+	public function getAnimeById(string $animeId): Anime
 	{
 		$baseData = $this->getRawMediaDataById('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
@@ -366,9 +410,7 @@ final class Model {
 			// Bail out on no data
 			if (empty($data))
 			{
-				$cacheItem->set([]);
-				$cacheItem->save();
-				return $cacheItem->get();
+				return [];
 			}
 
 			$included = JsonAPI::organizeIncludes($data['included']);
@@ -455,7 +497,7 @@ final class Model {
 	}
 
 	/**
-	 * Get all the anine entries, that are organized for output to html
+	 * Get all the anime entries, that are organized for output to html
 	 *
 	 * @return array
 	 */
@@ -550,7 +592,7 @@ final class Model {
 				'media_type' => 'Anime',
 				'status' => $status,
 			],
-			'include' => 'media,media.genres,media.mappings,anime.streamingLinks',
+			'include' => 'media,media.categories,media.mappings,anime.streamingLinks',
 			'sort' => '-updated_at'
 		];
 
@@ -576,9 +618,7 @@ final class Model {
 			return new MangaPage([]);
 		}
 
-		$transformed = $this->mangaTransformer->transform($baseData);
-		$transformed['included'] = $baseData['included'];
-		return $transformed;
+		return $this->mangaTransformer->transform($baseData);
 	}
 
 	/**
@@ -610,7 +650,7 @@ final class Model {
 					'media_type' => 'Manga',
 					'status' => $status,
 				],
-				'include' => 'media,media.genres,media.mappings',
+				'include' => 'media,media.categories,media.mappings',
 				'page' => [
 					'offset' => $offset,
 					'limit' => $limit
@@ -628,9 +668,7 @@ final class Model {
 			// Bail out on no data
 			if (empty($data) || ( ! array_key_exists('included', $data)))
 			{
-				$cacheItem->set([]);
-				$cacheItem->save();
-				return $cacheItem->get();
+				return [];
 			}
 
 			$included = JsonAPI::organizeIncludes($data['included']);
@@ -818,23 +856,33 @@ final class Model {
 		$baseData = $this->listItem->get($listId);
 		$included = JsonAPI::organizeIncludes($baseData['included']);
 
-
-		switch (TRUE)
+		if (array_key_exists('anime', $included))
 		{
-			case array_key_exists('anime', $included): // in_array('anime', array_keys($included)):
-				$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-				$baseData['data']['included'] = $included;
-				return $this->animeListTransformer->transform($baseData['data']);
-
-			case array_key_exists('manga', $included): // in_array('manga', array_keys($included)):
-				$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
-				$baseData['data']['included'] = $included;
-				$baseData['data']['manga'] = $baseData['included'][0];
-				return $this->mangaListTransformer->transform($baseData['data']);
-
-			default:
-				return $baseData['data'];
+			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
+			$baseData['data']['included'] = $included;
+			return $this->animeListTransformer->transform($baseData['data']);
 		}
+
+		if (array_key_exists('manga', $included))
+		{
+			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+			$baseData['data']['included'] = $included;
+			$baseData['data']['manga'] = $baseData['included'][0];
+			return $this->mangaListTransformer->transform($baseData['data']);
+		}
+
+		return $baseData['data'];
+	}
+
+	/**
+	 * Increase the progress count for a list item
+	 *
+	 * @param FormItem $data
+	 * @return Request
+	 */
+	public function incrementListItem(FormItem $data): Request
+	{
+		return $this->listItem->increment($data['id'], $data['data']);
 	}
 
 	/**
@@ -916,11 +964,15 @@ final class Model {
 					'slug' => $slug
 				],
 				'fields' => [
-					'characters' => 'slug,name,image'
+					'categories' => 'slug,title',
+					'characters' => 'slug,name,image',
+					'mappings' => 'externalSite,externalId',
+					'animeCharacters' => 'character,role',
+					'mediaCharacters' => 'character,role',
 				],
 				'include' => ($type === 'anime')
-					? 'categories,mappings,streamingLinks,animeCharacters.character'
-					: 'categories,mappings,mangaCharacters.character,castings.character',
+					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character,characters.character'
+					: 'staff,staff.person,categories,mappings,characters.character',
 			]
 		];
 

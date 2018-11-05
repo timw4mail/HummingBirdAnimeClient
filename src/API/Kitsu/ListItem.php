@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -37,7 +37,7 @@ final class ListItem implements ListItemInterface {
 	use KitsuTrait;
 
 	public function create(array $data): Request
-	{
+	{	
 		$body = [
 			'data' => [
 				'type' => 'libraryEntries',
@@ -61,6 +61,11 @@ final class ListItem implements ListItemInterface {
 				]
 			]
 		];
+		
+		if (array_key_exists('notes', $data))
+		{
+			$body['data']['attributes']['notes'] = $data['notes'];
+		}
 
 		$authHeader = $this->getAuthHeader();
 
@@ -98,7 +103,7 @@ final class ListItem implements ListItemInterface {
 
 		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
 			->setQuery([
-				'include' => 'media,media.genres,media.mappings'
+				'include' => 'media,media.categories,media.mappings'
 			]);
 
 		if ($authHeader !== FALSE)
@@ -110,6 +115,11 @@ final class ListItem implements ListItemInterface {
 
 		$response = wait((new HummingbirdClient)->request($request));
 		return Json::decode(wait($response->getBody()));
+	}
+
+	public function increment(string $id, FormItemData $data): Request
+	{
+		return $this->update($id, $data);
 	}
 
 	public function update(string $id, FormItemData $data): Request
