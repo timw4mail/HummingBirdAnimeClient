@@ -243,11 +243,11 @@
     array (
       'meta' => 
       array (
-        'name' => 'Hulu',
+        'name' => 'Funimation',
         'link' => true,
-        'image' => 'streaming-logos/hulu.svg',
+        'image' => 'streaming-logos/funimation.svg',
       ),
-      'link' => 'http://www.hulu.com/attack-on-titan',
+      'link' => 'http://www.funimation.com/shows/attack-on-titan/videos/episodes',
       'subs' => 
       array (
         0 => 'en',
@@ -261,11 +261,11 @@
     array (
       'meta' => 
       array (
-        'name' => 'Funimation',
+        'name' => 'Hulu',
         'link' => true,
-        'image' => 'streaming-logos/funimation.svg',
+        'image' => 'streaming-logos/hulu.svg',
       ),
-      'link' => 'http://www.funimation.com/shows/attack-on-titan/videos/episodes',
+      'link' => 'http://www.hulu.com/attack-on-titan',
       'subs' => 
       array (
         0 => 'en',
