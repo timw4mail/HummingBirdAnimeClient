@@ -13,7 +13,7 @@
 		max-width: none;
 		width: 100%;
 	}
-	
+
 	/* aside.info {
 		order: 1;
 	} */
@@ -23,7 +23,7 @@
 	* {
 		max-width: none !important;
 	}
-	
+
 	table {
 		box-shadow: none;
 	}
@@ -31,6 +31,36 @@
 	body,
 	.details .flex > * {
 		margin: 0;
+	}
+
+	table,
+	table th,
+	table td,
+	table .align-right,
+	table.align-center {
+		border: 0;
+		display: block;
+		margin: 0 auto;
+		text-align: left;
+		width: 100%;
+	}
+
+	table td {
+		display: inline-block;
+	}
+
+	table.media-details td {
+		display: block;
+		text-align: left !important;
+	}
+
+	table thead {
+		display: none;
+	}
+
+	.details .media-details td:nth-child(2n+1) {
+		font-weight: bold;
+		width: 100%;
 	}
 }
 
@@ -48,10 +78,6 @@
 	main {
 		padding: 0 0, 5em 0.5em;
 		padding: 0 0.5rem 0.5rem;
-	}
-
-	table {
-		display: block;
 	}
 
 	.media {
