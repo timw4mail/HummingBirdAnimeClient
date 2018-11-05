@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -61,6 +61,11 @@ final class JsonAPI {
 		// Inline organized data
 		foreach($data['data'] as $i => &$item)
 		{
+			if ( ! is_array($item))
+			{
+				continue;
+			}
+
 			if (array_key_exists('relationships', $item))
 			{
 				foreach($item['relationships'] as $relType => $props)
@@ -96,27 +101,28 @@ final class JsonAPI {
 
 							continue;
 						}
+
 						// Single data item
-						else if (array_key_exists('id', $props['data']))
+						if (array_key_exists('id', $props['data']))
 						{
 							$idKey = $props['data']['id'];
-							$typeKey = $props['data']['type'];
+							$dataType = $props['data']['type'];
 							$relationship =& $item['relationships'][$relType];
 							unset($relationship['data']);
 
-							if (in_array($relType, $singular))
+							if (\in_array($relType, $singular, TRUE))
 							{
-								$relationship = $included[$typeKey][$idKey];
+								$relationship = $included[$dataType][$idKey];
 								continue;
 							}
 
-							if ($relType === $typeKey)
+							if ($relType === $dataType)
 							{
-								$relationship[$idKey] = $included[$typeKey][$idKey];
+								$relationship[$idKey] = $included[$dataType][$idKey];
 								continue;
 							}
 
-							$relationship[$typeKey][$idKey] = $included[$typeKey][$idKey];
+							$relationship[$dataType][$idKey] = $included[$dataType][$idKey];
 						}
 						// Multiple data items
 						else
@@ -124,17 +130,19 @@ final class JsonAPI {
 							foreach($props['data'] as $j => $datum)
 							{
 								$idKey = $props['data'][$j]['id'];
-								$typeKey = $props['data'][$j]['type'];
+								$dataType = $props['data'][$j]['type'];
 								$relationship =& $item['relationships'][$relType];
 
-								if ($relType === $typeKey)
+								if ($relType === $dataType)
 								{
-									$relationship[$idKey] = $included[$typeKey][$idKey];
+									$relationship[$idKey] = $included[$dataType][$idKey];
 									continue;
 								}
 
-								$relationship[$typeKey][$idKey][$j] = $included[$typeKey][$idKey];
+								$relationship[$dataType][$idKey][$j] = $included[$dataType][$idKey];
 							}
+
+							unset($item['relationships'][$relType]['data']);
 						}
 					}
 				}
@@ -196,29 +204,33 @@ final class JsonAPI {
 		{
 			foreach($items as $id => $item)
 			{
-				if (array_key_exists('relationships', $item) && is_array($item['relationships']))
+				if (array_key_exists('relationships', $item) && \is_array($item['relationships']))
 				{
 					foreach($item['relationships'] as $relType => $props)
 					{
-						if (array_key_exists('data', $props) && is_array($props['data']) && array_key_exists('id', $props['data']))
+						if (array_key_exists('data', $props) && \is_array($props['data']) && array_key_exists('id', $props['data']))
 						{
-							if (array_key_exists($props['data']['id'], $organized[$props['data']['type']]))
+							$idKey = $props['data']['id'];
+							$dataType = $props['data']['type'];
+
+							$relationship =& $organized[$type][$id]['relationships'][$relType];
+							unset($relationship['links']);
+							unset($relationship['data']);
+
+							if ($relType === $dataType)
 							{
-								$idKey = $props['data']['id'];
-								$typeKey = $props['data']['type'];
+								$relationship[$idKey] = $included[$dataType][$idKey];
+								continue;
+							}
 
+							if ( ! array_key_exists($dataType, $organized))
+							{
+								$organized[$dataType] = [];
+							}
 
-								$relationship =& $organized[$type][$id]['relationships'][$relType];
-								unset($relationship['links']);
-								unset($relationship['data']);
-
-								if ($relType === $typeKey)
-								{
-									$relationship[$idKey] = $included[$typeKey][$idKey];
-									continue;
-								}
-
-								$relationship[$typeKey][$idKey] = $organized[$typeKey][$idKey];
+							if (array_key_exists($idKey, $organized[$dataType]))
+							{
+								$relationship[$dataType][$idKey] = $organized[$dataType][$idKey];
 							}
 						}
 					}
@@ -250,6 +262,14 @@ final class JsonAPI {
 			foreach($item['relationships'] as $type => $ids)
 			{
 				$inlined[$key][$itemId]['relationships'][$type] = [];
+
+				if ( ! array_key_exists($type, $included)) continue;
+
+				if (array_key_exists('data', $ids ))
+				{
+					$ids = array_column($ids['data'], 'id');
+				}
+
 				foreach($ids as $id)
 				{
 					$inlined[$key][$itemId]['relationships'][$type][$id] = $included[$type][$id];
@@ -272,13 +292,23 @@ final class JsonAPI {
 	public static function organizeIncludes(array $includes): array
 	{
 		$organized = [];
+		$types = array_unique(array_column($includes, 'type'));
+		sort($types);
+
+		foreach ($types as $type)
+		{
+			$organized[$type] = [];
+		}
 
 		foreach ($includes as $item)
 		{
 			$type = $item['type'];
 			$id = $item['id'];
-			$organized[$type] = $organized[$type] ?? [];
-			$organized[$type][$id] = $item['attributes'];
+
+			if (array_key_exists('attributes', $item))
+			{
+				$organized[$type][$id] = $item['attributes'];
+			}
 
 			if (array_key_exists('relationships', $item))
 			{
@@ -300,16 +330,16 @@ final class JsonAPI {
 	 */
 	public static function organizeRelationships(array $relationships): array
 	{
-		$organized = [];
+		$organized = $relationships;
 
 		foreach($relationships as $key => $data)
 		{
+			$organized[$key] = $organized[$key] ?? [];
+
 			if ( ! array_key_exists('data', $data))
 			{
 				continue;
 			}
-
-			$organized[$key] = $organized[$key] ?? [];
 
 			foreach ($data['data'] as $item)
 			{

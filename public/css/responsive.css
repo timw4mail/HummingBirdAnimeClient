@@ -1,0 +1,133 @@
+/* ----------------------------------------------------------------------------
+	Viewport-based styles
+-----------------------------------------------------------------------------*/
+@media screen and (max-width: 1100px) {
+	.flex {
+		flex-wrap: wrap;
+	}
+
+	aside.info,
+	aside.info + article,
+	.fixed aside.info,
+	.fixed aside.info + article {
+		max-width: none;
+		width: 100%;
+	}
+
+	/* aside.info {
+		order: 1;
+	} */
+}
+
+@media screen and (max-width: 800px) {
+	* {
+		max-width: none;
+	}
+
+	table {
+		box-shadow: none;
+	}
+
+	body,
+	.details .flex > * {
+		margin: 0;
+	}
+
+	table,
+	table th,
+	table td,
+	table .align-right,
+	table.align-center {
+		border: 0;
+		display: block;
+		margin: 0 auto;
+		text-align: left;
+		width: 100%;
+	}
+
+	table tbody {
+		width: 100%;
+	}
+
+	table td {
+		display: inline-block;
+	}
+
+	table.media-details td {
+		display: block;
+		text-align: left !important;
+	}
+
+	table thead {
+		display: none;
+	}
+
+	.details .media-details td:nth-child(2n+1) {
+		font-weight: bold;
+		width: 100%;
+	}
+
+	table.streaming-links tr td:not(:first-child) {
+		display:none;
+	}
+}
+
+@media screen and (max-width: 40em) {
+	nav a {
+		line-height: 4em;
+		line-height: 4rem;
+	}
+
+	img,
+	picture {
+		width: 100%;
+	}
+
+	main {
+		padding: 0 0, 5em 0.5em;
+		padding: 0 0.5rem 0.5rem;
+	}
+
+	.media {
+		margin: 2px 0;
+	}
+
+	.details {
+		padding: 0.5em;
+		padding: 0.5rem;
+	}
+
+	/* Expand tabs */
+	.tabs > [type="radio"]:checked + label {
+		background: #fff;
+	}
+
+	/* Expand vertical tabs */
+	.vertical-tabs .tab {
+		flex-wrap: wrap;
+	}
+
+	.tabs .content,
+	.tabs > [type="radio"]:checked + label + .content,
+	.vertical-tabs .tab .content {
+		display: block;
+		border: 0;
+		max-height: none;
+	}
+
+	.tabs > label,
+	.tabs > label:active,
+	.tabs > label:hover,
+	.tabs > [type="radio"]:checked + label,
+	.vertical-tabs .tab label,
+	.vertical-tabs .tab label:active,
+	.vertical-tabs .tab label:hover,
+	.vertical-tabs [type=radio]:focus + label,
+	.vertical-tabs [type=radio]:checked + label {
+		background: #fff;
+		border: 0;
+		width: 100%;
+		cursor: default;
+		color: #000;
+	}
+}

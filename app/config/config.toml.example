@@ -3,13 +3,34 @@
 ################################################################################
 
 # Username for anime and manga lists
-kitsu_username = "timw4mail"
+kitsu_username = "johnsmith"
 
 # Whose list is it?
-whose_list = "Tim"
+whose_list = "Someone"
 
 # do you wish to show the anime collection?
 show_anime_collection = true
 
-# path to public directory on the server
-asset_dir = "/../../public"
+# do you wish to show the manga collection?
+show_manga_collection = false
+
+################################################################################
+# Default views and paths
+################################################################################
+
+# Which list should be the default?
+default_list = "anime" # anime or manga
+
+# Default pages for anime/manga
+default_anime_list_path = "watching" # watching|plan_to_watch|on_hold|dropped|completed|all
+default_manga_list_path = "reading" # reading|plan_to_read|on_hold|dropped|completed|all
+
+################################################################################
+# Not on Settings Page
+#
+# These settings are not available to change on the settings page
+################################################################################
+
+# Use HTTPs for URLs
+# It is not recommended to change this setting
+secure_urls = true

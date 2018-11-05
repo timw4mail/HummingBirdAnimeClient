@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,7 +20,7 @@ use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
-use Aviat\AnimeClient\Types\MangaFormItem;
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\{Json, StringWrapper};
 
@@ -130,6 +130,11 @@ final class Manga extends Controller {
 			$this->redirect('manga/add', 303);
 		}
 
+		if (empty($data['mal_id']))
+		{
+			unset($data['mal_id']);
+		}
+
 		$result = $this->model->createLibraryItem($data);
 
 		if ($result)
@@ -182,8 +187,9 @@ final class Manga extends Controller {
 	 */
 	public function search(): void
 	{
-		$query_data = $this->request->getQueryParams();
-		$this->outputJSON($this->model->search($query_data['query']));
+		$queryParams = $this->request->getQueryParams();
+		$query = $queryParams['query'];
+		$this->outputJSON($this->model->search($query));
 	}
 
 	/**
@@ -201,7 +207,7 @@ final class Manga extends Controller {
 		// large form-based updates
 		$transformer = new MangaListTransformer();
 		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem(new MangaFormItem($post_data));
+		$full_result = $this->model->updateLibraryItem(new FormItem($post_data));
 
 		if ($full_result['statusCode'] === 200)
 		{
@@ -218,13 +224,9 @@ final class Manga extends Controller {
 	}
 
 	/**
-	 * Update a manga item
-	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @return void
+	 * Increment the progress of a manga item
 	 */
-	public function update(): void
+	public function increment(): void
 	{
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
@@ -235,7 +237,7 @@ final class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->updateLibraryItem(new MangaFormItem($data));
+		$response = $this->model->incrementLibraryItem(new FormItem($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -251,13 +253,11 @@ final class Manga extends Controller {
 	public function delete(): void
 	{
 		$body = $this->request->getParsedBody();
-		$id = $body['id'];
-		$malId = $body['mal_id'];
-		$response = $this->model->deleteLibraryItem($id, $malId);
+		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
 		if ($response)
 		{
-			$this->setFlashMessage("Successfully deleted manga.", 'success');
+			$this->setFlashMessage('Successfully deleted manga.', 'success');
 			$this->cache->clear();
 		}
 		else
@@ -280,6 +280,7 @@ final class Manga extends Controller {
 	public function details($manga_id): void
 	{
 		$data = $this->model->getManga($manga_id);
+		$staff = [];
 		$characters = [];
 
 		if (empty($data))
@@ -293,13 +294,64 @@ final class Manga extends Controller {
 			return;
 		}
 
-		foreach($data['included'] as $included)
+		if (array_key_exists('mediaCharacters', $data['included']))
 		{
-			if ($included['type'] === 'characters')
+			$mediaCharacters = $data['included']['mediaCharacters'];
+
+			foreach ($mediaCharacters as $rel)
 			{
-				$characters[$included['id']] = $included['attributes'];
+				// dd($rel);
+				// $charId = $rel['relationships']['character']['data']['id'];
+				$role = $rel['attributes']['role'];
+
+				foreach($rel['relationships']['character']['characters'] as $charId => $char)
+				{
+					if (array_key_exists($charId, $data['included']['characters']))
+					{
+						$characters[$role][$charId] = $char['attributes'];
+					}
+				}
 			}
 		}
+
+		if (array_key_exists('mediaStaff', $data['included']))
+		{
+			foreach ($data['included']['mediaStaff'] as $id => $staffing)
+			{
+				$role = $staffing['attributes']['role'];
+
+				foreach($staffing['relationships']['person']['people'] as $personId => $personDetails)
+				{
+					if ( ! array_key_exists($role, $staff))
+					{
+						$staff[$role] = [];
+					}
+
+					$staff[$role][$personId] = [
+						'id' => $personId,
+						'name' => $personDetails['attributes']['name'] ?? '??',
+						'image' => $personDetails['attributes']['image'],
+					];
+				}
+			}
+		}
+
+		if ( ! empty($characters['main']))
+		{
+			uasort($characters['main'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		if ( ! empty($characters['supporting']))
+		{
+			uasort($characters['supporting'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		ksort($characters);
+		ksort($staff);
 
 		$this->outputHTML('manga/details', [
 			'title' => $this->formatTitle(
@@ -309,6 +361,7 @@ final class Manga extends Controller {
 			),
 			'characters' => $characters,
 			'data' => $data,
+			'staff' => $staff,
 		]);
 	}
 

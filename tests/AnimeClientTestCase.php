@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -70,7 +70,7 @@ class AnimeClientTestCase extends TestCase {
 		$APP_DIR = _dir($ROOT_DIR, 'app');
 
 		$config_array = [
-			'asset_path' => '//localhost/assets/',
+			'asset_path' => '/assets',
 			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
 			'cache' => [
@@ -99,16 +99,9 @@ class AnimeClientTestCase extends TestCase {
 					'file' => ':memory:',
 				]
 			],
-			'route_config' => [
-				'asset_path' => '/assets'
-			],
 			'routes' => [
 
 			],
-			'mal' => [
-				'username' => 'foo',
-				'password' => 'bar'
-			]
 		];
 
 		// Set up DI container

@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -45,17 +45,17 @@ final class Kitsu {
 		$isDoneAiring = $now > $endAirDate;
 		$isCurrentlyAiring = ($now > $startAirDate) && ! $isDoneAiring;
 
-		switch (TRUE)
+		if ($isCurrentlyAiring)
 		{
-			case $isCurrentlyAiring:
-				return AnimeAiringStatus::AIRING;
-
-			case $isDoneAiring:
-				return AnimeAiringStatus::FINISHED_AIRING;
-
-			default:
-				return AnimeAiringStatus::NOT_YET_AIRED;
+			return AnimeAiringStatus::AIRING;
 		}
+
+		if ($isDoneAiring)
+		{
+			return AnimeAiringStatus::FINISHED_AIRING;
+		}
+
+		return AnimeAiringStatus::NOT_YET_AIRED;
 	}
 
 	/**
@@ -66,73 +66,63 @@ final class Kitsu {
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
-		switch($hostname)
+		$hostname = str_replace('www.', '', $hostname);
+
+		$serviceMap = [
+			'amazon.com' => [
+				'name' => 'Amazon Prime',
+				'link' => TRUE,
+				'image' => 'streaming-logos/amazon.svg',
+			],
+			'crunchyroll.com' => [
+				'name' => 'Crunchyroll',
+				'link' => TRUE,
+				'image' => 'streaming-logos/crunchyroll.svg',
+			],
+			'daisuki.net' => [
+				'name' => 'Daisuki',
+				'link' => TRUE,
+				'image' => 'streaming-logos/daisuki.svg'
+			],
+			'funimation.com' => [
+				'name' => 'Funimation',
+				'link' => TRUE,
+				'image' => 'streaming-logos/funimation.svg',
+			],
+			'hidive.com' => [
+				'name' => 'Hidive',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hidive.svg',
+			],
+			'hulu.com' => [
+				'name' => 'Hulu',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hulu.svg',
+			],
+			'tubitv.com' => [
+				'name' => 'TubiTV',
+				'link' => TRUE,
+				'image' => 'streaming-logos/tubitv.svg',
+			],
+			'viewster.com' => [
+				'name' => 'Viewster',
+				'link' => TRUE,
+				'image' => 'streaming-logos/viewster.svg'
+			],
+		];
+
+		if (array_key_exists($hostname, $serviceMap))
 		{
-			case 'www.amazon.com':
-				return [
-					'name' => 'Amazon Prime',
-					'link' => TRUE,
-					'image' => 'streaming-logos/amazon.svg',
-				];
-
-			case 'www.crunchyroll.com':
-				return [
-					'name' => 'Crunchyroll',
-					'link' => TRUE,
-					'image' => 'streaming-logos/crunchyroll.svg',
-				];
-
-			case 'www.daisuki.net':
-				return [
-					'name' => 'Daisuki',
-					'link' => TRUE,
-					'image' => 'streaming-logos/daisuki.svg'
-				];
-
-			case 'www.funimation.com':
-				return [
-					'name' => 'Funimation',
-					'link' => TRUE,
-					'image' => 'streaming-logos/funimation.svg',
-				];
-
-			case 'www.hidive.com':
-				return [
-					'name' => 'Hidive',
-					'link' => TRUE,
-					'image' => 'streaming-logos/hidive.svg',
-				];
-
-			case 'www.hulu.com':
-				return [
-					'name' => 'Hulu',
-					'link' => TRUE,
-					'image' => 'streaming-logos/hulu.svg',
-				];
-
-			case 'tubitv.com':
-				return [
-					'name' => 'TubiTV',
-					'link' => TRUE,
-					'image' => 'streaming-logos/tubitv.svg',
-				];
-
-			case 'www.viewster.com':
-				return [
-					'name' => 'Viewster',
-					'link' => TRUE,
-					'image' => 'streaming-logos/viewster.svg'
-				];
-
-			// Default to Netflix, because the API links are broken,
-			// and there's no other real identifier for Netflix
-			default:
-				return [
-					'name' => 'Netflix',
-					'link' => FALSE,
-					'image' => 'streaming-logos/netflix.svg',
-				];
+			return $serviceMap[$hostname];
 		}
+
+		// Default to Netflix, because the API links are broken,
+		// and there's no other real identifier for Netflix
+		return [
+			'name' => 'Netflix',
+			'link' => FALSE,
+			'image' => 'streaming-logos/netflix.svg',
+		];
 	}
 
 	/**
@@ -173,6 +163,10 @@ final class Kitsu {
 				'dubs' => $streamingLink['dubs']
 			];
 		}
+		
+		usort($links, function ($a, $b) {
+			return $a['meta']['name'] <=> $b['meta']['name'];
+		});
 
 		return $links;
 	}

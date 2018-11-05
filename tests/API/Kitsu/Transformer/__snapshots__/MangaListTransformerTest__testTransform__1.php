@@ -30,14 +30,14 @@
        'titles' => 
       array (
       ),
-       'type' => 'manga',
+       'type' => 'Manga',
        'url' => 'https://kitsu.io/manga/bokura-wa-minna-kawaisou',
     )),
      'reading_status' => 'current',
      'notes' => '',
      'rereading' => false,
      'reread' => 0,
-     'user_rating' => 9.0,
+     'user_rating' => 9,
   )),
   1 => 
   Aviat\AnimeClient\Types\MangaListItem::__set_state(array(
@@ -70,14 +70,14 @@
        'titles' => 
       array (
       ),
-       'type' => 'manga',
+       'type' => 'Manga',
        'url' => 'https://kitsu.io/manga/love-hina',
     )),
      'reading_status' => 'current',
      'notes' => '',
      'rereading' => false,
      'reread' => 0,
-     'user_rating' => 7.0,
+     'user_rating' => 7,
   )),
   2 => 
   Aviat\AnimeClient\Types\MangaListItem::__set_state(array(
@@ -113,14 +113,14 @@
       array (
         0 => 'Yamada-kun and the Seven Witches',
       ),
-       'type' => 'manga',
+       'type' => 'Manga',
        'url' => 'https://kitsu.io/manga/yamada-kun-to-7-nin-no-majo',
     )),
      'reading_status' => 'current',
      'notes' => '',
      'rereading' => false,
      'reread' => 0,
-     'user_rating' => 9.0,
+     'user_rating' => 9,
   )),
   3 => 
   Aviat\AnimeClient\Types\MangaListItem::__set_state(array(
@@ -151,7 +151,7 @@
        'titles' => 
       array (
       ),
-       'type' => 'manga',
+       'type' => 'Manga',
        'url' => 'https://kitsu.io/manga/relife',
     )),
      'reading_status' => 'current',
@@ -189,13 +189,13 @@
        'titles' => 
       array (
       ),
-       'type' => 'manga',
+       'type' => 'Manga',
        'url' => 'https://kitsu.io/manga/joshikausei',
     )),
      'reading_status' => 'current',
      'notes' => '',
      'rereading' => false,
      'reread' => 0,
-     'user_rating' => 8.0,
+     'user_rating' => 8,
   )),
 );

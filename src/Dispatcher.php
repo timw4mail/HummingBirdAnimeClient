@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Router\Matcher;
+use Aura\Router\{Matcher, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
@@ -314,7 +314,7 @@ final class Dispatcher extends RoutingBase {
 		$params = [];
 
 		switch($failure->failedRule) {
-			case 'Aura\Router\Rule\Allows':
+			case Rule\Allows::class:
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
@@ -322,7 +322,7 @@ final class Dispatcher extends RoutingBase {
 				];
 			break;
 
-			case 'Aura\Router\Rule\Accepts':
+			case Rule\Accepts::class:
 				$params = [
 					'http_code' => 406,
 					'title' => '406 Not Acceptable',
@@ -363,9 +363,15 @@ final class Dispatcher extends RoutingBase {
 				? $controllerMap[$routeType]
 				: DEFAULT_CONTROLLER;
 
-			if (array_key_exists($routeType, $controllerMap))
+			// If there's an explicit controller, try to find
+			// the full namespaced class name
+			if (array_key_exists('controller', $route))
 			{
-				$controllerClass = $controllerMap[$routeType];
+				$controllerKey = $route['controller'];
+				if (array_key_exists($controllerKey, $controllerMap))
+				{
+					$controllerClass = $controllerMap[$controllerKey];
+				}
 			}
 
 			// Prepend the controller to the route parameters

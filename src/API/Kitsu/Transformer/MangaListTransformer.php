@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
-	MangaFormItem, MangaFormItemData,
+	FormItem, FormItemData,
 	MangaListItem, MangaListItemDetail
 };
 use Aviat\Ion\StringWrapper;
@@ -43,11 +43,17 @@ final class MangaListTransformer extends AbstractTransformer {
 		$mangaId = $item['relationships']['media']['data']['id'];
 		$manga = $included['manga'][$mangaId];
 
-		$genres = array_column($manga['relationships']['genres'], 'name') ?? [];
+		$genres = [];
+
+		foreach ($manga['relationships']['categories'] as $genre)
+		{
+			$genres[] = $genre['title'];
+		}
+
 		sort($genres);
 
-		$rating = (int) $item['attributes']['rating'] !== 0
-			? 2 * $item['attributes']['rating']
+		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
+			? $item['attributes']['ratingTwenty'] / 2
 			: '-';
 
 		$totalChapters = ((int) $manga['chapterCount'] !== 0)
@@ -97,7 +103,7 @@ final class MangaListTransformer extends AbstractTransformer {
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => $manga['mangaType'],
+				'type' => $this->string($manga['subtype'])->upperCaseFirst()->__toString(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => $item['attributes']['status'],
@@ -114,16 +120,16 @@ final class MangaListTransformer extends AbstractTransformer {
 	 * Untransform data to update the api
 	 *
 	 * @param  array $item
-	 * @return MangaFormItem
+	 * @return FormItem
 	 */
-	public function untransform($item): MangaFormItem
+	public function untransform($item): FormItem
 	{
 		$rereading = array_key_exists('rereading', $item) && (bool)$item['rereading'];
 
-		$map = new MangaFormItem([
+		$map = new FormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['mal_id'],
-			'data' => new MangaFormItemData([
+			'data' => new FormItemData([
 				'status' => $item['status'],
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],
@@ -138,7 +144,7 @@ final class MangaListTransformer extends AbstractTransformer {
 
 		if (is_numeric($item['new_rating']) && $item['new_rating'] > 0)
 		{
-			$map['data']['rating'] = $item['new_rating'] / 2;
+			$map['data']['ratingTwenty'] = $item['new_rating'] * 2;
 		}
 
 		return $map;

@@ -12,6 +12,7 @@
         "notes": null,
         "private": false,
         "rating": null,
+		"ratingTwenty": null,
         "updatedAt": "2017-01-13T01:32:31.832Z"
     },
     "relationships": {
@@ -114,19 +115,19 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "11": {
-                            "name": "Fantasy",
+                            "title": "Fantasy",
                             "slug": "fantasy",
                             "description": ""
                         },
                         "16": {
-                            "name": "Slice of Life",
+                            "title": "Slice of Life",
                             "slug": "slice-of-life",
                             "description": ""
                         }
@@ -188,24 +189,24 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "8": {
-                            "name": "Magic",
+                            "title": "Magic",
                             "slug": "magic",
                             "description": null
                         },
                         "40": {
-                            "name": "Kids",
+                            "title": "Kids",
                             "slug": "kids",
                             "description": null
                         },
                         "47": {
-                            "name": "Mahou Shoujo",
+                            "title": "Mahou Shoujo",
                             "slug": "mahou-shoujo",
                             "description": "Magical Girls"
                         },
                         "11": {
-                            "name": "Fantasy",
+                            "title": "Fantasy",
                             "slug": "fantasy",
                             "description": ""
                         }
@@ -264,9 +265,9 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "35": {
-                            "name": "Music",
+                            "title": "Music",
                             "slug": "music",
                             "description": null
                         }
@@ -324,19 +325,19 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "24": {
-                            "name": "School",
+                            "title": "School",
                             "slug": "school",
                             "description": null
                         }
@@ -398,29 +399,29 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "2": {
-                            "name": "Adventure",
+                            "title": "Adventure",
                             "slug": "adventure",
                             "description": null
                         },
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "8": {
-                            "name": "Magic",
+                            "title": "Magic",
                             "slug": "magic",
                             "description": null
                         },
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "11": {
-                            "name": "Fantasy",
+                            "title": "Fantasy",
                             "slug": "fantasy",
                             "description": ""
                         }
@@ -478,14 +479,14 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "16": {
-                            "name": "Slice of Life",
+                            "title": "Slice of Life",
                             "slug": "slice-of-life",
                             "description": ""
                         }
@@ -546,24 +547,24 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "24": {
-                            "name": "School",
+                            "title": "School",
                             "slug": "school",
                             "description": null
                         },
                         "34": {
-                            "name": "Harem",
+                            "title": "Harem",
                             "slug": "harem",
                             "description": null
                         },
                         "14": {
-                            "name": "Romance",
+                            "title": "Romance",
                             "slug": "romance",
                             "description": ""
                         }
@@ -618,19 +619,19 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "24": {
-                            "name": "School",
+                            "title": "School",
                             "slug": "school",
                             "description": null
                         }
@@ -688,24 +689,24 @@
                 "showType": "special",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "8": {
-                            "name": "Magic",
+                            "title": "Magic",
                             "slug": "magic",
                             "description": null
                         },
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "11": {
-                            "name": "Fantasy",
+                            "title": "Fantasy",
                             "slug": "fantasy",
                             "description": ""
                         },
                         "1": {
-                            "name": "Action",
+                            "title": "Action",
                             "slug": "action",
                             "description": ""
                         }
@@ -763,14 +764,14 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         },
                         "35": {
-                            "name": "Music",
+                            "title": "Music",
                             "slug": "music",
                             "description": null
                         }
@@ -828,29 +829,29 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "8": {
-                            "name": "Magic",
+                            "title": "Magic",
                             "slug": "magic",
                             "description": null
                         },
                         "27": {
-                            "name": "Historical",
+                            "title": "Historical",
                             "slug": "historical",
                             "description": null
                         },
                         "28": {
-                            "name": "Military",
+                            "title": "Military",
                             "slug": "military",
                             "description": null
                         },
                         "4": {
-                            "name": "Drama",
+                            "title": "Drama",
                             "slug": "drama",
                             "description": ""
                         },
                         "1": {
-                            "name": "Action",
+                            "title": "Action",
                             "slug": "action",
                             "description": ""
                         }
@@ -912,9 +913,9 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "3": {
-                            "name": "Comedy",
+                            "title": "Comedy",
                             "slug": "comedy",
                             "description": null
                         }
@@ -976,24 +977,24 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "7": {
-                            "name": "Mystery",
+                            "title": "Mystery",
                             "slug": "mystery",
                             "description": null
                         },
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "4": {
-                            "name": "Drama",
+                            "title": "Drama",
                             "slug": "drama",
                             "description": ""
                         },
                         "1": {
-                            "name": "Action",
+                            "title": "Action",
                             "slug": "action",
                             "description": ""
                         }
@@ -1055,29 +1056,29 @@
                 "showType": "TV",
                 "nsfw": false,
                 "relationships": {
-                    "genres": {
+                    "categories": {
                         "9": {
-                            "name": "Supernatural",
+                            "title": "Supernatural",
                             "slug": "supernatural",
                             "description": null
                         },
                         "21": {
-                            "name": "Thriller",
+                            "title": "Thriller",
                             "slug": "thriller",
                             "description": null
                         },
                         "47": {
-                            "name": "Mahou Shoujo",
+                            "title": "Mahou Shoujo",
                             "slug": "mahou-shoujo",
                             "description": "Magical Girls"
                         },
                         "11": {
-                            "name": "Fantasy",
+                            "title": "Fantasy",
                             "slug": "fantasy",
                             "description": ""
                         },
                         "1": {
-                            "name": "Action",
+                            "title": "Action",
                             "slug": "action",
                             "description": ""
                         }

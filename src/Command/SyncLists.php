@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -19,20 +19,27 @@ namespace Aviat\AnimeClient\Command;
 use Aviat\AnimeClient\API\{
 	FailedResponseException,
 	JsonAPI,
-	ParallelAPIRequest,
-	Mapping\AnimeWatchingStatus,
-	Mapping\MangaReadingStatus
+	ParallelAPIRequest
 };
-use Aviat\AnimeClient\API\MAL\Transformer\{
-	AnimeListTransformer as ALT
+use Aviat\AnimeClient\API\Anilist\Transformer\{
+	AnimeListTransformer as AALT,
+	MangaListTransformer as AMLT
 };
+use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Json;
 use DateTime;
 
 /**
- * Clears the API Cache
+ * Syncs list data between Anilist and Kitsu
  */
 final class SyncLists extends BaseCommand {
+
+	/**
+	 * Model for making requests to Anilist API
+	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 */
+	protected $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
@@ -41,52 +48,46 @@ final class SyncLists extends BaseCommand {
 	protected $kitsuModel;
 
 	/**
-	 * Model for making requests to MAL API
-	 * @var \Aviat\AnimeClient\API\MAL\Model
-	 */
-	protected $malModel;
-
-	/**
-	 * Run the Kitsu <=> MAL sync script
+	 * Run the Kitsu <=> Anilist sync script
 	 *
 	 * @param array $args
 	 * @param array $options
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @return void
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws \Throwable
 	 */
 	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
+
+		$config = $this->container->get('config');
+		$anilistEnabled = $config->get(['anilist', 'enabled']);
+
+		if ( ! $anilistEnabled)
+		{
+			$this->echoBox('Anlist API is not enabled. Can not sync.');
+			return;
+		}
+
+		$this->anilistModel = $this->container->get('anilist-model');
 		$this->kitsuModel = $this->container->get('kitsu-model');
-		$this->malModel = $this->container->get('mal-model');
 
 		$this->sync('anime');
 		$this->sync('manga');
+
+		$this->echoBox('Finished syncing lists');
 	}
 
 	/**
-	 * Attempt to synchronize external apis
+	 * Attempt to synchronize external APIs
 	 *
-	 * @param string $type anime|manga
-	 * @return void
+	 * @param string $type
+	 * @throws \Throwable
 	 */
 	protected function sync(string $type): void
 	{
 		$uType = ucfirst($type);
-
-		// Do a little check to make sure you don't have immediate issues
-		// if you have 0 or 1 items in a list on MAL.
-		$malList = $this->malModel->getList($type);
-		$malCount = 0;
-		if ( ! empty($malList))
-		{
-			$malCount = count(array_key_exists(0, $malList)
-				? $malList
-				: [$malList]
-			);
-		}
 
 		$kitsuCount = 0;
 		try
@@ -99,23 +100,22 @@ final class SyncLists extends BaseCommand {
 		}
 
 
-		$this->echoBox("Number of MAL {$type} list items: {$malCount}");
 		$this->echoBox("Number of Kitsu {$type} list items: {$kitsuCount}");
 
 		$data = $this->diffLists($type);
 
-		if ( ! empty($data['addToMAL']))
+		if ( ! empty($data['addToAnilist']))
 		{
-			$count = count($data['addToMAL']);
-			$this->echoBox("Adding {$count} missing {$type} list items to MAL");
-			$this->updateMALListItems($data['addToMAL'], 'create', $type);
+			$count = count($data['addToAnilist']);
+			$this->echoBox("Adding {$count} missing {$type} list items to Anilist");
+			$this->updateAnilistListItems($data['addToAnilist'], 'create', $type);
 		}
 
-		if ( ! empty($data['updateMAL']))
+		if ( ! empty($data['updateAnilist']))
 		{
-			$count = count($data['updateMAL']);
-			$this->echoBox("Updating {$count} outdated MAL {$type} list items");
-			$this->updateMALListItems($data['updateMAL'], 'update', $type);
+			$count = count($data['updateAnilist']);
+			$this->echoBox("Updating {$count} outdated Anilist {$type} list items");
+			$this->updateAnilistListItems($data['updateAnilist'], 'update', $type);
 		}
 
 		if ( ! empty($data['addToKitsu']))
@@ -156,104 +156,80 @@ final class SyncLists extends BaseCommand {
 	}
 
 	/**
-	 * Format a MAL list for comparison
+	 * Format an Anilist list for comparison
 	 *
 	 * @param string $type
 	 * @return array
 	 */
-	protected function formatMALList(string $type): array
+	protected function formatAnilistList(string $type): array
 	{
 		$type = ucfirst($type);
-		$method = "formatMAL{$type}List";
+		$method = "formatAnilist{$type}List";
 		return $this->$method();
 	}
 
 	/**
-	 * Format a MAL anime list for comparison
+	 * Format an Anilist anime list for comparison
 	 *
 	 * @return array
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
-	protected function formatMALAnimeList(): array
+	protected function formatAnilistAnimeList(): array
 	{
-		$orig = $this->malModel->getList('anime');
+		$anilistList = $this->anilistModel->getSyncList('ANIME');
+		$anilistTransformer = new AALT();
+
+		$transformedAnilist = [];
+
+		foreach ($anilistList['data']['MediaListCollection']['lists'] as $list)
+		{
+			$newTransformed = $anilistTransformer->untransformCollection($list['entries']);
+			$transformedAnilist = array_merge($transformedAnilist, $newTransformed);
+		}
+
+		// Key the array by the mal_id for easier reference in the next comparision step
 		$output = [];
-
-		// Bail early on empty list
-		if (empty($orig))
+		foreach ($transformedAnilist as $item)
 		{
-			return [];
+			$output[$item['mal_id']] = $item->toArray();
 		}
 
-		// Due to xml parsing differences,
-		// 1 item has no wrapping array.
-		// In this case, just re-create the
-		// wrapper array
-		if ( ! array_key_exists(0, $orig))
-		{
-			$orig = [$orig];
-		}
-
-		foreach($orig as $item)
-		{
-			$output[$item['series_animedb_id']] = [
-				'id' => $item['series_animedb_id'],
-				'data' => [
-					'status' => AnimeWatchingStatus::MAL_TO_KITSU[$item['my_status']],
-					'progress' => $item['my_watched_episodes'],
-					'reconsuming' => (bool) $item['my_rewatching'],
-					'rating' => $item['my_score'] / 2,
-					'updatedAt' => (new \DateTime())
-						->setTimestamp((int)$item['my_last_updated'])
-						->format(\DateTime::W3C),
-				]
-			];
-		}
+		$count = count($output);
+		$this->echoBox("Number of Anilist anime list items: {$count}");
 
 		return $output;
 	}
 
 	/**
-	 * Format a MAL manga list for comparison
+	 * Format an Anilist manga list for comparison
 	 *
 	 * @return array
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
-	protected function formatMALMangaList(): array
+	protected function formatAnilistMangaList(): array
 	{
-		$orig = $this->malModel->getList('manga');
+		$anilistList = $this->anilistModel->getSyncList('MANGA');
+		$anilistTransformer = new AMLT();
+
+		$transformedAnilist = [];
+
+		foreach ($anilistList['data']['MediaListCollection']['lists'] as $list)
+		{
+			$newTransformed = $anilistTransformer->untransformCollection($list['entries']);
+			$transformedAnilist = array_merge($transformedAnilist, $newTransformed);
+		}
+
+		// Key the array by the mal_id for easier reference in the next comparision step
 		$output = [];
-
-		// Bail early on empty list
-		if (empty($orig))
+		foreach ($transformedAnilist as $item)
 		{
-			return [];
+			$output[$item['mal_id']] = $item->toArray();
 		}
 
-		// Due to xml parsing differences,
-		// 1 item has no wrapping array.
-		// In this case, just re-create the
-		// wrapper array
-		if ( ! array_key_exists(0, $orig))
-		{
-			$orig = [$orig];
-		}
-
-		foreach($orig as $item)
-		{
-			$output[$item['series_mangadb_id']] = [
-				'id' => $item['series_mangadb_id'],
-				'data' => [
-					'my_status' => $item['my_status'],
-					'status' => MangaReadingStatus::MAL_TO_KITSU[$item['my_status']],
-					'progress' => $item['my_read_chapters'],
-					'volumes' => $item['my_read_volumes'],
-					'reconsuming' => (bool) $item['my_rereadingg'],
-					'rating' => $item['my_score'] / 2,
-					'updatedAt' => (new \DateTime())
-						->setTimestamp((int)$item['my_last_updated'])
-						->format(\DateTime::W3C),
-				]
-			];
-		}
+		$count = count($output);
+		$this->echoBox("Number of Anilist manga list items: {$count}");
 
 		return $output;
 	}
@@ -266,7 +242,8 @@ final class SyncLists extends BaseCommand {
 	 */
 	protected function formatKitsuList(string $type = 'anime'): array
 	{
-		$data = $this->kitsuModel->{'getFull' . ucfirst($type) . 'List'}();
+		$method = 'getFullRaw' . ucfirst($type) . 'List';
+		$data = $this->kitsuModel->$method();
 
 		if (empty($data))
 		{
@@ -293,7 +270,7 @@ final class SyncLists extends BaseCommand {
 				}
 			}
 
-			// Skip to the next item if there isn't a MAL ID
+			// Skip to the next item if there isn't a Anilist ID
 			if ($malId === NULL)
 			{
 				continue;
@@ -321,31 +298,50 @@ final class SyncLists extends BaseCommand {
 		// Organize mappings, and ignore entries without mappings
 		$kitsuList = $this->formatKitsuList($type);
 
-		// Get MAL list data
-		$malList = $this->formatMALList($type);
+		// Get Anilist list data
+		$anilistList = $this->formatAnilistList($type);
 
-		$itemsToAddToMAL = [];
+		$itemsToAddToAnilist = [];
 		$itemsToAddToKitsu = [];
-		$malUpdateItems = [];
+		$anilistUpdateItems = [];
 		$kitsuUpdateItems = [];
 
-		$malIds = array_column($malList, 'id');
-		$kitsuMalIds = array_column($kitsuList, 'malId');
+		$malBlackList = ($type === 'anime')
+			? [
+				27821, // Fate/stay night: Unlimited Blade Works - Prologue
+				29317, // Saekano: How to Raise a Boring Girlfriend Prologue
+				30514, // Nisekoinogatari
+			] : [
+				114638, // Cells at Work: Black
+			];
+
+		$malIds = array_keys($anilistList);
+		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
 		$missingMalIds = array_diff($malIds, $kitsuMalIds);
+		$missingMalIds = array_diff($missingMalIds, $malBlackList);
 
 		foreach($missingMalIds as $mid)
 		{
-			$itemsToAddToKitsu[] = array_merge($malList[$mid]['data'], [
-				'id' => $this->kitsuModel->getKitsuIdFromMALId($mid, $type),
+			$itemsToAddToKitsu[] = array_merge($anilistList[$mid]['data'], [
+				'id' => $this->kitsuModel->getKitsuIdFromMALId((string)$mid, $type),
 				'type' => $type
 			]);
 		}
 
 		foreach($kitsuList as $kitsuItem)
 		{
-			if (\in_array($kitsuItem['malId'], $malIds, TRUE))
+			$malId = $kitsuItem['malId'];
+
+			if (\in_array((int)$malId, $malBlackList, TRUE))
 			{
-				$item = $this->compareListItems($kitsuItem, $malList[$kitsuItem['malId']]);
+				continue;
+			}
+
+			if (array_key_exists($malId, $anilistList))
+			{
+				$anilistItem = $anilistList[$malId];
+
+				$item = $this->compareListItems($kitsuItem, $anilistItem);
 
 				if ($item === NULL)
 				{
@@ -357,25 +353,35 @@ final class SyncLists extends BaseCommand {
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (\in_array('mal', $item['updateType'], TRUE))
+				if (\in_array('anilist', $item['updateType'], TRUE))
 				{
-					$malUpdateItems[] = $item['data'];
+					$anilistUpdateItems[] = $item['data'];
 				}
 
 				continue;
 			}
 
-			// Looks like this item only exists on Kitsu
-			$itemsToAddToMAL[] = [
-				'mal_id' => $kitsuItem['malId'],
-				'data' => $kitsuItem['data']
-			];
+			$statusMap = ($type === 'anime') ? AnimeWatchingStatus::class : MangaReadingStatus::class;
 
+			// Looks like this item only exists on Kitsu
+			$kItem = $kitsuItem['data'];
+			$newItemStatus = ($kItem['reconsuming'] === true) ? 'REPEATING' : $statusMap::KITSU_TO_ANILIST[$kItem['status']];
+			$itemsToAddToAnilist[] = [
+				'mal_id' => $malId,
+				'data' => [
+					'notes' => $kItem['notes'],
+					'private' => $kItem['private'],
+					'progress' => $kItem['progress'],
+					'repeat' => $kItem['reconsumeCount'],
+					'score' => $kItem['ratingTwenty'] * 5, // 100 point score on Anilist
+					'status' => $newItemStatus,
+				],
+			];
 		}
 
 		return [
-			'addToMAL' => $itemsToAddToMAL,
-			'updateMAL' => $malUpdateItems,
+			'addToAnilist' => $itemsToAddToAnilist,
+			'updateAnilist' => $anilistUpdateItems,
 			'addToKitsu' => $itemsToAddToKitsu,
 			'updateKitsu' => $kitsuUpdateItems
 		];
@@ -385,18 +391,28 @@ final class SyncLists extends BaseCommand {
 	 * Compare two list items, and return the out of date one, if one exists
 	 *
 	 * @param array $kitsuItem
-	 * @param array $malItem
+	 * @param array $anilistItem
 	 * @return array|null
 	 */
-	protected function compareListItems(array $kitsuItem, array $malItem): ?array
+	protected function compareListItems(array $kitsuItem, array $anilistItem): ?array
 	{
-		$compareKeys = ['status', 'progress', 'rating', 'reconsuming'];
+		$compareKeys = [
+			'notes',
+			'progress',
+			'rating',
+			'reconsumeCount',
+			'reconsuming',
+			'status',
+		];
 		$diff = [];
-		$dateDiff = new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime($malItem['data']['updatedAt']);
+		$dateDiff = new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime((string)$anilistItem['data']['updatedAt']);
+
+		// Correct differences in notation
+		$kitsuItem['data']['rating'] = $kitsuItem['data']['ratingTwenty'] / 2;
 
 		foreach($compareKeys as $key)
 		{
-			$diff[$key] = $kitsuItem['data'][$key] <=> $malItem['data'][$key];
+			$diff[$key] = $kitsuItem['data'][$key] <=> $anilistItem['data'][$key];
 		}
 
 		// No difference? Bail out early
@@ -416,10 +432,18 @@ final class SyncLists extends BaseCommand {
 			'updateType' => []
 		];
 
+		$sameNotes = $diff['notes'] === 0;
 		$sameStatus = $diff['status'] === 0;
 		$sameProgress = $diff['progress'] === 0;
 		$sameRating = $diff['rating'] === 0;
+		$sameRewatchCount = $diff['reconsumeCount'] === 0;
 
+		// If an item is completed, make sure the 'reconsuming' flag is false
+		if ($kitsuItem['data']['status'] === 'completed' && $kitsuItem['data']['reconsuming'] === TRUE)
+		{
+			$update['data']['reconsuming'] = FALSE;
+			$return['updateType'][] = 'kitsu';
+		}
 
 		// If status is the same, and progress count is different, use greater progress
 		if ($sameStatus && ( ! $sameProgress))
@@ -427,11 +451,25 @@ final class SyncLists extends BaseCommand {
 			if ($diff['progress'] === 1)
 			{
 				$update['data']['progress'] = $kitsuItem['data']['progress'];
-				$return['updateType'][] = 'mal';
+				$return['updateType'][] = 'anilist';
 			}
 			else if($diff['progress'] === -1)
 			{
-				$update['data']['progress'] = $malItem['data']['progress'];
+				$update['data']['progress'] = $anilistItem['data']['progress'];
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		// If status is different, use the status of the more recently updated item
+		if ( ! $sameStatus)
+		{
+			if ($dateDiff === 1)
+			{
+				$update['data']['status'] = $kitsuItem['data']['status'];
+				$return['updateType'][] = 'anilist';
+			} else if ($dateDiff === -1)
+			{
+				$update['data']['status'] = $anilistItem['data']['status'];
 				$return['updateType'][] = 'kitsu';
 			}
 		}
@@ -449,13 +487,13 @@ final class SyncLists extends BaseCommand {
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
 
-				$return['updateType'][] = 'mal';
+				$return['updateType'][] = 'anilist';
 			}
 			else if($dateDiff === -1)
 			{
-				$update['data']['status'] = $malItem['data']['status'];
+				$update['data']['status'] = $anilistItem['data']['status'];
 
-				if ((int)$malItem['data']['progress'] !== 0)
+				if ((int)$anilistItem['data']['progress'] !== 0)
 				{
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
@@ -464,44 +502,78 @@ final class SyncLists extends BaseCommand {
 			}
 		}
 
-		// If rating is different, use the rating from the item most recently updated
+		// Use the first set rating, otherwise use the newer rating
 		if ( ! $sameRating)
 		{
-			if ($dateDiff === 1)
+			if ($kitsuItem['data']['rating'] !== 0 && $dateDiff === 1)
 			{
-				$update['data']['rating'] = $kitsuItem['data']['rating'];
-				$return['updateType'][] = 'mal';
+				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
+				$return['updateType'][] = 'anilist';
 			}
-			else if ($dateDiff === -1)
+			else if($dateDiff === -1)
 			{
-				$update['data']['rating'] = $malItem['data']['rating'];
+				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
 				$return['updateType'][] = 'kitsu';
 			}
 		}
 
-		// If status is different, use the status of the more recently updated item
-		if ( ! $sameStatus)
+		// If notes are set, use kitsu, otherwise, set kitsu from anilist
+		if ( ! $sameNotes)
 		{
-			if ($dateDiff === 1)
+			if ($kitsuItem['data']['notes'] !== '')
 			{
-				$update['data']['status'] = $kitsuItem['data']['status'];
-				$return['updateType'][] = 'mal';
+				$update['data']['notes'] = $kitsuItem['data']['notes'];
+				$return['updateType'][] = 'anilist';
 			}
-			else if ($dateDiff === -1)
+			else
 			{
-				$update['data']['status'] = $malItem['data']['status'];
+				$update['data']['notes'] = $anilistItem['data']['notes'];
+				$return['updateType'][] = 'kitsu';
+			}
+		}
+
+		// Assume the larger reconsumeCount is correct
+		if ( ! $sameRewatchCount)
+		{
+			if ($diff['reconsumeCount'] === 1)
+			{
+				$update['data']['reconsumeCount'] = $kitsuItem['data']['reconsumeCount'];
+				$return['updateType'][] = 'anilist';
+			}
+			else if ($diff['reconsumeCount'] === -1)
+			{
+				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
 				$return['updateType'][] = 'kitsu';
 			}
 		}
 
 		$return['meta'] = [
 			'kitsu' => $kitsuItem['data'],
-			'mal' => $malItem['data'],
+			'anilist' => $anilistItem['data'],
 			'dateDiff' => $dateDiff,
 			'diff' => $diff,
 		];
 		$return['data'] = $update;
 		$return['updateType'] = array_unique($return['updateType']);
+
+		// Fill in missing data values for update on Anlist
+		// so I don't have to create a really complex graphql query
+		// to handle each combination of fields
+		if ($return['updateType'][0] === 'anilist')
+		{
+			$prevData = [
+				'notes' => $kitsuItem['data']['notes'],
+				'private' => $kitsuItem['data']['private'],
+				'progress' => $kitsuItem['data']['progress'],
+				'rating' => $kitsuItem['data']['ratingTwenty'] * 5,
+				'reconsumeCount' => $kitsuItem['data']['reconsumeCount'],
+				'reconsuming' => $kitsuItem['data']['reconsuming'],
+				'status' => $kitsuItem['data']['status'],
+			];
+
+			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
+		}
+
 		return $return;
 	}
 
@@ -511,6 +583,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
+	 * @throws \Throwable
 	 */
 	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
@@ -519,7 +592,9 @@ final class SyncLists extends BaseCommand {
 		{
 			if ($action === 'update')
 			{
-				$requester->addRequest($this->kitsuModel->updateListItem($item));
+				$requester->addRequest(
+					$this->kitsuModel->updateListItem(new FormItem($item))
+				);
 			}
 			else if ($action === 'create')
 			{
@@ -549,27 +624,28 @@ final class SyncLists extends BaseCommand {
 	}
 
 	/**
-	 * Create/Update list items on MAL
+	 * Create/Update list items on Anilist
 	 *
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
+	 * @throws \Throwable
 	 */
-	protected function updateMALListItems(array$itemsToUpdate, string $action = 'update', string $type = 'anime'): void
+	protected function updateAnilistListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
-		$transformer = new ALT();
 		$requester = new ParallelAPIRequest();
 
 		foreach($itemsToUpdate as $item)
 		{
 			if ($action === 'update')
 			{
-				$requester->addRequest($this->malModel->updateListItem($item, $type));
+				$requester->addRequest(
+					$this->anilistModel->updateListItem(new FormItem($item), $type)
+				);
 			}
 			else if ($action === 'create')
 			{
-				$data = $transformer->untransform($item);
-				$requester->addRequest($this->malModel->createFullListItem($data, $type));
+				$requester->addRequest($this->anilistModel->createFullListItem($item, $type));
 			}
 		}
 
@@ -578,19 +654,20 @@ final class SyncLists extends BaseCommand {
 		foreach($responses as $key => $response)
 		{
 			$id = $itemsToUpdate[$key]['mal_id'];
-			$goodResponse = (
-				($action === 'update' && $response === 'Updated') ||
-				($action === 'create' && $response === 'Created')
-			);
-			if ($goodResponse)
+
+			$responseData = Json::decode($response);
+
+			// $id = $itemsToUpdate[$key]['id'];
+			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
-				$this->echoBox("Successfully {$verb} MAL {$type} list item with id: {$id}");
+				$this->echoBox("Successfully {$verb} Anilist {$type} list item with id: {$id}");
 			}
 			else
 			{
+				dump($responseData);
 				$verb = ($action === 'update') ? 'update' : 'create';
-				$this->echoBox("Failed to {$verb} MAL {$type} list item with id: {$id}");
+				$this->echoBox("Failed to {$verb} Anilist {$type} list item with id: {$id}");
 			}
 		}
 	}

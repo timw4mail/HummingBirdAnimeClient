@@ -18,18 +18,18 @@
 				<?php foreach($items as $item): ?>
 				<article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
 					<?php if ($auth->isAuthenticated()): ?>
-					<div class="edit_buttons" hidden>
-						<button class="plus_one_chapter">+1 Chapter</button>
-						<?php /* <button class="plus_one_volume">+1 Volume</button> */ ?>
+					<div class="edit-buttons" hidden>
+						<button class="plus-one-chapter">+1 Chapter</button>
+						<?php /* <button class="plus-one-volume">+1 Volume</button> */ ?>
 					</div>
 					<?php endif ?>
-					<img src="<?= $urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg") ?>" />
+					<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
 					<div class="name">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 						<?= $escape->html($item['manga']['title']) ?>
-                        <?php foreach($item['manga']['titles'] as $title): ?>
-                            <br /><small><?= $title ?></small>
-                        <?php endforeach ?>
+						<?php foreach($item['manga']['titles'] as $title): ?>
+							<br /><small><?= $title ?></small>
+						<?php endforeach ?>
 						</a>
 					</div>
 					<div class="table">
@@ -49,7 +49,8 @@
 						</div>
 						<?php endif ?>
 						<div class="row">
-							<div class="user_rating">Rating: <?= $item['user_rating'] ?> / 10</div>
+							<div><?= $item['manga']['type'] ?></div>
+							<div class="user-rating">Rating: <?= $item['user_rating'] ?> / 10</div>
 						</div>
 
 						<?php if ($item['rereading']): ?>
@@ -88,6 +89,3 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<?php if ($auth->isAuthenticated()): ?>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/edit') ?>"></script>
-<?php endif ?>

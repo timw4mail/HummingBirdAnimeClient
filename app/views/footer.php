@@ -10,6 +10,12 @@
 		</div>
 	</div>
 </section>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/event') ?>"></script>
+<?php if ($auth->isAuthenticated()): ?>
+<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
+<script type="module" src="<?= $urlGenerator->assetUrl('js/src/index-authed.js') ?>"></script>
+<?php else: ?>
+<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<script type="module" src="<?= $urlGenerator->assetUrl('js/src/index.js') ?>"></script>
+<?php endif ?>
 </body>
 </html>

@@ -9,9 +9,8 @@
 	<?php $i = 0; ?>
 	<?php foreach ($sections as $name => $items): ?>
 		<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="collection-tab-<?= $i ?>" name="collection-tabs" />
-		<label for="collection-tab-<?= $i ?>"><?= $name ?></label>
-		<div class="content">
-			<h2><?= $name ?></h2>
+		<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
+		<div class="content full-height">
 			<section class="media-wrap">
 				<?php foreach ($items as $item): ?>
 					<?php include __DIR__ . '/cover-item.php'; ?>

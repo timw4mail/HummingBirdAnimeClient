@@ -37,7 +37,7 @@
 						]) ?>">Edit</a>
 					</td>
 					<?php endif ?>
-					<td class="align_left">
+					<td class="align-left">
 						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 							<?= $item['manga']['title'] ?>
 						</a>
@@ -61,7 +61,7 @@
 	                    </ul>
 					</td>
 					<td><?= $item['manga']['type'] ?></td>
-					<td class="align_left">
+					<td class="align-left">
 						<?= implode(', ', $item['manga']['genres']) ?>
 					</td>
 				</tr>
@@ -72,4 +72,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js.php/g/table') ?>"></script>
+<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>

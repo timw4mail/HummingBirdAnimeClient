@@ -2,28 +2,32 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
 
 use function Aviat\AnimeClient\loadToml;
+use function Aviat\AnimeClient\loadTomlFile;
 
+use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
+use Aviat\AnimeClient\UrlGenerator;
 use Aviat\AnimeClient\Util;
 use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\{Kitsu, MAL};
+use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
-use Aviat\AnimeClient\API\MAL\MALRequestBuilder;
+use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
@@ -31,6 +35,7 @@ use ConsoleKit\{Command, ConsoleException};
 use ConsoleKit\Widgets\Box;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Zend\Diactoros\{Response, ServerRequestFactory};
 
 /**
  * Base class for console command setup
@@ -70,12 +75,18 @@ class BaseCommand extends Command {
 		$APP_DIR = realpath(__DIR__ . '/../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		$base_config = require $APPCONF_DIR . '/base_config.php';
+		$baseConfig = require $APPCONF_DIR . '/base_config.php';
 
 		$config = loadToml($CONF_DIR);
-		$config_array = array_merge($base_config, $config);
 
-		$di = function ($config_array) use ($APP_DIR) {
+		$overrideFile = $CONF_DIR . '/admin-override.toml';
+		$overrideConfig = file_exists($overrideFile)
+			? loadTomlFile($overrideFile)
+			: [];
+
+		$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
+
+		$di = function ($configArray) use ($APP_DIR) {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
@@ -86,15 +97,15 @@ class BaseCommand extends Command {
 			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
 			$kitsu_request_logger = new Logger('kitsu-request');
 			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
-			$mal_request_logger = new Logger('mal-request');
-			$mal_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/mal_request-cli.log', Logger::NOTICE));
+			$anilistRequestLogger = new Logger('anilist-request');
+			$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
 			$container->setLogger($app_logger);
+			$container->setLogger($anilistRequestLogger, 'anilist-request');
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
-			$container->setLogger($mal_request_logger, 'mal-request');
 
 			// Create Config Object
-			$container->set('config', function() use ($config_array) {
-				return new Config($config_array);
+			$container->set('config', function() use ($configArray) {
+				return new Config($configArray);
 			});
 
 			// Create Cache Object
@@ -102,6 +113,25 @@ class BaseCommand extends Command {
 				$logger = $container->getLogger();
 				$config = $container->get('config')->get('cache');
 				return new Pool($config, $logger);
+			});
+
+			// Create Aura Router Object
+			$container->set('aura-router', function() {
+				return new RouterContainer;
+			});
+
+			// Create Request/Response Objects
+			$container->set('request', function() {
+				return ServerRequestFactory::fromGlobals(
+					$_SERVER,
+					$_GET,
+					$_POST,
+					$_COOKIE,
+					$_FILES
+				);
+			});
+			$container->set('response', function() {
+				return new Response;
 			});
 
 			// Create session Object
@@ -126,18 +156,32 @@ class BaseCommand extends Command {
 				$model->setCache($cache);
 				return $model;
 			});
-			$container->set('mal-model', function($container) {
-				$requestBuilder = new MALRequestBuilder();
-				$requestBuilder->setLogger($container->getLogger('mal-request'));
+			$container->set('anilist-model', function ($container) {
+				$requestBuilder = new Anilist\AnilistRequestBuilder();
+				$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
-				$listItem = new MAL\ListItem();
+				$listItem = new Anilist\ListItem();
 				$listItem->setContainer($container);
 				$listItem->setRequestBuilder($requestBuilder);
 
-				$model = new MAL\Model($listItem);
+				$model = new Anilist\Model($listItem);
 				$model->setContainer($container);
 				$model->setRequestBuilder($requestBuilder);
+
 				return $model;
+			});
+			$container->set('settings-model', function($container) {
+				$model =  new Model\Settings($container->get('config'));
+				$model->setContainer($container);
+				return $model;
+			});
+
+			$container->set('auth', function($container) {
+				return new Kitsu\Auth($container);
+			});
+
+			$container->set('url-generator', function($container) {
+				return new UrlGenerator($container);
 			});
 
 			$container->set('util', function($container) {
@@ -147,6 +191,6 @@ class BaseCommand extends Command {
 			return $container;
 		};
 
-		return $di($config_array);
+		return $di($configArray);
 	}
 }

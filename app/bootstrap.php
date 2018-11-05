@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,9 +22,7 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{
 	Anilist,
 	Kitsu,
-	MAL,
-	Kitsu\KitsuRequestBuilder,
-	MAL\MALRequestBuilder
+	Kitsu\KitsuRequestBuilder
 };
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
@@ -37,7 +35,7 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return function (array $configArray = []) {
+return function ($configArray = []) {
 	$container = new Container();
 
 	// -------------------------------------------------------------------------
@@ -50,12 +48,9 @@ return function (array $configArray = []) {
 	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
 	$kitsuRequestLogger = new Logger('kitsu-request');
 	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
-	$malRequestLogger = new Logger('mal-request');
-	$malRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/mal_request.log', Logger::NOTICE));
 	$container->setLogger($appLogger);
 	$container->setLogger($anilistRequestLogger, 'anilist-request');
 	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
-	$container->setLogger($malRequestLogger, 'mal-request');
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
@@ -85,6 +80,16 @@ return function (array $configArray = []) {
 			$menuHelper = new Helper\Menu();
 			$menuHelper->setContainer($container);
 			return $menuHelper;
+		});
+		$htmlHelper->set('field', function() use ($container) {
+			$formHelper = new Helper\Form();
+			$formHelper->setContainer($container);
+			return $formHelper;
+		});
+		$htmlHelper->set('picture', function() use ($container) {
+			$pictureHelper = new Helper\Picture();
+			$pictureHelper->setContainer($container);
+			return $pictureHelper;
 		});
 
 		return $htmlHelper;
@@ -131,17 +136,18 @@ return function (array $configArray = []) {
 		$model->setCache($cache);
 		return $model;
 	});
-	$container->set('mal-model', function($container) {
-		$requestBuilder = new MALRequestBuilder();
-		$requestBuilder->setLogger($container->getLogger('mal-request'));
+	$container->set('anilist-model', function($container) {
+		$requestBuilder = new Anilist\AnilistRequestBuilder();
+		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
-		$listItem = new MAL\ListItem();
+		$listItem = new Anilist\ListItem();
 		$listItem->setContainer($container);
 		$listItem->setRequestBuilder($requestBuilder);
 
-		$model = new MAL\Model($listItem);
+		$model = new Anilist\Model($listItem);
 		$model->setContainer($container);
 		$model->setRequestBuilder($requestBuilder);
+
 		return $model;
 	});
 
@@ -159,6 +165,11 @@ return function (array $configArray = []) {
 	});
 	$container->set('manga-collection-model', function($container) {
 		return new Model\MangaCollection($container);
+	});
+	$container->set('settings-model', function($container) {
+		$model =  new Model\Settings($container->get('config'));
+		$model->setContainer($container);
+		return $model;
 	});
 
 	// Miscellaneous Classes

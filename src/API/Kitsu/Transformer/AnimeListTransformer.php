@@ -2,15 +2,15 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 7.1
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2018  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
+ * @version     4.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -19,8 +19,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
 	Anime,
-	AnimeFormItem,
-	AnimeFormItemData,
+	FormItem,
 	AnimeListItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -43,11 +42,17 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$animeId = $item['relationships']['media']['data']['id'];
 		$anime = $included['anime'][$animeId];
 
-		$genres = array_column($anime['relationships']['genres'], 'name') ?? [];
+		$genres = [];
+
+		foreach($anime['relationships']['categories'] as $genre)
+		{
+			$genres[] = $genre['title'];
+		}
+
 		sort($genres);
 
-		$rating = (int) $item['attributes']['rating'] !== 0
-			? 2 * $item['attributes']['rating']
+		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
+			? $item['attributes']['ratingTwenty'] / 2
 			: '-';
 
 		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
@@ -96,7 +101,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => $this->string($anime['showType'])->upperCaseFirst()->__toString(),
+				'show_type' => $this->string($anime['subtype'])->upperCaseFirst()->__toString(),
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
@@ -115,15 +120,16 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 * api response format
 	 *
 	 * @param array $item Transformed library item
-	 * @return AnimeFormItem API library item
+	 * @return FormItem API library item
 	 */
-	public function untransform($item): AnimeFormItem
+	public function untransform($item): FormItem
 	{
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
-		$untransformed = new AnimeFormItem([
+		$untransformed = new FormItem([
 			'id' => $item['id'],
+			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],
@@ -141,7 +147,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 
 		if (is_numeric($item['user_rating']) && $item['user_rating'] > 0)
 		{
-			$untransformed['data']['rating'] = $item['user_rating'] / 2;
+			$untransformed['data']['ratingTwenty'] = $item['user_rating'] * 2;
 		}
 
 		return $untransformed;
