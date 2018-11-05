@@ -46,7 +46,7 @@
 				<h3><?= $title ?></h3>
 			<?php endforeach ?>
 			<br />
-			<p><?= nl2br($show_data['synopsis']) ?></p>
+			<p class="description"><?= nl2br($show_data['synopsis']) ?></p>
 			<?php if (count($show_data['streaming_links']) > 0): ?>
 				<hr />
 				<h4>Streaming on:</h4>
@@ -67,19 +67,21 @@
 										href="<?= $link['link'] ?>"
 										title="Stream '<?= $show_data['title'] ?>' on <?= $link['meta']['name'] ?>"
 									>
-										<img
-											class="streaming-logo" width="50" height="50"
-											src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>"
-											alt="<?= $link['meta']['name'] ?> logo"
-										/>
+										<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+											'class' => 'streaming-logo',
+											'width' => 50,
+											'height' => 50,
+											'alt' => "{$link['meta']['name']} logo",
+										]); ?>
 										&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 									</a>
 								<?php else: ?>
-									<img
-										class="streaming-logo" width="50" height="50"
-										src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>"
-										alt="<?= $link['meta']['name'] ?> logo"
-									/>
+									<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+										'class' => 'streaming-logo',
+										'width' => 50,
+										'height' => 50,
+										'alt' => "{$link['meta']['name']} logo",
+									]); ?>
 									&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 								<?php endif ?>
 							</td>
@@ -91,12 +93,17 @@
 				</table>
 			<?php endif ?>
 			<?php if ( ! empty($show_data['trailer_id'])): ?>
-				<hr />
+				<div class="responsive-iframe">
 				<h4>Trailer</h4>
 				<iframe
-					width="560" height="315" src="https://www.youtube.com/embed/<?= $show_data['trailer_id'] ?>"
-					frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+					width="560"
+					height="315"
+					src="https://www.youtube.com/embed/<?= $show_data['trailer_id'] ?>"
+					frameborder="0"
+					allow="autoplay; encrypted-media"
+					allowfullscreen
 				></iframe>
+				</div>
 			<?php endif ?>
 		</article>
 	</section>

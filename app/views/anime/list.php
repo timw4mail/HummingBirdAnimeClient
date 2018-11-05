@@ -72,10 +72,20 @@
 						<?php foreach($item['anime']['streaming_links'] as $link): ?>
 							<?php if ($link['meta']['link'] !== FALSE): ?>
 								<a href="<?= $link['link'] ?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-									<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+									<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+										'class' => 'streaming-logo',
+										'width' => 50,
+										'height' => 50,
+										'alt' => "{$link['meta']['name']} logo",
+									]); ?>
 								</a>
 							<?php else: ?>
-								<img class="streaming-logo" width="50" height="50" src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>" alt="<?= $link['meta']['name'] ?> logo" />
+								<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+									'class' => 'streaming-logo',
+									'width' => 50,
+									'height' => 50,
+									'alt' => "{$link['meta']['name']} logo",
+								]); ?>
 							<?php endif ?>
 						<?php endforeach ?>
 					</td>
