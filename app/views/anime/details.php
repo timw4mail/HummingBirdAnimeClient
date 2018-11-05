@@ -50,7 +50,7 @@
 			<?php if (count($show_data['streaming_links']) > 0): ?>
 				<hr />
 				<h4>Streaming on:</h4>
-				<table class="full-width invisible">
+				<table class="full-width invisible streaming-links">
 					<thead>
 					<tr>
 						<th class="align-left">Service</th>
