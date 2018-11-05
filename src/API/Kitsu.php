@@ -163,6 +163,10 @@ final class Kitsu {
 				'dubs' => $streamingLink['dubs']
 			];
 		}
+		
+		usort($links, function ($a, $b) {
+			return $a['meta']['name'] <=> $b['meta']['name'];
+		});
 
 		return $links;
 	}
