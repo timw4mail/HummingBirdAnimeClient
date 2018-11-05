@@ -94,16 +94,16 @@ final class User extends BaseController {
 	/**
 	 * Reorganize favorites data to be more useful
 	 *
-	 * @param array $rawfavorites
+	 * @param array $rawFavorites
 	 * @return array
 	 */
-	private function organizeFavorites(array $rawfavorites): array
+	private function organizeFavorites(array $rawFavorites): array
 	{
 		$output = [];
 
-		unset($rawfavorites['data']);
+		unset($rawFavorites['data']);
 
-		foreach ($rawfavorites as $item)
+		foreach ($rawFavorites as $item)
 		{
 			$rank = $item['attributes']['favRank'];
 			foreach ($item['relationships']['item'] as $key => $fav)
