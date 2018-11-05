@@ -3,8 +3,19 @@ use function Aviat\AnimeClient\getLocalImg;
 use Aviat\AnimeClient\API\Kitsu;
 ?>
 <main class="user-page details">
+	<h2 class="toph">
+		<?= $helper->a(
+			"https://kitsu.io/users/{$attributes['slug']}",
+			$attributes['name'], [
+			'title' => 'View profile on Kitsu'
+		])
+		?>
+	</h2>
+
+	<p><?= $escape->html($attributes['about']) ?></p>
+
 	<section class="flex flex-no-wrap">
-		<div>
+		<aside class="info">
 			<center>
 				<?php
 					$avatar = $urlGenerator->assetUrl(
@@ -14,11 +25,7 @@ use Aviat\AnimeClient\API\Kitsu;
 				?>
 			</center>
 			<br />
-			<br />
 			<table class="media-details">
-				<tr>
-					<th colspan="2">General</th>
-				</tr>
 				<tr>
 					<td>Location</td>
 					<td><?= $attributes['location'] ?></td>
@@ -41,58 +48,48 @@ use Aviat\AnimeClient\API\Kitsu;
 					</td>
 				</tr>
 				<?php endif ?>
-				<tr>
-					<th colspan="2">User Stats</th>
-				</tr>
+			</table>
+
+			<h3>User Stats</h3><br />
+			<table class="media-details">
 				<tr>
 					<td>Time spent watching anime:</td>
 					<td><?= $timeOnAnime ?></td>
 				</tr>
 				<tr>
 					<td># of Anime episodes watched</td>
-					<td><?= $stats['anime-amount-consumed']['units'] ?></td>
+					<td><?= number_format($stats['anime-amount-consumed']['units']) ?></td>
 				</tr>
 				<tr>
 					<td># of Manga chapters read</td>
-					<td><?= $stats['manga-amount-consumed']['units'] ?></td>
+					<td><?= number_format($stats['manga-amount-consumed']['units']) ?></td>
 				</tr>
 				<tr>
 					<td># of Posts</td>
-					<td><?= $attributes['postsCount'] ?></td>
+					<td><?= number_format($attributes['postsCount']) ?></td>
 				</tr>
 				<tr>
 					<td># of Comments</td>
-					<td><?= $attributes['commentsCount'] ?></td>
+					<td><?= number_format($attributes['commentsCount']) ?></td>
 				</tr>
 				<tr>
 					<td># of Media Rated</td>
-					<td><?= $attributes['ratingsCount'] ?></td>
+					<td><?= number_format($attributes['ratingsCount']) ?></td>
 				</tr>
 			</table>
-		</div>
-		<div>
-			<h2>
-				<?= $helper->a(
-					"https://kitsu.io/users/{$attributes['slug']}",
-					$attributes['name'], [
-						'title' => 'View profile on Kitsu'
-					])
-				?>
-			</h2>
-
-			<dl>
-				<dt><h3>About:</h3></dt>
-				<dd><?= $escape->html($attributes['about']) ?></dd>
-			</dl>
-
+		</aside>
+		<article>
 			<?php if ( ! empty($favorites)): ?>
 			<h3>Favorites</h3>
+			<div class="tabs">
+				<?php $i = 0 ?>
 				<?php if ( ! empty($favorites['characters'])): ?>
-					<h4>Characters</h4>
-					<section class="media-wrap">
+					<input type="radio" name="user-favorites" id="user-fav-chars" <?= $i === 0 ? 'checked' : '' ?> />
+					<label for="user-fav-chars">Characters</label>
+					<section class="content full-width media-wrap">
 					<?php foreach($favorites['characters'] as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
-						<article class="small-character">
+						<article class="character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 							<div class="name"><?= $helper->a($link, $char['canonicalName']); ?></div>
 							<a href="<?= $link ?>">
@@ -102,10 +99,12 @@ use Aviat\AnimeClient\API\Kitsu;
 						<?php endif ?>
 					<?php endforeach ?>
 					</section>
+					<?php $i++; ?>
 				<?php endif ?>
 				<?php if ( ! empty($favorites['anime'])): ?>
-					<h4>Anime</h4>
-					<section class="media-wrap">
+					<input type="radio" name="user-favorites" id="user-fav-anime" <?= $i === 0 ? 'checked' : '' ?> />
+					<label for="user-fav-anime">Anime</label>
+					<section class="content full-width media-wrap">
 						<?php foreach($favorites['anime'] as $anime): ?>
 						<article class="media">
 							<?php
@@ -126,10 +125,12 @@ use Aviat\AnimeClient\API\Kitsu;
 						</article>
 						<?php endforeach ?>
 					</section>
+					<?php $i++; ?>
 				<?php endif ?>
 				<?php if ( ! empty($favorites['manga'])): ?>
-					<h4>Manga</h4>
-					<section class="media-wrap">
+					<input type="radio" name="user-favorites" id="user-fav-manga" <?= $i === 0 ? 'checked' : '' ?> />
+					<label for="user-fav-manga">Manga</label>
+					<section class="content full-width media-wrap">
 						<?php foreach($favorites['manga'] as $manga): ?>
 						<article class="media">
 							<?php
@@ -150,8 +151,10 @@ use Aviat\AnimeClient\API\Kitsu;
 						</article>
 						<?php endforeach ?>
 					</section>
+					<?php $i++; ?>
 				<?php endif ?>
+			</div>
 			<?php endif ?>
-		</div>
+		</article>
 	</section>
 </main>

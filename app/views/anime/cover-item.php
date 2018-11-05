@@ -41,14 +41,20 @@
 						<?php if ($link['meta']['link']): ?>
 							<a href="<?= $link['link'] ?>"
 							   title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-								<img class="streaming-logo" width="20" height="20"
-									 src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>"
-									 alt="<?= $link['meta']['name'] ?> logo"/>
+								<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+									'class' => 'streaming-logo',
+									'width' => 20,
+									'height' => 20,
+									'alt' => "{$link['meta']['name']} logo",
+								]); ?>
 							</a>
 						<?php else: ?>
-							<img class="streaming-logo" width="20" height="20"
-								 src="<?= $urlGenerator->assetUrl('images', $link['meta']['image']) ?>"
-								 alt="<?= $link['meta']['name'] ?> logo"/>
+							<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+								'class' => 'streaming-logo',
+								'width' => 20,
+								'height' => 20,
+								'alt' => "{$link['meta']['name']} logo",
+							]); ?>
 						<?php endif ?>
 					</div>
 				<?php endforeach ?>
