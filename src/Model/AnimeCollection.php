@@ -121,7 +121,7 @@ final class AnimeCollection extends Collection {
 			->join('media', 'media.id=a.media_id', 'inner')
 			->order_by('media')
 			->order_by('title')
-			->group_by('a.hummingbird_id')
+			->group_by('a.hummingbird_id, media.type')
 			->get();
 
 		// Add genres associated with each item
