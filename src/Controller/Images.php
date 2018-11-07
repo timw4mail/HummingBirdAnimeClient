@@ -45,13 +45,13 @@ final class Images extends BaseController {
 	public function cache(string $type, string $file, $display = TRUE): void
 	{
 		$currentUrl = $this->request->getUri()->__toString();
-		
+
 		$kitsuUrl = 'https://media.kitsu.io/';
 		$fileName = str_replace('-original', '', $file);
 		[$id, $ext] = explode('.', basename($fileName));
 
 		$baseSavePath = $this->config->get('img_cache_path');
-		
+
 		// Kitsu doesn't serve webp, but for most use cases,
 		// jpg is a safe assumption
 		$tryJpg = ['anime','characters','manga','people'];
@@ -88,7 +88,7 @@ final class Images extends BaseController {
 				'height' => null,
 			],
 		];
-		
+
 		$imageType = $typeMap[$type] ?? NULL;
 
 		if (NULL === $imageType)
@@ -113,14 +113,14 @@ final class Images extends BaseController {
 				'jpg' => 'png',
 				'png' => 'gif',
 			];
-			
+
 			if (array_key_exists($ext, $nextType))
 			{
 				$newUrl = str_replace($ext, $nextType[$ext], $currentUrl);
 				$this->redirect($newUrl, 303);
 				return;
 			}
-			
+
 			if ($display)
 			{
 				$this->getPlaceholder("{$baseSavePath}/{$type}", $width, $height);
@@ -134,7 +134,7 @@ final class Images extends BaseController {
 
 		$data = wait($response->getBody());
 
-		
+
 
 		[$origWidth] = getimagesizefromstring($data);
 		$gdImg = imagecreatefromstring($data);
@@ -143,7 +143,7 @@ final class Images extends BaseController {
 		if ($ext === 'gif')
 		{
 			file_put_contents("{$filePrefix}.gif", $data);
-			imagepalletetotruecolor($gdImg);
+			\imagepalletetotruecolor($gdImg);
 		}
 
 		// save the webp versions
