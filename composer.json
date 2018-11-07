@@ -37,28 +37,30 @@
   },
   "require-dev": {
 	"consolidation/robo": "~1.0",
+	"filp/whoops": "^2.1",
 	"henrikbjorn/lurker": "^1.1.0",
 	"pdepend/pdepend": "^2.2",
 	"phploc/phploc": "^4.0",
 	"phpmd/phpmd": "^2.4",
-	"phpstan/phpstan": "^0.9.1",
-	"phpunit/phpunit": "^6.0",
+	"phpstan/phpstan": "^0.10.5",
+	"phpunit/phpunit": "^7.4.3",
 	"roave/security-advisories": "dev-master",
 	"robmorgan/phinx": "^0.10.6",
-	"sebastian/phpcpd": "^3.0",
+	"sebastian/phpcpd": "^4.1.0",
 	"spatie/phpunit-snapshot-assertions": "^1.2.0",
 	"squizlabs/php_codesniffer": "^3.2.2",
 	"symfony/var-dumper": "^4.0.1",
-	"theseer/phpdox": "^0.11.0",
-    "filp/whoops": "^2.1"
+    "theseer/phpdox": "*"
   },
   "scripts": {
 	"build": "vendor/bin/robo build",
-	"build:css": "cd public && npm run build && cd ..",
+	"build:css": "cd public && npm run build:css && cd ..",
+	"build:js": "cd public && npm run build:js && cd ..",
 	"clean": "vendor/bin/robo clean",
 	"coverage": "phpdbg -qrr -- vendor/bin/phpunit -c build",
 	"phpstan": "phpstan analyse -l 4 -c phpstan.neon src tests ./console index.php",
-	"watch:css": "cd public && npm run watch",
+	"watch:css": "cd public && npm run watch:css",
+	"watch:js": "cd public && npm run watch:js",
 	"test": "vendor/bin/phpunit"
   },
   "scripts-descriptions": {

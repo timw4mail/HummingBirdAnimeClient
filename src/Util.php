@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 
 /**
@@ -43,12 +42,6 @@ class Util {
 	];
 
 	/**
-	 * The config manager
-	 * @var ConfigInterface
-	 */
-	private $config;
-
-	/**
 	 * Set up the Util class
 	 *
 	 * @param ContainerInterface $container
@@ -58,7 +51,6 @@ class Util {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->setContainer($container);
-		$this->config = $container->get('config');
 	}
 
 	/**

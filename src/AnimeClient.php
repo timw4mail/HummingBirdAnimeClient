@@ -259,7 +259,7 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	// Background is the first color by default
 	$fillColor = imagecolorallocatealpha($img, 255, 255, 255, 127);
 	imagefill($img, 0, 0, $fillColor);
-	
+
 	$textColor = imagecolorallocate($img, 64, 64, 64);
 
 	imagealphablending($img, TRUE);
@@ -280,11 +280,11 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	imagesavealpha($img, TRUE);
 	imagepng($img, $path . '/placeholder.png', 9);
 	imagedestroy($img);
-	
+
 	$pngImage = imagecreatefrompng($path . '/placeholder.png');
 	imagealphablending($pngImage, TRUE);
 	imagesavealpha($pngImage, TRUE);
-	
+
 	imagewebp($pngImage, $path . '/placeholder.webp');
 
 	imagedestroy($pngImage);
