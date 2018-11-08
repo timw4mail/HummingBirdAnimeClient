@@ -108,7 +108,7 @@ use Aviat\AnimeClient\API\Kitsu;
 						</tr>
 						<?php foreach ($casting as $cid => $c): ?>
 							<tr>
-								<td style="width:229px">
+								<td>
 									<article class="character">
 										<?php
 										$link = $url->generate('person', ['id' => $c['person']['id']]);
