@@ -21,7 +21,7 @@ use Aviat\AnimeClient\Types\Person;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
- * Data transformation class for zippered Hummingbird manga
+ * Data transformation class for people pages
  */
 final class PersonTransformer extends AbstractTransformer {
 

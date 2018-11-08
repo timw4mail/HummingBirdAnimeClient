@@ -294,65 +294,6 @@ final class Manga extends Controller {
 			return;
 		}
 
-		if (array_key_exists('mediaCharacters', $data['included']))
-		{
-			$mediaCharacters = $data['included']['mediaCharacters'];
-
-			foreach ($mediaCharacters as $rel)
-			{
-				// dd($rel);
-				// $charId = $rel['relationships']['character']['data']['id'];
-				$role = $rel['attributes']['role'];
-
-				foreach($rel['relationships']['character']['characters'] as $charId => $char)
-				{
-					if (array_key_exists($charId, $data['included']['characters']))
-					{
-						$characters[$role][$charId] = $char['attributes'];
-					}
-				}
-			}
-		}
-
-		if (array_key_exists('mediaStaff', $data['included']))
-		{
-			foreach ($data['included']['mediaStaff'] as $id => $staffing)
-			{
-				$role = $staffing['attributes']['role'];
-
-				foreach($staffing['relationships']['person']['people'] as $personId => $personDetails)
-				{
-					if ( ! array_key_exists($role, $staff))
-					{
-						$staff[$role] = [];
-					}
-
-					$staff[$role][$personId] = [
-						'id' => $personId,
-						'name' => $personDetails['attributes']['name'] ?? '??',
-						'image' => $personDetails['attributes']['image'],
-					];
-				}
-			}
-		}
-
-		if ( ! empty($characters['main']))
-		{
-			uasort($characters['main'], function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
-		}
-
-		if ( ! empty($characters['supporting']))
-		{
-			uasort($characters['supporting'], function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
-		}
-
-		ksort($characters);
-		ksort($staff);
-
 		$this->outputHTML('manga/details', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",

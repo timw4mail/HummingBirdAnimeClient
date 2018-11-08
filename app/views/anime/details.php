@@ -39,6 +39,9 @@
 					</td>
 				</tr>
 			</table>
+
+			<br />
+
 		</aside>
 		<article class="text">
 			<h2 class="toph"><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
@@ -141,7 +144,6 @@
 	<?php endif ?>
 
 	<?php if (count($data['staff']) > 0): ?>
-	<?php //dump($data['staff']); ?>
 	<section>
 		<h2>Staff</h2>
 
