@@ -1,4 +1,10 @@
-<?php return Aviat\AnimeClient\Types\Anime::__set_state(array(
+<?php return Aviat\AnimeClient\Types\AnimePage::__set_state(array(
+   'characters' => 
+  array (
+  ),
+   'staff' => 
+  array (
+  ),
    'age_rating' => 'R',
    'age_rating_guide' => 'Violence, Profanity',
    'cover_image' => 'https://media.kitsu.io/anime/poster_images/7442/small.jpg?1418580054',

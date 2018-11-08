@@ -17,32 +17,23 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an anime watch list item
+ * Type representing a character for display
  */
-final class AnimeListItem extends AbstractType {
+final class Character extends AbstractType {
+	public $castings;
+	public $description;
 	public $id;
-	public $mal_id;
-	public $anilist_item_id;
-	public $episodes = [
-		'length' => 0,
-		'total' => 0,
-		'watched' => '',
-	];
-	public $airing = [
-		'status' => '',
-		'started' => '',
-		'ended' => '',
-	];
-	public $anime;
-	public $notes = '';
-	public $private;
-	public $rewatching;
-	public $rewatched;
-	public $user_rating;
-	public $watching_status;
+	public $included;
+	public $media;
+	public $name;
+	public $names;
+	public $otherNames;
 
-	public function setAnime($anime): void
+	public function setMedia ($media): void
 	{
-		$this->anime = new Anime($anime);
+		$this->media = new class($media) extends AbstractType {
+			public $anime;
+			public $manga;
+		};
 	}
 }

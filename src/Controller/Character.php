@@ -17,30 +17,42 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\Ion\ArrayWrapper;
+use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
+
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Controller for character description pages
  */
 class Character extends BaseController {
 
-	use ArrayWrapper;
+	/**
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 */
+	private $model;
+
+	/**
+	 * Character constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 */
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->model = $container->get('kitsu-model');
+	}
 
 	/**
 	 * Show information about a character
 	 *
 	 * @param string $slug
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function index(string $slug): void
 	{
-		$model = $this->container->get('kitsu-model');
-
-		$rawData = $model->getCharacter($slug);
+		$rawData = $this->model->getCharacter($slug);
 
 		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
 		{
@@ -55,167 +67,14 @@ class Character extends BaseController {
 			return;
 		}
 
-		$data = JsonAPI::organizeData($rawData);
+		$data = (new CharacterTransformer())->transform($rawData)->toArray();
 
-		$data['names'] = array_unique(
-			array_merge(
-				[ $data[0]['attributes']['canonicalName'] ],
-				$data[0]['attributes']['names']
-			)
-		);
-		$data['name'] = array_shift($data['names']);
-
-		if (array_key_exists('included', $data))
-		{
-			if (array_key_exists('anime', $data['included']))
-			{
-				uasort($data['included']['anime'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('manga', $data['included']))
-			{
-				uasort($data['included']['manga'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-		}
-
-		$viewData = [
+		$this->outputHTML('character/details', [
 			'title' => $this->formatTitle(
 				'Characters',
-				$data[0]['attributes']['name']
+				$data['name']
 			),
 			'data' => $data,
-			'castCount' => 0,
-			'castings' => []
-		];
-
-		if (array_key_exists('included', $data))
-		{
-			if (array_key_exists('castings', $data['included']))
-			{
-				$viewData['castings'] = $this->organizeCast($data['included']['castings']);
-				$viewData['castCount'] = $this->getCastCount($viewData['castings']);
-			}
-		}
-
-		$this->outputHTML('character/details', $viewData);
-	}
-
-	/**
-	 * Organize VA => anime relationships
-	 *
-	 * @param array $cast
-	 * @return array
-	 */
-	private function dedupeCast(array $cast): array
-	{
-		$output = [];
-		$people = [];
-
-		$i = 0;
-		foreach ($cast as &$role)
-		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
-
-
-			$person = current($role['relationships']['person']['people'])['attributes'];
-			$hasName = array_key_exists($person['name'], $people);
-
-			if ( ! $hasName)
-			{
-				$people[$person['name']] = $i;
-				$role['relationships']['media']['anime'] = [current($role['relationships']['media']['anime'])];
-				$output[$i] = $role;
-
-				$i++;
-
-				continue;
-			}
-
-			if (array_key_exists('anime', $role['relationships']['media']))
-			{
-				$key = $people[$person['name']];
-				$output[$key]['relationships']['media']['anime'][] = current($role['relationships']['media']['anime']);
-			}
-			continue;
-		}
-
-		return $output;
-	}
-
-	protected function getCastCount(array $cast): int
-	{
-		$count = 0;
-
-		foreach($cast as $role)
-		{
-			$count++;
-			/* if (
-				array_key_exists('attributes', $role) &&
-				array_key_exists('role', $role['attributes']) &&
-				$role['attributes']['role'] !== NULL
-			) {
-				$count++;
-			} */
-		}
-
-		return $count;
-	}
-
-	protected function organizeCast(array $cast): array
-	{
-		$cast = $this->dedupeCast($cast);
-		$output = [];
-
-		foreach($cast as $id => $role)
-		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
-
-			$language = $role['attributes']['language'];
-			$roleName = $role['attributes']['role'];
-			$isVA = $role['attributes']['voiceActor'];
-
-			if ($isVA)
-			{
-				foreach($role['relationships']['person']['people'] as $pid => $peoples)
-				{
-					$p = $peoples;
-				}
-
-				$person = $p['attributes'];
-				$person['id'] = $pid;
-				$person['image'] = $person['image']['original'];
-
-				uasort($role['relationships']['media']['anime'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-
-				$item = [
-					'person' => $person,
-					'series' => $role['relationships']['media']['anime']
-				];
-
-				$output[$roleName][$language][] = $item;
-			}
-			else
-			{
-				foreach($role['relationships']['person']['people'] as $pid => $person)
-				{
-					$person['id'] = $pid;
-					$output[$roleName][$pid] = $person;
-				}
-			}
-		}
-
-		return $output;
+		]);
 	}
 }

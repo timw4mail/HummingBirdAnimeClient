@@ -5,7 +5,7 @@ use Aviat\AnimeClient\API\Kitsu;
 <h3>Voice Acting Roles</h3>
 <div class="tabs">
 <?php $i = 0; ?>
-<?php foreach($characters as $role => $characterList): ?>
+<?php foreach($data['characters'] as $role => $characterList): ?>
 	<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" name="character-type-tabs" id="character-type-<?= $i ?>" />
 	<label for="character-type-<?= $i ?>"><h5><?= ucfirst($role) ?></h5></label>
 	<section class="content">
