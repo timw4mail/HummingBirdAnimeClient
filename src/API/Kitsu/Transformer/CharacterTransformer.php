@@ -22,7 +22,7 @@ use Aviat\AnimeClient\Types\Character;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
- * Data transformation class for zippered Hummingbird manga
+ * Data transformation class for character pages
  */
 final class CharacterTransformer extends AbstractTransformer {
 

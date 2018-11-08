@@ -20,12 +20,14 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an Anime object for display
  */
 final class MangaPage extends AbstractType {
+	public $characters;
 	public $chapter_count;
 	public $cover_image;
 	public $genres;
 	public $id;
 	public $included;
 	public $manga_type;
+	public $staff;
 	public $synopsis;
 	public $title;
 	public $titles;
