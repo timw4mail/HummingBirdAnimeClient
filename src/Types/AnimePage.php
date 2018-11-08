@@ -17,24 +17,9 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an anime within a watch list
+ * Type representing an Anime object for a detail page
  */
-class Anime extends AbstractType {
-	public $age_rating;
-	public $age_rating_guide;
-	public $cover_image;
-	public $episode_count;
-	public $episode_length;
-	public $genres;
-	public $id;
-	public $included;
-	public $show_type;
-	public $slug;
-	public $status;
-	public $streaming_links;
-	public $synopsis;
-	public $title;
-	public $titles;
-	public $trailer_id;
-	public $url;
+final class AnimePage extends Anime {
+	public $characters;
+	public $staff;
 }

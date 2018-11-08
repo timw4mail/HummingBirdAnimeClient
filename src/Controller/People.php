@@ -17,12 +17,33 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
+
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Controller for People pages
  */
 final class People extends BaseController {
+
+	/**
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 */
+	private $model;
+
+	/**
+	 * People constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 */
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->model = $container->get('kitsu-model');
+	}
+
 	/**
 	 * Show information about a person
 	 *
@@ -31,9 +52,8 @@ final class People extends BaseController {
 	 */
 	public function index(string $id): void
 	{
-		$model = $this->container->get('kitsu-model');
-
-		$rawData = $model->getPerson($id);
+		$rawData = $this->model->getPerson($id);
+		$data = (new PersonTransformer())->transform($rawData)->toArray();
 
 		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
 		{
@@ -48,114 +68,12 @@ final class People extends BaseController {
 			return;
 		}
 
-		$data = JsonAPI::organizeData($rawData);
-		$included = JsonAPI::organizeIncludes($rawData['included']);
-
-		$orgData = $this->organizeData($included);
-
-		$viewData = [
-			'included' => $included,
+		$this->outputHTML('person/details', [
 			'title' => $this->formatTitle(
 				'People',
-				$data['attributes']['name']
+				$data['name']
 			),
 			'data' => $data,
-			'castCount' => 0,
-			'castings' => [],
-			'characters' => $orgData['characters'],
-			'staff' => $orgData['staff'],
-		];
-
-		$this->outputHTML('person/details', $viewData);
-	}
-
-	protected function organizeData(array $data): array
-	{
-		$output = [
-			'characters' => [
-				'main' => [],
-				'supporting' => [],
-			],
-			'staff' => [],
-		];
-
-		if (array_key_exists('characterVoices', $data))
-		{
-			foreach ($data['characterVoices'] as $cv)
-			{
-				$mcId = $cv['relationships']['mediaCharacter']['data']['id'];
-
-				if ( ! array_key_exists($mcId, $data['mediaCharacters']))
-				{
-					continue;
-				}
-
-				$mc = $data['mediaCharacters'][$mcId];
-
-				$role = $mc['role'];
-
-				$charId = $mc['relationships']['character']['data']['id'];
-				$mediaId = $mc['relationships']['media']['data']['id'];
-
-				$existingMedia = array_key_exists($charId, $output['characters'][$role])
-					? $output['characters'][$role][$charId]['media']
-					: [];
-
-				$relatedMedia = [
-					$mediaId => $data['anime'][$mediaId],
-				];
-
-				$includedMedia = array_replace_recursive($existingMedia, $relatedMedia);
-
-				uasort($includedMedia, function ($a, $b) {
-					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
-				});
-
-				$character = $data['characters'][$charId];
-
-				$output['characters'][$role][$charId] = [
-					'character' => $character,
-					'media' => $includedMedia,
-				];
-			}
-		}
-
-		if (array_key_exists('mediaStaff', $data))
-		{
-			foreach($data['mediaStaff'] as $rid => $role)
-			{
-				$roleName = $role['role'];
-				$mediaType = $role['relationships']['media']['data']['type'];
-				$mediaId = $role['relationships']['media']['data']['id'];
-				$media = $data[$mediaType][$mediaId];
-				$output['staff'][$roleName][$mediaType][$mediaId] = $media;
-			}
-		}
-
-		uasort($output['characters']['main'], function ($a, $b) {
-			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
-		});
-		uasort($output['characters']['supporting'], function ($a, $b) {
-			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
-		});
-		ksort($output['staff']);
-		foreach($output['staff'] as $role => &$media)
-		{
-			if (array_key_exists('anime', $media))
-			{
-				uasort($media['anime'], function ($a, $b) {
-					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('manga', $media))
-			{
-				uasort($media['manga'], function ($a, $b) {
-					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
-				});
-			}
-		}
-
-		return $output;
+		]);
 	}
 }

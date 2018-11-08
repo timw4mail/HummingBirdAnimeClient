@@ -9,16 +9,16 @@ use Aviat\AnimeClient\API\Kitsu;
 			<?= $helper->picture("images/people/{$data['id']}-original.webp", 'jpg', ['class' => 'cover' ]) ?>
 		</div>
 		<div>
-			<h2 class="toph"><?= $data['attributes']['name'] ?></h2>
+			<h2 class="toph"><?= $data['name'] ?></h2>
 		</div>
 	</section>
 
-	<?php if ( ! empty($staff)): ?>
+	<?php if ( ! empty($data['staff'])): ?>
 		<section>
 			<h3>Castings</h3>
 			<div class="vertical-tabs">
 				<?php $i = 0 ?>
-				<?php foreach ($staff as $role => $entries): ?>
+				<?php foreach ($data['staff'] as $role => $entries): ?>
 					<div class="tab">
 						<input
 							type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
@@ -59,7 +59,7 @@ use Aviat\AnimeClient\API\Kitsu;
 		</section>
 	<?php endif ?>
 
-	<?php if ( ! (empty($characters['main']) || empty($characters['supporting']))): ?>
+	<?php if ( ! (empty($data['characters']['main']) || empty($data['characters']['supporting']))): ?>
 		<section>
 			<?php include 'character-mapping.php' ?>
 		</section>

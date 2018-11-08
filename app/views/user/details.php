@@ -1,45 +1,39 @@
 <?php
-use function Aviat\AnimeClient\getLocalImg;
 use Aviat\AnimeClient\API\Kitsu;
 ?>
 <main class="user-page details">
 	<h2 class="toph">
 		<?= $helper->a(
-			"https://kitsu.io/users/{$attributes['slug']}",
-			$attributes['name'], [
+			"https://kitsu.io/users/{$data['slug']}",
+			$data['name'], [
 			'title' => 'View profile on Kitsu'
 		])
 		?>
 	</h2>
 
-	<p><?= $escape->html($attributes['about']) ?></p>
+	<p><?= $escape->html($data['about']) ?></p>
 
 	<section class="flex flex-no-wrap">
 		<aside class="info">
 			<center>
-				<?php
-					$avatar = $urlGenerator->assetUrl(
-						getLocalImg($attributes['avatar']['original'], FALSE)
-					);
-					echo $helper->img($avatar, ['alt' => '']);
-				?>
+				<?= $helper->img($urlGenerator->assetUrl($data['avatar']), ['alt' => '']); ?>
 			</center>
 			<br />
 			<table class="media-details">
 				<tr>
 					<td>Location</td>
-					<td><?= $attributes['location'] ?></td>
+					<td><?= $data['location'] ?></td>
 				</tr>
 				<tr>
 					<td>Website</td>
-					<td><?= $helper->a($attributes['website'], $attributes['website']) ?></td>
+					<td><?= $helper->a($data['website'], $data['website']) ?></td>
 				</tr>
-				<?php if (array_key_exists('waifu', $relationships)): ?>
+				<?php if ( ! empty($data['waifu'])): ?>
 				<tr>
-					<td><?= $escape->html($attributes['waifuOrHusbando']) ?></td>
+					<td><?= $escape->html($data['waifu']['label']) ?></td>
 					<td>
 						<?php
-							$character = $relationships['waifu']['attributes'];
+							$character = $data['waifu']['character'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
 								$character['canonicalName']
@@ -52,42 +46,24 @@ use Aviat\AnimeClient\API\Kitsu;
 
 			<h3>User Stats</h3><br />
 			<table class="media-details">
+				<?php foreach($data['stats'] as $label => $stat): ?>
 				<tr>
-					<td>Time spent watching anime:</td>
-					<td><?= $timeOnAnime ?></td>
+					<td><?= $label ?></td>
+					<td><?= $stat ?></td>
 				</tr>
-				<tr>
-					<td># of Anime episodes watched</td>
-					<td><?= number_format($stats['anime-amount-consumed']['units']) ?></td>
-				</tr>
-				<tr>
-					<td># of Manga chapters read</td>
-					<td><?= number_format($stats['manga-amount-consumed']['units']) ?></td>
-				</tr>
-				<tr>
-					<td># of Posts</td>
-					<td><?= number_format($attributes['postsCount']) ?></td>
-				</tr>
-				<tr>
-					<td># of Comments</td>
-					<td><?= number_format($attributes['commentsCount']) ?></td>
-				</tr>
-				<tr>
-					<td># of Media Rated</td>
-					<td><?= number_format($attributes['ratingsCount']) ?></td>
-				</tr>
+				<?php endforeach ?>
 			</table>
 		</aside>
 		<article>
-			<?php if ( ! empty($favorites)): ?>
+			<?php if ( ! empty($data['favorites'])): ?>
 			<h3>Favorites</h3>
 			<div class="tabs">
 				<?php $i = 0 ?>
-				<?php if ( ! empty($favorites['characters'])): ?>
+				<?php if ( ! empty($data['favorites']['characters'])): ?>
 					<input type="radio" name="user-favorites" id="user-fav-chars" <?= $i === 0 ? 'checked' : '' ?> />
 					<label for="user-fav-chars">Characters</label>
 					<section class="content full-width media-wrap">
-					<?php foreach($favorites['characters'] as $id => $char): ?>
+					<?php foreach($data['favorites']['characters'] as $id => $char): ?>
 						<?php if ( ! empty($char['image']['original'])): ?>
 						<article class="character">
 							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
@@ -101,11 +77,11 @@ use Aviat\AnimeClient\API\Kitsu;
 					</section>
 					<?php $i++; ?>
 				<?php endif ?>
-				<?php if ( ! empty($favorites['anime'])): ?>
+				<?php if ( ! empty($data['favorites']['anime'])): ?>
 					<input type="radio" name="user-favorites" id="user-fav-anime" <?= $i === 0 ? 'checked' : '' ?> />
 					<label for="user-fav-anime">Anime</label>
 					<section class="content full-width media-wrap">
-						<?php foreach($favorites['anime'] as $anime): ?>
+						<?php foreach($data['favorites']['anime'] as $anime): ?>
 						<article class="media">
 							<?php
 								$link = $url->generate('anime.details', ['id' => $anime['slug']]);
@@ -127,11 +103,11 @@ use Aviat\AnimeClient\API\Kitsu;
 					</section>
 					<?php $i++; ?>
 				<?php endif ?>
-				<?php if ( ! empty($favorites['manga'])): ?>
+				<?php if ( ! empty($data['favorites']['manga'])): ?>
 					<input type="radio" name="user-favorites" id="user-fav-manga" <?= $i === 0 ? 'checked' : '' ?> />
 					<label for="user-fav-manga">Manga</label>
 					<section class="content full-width media-wrap">
-						<?php foreach($favorites['manga'] as $manga): ?>
+						<?php foreach($data['favorites']['manga'] as $manga): ?>
 						<article class="media">
 							<?php
 								$link = $url->generate('manga.details', ['id' => $manga['slug']]);

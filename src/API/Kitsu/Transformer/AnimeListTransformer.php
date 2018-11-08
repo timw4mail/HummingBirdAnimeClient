@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\{
-	Anime,
 	FormItem,
 	AnimeListItem
 };
@@ -95,7 +94,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'started' => $anime['startDate'],
 				'ended' => $anime['endDate']
 			],
-			'anime' => new Anime([
+			'anime' => [
 				'id' => $animeId,
 				'age_rating' => $anime['ageRating'],
 				'title' => $title,
@@ -105,7 +104,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
-			]),
+			],
 			'watching_status' => $item['attributes']['status'],
 			'notes' => $item['attributes']['notes'],
 			'rewatching' => (bool) $item['attributes']['reconsuming'],

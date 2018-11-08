@@ -17,24 +17,16 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an anime within a watch list
+ * Type representing a Kitsu user for display
  */
-class Anime extends AbstractType {
-	public $age_rating;
-	public $age_rating_guide;
-	public $cover_image;
-	public $episode_count;
-	public $episode_length;
-	public $genres;
-	public $id;
-	public $included;
-	public $show_type;
+final class User extends AbstractType {
+	public $about;
+	public $avatar;
+	public $favorites;
+	public $location;
+	public $name;
 	public $slug;
-	public $status;
-	public $streaming_links;
-	public $synopsis;
-	public $title;
-	public $titles;
-	public $trailer_id;
-	public $url;
+	public $stats;
+	public $waifu;
+	public $website;
 }
