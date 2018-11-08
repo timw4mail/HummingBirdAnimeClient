@@ -16,7 +16,7 @@ use Aviat\AnimeClient\API\Kitsu;
 			</tr>
 			<?php foreach ($characterList as $cid => $character): ?>
 				<tr>
-					<td style="width:229px">
+					<td>
 						<article class="character">
 							<?php
 							$link = $url->generate('character', ['slug' => $character['character']['slug']]);
