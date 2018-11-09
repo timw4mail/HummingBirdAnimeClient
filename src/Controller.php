@@ -183,7 +183,7 @@ class Controller {
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
-	public function sessionRedirect()
+	public function sessionRedirect(): void
 	{
 		$target = $this->session->get('redirect_url');
 		if (empty($target))
@@ -208,7 +208,7 @@ class Controller {
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return string
 	 */
-	protected function loadPartial($view, string $template, array $data = [])
+	protected function loadPartial($view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
 
@@ -242,7 +242,7 @@ class Controller {
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
-	protected function renderFullPage($view, string $template, array $data)
+	protected function renderFullPage($view, string $template, array $data): void
 	{
 		$csp = [
 			"default-src 'self'",
@@ -275,7 +275,7 @@ class Controller {
 	public function notFound(
 		string $title = 'Sorry, page not found',
 		string $message = 'Page Not Found'
-		)
+		): void
 	{
 		$this->outputHTML('404', [
 			'title' => $title,
@@ -383,7 +383,7 @@ class Controller {
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @return void
 	 */
-	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200)
+	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
 	{
 		if (null === $view)
 		{

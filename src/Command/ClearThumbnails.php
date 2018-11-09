@@ -27,7 +27,7 @@ class ClearThumbnails extends BaseCommand {
 		$this->echoBox('All cached images have been removed');
 	}
 
-	public function clearThumbs()
+	private function clearThumbs(): void
 	{
 		$imgDir = realpath(__DIR__ . '/../../public/images');
 

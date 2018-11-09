@@ -56,16 +56,4 @@ class AnimeListTransformer extends AbstractTransformer {
 			],
 		]);
 	}
-
-	/**
-	 * Transform a set of structures
-	 *
-	 * @param  array|object $collection
-	 * @return array
-	 */
-	public function untransformCollection($collection): array
-	{
-		$list = (array)$collection;
-		return array_map([$this, 'untransform'], $list);
-	}
 }

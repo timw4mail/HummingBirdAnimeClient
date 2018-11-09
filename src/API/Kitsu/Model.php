@@ -91,9 +91,10 @@ final class Model {
 	{
 		$this->animeTransformer = new AnimeTransformer();
 		$this->animeListTransformer = new AnimeListTransformer();
-		$this->listItem = $listItem;
 		$this->mangaTransformer = new MangaTransformer();
 		$this->mangaListTransformer = new MangaListTransformer();
+
+		$this->listItem = $listItem;
 	}
 
 	/**
@@ -265,7 +266,7 @@ final class Model {
 	public function getUserData(string $username): array
 	{
 		// $userId = $this->getUserIdByUsername($username);
-		$data = $this->getRequest("users", [
+		$data = $this->getRequest('users', [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -334,7 +335,7 @@ final class Model {
 	 * @param string $type "anime" or "manga"
 	 * @return string|NULL
 	 */
-	public function getKitsuIdFromMALId(string $malId, string $type="anime")
+	public function getKitsuIdFromMALId(string $malId, string $type='anime'): ?string
 	{
 		$options = [
 			'query' => [
@@ -369,7 +370,7 @@ final class Model {
 	 * @param string $slug
 	 * @return Anime
 	 */
-	public function getAnime(string $slug)
+	public function getAnime(string $slug): Anime
 	{
 		$baseData = $this->getRawMediaData('anime', $slug);
 
@@ -523,7 +524,7 @@ final class Model {
 	 * @param string $kitsuAnimeId The id of the anime on Kitsu
 	 * @return string|null Returns the mal id if it exists, otherwise null
 	 */
-	public function getMalIdForAnime(string $kitsuAnimeId)
+	public function getMalIdForAnime(string $kitsuAnimeId): ?string
 	{
 		$options = [
 			'query' => [
@@ -625,7 +626,7 @@ final class Model {
 	 * Get information about a particular manga
 	 *
 	 * @param string $mangaId
-	 * @return array
+	 * @return MangaPage
 	 */
 	public function getMangaById(string $mangaId): MangaPage
 	{
@@ -808,7 +809,7 @@ final class Model {
 	 * @param string $kitsuMangaId The id of the manga on Kitsu
 	 * @return string|null Returns the mal id if it exists, otherwise null
 	 */
-	public function getMalIdForManga(string $kitsuMangaId)
+	public function getMalIdForManga(string $kitsuMangaId): ?string
 	{
 		$options = [
 			'query' => [
@@ -920,7 +921,7 @@ final class Model {
 	}
 
 	/**
-	 * Get the raw data for the anime id
+	 * Get the raw data for the anime/manga id
 	 *
 	 * @param string $type
 	 * @param string $id

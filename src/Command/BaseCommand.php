@@ -21,13 +21,9 @@ use function Aviat\AnimeClient\loadTomlFile;
 
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\UrlGenerator;
-use Aviat\AnimeClient\Util;
-use Aviat\AnimeClient\API\CacheTrait;
-use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\{Model, UrlGenerator, Util};
+use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
-use Aviat\AnimeClient\Model;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};

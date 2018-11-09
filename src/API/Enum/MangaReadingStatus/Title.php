@@ -22,10 +22,10 @@ use Aviat\Ion\Enum;
  * Possible values for current reading status of manga
  */
 final class Title extends Enum {
-	const ALL = 'All';
-	const READING = 'Currently Reading';
-	const PLAN_TO_READ = 'Plan to Read';
-	const DROPPED = 'Dropped';
-	const ON_HOLD = 'On Hold';
-	const COMPLETED = 'Completed';
+	public const ALL = 'All';
+	public const READING = 'Currently Reading';
+	public const PLAN_TO_READ = 'Plan to Read';
+	public const DROPPED = 'Dropped';
+	public const ON_HOLD = 'On Hold';
+	public const COMPLETED = 'Completed';
 }

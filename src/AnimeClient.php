@@ -246,7 +246,7 @@ function getLocalImg ($kitsuUrl, $webp = TRUE): string
  * @param int $height
  * @param string $text
  */
-function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable')
+function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable'): void
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;
@@ -268,7 +268,7 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	$fontSize = 10;
 	$fontWidth = imagefontwidth($fontSize);
 	$fontHeight = imagefontheight($fontSize);
-	$length = strlen($text);
+	$length = \strlen($text);
 	$textWidth = $length * $fontWidth;
 	$fxPos = (int) ceil((imagesx($img) - $textWidth) / 2);
 	$fyPos = (int) ceil((imagesy($img) - $fontHeight) / 2);

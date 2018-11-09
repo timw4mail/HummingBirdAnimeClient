@@ -47,13 +47,13 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param string ...$args
+	 * @param string[] $args
 	 * @return string
 	 */
 	public function assetUrl(string ...$args): string
 	{
 		$baseUrl = rtrim($this->url(''), '/')
-			. $this->__get('asset_path');
+			. $this->config->get('asset_path');
 
 		array_unshift($args, $baseUrl);
 
@@ -82,7 +82,7 @@ class UrlGenerator extends RoutingBase {
 		{
 			if ( ! array_key_exists($i + 1, $segments))
 			{
-				$segments[$i + 1] = "";
+				$segments[$i + 1] = '';
 			}
 
 			$path_segments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $path_segments[$i]);
@@ -104,7 +104,7 @@ class UrlGenerator extends RoutingBase {
 	public function defaultUrl(string $type): string
 	{
 		$type = trim($type);
-		$defaultPath = $this->__get("default_{$type}_list_path");
+		$defaultPath = $this->config->get("default_{$type}_list_path");
 
 		if ($defaultPath !== NULL)
 		{
