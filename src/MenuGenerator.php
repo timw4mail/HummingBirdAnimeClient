@@ -45,9 +45,11 @@ final class MenuGenerator extends UrlGenerator {
 	protected $request;
 
 	/**
-	 * Create menu generator
+	 * MenuGenerator constructor.
 	 *
 	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -106,7 +108,7 @@ final class MenuGenerator extends UrlGenerator {
 
 			$link = $this->helper->a($this->url($path), $title);
 
-			$attrs = ($selected)
+			$attrs = $selected
 				? ['class' => 'selected']
 				: [];
 

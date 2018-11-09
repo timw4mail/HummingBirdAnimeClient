@@ -2,7 +2,7 @@
 <main>
 	<h2>Edit Anime Collection Item</h2>
 	<form action="<?= $action_url ?>" method="post">
-		<table class="invisible form borderless">
+		<table class="invisible form">
 			<tbody>
 				<tr>
 					<td rowspan="6" class="align-center">

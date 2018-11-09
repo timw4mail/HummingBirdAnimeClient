@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Amp\Artax\Response;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
@@ -121,7 +122,7 @@ trait KitsuTrait {
 	 * @param array $options
 	 * @return Response
 	 */
-	private function getResponse(string $type, string $url, array $options = [])
+	private function getResponse(string $type, string $url, array $options = []): Response
 	{
 		$logger = NULL;
 		if ($this->getContainer())

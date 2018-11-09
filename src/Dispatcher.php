@@ -64,8 +64,9 @@ final class Dispatcher extends RoutingBase {
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
-		$this->router = $container->get('aura-router')->getMap();
-		$this->matcher = $container->get('aura-router')->getMatcher();
+		$router = $this->container->get('aura-router');
+		$this->router = $router->getMap();
+		$this->matcher = $router->getMatcher();
 		$this->request = $container->get('request');
 
 		$this->outputRoutes = $this->setupRoutes();
@@ -99,7 +100,7 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	public function getOutputRoutes()
+	public function getOutputRoutes(): array
 	{
 		return $this->outputRoutes;
 	}
@@ -171,7 +172,7 @@ final class Dispatcher extends RoutingBase {
 			$controllerName = $map[$controllerName];
 		}
 
-		$actionMethod = (array_key_exists('action', $route->attributes))
+		$actionMethod = array_key_exists('action', $route->attributes)
 			? $route->attributes['action']
 			: NOT_FOUND_METHOD;
 
@@ -205,9 +206,9 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @return string
 	 */
-	public function getController()
+	public function getController(): string
 	{
-		$routeType = $this->__get('default_list');
+		$routeType = $this->config->get('default_list');
 		$requestUri = $this->request->getUri()->getPath();
 		$path = trim($requestUri, '/');
 
@@ -225,7 +226,7 @@ final class Dispatcher extends RoutingBase {
 			$controller = $routeType;
 		}
 
-		return $controller;
+		return $controller ?? '';
 	}
 
 	/**
@@ -233,11 +234,13 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	public function getControllerList()
+	public function getControllerList(): array
 	{
 		$defaultNamespace = DEFAULT_CONTROLLER_NAMESPACE;
-		$path = str_replace('\\', '/', $defaultNamespace);
-		$path = str_replace('Aviat/AnimeClient/', '', $path);
+		$find = ['\\', 'Aviat/AnimeClient/'];
+		$replace = ['/', ''];
+
+		$path = str_replace($find, $replace, $defaultNamespace);
 		$path = trim($path, '/');
 		$actualPath = realpath(_dir(SRC_DIR, $path));
 		$classFiles = glob("{$actualPath}/*.php");
@@ -265,7 +268,7 @@ final class Dispatcher extends RoutingBase {
 	 * @param  array  $params
 	 * @return void
 	 */
-	protected function call($controllerName, $method, array $params)
+	protected function call($controllerName, $method, array $params): void
 	{
 		$logger = $this->container->getLogger('default');
 
@@ -347,7 +350,7 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @return array
 	 */
-	protected function setupRoutes()
+	protected function setupRoutes(): array
 	{
 		$routeType = $this->getController();
 
@@ -359,7 +362,7 @@ final class Dispatcher extends RoutingBase {
 			unset($route['path']);
 
 			$controllerMap = $this->getControllerList();
-			$controllerClass = (array_key_exists($routeType, $controllerMap))
+			$controllerClass = array_key_exists($routeType, $controllerMap)
 				? $controllerMap[$routeType]
 				: DEFAULT_CONTROLLER;
 

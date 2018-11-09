@@ -108,7 +108,7 @@ class Anime extends API {
 	 * @param string $slug
 	 * @return AnimeType
 	 */
-	public function getAnime(string $slug)
+	public function getAnime(string $slug): AnimeType
 	{
 		return $this->kitsuModel->getAnime($slug);
 	}
@@ -147,7 +147,7 @@ class Anime extends API {
 		$item = $this->kitsuModel->getListItem($itemId);
 		$array = $item->toArray();
 
-		if (is_array($array['notes']))
+		if (\is_array($array['notes']))
 		{
 			$array['notes'] = '';
 		}

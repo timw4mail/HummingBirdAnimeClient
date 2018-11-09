@@ -24,7 +24,7 @@ use Aviat\Ion\Enum;
  * and url route segments
  */
 final class MangaReadingStatus extends Enum {
-	const ANILIST_TO_KITSU = [
+	public const ANILIST_TO_KITSU = [
 		Anilist::READING => Kitsu::READING,
 		Anilist::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		Anilist::COMPLETED => Kitsu::COMPLETED,
@@ -32,7 +32,7 @@ final class MangaReadingStatus extends Enum {
 		Anilist::DROPPED => Kitsu::DROPPED
 	];
 
-	const KITSU_TO_ANILIST = [
+	public const KITSU_TO_ANILIST = [
 		Kitsu::READING => Anilist::READING,
 		Kitsu::PLAN_TO_READ => Anilist::PLAN_TO_READ,
 		Kitsu::COMPLETED => Anilist::COMPLETED,
@@ -40,7 +40,7 @@ final class MangaReadingStatus extends Enum {
 		Kitsu::DROPPED => Anilist::DROPPED
 	];
 
-	const KITSU_TO_TITLE = [
+	public const KITSU_TO_TITLE = [
 		Kitsu::READING => Title::READING,
 		Kitsu::PLAN_TO_READ => Title::PLAN_TO_READ,
 		Kitsu::COMPLETED => Title::COMPLETED,
@@ -48,7 +48,7 @@ final class MangaReadingStatus extends Enum {
 		Kitsu::DROPPED => Title::DROPPED,
 	];
 
-	const ROUTE_TO_KITSU = 	[
+	public const ROUTE_TO_KITSU = 	[
 		Route::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		Route::READING => Kitsu::READING,
 		Route::COMPLETED => Kitsu::COMPLETED,
@@ -56,7 +56,7 @@ final class MangaReadingStatus extends Enum {
 		Route::ON_HOLD => Kitsu::ON_HOLD,
 	];
 
-	const ROUTE_TO_TITLE = [
+	public const ROUTE_TO_TITLE = [
 		Route::ALL => Title::ALL,
 		Route::PLAN_TO_READ => Title::PLAN_TO_READ,
 		Route::READING => Title::READING,
@@ -65,7 +65,7 @@ final class MangaReadingStatus extends Enum {
 		Route::ON_HOLD => Title::ON_HOLD,
 	];
 
-	const TITLE_TO_KITSU = [
+	public const TITLE_TO_KITSU = [
 		Title::PLAN_TO_READ => Kitsu::PLAN_TO_READ,
 		Title::READING => Kitsu::READING,
 		Title::COMPLETED => Kitsu::COMPLETED,

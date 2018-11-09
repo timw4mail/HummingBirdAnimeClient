@@ -22,10 +22,10 @@ use Aviat\Ion\Enum;
  * Possible values for watching status for the current anime
  */
 final class Anilist extends Enum {
-	const READING = 'CURRENT';
-	const COMPLETED = 'COMPLETED';
-	const ON_HOLD = 'PAUSED';
-	const DROPPED = 'DROPPED';
-	const PLAN_TO_READ = 'PLANNING';
-	const REPEATING = 'REPEATING';
+	public const READING = 'CURRENT';
+	public const COMPLETED = 'COMPLETED';
+	public const ON_HOLD = 'PAUSED';
+	public const DROPPED = 'DROPPED';
+	public const PLAN_TO_READ = 'PLANNING';
+	public const REPEATING = 'REPEATING';
 }

@@ -37,7 +37,7 @@ final class ListItem implements ListItemInterface {
 	use KitsuTrait;
 
 	public function create(array $data): Request
-	{	
+	{
 		$body = [
 			'data' => [
 				'type' => 'libraryEntries',
@@ -61,7 +61,7 @@ final class ListItem implements ListItemInterface {
 				]
 			]
 		];
-		
+
 		if (array_key_exists('notes', $data))
 		{
 			$body['data']['attributes']['notes'] = $data['notes'];
@@ -78,8 +78,6 @@ final class ListItem implements ListItemInterface {
 
 		return $request->setJsonBody($body)
 			->getFullRequest();
-
-		// return ($response->getStatus() === 201);
 	}
 
 	public function delete(string $id): Request
@@ -93,8 +91,6 @@ final class ListItem implements ListItemInterface {
 		}
 
 		return $request->getFullRequest();
-
-		// return ($response->getStatus() === 204);
 	}
 
 	public function get(string $id): array

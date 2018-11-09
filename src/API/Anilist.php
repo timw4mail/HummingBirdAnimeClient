@@ -65,7 +65,7 @@ final class Anilist {
 		MangaReadingStatus::PLAN_TO_READ => KMRS::PLAN_TO_READ,
 	];
 
-	public static function getIdToWatchingStatusMap()
+	public static function getIdToWatchingStatusMap(): array
 	{
 		return [
 			'CURRENT' => AnimeWatchingStatus::WATCHING,
@@ -77,7 +77,7 @@ final class Anilist {
 		];
 	}
 
-	public static function getIdToReadingStatusMap()
+	public static function getIdToReadingStatusMap(): array
 	{
 		return [
 			'CURRENT' => MangaReadingStatus::READING,

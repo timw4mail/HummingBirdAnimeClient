@@ -83,11 +83,11 @@ class Collection extends DB {
 
 		if ( ! empty($filter))
 		{
-			$this->db->where_in('hummingbird_id', $filter);
+			$this->db->whereIn('hummingbird_id', $filter);
 		}
 
-		$query = $this->db->order_by('hummingbird_id')
-			->order_by('genre')
+		$query = $this->db->orderBy('hummingbird_id')
+			->orderBy('genre')
 			->get();
 
 		$output = [];
