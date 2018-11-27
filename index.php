@@ -47,12 +47,12 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-$baseConfig = require $APPCONF_DIR . '/base_config.php';
-$di = require $APP_DIR . '/bootstrap.php';
+$baseConfig = require "{$APPCONF_DIR}/base_config.php";
+$di = require "{$APP_DIR}/bootstrap.php";
 
 $config = loadToml($CONF_DIR);
 
-$overrideFile = $CONF_DIR . '/admin-override.toml';
+$overrideFile = "{$CONF_DIR}/admin-override.toml";
 $overrideConfig = file_exists($overrideFile)
 	? loadTomlFile($overrideFile)
 	: [];
