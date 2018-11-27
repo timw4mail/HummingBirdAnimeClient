@@ -264,6 +264,11 @@ final class SyncLists extends BaseCommand {
 
 			foreach ($potentialMappings as $mappingId)
 			{
+				if (\is_array($mappingId))
+				{
+					continue;
+				}
+				
 				if (array_key_exists($mappingId, $includes['mappings']))
 				{
 					$malId = $includes['mappings'][$mappingId]['externalId'];
