@@ -39,7 +39,7 @@ class APIRequestBuilderTest extends TestCase {
 		$this->builder->setLogger(new NullLogger);
 	}
 
-	public function testGzipRequest()
+	public function testGzipRequest(): void
 	{
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
@@ -48,14 +48,14 @@ class APIRequestBuilderTest extends TestCase {
 		$this->assertEquals(1, $body['gzipped']);
 	}
 
-	public function testInvalidRequestMethod()
+	public function testInvalidRequestMethod(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
 	}
 
-	public function testRequestWithBasicAuth()
+	public function testRequestWithBasicAuth(): void
 	{
 		$request = $this->builder->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
@@ -67,7 +67,7 @@ class APIRequestBuilderTest extends TestCase {
 		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
 
-	public function testRequestWithQueryString()
+	public function testRequestWithQueryString(): void
 	{
 		$query = [
 			'foo' => 'bar',
@@ -95,7 +95,7 @@ class APIRequestBuilderTest extends TestCase {
 		$this->assertEquals($expected, $body['args']);
 	}
 
-	public function testFormValueRequest()
+	public function testFormValueRequest(): void
 	{
 		$formValues = [
 			'foo' => 'bar',
@@ -112,7 +112,7 @@ class APIRequestBuilderTest extends TestCase {
 		$this->assertEquals($formValues, $body['form']);
 	}
 
-	public function testFullUrlRequest()
+	public function testFullUrlRequest(): void
 	{
 		$data = [
 			'foo' => [

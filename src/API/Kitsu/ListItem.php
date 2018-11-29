@@ -105,7 +105,7 @@ final class ListItem implements ListItemInterface {
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
 
-		$request = $request->getFullReqest();
+		$request = $request->getFullRequest();
 		$response = getResponse($request);
 		return Json::decode(wait($response->getBody()));
 	}
