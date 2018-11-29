@@ -16,16 +16,15 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Amp\Artax\Response;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\AnimeClient;
+use Amp\Artax\Response;
 use Aviat\AnimeClient\API\{
 	FailedResponseException,
-	HummingbirdClient,
 	Kitsu as K
 };
 use Aviat\Ion\Json;
@@ -132,7 +131,7 @@ trait KitsuTrait {
 
 		$request = $this->setUpRequest($type, $url, $options);
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 
 		if ($logger)
 		{

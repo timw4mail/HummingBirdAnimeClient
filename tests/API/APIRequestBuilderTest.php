@@ -17,7 +17,9 @@
 namespace Aviat\AnimeClient\Tests\API;
 
 use function Amp\Promise\wait;
-use Aviat\AnimeClient\API\{APIRequestBuilder, HummingbirdClient};
+use function Aviat\AnimeClient\getResponse;
+
+use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -41,7 +43,7 @@ class APIRequestBuilderTest extends TestCase {
 	{
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 		$this->assertEquals(1, $body['gzipped']);
 	}
@@ -59,7 +61,7 @@ class APIRequestBuilderTest extends TestCase {
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
@@ -87,7 +89,7 @@ class APIRequestBuilderTest extends TestCase {
 			->setQuery($query)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($expected, $body['args']);
@@ -104,7 +106,7 @@ class APIRequestBuilderTest extends TestCase {
 			->setFormFields($formValues)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($formValues, $body['form']);
@@ -128,7 +130,7 @@ class APIRequestBuilderTest extends TestCase {
 			->setJsonBody($data)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($data, $body['json']);
