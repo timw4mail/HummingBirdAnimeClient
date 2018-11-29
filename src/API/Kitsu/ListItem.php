@@ -19,12 +19,10 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\{
-	HummingbirdClient,
-	ListItemInterface
-};
+use Aviat\AnimeClient\API\ListItemInterface;
 use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
@@ -107,9 +105,8 @@ final class ListItem implements ListItemInterface {
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
 
-		$request = $request->getFullRequest();
-
-		$response = wait((new HummingbirdClient)->request($request));
+		$request = $request->getFullReqest();
+		$response = getResponse($request);
 		return Json::decode(wait($response->getBody()));
 	}
 
