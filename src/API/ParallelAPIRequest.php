@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\API;
 use function Amp\call;
 use function Amp\Promise\{all, wait};
 
-use Amp\Artax\DefaultClient;
+use Amp\Artax\{Client, DefaultClient};
 
 /**
  * Class to simplify making and validating simultaneous requests
@@ -73,6 +73,10 @@ final class ParallelAPIRequest {
 	public function makeRequests(): array
 	{
 		$client = new DefaultClient();
+
+		// Timeouts suck
+		$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+
 		$promises = [];
 
 		foreach ($this->requests as $key => $url)
@@ -95,6 +99,10 @@ final class ParallelAPIRequest {
 	public function getResponses(): array
 	{
 		$client = new DefaultClient();
+
+		// Timeouts suck
+		$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+
 		$promises = [];
 
 		foreach ($this->requests as $key => $url)
