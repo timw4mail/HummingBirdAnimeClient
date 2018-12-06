@@ -18,8 +18,7 @@ namespace Aviat\AnimeClient;
 
 use function Amp\Promise\wait;
 
-use Amp\Artax\DefaultClient;
-use Amp\Artax\Response;
+use Amp\Artax\{Client, DefaultClient, Response};
 
 use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\{Toml, TomlBuilder};
@@ -217,7 +216,9 @@ function checkFolderPermissions(ConfigInterface $config): array
  */
 function getResponse ($request): Response
 {
-	return wait((new DefaultClient)->request($request));
+	$client = new DefaultClient;
+	$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+	return wait($client->request($request));
 }
 
 /**

@@ -97,11 +97,15 @@ final class UserTransformer extends AbstractTransformer {
 	/**
 	 * Format the time spent on anime in a more readable format
 	 *
-	 * @param int $minutes
+	 * @param int $seconds
 	 * @return string
 	 */
-	private function formatAnimeTime(int $minutes): string
+	private function formatAnimeTime(int $seconds): string
 	{
+		// All the seconds left
+		$remSeconds = $seconds % 60;
+		$minutes = ($seconds - $remSeconds) / 60;
+
 		$minutesPerDay = 1440;
 		$minutesPerYear = $minutesPerDay * 365;
 
@@ -111,15 +115,13 @@ final class UserTransformer extends AbstractTransformer {
 
 		// Minutes short of a day
 		$extraMinutes = $minutes % $minutesPerDay;
-
 		$days = ($minutes - $extraMinutes) / $minutesPerDay;
 
 		// Minutes short of an hour
 		$remMinutes = $extraMinutes % 60;
-
 		$hours = ($extraMinutes - $remMinutes) / 60;
 
-		$output = "{$days} days, {$hours} hours, and {$remMinutes} minutes.";
+		$output = "{$days} days, {$hours} hours, {$remMinutes} minutes, and {$remSeconds} seconds.";
 
 		if ($years > 0)
 		{
