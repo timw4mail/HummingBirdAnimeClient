@@ -27,7 +27,6 @@ postcss()
 		to: 'css/app.min.css'
 	}).then(result => {
 	fs.writeFileSync('css/app.min.css', result.css);
-	fs.writeFileSync('css/app.min.css.map', result.map);
 });
 
 // Dark theme
@@ -47,5 +46,4 @@ postcss()
 		to: 'css/dark.min.css'
 	}).then(result => {
 	fs.writeFileSync('css/dark.min.css', result.css);
-	fs.writeFileSync('css/dark.min.css.map', result.map);
 });
