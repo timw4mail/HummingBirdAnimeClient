@@ -208,6 +208,24 @@ function checkFolderPermissions(ConfigInterface $config): array
 }
 
 /**
+ * Get an API Client, with better defaults
+ *
+ * @return DefaultClient
+ */
+function getApiClient ()
+{
+	static $client;
+
+	if ($client === NULL)
+	{
+		$client = new DefaultClient;
+		$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+	}
+
+	return $client;
+}
+
+/**
  * Simplify making a request with Artax
  *
  * @param $request
@@ -216,8 +234,7 @@ function checkFolderPermissions(ConfigInterface $config): array
  */
 function getResponse ($request): Response
 {
-	$client = new DefaultClient;
-	$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+	$client = getApiClient();
 	return wait($client->request($request));
 }
 
