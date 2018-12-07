@@ -27,10 +27,10 @@ use Aviat\AnimeClient\API\Kitsu;
 		</div>
 	</section>
 
-	<?php if (array_key_exists('anime', $data['media']) || array_key_exists('manga', $data['media'])): ?>
+	<?php if ( ! (empty($data['media']['anime']) || empty($data['media']['manga']))): ?>
 		<h3>Media</h3>
 		<div class="tabs">
-			<?php if (array_key_exists('anime', $data['media'])): ?>
+			<?php if ( ! empty($data['media']['anime'])): ?>
 				<input checked="checked" type="radio" id="media-anime" name="media-tabs" />
 				<label for="media-anime">Anime</label>
 
@@ -58,7 +58,7 @@ use Aviat\AnimeClient\API\Kitsu;
 				</section>
 			<?php endif ?>
 
-			<?php if (array_key_exists('manga', $data['media'])): ?>
+			<?php if ( ! empty($data['media']['manga'])): ?>
 				<input type="radio" id="media-manga" name="media-tabs" />
 				<label for="media-manga">Manga</label>
 
