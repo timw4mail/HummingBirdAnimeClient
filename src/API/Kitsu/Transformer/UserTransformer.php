@@ -131,19 +131,38 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
-	private function organizeStats($stats, $data): array
+	private function organizeStats($stats, $data = []): array
 	{
-		// $timeOnAnime = $this->formatAnimeTime($orgData['attributes']['lifeSpentOnAnime']);
+		$animeStats = [];
+		$mangaStats = [];
+		$otherStats = [];
 
-		return [
-			'Time spent watching anime:' => $this->formatAnimeTime($stats['anime-amount-consumed']['time']),
-			'Anime series watched:' => number_format($stats['anime-amount-consumed']['media']),
-			'Anime episodes watched:' => number_format($stats['anime-amount-consumed']['units']),
-			'Manga series read:' => number_format($stats['manga-amount-consumed']['media']),
-			'Manga chapters read:' => number_format($stats['manga-amount-consumed']['units']),
-			'Posts:' => number_format($data['postsCount']),
-			'Comments:' => number_format($data['commentsCount']),
-			'Media Rated:' => number_format($data['ratingsCount']),
-		];
+		if (array_key_exists('anime-amount-consumed', $stats))
+		{
+			$animeStats = [
+				'Time spent watching anime:' => $this->formatAnimeTime($stats['anime-amount-consumed']['time']),
+				'Anime series watched:' => number_format($stats['anime-amount-consumed']['media']),
+				'Anime episodes watched:' => number_format($stats['anime-amount-consumed']['units']),
+			];
+		}
+
+		if (array_key_exists('manga-amount-consumed', $stats))
+		{
+			$mangaStats = [
+				'Manga series read:' => number_format($stats['manga-amount-consumed']['media']),
+				'Manga chapters read:' => number_format($stats['manga-amount-consumed']['units']),
+			];
+		}
+
+		if ( ! empty($data))
+		{
+			$otherStats = [
+				'Posts:' => number_format($data['postsCount']),
+				'Comments:' => number_format($data['commentsCount']),
+				'Media Rated:' => number_format($data['ratingsCount']),
+			];
+		}
+
+		return array_merge($animeStats, $mangaStats, $otherStats);
 	}
 }
