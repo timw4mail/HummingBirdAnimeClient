@@ -137,7 +137,7 @@ final class AnimeCollection extends BaseController {
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function edit()
+	public function edit(): void
 	{
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))

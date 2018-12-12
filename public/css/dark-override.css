@@ -1,5 +1,6 @@
 a {
 	color: rgb(25, 120, 226);
+	text-shadow: var(--link-shadow);
 }
 
 a:hover {
@@ -53,6 +54,23 @@ small {
 
 input, select, textarea {
 	color: #111;
+}
+
+.message, .static-message {
+	text-shadow: var(--white-link-shadow);
+}
+
+.message.success, .static-message.success {
+	background: #1f8454;
+	border-color: #70dda9;
+}
+.message.error, .static-message.error {
+	border-color:#f3e6e6;
+	background: #924949;
+}
+.message.info, .static-message.info {
+	border-color: #FFFFCC;
+	background: #bfbe3a;
 }
 
 .invisible tr,
