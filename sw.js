@@ -5,35 +5,16 @@ async function fromCache (request) {
 	return await cache.match(request);
 }
 
-async function fromNetwork (request) {
-	return await fetch(request);
-}
-
-async function update (request) {
+async function updateCache (request) {
 	const cache = await caches.open(CACHE_NAME);
 	const response = await fetch(request);
 
 	if (request.url.includes('/public/images/')) {
-		console.log('Saving to cache: ', request.url);
 		await cache.put(request, response.clone());
 	}
 
 	return response;
 }
-
-/* function refresh (response) {
-	return self.clients.matchAll().then(clients => {
-		clients.forEach(client => {
-			const message = {
-				type: 'refresh',
-				url: response.url,
-				eTag: response.headers.get('ETag')
-			};
-
-			client.postMessage(JSON.stringify(message));
-		})
-	});
-} */
 
 self.addEventListener('install', event => {
 	console.log('Public Folder Worker installed');
@@ -55,8 +36,8 @@ self.addEventListener('install', event => {
 	)
 });
 
-self.addEventListener('activate', event => {
-	console.log('Public Folder Worker activated');
+self.addEventListener('activate', () => {
+	console.info('Public Folder Worker activated');
 });
 
 // Pull css, images, and javascript from cache
@@ -71,11 +52,7 @@ self.addEventListener('fetch', event => {
 		if (cached !== undefined) {
 			event.respondWith(cached);
 		} else {
-			event.respondWith(fromNetwork(event.request));
+			event.respondWith(updateCache(event.request));
 		}
 	});
-
-	event.waitUntil(
-		update(event.request)
-	);
 });

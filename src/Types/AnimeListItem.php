@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an Anime object for display
+ * Type representing an anime watch list item
  */
 final class AnimeListItem extends AbstractType {
 	public $id;
@@ -40,4 +40,9 @@ final class AnimeListItem extends AbstractType {
 	public $rewatched;
 	public $user_rating;
 	public $watching_status;
+
+	public function setAnime($anime): void
+	{
+		$this->anime = new Anime($anime);
+	}
 }

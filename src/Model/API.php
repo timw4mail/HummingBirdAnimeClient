@@ -16,14 +16,10 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\StringWrapper;
-
 /**
  * Base model for api interaction
  */
 class API {
-	use StringWrapper;
-
 	/**
 	 * Sort the list entries by their title
 	 *
@@ -31,7 +27,7 @@ class API {
 	 * @param string $sortKey
 	 * @return void
 	 */
-	protected function sortByName(array &$array, string $sortKey)
+	protected function sortByName(array &$array, string $sortKey): void
 	{
 		$sort = [];
 

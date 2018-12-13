@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnilistStatus;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
 
@@ -39,6 +40,8 @@ class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function untransform(array $item): FormItem
 	{
+		$reconsuming = $item['status'] === AnilistStatus::REPEATING;
+
 		return new FormItem([
 			'id' => $item['id'],
 			'mal_id' => $item['media']['idMal'],
@@ -46,26 +49,16 @@ class AnimeListTransformer extends AbstractTransformer {
 				'notes' => $item['notes'] ?? '',
 				'private' => $item['private'],
 				'progress' => $item['progress'],
-				'rating' => $item['score'],
+				'rating' => $item['score'] ?? NULL,
 				'reconsumeCount' => $item['repeat'],
-				'reconsuming' => $item['status'] === AnilistStatus::REPEATING,
-				'status' => AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
+				'reconsuming' => $reconsuming,
+				'status' => $reconsuming
+					? KitsuStatus::WATCHING
+					:AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
 				'updatedAt' => (new DateTime())
 					->setTimestamp($item['updatedAt'])
 					->format(DateTime::W3C)
 			],
 		]);
-	}
-
-	/**
-	 * Transform a set of structures
-	 *
-	 * @param  array|object $collection
-	 * @return array
-	 */
-	public function untransformCollection($collection): array
-	{
-		$list = (array)$collection;
-		return array_map([$this, 'untransform'], $list);
 	}
 }

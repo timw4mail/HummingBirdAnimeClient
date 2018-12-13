@@ -264,6 +264,11 @@ final class SyncLists extends BaseCommand {
 
 			foreach ($potentialMappings as $mappingId)
 			{
+				if (\is_array($mappingId))
+				{
+					continue;
+				}
+
 				if (array_key_exists($mappingId, $includes['mappings']))
 				{
 					$malId = $includes['mappings'][$mappingId]['externalId'];
@@ -505,12 +510,16 @@ final class SyncLists extends BaseCommand {
 		// Use the first set rating, otherwise use the newer rating
 		if ( ! $sameRating)
 		{
-			if ($kitsuItem['data']['rating'] !== 0 && $dateDiff === 1)
+			if (
+				$dateDiff === 1 &&
+				$kitsuItem['data']['rating'] !== 0 &&
+				$kitsuItem['data']['ratingTwenty'] !== 0
+			)
 			{
 				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
 				$return['updateType'][] = 'anilist';
 			}
-			else if($dateDiff === -1)
+			else if($dateDiff === -1 && $anilistItem['data']['rating'] !== 0)
 			{
 				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
 				$return['updateType'][] = 'kitsu';
@@ -545,6 +554,12 @@ final class SyncLists extends BaseCommand {
 				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
 				$return['updateType'][] = 'kitsu';
 			}
+		}
+
+		// No changes? Let's bail!
+		if (empty($return['updateType']))
+		{
+			return $return;
 		}
 
 		$return['meta'] = [

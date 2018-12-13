@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\View\HtmlView;
 
 /**
@@ -29,7 +28,7 @@ final class Misc extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function clearCache()
+	public function clearCache(): void
 	{
 		$this->cache->clear();
 		$this->outputHTML('blank', [
@@ -43,7 +42,7 @@ final class Misc extends BaseController {
 	 * @param string $status
 	 * @return void
 	 */
-	public function login(string $status = '')
+	public function login(string $status = ''): void
 	{
 		$message = '';
 
@@ -68,7 +67,7 @@ final class Misc extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function loginAction()
+	public function loginAction(): void
 	{
 		$auth = $this->container->get('auth');
 		$post = $this->request->getParsedBody();
@@ -88,7 +87,7 @@ final class Misc extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function logout()
+	public function logout(): void
 	{
 		$auth = $this->container->get('auth');
 		$auth->logout();

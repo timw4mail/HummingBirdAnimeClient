@@ -21,9 +21,7 @@ namespace Aviat\AnimeClient\API;
  */
 final class JsonAPI {
 
-	/**
-	 * The full data array
-	 *
+	/*
 	 * Basic structure is generally like so:
 	 * [
 	 * 	'id' => '12016665',
@@ -35,10 +33,7 @@ final class JsonAPI {
 	 *
 	 * 	]
 	 * ]
-	 *
-	 * @var array
 	 */
-	protected $data = [];
 
 	/**
 	 * Inline all included data
@@ -214,8 +209,7 @@ final class JsonAPI {
 							$dataType = $props['data']['type'];
 
 							$relationship =& $organized[$type][$id]['relationships'][$relType];
-							unset($relationship['links']);
-							unset($relationship['data']);
+							unset($relationship['links'], $relationship['data']);
 
 							if ($relType === $dataType)
 							{

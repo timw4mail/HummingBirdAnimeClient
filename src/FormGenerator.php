@@ -16,35 +16,28 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\
-{
-	ArrayWrapper, StringWrapper
-};
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Helper object to manage form generation, especially for config editing
  */
 final class FormGenerator {
-	use ArrayWrapper;
-	use StringWrapper;
-
-	/**
-	 * Injection Container
-	 * @var ContainerInterface $container
-	 */
-	protected $container;
-
 	/**
 	 * Html generation helper
 	 *
 	 * @var \Aura\Html\HelperLocator
 	 */
-	protected $helper;
+	private $helper;
 
+	/**
+	 * FormGenerator constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 */
 	public function __construct(ContainerInterface $container)
 	{
-		$this->container = $container;
 		$this->helper = $container->get('html-helper');
 	}
 
@@ -55,7 +48,7 @@ final class FormGenerator {
 	 * @param array $form
 	 * @return string
 	 */
-	public function generate(string $name, array $form)
+	public function generate(string $name, array $form): string
 	{
 		$type = $form['type'];
 
@@ -105,6 +98,6 @@ final class FormGenerator {
 			}
 		}
 
-		return $this->helper->input($params);
+		return (string)$this->helper->input($params);
 	}
 }

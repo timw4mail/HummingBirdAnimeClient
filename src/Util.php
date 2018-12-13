@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 
 /**
@@ -43,12 +42,6 @@ class Util {
 	];
 
 	/**
-	 * The config manager
-	 * @var ConfigInterface
-	 */
-	private $config;
-
-	/**
 	 * Set up the Util class
 	 *
 	 * @param ContainerInterface $container
@@ -58,7 +51,6 @@ class Util {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->setContainer($container);
-		$this->config = $container->get('config');
 	}
 
 	/**
@@ -68,7 +60,7 @@ class Util {
 	 * @param string $b - Second item to compare
 	 * @return string
 	 */
-	public static function isSelected($a, $b)
+	public static function isSelected(string $a, string $b): string
 	{
 		return ($a === $b) ? 'selected' : '';
 	}
@@ -80,7 +72,7 @@ class Util {
 	 * @param string $b - Second item to compare
 	 * @return string
 	 */
-	public static function isNotSelected($a, $b)
+	public static function isNotSelected(string $a, string $b): string
 	{
 		return ($a !== $b) ? 'selected' : '';
 	}
@@ -108,7 +100,7 @@ class Util {
 	 *
 	 * @throws \Aviat\Ion\Di\ContainerException
 	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isFormPage(): bool
 	{

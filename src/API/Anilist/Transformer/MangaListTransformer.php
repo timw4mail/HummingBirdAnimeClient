@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Anilist as AnilistStatus;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
+use Aviat\AnimeClient\Types\MangaListItem;
 use Aviat\AnimeClient\Types\FormItem;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -28,7 +29,7 @@ class MangaListTransformer extends AbstractTransformer {
 
 	public function transform($item)
 	{
-
+		return new MangaListItem([]);
 	}
 
 	/**
@@ -55,17 +56,5 @@ class MangaListTransformer extends AbstractTransformer {
 					->format(DateTime::W3C),
 			]
 		]);
-	}
-
-	/**
-	 * Transform a set of structures
-	 *
-	 * @param  array|object $collection
-	 * @return array
-	 */
-	public function untransformCollection($collection): array
-	{
-		$list = (array)$collection;
-		return array_map([$this, 'untransform'], $list);
 	}
 }

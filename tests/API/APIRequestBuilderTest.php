@@ -17,7 +17,9 @@
 namespace Aviat\AnimeClient\Tests\API;
 
 use function Amp\Promise\wait;
-use Aviat\AnimeClient\API\{APIRequestBuilder, HummingbirdClient};
+use function Aviat\AnimeClient\getResponse;
+
+use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -37,35 +39,35 @@ class APIRequestBuilderTest extends TestCase {
 		$this->builder->setLogger(new NullLogger);
 	}
 
-	public function testGzipRequest()
+	public function testGzipRequest(): void
 	{
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 		$this->assertEquals(1, $body['gzipped']);
 	}
 
-	public function testInvalidRequestMethod()
+	public function testInvalidRequestMethod(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
 	}
 
-	public function testRequestWithBasicAuth()
+	public function testRequestWithBasicAuth(): void
 	{
 		$request = $this->builder->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
 
-	public function testRequestWithQueryString()
+	public function testRequestWithQueryString(): void
 	{
 		$query = [
 			'foo' => 'bar',
@@ -87,13 +89,13 @@ class APIRequestBuilderTest extends TestCase {
 			->setQuery($query)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($expected, $body['args']);
 	}
 
-	public function testFormValueRequest()
+	public function testFormValueRequest(): void
 	{
 		$formValues = [
 			'foo' => 'bar',
@@ -104,13 +106,13 @@ class APIRequestBuilderTest extends TestCase {
 			->setFormFields($formValues)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($formValues, $body['form']);
 	}
 
-	public function testFullUrlRequest()
+	public function testFullUrlRequest(): void
 	{
 		$data = [
 			'foo' => [
@@ -128,7 +130,7 @@ class APIRequestBuilderTest extends TestCase {
 			->setJsonBody($data)
 			->getFullRequest();
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()));
 
 		$this->assertEquals($data, $body['json']);

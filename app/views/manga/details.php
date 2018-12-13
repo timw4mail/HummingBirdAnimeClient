@@ -25,6 +25,8 @@
 					</td>
 				</tr>
 			</table>
+
+			<br />
 		</aside>
 		<article class="text">
 			<h2 class="toph"><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
@@ -37,11 +39,12 @@
 		</article>
 	</section>
 
-	<?php if (count($characters) > 0): ?>
+	<?php if (count($data['characters']) > 0): ?>
 		<h2>Characters</h2>
+
 		<div class="tabs">
 			<?php $i = 0 ?>
-			<?php foreach ($characters as $role => $list): ?>
+			<?php foreach ($data['characters'] as $role => $list): ?>
 				<input
 					type="radio" name="character-role-tabs"
 					id="character-tabs<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
@@ -66,12 +69,12 @@
 		</div>
 	<?php endif ?>
 
-	<?php if (count($staff) > 0): ?>
+	<?php if (count($data['staff']) > 0): ?>
 		<h2>Staff</h2>
 
 		<div class="vertical-tabs">
 			<?php $i = 0 ?>
-			<?php foreach ($staff as $role => $people): ?>
+			<?php foreach ($data['staff'] as $role => $people): ?>
 				<div class="tab">
 					<input
 						type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />

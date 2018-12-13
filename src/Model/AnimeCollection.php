@@ -226,6 +226,11 @@ final class AnimeCollection extends Collection {
 		return $query->fetch(PDO::FETCH_ASSOC);
 	}
 
+	/**
+	 * Get the list of genres from the database
+	 *
+	 * @return array
+	 */
 	private function getGenresForList(): array
 	{
 		$query = $this->db->select('hummingbird_id, genre')

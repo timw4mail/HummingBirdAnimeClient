@@ -39,13 +39,10 @@
 	table .align-right,
 	table.align-center {
 		border: 0;
-		display: block;
-		margin: 0 auto;
+		/* display: block; */
+		margin-left: auto;
+		margin-right: auto;
 		text-align: left;
-		width: 100%;
-	}
-
-	table tbody {
 		width: 100%;
 	}
 
@@ -53,9 +50,15 @@
 		display: inline-block;
 	}
 
+	table tbody,
+	table.media-details {
+		width: 100%;
+	}
+
 	table.media-details td {
 		display: block;
 		text-align: left !important;
+		width: 100%;
 	}
 
 	table thead {

@@ -16,16 +16,16 @@
 
 namespace Aviat\AnimeClient\API\Enum\AnimeWatchingStatus;
 
-use Aviat\Ion\Enum as Enum;
+use Aviat\Ion\Enum;
 
 /**
  * Possible values for current watching status of anime
  */
 final class Title extends Enum {
-	const ALL = 'All';
-	const WATCHING = 'Currently Watching';
-	const PLAN_TO_WATCH = 'Plan to Watch';
-	const DROPPED = 'Dropped';
-	const ON_HOLD = 'On Hold';
-	const COMPLETED = 'Completed';
+	public const ALL = 'All';
+	public const WATCHING = 'Currently Watching';
+	public const PLAN_TO_WATCH = 'Plan to Watch';
+	public const DROPPED = 'Dropped';
+	public const ON_HOLD = 'On Hold';
+	public const COMPLETED = 'Completed';
 }

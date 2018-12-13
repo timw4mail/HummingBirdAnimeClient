@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\API;
 
 use function Amp\call;
 use function Amp\Promise\{all, wait};
+use function Aviat\AnimeClient\getApiClient;
 
 /**
  * Class to simplify making and validating simultaneous requests
@@ -70,7 +71,8 @@ final class ParallelAPIRequest {
 	 */
 	public function makeRequests(): array
 	{
-		$client = new HummingbirdClient();
+		$client = getApiClient();
+
 		$promises = [];
 
 		foreach ($this->requests as $key => $url)
@@ -92,7 +94,8 @@ final class ParallelAPIRequest {
 	 */
 	public function getResponses(): array
 	{
-		$client = new HummingbirdClient();
+		$client = getApiClient();
+
 		$promises = [];
 
 		foreach ($this->requests as $key => $url)

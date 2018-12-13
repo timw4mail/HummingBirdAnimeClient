@@ -20,5 +20,3 @@ host = "127.0.0.1"
 
 # Database number
 database = 2
-
-[options]

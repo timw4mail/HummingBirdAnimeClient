@@ -9,7 +9,7 @@
 		<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
 			<?= $item['title'] ?>
 		</a>
-		<?= (!empty($item['alternate_title'])) ? " <br /><small> " . $item['alternate_title'] . "</small>" : "" ?>
+		<?= ! empty($item['alternate_title']) ? ' <br /><small> ' . $item['alternate_title'] . '</small>' : '' ?>
 	</td>
 	<td><?= $item['episode_count'] ?></td>
 	<td><?= $item['episode_length'] ?></td>

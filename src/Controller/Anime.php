@@ -23,15 +23,11 @@ use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
-use Aviat\Ion\StringWrapper;
 
 /**
  * Controller for Anime-related pages
  */
 final class Anime extends BaseController {
-
-	use StringWrapper;
-
 	/**
 	 * The anime list model
 	 * @var \Aviat\AnimeClient\Model\Anime $model
@@ -276,8 +272,6 @@ final class Anime extends BaseController {
 	public function details(string $animeId): void
 	{
 		$data = $this->model->getAnime($animeId);
-		$characters = [];
-		$staff = [];
 
 		if (empty($data))
 		{
@@ -291,77 +285,13 @@ final class Anime extends BaseController {
 			return;
 		}
 
-		if (array_key_exists('animeCharacters', $data['included']))
-		{
-			$animeCharacters = $data['included']['animeCharacters'];
-
-			foreach ($animeCharacters as $rel)
-			{
-				$charId = $rel['relationships']['character']['data']['id'];
-				$role = $rel['role'];
-
-				if (array_key_exists($charId, $data['included']['characters']))
-				{
-					$characters[$role][$charId] = $data['included']['characters'][$charId];
-				}
-			}
-		}
-
-		if (array_key_exists('mediaStaff', $data['included']))
-		{
-			foreach ($data['included']['mediaStaff'] as $id => $staffing)
-			{
-				$personId = $staffing['relationships']['person']['data']['id'];
-				$personDetails = $data['included']['people'][$personId];
-
-				$role = $staffing['role'];
-
-				if ( ! array_key_exists($role, $staff))
-				{
-					$staff[$role] = [];
-				}
-
-				$staff[$role][$personId] = [
-					'id' => $personId,
-					'name' => $personDetails['name'] ?? '??',
-					'image' => $personDetails['image'],
-				];
-
-				usort($staff[$role], function ($a, $b) {
-					return $a['name'] <=> $b['name'];
-				});
-			}
-		}
-
-		if ( ! empty($characters['main']))
-		{
-			uasort($characters['main'], function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
-		}
-
-		if ( ! empty($characters['supporting']))
-		{
-			uasort($characters['supporting'], function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
-		}
-
-		ksort($characters);
-		ksort($staff);
-
-		// dump($characters);
-		// dump($staff);
-
 		$this->outputHTML('anime/details', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
 				$data->title
 			),
-			'characters' => $characters,
-			'show_data' => $data,
-			'staff' => $staff,
+			'data' => $data,
 		]);
 	}
 

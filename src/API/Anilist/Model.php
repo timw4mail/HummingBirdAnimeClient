@@ -100,7 +100,7 @@ final class Model
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
 
-		if ( ! is_string($anilistUser))
+		if ( ! \is_string($anilistUser))
 		{
 			throw new InvalidArgumentException('Anilist username is not defined in config');
 		}
@@ -151,10 +151,9 @@ final class Model
 	 * Create a list item with all the relevant data
 	 *
 	 * @param array $data
-	 * @param string $type
 	 * @return Request
 	 */
-	public function createFullListItem(array $data, string $type = 'anime'): Request
+	public function createFullListItem(array $data): Request
 	{
 		$createData = $data['data'];
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id']);
@@ -168,6 +167,7 @@ final class Model
 	 * Get the data for a specific list item, generally for editing
 	 *
 	 * @param string $malId - The unique identifier of that list item
+	 * @param string $type - Them media type (anime/manga)
 	 * @return mixed
 	 */
 	public function getListItem(string $malId, string $type): array
@@ -185,6 +185,7 @@ final class Model
 	 * Increase the watch count for the current list item
 	 *
 	 * @param FormItem $data
+	 * @param string $type - Them media type (anime/manga)
 	 * @return Request
 	 */
 	public function incrementListItem(FormItem $data, string $type): Request
@@ -198,7 +199,7 @@ final class Model
 	 * Modify a list item
 	 *
 	 * @param FormItem $data
-	 * @param int [$id]
+	 * @param string $type - Them media type (anime/manga)
 	 * @return Request
 	 */
 	public function updateListItem(FormItem $data, string $type): Request
@@ -225,6 +226,7 @@ final class Model
 	 * Get the id of the specific list entry from the malId
 	 *
 	 * @param string $malId
+	 * @param string $type - The media type (anime/manga)
 	 * @return string
 	 */
 	public function getListIdFromMalId(string $malId, string $type): ?string
@@ -234,7 +236,7 @@ final class Model
 	}
 
 	/**
-	 * Get the Anilist media id from its MAL id
+	 * Get the Anilist list item id from the media id from its MAL id
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
 	 */
@@ -247,13 +249,6 @@ final class Model
 			'id' => $mediaId,
 			'userName' => $anilistUser,
 		]);
-
-		/* dump([
-			'media_id' => $mediaId,
-			'userName' => $anilistUser,
-			'response' => $info,
-		]);
-		die(); */
 
 		return (string)$info['data']['MediaList']['id'];
 	}
@@ -271,12 +266,6 @@ final class Model
 			'id' => $malId,
 			'type' => mb_strtoupper($type),
 		]);
-
-		/* dump([
-			'mal_id' => $malId,
-			'response' => $info,
-		]);
-		die(); */
 
 		return (string)$info['data']['Media']['id'];
 	}

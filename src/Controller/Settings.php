@@ -24,7 +24,7 @@ use Aviat\Ion\Di\ContainerInterface;
  */
 final class Settings extends BaseController {
 	/**
-	 * @var \Aviat\API\Anilist\Model
+	 * @var \Aviat\AnimeClient\API\Anilist\Model
 	 */
 	private $anilistModel;
 
@@ -33,6 +33,13 @@ final class Settings extends BaseController {
 	 */
 	private $settingsModel;
 
+	/**
+	 * Settings constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 */
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
@@ -44,7 +51,7 @@ final class Settings extends BaseController {
 	/**
 	 * Show the user settings, if logged in
 	 */
-	public function index()
+	public function index(): void
 	{
 		$auth = $this->container->get('auth');
 		$form = $this->settingsModel->getSettingsForm();
@@ -66,7 +73,7 @@ final class Settings extends BaseController {
 	 *
 	 * @throws \Aura\Router\Exception\RouteNotFound
 	 */
-	public function update()
+	public function update(): void
 	{
 		$post = $this->request->getParsedBody();
 		unset($post['settings-tabs']);
@@ -88,14 +95,15 @@ final class Settings extends BaseController {
 	/**
 	 * Redirect to Anilist to start Oauth flow
 	 */
-	public function anilistRedirect()
+	public function anilistRedirect(): void
 	{
-		$redirectUrl = 'https://anilist.co/api/v2/oauth/authorize?' .
-			http_build_query([
-				'client_id' => $this->config->get(['anilist', 'client_id']),
-				'redirect_uri' => $this->urlGenerator->url('/anilist-oauth'),
-				'response_type' => 'code',
-			]);
+		$query = http_build_query([
+			'client_id' => $this->config->get(['anilist', 'client_id']),
+			'redirect_uri' => $this->urlGenerator->url('/anilist-oauth'),
+			'response_type' => 'code',
+		]);
+
+		$redirectUrl = "https://anilist.co/api/v2/oauth/authorize?{$query}";
 
 		$this->redirect($redirectUrl, 303);
 	}
@@ -103,7 +111,7 @@ final class Settings extends BaseController {
 	/**
 	 * Oauth callback for Anilist API
 	 */
-	public function anilistCallback()
+	public function anilistCallback(): void
 	{
 		$query = $this->request->getQueryParams();
 		$authCode = $query['code'];
