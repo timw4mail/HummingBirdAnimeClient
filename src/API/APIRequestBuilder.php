@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\API;
 
 use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
 
 use Amp;
 use Amp\Artax\{FormBody, Request};
@@ -250,7 +251,7 @@ class APIRequestBuilder {
 	 */
 	public function getResponseData(Request $request)
 	{
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 		return wait($response->getBody());
 	}
 
@@ -315,7 +316,7 @@ class APIRequestBuilder {
 	 * @param string $type
 	 * @return void
 	 */
-	private function resetState($url, $type = 'GET')
+	private function resetState($url, $type = 'GET'): void
 	{
 		$requestUrl = $url ?: $this->baseUrl;
 

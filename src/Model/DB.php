@@ -17,15 +17,12 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\{ArrayWrapper, StringWrapper};
 
 /**
  * Base model for database interaction
  */
 class DB {
-	use ArrayWrapper;
 	use ContainerAware;
-	use StringWrapper;
 
 	/**
 	 * The query builder object

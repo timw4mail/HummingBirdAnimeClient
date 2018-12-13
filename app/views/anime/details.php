@@ -2,52 +2,55 @@
 <main class="details fixed">
 	<section class="flex">
 		<aside class="info">
-			<?= $helper->picture("images/anime/{$show_data['id']}-original.webp") ?>
+			<?= $helper->picture("images/anime/{$data['id']}-original.webp") ?>
 
 			<br />
 
 			<table class="media-details">
 				<tr>
 					<td class="align-right">Airing Status</td>
-					<td><?= $show_data['status'] ?></td>
+					<td><?= $data['status'] ?></td>
 				</tr>
 				<tr>
 					<td>Show Type</td>
-					<td><?= $show_data['show_type'] ?></td>
+					<td><?= $data['show_type'] ?></td>
 				</tr>
 				<tr>
 					<td>Episode Count</td>
-					<td><?= $show_data['episode_count'] ?? '-' ?></td>
+					<td><?= $data['episode_count'] ?? '-' ?></td>
 				</tr>
-				<?php if ( ! empty($show_data['episode_length'])): ?>
+				<?php if ( ! empty($data['episode_length'])): ?>
 					<tr>
 						<td>Episode Length</td>
-						<td><?= $show_data['episode_length'] ?> minutes</td>
+						<td><?= $data['episode_length'] ?> minutes</td>
 					</tr>
 				<?php endif ?>
-				<?php if ( ! empty($show_data['age_rating'])): ?>
+				<?php if ( ! empty($data['age_rating'])): ?>
 					<tr>
 						<td>Age Rating</td>
-						<td><abbr title="<?= $show_data['age_rating_guide'] ?>"><?= $show_data['age_rating'] ?></abbr>
+						<td><abbr title="<?= $data['age_rating_guide'] ?>"><?= $data['age_rating'] ?></abbr>
 						</td>
 					</tr>
 				<?php endif ?>
 				<tr>
 					<td>Genres</td>
 					<td>
-						<?= implode(', ', $show_data['genres']) ?>
+						<?= implode(', ', $data['genres']) ?>
 					</td>
 				</tr>
 			</table>
+
+			<br />
+
 		</aside>
 		<article class="text">
-			<h2 class="toph"><a rel="external" href="<?= $show_data['url'] ?>"><?= $show_data['title'] ?></a></h2>
-			<?php foreach ($show_data['titles'] as $title): ?>
+			<h2 class="toph"><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
+			<?php foreach ($data['titles'] as $title): ?>
 				<h3><?= $title ?></h3>
 			<?php endforeach ?>
 			<br />
-			<p class="description"><?= nl2br($show_data['synopsis']) ?></p>
-			<?php if (count($show_data['streaming_links']) > 0): ?>
+			<p class="description"><?= nl2br($data['synopsis']) ?></p>
+			<?php if (count($data['streaming_links']) > 0): ?>
 				<hr />
 				<h4>Streaming on:</h4>
 				<table class="full-width invisible streaming-links">
@@ -59,13 +62,13 @@
 					</tr>
 					</thead>
 					<tbody>
-					<?php foreach ($show_data['streaming_links'] as $link): ?>
+					<?php foreach ($data['streaming_links'] as $link): ?>
 						<tr>
 							<td class="align-left">
 								<?php if ($link['meta']['link'] !== FALSE): ?>
 									<a
 										href="<?= $link['link'] ?>"
-										title="Stream '<?= $show_data['title'] ?>' on <?= $link['meta']['name'] ?>"
+										title="Stream '<?= $data['title'] ?>' on <?= $link['meta']['name'] ?>"
 									>
 										<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
 											'class' => 'streaming-logo',
@@ -92,13 +95,13 @@
 					</tbody>
 				</table>
 			<?php endif ?>
-			<?php if ( ! empty($show_data['trailer_id'])): ?>
+			<?php if ( ! empty($data['trailer_id'])): ?>
 				<div class="responsive-iframe">
 				<h4>Trailer</h4>
 				<iframe
 					width="560"
 					height="315"
-					src="https://www.youtube.com/embed/<?= $show_data['trailer_id'] ?>"
+					src="https://www.youtube.com/embed/<?= $data['trailer_id'] ?>"
 					frameborder="0"
 					allow="autoplay; encrypted-media"
 					allowfullscreen
@@ -108,13 +111,13 @@
 		</article>
 	</section>
 
-	<?php if (count($characters) > 0): ?>
+	<?php if (count($data['characters']) > 0): ?>
 	<section>
 		<h2>Characters</h2>
 
 		<div class="tabs">
 			<?php $i = 0 ?>
-			<?php foreach ($characters as $role => $list): ?>
+			<?php foreach ($data['characters'] as $role => $list): ?>
 				<input
 					type="radio" name="character-types"
 					id="character-types-<?= $i ?>" <?= ($i === 0) ? 'checked' : '' ?> />
@@ -140,14 +143,13 @@
 	</section>
 	<?php endif ?>
 
-	<?php if (count($staff) > 0): ?>
-	<?php //dump($staff); ?>
+	<?php if (count($data['staff']) > 0): ?>
 	<section>
 		<h2>Staff</h2>
 
 		<div class="vertical-tabs">
 			<?php $i = 0; ?>
-			<?php foreach ($staff as $role => $people): ?>
+			<?php foreach ($data['staff'] as $role => $people): ?>
 				<div class="tab">
 					<input type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
 					<label for="staff-role<?= $i ?>"><?= $role ?></label>

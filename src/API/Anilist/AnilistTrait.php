@@ -19,14 +19,12 @@ namespace Aviat\AnimeClient\API\Anilist;
 use const Aviat\AnimeClient\USER_AGENT;
 
 use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
 
 use Amp\Artax\Request;
 use Amp\Artax\Response;
 
-use Aviat\AnimeClient\API\{
-	Anilist,
-	HummingbirdClient
-};
+use Aviat\AnimeClient\API\Anilist;
 use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerAware;
 
@@ -200,7 +198,7 @@ trait AnilistTrait {
 		}
 
 		$request = $this->setUpRequest($url, $options);
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 
 		$logger->debug('Anilist response', [
 			'status' => $response->getStatus(),
@@ -221,7 +219,7 @@ trait AnilistTrait {
 			$logger = $this->container->getLogger('anilist-request');
 		}
 
-		$response = wait((new HummingbirdClient)->request($request));
+		$response = getResponse($request);
 
 		$logger->debug('Anilist response', [
 			'status' => $response->getStatus(),

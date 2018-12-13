@@ -24,6 +24,7 @@ class Config extends AbstractType {
 
 	// Settings in config.toml
 	public $asset_path; // Path to public folder for urls
+	public $dark_theme;
 	public $default_anime_list_path;
 	public $default_list;
 	public $default_manga_list_path;

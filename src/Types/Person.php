@@ -14,17 +14,22 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Enum\MangaReadingStatus;
-
-use Aviat\Ion\Enum;
+namespace Aviat\AnimeClient\Types;
 
 /**
- * Possible values for current reading status of manga
+ * Type representing a person for display
  */
-final class Kitsu extends Enum {
-	public const READING = 'current';
-	public const PLAN_TO_READ = 'planned';
-	public const DROPPED = 'dropped';
-	public const ON_HOLD = 'on_hold';
-	public const COMPLETED = 'completed';
+final class Person extends AbstractType {
+	public $id;
+	public $name;
+	public $characters;
+	public $staff;
+
+	public function setCharacters($characters): void
+	{
+		$this->characters = new class($characters) extends AbstractType {
+			public $main;
+			public $supporting;
+		};
+	}
 }

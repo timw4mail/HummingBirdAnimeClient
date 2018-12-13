@@ -181,6 +181,7 @@ $routes = [
 	'user_info' => [
 		'path' => '/user/{username}',
 		'controller' => 'user',
+		'action' => 'about',
 		'tokens' => [
 			'username' => '.*?'
 		]

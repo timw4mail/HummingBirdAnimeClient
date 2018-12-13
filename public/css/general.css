@@ -359,7 +359,7 @@ td .media-wrap-flex {
 	display: inline-block;
 	text-align: center;
 	width: 220px;
-	height: 311px;
+	height: 312px;
 	margin: var(--normal-padding);
 	z-index: 0;
 	background: rgba(0, 0, 0, 0.15);
@@ -423,7 +423,7 @@ picture.cover {
     background: var(--title-overlay); */
 	content: '';
 	display: block;
-	height: 311px;
+	height: 312px;
 	left: 0;
 	position: absolute;
 	top: 0;

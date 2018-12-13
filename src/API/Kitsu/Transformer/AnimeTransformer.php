@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
-use Aviat\AnimeClient\Types\Anime;
+use Aviat\AnimeClient\Types\AnimePage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
@@ -30,9 +30,9 @@ final class AnimeTransformer extends AbstractTransformer {
 	 * logical and workable structure
 	 *
 	 * @param  array  $item API library item
-	 * @return Anime
+	 * @return AnimePage
 	 */
-	public function transform($item): Anime
+	public function transform($item): AnimePage
 	{
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$genres = $item['included']['categories'] ?? [];
@@ -40,13 +40,74 @@ final class AnimeTransformer extends AbstractTransformer {
 		sort($item['genres']);
 
 		$title = $item['canonicalTitle'];
-
 		$titles = Kitsu::filterTitles($item);
-		// $titles = array_unique(array_diff($item['titles'], [$title]));
 
-		return new Anime([
+		$characters = [];
+		$staff = [];
+
+		if (array_key_exists('animeCharacters', $item['included']))
+		{
+			$animeCharacters = $item['included']['animeCharacters'];
+
+			foreach ($animeCharacters as $rel)
+			{
+				$charId = $rel['relationships']['character']['data']['id'];
+				$role = $rel['role'];
+
+				if (array_key_exists($charId, $item['included']['characters']))
+				{
+					$characters[$role][$charId] = $item['included']['characters'][$charId];
+				}
+			}
+		}
+
+		if (array_key_exists('mediaStaff', $item['included']))
+		{
+			foreach ($item['included']['mediaStaff'] as $id => $staffing)
+			{
+				$personId = $staffing['relationships']['person']['data']['id'];
+				$personDetails = $item['included']['people'][$personId];
+
+				$role = $staffing['role'];
+
+				if ( ! array_key_exists($role, $staff))
+				{
+					$staff[$role] = [];
+				}
+
+				$staff[$role][$personId] = [
+					'id' => $personId,
+					'name' => $personDetails['name'] ?? '??',
+					'image' => $personDetails['image'],
+				];
+
+				usort($staff[$role], function ($a, $b) {
+					return $a['name'] <=> $b['name'];
+				});
+			}
+		}
+
+		if ( ! empty($characters['main']))
+		{
+			uasort($characters['main'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		if ( ! empty($characters['supporting']))
+		{
+			uasort($characters['supporting'], function ($a, $b) {
+				return $a['name'] <=> $b['name'];
+			});
+		}
+
+		ksort($characters);
+		ksort($staff);
+
+		return new AnimePage([
 			'age_rating' => $item['ageRating'],
 			'age_rating_guide' => $item['ageRatingGuide'],
+			'characters' => $characters,
 			'cover_image' => $item['posterImage']['small'],
 			'episode_count' => $item['episodeCount'],
 			'episode_length' => $item['episodeLength'],
@@ -55,6 +116,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'included' => $item['included'],
 			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
 			'slug' => $item['slug'],
+			'staff' => $staff,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
 			'streaming_links' => Kitsu::parseStreamingLinks($item['included']),
 			'synopsis' => $item['synopsis'],

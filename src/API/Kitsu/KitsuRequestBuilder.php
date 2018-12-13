@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const Aviat\AnimeClient\USER_AGENT;
 use Aviat\AnimeClient\API\APIRequestBuilder;
 
 final class KitsuRequestBuilder extends APIRequestBuilder {
@@ -32,7 +33,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * @var array
 	 */
 	protected $defaultHeaders = [
-		'User-Agent' => "Tim's Anime Client/4.0",
+		'User-Agent' =>  USER_AGENT,
 		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',
 		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',

@@ -138,7 +138,7 @@ final class MangaCollection extends BaseController {
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function edit()
+	public function edit(): void
 	{
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
@@ -162,7 +162,7 @@ final class MangaCollection extends BaseController {
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function add()
+	public function add(): void
 	{
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
@@ -183,7 +183,7 @@ final class MangaCollection extends BaseController {
 	 *
 	 * @return void
 	 */
-	public function delete()
+	public function delete(): void
 	{
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))

@@ -41,7 +41,7 @@ final class Settings {
 		$this->config = $config;
 	}
 
-	public function getSettings()
+	public function getSettings(): array
 	{
 		$settings = [
 			'config' => [],
@@ -66,7 +66,7 @@ final class Settings {
 		return $settings;
 	}
 
-	public function getSettingsForm()
+	public function getSettingsForm(): array
 	{
 		$output = [];
 
@@ -124,7 +124,7 @@ final class Settings {
 		return $output;
 	}
 
-	public function validateSettings(array $settings)
+	public function validateSettings(array $settings): array
 	{
 		$config = (new Config($settings))->toArray();
 
@@ -150,7 +150,7 @@ final class Settings {
 					$looseConfig[$key] = $val;
 				}
 			}
-			elseif (is_array($val) && ! empty($val))
+			elseif (\is_array($val) && ! empty($val))
 			{
 				foreach($val as $k => $v)
 				{
@@ -204,7 +204,6 @@ final class Settings {
 		{
 			dump($e);
 			dump($settings);
-			die();
 			return FALSE;
 		}
 

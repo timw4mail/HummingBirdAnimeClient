@@ -16,8 +16,9 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\JsonAPI;
+
 use Aviat\Ion\Di\ContainerInterface;
 
 /**
@@ -25,8 +26,18 @@ use Aviat\Ion\Di\ContainerInterface;
  */
 final class User extends BaseController {
 
+	/**
+	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 */
 	private $kitsuModel;
 
+	/**
+	 * User constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 */
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
@@ -56,103 +67,16 @@ final class User extends BaseController {
 			? $this->config->get(['kitsu_username'])
 			: $username;
 
-		$data = $this->kitsuModel->getUserData($username);
-		$orgData = JsonAPI::organizeData($data)[0];
-		$rels = $orgData['relationships'] ?? [];
-		$favorites = array_key_exists('favorites', $rels) ? $rels['favorites'] : [];
-
-		$stats = [];
-		foreach ($rels['stats'] as $sid => &$item)
-		{
-			$key = $item['attributes']['kind'];
-			$stats[$key] = $item['attributes']['statsData'];
-			unset($item);
-		}
-
-		//dump($orgData);
-		// dump($stats);
-
-		// $timeOnAnime = $this->formatAnimeTime($orgData['attributes']['lifeSpentOnAnime']);
-		$timeOnAnime = $this->formatAnimeTime($stats['anime-amount-consumed']['time']);
-
-
 		$whom = $isMainUser
 			? $this->config->get('whose_list')
 			: $username;
 
+		$rawData = $this->kitsuModel->getUserData($username);
+		$data = (new UserTransformer())->transform($rawData)->toArray();
+
 		$this->outputHTML('user/details', [
 			'title' => 'About ' . $whom,
-			'data' => $orgData,
-			'attributes' => $orgData['attributes'],
-			'relationships' => $rels,
-			'favorites' => $this->organizeFavorites($favorites),
-			'stats' => $stats,
-			'timeOnAnime' => $timeOnAnime,
+			'data' => $data,
 		]);
-	}
-
-	/**
-	 * Reorganize favorites data to be more useful
-	 *
-	 * @param array $rawFavorites
-	 * @return array
-	 */
-	private function organizeFavorites(array $rawFavorites): array
-	{
-		$output = [];
-
-		unset($rawFavorites['data']);
-
-		foreach ($rawFavorites as $item)
-		{
-			$rank = $item['attributes']['favRank'];
-			foreach ($item['relationships']['item'] as $key => $fav)
-			{
-				$output[$key] = $output[$key] ?? [];
-				foreach ($fav as $id => $data)
-				{
-					$output[$key][$rank] = array_merge(['id' => $id], $data['attributes']);
-				}
-			}
-
-			ksort($output[$key]);
-		}
-
-		return $output;
-	}
-
-	/**
-	 * Format the time spent on anime in a more readable format
-	 *
-	 * @param int $minutes
-	 * @return string
-	 */
-	private function formatAnimeTime(int $minutes): string
-	{
-		$minutesPerDay = 1440;
-		$minutesPerYear = $minutesPerDay * 365;
-
-		// Minutes short of a year
-		$years = (int)floor($minutes / $minutesPerYear);
-		$minutes %= $minutesPerYear;
-
-		// Minutes short of a day
-		$extraMinutes = $minutes % $minutesPerDay;
-
-		$days = ($minutes - $extraMinutes) / $minutesPerDay;
-
-		// Minutes short of an hour
-		$remMinutes = $extraMinutes % 60;
-
-		$hours = ($extraMinutes - $remMinutes) / 60;
-
-		$output = "{$days} days, {$hours} hours, and {$remMinutes} minutes.";
-
-		if ($years > 0)
-		{
-			$output = "{$years} year(s),{$output}";
-		}
-
-		return $output;
 	}
 }

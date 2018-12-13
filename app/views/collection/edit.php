@@ -2,7 +2,7 @@
 <main>
 	<h2>Edit Anime Collection Item</h2>
 	<form action="<?= $action_url ?>" method="post">
-		<table class="invisible form" style="border:0">
+		<table class="invisible form">
 			<tbody>
 				<tr>
 					<td rowspan="6" class="align-center">
@@ -28,7 +28,7 @@
 					<td class="align-left">
 						<select name="media_id" id="media_id">
 						<?php foreach($media_items as $id => $name): ?>
-							<option <?= $item['media_id'] == $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+							<option <?= $item['media_id'] === $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>

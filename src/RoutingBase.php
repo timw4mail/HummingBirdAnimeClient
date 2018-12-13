@@ -60,20 +60,6 @@ class RoutingBase {
 	}
 
 	/**
-	 * Retrieve the appropriate value for the routing key
-	 *
-	 * @param string|int|array $key
-	 * @return mixed
-	 */
-	public function __get($key)
-	{
-		if ($this->config->has($key))
-		{
-			return $this->config->get($key);
-		}
-	}
-
-	/**
 	 * Get the current url path
 	 * @throws \Aviat\Ion\Di\ContainerException
 	 * @throws \Aviat\Ion\Di\NotFoundException

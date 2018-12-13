@@ -16,6 +16,10 @@
 
 namespace Aviat\AnimeClient;
 
+use function Amp\Promise\wait;
+
+use Amp\Artax\{Client, DefaultClient, Response};
+
 use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\{Toml, TomlBuilder};
 
@@ -204,6 +208,37 @@ function checkFolderPermissions(ConfigInterface $config): array
 }
 
 /**
+ * Get an API Client, with better defaults
+ *
+ * @return DefaultClient
+ */
+function getApiClient ()
+{
+	static $client;
+
+	if ($client === NULL)
+	{
+		$client = new DefaultClient;
+		$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+	}
+
+	return $client;
+}
+
+/**
+ * Simplify making a request with Artax
+ *
+ * @param $request
+ * @return Response
+ * @throws \Throwable
+ */
+function getResponse ($request): Response
+{
+	$client = getApiClient();
+	return wait($client->request($request));
+}
+
+/**
  * Generate the path for the cached image from the original image
  *
  * @param string $kitsuUrl
@@ -246,7 +281,7 @@ function getLocalImg ($kitsuUrl, $webp = TRUE): string
  * @param int $height
  * @param string $text
  */
-function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable')
+function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable'): void
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;
@@ -259,7 +294,7 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	// Background is the first color by default
 	$fillColor = imagecolorallocatealpha($img, 255, 255, 255, 127);
 	imagefill($img, 0, 0, $fillColor);
-	
+
 	$textColor = imagecolorallocate($img, 64, 64, 64);
 
 	imagealphablending($img, TRUE);
@@ -268,7 +303,7 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	$fontSize = 10;
 	$fontWidth = imagefontwidth($fontSize);
 	$fontHeight = imagefontheight($fontSize);
-	$length = strlen($text);
+	$length = \strlen($text);
 	$textWidth = $length * $fontWidth;
 	$fxPos = (int) ceil((imagesx($img) - $textWidth) / 2);
 	$fyPos = (int) ceil((imagesy($img) - $fontHeight) / 2);
@@ -280,11 +315,11 @@ function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavaila
 	imagesavealpha($img, TRUE);
 	imagepng($img, $path . '/placeholder.png', 9);
 	imagedestroy($img);
-	
+
 	$pngImage = imagecreatefrompng($path . '/placeholder.png');
 	imagealphablending($pngImage, TRUE);
 	imagesavealpha($pngImage, TRUE);
-	
+
 	imagewebp($pngImage, $path . '/placeholder.webp');
 
 	imagedestroy($pngImage);

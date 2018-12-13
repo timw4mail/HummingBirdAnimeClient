@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient\Types;
 
 /**
- * Type representing an Anime object for display
+ * Type representing an anime within a watch list
  */
-final class Anime extends AbstractType {
+class Anime extends AbstractType {
 	public $age_rating;
 	public $age_rating_guide;
 	public $cover_image;
