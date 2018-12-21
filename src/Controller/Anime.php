@@ -28,6 +28,7 @@ use Aviat\Ion\Json;
  * Controller for Anime-related pages
  */
 final class Anime extends BaseController {
+
 	/**
 	 * The anime list model
 	 * @var \Aviat\AnimeClient\Model\Anime $model
@@ -49,12 +50,9 @@ final class Anime extends BaseController {
 
 		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'anime_list',
-			'url_type' => 'anime',
 			'other_type' => 'manga',
-			'config' => $this->config,
+			'url_type' => 'anime',
 		]);
-
-		$this->cache = $container->get('cache');
 	}
 
 	/**

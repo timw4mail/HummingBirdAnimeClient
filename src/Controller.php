@@ -79,11 +79,7 @@ class Controller {
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $baseData = [
-		'url_type' => 'anime',
-		'other_type' => 'manga',
-		'menu_name' => ''
-	];
+	protected $baseData = [];
 
 	/**
 	 * Controller constructor.
@@ -95,46 +91,29 @@ class Controller {
 	public function __construct(ContainerInterface $container)
 	{
 		$this->setContainer($container);
+
 		$auraUrlGenerator = $container->get('aura-router')->getGenerator();
+		$session = $container->get('session');
 		$urlGenerator = $container->get('url-generator');
+
 		$this->cache =  $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->response = $container->get('response');
-
-		$this->baseData = array_merge($this->baseData, [
-			'url' => $auraUrlGenerator,
-			'urlGenerator' => $urlGenerator,
-			'auth' => $container->get('auth'),
-			'config' => $this->config
-		]);
-
+		$this->session = $session->getSegment(SESSION_SEGMENT);
 		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
 
-		$session = $container->get('session');
-		$this->session = $session->getSegment(SESSION_SEGMENT);
-
-		// Set a 'previous' flash value for better redirects
-		$serverParams = $this->request->getServerParams();
-		if (array_key_exists('HTTP_REFERER', $serverParams) && false === stripos($serverParams['HTTP_REFERER'], 'login'))
-		{
-			$this->session->setFlash('previous', $serverParams['HTTP_REFERER']);
-		}
-
-		// Set a message box if available
-		$this->baseData['message'] = $this->session->getFlash('message');
-	}
-
-	/**
-	 * Redirect to the previous page
-	 *
-	 * @return void
-	 */
-	public function redirectToPrevious(): void
-	{
-		$previous = $this->session->getFlash('previous');
-		$this->redirect($previous, 303);
+		$this->baseData = [
+			'auth' => $container->get('auth'),
+			'config' => $this->config,
+			'menu_name' => '',
+			'message' => $this->session->getFlash('message'), // Get message box data if it exists
+			'other_type' => 'manga',
+			'url' => $auraUrlGenerator,
+			'url_type' => 'anime',
+			'urlGenerator' => $urlGenerator,
+		];
 	}
 
 	/**
@@ -159,7 +138,7 @@ class Controller {
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
-		// and the previous page is also a form type page_segments
+		// and the previous page is also a form type
 		if ($doubleFormPage || $isLoginPage)
 		{
 			return;
@@ -178,6 +157,8 @@ class Controller {
 	/**
 	 * Redirect to the url previously set in the  session
 	 *
+	 * If one is not set, redirect to default url
+	 *
 	 * @throws InvalidArgumentException
 	 * @throws \Aviat\Ion\Di\Exception\ContainerException
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
@@ -185,16 +166,10 @@ class Controller {
 	 */
 	public function sessionRedirect(): void
 	{
-		$target = $this->session->get('redirect_url');
-		if (empty($target))
-		{
-			$this->notFound();
-		}
-		else
-		{
-			$this->redirect($target, 303);
-			$this->session->set('redirect_url', NULL);
-		}
+		$target = $this->session->get('redirect_url') ?? '/';
+
+		$this->redirect($target, 303);
+		$this->session->set('redirect_url', NULL);
 	}
 
 	/**
@@ -218,7 +193,7 @@ class Controller {
 		}
 
 		$route = $router->getRoute();
-		$data['route_path'] = $route ? $router->getRoute()->path : '';
+		$data['route_path'] = $route !== FALSE ? $route->path : '';
 
 
 		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
@@ -275,7 +250,7 @@ class Controller {
 	public function notFound(
 		string $title = 'Sorry, page not found',
 		string $message = 'Page Not Found'
-		): void
+	): void
 	{
 		$this->outputHTML('404', [
 			'title' => $title,
@@ -408,7 +383,6 @@ class Controller {
 		(new JsonView($this->container))
 			->setStatusCode($code)
 			->setOutput($data);
-			// ->send();
 		exit();
 	}
 
@@ -421,8 +395,8 @@ class Controller {
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		$http = new HttpView($this->container);
-		$http->redirect($url, $code);
+		(new HttpView($this->container))->redirect($url, $code);
+		exit();
 	}
 }
 // End of BaseController.php

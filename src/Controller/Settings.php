@@ -23,6 +23,7 @@ use Aviat\Ion\Di\ContainerInterface;
  * Controller for user settings
  */
 final class Settings extends BaseController {
+
 	/**
 	 * @var \Aviat\AnimeClient\API\Anilist\Model
 	 */
@@ -144,13 +145,9 @@ final class Settings extends BaseController {
 
 		$saved = $this->settingsModel->saveSettingsFile($newSettings);
 
-		if ($saved)
-		{
-			$this->setFlashMessage('Linked Anilist Account', 'success');
-		} else
-		{
-			$this->setFlashMessage('Error Linking Anilist Account', 'error');
-		}
+		$saved
+			? $this->setFlashMessage('Linked Anilist Account', 'success')
+			: $this->setFlashMessage('Error Linking Anilist Account', 'error');
 
 		$this->redirect($this->url->generate('settings'), 303);
 	}
