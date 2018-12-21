@@ -29,8 +29,6 @@ use Aviat\Ion\{Json, StringWrapper};
  */
 final class Manga extends Controller {
 
-	use StringWrapper;
-
 	/**
 	 * The manga model
 	 * @var MangaModel $model
@@ -51,9 +49,8 @@ final class Manga extends Controller {
 		$this->model = $container->get('manga-model');
 		$this->baseData = array_merge($this->baseData, [
 			'menu_name' => 'manga_list',
-			'config' => $this->config,
+			'other_type' => 'anime',
 			'url_type' => 'manga',
-			'other_type' => 'anime'
 		]);
 	}
 

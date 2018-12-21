@@ -56,9 +56,8 @@ final class AnimeCollection extends BaseController {
 		$this->baseData = array_merge($this->baseData, [
 			'collection_type' => 'anime',
 			'menu_name' => 'collection',
-			'url_type' => 'anime',
 			'other_type' => 'manga',
-			'config' => $this->config,
+			'url_type' => 'anime',
 		]);
 	}
 

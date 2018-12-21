@@ -20,7 +20,7 @@
 		<log type="coverage-clover" target="logs/clover.xml"/>
 		<log type="coverage-crap4j" target="logs/crap4j.xml"/>
 		<log type="coverage-xml" target="logs/coverage" />
-		<log type="junit" target="logs/junit.xml" logIncompleteSkipped="false"/>
+		<log type="junit" target="logs/junit.xml" />
 	</logging>
 	<php>
 		<server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0" />
