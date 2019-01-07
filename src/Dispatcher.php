@@ -45,10 +45,10 @@ final class Dispatcher extends RoutingBase {
 	protected $matcher;
 
 	/**
-	 * Class wrapper for input superglobals
-	 * @var \Psr\Http\Message\ServerRequestInterface
+	 * Routing array
+	 * @var array
 	 */
-	protected $request;
+	protected $routes;
 
 	/**
 	 * Routes added to router
@@ -67,8 +67,7 @@ final class Dispatcher extends RoutingBase {
 		$router = $this->container->get('aura-router');
 		$this->router = $router->getMap();
 		$this->matcher = $router->getMatcher();
-		$this->request = $container->get('request');
-
+		$this->routes = $this->config->get('routes');
 		$this->outputRoutes = $this->setupRoutes();
 	}
 
