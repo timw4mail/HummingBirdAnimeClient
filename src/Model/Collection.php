@@ -26,6 +26,12 @@ use PDOException;
 class Collection extends DB {
 
 	/**
+	 * The query builder object
+	 * @var \Query\Query_Builder_Interface
+	 */
+	protected $db;
+
+	/**
 	 * Whether the database is valid for querying
 	 * @var boolean
 	 */
@@ -43,6 +49,7 @@ class Collection extends DB {
 		try
 		{
 			$this->db = \Query($this->dbConfig);
+			$this->validDatabase = TRUE;
 		}
 		catch (PDOException $e) {}
 
@@ -62,9 +69,9 @@ class Collection extends DB {
 				$this->validDatabase = FALSE;
 			}
 		}
-		else
+		else if ($this->db === NULL)
 		{
-			$this->validDatabase = TRUE;
+			$this->validDatabase = FALSE;
 		}
 	}
 
