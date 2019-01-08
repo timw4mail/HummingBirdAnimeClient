@@ -79,16 +79,11 @@ final class Settings extends BaseController {
 		$post = $this->request->getParsedBody();
 		unset($post['settings-tabs']);
 
-		// dump($post);
 		$saved = $this->settingsModel->saveSettingsFile($post);
 
-		if ($saved)
-		{
-			$this->setFlashMessage('Saved config settings.', 'success');
-		} else
-		{
-			$this->setFlashMessage('Failed to save config file.', 'error');
-		}
+		$saved
+			? $this->setFlashMessage('Saved config settings.', 'success')
+			: $this->setFlashMessage('Failed to save config file.', 'error');
 
 		$this->redirect($this->url->generate('settings'), 303);
 	}
