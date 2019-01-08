@@ -74,54 +74,5 @@ class Collection extends DB {
 			$this->validDatabase = FALSE;
 		}
 	}
-
-	/**
-	 * Get genres for anime collection items
-	 *
-	 * @param array $filter
-	 * @return array
-	 */
-	public function getGenreList(array $filter = []): array
-	{
-		$this->db->select('hummingbird_id, genre')
-			->from('genre_anime_set_link gl')
-			->join('genres g', 'g.id=gl.genre_id', 'left');
-
-
-		if ( ! empty($filter))
-		{
-			$this->db->whereIn('hummingbird_id', $filter);
-		}
-
-		$query = $this->db->orderBy('hummingbird_id')
-			->orderBy('genre')
-			->get();
-
-		$output = [];
-
-		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
-		{
-			$id = $row['hummingbird_id'];
-			$genre = $row['genre'];
-
-			// Empty genre names aren't useful
-			if (empty($genre))
-			{
-				continue;
-			}
-
-			if (array_key_exists($id, $output))
-			{
-				$output[$id][] = $genre;
-			}
-			else
-			{
-				$output[$id] = [$genre];
-			}
-		}
-
-		return $output;
-	}
-
 }
 // End of Collection.php
