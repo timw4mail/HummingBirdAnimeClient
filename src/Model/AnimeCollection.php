@@ -90,21 +90,6 @@ final class AnimeCollection extends Collection {
 	}
 
 	/**
-	 * Get item from collection for editing
-	 *
-	 * @param string $id
-	 * @return array
-	 */
-	public function getCollectionEntry($id): array
-	{
-		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', $id)
-			->get();
-
-		return $query->fetch(PDO::FETCH_ASSOC);
-	}
-
-	/**
 	 * Get full collection from the database
 	 *
 	 * @return array
@@ -151,7 +136,16 @@ final class AnimeCollection extends Collection {
 	 */
 	public function add($data): void
 	{
-		$anime = (object)$this->animeModel->getAnimeById($data['id']);
+		$id = $data['id'];
+
+		// Check that the anime doesn't already exist
+		$existing = $this->get($id);
+		if ($existing === FALSE)
+		{
+			return;
+		}
+
+		$anime = (object)$this->animeModel->getAnimeById($id);
 		$this->db->set([
 			'hummingbird_id' => $data['id'],
 			'slug' => $anime->slug,
@@ -216,9 +210,9 @@ final class AnimeCollection extends Collection {
 	 * Get the details of a collection item
 	 *
 	 * @param int $kitsuId
-	 * @return array
+	 * @return array | false
 	 */
-	public function get($kitsuId): array
+	public function get($kitsuId)
 	{
 		$query = $this->db->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
