@@ -141,6 +141,7 @@ final class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
+			// @TODO verify data was updated correctly
 			$this->animeCollectionModel->update($data);
 			$this->setFlashMessage('Successfully updated collection item.', 'success');
 		}
@@ -165,8 +166,17 @@ final class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
-			$this->animeCollectionModel->add($data);
-			$this->setFlashMessage('Successfully added collection item', 'success');
+			// Check for existing entry
+			if ($this->animeCollectionModel->get($data['id']) !== FALSE)
+			{
+				$this->setFlashMessage('Anime already exists, can not create duplicate', 'info');
+			}
+			else
+			{
+				// @TODO actually verify that collection item was added
+				$this->animeCollectionModel->add($data);
+				$this->setFlashMessage('Successfully added collection item', 'success');
+			}
 		}
 		else
 		{
@@ -189,10 +199,11 @@ final class AnimeCollection extends BaseController {
 			$this->redirect('/anime-collection/view', 303);
 		}
 
+		// @TODO verify that item was actually deleted
 		$this->animeCollectionModel->delete($data);
 		$this->setFlashMessage('Successfully removed anime from collection.', 'success');
 
 		$this->redirect('/anime-collection/view', 303);
 	}
 }
-// End of CollectionController.php
+// End of AnimeCollection.php
