@@ -112,7 +112,7 @@ final class AnimeCollection extends Collection {
 
 		// Add genres associated with each item
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		$genres = $this->getGenresForList();
+		$genres = $this->getGenreList();
 
 		foreach($rows as &$row)
 		{
@@ -276,29 +276,6 @@ final class AnimeCollection extends Collection {
 	}
 
 	/**
-	 * Get the list of genres from the database
-	 *
-	 * @return array
-	 */
-	private function getGenresForList(): array
-	{
-		$query = $this->db->select('hummingbird_id, genre')
-			->from('genres g')
-			->join('genre_anime_set_link gasl', 'gasl.genre_id=g.id')
-			->get();
-
-		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		$output = [];
-
-		foreach($rows as $row)
-		{
-			$output[$row['hummingbird_id']][] = $row['genre'];
-		}
-
-		return $output;
-	}
-
-	/**
 	 * Update genre information for selected anime
 	 *
 	 * @param string $animeId The current anime
@@ -354,8 +331,15 @@ final class AnimeCollection extends Collection {
 	 */
 	private function getGenreData(): array
 	{
+		return [
+			'genres' => $this->getExistingGenres(),
+			'links' => $this->getExistingGenreLinkEntries(),
+		];
+	}
+
+	private function getExistingGenres(): array
+	{
 		$genres = [];
-		$links = [];
 
 		// Get existing genres
 		$query = $this->db->select('id, genre')
@@ -366,7 +350,13 @@ final class AnimeCollection extends Collection {
 			$genres[$genre['id']] = $genre['genre'];
 		}
 
-		// Get existing link table entries
+		return $genres;
+	}
+
+	private function getExistingGenreLinkEntries(): array
+	{
+		$links = [];
+
 		$query = $this->db->select('hummingbird_id, genre_id')
 			->from('genre_anime_set_link')
 			->get();
@@ -375,17 +365,13 @@ final class AnimeCollection extends Collection {
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{
 				$links[$link['hummingbird_id']][] = $link['genre_id'];
-			}
-			else
+			} else
 			{
 				$links[$link['hummingbird_id']] = [$link['genre_id']];
 			}
 		}
 
-		return [
-			'genres' => $genres,
-			'links' => $links
-		];
+		return $links;
 	}
 }
 // End of AnimeCollectionModel.php
