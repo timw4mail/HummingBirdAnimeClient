@@ -112,6 +112,7 @@ final class AnimeCollection extends BaseController {
 	public function form($id = NULL): void
 	{
 		$this->checkAuth();
+
 		$this->setSessionRedirect();
 
 		$action = $id === NULL ? 'Add' : 'Edit';
@@ -140,6 +141,7 @@ final class AnimeCollection extends BaseController {
 	public function edit(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
@@ -166,6 +168,7 @@ final class AnimeCollection extends BaseController {
 	public function add(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
@@ -197,6 +200,7 @@ final class AnimeCollection extends BaseController {
 	public function delete(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
