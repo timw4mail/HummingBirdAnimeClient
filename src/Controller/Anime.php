@@ -67,6 +67,18 @@ final class Anime extends BaseController {
 	 */
 	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL): void
 	{
+		if ( ! in_array($type, [
+			'all',
+			'watching',
+			'plan_to_watch',
+			'on_hold',
+			'dropped',
+			'completed',
+		], TRUE))
+		{
+			$this->errorPage(404, 'Not Found', 'Page not found');
+		}
+
 		$title = array_key_exists($type, AnimeWatchingStatus::ROUTE_TO_TITLE)
 			? $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
@@ -100,6 +112,8 @@ final class Anime extends BaseController {
 	 */
 	public function addForm(): void
 	{
+		$this->checkAuth();
+
 		$this->setSessionRedirect();
 		$this->outputHTML('anime/add', [
 			'title' => $this->formatTitle(
@@ -120,6 +134,8 @@ final class Anime extends BaseController {
 	 */
 	public function add(): void
 	{
+		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 
 		if (empty($data['mal_id']))
@@ -155,6 +171,7 @@ final class Anime extends BaseController {
 	 */
 	public function edit(string $id, $status = 'all'): void
 	{
+		$this->checkAuth();
 		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
 
@@ -192,6 +209,7 @@ final class Anime extends BaseController {
 	 */
 	public function formUpdate(): void
 	{
+		$this->checkAuth();
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
@@ -220,6 +238,8 @@ final class Anime extends BaseController {
 	 */
 	public function increment(): void
 	{
+		$this->checkAuth();
+
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
 			$data = Json::decode((string)$this->request->getBody());
@@ -227,6 +247,12 @@ final class Anime extends BaseController {
 		else
 		{
 			$data = $this->request->getParsedBody();
+		}
+
+		if (empty($data))
+		{
+			$this->errorPage(400, 'Bad Request', '');
+			die();
 		}
 
 		$response = $this->model->incrementLibraryItem(new FormItem($data));
@@ -242,6 +268,8 @@ final class Anime extends BaseController {
 	 */
 	public function delete(): void
 	{
+		$this->checkAuth();
+
 		$body = $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
