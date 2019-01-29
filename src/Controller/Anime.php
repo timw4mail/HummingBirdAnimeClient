@@ -172,6 +172,7 @@ final class Anime extends BaseController {
 	public function edit(string $id, $status = 'all'): void
 	{
 		$this->checkAuth();
+
 		$item = $this->model->getLibraryItem($id);
 		$this->setSessionRedirect();
 
@@ -210,6 +211,7 @@ final class Anime extends BaseController {
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for

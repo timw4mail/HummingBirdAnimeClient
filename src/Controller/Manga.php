@@ -112,6 +112,7 @@ final class Manga extends Controller {
 	public function addForm(): void
 	{
 		$this->checkAuth();
+
 		$statuses = MangaReadingStatus::KITSU_TO_TITLE;
 
 		$this->setSessionRedirect();
@@ -135,6 +136,7 @@ final class Manga extends Controller {
 	public function add(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
@@ -175,6 +177,7 @@ final class Manga extends Controller {
 	public function edit($id, $status = 'All'): void
 	{
 		$this->checkAuth();
+
 		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
 		$title = $this->formatTitle(
@@ -214,6 +217,7 @@ final class Manga extends Controller {
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
