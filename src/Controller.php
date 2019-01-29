@@ -34,6 +34,12 @@ class Controller {
 	use ContainerAware;
 
 	/**
+	 * The authentication object
+	 * @var \Aviat\AnimeClient\API\Kitsu\Auth $auth ;
+	 */
+	protected $auth;
+
+	/**
 	 * Cache manager
 	 * @var \Psr\Cache\CacheItemPoolInterface
 	 */
@@ -96,6 +102,7 @@ class Controller {
 		$session = $container->get('session');
 		$urlGenerator = $container->get('url-generator');
 
+		$this->auth = $container->get('auth');
 		$this->cache =  $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
@@ -170,6 +177,22 @@ class Controller {
 
 		$this->redirect($target, 303);
 		$this->session->set('redirect_url', NULL);
+	}
+
+	/**
+	 * Check if the current user is authenticated, else error and exit
+	 */
+	protected function checkAuth(): void
+	{
+		if ( ! $this->auth->isAuthenticated())
+		{
+			$this->errorPage(
+				403,
+				'Forbidden',
+				'You must <a href="/login">log in</a> to perform this action.'
+			);
+			die();
+		}
 	}
 
 	/**

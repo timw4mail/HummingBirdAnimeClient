@@ -47,6 +47,9 @@ final class Settings extends BaseController {
 
 		$this->anilistModel = $container->get('anilist-model');
 		$this->settingsModel = $container->get('settings-model');
+
+		// This is a rare controller where every route is private
+		$this->checkAuth();
 	}
 
 	/**

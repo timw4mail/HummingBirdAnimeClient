@@ -66,6 +66,18 @@ final class Manga extends Controller {
 	 */
 	public function index($status = 'all', $view = ''): void
 	{
+		if ( ! in_array($type, [
+			'all',
+			'reading',
+			'plan_to_read',
+			'dropped',
+			'on_hold',
+			'completed',
+		], TRUE))
+		{
+			$this->errorPage(404, 'Not Found', 'Page not found');
+		}
+
 		$statusTitle = MangaReadingStatus::ROUTE_TO_TITLE[$status];
 
 		$title = $this->formatTitle(
@@ -99,6 +111,7 @@ final class Manga extends Controller {
 	 */
 	public function addForm(): void
 	{
+		$this->checkAuth();
 		$statuses = MangaReadingStatus::KITSU_TO_TITLE;
 
 		$this->setSessionRedirect();
@@ -121,6 +134,7 @@ final class Manga extends Controller {
 	 */
 	public function add(): void
 	{
+		$this->checkAuth();
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
@@ -160,6 +174,7 @@ final class Manga extends Controller {
 	 */
 	public function edit($id, $status = 'All'): void
 	{
+		$this->checkAuth();
 		$this->setSessionRedirect();
 		$item = $this->model->getLibraryItem($id);
 		$title = $this->formatTitle(
@@ -198,6 +213,7 @@ final class Manga extends Controller {
 	 */
 	public function formUpdate(): void
 	{
+		$this->checkAuth();
 		$data = $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
@@ -225,6 +241,8 @@ final class Manga extends Controller {
 	 */
 	public function increment(): void
 	{
+		$this->checkAuth();
+
 		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
 		{
 			$data = Json::decode((string)$this->request->getBody());
@@ -249,6 +267,8 @@ final class Manga extends Controller {
 	 */
 	public function delete(): void
 	{
+		$this->checkAuth();
+
 		$body = $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
