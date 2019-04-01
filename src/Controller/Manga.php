@@ -66,7 +66,7 @@ final class Manga extends Controller {
 	 */
 	public function index($status = 'all', $view = ''): void
 	{
-		if ( ! in_array($type, [
+		if ( ! in_array($status, [
 			'all',
 			'reading',
 			'plan_to_read',
