@@ -32,7 +32,7 @@ use Aviat\AnimeClient\API\Kitsu;
 								<?php foreach ($casting as $sid => $series): ?>
 									<article class="media">
 										<?php
-										$mediaType = (in_array($type, ['anime', 'manga'])) ? $type : 'anime';
+										$mediaType = in_array($type, ['anime', 'manga'], TRUE) ? $type : 'anime';
 										$link = $url->generate("{$mediaType}.details", ['id' => $series['slug']]);
 										$titles = Kitsu::filterTitles($series);
 										?>
