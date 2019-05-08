@@ -21,6 +21,7 @@ body {
 	margin: 0.5em;
 }
 
+
 button {
 	background: #fff;
 	background: linear-gradient(#ddd, #eee, #fff, #eee, #ddd);
@@ -682,7 +683,20 @@ picture.cover {
 }
 
 .description {
-	max-width: 80rem;
+	/* max-width: 80rem;*/
+	columns: 4 28rem;
+	columns: 4 28em;
+	margin-bottom: 1.6em;
+	margin-bottom: 1.6rem;
+}
+
+p.description br + br {
+	page-break-before: avoid;
+	page-break-after: auto;
+	page-break-inside: avoid;
+	break-inside: avoid;
+	break-after: auto;
+	break-before: avoid;
 }
 
 .fixed {
@@ -820,9 +834,9 @@ aside.info picture, aside.info img {
 	margin: 0 auto;
 }
 
-aside.info + article {
+/* aside.info + article {
 	max-width: 66%;
-}
+} */
 
 /* ----------------------------------------------------------------------------
 	User page styles
