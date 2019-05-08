@@ -22,9 +22,33 @@ body {
 }
 
 button {
-	background: rgba(255, 255, 255, 0.65);
+	background: #fff;
+	background: linear-gradient(#ddd, #eee, #fff, #eee, #ddd);
 	border-radius: 0.5em;
 	margin: 0;
+	text-transform: none;
+	border-color: #555;
+	color: #555;
+}
+
+button:hover {
+	background: #bbb;
+	background: linear-gradient(#cfcfcf, #dfdfdf, #efefef, #dfdfdf, #cfcfcf);
+	border-color: #555;
+	color: #555;
+}
+
+button:active {
+	background: #ddd;
+	background: linear-gradient(#ddd, #ddd);
+}
+
+.media:hover button {
+	background: linear-gradient(#bbb, #ccc, #ddd, #ccc, #bbb);
+}
+
+.media:hover button:hover {
+	background: linear-gradient(#afafaf, #bfbfbf, #cfcfcf, #bfbfbf, #afafaf);
 }
 
 table {
@@ -183,16 +207,19 @@ td .media-wrap-flex {
 .danger {
 	background-color: #ff4136;
 	border-color: #924949;
-	color: #fff;
+	color: #924949;
+	/* color: #fff; */
 }
 
 .danger:hover, .danger:active {
 	background-color: #924949;
 	border-color: #ff4136;
-	color: #fff;
+	color: #ff4136;
+	/* color: #fff; */
 }
 
 .user-btn {
+	background: transparent;
 	border-color: var(--edit-link-color);
 	color: var(--edit-link-color);
 	text-shadow: var(--link-shadow);
@@ -201,8 +228,14 @@ td .media-wrap-flex {
 }
 
 .user-btn:hover, .user-btn:active {
+	background: transparent;
 	border-color: var(--edit-link-hover-color);
-	background-color: var(--edit-link-hover-color);
+	color: var(--edit-link-hover-color);
+}
+
+.user-btn:active {
+	background: var(--edit-link-hover-color);
+	color: #fff;
 }
 
 .full-width {
@@ -534,19 +567,10 @@ picture.cover {
 	border-color: hsla(0, 0%, 100%, .65);
 	position: absolute;
 	top: 138px;
-	top: calc(50% - 21.5px);
+	top: calc(50% - 21.2px);
 	left: 44px;
-	left: calc(50% - 66.5px);
+	left: calc(50% - 57.8px);
 	z-index: 50;
-}
-
-.anime .media > button.plus-one:hover {
-	color: hsla(0, 0%, 100%, .65);
-	background: #888;
-}
-
-.anime .media > button.plus-one:active {
-	background: #444;
 }
 
 /* -----------------------------------------------------------------------------
@@ -566,23 +590,14 @@ picture.cover {
 	position: absolute;
 	top: 86px;
 	/* top: calc(50% - 58.5px); */
-	top: calc(50% - 22.4px);
+	top: calc(50% - 21.2px);
 	left: 43.5px;
-	left: calc(50% - 66.5px);
+	left: calc(50% - 57.8px);
 	z-index: 40;
 }
 
 .manga .media > .edit-buttons button {
 	border-color: hsla(0, 0%, 100%, .65);
-}
-
-.manga .media > .edit-buttons:hover button {
-	color: hsla(0, 0%, 100%, .65);
-	background: #888;
-}
-
-.manga .media > .edit-buttons button:active {
-	background: #444;
 }
 
 /* -----------------------------------------------------------------------------
