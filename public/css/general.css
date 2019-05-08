@@ -68,7 +68,18 @@ thead td, thead th {
 }
 
 input[type=number] {
-	width: 4em;
+	min-width: 0;
+	width: 4.5em;
+}
+
+input[type=checkbox], input[type=radio] {
+	min-width: auto;
+	vertical-align: inherit;
+}
+
+input, textarea {
+	min-width: 30em;
+	min-width: 30rem;
 }
 
 tbody > tr:nth-child(odd) {
@@ -216,6 +227,11 @@ td .media-wrap-flex {
 	border-color: #ff4136;
 	color: #ff4136;
 	/* color: #fff; */
+}
+
+td.danger, td.danger:hover, td.danger:active {
+	background-color: transparent;
+	color: #924949;
 }
 
 .user-btn {
