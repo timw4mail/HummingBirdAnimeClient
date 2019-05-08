@@ -35,7 +35,9 @@
 			<?php endforeach ?>
 
 			<br />
-			<p><?= nl2br($data['synopsis']) ?></p>
+			<div class="description">
+				<p><?= str_replace("\n", '</p><p>', $data['synopsis']) ?></p>
+			</div>
 		</article>
 	</section>
 
