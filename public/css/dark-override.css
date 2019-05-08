@@ -52,9 +52,41 @@ small {
 	color: #fff;
 }
 
-input, select, textarea {
-	color: #ccc;
+input, input[type], select, textarea {
+	border-color: #eee;
+	color: #eee;
+	background: #666;
+	padding:.8em;
+}
+
+button {
 	background: #444;
+	background: linear-gradient(#666, #555, #444, #555, #666);
+	border-radius: 0.5em;
+	margin: 0;
+	text-transform: none;
+	border-color: #ddd;
+	color: #ddd;
+}
+
+button:hover {
+	background: #222;
+	background: linear-gradient(#444, #333, #222, #333, #444);
+	border-color: #ddd;
+	color: #ddd;
+}
+
+button:active {
+	background: #333;
+	background: linear-gradient(#333, #333);
+}
+
+.media:hover button {
+	background: linear-gradient(#666, #555, #444, #555, #666);
+}
+
+.media:hover button:hover {
+	background: linear-gradient(#444, #555, #666, #555, #444);
 }
 
 .message, .static-message {
