@@ -53,9 +53,9 @@ small {
 }
 
 input, input[type], select, textarea {
-	border-color: #eee;
-	color: #eee;
-	background: #666;
+	border-color: #bbb;
+	color: #bbb;
+	background: #333;
 	padding:.8em;
 }
 
