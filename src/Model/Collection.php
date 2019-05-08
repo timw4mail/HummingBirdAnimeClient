@@ -17,13 +17,18 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
-use PDO;
 use PDOException;
 
 /**
  * Base model for anime and manga collections
  */
 class Collection extends DB {
+
+	/**
+	 * The query builder object
+	 * @var \Query\Query_Builder_Interface
+	 */
+	protected $db;
 
 	/**
 	 * Whether the database is valid for querying
@@ -43,6 +48,7 @@ class Collection extends DB {
 		try
 		{
 			$this->db = \Query($this->dbConfig);
+			$this->validDatabase = TRUE;
 		}
 		catch (PDOException $e) {}
 
@@ -62,59 +68,10 @@ class Collection extends DB {
 				$this->validDatabase = FALSE;
 			}
 		}
-		else
+		else if ($this->db === NULL)
 		{
-			$this->validDatabase = TRUE;
+			$this->validDatabase = FALSE;
 		}
 	}
-
-	/**
-	 * Get genres for anime collection items
-	 *
-	 * @param array $filter
-	 * @return array
-	 */
-	public function getGenreList(array $filter = []): array
-	{
-		$this->db->select('hummingbird_id, genre')
-			->from('genre_anime_set_link gl')
-			->join('genres g', 'g.id=gl.genre_id', 'left');
-
-
-		if ( ! empty($filter))
-		{
-			$this->db->whereIn('hummingbird_id', $filter);
-		}
-
-		$query = $this->db->orderBy('hummingbird_id')
-			->orderBy('genre')
-			->get();
-
-		$output = [];
-
-		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
-		{
-			$id = $row['hummingbird_id'];
-			$genre = $row['genre'];
-
-			// Empty genre names aren't useful
-			if (empty($genre))
-			{
-				continue;
-			}
-
-			if (array_key_exists($id, $output))
-			{
-				$output[$id][] = $genre;
-			}
-			else
-			{
-				$output[$id] = [$genre];
-			}
-		}
-
-		return $output;
-	}
-
 }
 // End of Collection.php

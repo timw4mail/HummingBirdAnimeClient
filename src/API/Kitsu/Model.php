@@ -422,8 +422,14 @@ final class Model {
 				$item['included'] = $included;
 			}
 			$transformed = $this->animeListTransformer->transformCollection($data['data']);
+			$keyed = [];
 
-			$cacheItem->set($transformed);
+			foreach($transformed as $item)
+			{
+				$keyed[$item['id']] = $item;
+			}
+
+			$cacheItem->set($keyed);
 			$cacheItem->save();
 		}
 

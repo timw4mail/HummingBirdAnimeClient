@@ -23,6 +23,7 @@ use Aviat\Ion\Di\ContainerInterface;
  * Controller for user settings
  */
 final class Settings extends BaseController {
+
 	/**
 	 * @var \Aviat\AnimeClient\API\Anilist\Model
 	 */
@@ -46,6 +47,9 @@ final class Settings extends BaseController {
 
 		$this->anilistModel = $container->get('anilist-model');
 		$this->settingsModel = $container->get('settings-model');
+
+		// This is a rare controller where every route is private
+		$this->checkAuth();
 	}
 
 	/**
@@ -78,16 +82,11 @@ final class Settings extends BaseController {
 		$post = $this->request->getParsedBody();
 		unset($post['settings-tabs']);
 
-		// dump($post);
 		$saved = $this->settingsModel->saveSettingsFile($post);
 
-		if ($saved)
-		{
-			$this->setFlashMessage('Saved config settings.', 'success');
-		} else
-		{
-			$this->setFlashMessage('Failed to save config file.', 'error');
-		}
+		$saved
+			? $this->setFlashMessage('Saved config settings.', 'success')
+			: $this->setFlashMessage('Failed to save config file.', 'error');
 
 		$this->redirect($this->url->generate('settings'), 303);
 	}
@@ -144,13 +143,9 @@ final class Settings extends BaseController {
 
 		$saved = $this->settingsModel->saveSettingsFile($newSettings);
 
-		if ($saved)
-		{
-			$this->setFlashMessage('Linked Anilist Account', 'success');
-		} else
-		{
-			$this->setFlashMessage('Error Linking Anilist Account', 'error');
-		}
+		$saved
+			? $this->setFlashMessage('Linked Anilist Account', 'success')
+			: $this->setFlashMessage('Error Linking Anilist Account', 'error');
 
 		$this->redirect($this->url->generate('settings'), 303);
 	}

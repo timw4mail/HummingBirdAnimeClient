@@ -25,12 +25,6 @@ class DB {
 	use ContainerAware;
 
 	/**
-	 * The query builder object
-	 * @var \Query\Query_Builder_Interface
-	 */
-	protected $db;
-
-	/**
 	 * The database connection information array
 	 * @var array $dbConfig
 	 */

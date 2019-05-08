@@ -72,7 +72,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 			}
 		}
 
-		$streamingLinks = (array_key_exists('streamingLinks', $anime['relationships']))
+		$streamingLinks = array_key_exists('streamingLinks', $anime['relationships'])
 			? Kitsu::parseListItemStreamingLinks($included, $animeId)
 			: [];
 

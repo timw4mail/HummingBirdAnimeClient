@@ -35,7 +35,7 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return function ($configArray = []) {
+return static function ($configArray = []) {
 	$container = new Container();
 
 	// -------------------------------------------------------------------------
@@ -57,36 +57,38 @@ return function ($configArray = []) {
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$container->set('config', function() use ($configArray) {
+	$container->set('config', static function() use ($configArray) {
 		return new Config($configArray);
 	});
 
 	// Create Cache Object
-	$container->set('cache', function($container) {
+	$container->set('cache', static function($container) {
 		$logger = $container->getLogger();
 		$config = $container->get('config')->get('cache');
 		return new Pool($config, $logger);
 	});
 
+	// Create List Cache
+
 	// Create Aura Router Object
-	$container->set('aura-router', function() {
+	$container->set('aura-router', static function() {
 		return new RouterContainer;
 	});
 
 	// Create Html helper Object
-	$container->set('html-helper', function($container) {
+	$container->set('html-helper', static function($container) {
 		$htmlHelper = (new HelperLocatorFactory)->newInstance();
-		$htmlHelper->set('menu', function() use ($container) {
+		$htmlHelper->set('menu', static function() use ($container) {
 			$menuHelper = new Helper\Menu();
 			$menuHelper->setContainer($container);
 			return $menuHelper;
 		});
-		$htmlHelper->set('field', function() use ($container) {
+		$htmlHelper->set('field', static function() use ($container) {
 			$formHelper = new Helper\Form();
 			$formHelper->setContainer($container);
 			return $formHelper;
 		});
-		$htmlHelper->set('picture', function() use ($container) {
+		$htmlHelper->set('picture', static function() use ($container) {
 			$pictureHelper = new Helper\Picture();
 			$pictureHelper->setContainer($container);
 			return $pictureHelper;
@@ -96,7 +98,7 @@ return function ($configArray = []) {
 	});
 
 	// Create Request/Response Objects
-	$container->set('request', function() {
+	$container->set('request', static function() {
 		return ServerRequestFactory::fromGlobals(
 			$_SERVER,
 			$_GET,
@@ -105,22 +107,22 @@ return function ($configArray = []) {
 			$_FILES
 		);
 	});
-	$container->set('response', function() {
+	$container->set('response', static function() {
 		return new Response;
 	});
 
 	// Create session Object
-	$container->set('session', function() {
+	$container->set('session', static function() {
 		return (new SessionFactory())->newInstance($_COOKIE);
 	});
 
 	// Miscellaneous helper methods
-	$container->set('util', function($container) {
+	$container->set('util', static function($container) {
 		return new Util($container);
 	});
 
 	// Models
-	$container->set('kitsu-model', function($container) {
+	$container->set('kitsu-model', static function($container) {
 		$requestBuilder = new KitsuRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -136,7 +138,7 @@ return function ($configArray = []) {
 		$model->setCache($cache);
 		return $model;
 	});
-	$container->set('anilist-model', function($container) {
+	$container->set('anilist-model', static function($container) {
 		$requestBuilder = new Anilist\AnilistRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
@@ -151,39 +153,39 @@ return function ($configArray = []) {
 		return $model;
 	});
 
-	$container->set('api-model', function($container) {
+	$container->set('api-model', static function($container) {
 		return new Model\API($container);
 	});
-	$container->set('anime-model', function($container) {
+	$container->set('anime-model', static function($container) {
 		return new Model\Anime($container);
 	});
-	$container->set('manga-model', function($container) {
+	$container->set('manga-model', static function($container) {
 		return new Model\Manga($container);
 	});
-	$container->set('anime-collection-model', function($container) {
+	$container->set('anime-collection-model', static function($container) {
 		return new Model\AnimeCollection($container);
 	});
-	$container->set('manga-collection-model', function($container) {
+	$container->set('manga-collection-model', static function($container) {
 		return new Model\MangaCollection($container);
 	});
-	$container->set('settings-model', function($container) {
+	$container->set('settings-model', static function($container) {
 		$model =  new Model\Settings($container->get('config'));
 		$model->setContainer($container);
 		return $model;
 	});
 
 	// Miscellaneous Classes
-	$container->set('auth', function($container) {
+	$container->set('auth', static function($container) {
 		return new Kitsu\Auth($container);
 	});
-	$container->set('url-generator', function($container) {
+	$container->set('url-generator', static function($container) {
 		return new UrlGenerator($container);
 	});
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
 	// -------------------------------------------------------------------------
-	$container->set('dispatcher', function($container) {
+	$container->set('dispatcher', static function($container) {
 		return new Dispatcher($container);
 	});
 
