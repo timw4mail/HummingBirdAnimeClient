@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\Controller\Index;
+use Aviat\AnimeClient\Controller\Images;
 
 /**
  * Clears out image cache directories, then re-creates the image cache
@@ -40,7 +40,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
 
-		$this->controller = new Index($this->container);
+		$this->controller = new Images($this->container);
 		$this->kitsuModel = $this->container->get('kitsu-model');
 
 		// Clear the existing thunbnails
@@ -53,7 +53,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 		{
 			foreach ($typeIds as $id)
 			{
-				$this->controller->images($type, "{$id}.jpg", FALSE);
+				$this->controller->cache($type, "{$id}.jpg", FALSE);
 			}
 
 			$this->echoBox("Finished regenerating {$type} thumbnails");
