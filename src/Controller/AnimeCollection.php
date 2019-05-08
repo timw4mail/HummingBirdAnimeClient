@@ -56,9 +56,8 @@ final class AnimeCollection extends BaseController {
 		$this->baseData = array_merge($this->baseData, [
 			'collection_type' => 'anime',
 			'menu_name' => 'collection',
-			'url_type' => 'anime',
 			'other_type' => 'manga',
-			'config' => $this->config,
+			'url_type' => 'anime',
 		]);
 	}
 
@@ -112,6 +111,8 @@ final class AnimeCollection extends BaseController {
 	 */
 	public function form($id = NULL): void
 	{
+		$this->checkAuth();
+
 		$this->setSessionRedirect();
 
 		$action = $id === NULL ? 'Add' : 'Edit';
@@ -139,9 +140,12 @@ final class AnimeCollection extends BaseController {
 	 */
 	public function edit(): void
 	{
+		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
+			// @TODO verify data was updated correctly
 			$this->animeCollectionModel->update($data);
 			$this->setFlashMessage('Successfully updated collection item.', 'success');
 		}
@@ -163,11 +167,22 @@ final class AnimeCollection extends BaseController {
 	 */
 	public function add(): void
 	{
+		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
-			$this->animeCollectionModel->add($data);
-			$this->setFlashMessage('Successfully added collection item', 'success');
+			// Check for existing entry
+			if ($this->animeCollectionModel->get($data['id']) !== FALSE)
+			{
+				$this->setFlashMessage('Anime already exists, can not create duplicate', 'info');
+			}
+			else
+			{
+				// @TODO actually verify that collection item was added
+				$this->animeCollectionModel->add($data);
+				$this->setFlashMessage('Successfully added collection item', 'success');
+			}
 		}
 		else
 		{
@@ -184,16 +199,19 @@ final class AnimeCollection extends BaseController {
 	 */
 	public function delete(): void
 	{
+		$this->checkAuth();
+
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
 			$this->redirect('/anime-collection/view', 303);
 		}
 
+		// @TODO verify that item was actually deleted
 		$this->animeCollectionModel->delete($data);
 		$this->setFlashMessage('Successfully removed anime from collection.', 'success');
 
 		$this->redirect('/anime-collection/view', 303);
 	}
 }
-// End of CollectionController.php
+// End of AnimeCollection.php

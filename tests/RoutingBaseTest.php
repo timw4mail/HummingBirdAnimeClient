@@ -19,14 +19,6 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\RoutingBase;
 
 class RoutingBaseTest extends AnimeClientTestCase {
-	
-	protected $routingBase;
-
-	public function setUp()
-	{
-		parent::setUp();
-		$this->routingBase = new RoutingBase($this->container);
-	}
 
 	public function dataSegments()
 	{
@@ -49,7 +41,7 @@ class RoutingBaseTest extends AnimeClientTestCase {
 	/**
 	 * @dataProvider dataSegments
 	 */
-	public function testSegments($requestUri, $path, $segments, $lastSegment)
+	public function testSegments(string $requestUri, string $path, array $segments, $lastSegment): void
 	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
@@ -57,13 +49,15 @@ class RoutingBaseTest extends AnimeClientTestCase {
 			]
 		]);
 
-		$this->assertEquals($path, $this->routingBase->path(), "Path is invalid");
-		$this->assertEquals($segments, $this->routingBase->segments(), "Segments array is invalid");
-		$this->assertEquals($lastSegment, $this->routingBase->lastSegment(), "Last segment is invalid");
+		$routingBase = new RoutingBase($this->container);
+
+		$this->assertEquals($path, $routingBase->path(), "Path is invalid");
+		$this->assertEquals($segments, $routingBase->segments(), "Segments array is invalid");
+		$this->assertEquals($lastSegment, $routingBase->lastSegment(), "Last segment is invalid");
 
 		foreach($segments as $i => $value)
 		{
-			$this->assertEquals($value, $this->routingBase->getSegment($i), "Segment {$i} is invalid");
+			$this->assertEquals($value, $routingBase->getSegment($i), "Segment {$i} is invalid");
 		}
 	}
 }

@@ -20,14 +20,14 @@ use Aviat\AnimeClient\FormGenerator;
 use Aviat\Ion\Di\ContainerAware;
 
 /**
- * MenuGenerator helper wrapper
+ * FormGenerator helper wrapper
  */
 final class Form {
 
 	use ContainerAware;
 
 	/**
-	 * Create the html for the selected menu
+	 * Create the html for the specified form
 	 *
 	 * @param string $name
 	 * @param array $form
@@ -38,4 +38,3 @@ final class Form {
 		return (new FormGenerator($this->container))->generate($name, $form);
 	}
 }
-// End of Menu.php

@@ -89,21 +89,6 @@ final class MangaCollection extends Collection {
 	}
 
 	/**
-	 * Get item from collection for editing
-	 *
-	 * @param int $id
-	 * @return array
-	 */
-	public function getCollectionEntry($id): array
-	{
-		$query = $this->db->from('anime_set')
-			->where('hummingbird_id', $id)
-			->get();
-
-		return $query->fetch(PDO::FETCH_ASSOC);
-	}
-
-	/**
 	 * Get full collection from the database
 	 *
 	 * @return array

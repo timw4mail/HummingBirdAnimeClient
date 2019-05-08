@@ -14,13 +14,13 @@
 				<tr>
 					<td class="align-right"><label for="title">Title</label></td>
 					<td class="align-left">
-						<input type="text" name="title" value="<?= $item['title'] ?>" />
+						<input type="text" id="title" name="title" value="<?= $item['title'] ?>" />
 					</td>
 				</tr>
 				<tr>
-					<td class="align-right"><label for="title">Alternate Title</label></td>
+					<td class="align-right"><label for="alternate_title">Alternate Title</label></td>
 					<td class="align-left">
-						<input type="text" name="alternate_title" value="<?= $item['alternate_title'] ?>"/>
+						<input type="text" id="alternate_title" name="alternate_title" value="<?= $item['alternate_title'] ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -28,7 +28,7 @@
 					<td class="align-left">
 						<select name="media_id" id="media_id">
 						<?php foreach($media_items as $id => $name): ?>
-							<option <?= $item['media_id'] === $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+							<option <?= $item['media_id'] === (string)$id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>

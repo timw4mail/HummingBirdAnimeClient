@@ -29,6 +29,11 @@ class API {
 	 */
 	protected function sortByName(array &$array, string $sortKey): void
 	{
+		if (empty($array))
+		{
+			return;
+		}
+
 		$sort = [];
 
 		foreach ($array as $key => $item)
@@ -37,5 +42,18 @@ class API {
 		}
 
 		array_multisort($sort, SORT_ASC, $array);
+
+		// Re-key array items by their ids
+		if (array_key_exists('id', $array[0]))
+		{
+			$keyed = [];
+
+			foreach($array as $item)
+			{
+				$keyed[$item['id']] = $item;
+			}
+
+			$array = $keyed;
+		}
 	}
 }

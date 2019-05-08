@@ -124,7 +124,7 @@ class AnimeClientTestCase extends TestCase {
 	 * @param array $supers
 	 * @return void
 	 */
-	public function setSuperGlobals($supers = [])
+	public function setSuperGlobals($supers = []): void
 	{
 		$default = [
 			'_SERVER' => $_SERVER,
@@ -139,7 +139,7 @@ class AnimeClientTestCase extends TestCase {
 			array_merge($default, $supers)
 		);
 		$this->container->setInstance('request', $request);
-		$this->container->set('repsone', function() {
+		$this->container->set('response', function() {
 			return new HttpResponse();
 		});
 	}
@@ -151,7 +151,7 @@ class AnimeClientTestCase extends TestCase {
 	 *
 	 * @return string - contents of the data file
 	 */
-	public function getMockFile()
+	public function getMockFile(): string
 	{
 		$args = func_get_args();
 		array_unshift($args, TEST_DATA_DIR);

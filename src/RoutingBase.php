@@ -39,10 +39,10 @@ class RoutingBase {
 	protected $config;
 
 	/**
-	 * Routing array
-	 * @var array
+	 * Class wrapper for input superglobals
+	 * @var \Psr\Http\Message\ServerRequestInterface
 	 */
-	protected $routes;
+	protected $request;
 
 	/**
 	 * Constructor
@@ -56,7 +56,7 @@ class RoutingBase {
 	{
 		$this->container = $container;
 		$this->config = $container->get('config');
-		$this->routes = $this->config->get('routes');
+		$this->request = $container->get('request');
 	}
 
 	/**
@@ -67,8 +67,7 @@ class RoutingBase {
 	 */
 	public function path(): string
 	{
-		$request = $this->container->get('request');
-		$path = $request->getUri()->getPath();
+		$path = $this->request->getUri()->getPath();
 		$cleanedPath = $this->string($path)
 			->replace('%20', '')
 			->trim()
@@ -117,4 +116,3 @@ class RoutingBase {
 		return end($segments);
 	}
 }
-// End of RoutingBase.php

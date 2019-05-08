@@ -131,8 +131,6 @@ final class Images extends BaseController {
 
 		$data = wait($response->getBody());
 
-
-
 		[$origWidth] = getimagesizefromstring($data);
 		$gdImg = imagecreatefromstring($data);
 		$resizedImg = imagescale($gdImg, $width ?? $origWidth);

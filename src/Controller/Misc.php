@@ -89,6 +89,8 @@ final class Misc extends BaseController {
 	 */
 	public function logout(): void
 	{
+		$this->checkAuth();
+
 		$auth = $this->container->get('auth');
 		$auth->logout();
 
