@@ -16,9 +16,7 @@
 				<tbody>
 					<tr>
 						<td rowspan="9">
-							<article class="media">
-								<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
-							</article>
+							<?= $helper->picture("images/anime/{$item['anime']['id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
 						</td>
 					</tr>
 					<tr>
@@ -95,7 +93,7 @@
 				<table class="form invisible">
 					<tbody>
 						<tr>
-							<td>
+							<td class="danger">
 								<strong>Permanently</strong> remove this list item and <strong>all</strong> its data?
 							</td>
 							<td>

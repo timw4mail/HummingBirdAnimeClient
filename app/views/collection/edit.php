@@ -6,9 +6,7 @@
 			<tbody>
 				<tr>
 					<td rowspan="6" class="align-center">
-						<article class="media">
-						<?= $helper->img($urlGenerator->assetUrl("images/anime/{$item['hummingbird_id']}.jpg")); ?>
-						</article>
+						<?= $helper->picture("images/anime/{$item['hummingbird_id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
 					</td>
 				</tr>
 				<tr>
@@ -49,13 +47,15 @@
 			</tbody>
 		</table>
 	</form>
-	<fieldset>
-		<legend>Danger Zone</legend>
-		<form class="js-delete" action="<?= $url->generate($collection_type . '.collection.delete') ?>" method="post">
+	<form class="js-delete" action="<?= $url->generate($collection_type . '.collection.delete') ?>" method="post">
+		<fieldset>
+			<legend>Danger Zone</legend>
 			<table class="form invisible">
 				<tbody>
 				<tr>
-					<td>&nbsp;</td>
+					<td class="danger">
+						<strong>Permanently</strong> remove this list item and <strong>all</strong> its data?
+					</td>
 					<td>
 						<input type="hidden" value="<?= $item['hummingbird_id'] ?>" name="hummingbird_id" />
 						<button type="submit" class="danger">Delete Entry</button>
@@ -63,7 +63,7 @@
 				</tr>
 				</tbody>
 			</table>
-		</form>
-	</fieldset>
+		</fieldset>
+	</form>
 </main>
 <?php endif ?>

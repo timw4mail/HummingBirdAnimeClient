@@ -18,9 +18,7 @@
 				<tbody>
 				<tr>
 					<td rowspan="9">
-						<article class="media">
-							<?= $helper->img($urlGenerator->assetUrl('images/manga', "{$item['manga']['id']}.jpg")); ?>
-						</article>
+						<?= $helper->picture("images/manga/{$item['manga']['id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
 					</td>
 				</tr>
 				<tr>
@@ -96,7 +94,9 @@
 				<table class="form invisible">
 					<tbody>
 					<tr>
-						<td>&nbsp;</td>
+						<td class="danger">
+							<strong>Permanently</strong> remove this list item and <strong>all</strong> its data?
+						</td>
 						<td>
 							<input type="hidden" value="<?= $item['id'] ?>" name="id"/>
 							<input type="hidden" value="<?= $item['mal_id'] ?>" name="mal_id"/>
