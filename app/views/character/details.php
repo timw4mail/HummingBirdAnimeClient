@@ -8,12 +8,6 @@ use Aviat\AnimeClient\API\Kitsu;
 	<section class="flex flex-no-wrap">
 		<div>
 			<?= $helper->picture("images/characters/{$data['id']}-original.webp") ?>
-			<?php if ( ! empty($data['otherNames'])): ?>
-				<h3>Nicknames / Other names</h3>
-				<?php foreach ($data['otherNames'] as $name): ?>
-					<h4><?= $name ?></h4>
-				<?php endforeach ?>
-			<?php endif ?>
 		</div>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
@@ -21,9 +15,19 @@ use Aviat\AnimeClient\API\Kitsu;
 				<h3><?= $name ?></h3>
 			<?php endforeach ?>
 
+			<?php if ( ! empty($data['otherNames'])): ?>
+				<h4>Also Known As:</h4>
+				<ul>
+				<?php foreach ($data['otherNames'] as $name): ?>
+					<li><h5><?= $name ?></h5></li>
+				<?php endforeach ?>
+				</ul>
+			<?php endif ?>
+			<br />
 			<hr />
-
-			<p class="description"><?= $data['description'] ?></p>
+			<div class="description">
+				<p><?= str_replace("\n", '</p><p>', $data['description']) ?></p>
+			</div>
 		</div>
 	</section>
 

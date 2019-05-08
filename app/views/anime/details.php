@@ -49,7 +49,9 @@
 				<h3><?= $title ?></h3>
 			<?php endforeach ?>
 			<br />
-			<p class="description"><?= nl2br($data['synopsis']) ?></p>
+			<div class="description">
+				<p><?= str_replace("\n", '</p><p>', $data['synopsis']) ?></p>
+			</div>
 			<?php if (count($data['streaming_links']) > 0): ?>
 				<hr />
 				<h4>Streaming on:</h4>
