@@ -124,7 +124,7 @@ audio,canvas,iframe,img,svg,video {
 	vertical-align:middle;
 }
 
-button,input,select,textarea {
+input,select,textarea {
 	border:.1rem solid #ccc;
 	color:inherit;
 	font-family:inherit;

@@ -53,7 +53,8 @@ small {
 }
 
 input, select, textarea {
-	color: #111;
+	color: #ccc;
+	background: #444;
 }
 
 .message, .static-message {
@@ -131,5 +132,8 @@ input, select, textarea {
 	border-bottom: 1px solid #444;
 }
 
-
+.streaming-logo {
+	-webkit-filter: drop-shadow(0 0 2px #fff);
+	filter: drop-shadow(0 0 2px #fff);
+}
 
