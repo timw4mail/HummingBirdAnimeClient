@@ -36,3 +36,40 @@ _.on('.js-clear-cache', 'click', () => {
 		behavior: 'smooth',
 	});
 });
+
+// Filter the current page (cover view)
+_.on('.media-filter', 'input', (event) => {
+	const rawFilter = event.target.value;
+	const filter = new RegExp(rawFilter, 'i');
+
+	// console.log('Filtering items by: ', filter);
+
+	if (rawFilter !== '') {
+		// Filter the cover view
+		_.$('article.media').forEach(article => {
+			const titleLink = _.$('.name a', article)[0];
+			const title = String(titleLink.textContent).trim();
+			if ( ! filter.test(title)) {
+				_.hide(article);
+			} else {
+				_.show(article);
+			}
+		});
+
+		// Filter the list view
+		_.$('table.media-wrap tbody tr').forEach(tr => {
+			const titleCell = _.$('td.align-left', tr)[0];
+			const titleLink = _.$('a', titleCell)[0];
+			const linkTitle = String(titleLink.textContent).trim();
+			const textTitle = String(titleCell.textContent).trim();
+			if ( ! (filter.test(linkTitle) || filter.test(textTitle))) {
+				_.hide(tr);
+			} else {
+				_.show(tr);
+			}
+		});
+	} else {
+		_.$('article.media').forEach(article => _.show(article));
+		_.$('table.media-wrap tbody tr').forEach(tr => _.show(tr));
+	}
+});

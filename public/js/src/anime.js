@@ -18,7 +18,7 @@ const search = (query) => {
 };
 
 if (_.hasElement('.anime #search')) {
-	_.on('#search', 'keyup', _.throttle(250, (e) => {
+	_.on('#search', 'input', _.throttle(250, (e) => {
 		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
