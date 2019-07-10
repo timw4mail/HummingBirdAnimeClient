@@ -5,12 +5,15 @@
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
+	<br />
+	<label>Filter: <input type='text' class='media-filter' /></label>
+	<br />
 	<?php foreach ($sections as $name => $items): ?>
 	<h2><?= $name ?></h2>
 	<?php if (empty($items)): ?>
 		<h3>There's nothing here!</h3>
 	<?php else: ?>
-		<table>
+		<table class='media-wrap'>
 			<thead>
 				<tr>
 					<?php if ($auth->isAuthenticated()): ?>

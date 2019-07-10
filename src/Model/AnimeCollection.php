@@ -361,7 +361,6 @@ final class AnimeCollection extends Collection {
 
 		if ( ! empty($linksToInsert))
 		{
-			// dump($linksToInsert);
 			$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
 		}
 	}
