@@ -61,6 +61,11 @@ final class AnimeCollection extends BaseController {
 		]);
 	}
 
+	public function index(): void
+	{
+		$this->redirect('/anime-collection/view', 303);
+	}
+
 	/**
 	 * Search for anime
 	 *
@@ -83,7 +88,7 @@ final class AnimeCollection extends BaseController {
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function index($view): void
+	public function view($view): void
 	{
 		$viewMap = [
 			'' => 'cover',
@@ -145,13 +150,21 @@ final class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if (array_key_exists('hummingbird_id', $data))
 		{
-			// @TODO verify data was updated correctly
 			$this->animeCollectionModel->update($data);
-			$this->setFlashMessage('Successfully updated collection item.', 'success');
+
+			// Verify the item was actually updated
+			if ($this->animeCollectionModel->wasUpdated($data))
+			{
+				$this->setFlashMessage('Successfully updated collection item.', 'success');
+			}
+			else
+			{
+				$this->setFlashMessage('Failed to update collection item.', 'error');
+			}
 		}
 		else
 		{
-			$this->setFlashMessage('Failed to update collection item', 'error');
+			$this->setFlashMessage('No item id to update. Update failed.', 'error');
 		}
 
 		$this->sessionRedirect();
@@ -175,21 +188,26 @@ final class AnimeCollection extends BaseController {
 			// Check for existing entry
 			if ($this->animeCollectionModel->get($data['id']) !== FALSE)
 			{
-				$this->setFlashMessage('Anime already exists, can not create duplicate', 'info');
+				// Redirect to the edit screen, because that's probably what you want!
+				$this->setFlashMessage('Anime already exists, update instead.', 'info');
+				$this->redirect("/anime-collection/edit/{$data['id']}", 303);
+				return;
 			}
-			else
+
+			$this->animeCollectionModel->add($data);
+
+			// Verify the item was added
+			if ($this->animeCollectionModel->wasAdded($data))
 			{
-				// @TODO actually verify that collection item was added
-				$this->animeCollectionModel->add($data);
 				$this->setFlashMessage('Successfully added collection item', 'success');
+				$this->sessionRedirect();
 			}
 		}
 		else
 		{
 			$this->setFlashMessage('Failed to add collection item.', 'error');
+			$this->redirect('/anime-collection/add', 303);
 		}
-
-		$this->sessionRedirect();
 	}
 
 	/**
@@ -204,12 +222,21 @@ final class AnimeCollection extends BaseController {
 		$data = $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
+			$this->setFlashMessage("Can't delete item that doesn't exist", 'error');
 			$this->redirect('/anime-collection/view', 303);
 		}
 
-		// @TODO verify that item was actually deleted
 		$this->animeCollectionModel->delete($data);
-		$this->setFlashMessage('Successfully removed anime from collection.', 'success');
+
+		// Verify that item was actually deleted
+		if ($this->animeCollectionModel->wasDeleted($data))
+		{
+			$this->setFlashMessage('Successfully removed anime from collection.', 'success');
+		}
+		else
+		{
+			$this->setFlashMessage('Failed to delete item from collection.', 'error');
+		}
 
 		$this->redirect('/anime-collection/view', 303);
 	}
