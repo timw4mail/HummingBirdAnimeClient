@@ -140,7 +140,7 @@ final class AnimeCollection extends Collection {
 
 		// Check that the anime doesn't already exist
 		$existing = $this->get($id);
-		if ($existing === FALSE)
+		if ( ! empty($existing))
 		{
 			return;
 		}
@@ -160,7 +160,20 @@ final class AnimeCollection extends Collection {
 			'notes' => $data['notes']
 		])->insert('anime_set');
 
-		$this->updateGenre($data['id']);
+		$this->updateGenre($id);
+	}
+
+	/**
+	 * Verify that an item was added
+	 *
+	 * @param $data
+	 * @return bool
+	 */
+	public function wasAdded($data): bool
+	{
+		$row = $this->get($data['id']);
+
+		return  ! empty($row);
 	}
 
 	/**
@@ -183,6 +196,30 @@ final class AnimeCollection extends Collection {
 		$this->db->set($data)
 			->where('hummingbird_id', $id)
 			->update('anime_set');
+
+		// Just in case, also update genres
+		$this->updateGenre($id);
+	}
+
+	/**
+	 * Verify that the collection item was updated
+	 *
+	 * @param $data
+	 * @return bool
+	 */
+	public function wasUpdated($data): bool
+	{
+		$row = $this->get($data['hummingbird_id']);
+
+		foreach ($data as $key => $value)
+		{
+			if ((string)$row[$key] !== (string)$value)
+			{
+				return FALSE;
+			}
+		}
+
+		return TRUE;
 	}
 
 	/**
@@ -204,6 +241,13 @@ final class AnimeCollection extends Collection {
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
 			->delete('anime_set');
+	}
+
+	public function wasDeleted($data): bool
+	{
+		$animeRow = $this->get($data['hummingbird_id']);
+
+		return empty($animeRow);
 	}
 
 	/**
@@ -264,13 +308,16 @@ final class AnimeCollection extends Collection {
 				if (array_key_exists($id, $output))
 				{
 					$output[$id][] = $genre;
-				} else
+				}
+				else
 				{
 					$output[$id] = [$genre];
 				}
 			}
 		}
 		catch (PDOException $e) {}
+
+		$this->db->reset_query();
 
 		return $output;
 	}
@@ -283,44 +330,68 @@ final class AnimeCollection extends Collection {
 	 */
 	private function updateGenre($animeId): void
 	{
+		// Get api information
+		$anime = $this->animeModel->getAnimeById($animeId);
+
+		$this->addNewGenres($anime['genres']);
+
 		$genreInfo = $this->getGenreData();
 		$genres = $genreInfo['genres'];
 		$links = $genreInfo['links'];
 
-		// Get api information
-		$anime = $this->animeModel->getAnimeById($animeId);
+		$linksToInsert = [];
 
-		foreach ($anime['genres'] as $genre)
+		foreach ($anime['genres'] as $animeGenre)
 		{
-			// Add genres that don't currently exist
-			if ( ! \in_array($genre, $genres, TRUE))
-			{
-				$this->db->set('genre', $genre)
-					->insert('genres');
-
-				$genres[] = $genre;
-			}
-
 			// Update link table
 			// Get id of genre to put in link table
 			$flippedGenres = array_flip($genres);
+			$genreId = $flippedGenres[$animeGenre];
 
-			$insertArray = [
-				'hummingbird_id' => $animeId,
-				'genre_id' => $flippedGenres[$genre]
+			$animeLinks = $links[$animeId] ?? [];
+
+			if ( ! \in_array($flippedGenres[$animeGenre], $animeLinks, TRUE))
+			{
+				$linksToInsert[] = [
+					'hummingbird_id' => $animeId,
+					'genre_id' => $genreId,
+				];
+			}
+		}
+
+		if ( ! empty($linksToInsert))
+		{
+			// dump($linksToInsert);
+			$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
+		}
+	}
+
+	/**
+	 * Add genres to the database
+	 *
+	 * @param array $genres
+	 */
+	private function addNewGenres(array $genres): void
+	{
+		$existingGenres = $this->getExistingGenres();
+		$newGenres = array_diff($genres, $existingGenres);
+
+		$insert = [];
+
+		foreach ($newGenres as $genre)
+		{
+			$insert[] = [
+				'genre' => $genre,
 			];
+		}
 
-			if (array_key_exists($animeId, $links))
-			{
-				if ( ! \in_array($flippedGenres[$genre], $links[$animeId], TRUE))
-				{
-					$this->db->set($insertArray)->insert('genre_anime_set_link');
-				}
-			}
-			else
-			{
-				$this->db->set($insertArray)->insert('genre_anime_set_link');
-			}
+		try
+		{
+			$this->db->insert_batch('genres', $insert);
+		}
+		catch (PDOException $e)
+		{
+			dump($e);
 		}
 	}
 
@@ -345,10 +416,13 @@ final class AnimeCollection extends Collection {
 		$query = $this->db->select('id, genre')
 			->from('genres')
 			->get();
+
 		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $genre)
 		{
 			$genres[$genre['id']] = $genre['genre'];
 		}
+
+		$this->db->reset_query();
 
 		return $genres;
 	}
@@ -360,6 +434,7 @@ final class AnimeCollection extends Collection {
 		$query = $this->db->select('hummingbird_id, genre_id')
 			->from('genre_anime_set_link')
 			->get();
+
 		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $link)
 		{
 			if (array_key_exists($link['hummingbird_id'], $links))
@@ -370,6 +445,8 @@ final class AnimeCollection extends Collection {
 				$links[$link['hummingbird_id']] = [$link['genre_id']];
 			}
 		}
+
+		$this->db->reset_query();
 
 		return $links;
 	}

@@ -26,7 +26,7 @@
 					<td class="align-left">
 						<select name="media_id" id="media_id">
 						<?php foreach($media_items as $id => $name): ?>
-							<option <?= $item['media_id'] === (string)$id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
+							<option <?= $item['media_id'] === $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
 						<?php endforeach ?>
 						</select>
 					</td>
