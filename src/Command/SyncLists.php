@@ -308,19 +308,9 @@ final class SyncLists extends BaseCommand {
 		$anilistUpdateItems = [];
 		$kitsuUpdateItems = [];
 
-		/* $malBlackList = ($type === 'anime')
-			? [
-				27821, // Fate/stay night: Unlimited Blade Works - Prologue
-				29317, // Saekano: How to Raise a Boring Girlfriend Prologue
-				30514, // Nisekoinogatari
-			] : [
-				114638, // Cells at Work: Black
-			]; */
-
 		$malIds = array_keys($anilistList);
 		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
 		$missingMalIds = array_diff($malIds, $kitsuMalIds);
-		// $missingMalIds = array_diff($missingMalIds, $malBlackList);
 
 		// Add items on Anilist, but not Kitsu to Kitsu
 		foreach($missingMalIds as $mid)
@@ -334,11 +324,6 @@ final class SyncLists extends BaseCommand {
 		foreach($kitsuList as $kitsuItem)
 		{
 			$malId = $kitsuItem['malId'];
-
-			/* if (\in_array((int)$malId, $malBlackList, TRUE))
-			{
-				continue;
-			} */
 
 			if (array_key_exists($malId, $anilistList))
 			{
@@ -676,6 +661,7 @@ final class SyncLists extends BaseCommand {
 				}
 				catch (MissingIdException $e)
 				{
+					// Case where there's a MAL mapping from Kitsu, but no equivalent Anlist item
 					$id = $item['mal_id'];
 					$this->echoBox("Skipping Anilist ${type} with mal_id: {$id} due to missing mapping");
 				}
