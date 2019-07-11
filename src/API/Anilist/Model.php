@@ -100,7 +100,7 @@ final class Model
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
 
-		if ( ! \is_string($anilistUser))
+		if ( ! (is_string($anilistUser) && $anilistUser !== ''))
 		{
 			throw new InvalidArgumentException('Anilist username is not defined in config');
 		}
