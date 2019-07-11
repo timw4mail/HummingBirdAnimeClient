@@ -124,10 +124,10 @@ final class Model
 
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
 
-		if (empty($mediaId))
+		/* if (empty($mediaId))
 		{
 			throw new InvalidArgumentException('Media id missing');
-		}
+		} */
 
 		if ($type === 'ANIME')
 		{
@@ -158,6 +158,11 @@ final class Model
 	{
 		$createData = $data['data'];
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], strtoupper($type));
+
+		if (empty($mediaId))
+		{
+			throw new MissingIdException('No id mapping found');
+		}
 
 		$createData['id'] = $mediaId;
 
