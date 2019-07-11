@@ -325,6 +325,7 @@ final class SyncLists extends BaseCommand {
 		$missingMalIds = array_diff($malIds, $kitsuMalIds);
 		$missingMalIds = array_diff($missingMalIds, $malBlackList);
 
+		// Add items on Anilist, but not Kitsu to Kitsu
 		foreach($missingMalIds as $mid)
 		{
 			$itemsToAddToKitsu[] = array_merge($anilistList[$mid]['data'], [
