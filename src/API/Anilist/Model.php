@@ -100,7 +100,7 @@ final class Model
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
 
-		if ( ! \is_string($anilistUser))
+		if ( ! (is_string($anilistUser) && $anilistUser !== ''))
 		{
 			throw new InvalidArgumentException('Anilist username is not defined in config');
 		}
@@ -124,10 +124,10 @@ final class Model
 
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
 
-		if (empty($mediaId))
+		/* if (empty($mediaId))
 		{
 			throw new InvalidArgumentException('Media id missing');
-		}
+		} */
 
 		if ($type === 'ANIME')
 		{
@@ -151,12 +151,18 @@ final class Model
 	 * Create a list item with all the relevant data
 	 *
 	 * @param array $data
+	 * @param string $type
 	 * @return Request
 	 */
-	public function createFullListItem(array $data): Request
+	public function createFullListItem(array $data, string $type): Request
 	{
 		$createData = $data['data'];
-		$mediaId = $this->getMediaIdFromMalId($data['mal_id']);
+		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], strtoupper($type));
+
+		if (empty($mediaId))
+		{
+			throw new MissingIdException('No id mapping found');
+		}
 
 		$createData['id'] = $mediaId;
 
@@ -213,6 +219,7 @@ final class Model
 	 * Remove a list item
 	 *
 	 * @param string $malId - The id of the list item to remove
+	 * @param string $type - Them media type (anime/manga)
 	 * @return Request
 	 */
 	public function deleteListItem(string $malId, string $type): Request

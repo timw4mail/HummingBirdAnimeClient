@@ -110,6 +110,7 @@ $routes = [
 	],
 	'anime.collection.view' => [
 		'path' => '/anime-collection/view{/view}',
+		'action' => 'view',
 		'tokens' => [
 			'view' => ALPHA_SLUG_PATTERN,
 		],
@@ -118,6 +119,12 @@ $routes = [
 		'path' => '/anime-collection/delete',
 		'action' => 'delete',
 		'verb' => 'post',
+	],
+	'anime.collection.redirect' => [
+		'path' => '/anime-collection',
+	],
+	'anime.collection.redirect2' => [
+		'path' => '/anime-collection/',
 	],
 	// ---------------------------------------------------------------------
 	// Manga Collection Routes
