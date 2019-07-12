@@ -61,7 +61,6 @@ const SETTINGS_MAP = [
 			'type' => 'string',
 			'title' => 'Anilist Username',
 			'default' => '',
-			'readonly' => TRUE,
 			'description' => 'Login username for Anilist account to integrate with',
 		],
 		'access_token' => [

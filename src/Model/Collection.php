@@ -19,6 +19,8 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDOException;
 
+use function Query;
+
 /**
  * Base model for anime and manga collections
  */
@@ -47,7 +49,7 @@ class Collection extends DB {
 
 		try
 		{
-			$this->db = \Query($this->dbConfig);
+			$this->db = Query($this->dbConfig);
 			$this->validDatabase = TRUE;
 		}
 		catch (PDOException $e) {}

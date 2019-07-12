@@ -5,6 +5,9 @@
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
+	<br />
+	<label>Filter: <input type='text' class='media-filter' /></label>
+	<br />
 	<div class="tabs">
 	<?php $i = 0; ?>
 	<?php foreach ($sections as $name => $items): ?>
@@ -19,6 +22,19 @@
 		</div>
 		<?php $i++; ?>
 	<?php endforeach ?>
+	<!-- All Tab -->
+	<input type='radio' id='collection-tab-<?= $i ?>' name='collection-tabs' />
+	<label for='collection-tab-<?= $i ?>'><h2>All</h2></label>
+	<div class='content full-height'>
+	<?php foreach ($sections as $name => $items): ?>
+		<h3><?= $name ?></h3>
+		<section class="media-wrap">
+			<?php foreach ($items as $item): ?>
+				<?php include __DIR__ . '/cover-item.php'; ?>
+			<?php endforeach ?>
+		</section>
+	<?php endforeach ?>
+	</div>
 	</div>
 <?php endif ?>
 </main>

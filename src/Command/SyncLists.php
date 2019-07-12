@@ -16,11 +16,8 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\{
-	FailedResponseException,
-	JsonAPI,
-	ParallelAPIRequest
-};
+use Aviat\AnimeClient\API\
+{Anilist\MissingIdException, FailedResponseException, JsonAPI, ParallelAPIRequest};
 use Aviat\AnimeClient\API\Anilist\Transformer\{
 	AnimeListTransformer as AALT,
 	MangaListTransformer as AMLT
@@ -311,20 +308,11 @@ final class SyncLists extends BaseCommand {
 		$anilistUpdateItems = [];
 		$kitsuUpdateItems = [];
 
-		$malBlackList = ($type === 'anime')
-			? [
-				27821, // Fate/stay night: Unlimited Blade Works - Prologue
-				29317, // Saekano: How to Raise a Boring Girlfriend Prologue
-				30514, // Nisekoinogatari
-			] : [
-				114638, // Cells at Work: Black
-			];
-
 		$malIds = array_keys($anilistList);
 		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
 		$missingMalIds = array_diff($malIds, $kitsuMalIds);
-		$missingMalIds = array_diff($missingMalIds, $malBlackList);
 
+		// Add items on Anilist, but not Kitsu to Kitsu
 		foreach($missingMalIds as $mid)
 		{
 			$itemsToAddToKitsu[] = array_merge($anilistList[$mid]['data'], [
@@ -336,11 +324,6 @@ final class SyncLists extends BaseCommand {
 		foreach($kitsuList as $kitsuItem)
 		{
 			$malId = $kitsuItem['malId'];
-
-			if (\in_array((int)$malId, $malBlackList, TRUE))
-			{
-				continue;
-			}
 
 			if (array_key_exists($malId, $anilistList))
 			{
@@ -628,13 +611,25 @@ final class SyncLists extends BaseCommand {
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
 				$this->echoBox("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
+				continue;
 			}
-			else
+
+			// Show a different message when you have an episode count mismatch
+			if (isset($responseData['errors'][0]['title']))
 			{
-				dump($responseData);
-				$verb = ($action === 'update') ? 'update' : 'create';
-				$this->echoBox("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
+				$errorTitle = $responseData['errors'][0]['title'];
+
+				if ($errorTitle === 'cannot exceed length of media')
+				{
+					$this->echoBox("Skipped Kitsu {$type} {$id} due to episode count mismatch with other API");
+					continue;
+				}
 			}
+
+			dump($responseData);
+			$verb = ($action === 'update') ? 'update' : 'create';
+			$this->echoBox("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
+
 		}
 	}
 
@@ -660,7 +655,16 @@ final class SyncLists extends BaseCommand {
 			}
 			else if ($action === 'create')
 			{
-				$requester->addRequest($this->anilistModel->createFullListItem($item, $type));
+				try
+				{
+					$requester->addRequest($this->anilistModel->createFullListItem($item, $type));
+				}
+				catch (MissingIdException $e)
+				{
+					// Case where there's a MAL mapping from Kitsu, but no equivalent Anlist item
+					$id = $item['mal_id'];
+					$this->echoBox("Skipping Anilist ${type} with mal_id: {$id} due to missing mapping");
+				}
 			}
 		}
 

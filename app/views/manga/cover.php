@@ -5,6 +5,9 @@
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
 <?php else: ?>
+	<br />
+	<label>Filter: <input type='text' class='media-filter' /></label>
+	<br />
 	<?php foreach ($sections as $name => $items): ?>
 	<?php if (empty($items)): ?>
 		<section class="status">
