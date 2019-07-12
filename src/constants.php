@@ -152,12 +152,23 @@ const SETTINGS_MAP = [
 			'default' => 'Somebody',
 			'description' => 'Name of the owner of the list data.',
 		],
-		'dark_theme' => [
+		'theme' => [
+			'type' => 'select',
+			'title' => 'Theme',
+			'default' => 'auto',
+			'description' => 'Which color scheme to use?',
+			'options' => [
+				'Automatically match OS theme' => 'auto',
+				'Original Light Theme' => 'light',
+				'Dark Theme' => 'dark',
+			]
+		],
+		/* 'dark_theme' => [
 			'type' => 'boolean',
 			'title' => 'Use Dark Theme',
 			'default' => FALSE,
 			'description' => 'Use a darker background theme?',
-		],
+		],*/
 		'show_anime_collection' => [
 			'type' => 'boolean',
 			'title' => 'Show Anime Collection',
