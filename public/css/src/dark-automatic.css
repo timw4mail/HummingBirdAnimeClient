@@ -1,5 +1,0 @@
-@import './all.css';
-
-@media (prefers-color-scheme: dark) {
-	@import './dark-override.css';
-}
