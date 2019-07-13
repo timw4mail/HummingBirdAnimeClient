@@ -54,7 +54,8 @@ export const AnimeClient = {
 	 * @return {void}
 	 */
 	scrollToTop () {
-		window.scroll(0,0);
+		const el = AnimeClient.$('header')[0];
+		el.scrollIntoView(true);
 	},
 	/**
 	 * Hide the selected element
