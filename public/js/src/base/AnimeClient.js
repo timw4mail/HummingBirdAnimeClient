@@ -64,7 +64,15 @@ export const AnimeClient = {
 	 * @return {void}
 	 */
 	hide (sel) {
-		sel.setAttribute('hidden', 'hidden');
+		if (typeof sel === 'string') {
+			sel = AnimeClient.$(sel);
+		}
+
+		if (Array.isArray(sel)) {
+			sel.forEach(el => el.setAttribute('hidden', 'hidden'));
+		} else {
+			sel.setAttribute('hidden', 'hidden');
+		}
 	},
 	/**
 	 * UnHide the selected element
@@ -73,7 +81,15 @@ export const AnimeClient = {
 	 * @return {void}
 	 */
 	show (sel) {
-		sel.removeAttribute('hidden');
+		if (typeof sel === 'string') {
+			sel = AnimeClient.$(sel);
+		}
+
+		if (Array.isArray(sel)) {
+			sel.forEach(el => el.removeAttribute('hidden'));
+		} else {
+			sel.removeAttribute('hidden');
+		}
 	},
 	/**
 	 * Display a message box
@@ -301,14 +317,10 @@ AnimeClient.ajax = (url, config) => {
 
 	request.setRequestHeader('Content-Type', config.mimeType);
 
-	switch (method) {
-		case 'GET':
-			request.send(null);
-		break;
-
-		default:
-			request.send(config.data);
-		break;
+	if (method === 'GET') {
+		request.send(null);
+	} else {
+		request.send(config.data);
 	}
 };
 

@@ -2,10 +2,10 @@ import _ from './base/AnimeClient.js'
 import { renderMangaSearchResults } from './template-helpers.js'
 
 const search = (query) => {
-	_.$('.cssload-loader')[ 0 ].removeAttribute('hidden');
+	_.show('.cssload-loader');
 	_.get(_.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
-		_.$('.cssload-loader')[ 0 ].setAttribute('hidden', 'hidden');
+		_.hide('.cssload-loader');
 		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
 	});
 };
@@ -59,7 +59,7 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	// Update the total count
 	data.data.progress = ++completed;
 
-	_.show(_.$('#loading-shadow')[ 0 ]);
+	_.show('#loading-shadow');
 
 	_.ajax(_.url('/manga/increment'), {
 		data,
@@ -71,14 +71,14 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 				_.hide(parentSel);
 			}
 
-			_.hide(_.$('#loading-shadow')[ 0 ]);
+			_.hide('#loading-shadow');
 
 			_.$(`.${type}s_read`, parentSel)[ 0 ].textContent = completed;
 			_.showMessage('success', `Successfully updated ${mangaName}`);
 			_.scrollToTop();
 		},
 		error: () => {
-			_.hide(_.$('#loading-shadow')[ 0 ]);
+			_.hide('#loading-shadow');
 			_.showMessage('error', `Failed to update ${mangaName}`);
 			_.scrollToTop();
 		}

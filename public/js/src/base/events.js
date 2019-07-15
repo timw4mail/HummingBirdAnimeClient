@@ -69,7 +69,7 @@ _.on('.media-filter', 'input', (event) => {
 			}
 		});
 	} else {
-		_.$('article.media').forEach(article => _.show(article));
-		_.$('table.media-wrap tbody tr').forEach(tr => _.show(tr));
+		_.show('article.media');
+		_.show('table.media-wrap tbody tr');
 	}
 });

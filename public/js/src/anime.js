@@ -3,14 +3,14 @@ import { renderAnimeSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	// Show the loader
-	_.$('.cssload-loader')[ 0 ].removeAttribute('hidden');
+	_.show('.cssload-loader');
 
 	// Do the api search
 	_.get(_.url('/anime-collection/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 
 		// Hide the loader
-		_.$('.cssload-loader')[ 0 ].setAttribute('hidden', 'hidden');
+		_.hide('.cssload-loader');
 
 		// Show the results
 		_.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
@@ -55,7 +55,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 		data.data.status = 'completed';
 	}
 
-	_.show(_.$('#loading-shadow')[ 0 ]);
+	_.show('#loading-shadow');
 
 	// okay, lets actually make some changes!
 	_.ajax(_.url('/anime/increment'), {
@@ -66,7 +66,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 			const resData = JSON.parse(res);
 
 			if (resData.errors) {
-				_.hide(_.$('#loading-shadow')[ 0 ]);
+				_.hide('#loading-shadow');
 				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();
 				return;
@@ -76,14 +76,14 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 				_.hide(parentSel);
 			}
 
-			_.hide(_.$('#loading-shadow')[ 0 ]);
+			_.hide('#loading-shadow');
 
 			_.showMessage('success', `Successfully updated ${title}`);
 			_.$('.completed_number', parentSel)[ 0 ].textContent = ++watchedCount;
 			_.scrollToTop();
 		},
 		error: () => {
-			_.hide(_.$('#loading-shadow')[ 0 ]);
+			_.hide('#loading-shadow');
 			_.showMessage('error', `Failed to update ${title}. `);
 			_.scrollToTop();
 		}
