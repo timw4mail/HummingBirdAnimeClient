@@ -109,6 +109,16 @@ abstract class AbstractType implements ArrayAccess {
 	}
 
 	/**
+	 * Create a string representation of the object for debugging
+	 *
+	 * @return string
+	 */
+	public function __toString(): string
+	{
+		return print_r($this, TRUE);
+	}
+
+	/**
 	 * Implementing ArrayAccess
 	 *
 	 * @param $offset
@@ -179,5 +189,23 @@ abstract class AbstractType implements ArrayAccess {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Determine whether the type has any properties set
+	 *
+	 * @return bool
+	 */
+	public function isEmpty(): bool
+	{
+		foreach ($this as $key => $value)
+		{
+			if ( ! empty($value))
+			{
+				return FALSE;
+			}
+		}
+
+		return TRUE;
 	}
 }
