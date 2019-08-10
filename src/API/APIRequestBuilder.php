@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
+use const Aviat\AnimeClient\USER_AGENT;
+
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
@@ -76,7 +78,7 @@ class APIRequestBuilder {
 	public static function simpleRequest(string $uri): Request
 	{
 		return (new Request($uri))
-			->withHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:64.0) Gecko/20100101 Firefox/64.0 ');
+			->withHeader('User-Agent', USER_AGENT);
 	}
 
 	/**
