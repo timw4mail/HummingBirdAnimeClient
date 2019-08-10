@@ -304,7 +304,7 @@ final class Manga extends Controller {
 		$staff = [];
 		$characters = [];
 
-		if (empty($data))
+		if ($data->isEmpty())
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
