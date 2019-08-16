@@ -44,7 +44,7 @@ class API {
 		array_multisort($sort, SORT_ASC, $array);
 
 		// Re-key array items by their ids
-		if (array_key_exists('id', $array[0]))
+		if (array_key_exists('id', (array)$array[0]))
 		{
 			$keyed = [];
 
