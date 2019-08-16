@@ -10,12 +10,12 @@
 		</div>
 	</div>
 </section>
-<script nomodule src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CObject.assign"></script>
+<script nomodule="nomodule" src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CObject.assign"></script>
 <?php if ($auth->isAuthenticated()): ?>
-<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
+<script nomodule='nomodule' async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts-authed.min.js') ?>"></script>
 <script type="module" src="<?= $urlGenerator->assetUrl('js/src/index-authed.js') ?>"></script>
 <?php else: ?>
-<script nomodule async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<script nomodule="nomodule" async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
 <script type="module" src="<?= $urlGenerator->assetUrl('js/src/index.js') ?>"></script>
 <?php endif ?>
 </body>

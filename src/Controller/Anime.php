@@ -299,28 +299,40 @@ final class Anime extends BaseController {
 	 */
 	public function details(string $animeId): void
 	{
-		$data = $this->model->getAnime($animeId);
+		try
+		{
+			$data = $this->model->getAnime($animeId);
 
-		if (empty($data))
+			if ($data->isEmpty())
+			{
+				$this->notFound(
+					$this->config->get('whose_list') .
+					"'s Anime List &middot; Anime &middot; " .
+					'Anime not found',
+					'Anime Not Found'
+				);
+
+				return;
+			}
+
+			$this->outputHTML('anime/details', [
+				'title' => $this->formatTitle(
+					$this->config->get('whose_list') . "'s Anime List",
+					'Anime',
+					$data->title
+				),
+				'data' => $data,
+			]);
+		}
+		catch (\TypeError $e)
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
-					"'s Anime List &middot; Anime &middot; " .
-					'Anime not found',
+				"'s Anime List &middot; Anime &middot; " .
+				'Anime not found',
 				'Anime Not Found'
 			);
-
-			return;
 		}
-
-		$this->outputHTML('anime/details', [
-			'title' => $this->formatTitle(
-				$this->config->get('whose_list') . "'s Anime List",
-				'Anime',
-				$data->title
-			),
-			'data' => $data,
-		]);
 	}
 
 	/**

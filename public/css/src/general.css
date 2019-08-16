@@ -682,10 +682,11 @@ picture.cover {
 	font-size: inherit;
 }
 
-.description {
-	/* max-width: 80rem;*/
+/* .description {
+	max-width: 80rem;
 	columns: 4 28rem;
 	columns: 4 28em;
+
 	margin-bottom: 1.6em;
 	margin-bottom: 1.6rem;
 }
@@ -697,11 +698,12 @@ p.description br + br {
 	break-inside: avoid;
 	break-after: auto;
 	break-before: avoid;
-}
+} */
 
 .fixed {
-	/* max-width: 100rem; */
-	max-width: 80%;
+	max-width: 115em;
+	max-width: 115rem;
+	/* max-width: 80%; */
 	margin: 0 auto;
 }
 
@@ -821,7 +823,7 @@ aside.info {
 	max-width: 33%;
 }
 
-.fixed aside.info {
+.fixed aside {
 	max-width: 390px;
 }
 
@@ -829,7 +831,7 @@ aside.info {
 	max-width: inherit;
 } */
 
-aside.info picture, aside.info img {
+aside picture, aside img {
 	display: block;
 	margin: 0 auto;
 }

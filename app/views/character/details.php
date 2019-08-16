@@ -4,11 +4,11 @@ use function Aviat\AnimeClient\getLocalImg;
 use Aviat\AnimeClient\API\Kitsu;
 
 ?>
-<main class="details fixed">
+<main class="character-page details fixed">
 	<section class="flex flex-no-wrap">
-		<div>
+		<aside>
 			<?= $helper->picture("images/characters/{$data['id']}-original.webp") ?>
-		</div>
+		</aside>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
 			<?php foreach ($data['names'] as $name): ?>

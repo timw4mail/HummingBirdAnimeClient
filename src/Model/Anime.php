@@ -166,7 +166,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
 
-		if ($data['mal_id'] !== null && $this->anilistEnabled)
+		if ($this->anilistEnabled && $data['mal_id'] !== null)
 		{
 			$requester->addRequest($this->anilistModel->createListItem($data, 'ANIME'), 'anilist');
 		}
@@ -187,9 +187,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
 
-		$array = $data->toArray();
-
-		if ($array['mal_id'] !== null && $this->anilistEnabled)
+		if ($this->anilistEnabled && $data['mal_id'] !== null)
 		{
 			$requester->addRequest($this->anilistModel->incrementListItem($data, 'ANIME'), 'anilist');
 		}
@@ -216,9 +214,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		$array = $data->toArray();
-
-		if ($array['mal_id'] !== null && $this->anilistEnabled)
+		if ($this->anilistEnabled && $data['mal_id'] !== null)
 		{
 			$requester->addRequest($this->anilistModel->updateListItem($data, 'ANIME'), 'anilist');
 		}
@@ -246,7 +242,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
-		if ($malId !== null && $this->anilistEnabled)
+		if ($this->anilistEnabled && $malId !== null)
 		{
 			$requester->addRequest($this->anilistModel->deleteListItem($malId, 'ANIME'), 'anilist');
 		}
