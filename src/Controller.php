@@ -154,7 +154,7 @@ class Controller {
 		if (null === $url)
 		{
 			$url = $util->isViewPage()
-				? $this->request->getUri()->__toString()
+				? (string) $this->request->getUri()
 				: $serverParams['HTTP_REFERER'];
 		}
 
@@ -245,7 +245,7 @@ class Controller {
 		$csp = [
 			"default-src 'self'",
 			"object-src 'none'",
-			"frame-src *.youtube.com",
+			'frame-src *.youtube.com',
 		];
 
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
