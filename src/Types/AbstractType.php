@@ -17,8 +17,10 @@
 namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
+use ArrayObject;
+use Countable;
 
-abstract class AbstractType implements ArrayAccess {
+abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * Populate values for un-serializing data
 	 *
@@ -162,6 +164,17 @@ abstract class AbstractType implements ArrayAccess {
 		{
 			unset($this->$offset);
 		}
+	}
+
+	/**
+	 * Implementing Countable
+	 *
+	 * @return int
+	 */
+	public function count(): int
+	{
+		$keys = array_keys($this->toArray());
+		return count($keys);
 	}
 
 	/**

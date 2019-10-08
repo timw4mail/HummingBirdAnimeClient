@@ -187,7 +187,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && $data['mal_id'] !== null)
+		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
 		{
 			$requester->addRequest($this->anilistModel->incrementListItem($data, 'ANIME'), 'anilist');
 		}
@@ -214,7 +214,7 @@ class Anime extends API {
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && $data['mal_id'] !== null)
+		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
 		{
 			$requester->addRequest($this->anilistModel->updateListItem($data, 'ANIME'), 'anilist');
 		}
