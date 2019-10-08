@@ -274,6 +274,11 @@ final class Model
 			'type' => mb_strtoupper($type),
 		]);
 
+		if (empty($info) || empty($info['data']))
+		{
+			return NULL;
+		}
+
 		return (string)$info['data']['Media']['id'];
 	}
 }
