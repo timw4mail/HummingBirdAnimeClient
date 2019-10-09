@@ -269,10 +269,20 @@ final class Model
 	 */
 	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
 	{
+		if ($malId === '')
+		{
+			return NULL;
+		}
+
 		$info = $this->runQuery('MediaIdByMalId', [
 			'id' => $malId,
 			'type' => mb_strtoupper($type),
 		]);
+
+		if (array_key_exists('errors', $info))
+		{
+			return NULL;
+		}
 
 		return (string)$info['data']['Media']['id'];
 	}
