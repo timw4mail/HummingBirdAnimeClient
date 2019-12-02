@@ -32,19 +32,19 @@ class ClearThumbnails extends BaseCommand {
 		$imgDir = realpath(__DIR__ . '/../../public/images');
 
 		$paths = [
+			'anime/*.jpg',
+			'anime/*.png',
+			'anime/*.webp',
 			'avatars/*.gif',
 			'avatars/*.jpg',
 			'avatars/*.png',
 			'avatars/*.webp',
-			'anime/*.jpg',
-			'anime/*.png',
-			'anime/*.webp',
-			'manga/*.jpg',
-			'manga/*.png',
-			'manga/*.webp',
 			'characters/*.jpg',
 			'characters/*.png',
 			'characters/*.webp',
+			'manga/*.jpg',
+			'manga/*.png',
+			'manga/*.webp',
 			'people/*.jpg',
 			'people/*.png',
 			'people/*.webp',
@@ -52,7 +52,7 @@ class ClearThumbnails extends BaseCommand {
 
 		foreach($paths as $path)
 		{
-			$cmd = "rm -rf {$imgDir}/{$path}";
+			$cmd = "find {$imgDir} -path \"*/{$path}\" | xargs rm -f";
 			exec($cmd);
 		}
 	}
