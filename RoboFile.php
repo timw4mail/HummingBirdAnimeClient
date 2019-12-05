@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-	
+
 use Robo\Tasks;
 
 if ( ! function_exists('glob_recursive'))
@@ -201,26 +201,8 @@ class RoboFile extends Tasks {
 	public function test()
 	{
 		$this->lint();
-		
-		$this->_run(['phpunit']);
-	}
 
-	/**
-	 * Watches for file updates, and automatically runs appropriate actions
-	 */
-	public function watch()
-	{
-		$this->taskWatch()
-			->monitor('composer.json', function() {
-				$this->taskComposerUpdate()->run();
-			})
-			->monitor('src', function () {
-				$this->taskExec('test')->run();
-			})
-			->monitor('tests', function () {
-				$this->taskExec('test')->run();
-			})
-			->run();
+		$this->_run(['phpunit']);
 	}
 
 	/**
