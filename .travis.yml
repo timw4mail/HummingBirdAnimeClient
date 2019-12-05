@@ -4,9 +4,9 @@ install:
   - composer install --ignore-platform-reqs
 
 php:
-  - 7.1
   - 7.2
   - 7.3
+  - 7.4
   - nightly
 
 script:
@@ -19,7 +19,6 @@ after_script:
 matrix:
   allow_failures:
     - php: nightly
-    - php: hhvm
 
 addons:
     code_climate:
