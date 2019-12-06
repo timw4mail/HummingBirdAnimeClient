@@ -11,6 +11,7 @@ pipeline {
  			steps {
  				sh 'apk add --no-cache php7-phpdbg'
  				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -f composer.lock'
  				sh 'php composer.phar install --ignore-platform-reqs'
  				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
  			}
@@ -25,6 +26,7 @@ pipeline {
 			steps {
 				sh 'apk add --no-cache php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
 			}
@@ -39,6 +41,7 @@ pipeline {
 			steps {
 				sh 'apk add --no-cache php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
 			}
