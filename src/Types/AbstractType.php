@@ -37,7 +37,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 *
 	 * @param mixed $data
 	 */
-	public function __construct($data = [])
+	final public function __construct($data = [])
 	{
 		$typeKeys = array_keys((array)$this);
 		$dataKeys = array_keys((array)$data);
@@ -187,7 +187,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	{
 		$object = $parent ?? $this;
 
-		if (is_scalar($object) || empty($object))
+		if (is_scalar($object) || $object === NULL)
 		{
 			return $object;
 		}

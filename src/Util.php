@@ -16,7 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Utility method class
@@ -45,8 +46,8 @@ class Util {
 	 * Set up the Util class
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -80,8 +81,8 @@ class Util {
 	/**
 	 * Determine whether to show the sub-menu
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return bool
 	 */
 	public function isViewPage(): bool
@@ -98,8 +99,8 @@ class Util {
 	 * Determine whether the page is a page with a form, and
 	 * not suitable for redirection
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return bool
 	 */
 	public function isFormPage(): bool

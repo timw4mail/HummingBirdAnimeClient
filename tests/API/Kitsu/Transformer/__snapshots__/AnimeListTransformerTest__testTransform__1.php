@@ -36,10 +36,10 @@
       1 => '小林さんちのメイドラゴン',
     ),
   )),
-   'watching_status' => 'current',
    'notes' => NULL,
+   'private' => false,
    'rewatching' => false,
    'rewatched' => 0,
    'user_rating' => '-',
-   'private' => false,
+   'watching_status' => 'current',
 ));

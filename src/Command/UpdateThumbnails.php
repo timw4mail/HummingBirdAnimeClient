@@ -62,7 +62,12 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$this->echoBox('Finished regenerating all thumbnails');
 	}
 
-	public function getImageList()
+	/**
+	 * @return array-key[][]
+	 *
+	 * @psalm-return array{anime: list<array-key>, manga: list<array-key>}
+	 */
+	public function getImageList(): array
 	{
 		$mangaList = $this->kitsuModel->getFullRawMangaList();
 		$includes = JsonAPI::organizeIncludes($mangaList['included']);

@@ -142,23 +142,24 @@ final class CharacterTransformer extends AbstractTransformer {
 				foreach ($role['relationships']['person']['people'] as $pid => $peoples)
 				{
 					$p = $peoples;
+
+					$person = $p['attributes'];
+					$person['id'] = $pid;
+					$person['image'] = $person['image']['original'];
+
+					uasort($role['relationships']['media']['anime'], static function ($a, $b) {
+						return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
+					});
+
+					$item = [
+						'person' => $person,
+						'series' => $role['relationships']['media']['anime']
+					];
+
+					$output[$roleName][$language][] = $item;
 				}
-
-				$person = $p['attributes'];
-				$person['id'] = $pid;
-				$person['image'] = $person['image']['original'];
-
-				uasort($role['relationships']['media']['anime'], function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-
-				$item = [
-					'person' => $person,
-					'series' => $role['relationships']['media']['anime']
-				];
-
-				$output[$roleName][$language][] = $item;
-			} else
+			}
+			else
 			{
 				foreach ($role['relationships']['person']['people'] as $pid => $person)
 				{

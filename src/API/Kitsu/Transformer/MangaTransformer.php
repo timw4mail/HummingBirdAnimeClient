@@ -130,6 +130,9 @@ final class MangaTransformer extends AbstractTransformer {
 		]);
 	}
 
+	/**
+	 * @return int|null|string
+	 */
 	private function count(int $value = NULL)
 	{
 		return ((int)$value === 0)
