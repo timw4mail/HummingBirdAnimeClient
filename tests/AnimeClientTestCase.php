@@ -29,7 +29,7 @@ use Zend\Diactoros\{
 	ServerRequestFactory
 };
 
-\define('ROOT_DIR', __DIR__ . '/../');
+\define('ROOT_DIR', realpath(__DIR__ . '/../'));
 \define('TEST_DATA_DIR', __DIR__ . '/test_data');
 \define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 
@@ -50,7 +50,7 @@ class AnimeClientTestCase extends TestCase {
 	protected static $staticContainer;
 	protected static $session_handler;
 
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		// Use mock session handler
 		//$session_handler = new TestSessionHandler();
@@ -62,7 +62,7 @@ class AnimeClientTestCase extends TestCase {
 		array_map('unlink', $files);
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -139,7 +139,7 @@ class AnimeClientTestCase extends TestCase {
 			array_merge($default, $supers)
 		);
 		$this->container->setInstance('request', $request);
-		$this->container->set('response', function() {
+		$this->container->set('response', static function() {
 			return new HttpResponse();
 		});
 	}
@@ -165,6 +165,7 @@ class AnimeClientTestCase extends TestCase {
 	 *
 	 * Takes multiple path arguments
 	 *
+	 * @param array $args
 	 * @return mixed - the decoded data
 	 */
 	public function getMockFileData(...$args)

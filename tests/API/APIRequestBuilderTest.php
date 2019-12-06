@@ -28,8 +28,7 @@ class APIRequestBuilderTest extends TestCase {
 
 	protected $builder;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		$this->builder = new class extends APIRequestBuilder {
 			protected $baseUrl = 'https://httpbin.org/';
 

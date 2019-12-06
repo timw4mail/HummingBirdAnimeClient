@@ -26,8 +26,7 @@ class JsonAPITest extends TestCase {
 	protected $organizedIncludes;
 	protected $inlineIncluded;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		$dir = __DIR__ . '/../test_data/JsonAPI';
 		$this->startData = Json::decodeFile("{$dir}/jsonApiExample.json");
 		$this->organizedIncludes = Json::decodeFile("{$dir}/organizedIncludes.json");

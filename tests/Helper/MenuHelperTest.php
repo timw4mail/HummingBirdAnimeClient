@@ -20,12 +20,11 @@ use Aviat\AnimeClient\Helper\Menu as MenuHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
 class MenuHelperTest extends AnimeClientTestCase {
-	
+
 	protected $helper;
 	protected $urlGenerator;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 		$this->helper = $this->container->get('html-helper');
 		$this->urlGenerator = $this->container->get('url-generator');

@@ -33,8 +33,7 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 	protected $afterTransform;
 	protected $transformer;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 
 		$kitsuModel = $this->container->get('kitsu-model');

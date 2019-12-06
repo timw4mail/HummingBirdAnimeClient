@@ -31,8 +31,7 @@ class ControllerTest extends AnimeClientTestCase {
 
 	protected $BaseController;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 
 		// Create Request/Response Objects
