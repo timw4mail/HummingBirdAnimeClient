@@ -65,7 +65,7 @@ class APIRequestBuilder {
 
 	/**
 	 * The current request
-	 * @var \Amp\Artax\Request
+	 * @var Request
 	 */
 	protected $request;
 
@@ -219,14 +219,14 @@ class APIRequestBuilder {
 	/**
 	 * Return the promise for the current request
 	 *
+	 * @return Request
 	 * @throws \Throwable
-	 * @return \Amp\Artax\Request
 	 */
 	public function getFullRequest(): Request
 	{
 		$this->buildUri();
 
-		if ($this->logger)
+		if ($this->logger !== NULL)
 		{
 			$this->logger->debug('API Request', [
 				'request_url' => $this->request->getUri(),

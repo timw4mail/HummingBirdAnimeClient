@@ -25,6 +25,8 @@ use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Json;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Anilist API Model
@@ -92,8 +94,8 @@ final class Model
 	 *
 	 * @param string $type
 	 * @return array
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function getSyncList(string $type = 'anime'): array
 	{
@@ -144,7 +146,7 @@ final class Model
 			];
 		}
 
-		return $this->listItem->create($createData, $type);
+		return $this->listItem->create($createData);
 	}
 
 	/**

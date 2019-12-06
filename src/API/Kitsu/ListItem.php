@@ -137,6 +137,9 @@ final class ListItem implements ListItemInterface {
 		return $request->getFullRequest();
 	}
 
+	/**
+	 * @return false|string
+	 */
 	private function getAuthHeader()
 	{
 		$cache = $this->getContainer()->get('cache');

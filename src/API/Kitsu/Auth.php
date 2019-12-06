@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aura\Session\Segment;
+
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use Aviat\AnimeClient\API\{
@@ -23,7 +25,6 @@ use Aviat\AnimeClient\API\{
 	Kitsu as K
 };
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Exception;
 
 /**
  * Kitsu API Authentication
@@ -42,7 +43,7 @@ final class Auth {
 	/**
 	 * Session object
 	 *
-	 * @var \Aura\Session\Segment
+	 * @var Segment
 	 */
 	private $segment;
 

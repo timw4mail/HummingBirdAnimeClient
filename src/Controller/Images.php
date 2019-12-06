@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 use function Aviat\AnimeClient\createPlaceholderImage;
@@ -32,17 +34,14 @@ final class Images extends BaseController {
 	 * @param string $type The category of image
 	 * @param string $file The filename to look for
 	 * @param bool $display Whether to output the image to the server
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
-	 * @throws \TypeError
-	 * @throws \Error
-	 * @throws \Throwable
 	 * @return void
+	 * @throws NotFoundException
+	 * @throws \Throwable
+	 * @throws ContainerException
 	 */
 	public function cache(string $type, string $file, $display = TRUE): void
 	{
-		$currentUrl = $this->request->getUri()->__toString();
+		$currentUrl = (string)$this->request->getUri();
 
 		$kitsuUrl = 'https://media.kitsu.io/';
 		$fileName = str_replace('-original', '', $file);
