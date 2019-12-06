@@ -23,8 +23,7 @@ class CacheTraitTest extends AnimeClientTestCase {
 
 	protected $testClass;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 		$this->testClass = new class {
 			use CacheTrait;

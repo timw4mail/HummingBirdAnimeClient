@@ -28,8 +28,7 @@ class MangaTransformerTest extends AnimeClientTestCase {
 	protected $afterTransform;
 	protected $transformer;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 

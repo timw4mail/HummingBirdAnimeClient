@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
+use Amp\Artax\Request;
 use function Amp\call;
 use function Amp\Promise\{all, wait};
 use function Aviat\AnimeClient\getApiClient;
@@ -35,7 +36,7 @@ final class ParallelAPIRequest {
 	/**
 	 * Add a request
 	 *
-	 * @param string|\Amp\Artax\Request $request
+	 * @param string|Request $request
 	 * @param string|number $key
 	 * @return self
 	 */
@@ -54,7 +55,7 @@ final class ParallelAPIRequest {
 	/**
 	 * Add multiple requests
 	 *
-	 * @param string[]|\Amp\Artax\Request[] $requests
+	 * @param string[]|Request[] $requests
 	 * @return self
 	 */
 	public function addRequests(array $requests): self
@@ -77,7 +78,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(function () use ($client, $url) {
+			$promises[$key] = call(static function () use ($client, $url) {
 				$response = yield $client->request($url);
 				return yield $response->getBody();
 			});
@@ -100,7 +101,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(function () use ($client, $url) {
+			$promises[$key] = call(static function () use ($client, $url) {
 				return yield $client->request($url);
 			});
 		}

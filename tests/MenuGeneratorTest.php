@@ -24,8 +24,7 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 	protected $generator;
 	protected $friend;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 		$this->generator = new MenuGenerator($this->container);
 	}

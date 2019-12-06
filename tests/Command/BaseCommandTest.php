@@ -24,9 +24,8 @@ use ConsoleKit\Console;
 class BaseCommandTest extends AnimeClientTestCase {
 	protected $base;
 	protected $friend;
-	
-	public function setUp()
-	{
+
+	public function setUp(): void	{
 		$this->base = new BaseCommand(new Console());
 		$this->friend = new Friend($this->base);
 	}

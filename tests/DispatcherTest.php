@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Tests;
 
+use Aura\Router\Route;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
@@ -31,7 +32,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	protected $config;
 	protected $urlGenerator;
 
-	protected function doSetUp($config, $uri, $host)
+	protected function doSetUp($config, $uri, $host): void
 	{
 		// Set up the environment
 		$_SERVER = array_merge($_SERVER, [
@@ -63,13 +64,13 @@ class DispatcherTest extends AnimeClientTestCase {
 		$this->container->setInstance('url-generator', $this->urlGenerator);
 	}
 
-	public function testRouterSanity()
+	public function testRouterSanity(): void
 	{
 		$this->doSetUp([], '/', 'localhost');
-		$this->assertInternalType('object', $this->router);
+		$this->assertIsObject($this->router);
 	}
 
-	public function dataRoute()
+	public function dataRoute(): array
 	{
 		$defaultConfig = [
 			'routes' => [
@@ -142,7 +143,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	/**
 	 * @dataProvider dataRoute
 	 */
-	public function testRoute($config, $controller, $host, $uri)
+	public function testRoute($config, $controller, $host, $uri): void
 	{
 		$this->doSetUp($config, $uri, $host);
 
@@ -150,7 +151,7 @@ class DispatcherTest extends AnimeClientTestCase {
 
 		// Check route setup
 		$this->assertEquals($config['routes'], $this->config->get('routes'), 'Incorrect route path');
-		$this->assertInternalType('array', $this->router->getOutputRoutes());
+		$this->assertIsArray($this->router->getOutputRoutes());
 
 		// Check environment variables
 		$this->assertEquals($uri, $request->getServerParams()['REQUEST_URI']);
@@ -162,10 +163,10 @@ class DispatcherTest extends AnimeClientTestCase {
 
 		// Make sure the route matches, by checking that it is actually an object
 		$route = $this->router->getRoute();
-		$this->assertInstanceOf(\Aura\Router\Route::class, $route, 'Route is invalid, not matched');
+		$this->assertInstanceOf(Route::class, $route, 'Route is invalid, not matched');
 	}
 
-	public function testDefaultRoute()
+	public function testDefaultRoute(): void
 	{
 		$config = [
 			'config' => [
@@ -202,7 +203,7 @@ class DispatcherTest extends AnimeClientTestCase {
 		$this->urlGenerator->defaultUrl('foo');
 	}
 
-	public function dataGetControllerList()
+	public function dataGetControllerList(): array
 	{
 		$expectedList = [
 			'anime' => Controller\Anime::class,
@@ -246,7 +247,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	/**
 	 * @dataProvider dataGetControllerList
 	 */
-	public function testGetControllerList($config, $expected)
+	public function testGetControllerList($config, $expected): void
 	{
 		$this->doSetUp($config, '/', 'localhost');
 		$this->assertEquals($expected, $this->router->getControllerList());

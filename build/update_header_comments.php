@@ -35,7 +35,7 @@ function get_text_to_replace($tokens)
 
 	// Tokens have the follow structure if arrays:
 	// [0] => token type constant
-	// [1] => raw sytax parsed to that token
+	// [1] => raw syntax parsed to that token
 	// [2] => line number
 	foreach($tokens as $token)
 	{

@@ -19,11 +19,10 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\Util;
 
 class UtilTest extends AnimeClientTestCase {
-	
+
 	protected $util;
 
-	public function setUp()
-	{
+	public function setUp(): void	{
 		parent::setUp();
 		$this->util = new Util($this->container);
 	}
