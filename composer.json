@@ -47,7 +47,7 @@
 	"roave/security-advisories": "dev-master",
 	"robmorgan/phinx": "^0.10.6",
 	"sebastian/phpcpd": "^4.1.0",
-	"spatie/phpunit-snapshot-assertions": "^3.1.0",
+	"spatie/phpunit-snapshot-assertions": "^2.2.1",
 	"squizlabs/php_codesniffer": "^3.2.2",
 	"symfony/var-dumper": "^4.4.1",
     "theseer/phpdox": "*"
