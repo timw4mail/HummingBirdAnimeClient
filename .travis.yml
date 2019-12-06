@@ -11,6 +11,7 @@ php:
 
 script:
   - mkdir -p build/logs
+  - vendor/bin/robo lint
   - phpdbg -qrr -- vendor/bin/phpunit -c build
 
 after_script:

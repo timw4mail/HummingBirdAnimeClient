@@ -13,6 +13,7 @@ pipeline {
  				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
  				sh 'php composer.phar install --ignore-platform-reqs'
+				sh 'php vendor/bin/robo lint'
  				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
  			}
  		}
@@ -28,6 +29,7 @@ pipeline {
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
+				sh 'php vendor/bin/robo lint'
 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
 			}
 		}
@@ -43,6 +45,7 @@ pipeline {
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
+				sh 'php vendor/bin/robo lint'
 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
 			}
 		}
