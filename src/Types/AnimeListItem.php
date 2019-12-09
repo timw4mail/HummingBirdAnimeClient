@@ -74,12 +74,12 @@ final class AnimeListItem extends AbstractType {
 	public $rewatching;
 
 	/**
-	 * @var number
+	 * @var int
 	 */
 	public $rewatched;
 
 	/**
-	 * @var number
+	 * @var int
 	 */
 	public $user_rating;
 

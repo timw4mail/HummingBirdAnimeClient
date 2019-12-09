@@ -31,7 +31,7 @@ final class Person extends AbstractType {
 	public $name;
 
 	/**
-	 * @var object
+	 * @var Characters
 	 */
 	public $characters;
 
@@ -42,9 +42,6 @@ final class Person extends AbstractType {
 
 	public function setCharacters($characters): void
 	{
-		$this->characters = new class($characters) extends AbstractType {
-			public $main;
-			public $supporting;
-		};
+		$this->characters = new Characters($characters);
 	}
 }

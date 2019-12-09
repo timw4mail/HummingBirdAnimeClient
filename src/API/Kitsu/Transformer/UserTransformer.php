@@ -24,9 +24,12 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transform user profile data for display
+ *
+ * @param array|object $profileData
+ * @return User
  */
 final class UserTransformer extends AbstractTransformer {
-	public function transform(array $profileData): User
+	public function transform($profileData): User
 	{
 		$orgData = JsonAPI::organizeData($profileData)[0];
 		$attributes = $orgData['attributes'];

@@ -19,6 +19,7 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDOException;
 
+use Query\Query_Builder_Interface;
 use function Query;
 
 /**
@@ -28,7 +29,7 @@ class Collection extends DB {
 
 	/**
 	 * The query builder object
-	 * @var \Query\Query_Builder_Interface
+	 * @var Query_Builder_Interface
 	 */
 	protected $db;
 
@@ -52,7 +53,13 @@ class Collection extends DB {
 			$this->db = Query($this->dbConfig);
 			$this->validDatabase = TRUE;
 		}
-		catch (PDOException $e) {}
+		catch (PDOException $e)
+		{
+			$this->db = Query([
+				'type' => 'sqlite',
+				'file' => ':memory:',
+			]);
+		}
 
 		// Is database valid? If not, set a flag so the
 		// app can be run without a valid database

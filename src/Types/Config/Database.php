@@ -40,7 +40,7 @@ class Database extends AbstractType {
 	public $pass;
 
 	/**
-	 * @var string|number
+	 * @var string|int
 	 */
 	public $port;
 
