@@ -28,8 +28,9 @@ final class CharacterTransformer extends AbstractTransformer {
 
 	/**
 	 * @param array $characterData
+	 * @return Character
 	 */
-	public function transform(array $characterData): Character
+	public function transform($characterData): Character
 	{
 		$data = JsonAPI::organizeData($characterData);
 		$attributes = $data[0]['attributes'];

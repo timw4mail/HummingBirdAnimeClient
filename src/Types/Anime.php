@@ -38,12 +38,12 @@ class Anime extends AbstractType {
 	public $cover_image;
 
 	/**
-	 * @var string|number
+	 * @var string|int
 	 */
 	public $episode_count;
 
 	/**
-	 * @var string|number
+	 * @var string|int
 	 */
 	public $episode_length;
 

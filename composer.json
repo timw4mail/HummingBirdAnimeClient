@@ -60,6 +60,7 @@
 	"clean": "vendor/bin/robo clean",
 	"coverage": "phpdbg -qrr -- vendor/bin/phpunit -c build",
 	"phpstan": "phpstan analyse -c phpstan.neon",
+	"psalm": "vendor/bin/psalm",
 	"watch:css": "cd public && npm run watch:css",
 	"watch:js": "cd public && npm run watch:js",
 	"test": "vendor/bin/phpunit -c build --no-coverage",

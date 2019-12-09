@@ -179,7 +179,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * Recursively cast properties to an array
 	 *
-	 * @param null $parent
+	 * @param mixed $parent
 	 * @return mixed
 	 */
 	public function toArray($parent = null)

@@ -75,6 +75,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getMediaTypeList(): array
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
 		$output = [];
 
 		$query = $this->db->select('id, type')
@@ -136,6 +141,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function add($data): void
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return;
+		}
+
 		$id = $data['id'];
 
 		// Check that the anime doesn't already exist
@@ -166,13 +176,16 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Verify that an item was added
 	 *
-	 * @param $data
 	 * @param array|null|object $data
-	 *
 	 * @return bool
 	 */
 	public function wasAdded($data): bool
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return FALSE;
+		}
+
 		$row = $this->get($data['id']);
 
 		return  ! empty($row);
@@ -186,6 +199,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function update($data): void
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return;
+		}
+
 		// If there's no id to update, don't update
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
@@ -206,13 +224,17 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Verify that the collection item was updated
 	 *
-	 * @param $data
 	 * @param array|null|object $data
 	 *
 	 * @return bool
 	 */
 	public function wasUpdated($data): bool
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return FALSE;
+		}
+
 		$row = $this->get($data['hummingbird_id']);
 
 		foreach ($data as $key => $value)
@@ -234,6 +256,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function delete($data): void
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return;
+		}
+
 		// If there's no id to update, don't delete
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
@@ -249,9 +276,15 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * @param array|null|object $data
+	 * @return bool
 	 */
 	public function wasDeleted($data): bool
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return FALSE;
+		}
+
 		$animeRow = $this->get($data['hummingbird_id']);
 
 		return empty($animeRow);
@@ -265,6 +298,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function get($kitsuId)
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return FALSE;
+		}
+
 		$query = $this->db->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
 			->get();
@@ -280,6 +318,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getGenreList(array $filter = []): array
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
 		$output = [];
 
 		// Catch the missing table PDOException
@@ -337,6 +380,11 @@ final class AnimeCollection extends Collection {
 	 */
 	private function updateGenre($animeId): void
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return;
+		}
+
 		// Get api information
 		$anime = $this->animeModel->getAnimeById($animeId);
 
@@ -379,6 +427,11 @@ final class AnimeCollection extends Collection {
 	 */
 	private function addNewGenres(array $genres): void
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return;
+		}
+
 		$existingGenres = $this->getExistingGenres();
 		$newGenres = array_diff($genres, $existingGenres);
 
@@ -416,6 +469,11 @@ final class AnimeCollection extends Collection {
 
 	private function getExistingGenres(): array
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
 		$genres = [];
 
 		// Get existing genres
@@ -435,6 +493,11 @@ final class AnimeCollection extends Collection {
 
 	private function getExistingGenreLinkEntries(): array
 	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
 		$links = [];
 
 		$query = $this->db->select('hummingbird_id, genre_id')

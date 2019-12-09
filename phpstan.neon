@@ -1,12 +1,12 @@
 parameters:
 	checkGenericClassInNonGenericObjectType: false
+	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
 	level: 7
 	autoload_files:
 		- %rootDir%/../../../tests/mocks.php
 	paths:
 		- src
-		- tests
 		- ./console
 		- index.php
 	ignoreErrors:
