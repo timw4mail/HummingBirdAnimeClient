@@ -20,12 +20,43 @@ namespace Aviat\AnimeClient\Types;
  * Type representing the manga represented by the list item
  */
 final class MangaListItemDetail extends AbstractType {
+	/**
+	 * @var array
+	 */
 	public $genres;
+
+	/**
+	 * @var string
+	 */
 	public $id;
+
+	/**
+	 * @var string
+	 */
 	public $image;
+
+	/**
+	 * @var string
+	 */
 	public $slug;
+
+	/**
+	 * @var string
+	 */
 	public $title;
+
+	/**
+	 * @var array
+	 */
 	public $titles;
+
+	/**
+	 * @var string
+	 */
 	public $type;
+
+	/**
+	 * @var string
+	 */
 	public $url;
 }

@@ -20,9 +20,24 @@ namespace Aviat\AnimeClient\Types;
  * Type representing a person for display
  */
 final class Person extends AbstractType {
+	/**
+	 * @var string
+	 */
 	public $id;
+
+	/**
+	 * @var string
+	 */
 	public $name;
+
+	/**
+	 * @var object
+	 */
 	public $characters;
+
+	/**
+	 * @var array
+	 */
 	public $staff;
 
 	public function setCharacters($characters): void
