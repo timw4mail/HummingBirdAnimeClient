@@ -44,10 +44,13 @@ return static function ($configArray = []) {
 
 	$appLogger = new Logger('animeclient');
 	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+
 	$anilistRequestLogger = new Logger('anilist-request');
 	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
+
 	$kitsuRequestLogger = new Logger('kitsu-request');
 	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
+
 	$container->setLogger($appLogger);
 	$container->setLogger($anilistRequestLogger, 'anilist-request');
 	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
@@ -62,7 +65,7 @@ return static function ($configArray = []) {
 	});
 
 	// Create Cache Object
-	$container->set('cache', static function($container) {
+	$container->set('cache', static function($container): Pool {
 		$logger = $container->getLogger();
 		$config = $container->get('config')->get('cache');
 		return new Pool($config, $logger);
@@ -117,12 +120,12 @@ return static function ($configArray = []) {
 	});
 
 	// Miscellaneous helper methods
-	$container->set('util', static function($container) {
+	$container->set('util', static function($container): Util {
 		return new Util($container);
 	});
 
 	// Models
-	$container->set('kitsu-model', static function($container) {
+	$container->set('kitsu-model', static function($container): Kitsu\Model {
 		$requestBuilder = new KitsuRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -138,7 +141,7 @@ return static function ($configArray = []) {
 		$model->setCache($cache);
 		return $model;
 	});
-	$container->set('anilist-model', static function($container) {
+	$container->set('anilist-model', static function($container): Anilist\Model {
 		$requestBuilder = new Anilist\AnilistRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
@@ -153,9 +156,6 @@ return static function ($configArray = []) {
 		return $model;
 	});
 
-	$container->set('api-model', static function($container) {
-		return new Model\API($container);
-	});
 	$container->set('anime-model', static function($container) {
 		return new Model\Anime($container);
 	});

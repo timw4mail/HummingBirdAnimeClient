@@ -16,12 +16,15 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 
 /**
@@ -39,8 +42,8 @@ final class Anime extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -60,8 +63,8 @@ final class Anime extends BaseController {
 	 *
 	 * @param string|int $type - The section of the list
 	 * @param string $view - List or cover view
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -104,9 +107,9 @@ final class Anime extends BaseController {
 	/**
 	 * Form to add an anime
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws RouteNotFound
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -128,8 +131,8 @@ final class Anime extends BaseController {
 	/**
 	 * Add an anime to the list
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function add(): void
@@ -204,8 +207,8 @@ final class Anime extends BaseController {
 	/**
 	 * Update an anime item via a form submission
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function formUpdate(): void
@@ -292,8 +295,8 @@ final class Anime extends BaseController {
 	 * View details of an anime
 	 *
 	 * @param string $animeId
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */

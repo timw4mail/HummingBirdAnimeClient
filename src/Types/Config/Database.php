@@ -19,11 +19,38 @@ namespace Aviat\AnimeClient\Types\Config;
 use Aviat\AnimeClient\Types\AbstractType;
 
 class Database extends AbstractType {
+	/**
+	 * @var string
+	 */
 	public $type;
+
+	/**
+	 * @var string
+	 */
 	public $host;
+
+	/**
+	 * @var string
+	 */
 	public $user;
+
+	/**
+	 * @var string
+	 */
 	public $pass;
+
+	/**
+	 * @var string|number
+	 */
 	public $port;
+
+	/**
+	 * @var string
+	 */
 	public $database;
+
+	/**
+	 * @var string
+	 */
 	public $file;
 }

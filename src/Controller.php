@@ -18,9 +18,19 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
+use Aura\Router\Generator;
+use Aura\Session\Segment;
+use Aviat\AnimeClient\API\Kitsu\Auth;
+use Aviat\Ion\ConfigInterface;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 use Aviat\Ion\Di\{
 	ContainerAware,
-	ContainerInterface
+	ContainerInterface,
+	Exception\ContainerException,
+	Exception\NotFoundException
 };
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
@@ -35,31 +45,31 @@ class Controller {
 
 	/**
 	 * The authentication object
-	 * @var \Aviat\AnimeClient\API\Kitsu\Auth $auth ;
+	 * @var Auth $auth ;
 	 */
 	protected $auth;
 
 	/**
 	 * Cache manager
-	 * @var \Psr\Cache\CacheItemPoolInterface
+	 * @var CacheItemPoolInterface
 	 */
 	protected $cache;
 
 	/**
 	 * The global configuration object
-	 * @var \Aviat\Ion\ConfigInterface $config
+	 * @var ConfigInterface $config
 	 */
 	public $config;
 
 	/**
 	 * Request object
-	 * @var \Psr\Http\Message\ServerRequestInterface $request
+	 * @var ServerRequestInterface $request
 	 */
 	protected $request;
 
 	/**
 	 * Response object
-	 * @var \Psr\Http\Message\ResponseInterface $response
+	 * @var ResponseInterface $response
 	 */
 	public $response;
 
@@ -71,13 +81,13 @@ class Controller {
 
 	/**
 	 * Aura url generator
-	 * @var \Aura\Router\Generator
+	 * @var Generator
 	 */
 	protected $url;
 
 	/**
 	 * Session segment
-	 * @var \Aura\Session\Segment
+	 * @var Segment
 	 */
 	protected $session;
 
@@ -91,8 +101,8 @@ class Controller {
 	 * Controller constructor.
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -127,8 +137,8 @@ class Controller {
 	 * Set the current url in the session as the target of a future redirect
 	 *
 	 * @param string|NULL $url
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function setSessionRedirect(string $url = NULL): void
 	{
@@ -167,8 +177,8 @@ class Controller {
 	 * If one is not set, redirect to default url
 	 *
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function sessionRedirect(): void
@@ -202,8 +212,8 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	protected function loadPartial($view, string $template, array $data = []): string
@@ -236,8 +246,8 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	protected function renderFullPage($view, string $template, array $data): void
@@ -266,8 +276,8 @@ class Controller {
 	 * @param string $title
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function notFound(
@@ -289,8 +299,8 @@ class Controller {
 	 * @param string $message
 	 * @param string $long_message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $long_message = ''): void
@@ -342,7 +352,7 @@ class Controller {
 	/**
 	 * Helper for consistent page titles
 	 *
-	 * @param string[] $parts Title segments
+	 * @param string ...$parts Title segments
 	 * @return string
 	 */
 	public function formatTitle(string ...$parts) : string
@@ -357,8 +367,8 @@ class Controller {
 	 * @param string $type
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	protected function showMessage($view, string $type, string $message): string
@@ -377,8 +387,8 @@ class Controller {
 	 * @param HtmlView|null $view
 	 * @param int $code
 	 * @throws InvalidArgumentException
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void

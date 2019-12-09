@@ -16,12 +16,16 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\{
 	Anime as AnimeModel,
 	AnimeCollection as AnimeCollectionModel
 };
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Exception\DoubleRenderException;
 
 /**
  * Controller for Anime collection pages
@@ -44,8 +48,8 @@ final class AnimeCollection extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -69,7 +73,7 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Search for anime
 	 *
-	 * @throws \Aviat\Ion\Exception\DoubleRenderException
+	 * @throws DoubleRenderException
 	 * @return void
 	 */
 	public function search(): void
@@ -83,8 +87,8 @@ final class AnimeCollection extends BaseController {
 	 * Show the anime collection page
 	 *
 	 * @param string $view
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -108,9 +112,9 @@ final class AnimeCollection extends BaseController {
 	 * Show the anime collection add/edit form
 	 *
 	 * @param integer|null $id
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws RouteNotFound
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -138,8 +142,8 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Update a collection item
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -173,8 +177,8 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Add a collection item
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */

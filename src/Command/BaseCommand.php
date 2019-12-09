@@ -46,7 +46,7 @@ class BaseCommand extends Command {
 	 * @param string $message
 	 * @return void
 	 */
-	protected function echoBox($message)
+	protected function echoBox($message): void
 	{
 		try
 		{
@@ -82,7 +82,7 @@ class BaseCommand extends Command {
 
 		$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
-		$di = static function ($configArray) use ($APP_DIR) {
+		$di = static function ($configArray) use ($APP_DIR): Container {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
@@ -91,16 +91,19 @@ class BaseCommand extends Command {
 
 			$app_logger = new Logger('animeclient');
 			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
+
 			$kitsu_request_logger = new Logger('kitsu-request');
 			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
+
 			$anilistRequestLogger = new Logger('anilist-request');
 			$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
+
 			$container->setLogger($app_logger);
 			$container->setLogger($anilistRequestLogger, 'anilist-request');
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 
 			// Create Config Object
-			$container->set('config', static function() use ($configArray) {
+			$container->set('config', static function() use ($configArray): Config {
 				return new Config($configArray);
 			});
 
@@ -126,7 +129,7 @@ class BaseCommand extends Command {
 					$_FILES
 				);
 			});
-			$container->set('response', static function() {
+			$container->set('response', static function(): Response {
 				return new Response;
 			});
 
@@ -136,7 +139,7 @@ class BaseCommand extends Command {
 			});
 
 			// Models
-			$container->set('kitsu-model', static function($container) {
+			$container->set('kitsu-model', static function($container): Kitsu\Model {
 				$requestBuilder = new KitsuRequestBuilder();
 				$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -152,7 +155,7 @@ class BaseCommand extends Command {
 				$model->setCache($cache);
 				return $model;
 			});
-			$container->set('anilist-model', static function ($container) {
+			$container->set('anilist-model', static function ($container): Anilist\Model {
 				$requestBuilder = new Anilist\AnilistRequestBuilder();
 				$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
@@ -166,21 +169,21 @@ class BaseCommand extends Command {
 
 				return $model;
 			});
-			$container->set('settings-model', static function($container) {
+			$container->set('settings-model', static function($container): Model\Settings {
 				$model =  new Model\Settings($container->get('config'));
 				$model->setContainer($container);
 				return $model;
 			});
 
-			$container->set('auth', static function($container) {
+			$container->set('auth', static function($container): Kitsu\Auth {
 				return new Kitsu\Auth($container);
 			});
 
-			$container->set('url-generator', static function($container) {
+			$container->set('url-generator', static function($container): UrlGenerator {
 				return new UrlGenerator($container);
 			});
 
-			$container->set('util', static function($container) {
+			$container->set('util', static function($container): Util {
 				return new Util($container);
 			});
 

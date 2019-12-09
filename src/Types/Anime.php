@@ -16,25 +16,94 @@
 
 namespace Aviat\AnimeClient\Types;
 
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
+
 /**
  * Type representing an anime within a watch list
  */
 class Anime extends AbstractType {
+	/**
+	 * @var string
+	 */
 	public $age_rating;
+
+	/**
+	 * @var string
+	 */
 	public $age_rating_guide;
+
+	/**
+	 * @var string
+	 */
 	public $cover_image;
+
+	/**
+	 * @var string|number
+	 */
 	public $episode_count;
+
+	/**
+	 * @var string|number
+	 */
 	public $episode_length;
+
+	/**
+	 * @var array
+	 */
 	public $genres;
+
+	/**
+	 * @var string
+	 */
 	public $id;
+
+	/**
+	 * @var array
+	 */
 	public $included;
+
+	/**
+	 * @var string
+	 */
 	public $show_type;
+
+	/**
+	 * @var string
+	 */
 	public $slug;
+
+	/**
+	 * @var AnimeAiringStatus::NOT_YET_AIRED | AnimeAiringStatus::AIRING | AnimeAiringStatus::FINISHED_AIRING
+	 */
 	public $status;
+
+	/**
+	 * @var array
+	 */
 	public $streaming_links;
+
+	/**
+	 * @var string
+	 */
 	public $synopsis;
+
+	/**
+	 * @var string
+	 */
 	public $title;
+
+	/**
+	 * @var array
+	 */
 	public $titles;
+
+	/**
+	 * @var string
+	 */
 	public $trailer_id;
+
+	/**
+	 * @var string
+	 */
 	public $url;
 }
