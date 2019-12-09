@@ -26,7 +26,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * Transform user profile data for display
  */
 final class UserTransformer extends AbstractTransformer {
-	public function transform($profileData): User
+	public function transform(array $profileData): User
 	{
 		$orgData = JsonAPI::organizeData($profileData)[0];
 		$attributes = $orgData['attributes'];
@@ -132,7 +132,7 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
-	private function organizeStats($stats, $data = []): array
+	private function organizeStats(array $stats, $data = []): array
 	{
 		$animeStats = [];
 		$mangaStats = [];

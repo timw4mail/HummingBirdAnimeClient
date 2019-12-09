@@ -26,7 +26,10 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 final class CharacterTransformer extends AbstractTransformer {
 
-	public function transform($characterData): Character
+	/**
+	 * @param array $characterData
+	 */
+	public function transform(array $characterData): Character
 	{
 		$data = JsonAPI::organizeData($characterData);
 		$attributes = $data[0]['attributes'];

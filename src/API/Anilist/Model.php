@@ -179,7 +179,8 @@ final class Model
 	 *
 	 * @param string $malId - The unique identifier of that list item
 	 * @param string $type - Them media type (anime/manga)
-	 * @return mixed
+	 *
+	 * @return array
 	 */
 	public function getListItem(string $malId, string $type): array
 	{

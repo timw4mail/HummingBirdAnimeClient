@@ -29,7 +29,7 @@ if ( ! function_exists('glob_recursive'))
 	}
 }
 
-function get_text_to_replace($tokens)
+function get_text_to_replace(array $tokens): string
 {
 	$output = '';
 
@@ -57,7 +57,7 @@ function get_text_to_replace($tokens)
 	return $output;
 }
 
-function get_tokens($source)
+function get_tokens($source): array
 {
 	return token_get_all($source);
 }
