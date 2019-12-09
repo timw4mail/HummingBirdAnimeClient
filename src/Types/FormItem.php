@@ -20,9 +20,24 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an Anime object for display
  */
 class FormItem extends AbstractType {
+	/**
+	 * @var string
+	 */
 	public $id;
+
+	/**
+	 * @var string
+	 */
 	public $anilist_item_id;
+
+	/**
+	 * @var string
+	 */
 	public $mal_id;
+
+	/**
+	 * @var FormItemData
+	 */
 	public $data;
 
 	public function setData($value): void

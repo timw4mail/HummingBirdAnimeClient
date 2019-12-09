@@ -25,7 +25,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * Populate values for un-serializing data
 	 *
 	 * @param $properties
-	 * @return mixed
+	 * @return self
 	 */
 	public static function __set_state($properties): self
 	{
