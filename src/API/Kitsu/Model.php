@@ -41,7 +41,12 @@ use Aviat\AnimeClient\Types\{
 	FormItem,
 	MangaPage
 };
+
+use Aviat\Banker\Exception\InvalidArgumentException;
 use Aviat\Ion\{Di\ContainerAware, Json};
+
+use ReflectionException;
+use Throwable;
 
 /**
  * Kitsu API Model
@@ -103,6 +108,7 @@ final class Model {
 	 * @param string $username
 	 * @param string $password
 	 * @return bool|array
+	 * @throws Throwable
 	 */
 	public function authenticate(string $username, string $password)
 	{
@@ -142,6 +148,7 @@ final class Model {
 	 *
 	 * @param string $token
 	 * @return bool|array
+	 * @throws Throwable
 	 */
 	public function reAuthenticate(string $token)
 	{
@@ -171,6 +178,7 @@ final class Model {
 	 *
 	 * @param string $username
 	 * @return string
+	 * @throws InvalidArgumentException
 	 */
 	public function getUserIdByUsername(string $username = NULL): string
 	{
@@ -206,7 +214,7 @@ final class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		$data = $this->getRequest('characters', [
+		return $this->getRequest('characters', [
 			'query' => [
 				'filter' => [
 					'slug' => $slug,
@@ -218,8 +226,6 @@ final class Model {
 				'include' => 'castings.person,castings.media'
 			]
 		]);
-
-		return $data;
 	}
 
 	/**
@@ -227,6 +233,7 @@ final class Model {
 	 *
 	 * @param string $id
 	 * @return array
+	 * @throws InvalidArgumentException
 	 */
 	public function getPerson(string $id): array
 	{
@@ -265,8 +272,7 @@ final class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		// $userId = $this->getUserIdByUsername($username);
-		$data = $this->getRequest('users', [
+		return $this->getRequest('users', [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -279,8 +285,6 @@ final class Model {
 				'include' => 'waifu,favorites.item,stats'
 			]
 		]);
-
-		return $data;
 	}
 
 	/**
@@ -399,6 +403,7 @@ final class Model {
 	 *
 	 * @param string $status - The watching status to filter the list with
 	 * @return array
+	 * @throws InvalidArgumentException
 	 */
 	public function getAnimeList(string $status): array
 	{
@@ -421,6 +426,7 @@ final class Model {
 			{
 				$item['included'] = $included;
 			}
+			unset($item);
 			$transformed = $this->animeListTransformer->transformCollection($data['data']);
 			$keyed = [];
 
@@ -441,6 +447,7 @@ final class Model {
 	 *
 	 * @param string $status - Optional status to filter by
 	 * @return int
+	 * @throws InvalidArgumentException
 	 */
 	public function getAnimeListCount(string $status = '') : int
 	{
@@ -472,6 +479,8 @@ final class Model {
 	 *
 	 * @param array $options
 	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function getFullRawAnimeList(array $options = [
 		'include' => 'anime.mappings'
@@ -507,6 +516,8 @@ final class Model {
 	 * Get all the anime entries, that are organized for output to html
 	 *
 	 * @return array
+	 * @throws ReflectionException
+	 * @throws InvalidArgumentException
 	 */
 	public function getFullOrganizedAnimeList(): array
 	{
@@ -564,6 +575,7 @@ final class Model {
 	 * @param int $offset
 	 * @param array $options
 	 * @return Request
+	 * @throws InvalidArgumentException
 	 */
 	public function getPagedAnimeList(int $limit, int $offset = 0, array $options = [
 		'include' => 'anime.mappings'
@@ -590,6 +602,8 @@ final class Model {
 	 *
 	 * @param string $status - The watching status to filter the list with
 	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function getRawAnimeList(string $status): array
 	{
@@ -647,6 +661,7 @@ final class Model {
 	 * @param int $limit - The number of list items to fetch per page
 	 * @param int $offset - The page offset
 	 * @return array
+	 * @throws InvalidArgumentException
 	 */
 	public function getMangaList(string $status, int $limit = 200, int $offset = 0): array
 	{
@@ -685,6 +700,7 @@ final class Model {
 			{
 				$item['included'] = $included;
 			}
+			unset($item);
 
 			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
 
@@ -700,6 +716,7 @@ final class Model {
 	 *
 	 * @param string $status - Optional status to filter by
 	 * @return int
+	 * @throws InvalidArgumentException
 	 */
 	public function getMangaListCount(string $status = '') : int
 	{
@@ -731,6 +748,8 @@ final class Model {
 	 *
 	 * @param array $options
 	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function getFullRawMangaList(array $options = [
 		'include' => 'manga.mappings'
@@ -766,6 +785,8 @@ final class Model {
 	 * Get all Manga lists
 	 *
 	 * @return array
+	 * @throws ReflectionException
+	 * @throws InvalidArgumentException
 	 */
 	public function getFullOrganizedMangaList(): array
 	{
@@ -787,6 +808,7 @@ final class Model {
 	 * @param int $offset
 	 * @param array $options
 	 * @return Request
+	 * @throws InvalidArgumentException
 	 */
 	public function getPagedMangaList(int $limit, int $offset = 0, array $options = [
 		'include' => 'manga.mappings'
@@ -845,6 +867,7 @@ final class Model {
 	 *
 	 * @param array $data
 	 * @return Request
+	 * @throws InvalidArgumentException
 	 */
 	public function createListItem(array $data): Request
 	{

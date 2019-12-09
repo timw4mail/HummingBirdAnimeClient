@@ -27,6 +27,8 @@ use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\DoubleRenderException;
 
+use InvalidArgumentException;
+
 /**
  * Controller for Anime collection pages
  */
@@ -89,7 +91,7 @@ final class AnimeCollection extends BaseController {
 	 * @param string $view
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function view($view): void
@@ -115,7 +117,7 @@ final class AnimeCollection extends BaseController {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function form($id = NULL): void
@@ -144,7 +146,7 @@ final class AnimeCollection extends BaseController {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function edit(): void
@@ -179,7 +181,7 @@ final class AnimeCollection extends BaseController {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function add(): void

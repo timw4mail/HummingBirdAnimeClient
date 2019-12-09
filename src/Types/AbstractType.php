@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
-use ArrayObject;
 use Countable;
 
 abstract class AbstractType implements ArrayAccess, Countable {

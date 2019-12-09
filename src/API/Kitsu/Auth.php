@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aura\Session\Segment;
 
+use Aviat\Banker\Exception\InvalidArgumentException;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use Aviat\AnimeClient\API\{
@@ -25,6 +26,9 @@ use Aviat\AnimeClient\API\{
 	Kitsu as K
 };
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+
+use Throwable;
 
 /**
  * Kitsu API Authentication
@@ -51,6 +55,8 @@ final class Auth {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -65,8 +71,10 @@ final class Auth {
 	 * Make the appropriate authentication call,
 	 * and save the resulting auth token if successful
 	 *
-	 * @param  string $password
+	 * @param string $password
 	 * @return boolean
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function authenticate(string $password): bool
 	{
@@ -110,6 +118,8 @@ final class Auth {
 	 *
 	 * @param string $token
 	 * @return boolean
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function reAuthenticate(string $token): bool
 	{

@@ -28,6 +28,9 @@ use Aviat\AnimeClient\API\Anilist;
 use Aviat\Ion\Json;
 use Aviat\Ion\Di\ContainerAware;
 
+use LogicException;
+use Throwable;
+
 trait AnilistTrait {
 	use ContainerAware;
 
@@ -69,10 +72,10 @@ trait AnilistTrait {
 
 	/**
 	 * Create a request object
-
 	 * @param string $url
 	 * @param array $options
 	 * @return Request
+	 * @throws Throwable
 	 */
 	public function setUpRequest(string $url, array $options = []): Request
 	{
@@ -123,7 +126,7 @@ trait AnilistTrait {
 		$file = realpath(__DIR__ . "/GraphQL/Queries/{$name}.graphql");
 		if ( ! file_exists($file))
 		{
-			throw new \LogicException('GraphQL query file does not exist.');
+			throw new LogicException('GraphQL query file does not exist.');
 		}
 
 		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
@@ -146,12 +149,18 @@ trait AnilistTrait {
 		]);
 	}
 
+	/**
+	 * @param string $name
+	 * @param array $variables
+	 * @return Request
+	 * @throws Throwable
+	 */
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
 		$file = realpath(__DIR__ . "/GraphQL/Mutations/{$name}.graphql");
 		if (!file_exists($file))
 		{
-			throw new \LogicException('GraphQL mutation file does not exist.');
+			throw new LogicException('GraphQL mutation file does not exist.');
 		}
 
 		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
@@ -174,6 +183,12 @@ trait AnilistTrait {
 		]);
 	}
 
+	/**
+	 * @param string $name
+	 * @param array $variables
+	 * @return array
+	 * @throws Throwable
+	 */
 	public function mutate (string $name, array $variables = []): array
 	{
 		$request = $this->mutateRequest($name, $variables);
@@ -188,6 +203,7 @@ trait AnilistTrait {
 	 * @param string $url
 	 * @param array $options
 	 * @return Response
+	 * @throws Throwable
 	 */
 	private function getResponse(string $url, array $options = []): Response
 	{
@@ -211,6 +227,11 @@ trait AnilistTrait {
 		return $response;
 	}
 
+	/**
+	 * @param Request $request
+	 * @return Response
+	 * @throws Throwable
+	 */
 	private function getResponseFromRequest(Request $request): Response
 	{
 		$logger = NULL;
@@ -237,6 +258,7 @@ trait AnilistTrait {
 	 *
 	 * @param array $options
 	 * @return array
+	 * @throws Throwable
 	 */
 	protected function postRequest(array $options = []): array
 	{
@@ -258,7 +280,7 @@ trait AnilistTrait {
 
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			if ($logger)
+			if ($logger !== NULL)
 			{
 				$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
 			}

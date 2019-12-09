@@ -16,7 +16,10 @@
 
 namespace Aviat\AnimeClient;
 
+use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Helper object to manage form generation, especially for config editing
@@ -25,7 +28,7 @@ final class FormGenerator {
 	/**
 	 * Html generation helper
 	 *
-	 * @var \Aura\Html\HelperLocator
+	 * @var HelperLocator
 	 */
 	private $helper;
 
@@ -33,8 +36,8 @@ final class FormGenerator {
 	 * FormGenerator constructor.
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{

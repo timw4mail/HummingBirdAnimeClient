@@ -85,7 +85,7 @@ final class MangaListTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($manga);
 		$title = array_shift($titles);
 
-		$map = new MangaListItem([
+		return new MangaListItem([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'chapters' => [
@@ -103,7 +103,7 @@ final class MangaListTransformer extends AbstractTransformer {
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => $this->string($manga['subtype'])->upperCaseFirst()->__toString(),
+				'type' => (string)$this->string($manga['subtype'])->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => $item['attributes']['status'],
@@ -112,8 +112,6 @@ final class MangaListTransformer extends AbstractTransformer {
 			'reread' => $item['attributes']['reconsumeCount'],
 			'user_rating' => $rating,
 		]);
-
-		return $map;
 	}
 
 	/**

@@ -20,19 +20,24 @@ use Aviat\AnimeClient\Command\BaseCommand;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
+use Aviat\Ion\Di\Container;
+
+class Command extends BaseCommand {
+
+}
 
 class BaseCommandTest extends AnimeClientTestCase {
 	protected $base;
 	protected $friend;
 
 	public function setUp(): void	{
-		$this->base = new BaseCommand(new Console());
+		$this->base = new Command(new Console());
 		$this->friend = new Friend($this->base);
 	}
 
-	public function testSetupContainer()
+	public function testSetupContainer(): void
 	{
 		$container = $this->friend->setupContainer();
-		$this->assertInstanceOf('Aviat\Ion\Di\Container', $container);
+		$this->assertInstanceOf(Container::class, $container);
 	}
 }

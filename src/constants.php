@@ -163,12 +163,6 @@ const SETTINGS_MAP = [
 				'Dark Theme' => 'dark',
 			]
 		],
-		/* 'dark_theme' => [
-			'type' => 'boolean',
-			'title' => 'Use Dark Theme',
-			'default' => FALSE,
-			'description' => 'Use a darker background theme?',
-		],*/
 		'show_anime_collection' => [
 			'type' => 'boolean',
 			'title' => 'Show Anime Collection',

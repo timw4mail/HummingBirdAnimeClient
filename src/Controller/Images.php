@@ -24,6 +24,8 @@ use function Aviat\AnimeClient\createPlaceholderImage;
 
 use Aviat\AnimeClient\Controller as BaseController;
 
+use Throwable;
+
 /**
  * Controller for handling routes that don't fit elsewhere
  */
@@ -36,7 +38,7 @@ final class Images extends BaseController {
 	 * @param bool $display Whether to output the image to the server
 	 * @return void
 	 * @throws NotFoundException
-	 * @throws \Throwable
+	 * @throws Throwable
 	 * @throws ContainerException
 	 */
 	public function cache(string $type, string $file, $display = TRUE): void

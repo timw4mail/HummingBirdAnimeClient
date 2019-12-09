@@ -16,11 +16,12 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\{
-	ArrayWrapper, StringWrapper
-};
+use Aviat\Ion\{ArrayWrapper, StringWrapper};
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Exception\ConfigException;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Helper object to manage menu creation and selection
@@ -33,14 +34,14 @@ final class MenuGenerator extends UrlGenerator {
 	/**
 	 * Html generation helper
 	 *
-	 * @var \Aura\Html\HelperLocator
+	 * @var HelperLocator
 	 */
 	protected $helper;
 
 	/**
 	 * Request object
 	 *
-	 * @var \Psr\Http\Message\RequestInterface
+	 * @var RequestInterface
 	 */
 	protected $request;
 
@@ -48,8 +49,8 @@ final class MenuGenerator extends UrlGenerator {
 	 * MenuGenerator constructor.
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{

@@ -30,6 +30,8 @@ use Aviat\AnimeClient\API\{
 use Aviat\Ion\Json;
 use Aviat\Ion\JsonException;
 
+use Throwable;
+
 trait KitsuTrait {
 
 	/**
@@ -56,7 +58,7 @@ trait KitsuTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @return \Amp\Artax\Request
+	 * @return Request
 	 */
 	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
@@ -120,6 +122,7 @@ trait KitsuTrait {
 	 * @param string $url
 	 * @param array $options
 	 * @return Response
+	 * @throws Throwable
 	 */
 	private function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -151,8 +154,9 @@ trait KitsuTrait {
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @throws \Aviat\Ion\JsonException
+	 * @throws JsonException
 	 * @throws FailedResponseException
+	 * @throws Throwable
 	 * @return array
 	 */
 	private function request(string $type, string $url, array $options = []): array
@@ -165,7 +169,7 @@ trait KitsuTrait {
 
 		$response = $this->getResponse($type, $url, $options);
 
-		if ((int) $response->getStatus() > 299 OR (int) $response->getStatus() < 200)
+		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
 		{
 			if ($logger)
 			{
@@ -191,6 +195,7 @@ trait KitsuTrait {
 	 * Remove some boilerplate for get requests
 	 *
 	 * @param mixed ...$args
+	 * @throws Throwable
 	 * @return array
 	 */
 	protected function getRequest(...$args): array
@@ -202,6 +207,7 @@ trait KitsuTrait {
 	 * Remove some boilerplate for patch requests
 	 *
 	 * @param mixed ...$args
+	 * @throws Throwable
 	 * @return array
 	 */
 	protected function patchRequest(...$args): array
@@ -213,6 +219,7 @@ trait KitsuTrait {
 	 * Remove some boilerplate for post requests
 	 *
 	 * @param mixed ...$args
+	 * @throws Throwable
 	 * @return array
 	 */
 	protected function postRequest(...$args): array
@@ -241,6 +248,7 @@ trait KitsuTrait {
 	 * Remove some boilerplate for delete requests
 	 *
 	 * @param mixed ...$args
+	 * @throws Throwable
 	 * @return bool
 	 */
 	protected function deleteRequest(...$args): bool

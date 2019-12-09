@@ -28,6 +28,8 @@ use Aviat\AnimeClient\API\Anilist\Transformer\{
 };
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 use DateTime;
 
@@ -53,8 +55,8 @@ final class SyncLists extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \Throwable
 	 */
 	public function execute(array $args, array $options = []): void
@@ -173,8 +175,8 @@ final class SyncLists extends BaseCommand {
 	 * Format an Anilist anime list for comparison
 	 *
 	 * @return array
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	protected function formatAnilistAnimeList(): array
 	{
@@ -206,8 +208,8 @@ final class SyncLists extends BaseCommand {
 	 * Format an Anilist manga list for comparison
 	 *
 	 * @return array
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	protected function formatAnilistMangaList(): array
 	{

@@ -41,6 +41,7 @@ final class UserTransformer extends AbstractTransformer {
 			$stats[$key] = $item['attributes']['statsData'];
 			unset($item);
 		}
+		unset($item);
 
 		$waifu = [];
 		if (array_key_exists('waifu', $rels))

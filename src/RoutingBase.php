@@ -16,8 +16,13 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\Ion\Config;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\StringWrapper;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base for routing/url classes
@@ -34,13 +39,13 @@ class RoutingBase {
 
 	/**
 	 * Config Object
-	 * @var \Aviat\Ion\Config
+	 * @var Config
 	 */
 	protected $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var \Psr\Http\Message\ServerRequestInterface
+	 * @var ServerRequestInterface
 	 */
 	protected $request;
 
@@ -48,9 +53,9 @@ class RoutingBase {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aviat\Ion\Exception\ConfigException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws ConfigException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -61,8 +66,8 @@ class RoutingBase {
 
 	/**
 	 * Get the current url path
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	public function path(): string
@@ -79,8 +84,8 @@ class RoutingBase {
 
 	/**
 	 * Get the url segments
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return array
 	 */
 	public function segments(): array
@@ -93,8 +98,8 @@ class RoutingBase {
 	 * Get a segment of the current url
 	 *
 	 * @param int $num
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return string|null
 	 */
 	public function getSegment($num): ?string
@@ -106,8 +111,8 @@ class RoutingBase {
 	/**
 	 * Retrieve the last url segment
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return string
 	 */
 	public function lastSegment(): string

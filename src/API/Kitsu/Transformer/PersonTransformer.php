@@ -78,7 +78,7 @@ final class PersonTransformer extends AbstractTransformer {
 
 				$includedMedia = array_replace_recursive($existingMedia, $relatedMedia);
 
-				uasort($includedMedia, function ($a, $b) {
+				uasort($includedMedia, static function ($a, $b) {
 					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
 				});
 
@@ -103,10 +103,10 @@ final class PersonTransformer extends AbstractTransformer {
 			}
 		}
 
-		uasort($output['characters']['main'], function ($a, $b) {
+		uasort($output['characters']['main'], static function ($a, $b) {
 			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
 		});
-		uasort($output['characters']['supporting'], function ($a, $b) {
+		uasort($output['characters']['supporting'], static function ($a, $b) {
 			return $a['character']['canonicalName'] <=> $b['character']['canonicalName'];
 		});
 		ksort($output['staff']);
@@ -114,14 +114,14 @@ final class PersonTransformer extends AbstractTransformer {
 		{
 			if (array_key_exists('anime', $media))
 			{
-				uasort($media['anime'], function ($a, $b) {
+				uasort($media['anime'], static function ($a, $b) {
 					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
 				});
 			}
 
 			if (array_key_exists('manga', $media))
 			{
-				uasort($media['manga'], function ($a, $b) {
+				uasort($media['manga'], static function ($a, $b) {
 					return $a['canonicalTitle'] <=> $b['canonicalTitle'];
 				});
 			}

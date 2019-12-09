@@ -16,13 +16,18 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\{Json, StringWrapper};
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Json;
+
+use InvalidArgumentException;
+use Throwable;
 
 /**
  * Controller for manga list
@@ -39,8 +44,8 @@ final class Manga extends Controller {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -59,9 +64,9 @@ final class Manga extends Controller {
 	 *
 	 * @param string $status
 	 * @param string $view
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function index($status = 'all', $view = ''): void
@@ -103,10 +108,10 @@ final class Manga extends Controller {
 	/**
 	 * Form to add an manga
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws RouteNotFound
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function addForm(): void
@@ -129,9 +134,10 @@ final class Manga extends Controller {
 	/**
 	 * Add an manga to the list
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
+	 * @throws NotFoundException
+	 * @throws Throwable
+	 * @throws ContainerException
 	 */
 	public function add(): void
 	{
@@ -168,10 +174,10 @@ final class Manga extends Controller {
 	 *
 	 * @param string $id
 	 * @param string $status
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws RouteNotFound
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function edit($id, $status = 'All'): void
@@ -210,9 +216,10 @@ final class Manga extends Controller {
 	/**
 	 * Update an manga item via a form submission
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
 	 * @return void
+	 * @throws Throwable
+	 * @throws NotFoundException
+	 * @throws ContainerException
 	 */
 	public function formUpdate(): void
 	{
@@ -228,7 +235,7 @@ final class Manga extends Controller {
 
 		if ($full_result['statusCode'] === 200)
 		{
-			$this->setFlashMessage("Successfully updated manga.", 'success');
+			$this->setFlashMessage('Successfully updated manga.', 'success');
 			$this->cache->clear();
 		}
 		else
@@ -242,6 +249,7 @@ final class Manga extends Controller {
 
 	/**
 	 * Increment the progress of a manga item
+	 * @throws Throwable
 	 */
 	public function increment(): void
 	{
@@ -265,8 +273,9 @@ final class Manga extends Controller {
 	/**
 	 * Remove an manga from the list
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function delete(): void
@@ -293,9 +302,10 @@ final class Manga extends Controller {
 	 * View details of an manga
 	 *
 	 * @param string $manga_id
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function details($manga_id): void

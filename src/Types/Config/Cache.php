@@ -33,11 +33,4 @@ class Cache extends AbstractType {
 	 * @var array
 	 */
 	public $options = [];
-
-	/* public function setConnection($data): void
-	{
-		$this->connection = new class($data) extends AbstractType {
-
-		};
-	} */
 }

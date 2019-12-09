@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
@@ -27,6 +29,8 @@ use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
 
+use Throwable;
+
 /**
  * CRUD operations for Kitsu list items
  */
@@ -34,6 +38,11 @@ final class ListItem implements ListItemInterface {
 	use ContainerAware;
 	use KitsuTrait;
 
+	/**
+	 * @param array $data
+	 * @return Request
+	 * @throws Throwable
+	 */
 	public function create(array $data): Request
 	{
 		$body = [
@@ -78,6 +87,11 @@ final class ListItem implements ListItemInterface {
 			->getFullRequest();
 	}
 
+	/**
+	 * @param string $id
+	 * @return Request
+	 * @throws Throwable
+	 */
 	public function delete(string $id): Request
 	{
 		$authHeader = $this->getAuthHeader();
@@ -91,6 +105,11 @@ final class ListItem implements ListItemInterface {
 		return $request->getFullRequest();
 	}
 
+	/**
+	 * @param string $id
+	 * @return array
+	 * @throws Throwable
+	 */
 	public function get(string $id): array
 	{
 		$authHeader = $this->getAuthHeader();
@@ -115,6 +134,12 @@ final class ListItem implements ListItemInterface {
 		return $this->update($id, $data);
 	}
 
+	/**
+	 * @param string $id
+	 * @param FormItemData $data
+	 * @return Request
+	 * @throws Throwable
+	 */
 	public function update(string $id, FormItemData $data): Request
 	{
 		$authHeader = $this->getAuthHeader();
@@ -138,7 +163,9 @@ final class ListItem implements ListItemInterface {
 	}
 
 	/**
-	 * @return false|string
+	 * @return bool|string
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	private function getAuthHeader()
 	{
