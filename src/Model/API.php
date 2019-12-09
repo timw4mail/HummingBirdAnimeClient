@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Model;
 /**
  * Base model for api interaction
  */
-class API {
+abstract class API {
 	/**
 	 * Sort the list entries by their title
 	 *

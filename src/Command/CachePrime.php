@@ -16,6 +16,9 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+
 /**
  * Clears the API Cache
  */
@@ -25,8 +28,8 @@ final class CachePrime extends BaseCommand {
 	 *
 	 * @param array $args
 	 * @param array $options
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function execute(array $args, array $options = []): void
@@ -50,8 +53,9 @@ final class CachePrime extends BaseCommand {
 			$userIdItem->save();
 		}
 
-		// Prime anime list cache
 		$kitsuModel = $this->container->get('kitsu-model');
+
+		// Prime anime list cache
 		$kitsuModel->getFullOrganizedAnimeList();
 
 		// Prime manga list cache

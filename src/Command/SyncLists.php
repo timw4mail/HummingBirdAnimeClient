@@ -16,8 +16,12 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\
-{Anilist\MissingIdException, FailedResponseException, JsonAPI, ParallelAPIRequest};
+use Aviat\AnimeClient\API\{
+	Anilist\MissingIdException,
+	FailedResponseException,
+	JsonAPI,
+	ParallelAPIRequest
+};
 use Aviat\AnimeClient\API\Anilist\Transformer\{
 	AnimeListTransformer as AALT,
 	MangaListTransformer as AMLT

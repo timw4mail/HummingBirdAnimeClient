@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
+use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\{
@@ -41,14 +43,14 @@ class Anime extends API {
 	/**
 	 * Model for making requests to Anilist API
 	 *
-	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 * @var AnilistModel
 	 */
 	protected $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
 	 *
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var KitsuModel
 	 */
 	protected $kitsuModel;
 

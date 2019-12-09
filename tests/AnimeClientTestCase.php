@@ -20,7 +20,6 @@ use const Aviat\AnimeClient\SRC_DIR;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Web\WebFactory;
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -38,7 +37,6 @@ use Zend\Diactoros\{
  */
 class AnimeClientTestCase extends TestCase {
 	use MatchesSnapshots;
-
 
 	// Test directory constants
 	const ROOT_DIR = ROOT_DIR;

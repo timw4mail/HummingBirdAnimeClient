@@ -19,8 +19,19 @@ namespace Aviat\AnimeClient\Types\Config;
 use Aviat\AnimeClient\Types\AbstractType;
 
 class Cache extends AbstractType {
+	/**
+	 * @var string
+	 */
 	public $driver;
+
+	/**
+	 * @var array
+	 */
 	public $connection = [];
+
+	/**
+	 * @var array
+	 */
 	public $options = [];
 
 	/* public function setConnection($data): void

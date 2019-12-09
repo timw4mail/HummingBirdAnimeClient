@@ -100,7 +100,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => $this->string($anime['subtype'])->upperCaseFirst()->__toString(),
+				'show_type' => (string)$this->string($anime['subtype'])->upperCaseFirst(),
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,

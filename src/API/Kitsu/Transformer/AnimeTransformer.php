@@ -89,14 +89,14 @@ final class AnimeTransformer extends AbstractTransformer {
 
 		if ( ! empty($characters['main']))
 		{
-			uasort($characters['main'], function ($a, $b) {
+			uasort($characters['main'], static function ($a, $b) {
 				return $a['name'] <=> $b['name'];
 			});
 		}
 
 		if ( ! empty($characters['supporting']))
 		{
-			uasort($characters['supporting'], function ($a, $b) {
+			uasort($characters['supporting'], static function ($a, $b) {
 				return $a['name'] <=> $b['name'];
 			});
 		}
@@ -114,7 +114,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'genres' => $item['genres'],
 			'id' => $item['id'],
 			'included' => $item['included'],
-			'show_type' => $this->string($item['showType'])->upperCaseFirst()->__toString(),
+			'show_type' => (string)$this->string($item['showType'])->upperCaseFirst(),
 			'slug' => $item['slug'],
 			'staff' => $staff,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
