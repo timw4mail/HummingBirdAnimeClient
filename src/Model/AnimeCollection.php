@@ -167,6 +167,8 @@ final class AnimeCollection extends Collection {
 	 * Verify that an item was added
 	 *
 	 * @param $data
+	 * @param array|null|object $data
+	 *
 	 * @return bool
 	 */
 	public function wasAdded($data): bool
@@ -205,6 +207,8 @@ final class AnimeCollection extends Collection {
 	 * Verify that the collection item was updated
 	 *
 	 * @param $data
+	 * @param array|null|object $data
+	 *
 	 * @return bool
 	 */
 	public function wasUpdated($data): bool
@@ -243,6 +247,9 @@ final class AnimeCollection extends Collection {
 			->delete('anime_set');
 	}
 
+	/**
+	 * @param array|null|object $data
+	 */
 	public function wasDeleted($data): bool
 	{
 		$animeRow = $this->get($data['hummingbird_id']);

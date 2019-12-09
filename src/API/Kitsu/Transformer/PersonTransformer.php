@@ -25,7 +25,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 final class PersonTransformer extends AbstractTransformer {
 
-	public function transform($personData): Person
+	public function transform(array $personData): Person
 	{
 		$data = JsonAPI::organizeData($personData);
 		$included = JsonAPI::organizeIncludes($personData['included']);
