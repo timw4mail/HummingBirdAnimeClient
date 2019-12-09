@@ -98,14 +98,14 @@ final class MangaTransformer extends AbstractTransformer {
 
 		if ( ! empty($characters['main']))
 		{
-			uasort($characters['main'], function ($a, $b) {
+			uasort($characters['main'], static function ($a, $b) {
 				return $a['name'] <=> $b['name'];
 			});
 		}
 
 		if ( ! empty($characters['supporting']))
 		{
-			uasort($characters['supporting'], function ($a, $b) {
+			uasort($characters['supporting'], static function ($a, $b) {
 				return $a['name'] <=> $b['name'];
 			});
 		}
@@ -131,12 +131,13 @@ final class MangaTransformer extends AbstractTransformer {
 	}
 
 	/**
-	 * @return int|null|string
+	 * @param int|null $value
+	 * @return string
 	 */
-	private function count(int $value = NULL)
+	private function count(int $value = NULL): string
 	{
 		return ((int)$value === 0)
 			? '-'
-			: $value;
+			: (string)$value;
 	}
 }

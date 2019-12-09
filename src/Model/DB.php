@@ -21,7 +21,7 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 /**
  * Base model for database interaction
  */
-class DB {
+abstract class DB {
 	use ContainerAware;
 
 	/**

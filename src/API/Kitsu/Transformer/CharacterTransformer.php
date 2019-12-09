@@ -44,14 +44,14 @@ final class CharacterTransformer extends AbstractTransformer {
 		{
 			if (array_key_exists('anime', $data['included']))
 			{
-				uasort($data['included']['anime'], function ($a, $b) {
+				uasort($data['included']['anime'], static function ($a, $b) {
 					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
 				});
 			}
 
 			if (array_key_exists('manga', $data['included']))
 			{
-				uasort($data['included']['manga'], function ($a, $b) {
+				uasort($data['included']['manga'], static function ($a, $b) {
 					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
 				});
 			}

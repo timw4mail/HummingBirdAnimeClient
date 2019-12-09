@@ -27,6 +27,9 @@ use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 
+use InvalidArgumentException;
+use Throwable;
+
 /**
  * Controller for Anime-related pages
  */
@@ -65,7 +68,8 @@ final class Anime extends BaseController {
 	 * @param string $view - List or cover view
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function index($type = KitsuWatchingStatus::WATCHING, string $view = NULL): void
@@ -110,7 +114,8 @@ final class Anime extends BaseController {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function addForm(): void
@@ -133,6 +138,7 @@ final class Anime extends BaseController {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function add(): void
@@ -171,6 +177,7 @@ final class Anime extends BaseController {
 	 *
 	 * @param string $id
 	 * @param string $status
+	 * @throws RouteNotFound
 	 */
 	public function edit(string $id, $status = 'all'): void
 	{
@@ -209,6 +216,7 @@ final class Anime extends BaseController {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function formUpdate(): void
@@ -239,6 +247,7 @@ final class Anime extends BaseController {
 	/**
 	 * Increase the watched count for an anime item
 	 *
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function increment(): void
@@ -269,6 +278,7 @@ final class Anime extends BaseController {
 	/**
 	 * Remove an anime from the list
 	 *
+	 * @throws Throwable
 	 * @return void
 	 */
 	public function delete(): void
@@ -297,7 +307,7 @@ final class Anime extends BaseController {
 	 * @param string $animeId
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function details(string $animeId): void

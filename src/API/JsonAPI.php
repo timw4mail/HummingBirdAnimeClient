@@ -144,6 +144,8 @@ final class JsonAPI {
 			}
 		}
 
+		unset($item);
+
 		$data['data']['included'] = $included;
 
 		return $data['data'];
@@ -193,6 +195,7 @@ final class JsonAPI {
 
 			$organized[$type][$id] = $newItem;
 		}
+		unset($item);
 
 		// Second pass, go through and fill missing relationships in the first pass
 		foreach($organized as $type => $items)

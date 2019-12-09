@@ -28,6 +28,8 @@ use Aviat\Ion\Json;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 
+use Throwable;
+
 /**
  * Anilist API Model
  */
@@ -59,6 +61,7 @@ final class Model
 	 * @param string $code - The request token
 	 * @param string $redirectUri - The oauth callback url
 	 * @return array
+	 * @throws Throwable
 	 */
 	public function authenticate(string $code, string $redirectUri): array
 	{

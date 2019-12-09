@@ -16,12 +16,18 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\AnimeClient\Model\{
 	Manga as MangaModel,
 	MangaCollection as MangaCollectionModel
 };
 use Aviat\Ion\Di\ContainerInterface;
+
+use InvalidArgumentException;
 
 /**
  * Controller for manga collection pages
@@ -44,8 +50,8 @@ final class MangaCollection extends BaseController {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 * @throws \InvalidArgumentException
 	 */
 	public function __construct(ContainerInterface $container)
@@ -65,7 +71,7 @@ final class MangaCollection extends BaseController {
 	/**
 	 * Search for manga
 	 *
-	 * @throws \Aviat\Ion\Exception\DoubleRenderException
+	 * @throws DoubleRenderException
 	 * @return void
 	 */
 	public function search(): void
@@ -79,9 +85,9 @@ final class MangaCollection extends BaseController {
 	 * Show the manga collection page
 	 *
 	 * @param string $view
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function index($view): void
@@ -104,10 +110,10 @@ final class MangaCollection extends BaseController {
 	 * Show the manga collection add/edit form
 	 *
 	 * @param integer|null $id
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \Aura\Router\Exception\RouteNotFound
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws RouteNotFound
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function form($id = NULL): void
@@ -132,9 +138,9 @@ final class MangaCollection extends BaseController {
 	/**
 	 * Update a collection item
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function edit(): void
@@ -156,9 +162,9 @@ final class MangaCollection extends BaseController {
 	/**
 	 * Add a collection item
 	 *
-	 * @throws \Aviat\Ion\Di\ContainerException
-	 * @throws \Aviat\Ion\Di\NotFoundException
-	 * @throws \InvalidArgumentException
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
 	 * @return void
 	 */
 	public function add(): void

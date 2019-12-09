@@ -29,6 +29,8 @@ use Aviat\AnimeClient\Types\{
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
+use Throwable;
+
 /**
  * Model for handling requests dealing with the manga list
  */
@@ -130,6 +132,7 @@ class Manga extends API {
 	 *
 	 * @param array $data
 	 * @return bool
+	 * @throws Throwable
 	 */
 	public function createLibraryItem(array $data): bool
 	{
@@ -151,6 +154,7 @@ class Manga extends API {
 	 *
 	 * @param FormItem $data
 	 * @return array
+	 * @throws Throwable
 	 */
 	public function updateLibraryItem(FormItem $data): array
 	{
@@ -179,6 +183,7 @@ class Manga extends API {
 	 *
 	 * @param FormItem $data
 	 * @return array
+	 * @throws Throwable
 	 */
 	public function incrementLibraryItem(FormItem $data): array
 	{
@@ -208,6 +213,7 @@ class Manga extends API {
 	 * @param string $id
 	 * @param string|null $malId
 	 * @return bool
+	 * @throws Throwable
 	 */
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
 	{

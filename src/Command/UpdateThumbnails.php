@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\Controller\Images;
 
 /**
@@ -26,7 +27,7 @@ use Aviat\AnimeClient\Controller\Images;
 final class UpdateThumbnails extends ClearThumbnails {
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var Model
 	 */
 	protected $kitsuModel;
 
@@ -63,8 +64,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 	}
 
 	/**
-	 * @return array-key[][]
-	 *
+	 * @return array array-key[][]
 	 * @psalm-return array{anime: list<array-key>, manga: list<array-key>}
 	 */
 	public function getImageList(): array

@@ -18,12 +18,15 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Router\{Matcher, Rule};
+use Aura\Router\{Matcher, Route, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 use Aviat\Ion\StringWrapper;
+
+use LogicException;
+use ReflectionException;
 
 /**
  * Basic routing/ dispatch
@@ -74,7 +77,7 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Get the current route object, if one matches
 	 *
-	 * @return \Aura\Router\Route|false
+	 * @return Route|false
 	 */
 	public function getRoute()
 	{
@@ -109,6 +112,7 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @param object|null $route
 	 * @return void
+	 * @throws ReflectionException
 	 */
 	public function __invoke($route = NULL): void
 	{
@@ -149,8 +153,8 @@ final class Dispatcher extends RoutingBase {
 	 * Parse out the arguments for the appropriate controller for
 	 * the current route
 	 *
-	 * @param \Aura\Router\Route $route
-	 * @throws \LogicException
+	 * @param Route $route
+	 * @throws LogicException
 	 * @return array
 	 */
 	protected function processRoute($route): array
@@ -161,7 +165,7 @@ final class Dispatcher extends RoutingBase {
 		}
 		else
 		{
-			throw new \LogicException('Missing controller');
+			throw new LogicException('Missing controller');
 		}
 
 		// Get the full namespace for a controller if a short name is given
@@ -249,7 +253,7 @@ final class Dispatcher extends RoutingBase {
 		foreach ($classFiles as $file)
 		{
 			$rawClassName = basename(str_replace('.php', '', $file));
-			$path = $this->string($rawClassName)->dasherize()->__toString();
+			$path = (string)$this->string($rawClassName)->dasherize();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
 			$controllers[$path] = $className;
@@ -296,7 +300,7 @@ final class Dispatcher extends RoutingBase {
 
 	/**
 	 * Get the appropriate params for the error page
-	 * pased on the failed route
+	 * passed on the failed route
 	 *
 	 * @return array|false
 	 */

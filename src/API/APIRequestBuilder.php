@@ -30,7 +30,7 @@ use Psr\Log\LoggerAwareTrait;
 /**
  * Wrapper around Artax to make it easier to build API requests
  */
-class APIRequestBuilder {
+abstract class APIRequestBuilder {
 	use LoggerAwareTrait;
 
 	/**

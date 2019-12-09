@@ -59,5 +59,11 @@ class FormItemData extends AbstractType {
 	 * @var string
 	 */
 	public $status;
+
+	/**
+	 * W3C Format Date string
+	 *
+	 * @var string
+	 */
 	public $updatedAt;
 }

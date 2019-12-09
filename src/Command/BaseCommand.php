@@ -36,7 +36,7 @@ use Zend\Diactoros\{Response, ServerRequestFactory};
 /**
  * Base class for console command setup
  */
-class BaseCommand extends Command {
+abstract class BaseCommand extends Command {
 	use CacheTrait;
 	use ContainerAware;
 

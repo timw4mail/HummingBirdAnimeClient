@@ -21,6 +21,8 @@ use function Amp\call;
 use function Amp\Promise\{all, wait};
 use function Aviat\AnimeClient\getApiClient;
 
+use Throwable;
+
 /**
  * Class to simplify making and validating simultaneous requests
  */
@@ -68,7 +70,7 @@ final class ParallelAPIRequest {
 	 * Make the requests, and return the body for each
 	 *
 	 * @return array
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function makeRequests(): array
 	{
@@ -91,7 +93,7 @@ final class ParallelAPIRequest {
 	 * Make the requests and return the response objects
 	 *
 	 * @return array
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function getResponses(): array
 	{

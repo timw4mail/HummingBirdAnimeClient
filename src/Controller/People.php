@@ -16,10 +16,13 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for People pages
@@ -27,7 +30,7 @@ use Aviat\Ion\Di\ContainerInterface;
 final class People extends BaseController {
 
 	/**
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var Model
 	 */
 	private $model;
 
@@ -35,8 +38,8 @@ final class People extends BaseController {
 	 * People constructor.
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{

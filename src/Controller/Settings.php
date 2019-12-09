@@ -16,8 +16,12 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aura\Router\Exception\RouteNotFound;
+use Aviat\AnimeClient\API\Anilist\Model;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for user settings
@@ -25,7 +29,7 @@ use Aviat\Ion\Di\ContainerInterface;
 final class Settings extends BaseController {
 
 	/**
-	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 * @var Model
 	 */
 	private $anilistModel;
 
@@ -38,8 +42,8 @@ final class Settings extends BaseController {
 	 * Settings constructor.
 	 *
 	 * @param ContainerInterface $container
-	 * @throws \Aviat\Ion\Di\Exception\ContainerException
-	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -75,7 +79,7 @@ final class Settings extends BaseController {
 	/**
 	 * Attempt to save the user's settings
 	 *
-	 * @throws \Aura\Router\Exception\RouteNotFound
+	 * @throws RouteNotFound
 	 */
 	public function update(): void
 	{
