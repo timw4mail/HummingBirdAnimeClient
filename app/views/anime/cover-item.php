@@ -9,7 +9,7 @@
 	<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
 
 	<div class="name">
-		<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]); ?>">
+		<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
 			<span class="canonical"><?= $item['anime']['title'] ?></span>
 			<?php foreach ($item['anime']['titles'] as $title): ?>
 				<br/>
