@@ -869,9 +869,14 @@ final class Model {
 	 * @return Request
 	 * @throws InvalidArgumentException
 	 */
-	public function createListItem(array $data): Request
+	public function createListItem(array $data): ?Request
 	{
 		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
+		if ($data['id'] === NULL)
+		{
+			return NULL;
+		}
+
 		return $this->listItem->create($data);
 	}
 

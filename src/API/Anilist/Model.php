@@ -125,7 +125,10 @@ final class Model
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
-		$createData = [];
+		if ($data['mal_id'] === NULL)
+		{
+			return NULL;
+		}
 
 		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
 
@@ -133,6 +136,8 @@ final class Model
 		{
 			return NULL;
 		}
+
+		$createData = [];
 
 		if ($type === 'ANIME')
 		{
