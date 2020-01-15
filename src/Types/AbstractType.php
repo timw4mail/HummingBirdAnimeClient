@@ -63,9 +63,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	public function __isset($name): bool
 	{
-		// This returns the expected results because unset
-		// properties no longer exist on the class
-		return property_exists($this, $name);
+		return property_exists($this, $name) && isset($this->$name);
 	}
 
 	/**

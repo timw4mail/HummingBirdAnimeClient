@@ -26,6 +26,8 @@ use Aviat\AnimeClient\API\Anilist\Transformer\{
 	AnimeListTransformer as AALT,
 	MangaListTransformer as AMLT
 };
+use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
+use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\Exception\ContainerException;
@@ -40,13 +42,13 @@ final class SyncLists extends BaseCommand {
 
 	/**
 	 * Model for making requests to Anilist API
-	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 * @var AnilistModel
 	 */
 	protected $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var KitsuModel
 	 */
 	protected $kitsuModel;
 
@@ -602,6 +604,12 @@ final class SyncLists extends BaseCommand {
 			}
 			else if ($action === 'create')
 			{
+				$maybeRequest = $this->kitsuModel->createListItem($item);
+				if ($maybeRequest === NULL)
+				{
+					$this->echoBox("Skipped creating Kitsu {$type} due to missing id ¯\_(ツ)_/¯");
+					continue;
+				}
 				$requester->addRequest($this->kitsuModel->createListItem($item));
 			}
 		}
@@ -682,7 +690,6 @@ final class SyncLists extends BaseCommand {
 
 			$responseData = Json::decode($response);
 
-			// $id = $itemsToUpdate[$key]['id'];
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === 'update') ? 'updated' : 'created';
