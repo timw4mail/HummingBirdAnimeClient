@@ -63,6 +63,8 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	public function __isset($name): bool
 	{
+		// This returns the expected results because unset
+		// properties no longer exist on the class
 		return property_exists($this, $name);
 	}
 
@@ -101,12 +103,9 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	public function __get($name)
 	{
-		if (property_exists($this, $name))
-		{
-			return $this->$name;
-		}
-
-		throw new UndefinedPropertyException("Trying to get undefined property: '$name'");
+		// Be a bit more lenient here, so that you can easily typecast missing
+		// values to reasonable defaults, and not have to resort to array indexes
+		return ($this->__isset($name)) ? $this->$name : NULL;
 	}
 
 	/**
@@ -210,7 +209,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	public function isEmpty(): bool
 	{
-		foreach ($this as $key => $value)
+		foreach ($this as $value)
 		{
 			if ( ! empty($value))
 			{

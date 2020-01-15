@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Anilist;
 
 use Amp\Artax\Request;
 
-use Aviat\AnimeClient\API\ListItemInterface;
+use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnilistStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\FormItemData;
@@ -26,7 +26,7 @@ use Aviat\AnimeClient\Types\FormItemData;
 /**
  * CRUD operations for MAL list items
  */
-final class ListItem implements ListItemInterface{
+final class ListItem extends AbstractListItem {
 	use AnilistTrait;
 
 	/**
@@ -37,7 +37,8 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function create(array $data): Request
 	{
-		return $this->mutateRequest('CreateMediaListEntry', $data);
+		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		return $this->mutateRequest('CreateMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -48,7 +49,8 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function createFull(array $data): Request
 	{
-		return $this->mutateRequest('CreateFullMediaListEntry', $data);
+		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		return $this->mutateRequest('CreateFullMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -83,10 +85,12 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
-		return $this->mutateRequest('IncrementMediaListEntry', [
+		$checkedData = (new Types\MediaListEntry([
 			'id' => $id,
-			'progress' => $data['progress'],
-		]);
+			'progress' => $data->progress,
+		]))->toArray();
+
+		return $this->mutateRequest('IncrementMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -98,15 +102,15 @@ final class ListItem implements ListItemInterface{
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
-		$array = $data->toArray();
+		$notes = $data->notes ?? '';
+		$progress = (int)$data->progress;
+		$private = (bool)$data->private;
+		$rating = $data->ratingTwenty;
+		$status = ($data->reconsuming === TRUE)
+			? AnilistStatus::REPEATING
+			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 
-		$notes = $data['notes'] ?? '';
-		$progress = array_key_exists('progress', $array) ? $data['progress'] : 0;
-		$private = array_key_exists('private', $array) ? (bool)$data['private'] : false;
-		$rating = array_key_exists('ratingTwenty', $array) ? $data['ratingTwenty'] : NULL;
-		$status = ($data['reconsuming'] === true) ? AnilistStatus::REPEATING : AnimeWatchingStatus::KITSU_TO_ANILIST[$data['status']];
-
-		$updateData = [
+		$updateData = (new Types\MediaListEntry([
 			'id' => (int)$id,
 			'status' => $status,
 			'score' => $rating * 5,
@@ -114,7 +118,7 @@ final class ListItem implements ListItemInterface{
 			'repeat' => (int)$data['reconsumeCount'],
 			'private' => $private,
 			'notes' => $notes,
-		];
+		]))->toArray();
 
 		return $this->mutateRequest('UpdateMediaListEntry', $updateData);
 	}

@@ -24,7 +24,7 @@ use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
 use Amp\Artax\Request;
-use Aviat\AnimeClient\API\ListItemInterface;
+use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Json;
@@ -34,7 +34,7 @@ use Throwable;
 /**
  * CRUD operations for Kitsu list items
  */
-final class ListItem implements ListItemInterface {
+final class ListItem extends AbstractListItem {
 	use ContainerAware;
 	use KitsuTrait;
 
