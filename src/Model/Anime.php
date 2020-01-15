@@ -173,7 +173,12 @@ class Anime extends API {
 
 		if ($this->anilistEnabled && $data['mal_id'] !== null)
 		{
-			$requester->addRequest($this->anilistModel->createListItem($data, 'ANIME'), 'anilist');
+			// If can't map MAL id, this will be null
+			$maybeRequest = $this->anilistModel->createListItem($data, 'ANIME');
+			if ($maybeRequest !== NULL)
+			{
+				$requester->addRequest($maybeRequest, 'anilist');
+			}
 		}
 
 		$results = $requester->makeRequests();
@@ -195,7 +200,12 @@ class Anime extends API {
 
 		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
 		{
-			$requester->addRequest($this->anilistModel->incrementListItem($data, 'ANIME'), 'anilist');
+			// If can't map MAL id, this will be null
+			$maybeRequest = $this->anilistModel->incrementListItem($data, 'ANIME');
+			if ($maybeRequest !== NULL)
+			{
+				$requester->addRequest($maybeRequest, 'anilist');
+			}
 		}
 
 		$results = $requester->makeRequests();
@@ -223,7 +233,12 @@ class Anime extends API {
 
 		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
 		{
-			$requester->addRequest($this->anilistModel->updateListItem($data, 'ANIME'), 'anilist');
+			// If can't map MAL id, this will be null
+			$maybeRequest = $this->anilistModel->updateListItem($data, 'ANIME');
+			if ($maybeRequest !== NULL)
+			{
+				$requester->addRequest($maybeRequest, 'anilist');
+			}
 		}
 
 		$results = $requester->makeRequests();
@@ -252,7 +267,12 @@ class Anime extends API {
 
 		if ($this->anilistEnabled && $malId !== null)
 		{
-			$requester->addRequest($this->anilistModel->deleteListItem($malId, 'ANIME'), 'anilist');
+			// If can't map MAL id, this will be null
+			$maybeRequest = $this->anilistModel->deleteListItem($malId, 'ANIME');
+			if ($maybeRequest !== NULL)
+			{
+				$requester->addRequest($maybeRequest, 'anilist');
+			}
 		}
 
 		$results = $requester->makeRequests();

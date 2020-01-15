@@ -22,7 +22,7 @@ use Aviat\AnimeClient\Types\FormItemData;
 /**
  * Common interface for anime and manga list item CRUD
  */
-interface ListItemInterface {
+abstract class AbstractListItem {
 
 	/**
 	 * Create a list item
@@ -30,7 +30,7 @@ interface ListItemInterface {
 	 * @param array $data -
 	 * @return Request
 	 */
-	public function create(array $data): Request;
+	abstract public function create(array $data): Request;
 
 	/**
 	 * Retrieve a list item
@@ -38,7 +38,7 @@ interface ListItemInterface {
 	 * @param string $id - The id of the list item
 	 * @return array
 	 */
-	public function get(string $id): array;
+	abstract public function get(string $id): array;
 
 	/**
 	 * Increase progress on a list item
@@ -47,7 +47,7 @@ interface ListItemInterface {
 	 * @param FormItemData $data
 	 * @return Request
 	 */
-	public function increment(string $id, FormItemData $data): Request;
+	abstract public function increment(string $id, FormItemData $data): Request;
 
 	/**
 	 * Update a list item
@@ -56,7 +56,7 @@ interface ListItemInterface {
 	 * @param FormItemData $data - The data with which to update the list item
 	 * @return Request
 	 */
-	public function update(string $id, FormItemData $data): Request;
+	abstract public function update(string $id, FormItemData $data): Request;
 
 	/**
 	 * Delete a list item
@@ -64,5 +64,5 @@ interface ListItemInterface {
 	 * @param string $id - The id of the list item to delete
 	 * @return Request
 	 */
-	public function delete(string $id): Request;
+	abstract public function delete(string $id):?Request;
 }
