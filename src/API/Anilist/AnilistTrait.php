@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -21,8 +21,8 @@ use const Aviat\AnimeClient\USER_AGENT;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
-use Amp\Artax\Request;
-use Amp\Artax\Response;
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
 
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\Ion\Json;
@@ -194,7 +194,7 @@ trait AnilistTrait {
 		$request = $this->mutateRequest($name, $variables);
 		$response = $this->getResponseFromRequest($request);
 
-		return Json::decode(wait($response->getBody()));
+		return Json::decode(wait($response->getBody()->buffer()));
 	}
 
 	/**
@@ -286,8 +286,8 @@ trait AnilistTrait {
 			}
 		}
 
-		// dump(wait($response->getBody()));
+		// dump(wait($response->getBody()->buffer()));
 
-		return Json::decode(wait($response->getBody()));
+		return Json::decode(wait($response->getBody()->buffer()));
 	}
 }

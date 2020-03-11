@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -20,7 +20,7 @@ use function Amp\Promise\wait;
 
 use InvalidArgumentException;
 
-use Amp\Artax\Request;
+use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
@@ -79,7 +79,7 @@ final class Model
 
 		$response = $this->getResponseFromRequest($request);
 
-		return Json::decode(wait($response->getBody()));
+		return Json::decode(wait($response->getBody()->buffer()));
 	}
 
 	/**
@@ -276,7 +276,7 @@ final class Model
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
 	 */
-	private function getListIdFromMediaId(string $mediaId): ?string
+	private function getListIdFromMediaId(string $mediaId): string
 	{
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
@@ -286,9 +286,7 @@ final class Model
 			'userName' => $anilistUser,
 		]);
 
-		$data = $info['data']['MediaList'];
-
-		return ($data !== NULL) ? (string)$data['id'] : NULL;
+		return (string)$info['data']['MediaList']['id'];
 	}
 
 	/**

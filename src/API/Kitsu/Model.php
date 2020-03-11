@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use function Amp\Promise\wait;
 
-use Amp\Artax\Request;
+use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
 	JsonAPI,
@@ -126,7 +126,7 @@ final class Model {
 				'password' => $password
 			]
 		]);
-		$data = Json::decode(wait($response->getBody()));
+		$data = Json::decode(wait($response->getBody()->buffer()));
 
 		if (array_key_exists('error', $data))
 		{
@@ -163,7 +163,7 @@ final class Model {
 			]
 		]);
 
-		$data = Json::decode(wait($response->getBody()));
+		$data = Json::decode(wait($response->getBody()->buffer()));
 
 		if (array_key_exists('access_token', $data))
 		{

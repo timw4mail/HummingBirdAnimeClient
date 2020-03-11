@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -18,7 +18,9 @@ namespace Aviat\AnimeClient;
 
 use function Amp\Promise\wait;
 
-use Amp\Artax\{Client, DefaultClient, Response};
+use Amp\Http\Client\Response;
+use Amp\Http\Client\HttpClient;
+use Amp\Http\Client\HttpClientBuilder;
 
 use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\{Toml, TomlBuilder};
@@ -218,15 +220,14 @@ function getApiClient ()
 
 	if ($client === NULL)
 	{
-		$client = new DefaultClient;
-		$client->setOption(Client::OP_TRANSFER_TIMEOUT, 0);
+		$client = HttpClientBuilder::buildDefault();
 	}
 
 	return $client;
 }
 
 /**
- * Simplify making a request with Artax
+ * Simplify making a request with Http\Client
  *
  * @param $request
  * @return Response

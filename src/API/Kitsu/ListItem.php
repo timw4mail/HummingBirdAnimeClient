@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -23,7 +23,7 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
-use Amp\Artax\Request;
+use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
@@ -126,7 +126,7 @@ final class ListItem extends AbstractListItem {
 
 		$request = $request->getFullRequest();
 		$response = getResponse($request);
-		return Json::decode(wait($response->getBody()));
+		return Json::decode(wait($response->getBody()->buffer()));
 	}
 
 	public function increment(string $id, FormItemData $data): Request

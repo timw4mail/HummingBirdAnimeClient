@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp\Artax\Request;
+use Amp\Http\Client\Request;
 use Aviat\AnimeClient\Types\FormItemData;
 
 /**
