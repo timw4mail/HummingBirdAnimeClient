@@ -14,7 +14,7 @@ pipeline {
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install'
 				sh 'php vendor/bin/robo lint'
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
+				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
 		stage('PHP 7.4') {
