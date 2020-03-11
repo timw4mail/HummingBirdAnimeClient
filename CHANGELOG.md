@@ -2,7 +2,7 @@
 
 ## Version 4.2
 * Updated dependencies
-* Updated PHP requirement to 7.2
+* Updated PHP requirement to 7.3
 
 ## Version 4.1
 * Added optional dark theme
