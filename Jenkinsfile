@@ -46,7 +46,12 @@ pipeline {
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'php vendor/bin/robo lint'
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
+				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
+				step([
+					$class: 'CloverPublisher',
+					cloverReportDir: '',
+					cloverReportFileName: 'clover.xml',
+				])
 			}
 		}
  	}
