@@ -276,7 +276,7 @@ final class Model
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
 	 */
-	private function getListIdFromMediaId(string $mediaId): string
+	private function getListIdFromMediaId(string $mediaId): ?string
 	{
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
@@ -286,7 +286,9 @@ final class Model
 			'userName' => $anilistUser,
 		]);
 
-		return (string)$info['data']['MediaList']['id'];
+		$data = $info['data']['MediaList'];
+
+		return ($data !== NULL) ? (string)$data['id'] : NULL;
 	}
 
 	/**
