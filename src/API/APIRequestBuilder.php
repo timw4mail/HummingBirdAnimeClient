@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -22,13 +22,14 @@ use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
 use Amp;
-use Amp\Artax\{FormBody, Request};
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Body\FormBody;
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 
 /**
- * Wrapper around Artax to make it easier to build API requests
+ * Wrapper around Http\Client to make it easier to build API requests
  */
 abstract class APIRequestBuilder {
 	use LoggerAwareTrait;
@@ -78,7 +79,7 @@ abstract class APIRequestBuilder {
 	public static function simpleRequest(string $uri): Request
 	{
 		return (new Request($uri))
-			->withHeader('User-Agent', USER_AGENT);
+			->setHeader('User-Agent', USER_AGENT);
 	}
 
 	/**
@@ -118,7 +119,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function setBody($body): self
 	{
-		$this->request = $this->request->withBody($body);
+		$this->request->setBody($body);
 		return $this;
 	}
 
@@ -145,7 +146,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function unsetHeader(string $name): self
 	{
-		$this->request = $this->request->withoutHeader($name);
+		$this->request->removeHeader($name);
 		return $this;
 	}
 
@@ -164,7 +165,7 @@ abstract class APIRequestBuilder {
 		}
 		else
 		{
-			$this->request = $this->request->withHeader($name, $value);
+			$this->request->setHeader($name, $value);
 		}
 
 		return $this;
@@ -254,7 +255,7 @@ abstract class APIRequestBuilder {
 	public function getResponseData(Request $request)
 	{
 		$response = getResponse($request);
-		return wait($response->getBody());
+		return wait($response->getBody()->buffer());
 	}
 
 	/**
@@ -306,7 +307,7 @@ abstract class APIRequestBuilder {
 			$url .= '?' . $this->query;
 		}
 
-		$this->request = $this->request->withUri($url);
+		$this->request->setUri($url);
 
 		return $this->request;
 	}
@@ -324,7 +325,8 @@ abstract class APIRequestBuilder {
 
 		$this->path = '';
 		$this->query = '';
-		$this->request = (new Request($requestUrl))
-			->withMethod($type);
+		$this->request = new Request($requestUrl, $type);
+		$this->request->setTcpConnectTimeout(300000);
+		$this->request->setTransferTimeout(300000);
 	}
 }
