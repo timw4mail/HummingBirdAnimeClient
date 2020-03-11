@@ -12,7 +12,7 @@ pipeline {
 				sh 'apk add --no-cache php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
+				sh 'php composer.phar install'
 				sh 'php vendor/bin/robo lint'
 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
 			}
