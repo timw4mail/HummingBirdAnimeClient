@@ -34,10 +34,8 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk update && apk upgrade'
-				sh 'which phpdbg'
-				sh 'phpdbg -V'
-				sh 'phpdbg -dmemory_limit=-1 -qrr -- ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml --colors=never'
+				sh 'apk add --no-cache git php7-phpdbg'
+				sh 'phpdbg -dmemory_limit=2g  -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
