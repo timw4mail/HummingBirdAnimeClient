@@ -68,6 +68,13 @@ const SETTINGS_MAP = [
 			'description' => 'Token to refresh the access token before it expires',
 			'readonly' => TRUE,
 		],
+		'special_hidden_flag' => [
+			'type' => 'string',
+			'title' => '',
+			'display' => FALSE,
+			'description' => '',
+			'value' => 'foo_bar',
+		]
 	],
 
 	'cache' => [
