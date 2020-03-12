@@ -48,7 +48,7 @@ pipeline {
 		stage('Coverage') {
 			agent any
 			steps {
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit -c build --colors=never'
+				sh 'php composer.phar run-script coverage'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
