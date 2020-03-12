@@ -4,6 +4,7 @@
   "license": "MIT",
   "autoload": {
 	"files": [
+	  "src/Ion/functions.php",
 	  "src/AnimeClient/constants.php",
 	  "src/AnimeClient/AnimeClient.php"
 	],
@@ -13,7 +14,8 @@
   },
   "autoload-dev": {
 	"psr-4": {
-	  "Aviat\\AnimeClient\\Tests\\": "tests/",
+	  "Aviat\\AnimeClient\\Tests\\": "tests/AnimeClient",
+	  "Aviat\\Ion\\Tests\\": "tests/Ion",
 	  "CodeIgniter\\": "build/CodeIgniter/"
 	}
   },
@@ -23,12 +25,15 @@
 	"aura/router": "^3.0",
 	"aura/session": "^2.0",
 	"aviat/banker": "^2.0.0",
-	"aviat/ion": "^3.0.0",
+	"aviat/query": "^2.5.1",
+	"danielstjules/stringy": "^3.1.0",
+	"ext-dom": "*",
 	"ext-iconv": "*",
 	"ext-json": "*",
 	"ext-gd":"*",
 	"ext-pdo": "*",
 	"laminas/laminas-diactoros": "^2.0.0",
+	"laminas/laminas-httphandlerrunner": "^1.0",
 	"maximebf/consolekit": "^1.0",
 	"monolog/monolog": "^2.0.1",
 	"php": "^7.3",
