@@ -146,10 +146,12 @@ class Friend {
 		}
 		// Return NULL on any exception, so no further logic needed
 		// in the catch block
+		// @codeCoverageIgnoreStart
 		catch (\Exception $e)
 		{
 			return NULL;
 		}
+		// @codeCoverageIgnoreEnd
 	}
 }
 // End of Friend.php
