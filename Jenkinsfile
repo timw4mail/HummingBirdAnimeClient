@@ -4,7 +4,6 @@ pipeline {
  		stage('setup') {
 			agent any
 			steps {
-				sh 'apk add --no-cache git'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
@@ -18,6 +17,7 @@ pipeline {
 				}
 			}
 			steps {
+				sh 'apk add --no-cache git'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -29,6 +29,7 @@ pipeline {
 				}
 			}
 			steps {
+				sh 'apk add --no-cache git'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -40,6 +41,7 @@ pipeline {
 				}
 			}
 			steps {
+				sh 'apk add --no-cache git'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
