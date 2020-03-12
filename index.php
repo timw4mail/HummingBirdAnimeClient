@@ -17,6 +17,8 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\Types\Config as ConfigType;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 use function Aviat\Ion\_dir;
 
@@ -34,8 +36,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // if (array_key_exists('ENV', $_ENV) && $_ENV['ENV'] === 'development')
 {
-	$whoops = new \Whoops\Run;
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops = new Run;
+	$whoops->pushHandler(new PrettyPageHandler);
 	$whoops->register();
 }
 
