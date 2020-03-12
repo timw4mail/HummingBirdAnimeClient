@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.2
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -43,7 +43,7 @@ class APIRequestBuilderTest extends TestCase {
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
 		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()));
+		$body = Json::decode(wait($response->getBody()->buffer()));
 		$this->assertEquals(1, $body['gzipped']);
 	}
 
@@ -61,7 +61,7 @@ class APIRequestBuilderTest extends TestCase {
 			->getFullRequest();
 
 		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()));
+		$body = Json::decode(wait($response->getBody()->buffer()));
 
 		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
@@ -89,7 +89,7 @@ class APIRequestBuilderTest extends TestCase {
 			->getFullRequest();
 
 		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()));
+		$body = Json::decode(wait($response->getBody()->buffer()));
 
 		$this->assertEquals($expected, $body['args']);
 	}
@@ -106,7 +106,7 @@ class APIRequestBuilderTest extends TestCase {
 			->getFullRequest();
 
 		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()));
+		$body = Json::decode(wait($response->getBody()->buffer()));
 
 		$this->assertEquals($formValues, $body['form']);
 	}
@@ -130,7 +130,7 @@ class APIRequestBuilderTest extends TestCase {
 			->getFullRequest();
 
 		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()));
+		$body = Json::decode(wait($response->getBody()->buffer()));
 
 		$this->assertEquals($data, $body['json']);
 	}
