@@ -59,7 +59,7 @@ final class FormGenerator {
 
 		if ($display === FALSE)
 		{
-			return $this->helper->input([
+			return (string)$this->helper->input([
 				'type' => 'hidden',
 				'name' => $name,
 				'value' => $value,
