@@ -9,7 +9,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
+				sh 'apk add --no-cache git php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
@@ -25,7 +25,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
+				sh 'apk add --no-cache git php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
