@@ -19,7 +19,7 @@ namespace Aviat\Ion\Tests;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Tests\FriendTestClass;
 
-class FriendTest extends Ion_TestCase {
+class FriendTest extends IonTestCase {
 
 	public function setUp(): void	{
 		parent::setUp();

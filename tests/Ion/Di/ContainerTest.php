@@ -18,7 +18,7 @@ namespace Aviat\Ion\Tests\Di;
 
 use Aviat\Ion\Di\{Container, ContainerAware};
 use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Tests\Ion_TestCase;
+use Aviat\Ion\Tests\IonTestCase;
 use Monolog\Logger;
 use Monolog\Handler\{TestHandler, NullHandler};
 use Aviat\Ion\Di\ContainerInterface;
@@ -37,7 +37,7 @@ class FooTest2 {
 	use ContainerAware;
 }
 
-class ContainerTest extends Ion_TestCase {
+class ContainerTest extends IonTestCase {
 
 	public function setUp(): void
 	{

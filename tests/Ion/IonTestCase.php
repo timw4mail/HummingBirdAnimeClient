@@ -19,22 +19,17 @@ namespace Aviat\Ion\Tests;
 use function Aviat\Ion\_dir;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\ServerRequestFactory;
-
-define('ROOT_DIR', realpath(__DIR__ . '/../') . '/');
-define('SRC_DIR', ROOT_DIR . 'src/');
-define('TEST_DATA_DIR', __DIR__ . '/test_data');
-define('TEST_VIEW_DIR', __DIR__ . '/test_views');
+use Laminas\Diactoros\ServerRequestFactory;
 
 /**
  * Base class for TestCases
  */
-class Ion_TestCase extends TestCase {
+class IonTestCase extends TestCase {
 	// Test directory constants
 	public const ROOT_DIR = ROOT_DIR;
 	public const SRC_DIR = SRC_DIR;
-	public const TEST_DATA_DIR = TEST_DATA_DIR;
-	public const TEST_VIEW_DIR = TEST_VIEW_DIR;
+	public const TEST_DATA_DIR = __DIR__ . '/test_data';
+	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
 	protected $container;
 	protected static $staticContainer;
@@ -130,4 +125,4 @@ class Ion_TestCase extends TestCase {
 		$this->container->setInstance('request', $request);
 	}
 }
-// End of Ion_TestCase.php
+// End of IonTestCase.php

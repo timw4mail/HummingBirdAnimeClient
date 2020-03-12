@@ -17,9 +17,9 @@
 namespace Aviat\Ion\Tests\Type;
 
 use Aviat\Ion\StringWrapper;
-use Aviat\Ion\Tests\Ion_TestCase;
+use Aviat\Ion\Tests\IonTestCase;
 
-class StringTypeTest extends Ion_TestCase {
+class StringTypeTest extends IonTestCase {
 	use StringWrapper;
 
 

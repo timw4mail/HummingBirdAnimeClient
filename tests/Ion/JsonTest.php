@@ -20,7 +20,7 @@ use function Aviat\Ion\_dir;
 
 use Aviat\Ion\{Json, JsonException};
 
-class JsonTest extends Ion_TestCase {
+class JsonTest extends IonTestCase {
 
 	public function testEncode()
 	{
