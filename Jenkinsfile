@@ -7,12 +7,12 @@ pipeline {
 					image 'php-alpine'
 					args '-u root --privileged'
 				}
-				steps {
-					sh 'apk add --no-cache git'
-					sh 'curl -sS https://getcomposer.org/installer | php'
-					sh 'rm -f composer.lock'
-					sh 'php composer.phar install --ignore-platform-reqs'
-				}
+			}
+			steps {
+				sh 'apk add --no-cache git'
+				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -f composer.lock'
+				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
 		stage('PHP 7.3') {
