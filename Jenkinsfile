@@ -4,7 +4,7 @@ pipeline {
  		stage('setup') {
 			agent {
 				docker {
-					image 'php-alpine'
+					image 'php:alpine'
 					args '-u root --privileged'
 				}
 			}
