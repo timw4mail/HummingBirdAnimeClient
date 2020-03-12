@@ -10,7 +10,7 @@ php:
 
 script:
   - mkdir -p build/logs
-  - phpdbg -dmemory_limit=2g -qrr -- vendor/bin/phpunit -c build
+  - phpdbg -dmemory_limit=768M -qrr -- vendor/bin/phpunit -c build
 
 after_script:
     - CODECLIMATE_REPO_TOKEN=2cbddcebcb9256b3402867282e119dbe61de0b31039325356af3c7d72ed6d058 vendor/bin/test-reporter
