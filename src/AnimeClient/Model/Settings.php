@@ -207,7 +207,7 @@ final class Settings {
 			return FALSE;
 		}
 
-		$savePath = realpath(_dir(__DIR__, '..', '..', 'app', 'config'));
+		$savePath = realpath(_dir(__DIR__, '..', '..', '..', 'app', 'config'));
 		$saveFile = _dir($savePath, 'admin-override.toml');
 
 		$saved = file_put_contents($saveFile, arrayToToml($settings));

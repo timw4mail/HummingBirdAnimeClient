@@ -4,11 +4,11 @@
   "license": "MIT",
   "autoload": {
 	"files": [
-	  "src/constants.php",
-	  "src/AnimeClient.php"
+	  "src/AnimeClient/constants.php",
+	  "src/AnimeClient/AnimeClient.php"
 	],
 	"psr-4": {
-	  "Aviat\\AnimeClient\\": "src/"
+	  "Aviat\\": "src/"
 	}
   },
   "autoload-dev": {

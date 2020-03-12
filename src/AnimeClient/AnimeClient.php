@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient;
 
 use function Amp\Promise\wait;
 
+use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
 use Amp\Http\Client\HttpClient;
 use Amp\Http\Client\HttpClientBuilder;
@@ -180,8 +181,8 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$publicDir = $config->get('asset_dir');
 
 	$pathMap = [
-		'app/config' => realpath(__DIR__ . '/../app/config'),
-		'app/logs' => realpath(__DIR__ . '/../app/logs'),
+		'app/config' => realpath(__DIR__ . '/../../app/config'),
+		'app/logs' => realpath(__DIR__ . '/../../app/logs'),
 		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",
 		'public/images/characters' => "{$publicDir}/images/characters",
@@ -229,13 +230,20 @@ function getApiClient ()
 /**
  * Simplify making a request with Http\Client
  *
- * @param $request
+ * @param string|Request $request
  * @return Response
  * @throws \Throwable
  */
 function getResponse ($request): Response
 {
 	$client = getApiClient();
+
+	if (is_string($request))
+	{
+		$request = new Request($request);
+	}
+
+
 	return wait($client->request($request));
 }
 

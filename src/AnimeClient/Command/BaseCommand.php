@@ -68,7 +68,7 @@ abstract class BaseCommand extends Command {
 	 */
 	protected function setupContainer(): Container
 	{
-		$APP_DIR = realpath(__DIR__ . '/../../app');
+		$APP_DIR = realpath(__DIR__ . '/../../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
 		$baseConfig = require $APPCONF_DIR . '/base_config.php';
