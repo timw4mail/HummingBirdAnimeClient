@@ -23,7 +23,15 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'php ./vendor/bin/phpunit --colors=never'
+
+				sh 'apk update'
+				sh 'apk add --no-cache git php7-phpdbg'
+				sh 'phpdbg -dmemory_limit=2g  -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
+				step([
+					$class: 'CloverPublisher',
+					cloverReportDir: '',
+					cloverReportFileName: 'build/logs/clover.xml',
+				])
 			}
 		}
 		stage('PHP 7.4') {
@@ -34,14 +42,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk update'
-				sh 'apk add --no-cache git php7-phpdbg'
-				sh 'phpdbg -dmemory_limit=2g  -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
-				step([
-					$class: 'CloverPublisher',
-					cloverReportDir: '',
-					cloverReportFileName: 'build/logs/clover.xml',
-				])
+				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
  	}
