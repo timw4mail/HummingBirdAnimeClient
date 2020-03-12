@@ -1,6 +1,20 @@
 pipeline {
  	agent none
  	stages {
+ 		stage('setup') {
+			agent {
+				docker {
+					image 'php-alpine'
+					args '-u root --privileged'
+				}
+				steps {
+					sh 'apk add --no-cache git'
+					sh 'curl -sS https://getcomposer.org/installer | php'
+					sh 'rm -f composer.lock'
+					sh 'php composer.phar install --ignore-platform-reqs'
+				}
+			}
+ 		}
 		stage('PHP 7.3') {
 			agent {
 				docker {
@@ -9,10 +23,6 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git'
-				sh 'curl -sS https://getcomposer.org/installer | php'
-				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -24,11 +34,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git php7-phpdbg'
-				sh 'curl -sS https://getcomposer.org/installer | php'
-				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
+				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --colors=never'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
