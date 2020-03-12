@@ -34,7 +34,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --colors=never'
+				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --colors=never -c build'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
