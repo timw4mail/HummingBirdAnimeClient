@@ -54,19 +54,21 @@ final class FormGenerator {
 	public function generate(string $name, array $form): string
 	{
 		$type = $form['type'];
+		$display = $form['display'] ?? TRUE;
+		$value = $form['value'] ?? '';
 
-		if ($form['display'] === FALSE)
+		if ($display === FALSE)
 		{
 			return $this->helper->input([
 				'type' => 'hidden',
 				'name' => $name,
-				'value' => $form['value'],
+				'value' => $value,
 			]);
 		}
 
 		$params = [
 			'name' => $name,
-			'value' => $form['value'],
+			'value' => $value,
 			'attribs' => [
 				'id' => $name,
 			],
@@ -95,7 +97,7 @@ final class FormGenerator {
 
 		foreach (['readonly', 'disabled'] as $key)
 		{
-			if ($form[$key] !== FALSE)
+			if (array_key_exists($key, $form) && $form[$key] !== FALSE)
 			{
 				$params['attribs'][$key] = $form[$key];
 			}
