@@ -4,14 +4,12 @@ install:
   - composer install --ignore-platform-reqs
 
 php:
-  - 7.2
   - 7.3
   - 7.4
   - nightly
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/robo lint
   - phpdbg -qrr -- vendor/bin/phpunit -c build
 
 after_script:
