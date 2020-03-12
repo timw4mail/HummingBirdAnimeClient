@@ -16,21 +16,15 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-use const Aviat\AnimeClient\SRC_DIR;
-
 use function Aviat\Ion\_dir;
 
 use Aviat\Ion\Json;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
-use Zend\Diactoros\{
+use Laminas\Diactoros\{
 	Response as HttpResponse,
 	ServerRequestFactory
 };
-
-\define('ROOT_DIR', realpath(__DIR__ . '/../'));
-\define('TEST_DATA_DIR', __DIR__ . '/test_data');
-\define('TEST_VIEW_DIR', __DIR__ . '/test_views');
 
 /**
  * Base class for TestCases
@@ -39,10 +33,10 @@ class AnimeClientTestCase extends TestCase {
 	use MatchesSnapshots;
 
 	// Test directory constants
-	const ROOT_DIR = ROOT_DIR;
-	const SRC_DIR = SRC_DIR;
-	const TEST_DATA_DIR = TEST_DATA_DIR;
-	const TEST_VIEW_DIR = TEST_VIEW_DIR;
+	public const ROOT_DIR = ROOT_DIR;
+	public const SRC_DIR = SRC_DIR;
+	public const TEST_DATA_DIR = __DIR__ . '/test_data';
+	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
 	protected $container;
 	protected static $staticContainer;
@@ -56,7 +50,7 @@ class AnimeClientTestCase extends TestCase {
 		//self::$session_handler = $session_handler;
 
 		// Remove test cache files
-		$files = glob(_dir(TEST_DATA_DIR, 'cache', '*.json'));
+		$files = glob(_dir(self::TEST_DATA_DIR, 'cache', '*.json'));
 		array_map('unlink', $files);
 	}
 
@@ -64,13 +58,10 @@ class AnimeClientTestCase extends TestCase {
 	{
 		parent::setUp();
 
-		$ROOT_DIR = realpath(_dir(__DIR__, '/../'));
-		$APP_DIR = _dir($ROOT_DIR, 'app');
-
 		$config_array = [
 			'asset_path' => '/assets',
 			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
-			'data_cache_path' => _dir(TEST_DATA_DIR, 'cache'),
+			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
 			'cache' => [
 				'driver' => 'null',
 				'connection' => []
@@ -103,11 +94,11 @@ class AnimeClientTestCase extends TestCase {
 		];
 
 		// Set up DI container
-		$di = require _dir($APP_DIR, 'bootstrap.php');
+		$di = require _dir(self::ROOT_DIR, 'app', 'bootstrap.php');
 		$container = $di($config_array);
 
 		// Use mock session handler
-		$container->set('session-handler', function() {
+		$container->set('session-handler', static function() {
 			$session_handler = new TestSessionHandler();
 			session_set_save_handler($session_handler, TRUE);
 			return $session_handler;
@@ -152,7 +143,7 @@ class AnimeClientTestCase extends TestCase {
 	public function getMockFile(): string
 	{
 		$args = func_get_args();
-		array_unshift($args, TEST_DATA_DIR);
+		array_unshift($args, self::TEST_DATA_DIR);
 		$filePath = implode(DIRECTORY_SEPARATOR, $args);
 
 		return file_get_contents($filePath);

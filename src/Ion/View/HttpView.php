@@ -16,8 +16,8 @@
 
 namespace Aviat\Ion\View;
 
-use Zend\Diactoros\Response;
-use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\Diactoros\Response;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View as BaseView;

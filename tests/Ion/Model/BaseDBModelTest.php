@@ -17,9 +17,9 @@
 namespace Aviat\Ion\Tests\Model;
 
 use Aviat\Ion\Model\DB as BaseDBModel;
-use Aviat\Ion\Tests\Ion_TestCase;
+use Aviat\Ion\Tests\IonTestCase;
 
-class BaseDBModelTest extends Ion_TestCase {
+class BaseDBModelTest extends IonTestCase {
 
 	public function testBaseDBModelSanity()
 	{

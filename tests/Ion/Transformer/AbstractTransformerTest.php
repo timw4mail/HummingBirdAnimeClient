@@ -16,10 +16,10 @@
 
 namespace Aviat\Ion\Tests\Transformer;
 
-use Aviat\Ion\Tests\Ion_TestCase;
+use Aviat\Ion\Tests\IonTestCase;
 use Aviat\Ion\Tests\{TestTransformer, TestTransformerUntransform};
 
-class AbstractTransformerTest extends Ion_TestCase {
+class AbstractTransformerTest extends IonTestCase {
 
 	protected $transformer;
 	protected $untransformer;

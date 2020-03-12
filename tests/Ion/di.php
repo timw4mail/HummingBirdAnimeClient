@@ -2,8 +2,8 @@
 
 use Aura\Html\HelperLocatorFactory;
 use Aura\Session\SessionFactory;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Diactoros\Response;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\Response;
 
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;

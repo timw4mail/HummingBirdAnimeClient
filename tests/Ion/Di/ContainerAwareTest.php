@@ -17,7 +17,7 @@
 namespace Aviat\Ion\Tests\Di;
 
 use Aviat\Ion\Di\{Container, ContainerAware, ContainerInterface};
-use Aviat\Ion\Tests\Ion_TestCase;
+use Aviat\Ion\Tests\IonTestCase;
 
 class Aware {
 	use ContainerAware;
@@ -29,7 +29,7 @@ class Aware {
 }
 
 
-class ContainerAwareTest extends Ion_TestCase {
+class ContainerAwareTest extends IonTestCase {
 
 	protected $aware;
 
