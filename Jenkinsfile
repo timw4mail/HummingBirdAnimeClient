@@ -9,7 +9,7 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
+				sh 'apk add --no-cache git'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
@@ -24,11 +24,11 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git php7-phpdbg php7-xsl php7-gd php7-json php7-pdo'
+				sh 'apk add --no-cache git php7-phpdbg'
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
+				sh 'phpdbg -dmemory_limit=2g  -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
