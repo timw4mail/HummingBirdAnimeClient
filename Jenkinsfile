@@ -28,7 +28,7 @@ pipeline {
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
-				sh 'phpdbg -dmemory_limit=2g  -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
+				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --coverage-clover clover.xml --colors=never'
 				step([
 					$class: 'CloverPublisher',
 					cloverReportDir: '',
