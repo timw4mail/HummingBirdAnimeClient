@@ -2,12 +2,7 @@ pipeline {
  	agent none
  	stages {
  		stage('setup') {
-			agent {
-				docker {
-					image 'php:alpine'
-					args '-u root --privileged'
-				}
-			}
+			agent any
 			steps {
 				sh 'apk add --no-cache git'
 				sh 'curl -sS https://getcomposer.org/installer | php'
@@ -23,15 +18,7 @@ pipeline {
 				}
 			}
 			steps {
-
-				sh 'apk update'
-				sh 'apk add --no-cache git php7-phpdbg'
-				sh 'phpdbg  -qrr -- ./vendor/bin/phpunit --coverage-clover clover.xml --colors=never'
-				step([
-					$class: 'CloverPublisher',
-					cloverReportDir: '',
-					cloverReportFileName: 'build/logs/clover.xml',
-				])
+				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
 		stage('PHP 7.4') {
@@ -43,6 +30,28 @@ pipeline {
 			}
 			steps {
 				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('Latest PHP') {
+			agent {
+				docker {
+					image 'php:alpine'
+					args '-u root --privileged'
+				}
+			}
+			steps {
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('Coverage') {
+			agent any
+			steps {
+				sh 'phpdbg -qrr -- ./vendor/bin/phpunit -c build --colors=never'
+				step([
+					$class: 'CloverPublisher',
+					cloverReportDir: '',
+					cloverReportFileName: 'build/logs/clover.xml',
+				])
 			}
 		}
  	}
