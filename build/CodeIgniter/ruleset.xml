@@ -23,7 +23,7 @@
   <!-- Classes and functions should be commented -->
   <rule ref="PEAR.Commenting.ClassComment"/>
   <rule ref="PEAR.Commenting.FunctionComment"/>
-  <rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
+<!--  <rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>-->
   <!-- Use warnings for docblock comments for files and variables, since nothing is cleary explained -->
   <rule ref="PEAR.Commenting.FileComment">
     <properties>

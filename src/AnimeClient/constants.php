@@ -133,11 +133,6 @@ const SETTINGS_MAP = [
 				],
 			],
 		],
-		/* 'options' => [
-			'type' => 'subfield',
-			'title' => 'Options',
-			'fields' => [],
-		] */
 	],
 	'config' => [
 		'kitsu_username' => [

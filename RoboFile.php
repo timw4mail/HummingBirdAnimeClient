@@ -60,6 +60,7 @@ class RoboFile extends Tasks {
 		$this->lint();
 		$this->phploc(TRUE);
 		$this->phpcs(TRUE);
+		$this->phpmd(TRUE);
 		$this->dependencyReport();
 		$this->phpcpdReport();
 	}
@@ -157,6 +158,30 @@ class RoboFile extends Tasks {
 		$this->_run($cmd_parts);
 	}
 
+	public function phpmd($report = FALSE): void
+	{
+		$report_cmd_parts = [
+			'vendor/bin/phpmd',
+			'./src',
+			'xml',
+			'cleancode,codesize,controversial,design,naming,unusedcode',
+			'--exclude ParallelAPIRequest',
+			'--reportfile ./build/logs/phpmd.xml'
+		];
+
+		$normal_cmd_parts = [
+			'vendor/bin/phpmd',
+			'./src',
+			'ansi',
+			'cleancode,codesize,controversial,design,naming,unusedcode',
+			'--exclude ParallelAPIRequest'
+		];
+
+		$cmd_parts = ($report) ? $report_cmd_parts : $normal_cmd_parts;
+
+		$this->_run($cmd_parts);
+	}
+
 	/**
 	 * Run the phploc tool
 	 *
@@ -235,6 +260,10 @@ class RoboFile extends Tasks {
 			glob_recursive('tests/**/*.php'),
 			glob('*.php')
 		);
+
+		$files = array_filter($files, static function(string $value) {
+			return strpos($value, '__snapshots__') === FALSE;
+		});
 
 		sort($files);
 

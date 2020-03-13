@@ -161,7 +161,7 @@ class Controller {
 			return;
 		}
 
-		if (null === $url)
+		if (NULL === $url)
 		{
 			$url = $util->isViewPage()
 				? (string) $this->request->getUri()
@@ -201,7 +201,6 @@ class Controller {
 				'Forbidden',
 				'You must <a href="/login">log in</a> to perform this action.'
 			);
-			die();
 		}
 	}
 
@@ -297,18 +296,18 @@ class Controller {
 	 * @param int $httpCode
 	 * @param string $title
 	 * @param string $message
-	 * @param string $long_message
+	 * @param string $longMessage
 	 * @throws InvalidArgumentException
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @return void
 	 */
-	public function errorPage(int $httpCode, string $title, string $message, string $long_message = ''): void
+	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
-			'long_message' => $long_message
+			'long_message' => $longMessage
 		], NULL, $httpCode);
 	}
 
@@ -384,7 +383,7 @@ class Controller {
 	 *
 	 * @param string $template
 	 * @param array $data
-	 * @param HtmlView|null $view
+	 * @param HtmlView|NULL $view
 	 * @param int $code
 	 * @throws InvalidArgumentException
 	 * @throws ContainerException
@@ -393,7 +392,7 @@ class Controller {
 	 */
 	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
 	{
-		if (null === $view)
+		if (NULL === $view)
 		{
 			$view = new HtmlView($this->container);
 		}

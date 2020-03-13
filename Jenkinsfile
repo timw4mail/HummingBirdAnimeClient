@@ -5,6 +5,7 @@ pipeline {
 			agent any
 			steps {
 				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -rf ./vendor'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
