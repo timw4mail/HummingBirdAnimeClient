@@ -129,14 +129,7 @@ final class Dispatcher extends RoutingBase {
 			}
 		}
 
-		if ($route)
-		{
-			$parsed = $this->processRoute(new Friend($route));
-			$controllerName = $parsed['controller_name'];
-			$actionMethod = $parsed['action_method'];
-			$params = $parsed['params'];
-		}
-		else
+		if ( ! $route)
 		{
 			// If not route was matched, return an appropriate http
 			// error message
@@ -144,7 +137,14 @@ final class Dispatcher extends RoutingBase {
 			$controllerName = DEFAULT_CONTROLLER;
 			$actionMethod = $errorRoute['action_method'];
 			$params = $errorRoute['params'];
+			$this->call($controllerName, $actionMethod, $params);
+			return;
 		}
+
+		$parsed = $this->processRoute(new Friend($route));
+		$controllerName = $parsed['controller_name'];
+		$actionMethod = $parsed['action_method'];
+		$params = $parsed['params'];
 
 		$this->call($controllerName, $actionMethod, $params);
 	}
@@ -159,13 +159,14 @@ final class Dispatcher extends RoutingBase {
 	 */
 	protected function processRoute($route): array
 	{
+		if ( ! array_key_exists('controller', $route->attributes))
+		{
+			throw new LogicException('Missing controller');
+		}
+
 		if (array_key_exists('controller', $route->attributes))
 		{
 			$controllerName = $route->attributes['controller'];
-		}
-		else
-		{
-			throw new LogicException('Missing controller');
 		}
 
 		// Get the full namespace for a controller if a short name is given
@@ -392,16 +393,15 @@ final class Dispatcher extends RoutingBase {
 			if ( ! array_key_exists('tokens', $route))
 			{
 				$routes[] = $this->router->$add($name, $path)->defaults($route);
+				continue;
 			}
-			else
-			{
-				$tokens = $route['tokens'];
-				unset($route['tokens']);
 
-				$routes[] = $this->router->$add($name, $path)
-					->defaults($route)
-					->tokens($tokens);
-			}
+			$tokens = $route['tokens'];
+			unset($route['tokens']);
+
+			$routes[] = $this->router->$add($name, $path)
+				->defaults($route)
+				->tokens($tokens);
 		}
 
 		return $routes;

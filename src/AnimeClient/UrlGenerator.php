@@ -76,20 +76,20 @@ class UrlGenerator extends RoutingBase {
 
 		// Remove any optional parameters from the route
 		// and replace them with existing route parameters, if they exist
-		$path_segments = explode('/', $path);
-		$segment_count = count($path_segments);
+		$pathSegments = explode('/', $path);
+		$segmentCount = count($pathSegments);
 		$segments = $this->segments();
 
-		for ($i = 0; $i < $segment_count; $i++)
+		for ($i = 0; $i < $segmentCount; $i++)
 		{
 			if ( ! array_key_exists($i + 1, $segments))
 			{
 				$segments[$i + 1] = '';
 			}
 
-			$path_segments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $path_segments[$i]);
+			$pathSegments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $pathSegments[$i]);
 		}
-		$path = implode('/', $path_segments);
+		$path = implode('/', $pathSegments);
 
 		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
 
