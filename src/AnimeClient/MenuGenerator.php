@@ -72,10 +72,10 @@ final class MenuGenerator extends UrlGenerator {
 		foreach ($menus as $name => $menu)
 		{
 			$parsed[$name] = [];
-			foreach ($menu['items'] as $path_name => $partial_path)
+			foreach ($menu['items'] as $pathName => $partialPath)
 			{
-				$title = (string)$this->string($path_name)->humanize()->titleize();
-				$parsed[$name][$title] = (string)$this->string($menu['route_prefix'])->append($partial_path);
+				$title = (string)$this->string($pathName)->humanize()->titleize();
+				$parsed[$name][$title] = (string)$this->string($menu['route_prefix'])->append($partialPath);
 			}
 		}
 

@@ -57,25 +57,25 @@ class Util {
 	/**
 	 * HTML selection helper function
 	 *
-	 * @param string $a - First item to compare
-	 * @param string $b - Second item to compare
+	 * @param string $left - First item to compare
+	 * @param string $right - Second item to compare
 	 * @return string
 	 */
-	public static function isSelected(string $a, string $b): string
+	public static function isSelected(string $left, string $right): string
 	{
-		return ($a === $b) ? 'selected' : '';
+		return ($left === $right) ? 'selected' : '';
 	}
 
 	/**
 	 * Inverse of selected helper function
 	 *
-	 * @param string $a - First item to compare
-	 * @param string $b - Second item to compare
+	 * @param string $left - First item to compare
+	 * @param string $right - Second item to compare
 	 * @return string
 	 */
-	public static function isNotSelected(string $a, string $b): string
+	public static function isNotSelected(string $left, string $right): string
 	{
-		return ($a !== $b) ? 'selected' : '';
+		return ($left !== $right) ? 'selected' : '';
 	}
 
 	/**
