@@ -14,7 +14,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php:7.3-alpine'
-					args '-u root --privileged'
+					args '--privileged'
 				}
 			}
 			steps {
@@ -26,7 +26,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php:7.4-alpine'
-					args '-u root --privileged'
+					args '--privileged'
 				}
 			}
 			steps {
@@ -38,7 +38,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php:alpine'
-					args '-u root --privileged'
+					args '--privileged'
 				}
 			}
 			steps {
