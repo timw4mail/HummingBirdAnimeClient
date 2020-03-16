@@ -10,18 +10,6 @@ pipeline {
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
-		stage('PHP 7.3') {
-			agent {
-				docker {
-					image 'php:7.3-alpine'
-					args '-u root --privileged'
-				}
-			}
-			steps {
-				sh 'apk add --no-cache git'
-				sh 'php ./vendor/bin/phpunit --colors=never'
-			}
-		}
 		stage('PHP 7.4') {
 			agent {
 				docker {
