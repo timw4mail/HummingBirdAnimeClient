@@ -17,12 +17,12 @@
 namespace Aviat\Ion\Di\Exception;
 
 use Exception;
-use Interop\Container\Exception\ContainerException as InteropContainerException;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Generic exception for Di Container
  */
-class ContainerException extends Exception implements InteropContainerException {
+class ContainerException extends Exception implements ContainerExceptionInterface {
 
 }
 // End of ContainerException.php
