@@ -5,6 +5,9 @@ pipeline {
 			agent any
 			steps {
 				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -rf ./vendor'
+				sh 'rm -f composer.lock'
+				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
 		stage('PHP 7.3') {
@@ -16,9 +19,6 @@ pipeline {
 			}
 			steps {
 				sh 'apk add --no-cache git'
-				sh 'rm -rf ./vendor'
-				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -31,9 +31,6 @@ pipeline {
 			}
 			steps {
 				sh 'apk add --no-cache git'
-				sh 'rm -rf ./vendor'
-				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -46,9 +43,6 @@ pipeline {
 			}
 			steps {
 				sh 'apk add --no-cache git'
-				sh 'rm -rf ./vendor'
-				sh 'rm -f composer.lock'
-				sh 'php composer.phar install --ignore-platform-reqs'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
