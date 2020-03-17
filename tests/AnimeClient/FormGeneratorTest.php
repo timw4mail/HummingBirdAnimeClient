@@ -270,7 +270,7 @@ class FormGeneratorTest extends AnimeClientTestCase {
 			foreach ($fields as $name => $config)
 			{
 				$html = $this->generator->generate($name, $config);
-				$this->assertMatchesHtmlSnapshot($html);
+				$this->assertMatchesSnapshot($html);
 			}
 		}
 	}
