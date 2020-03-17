@@ -19,6 +19,11 @@
 	  "CodeIgniter\\": "build/CodeIgniter/"
 	}
   },
+  "config": {
+	"platform": {
+	  "php": "7.3"
+	}
+  },
   "require": {
 	"amphp/http-client": "^4.2",
 	"aura/html": "^2.0",
@@ -30,14 +35,14 @@
 	"ext-dom": "*",
 	"ext-iconv": "*",
 	"ext-json": "*",
-	"ext-gd":"*",
+	"ext-gd": "*",
 	"ext-pdo": "*",
 	"laminas/laminas-diactoros": "^2.0.0",
 	"laminas/laminas-httphandlerrunner": "^1.0",
 	"maximebf/consolekit": "^1.0",
 	"monolog/monolog": "^2.0.1",
 	"php": "^7.3",
-	"psr/container":"~1.0",
+	"psr/container": "~1.0",
 	"psr/http-message": "~1.0",
 	"psr/log": "~1.0",
 	"yosymfony/toml": "^1.0"
@@ -53,7 +58,7 @@
 	"roave/security-advisories": "dev-master",
 	"robmorgan/phinx": "^0.10.6",
 	"sebastian/phpcpd": "^4.1.0",
-	"spatie/phpunit-snapshot-assertions": "^4",
+	"spatie/phpunit-snapshot-assertions": "^2.2.1",
 	"squizlabs/php_codesniffer": "^3.2.2",
 	"symfony/var-dumper": "^5",
 	"theseer/phpdox": "*"
