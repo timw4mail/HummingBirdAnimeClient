@@ -3,7 +3,7 @@
 Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 [![Build Status](https://travis-ci.org/timw4mail/HummingBirdAnimeClient.svg?branch=master)](https://travis-ci.org/timw4mail/HummingBirdAnimeClient)
-[![Build Status](https://jenkins.timshomepage.net/buildStatus/icon?job=aviat/HummingBirdAnimeClient/develop)](https://jenkins.timshomepage.net/job/aviat/HummingBirdAnimeClient/develop)
+[![Build Status](https://jenkins.timshomepage.net/buildStatus/icon?job=timw4mail/HummingBirdAnimeClient/develop)](https://jenkins.timshomepage.net/job/timw4mail/HummingBirdAnimeClient/develop)
 
 [[Hosted Example](https://list.timshomepage.net)]
 
@@ -31,7 +31,7 @@ Update your anime/manga list on Kitsu.io and MyAnimeList.net
 
 ### Requirements
 
-* PHP 7.1+
+* PHP 7.3+
 * PDO SQLite or PDO PostgreSQL (For collection tab)
 * GD extension for caching images
 

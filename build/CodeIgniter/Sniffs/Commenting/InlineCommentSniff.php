@@ -93,12 +93,12 @@ class InlineCommentSniff implements Sniff
     private function _checkCommentStyle(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        if ($tokens[$stackPtr]['content']{0} === '#') {
+        if ($tokens[$stackPtr]['content'][0] === '#') {
             $error  = 'Perl-style comments are not allowed; use "// Comment" or DocBlock comments instead';
             $phpcsFile->addError($error, $stackPtr, 'WrongStyle');
             return FALSE;
         } else if (substr($tokens[$stackPtr]['content'], 0, 2) === '/*'
-            || $tokens[$stackPtr]['content']{0} === '*'
+            || $tokens[$stackPtr]['content'][0] === '*'
         ) {
             $error  = 'Multi lines comments are not allowed; use "// Comment" DocBlock comments instead';
             $phpcsFile->addError($error, $stackPtr, 'WrongStyle');

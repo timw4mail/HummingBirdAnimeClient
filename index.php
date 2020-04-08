@@ -4,19 +4,21 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.1
+ * PHP version 7.3
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2018  Timothy J. Warren
+ * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.1
+ * @version     4.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\Types\Config as ConfigType;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 use function Aviat\Ion\_dir;
 
@@ -34,8 +36,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 // if (array_key_exists('ENV', $_ENV) && $_ENV['ENV'] === 'development')
 {
-	$whoops = new \Whoops\Run;
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops = new Run;
+	$whoops->pushHandler(new PrettyPageHandler);
 	$whoops->register();
 }
 

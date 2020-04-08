@@ -1,37 +1,14 @@
 pipeline {
  	agent none
  	stages {
- 		stage('PHP 7.1') {
- 			agent {
- 				docker {
- 					image 'php:7.1-alpine'
- 					args '-u root --privileged'
- 				}
- 			}
- 			steps {
- 				sh 'chmod +x ./build/docker_install.sh'
- 				sh 'sh build/docker_install.sh'
- 				sh 'apk add --no-cache php7-phpdbg'
- 				sh 'curl -sS https://getcomposer.org/installer | php'
- 				sh 'php composer.phar install --ignore-platform-reqs'
- 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
- 			}
- 		}
- 		stage('PHP 7.2') {
- 			agent {
- 				docker {
- 					image 'php:7.2-alpine'
- 					args '-u root --privileged'
- 				}
- 			}
- 			steps {
- 				sh 'chmod +x ./build/docker_install.sh'
- 				sh 'sh build/docker_install.sh'
- 				sh 'apk add --no-cache php7-phpdbg'
- 				sh 'curl -sS https://getcomposer.org/installer | php'
- 				sh 'php composer.phar install --ignore-platform-reqs'
- 				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
- 			}
+ 		stage('setup') {
+			agent any
+			steps {
+				sh 'curl -sS https://getcomposer.org/installer | php'
+				sh 'rm -rf ./vendor'
+				sh 'rm -f composer.lock'
+				sh 'php composer.phar install --ignore-platform-reqs'
+			}
  		}
 		stage('PHP 7.3') {
 			agent {
@@ -41,12 +18,43 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'chmod +x ./build/docker_install.sh'
-				sh 'sh build/docker_install.sh'
-				sh 'apk add --no-cache php7-phpdbg'
-				sh 'curl -sS https://getcomposer.org/installer | php'
-				sh 'php composer.phar install --ignore-platform-reqs'
-				sh 'phpdbg -qrr -- ./vendor/bin/phpunit --coverage-text --colors=never'
+				sh 'apk add --no-cache git'
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('PHP 7.4') {
+			agent {
+				docker {
+					image 'php:7.4-alpine'
+					args '-u root --privileged'
+				}
+			}
+			steps {
+				sh 'apk add --no-cache git'
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('Latest PHP') {
+			agent {
+				docker {
+					image 'php:alpine'
+					args '-u root --privileged'
+				}
+			}
+			steps {
+				sh 'apk add --no-cache git'
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('Coverage') {
+			agent any
+			steps {
+				sh 'php composer.phar run-script coverage'
+				step([
+					$class: 'CloverPublisher',
+					cloverReportDir: '',
+					cloverReportFileName: 'build/logs/clover.xml',
+				])
 			}
 		}
  	}

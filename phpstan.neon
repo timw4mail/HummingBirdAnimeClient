@@ -1,9 +1,18 @@
 parameters:
+	checkGenericClassInNonGenericObjectType: false
+	checkMissingIterableValueType: false
+	inferPrivatePropertyTypeFromConstructor: true
+	level: 7
 	autoload_files:
 		- %rootDir%/../../../tests/mocks.php
+	paths:
+		- src
+		- ./console
+		- index.php
 	ignoreErrors:
 		- '#Access to an undefined property Aviat\\\Ion\\\Friend::\$[a-zA-Z0-9_]+#'
 		- '#Call to an undefined method Aviat\\\Ion\\\Friend::[a-zA-Z0-9_]+\(\)#'
 		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
-		- '#Undefined variable: \$var#'
 		- '#Property Amp\\Artax\\Internal\\RequestCycle::\$[a-zA-Z0-9_]+#'
+	excludes_analyse:
+		- tests/mocks.php

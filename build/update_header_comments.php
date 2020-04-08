@@ -29,13 +29,13 @@ if ( ! function_exists('glob_recursive'))
 	}
 }
 
-function get_text_to_replace($tokens)
+function get_text_to_replace(array $tokens): string
 {
 	$output = '';
 
 	// Tokens have the follow structure if arrays:
 	// [0] => token type constant
-	// [1] => raw sytax parsed to that token
+	// [1] => raw syntax parsed to that token
 	// [2] => line number
 	foreach($tokens as $token)
 	{
@@ -57,7 +57,7 @@ function get_text_to_replace($tokens)
 	return $output;
 }
 
-function get_tokens($source)
+function get_tokens($source): array
 {
 	return token_get_all($source);
 }
