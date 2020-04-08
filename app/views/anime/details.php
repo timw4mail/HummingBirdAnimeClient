@@ -72,21 +72,21 @@
 										href="<?= $link['link'] ?>"
 										title="Stream '<?= $data['title'] ?>' on <?= $link['meta']['name'] ?>"
 									>
-										<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+										<?= $helper->img("/public/images/{$link['meta']['image']}", [
 											'class' => 'streaming-logo',
 											'width' => 50,
 											'height' => 50,
 											'alt' => "{$link['meta']['name']} logo",
-										]); ?>
+										]) ?>
 										&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 									</a>
 								<?php else: ?>
-									<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+									<?= $helper->img("/public/images/{$link['meta']['image']}", [
 										'class' => 'streaming-logo',
 										'width' => 50,
 										'height' => 50,
 										'alt' => "{$link['meta']['name']} logo",
-									]); ?>
+									]) ?>
 									&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 								<?php endif ?>
 							</td>
