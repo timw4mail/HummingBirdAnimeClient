@@ -1,5 +1,8 @@
-<?php
-$setupErrors = \Aviat\AnimeClient\checkFolderPermissions($container->get('config'));
+<?php declare(strict_types=1);
+
+use function Aviat\AnimeClient\checkFolderPermissions;
+
+$setupErrors = checkFolderPermissions($container->get('config'));
 ?>
 
 <?php if ( ! empty($setupErrors)): ?>
