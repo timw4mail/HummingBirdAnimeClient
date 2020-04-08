@@ -2,6 +2,14 @@
   "name": "aviat/hummingbird-anime-client",
   "description": "A self-hosted anime/manga client for Kitsu.",
   "license": "MIT",
+  "authors": [
+	{
+	  "name": "Timothy J. Warren",
+	  "email": "tim@timshomepage.net",
+	  "homepage": "https://timshomepage.net",
+	  "role": "Developer"
+	}
+  ],
   "autoload": {
 	"files": [
 	  "src/Ion/functions.php",
@@ -20,6 +28,7 @@
 	}
   },
   "config": {
+	"lock": false,
 	"platform": {
 	  "php": "7.3"
 	}
