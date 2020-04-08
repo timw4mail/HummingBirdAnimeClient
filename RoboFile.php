@@ -127,7 +127,7 @@ class RoboFile extends Tasks {
 	{
 		$files = $this->getAllSourceFiles();
 
-		$chunks = array_chunk($files, 12);
+		$chunks = array_chunk($files, (int)shell_exec('getconf _NPROCESSORS_ONLN'));
 
 		foreach($chunks as $chunk)
 		{

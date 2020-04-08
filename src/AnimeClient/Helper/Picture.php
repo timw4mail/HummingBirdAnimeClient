@@ -62,6 +62,9 @@ final class Picture {
 		$urlGenerator = $this->container->get('url-generator');
 		$helper = $this->container->get('html-helper');
 
+		$imgAttrs['loading'] = 'lazy';
+		$picAttrs['loading'] = 'lazy';
+
 		// If it is a placeholder image, make the
 		// fallback a png, not a jpg
 		if (strpos($uri, 'placeholder') !== FALSE)
