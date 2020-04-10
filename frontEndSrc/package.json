@@ -2,20 +2,20 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "npm run build:css && npm run build:js",
-		"build:css": "node ./tools/css.js",
-		"build:js": "rollup -c ./tools/build-js.js",
-		"watch:css": "watch 'npm run build:css' --filter=./tools/cssfilter.js",
+		"build:css": "node ./css.js",
+		"build:js": "rollup -c ./build-js.js",
+		"watch:css": "watch 'npm run build:css' --filter=./cssfilter.js",
 		"watch:js": "watch 'npm run build:js' ./js/src",
 		"watch": "concurrently \"npm:watch:css\" \"npm:watch:js\" --kill-others"
 	},
 	"devDependencies": {
-		"@ampproject/rollup-plugin-closure-compiler": "^0.9.0",
-		"concurrently": "^4.1.1",
+		"@ampproject/rollup-plugin-closure-compiler": "^0.24.0",
+		"concurrently": "^5.1.0",
 		"cssnano": "^4.1.10",
-		"postcss": "^7.0.17",
+		"postcss": "^7.0.27",
 		"postcss-import": "^12.0.1",
 		"postcss-preset-env": "^6.7.0",
-		"rollup": "^1.16.7",
+		"rollup": "^2.4.0",
 		"watch": "^1.0.2"
 	}
 }

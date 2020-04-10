@@ -1,31 +1,61 @@
-import _ from './AnimeClient.js';
-/**
- * Event handlers
- */
-// Close event for messages
-_.on('header', 'click', '.message', (e) => {
-	_.hide(e.target);
-});
+import _ from './anime-client.js';
 
-// Confirm deleting of list or library items
-_.on('form.js-delete', 'submit', (event) => {
+// ----------------------------------------------------------------------------
+// Event subscriptions
+// ----------------------------------------------------------------------------
+_.on('header', 'click', '.message', hide);
+_.on('form.js-delete', 'submit', confirmDelete);
+_.on('.js-clear-cache', 'click', clearAPICache);
+_.on('.vertical-tabs input', 'change', scrollToSection);
+_.on('.media-filter', 'input', filterMedia);
+
+// ----------------------------------------------------------------------------
+// Handler functions
+// ----------------------------------------------------------------------------
+
+/**
+ * Hide the html element attached to the event
+ *
+ * @param event
+ * @return void
+ */
+function hide (event) {
+	_.hide(event.target)
+}
+
+/**
+ * Confirm deletion of an item
+ *
+ * @param event
+ * @return void
+ */
+function confirmDelete (event) {
 	const proceed = confirm('Are you ABSOLUTELY SURE you want to delete this item?');
 
 	if (proceed === false) {
 		event.preventDefault();
 		event.stopPropagation();
 	}
-});
+}
 
-// Clear the api cache
-_.on('.js-clear-cache', 'click', () => {
+/**
+ * Clear the API cache, and show a message if the cache is cleared
+ *
+ * @return void
+ */
+function clearAPICache () {
 	_.get('/cache_purge', () => {
 		_.showMessage('success', 'Successfully purged api cache');
 	});
-});
+}
 
-// Alleviate some page jumping
- _.on('.vertical-tabs input', 'change', (event) => {
+/**
+ * Scroll to the accordion/vertical tab section just opened
+ *
+ * @param event
+ * @return void
+ */
+function scrollToSection (event) {
 	const el = event.currentTarget.parentElement;
 	const rect = el.getBoundingClientRect();
 
@@ -35,10 +65,15 @@ _.on('.js-clear-cache', 'click', () => {
 		top,
 		behavior: 'smooth',
 	});
-});
+}
 
-// Filter the current page (cover view)
-_.on('.media-filter', 'input', (event) => {
+/**
+ * Filter an anime or manga list
+ *
+ * @param event
+ * @return void
+ */
+function filterMedia (event) {
 	const rawFilter = event.target.value;
 	const filter = new RegExp(rawFilter, 'i');
 
@@ -72,4 +107,4 @@ _.on('.media-filter', 'input', (event) => {
 		_.show('article.media');
 		_.show('table.media-wrap tbody tr');
 	}
-});
+}
