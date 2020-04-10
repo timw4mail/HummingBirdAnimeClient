@@ -3,9 +3,9 @@
 // -------------------------------------------------------------------------
 
 const matches = (elm, selector) => {
-	let matches = (elm.document || elm.ownerDocument).querySelectorAll(selector),
-		i = matches.length;
-	while (--i >= 0 && matches.item(i) !== elm) {};
+	let m = (elm.document || elm.ownerDocument).querySelectorAll(selector);
+	let i = matches.length;
+	while (--i >= 0 && m.item(i) !== elm) {};
 	return i > -1;
 }
 

@@ -1,4 +1,4 @@
-import _ from './base/AnimeClient.js';
+import _ from './anime-client.js';
 
 // Click on hidden MAL checkbox so
 // that MAL id is passed
@@ -27,7 +27,7 @@ export function renderAnimeSearchResults (data) {
 							<source srcset="/public/images/anime/${x.id}.jpg" type="image/jpeg" />
 							<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
 						</picture>
-						
+
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Hummingbird AnimeClient Front-end Testsuite</title>
-	<link rel="stylesheet" href="lib/mocha.css">
+	<link rel="stylesheet" href='lib/mocha.css'>
 </head>
 <body>
 	<section id="parentTest">
@@ -20,8 +20,8 @@
 		</ul>
 		<ul id="mocha-report"></ul>
 	</div>
-	<script src="../js/src/base/classList.js"></script>
-	<script src="lib/testBundle.js"></script>
+	<script src='../js/base/class-list.js'></script>
+	<script src='lib/testBundle.js'></script>
 
 	<script>
 		var expect = chai.expect;
@@ -29,11 +29,11 @@
 	</script>
 
 	<!-- include source files here... -->
-	<script src="../js/src/base/AnimeClient.js"></script>
+	<script src='../js/anime-client.js'></script>
 
 	<!-- include test files here... -->
-	<script src="tests/AnimeClient.js"></script>
-	<script src="tests/ajax.js"></script>
+	<script src='tests/AnimeClient.js'></script>
+	<script src='tests/ajax.js'></script>
 
 	<script>
 		mocha.checkLeaks();
