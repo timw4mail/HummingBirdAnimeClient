@@ -21,7 +21,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
-use Aviat\Ion\StringWrapper;
+use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -29,13 +29,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RoutingBase {
 
-	use StringWrapper;
-
 	/**
 	 * Injection Container
 	 * @var ContainerInterface $container
 	 */
-	protected $container;
+	protected ContainerInterface $container;
 
 	/**
 	 * Config Object
@@ -73,7 +71,7 @@ class RoutingBase {
 	public function path(): string
 	{
 		$path = $this->request->getUri()->getPath();
-		$cleanedPath = $this->string($path)
+		$cleanedPath = StringType::from($path)
 			->replace('%20', '')
 			->trim()
 			->trimRight('/')

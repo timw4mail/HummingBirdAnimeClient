@@ -22,6 +22,7 @@ use Aviat\AnimeClient\Types\{
 	AnimeListItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime list
@@ -100,7 +101,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => (string)$this->string($anime['subtype'])->upperCaseFirst(),
+				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,

@@ -20,6 +20,5 @@ namespace Aviat\Ion;
  * Common base for all Models
  */
 class Model {
-	use StringWrapper;
 }
 // End of Model.php

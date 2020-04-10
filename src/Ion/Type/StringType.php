@@ -24,6 +24,17 @@ use Stringy\Stringy;
 class StringType extends Stringy {
 
 	/**
+	 * Alias for `create` static constructor
+	 *
+	 * @param string $str
+	 * @return $this
+	 */
+	public static function from(string $str): self
+	{
+		return self::create($str);
+	}
+
+	/**
 	 * See if two strings match, despite being delimited differently,
 	 * such as camelCase, PascalCase, kebab-case, or snake_case.
 	 *

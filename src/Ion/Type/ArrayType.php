@@ -32,14 +32,14 @@ class ArrayType {
 	 *
 	 * @var array
 	 */
-	protected $arr;
+	protected array $arr;
 
 	/**
 	 * Map generated methods to their native implementations
 	 *
 	 * @var array
 	 */
-	protected $nativeMethods = [
+	protected array $nativeMethods = [
 		'chunk' => 'array_chunk',
 		'diff' => 'array_diff',
 		'filter' => 'array_filter',
@@ -64,7 +64,7 @@ class ArrayType {
 	 *
 	 * @var array
 	 */
-	protected $nativeInPlaceMethods = [
+	protected array $nativeInPlaceMethods = [
 		'shuffle' => 'shuffle',
 		'shift' => 'array_shift',
 		'unshift' => 'array_unshift',
@@ -73,11 +73,22 @@ class ArrayType {
 	];
 
 	/**
+	 * Create an ArrayType wrapper class from an array
+	 *
+	 * @param array $arr
+	 * @return ArrayType
+	 */
+	public static function from(array $arr): ArrayType
+	{
+		return new ArrayType($arr);
+	}
+
+	/**
 	 * Create an ArrayType wrapper class
 	 *
 	 * @param array $arr
 	 */
-	public function __construct(array &$arr)
+	private function __construct(array &$arr)
 	{
 		$this->arr =& $arr;
 	}
@@ -227,7 +238,7 @@ class ArrayType {
 	/**
 	 * Return a reference to the value of an arbitrary key on the array
 	 *
-	 * @example $arr = new ArrayType([0 => ['data' => ['foo' => 'bar']]]);
+	 * @example $arr = ArrayType::from([0 => ['data' => ['foo' => 'bar']]]);
 	 * $val = $arr->getDeepKey([0, 'data', 'foo']);
 	 * // returns 'bar'
 	 * @param  array $key An array of keys of the array
