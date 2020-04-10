@@ -1,4 +1,4 @@
-import _ from './base/AnimeClient.js'
+import _ from './anime-client.js'
 import { renderAnimeSearchResults } from './template-helpers.js'
 
 const search = (query) => {
