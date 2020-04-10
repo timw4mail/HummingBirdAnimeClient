@@ -41,7 +41,7 @@
 						<?php if ($link['meta']['link']): ?>
 							<a href="<?= $link['link'] ?>"
 							   title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-								<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+								<?= $helper->img("/public/images/{$link['meta']['image']}", [
 									'class' => 'streaming-logo',
 									'width' => 20,
 									'height' => 20,
@@ -49,7 +49,7 @@
 								]); ?>
 							</a>
 						<?php else: ?>
-							<?= $helper->picture("images/{$link['meta']['image']}", 'svg', [
+							<?= $helper->img("/public/images/{$link['meta']['image']}", [
 								'class' => 'streaming-logo',
 								'width' => 20,
 								'height' => 20,
