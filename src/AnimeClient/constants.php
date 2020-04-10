@@ -24,7 +24,7 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const NOT_FOUND_METHOD = 'notFound';
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/4.2";
+const USER_AGENT = "Tim's Anime Client/5";
 
 // Regex patterns
 const ALPHA_SLUG_PATTERN = '[a-z_]+';

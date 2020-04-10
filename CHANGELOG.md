@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5
+* Updated PHP requirement to 7.4
+
 ## Version 4.2
 * Updated dependencies
 * Updated PHP requirement to 7.3
