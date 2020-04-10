@@ -1,5 +1,4 @@
 import compiler from '@ampproject/rollup-plugin-closure-compiler';
-import { terser } from 'rollup-plugin-terser';
 
 const plugins = [
 	compiler({
@@ -52,16 +51,14 @@ let modules = [{
 	input: './js/anon.js',
 	output: {
 		...moduleOutput,
-		file: '../public/es/anon.min.js',
+		file: '../public/es/anon.js',
 	},
-	plugins: [terser()],
 }, {
 	input: './js/index.js',
 	output: {
 		...moduleOutput,
-		file: '../public/es/scripts.min.js',
+		file: '../public/es/scripts.js',
 	},
-	plugins: [terser()],
 }];
 
 // Return the config array for rollup
