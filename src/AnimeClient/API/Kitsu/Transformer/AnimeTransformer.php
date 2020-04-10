@@ -19,6 +19,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
 use Aviat\AnimeClient\Types\AnimePage;
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime description page
@@ -114,7 +115,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'genres' => $item['genres'],
 			'id' => $item['id'],
 			'included' => $item['included'],
-			'show_type' => (string)$this->string($item['showType'])->upperCaseFirst(),
+			'show_type' => (string)StringType::from($item['showType'])->upperCaseFirst(),
 			'slug' => $item['slug'],
 			'staff' => $staff,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),

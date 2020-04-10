@@ -18,6 +18,7 @@ namespace Aviat\Ion\Tests;
 
 use function Aviat\Ion\_dir;
 
+use Aviat\Ion\Di\ContainerInterface;
 use PHPUnit\Framework\TestCase;
 use Laminas\Diactoros\ServerRequestFactory;
 
@@ -31,7 +32,7 @@ class IonTestCase extends TestCase {
 	public const TEST_DATA_DIR = __DIR__ . '/test_data';
 	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
-	protected $container;
+	protected ContainerInterface $container;
 	protected static $staticContainer;
 	protected static $session_handler;
 

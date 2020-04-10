@@ -30,9 +30,9 @@ class APIRequestBuilderTest extends TestCase {
 
 	public function setUp(): void	{
 		$this->builder = new class extends APIRequestBuilder {
-			protected $baseUrl = 'https://httpbin.org/';
+			protected string $baseUrl = 'https://httpbin.org/';
 
-			protected $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
+			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
 
 		$this->builder->setLogger(new NullLogger);

@@ -31,7 +31,7 @@ class Aware {
 
 class ContainerAwareTest extends IonTestCase {
 
-	protected $aware;
+	protected Aware $aware;
 
 	public function setUp(): void
 	{

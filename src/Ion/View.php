@@ -29,14 +29,13 @@ abstract class View
 	implements ViewInterface {
 
 	use Di\ContainerAware;
-	use StringWrapper;
 
 	/**
 	 * HTTP response Object
 	 *
 	 * @var ResponseInterface
 	 */
-	public $response;
+	public ResponseInterface $response;
 
 	/**
 	 * If the view has sent output via
@@ -44,7 +43,7 @@ abstract class View
 	 *
 	 * @var boolean
 	 */
-	protected $hasRendered = FALSE;
+	protected bool $hasRendered = FALSE;
 
 	/**
 	 * Constructor

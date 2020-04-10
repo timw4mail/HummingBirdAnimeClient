@@ -23,8 +23,7 @@ use Aura\Router\{Matcher, Route, Rule};
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
-use Aviat\Ion\StringWrapper;
-
+use Aviat\Ion\Type\StringType;
 use LogicException;
 use ReflectionException;
 
@@ -32,8 +31,6 @@ use ReflectionException;
  * Basic routing/ dispatch
  */
 final class Dispatcher extends RoutingBase {
-
-	use StringWrapper;
 
 	/**
 	 * The route-matching object
@@ -45,19 +42,19 @@ final class Dispatcher extends RoutingBase {
 	 * The route matcher
 	 * @var Matcher $matcher
 	 */
-	protected $matcher;
+	protected Matcher $matcher;
 
 	/**
 	 * Routing array
 	 * @var array
 	 */
-	protected $routes;
+	protected array $routes;
 
 	/**
 	 * Routes added to router
 	 * @var array $outputRoutes
 	 */
-	protected $outputRoutes;
+	protected array $outputRoutes;
 
 	/**
 	 * Constructor
@@ -254,7 +251,7 @@ final class Dispatcher extends RoutingBase {
 		foreach ($classFiles as $file)
 		{
 			$rawClassName = basename(str_replace('.php', '', $file));
-			$path = (string)$this->string($rawClassName)->dasherize();
+			$path = (string)StringType::from($rawClassName)->dasherize();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
 			$controllers[$path] = $className;
