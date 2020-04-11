@@ -21,6 +21,7 @@ use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
@@ -37,9 +38,9 @@ final class Anime extends BaseController {
 
 	/**
 	 * The anime list model
-	 * @var \Aviat\AnimeClient\Model\Anime $model
+	 * @var AnimeModel $model
 	 */
-	protected $model;
+	protected AnimeModel $model;
 
 	/**
 	 * Constructor

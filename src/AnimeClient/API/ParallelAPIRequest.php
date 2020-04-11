@@ -33,7 +33,7 @@ final class ParallelAPIRequest {
 	 *
 	 * @var array
 	 */
-	private $requests = [];
+	private array $requests = [];
 
 	/**
 	 * Add a request

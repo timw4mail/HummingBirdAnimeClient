@@ -25,16 +25,14 @@ use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\StringWrapper;
 
 /**
  * Model for handling settings control panel
  */
 final class Settings {
 	use ContainerAware;
-	use StringWrapper;
 
-	private $config;
+	private ConfigInterface $config;
 
 	public function __construct(ConfigInterface $config)
 	{

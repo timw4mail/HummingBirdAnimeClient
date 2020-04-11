@@ -65,27 +65,27 @@ final class Model {
 	 *
 	 * @var AnimeListTransformer
 	 */
-	private $animeListTransformer;
+	private AnimeListTransformer $animeListTransformer;
 
 	/**
 	 * @var AnimeTransformer
 	 */
-	private $animeTransformer;
+	private AnimeTransformer $animeTransformer;
 
 	/**
 	 * @var ListItem
 	 */
-	private $listItem;
+	private ListItem $listItem;
 
 	/**
 	 * @var MangaTransformer
 	 */
-	private $mangaTransformer;
+	private MangaTransformer $mangaTransformer;
 
 	/**
 	 * @var MangaListTransformer
 	 */
-	private $mangaListTransformer;
+	private MangaListTransformer $mangaListTransformer;
 
 	/**
 	 * Constructor

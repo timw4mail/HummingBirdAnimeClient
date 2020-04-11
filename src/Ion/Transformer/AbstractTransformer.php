@@ -16,17 +16,12 @@
 
 namespace Aviat\Ion\Transformer;
 
-use Aviat\Ion\StringWrapper;
-
 use BadMethodCallException;
 
 /**
  * Base class for data transformation
  */
 abstract class AbstractTransformer implements TransformerInterface {
-
-	use StringWrapper;
-
 	/**
 	 * Mutate the data structure
 	 *

@@ -38,7 +38,7 @@ trait KitsuTrait {
 	 * The request builder for the Kitsu API
 	 * @var KitsuRequestBuilder
 	 */
-	protected $requestBuilder;
+	protected KitsuRequestBuilder $requestBuilder;
 
 	/**
 	 * Set the request builder object

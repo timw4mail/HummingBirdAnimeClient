@@ -26,7 +26,7 @@ trait CacheTrait {
 	/**
 	 * @var Pool
 	 */
-	protected $cache;
+	protected Pool $cache;
 
 	/**
 	 * Inject the cache object

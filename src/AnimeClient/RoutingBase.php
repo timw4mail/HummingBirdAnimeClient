@@ -16,38 +16,36 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Config;
+use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
-use Aviat\Ion\StringWrapper;
-use Psr\Http\Message\ServerRequestInterface;
+use Aviat\Ion\Type\StringType;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Base for routing/url classes
  */
 class RoutingBase {
 
-	use StringWrapper;
-
 	/**
 	 * Injection Container
 	 * @var ContainerInterface $container
 	 */
-	protected $container;
+	protected ContainerInterface $container;
 
 	/**
 	 * Config Object
-	 * @var Config
+	 * @var ConfigInterface
 	 */
-	protected $config;
+	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
+	 * @var RequestInterface
 	 */
-	protected $request;
+	protected RequestInterface $request;
 
 	/**
 	 * Constructor
@@ -73,7 +71,7 @@ class RoutingBase {
 	public function path(): string
 	{
 		$path = $this->request->getUri()->getPath();
-		$cleanedPath = $this->string($path)
+		$cleanedPath = StringType::from($path)
 			->replace('%20', '')
 			->trim()
 			->trimRight('/')

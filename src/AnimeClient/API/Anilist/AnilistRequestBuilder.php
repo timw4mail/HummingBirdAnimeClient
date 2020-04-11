@@ -26,20 +26,20 @@ final class AnilistRequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = 'https://graphql.anilist.co';
+	protected string $baseUrl = 'https://graphql.anilist.co';
 
 	/**
 	 * Valid HTTP request methods
 	 * @var array
 	 */
-	protected $validMethods = ['POST'];
+	protected array $validMethods = ['POST'];
 
 	/**
 	 * HTTP headers to send with every request
 	 *
 	 * @var array
 	 */
-	protected $defaultHeaders = [
+	protected array $defaultHeaders = [
 		'User-Agent' => USER_AGENT,
 		'Accept' => 'application/json',
 		'Content-Type' => 'application/json',
