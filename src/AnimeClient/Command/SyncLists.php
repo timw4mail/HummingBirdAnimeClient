@@ -44,13 +44,13 @@ final class SyncLists extends BaseCommand {
 	 * Model for making requests to Anilist API
 	 * @var AnilistModel
 	 */
-	protected $anilistModel;
+	protected AnilistModel $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
 	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * Run the Kitsu <=> Anilist sync script

@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu\Model;
+use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
 use Aviat\AnimeClient\Controller\Images;
 
 /**
@@ -27,14 +27,14 @@ use Aviat\AnimeClient\Controller\Images;
 final class UpdateThumbnails extends ClearThumbnails {
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var Model
+	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * The default controller, which has the method to cache the images
 	 */
-	protected $controller;
+	protected Images $controller;
 
 	public function execute(array $args, array $options = []): void
 	{

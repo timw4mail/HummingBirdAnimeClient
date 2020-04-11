@@ -21,16 +21,13 @@ use Aviat\AnimeClient\Types\{
 	FormItem, FormItemData,
 	MangaListItem, MangaListItemDetail
 };
-use Aviat\Ion\StringWrapper;
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Data transformation class for zippered Hummingbird manga
  */
 final class MangaListTransformer extends AbstractTransformer {
-
-	use StringWrapper;
-
 	/**
 	 * Remap zipped anime data to a more logical form
 	 *
@@ -103,7 +100,7 @@ final class MangaListTransformer extends AbstractTransformer {
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => (string)$this->string($manga['subtype'])->upperCaseFirst(),
+				'type' => (string)StringType::from($manga['subtype'])->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => $item['attributes']['status'],

@@ -25,14 +25,12 @@ use InvalidArgumentException;
  */
 class Config implements ConfigInterface {
 
-	use ArrayWrapper;
-
 	/**
 	 * Config object
 	 *
 	 * @var ArrayType
 	 */
-	protected $map;
+	protected ArrayType $map;
 
 	/**
 	 * Constructor
@@ -41,7 +39,7 @@ class Config implements ConfigInterface {
 	 */
 	public function __construct(array $configArray = [])
 	{
-		$this->map = $this->arr($configArray);
+		$this->map = ArrayType::from($configArray);
 	}
 
 	/**

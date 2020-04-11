@@ -25,14 +25,14 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = 'https://kitsu.io/api/edge/';
+	protected string $baseUrl = 'https://kitsu.io/api/edge/';
 
 	/**
 	 * HTTP headers to send with every request
 	 *
 	 * @var array
 	 */
-	protected $defaultHeaders = [
+	protected array $defaultHeaders = [
 		'User-Agent' =>  USER_AGENT,
 		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',

@@ -29,9 +29,9 @@ use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware};
 use ConsoleKit\{Command, ConsoleException};
 use ConsoleKit\Widgets\Box;
+use Laminas\Diactoros\{Response, ServerRequestFactory};
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
-use Zend\Diactoros\{Response, ServerRequestFactory};
 
 /**
  * Base class for console command setup

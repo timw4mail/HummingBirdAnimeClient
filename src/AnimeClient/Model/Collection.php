@@ -31,13 +31,13 @@ class Collection extends DB {
 	 * The query builder object
 	 * @var Query_Builder_Interface
 	 */
-	protected $db;
+	protected Query_Builder_Interface $db;
 
 	/**
 	 * Whether the database is valid for querying
 	 * @var boolean
 	 */
-	protected $validDatabase = FALSE;
+	protected bool $validDatabase = FALSE;
 
 	/**
 	 * Create a new collection object

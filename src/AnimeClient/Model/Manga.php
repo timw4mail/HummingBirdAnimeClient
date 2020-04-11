@@ -26,6 +26,7 @@ use Aviat\AnimeClient\Types\{
 	MangaListItem,
 	MangaPage
 };
+use Aviat\AnimeClient\API\{Anilist, Kitsu};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -40,19 +41,19 @@ class Manga extends API {
 	 *
 	 * @var boolean
 	 */
-	protected $anilistEnabled;
+	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to the Anilist API
-	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 * @var Anilist\Model
 	 */
-	protected $anilistModel;
+	protected Anilist\Model $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var Kitsu\Model
 	 */
-	protected $kitsuModel;
+	protected Kitsu\Model $kitsuModel;
 
 	/**
 	 * Constructor

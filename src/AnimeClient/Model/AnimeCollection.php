@@ -29,7 +29,7 @@ final class AnimeCollection extends Collection {
 	 * Anime API Model
 	 * @var Anime $animeModel
 	 */
-	protected $animeModel;
+	protected Anime $animeModel;
 
 	/**
 	 * Create the collection model
