@@ -16,13 +16,13 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Config;
+use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Base for routing/url classes
@@ -37,15 +37,15 @@ class RoutingBase {
 
 	/**
 	 * Config Object
-	 * @var Config
+	 * @var ConfigInterface
 	 */
-	protected $config;
+	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
+	 * @var RequestInterface
 	 */
-	protected $request;
+	protected RequestInterface $request;
 
 	/**
 	 * Constructor

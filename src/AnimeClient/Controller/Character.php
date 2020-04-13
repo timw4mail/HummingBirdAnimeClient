@@ -32,7 +32,7 @@ class Character extends BaseController {
 	/**
 	 * @var Model
 	 */
-	private $model;
+	private Model $model;
 
 	/**
 	 * Character constructor.

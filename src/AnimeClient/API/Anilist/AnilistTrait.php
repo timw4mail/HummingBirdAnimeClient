@@ -38,20 +38,20 @@ trait AnilistTrait {
 	 * The request builder for the Anilist API
 	 * @var AnilistRequestBuilder
 	 */
-	protected $requestBuilder;
+	protected AnilistRequestBuilder $requestBuilder;
 
 	/**
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = Anilist::BASE_URL;
+	protected string $baseUrl = Anilist::BASE_URL;
 
 	/**
 	 * HTTP headers to send with every request
 	 *
 	 * @var array
 	 */
-	protected $defaultHeaders = [
+	protected array $defaultHeaders = [
 		'Accept' => 'application/json',
 		'Accept-Encoding' => 'gzip',
 		'Content-type' => 'application/json',

@@ -68,7 +68,7 @@ abstract class APIRequestBuilder {
 	 * The current request
 	 * @var Request
 	 */
-	protected $request;
+	protected Request $request;
 
 	/**
 	 * Do a basic minimal GET request
@@ -78,8 +78,10 @@ abstract class APIRequestBuilder {
 	 */
 	public static function simpleRequest(string $uri): Request
 	{
-		return (new Request($uri))
-			->setHeader('User-Agent', USER_AGENT);
+		$request = (new Request($uri));
+		$request->setHeader('User-Agent', USER_AGENT);
+
+		return $request;
 	}
 
 	/**

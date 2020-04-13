@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Router\{Matcher, Route, Rule};
+use Aura\Router\{Map, Matcher, Route, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
@@ -34,9 +34,9 @@ final class Dispatcher extends RoutingBase {
 
 	/**
 	 * The route-matching object
-	 * @var object $router
+	 * @var Map $router
 	 */
-	protected $router;
+	protected Map $router;
 
 	/**
 	 * The route matcher

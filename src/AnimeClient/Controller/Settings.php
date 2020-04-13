@@ -17,8 +17,9 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
-use Aviat\AnimeClient\API\Anilist\Model;
+use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\Model\Settings as SettingsModel;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
@@ -29,14 +30,14 @@ use Aviat\Ion\Di\Exception\NotFoundException;
 final class Settings extends BaseController {
 
 	/**
-	 * @var Model
+	 * @var AnilistModel
 	 */
-	private $anilistModel;
+	private AnilistModel $anilistModel;
 
 	/**
-	 * @var \Aviat\AnimeClient\Model\Settings
+	 * @var SettingsModel
 	 */
-	private $settingsModel;
+	private SettingsModel $settingsModel;
 
 	/**
 	 * Settings constructor.

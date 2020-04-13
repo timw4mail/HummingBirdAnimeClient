@@ -40,21 +40,21 @@ class Anime extends API {
 	 *
 	 * @var boolean
 	 */
-	protected $anilistEnabled;
+	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to Anilist API
 	 *
 	 * @var AnilistModel
 	 */
-	protected $anilistModel;
+	protected AnilistModel $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
 	 *
 	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * Anime constructor.

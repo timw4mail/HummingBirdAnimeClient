@@ -30,7 +30,7 @@ class Util {
 	 * Routes that don't require a second navigation level
 	 * @var array
 	 */
-	private static $formPages = [
+	private static array $formPages = [
 		'edit',
 		'add',
 		'update',

@@ -38,13 +38,13 @@ final class AnimeCollection extends BaseController {
 	 * The anime collection model
 	 * @var AnimeCollectionModel $animeCollectionModel
 	 */
-	private $animeCollectionModel;
+	private AnimeCollectionModel $animeCollectionModel;
 
 	/**
 	 * The anime API model
 	 * @var AnimeModel $animeModel
 	 */
-	private $animeModel;
+	private AnimeModel $animeModel;
 
 	/**
 	 * Constructor
