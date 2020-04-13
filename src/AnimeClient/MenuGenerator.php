@@ -34,14 +34,14 @@ final class MenuGenerator extends UrlGenerator {
 	 *
 	 * @var HelperLocator
 	 */
-	protected $helper;
+	protected HelperLocator $helper;
 
 	/**
 	 * Request object
 	 *
 	 * @var RequestInterface
 	 */
-	protected $request;
+	protected RequestInterface $request;
 
 	/**
 	 * MenuGenerator constructor.

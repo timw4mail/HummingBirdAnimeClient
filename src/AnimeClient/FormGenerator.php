@@ -30,7 +30,7 @@ final class FormGenerator {
 	 *
 	 * @var HelperLocator
 	 */
-	private $helper;
+	private HelperLocator $helper;
 
 	/**
 	 * FormGenerator constructor.
@@ -93,6 +93,9 @@ final class FormGenerator {
 				$params['type'] = 'select';
 				$params['options'] = array_flip($form['options']);
 			break;
+
+			default:
+				break;
 		}
 
 		foreach (['readonly', 'disabled'] as $key)

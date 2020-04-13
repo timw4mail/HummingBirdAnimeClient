@@ -42,14 +42,14 @@ final class Auth {
 	 *
 	 * @var Model
 	 */
-	private $model;
+	private Model $model;
 
 	/**
 	 * Session object
 	 *
 	 * @var Segment
 	 */
-	private $segment;
+	private Segment $segment;
 
 	/**
 	 * Constructor

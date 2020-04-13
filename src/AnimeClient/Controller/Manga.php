@@ -38,7 +38,7 @@ final class Manga extends Controller {
 	 * The manga model
 	 * @var MangaModel $model
 	 */
-	protected $model;
+	protected MangaModel $model;
 
 	/**
 	 * Constructor

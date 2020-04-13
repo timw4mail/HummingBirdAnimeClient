@@ -39,7 +39,7 @@ final class Model
 	/**
 	 * @var ListItem
 	 */
-	private $listItem;
+	private ListItem $listItem;
 
 	/**
 	 * Constructor

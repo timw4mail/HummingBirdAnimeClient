@@ -30,7 +30,7 @@ class UrlGenerator extends RoutingBase {
 	 * The current HTTP host
 	 * @var string
 	 */
-	protected $host;
+	protected string $host;
 
 	/**
 	 * Constructor
@@ -49,7 +49,7 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param string ...$args
+	 * @param array $args
 	 * @return string
 	 */
 	public function assetUrl(string ...$args): string

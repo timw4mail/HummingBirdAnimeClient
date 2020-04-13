@@ -32,7 +32,7 @@ final class User extends BaseController {
 	/**
 	 * @var Model
 	 */
-	private $kitsuModel;
+	private Model $kitsuModel;
 
 	/**
 	 * User constructor.

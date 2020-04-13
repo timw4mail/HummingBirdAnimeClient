@@ -47,55 +47,55 @@ class Controller {
 	 * The authentication object
 	 * @var Auth $auth ;
 	 */
-	protected $auth;
+	protected Auth $auth;
 
 	/**
 	 * Cache manager
 	 * @var CacheItemPoolInterface
 	 */
-	protected $cache;
+	protected CacheItemPoolInterface $cache;
 
 	/**
 	 * The global configuration object
 	 * @var ConfigInterface $config
 	 */
-	public $config;
+	public ConfigInterface $config;
 
 	/**
 	 * Request object
 	 * @var ServerRequestInterface $request
 	 */
-	protected $request;
+	protected ServerRequestInterface $request;
 
 	/**
 	 * Response object
 	 * @var ResponseInterface $response
 	 */
-	public $response;
+	public ResponseInterface $response;
 
 	/**
 	 * Url generation class
 	 * @var UrlGenerator
 	 */
-	protected $urlGenerator;
+	protected UrlGenerator $urlGenerator;
 
 	/**
 	 * Aura url generator
 	 * @var Generator
 	 */
-	protected $url;
+	protected Generator $url;
 
 	/**
 	 * Session segment
 	 * @var Segment
 	 */
-	protected $session;
+	protected Segment $session;
 
 	/**
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $baseData = [];
+	protected array $baseData = [];
 
 	/**
 	 * Controller constructor.

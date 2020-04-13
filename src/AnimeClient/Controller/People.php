@@ -32,7 +32,7 @@ final class People extends BaseController {
 	/**
 	 * @var Model
 	 */
-	private $model;
+	private Model $model;
 
 	/**
 	 * People constructor.
