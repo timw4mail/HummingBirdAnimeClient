@@ -20,17 +20,17 @@ use PDO;
 
 class RequirementsTest extends AnimeClientTestCase {
 
-	public function testPHPVersion()
+	public function testPHPVersion(): void
 	{
 		$this->assertTrue(version_compare(PHP_VERSION, "5.4", "ge"));
 	}
 
-	public function testHasPDO()
+	public function testHasPDO(): void
 	{
 		$this->assertTrue(class_exists('PDO'));
 	}
 
-	public function testHasPDOSqlite()
+	public function testHasPDOSqlite(): void
 	{
 		$drivers = PDO::getAvailableDrivers();
 		$this->assertTrue(in_array('sqlite', $drivers));
