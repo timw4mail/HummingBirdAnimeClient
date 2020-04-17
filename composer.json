@@ -39,7 +39,7 @@
 	"aura/router": "^3.0",
 	"aura/session": "^2.0",
 	"aviat/banker": "^2.0.0",
-	"aviat/query": "^2.5.1",
+	"aviat/query": "dev-develop",
 	"danielstjules/stringy": "^3.1.0",
 	"ext-dom": "*",
 	"ext-iconv": "*",
