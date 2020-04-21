@@ -32,7 +32,7 @@ class HttpView extends BaseView {
 	 *
 	 * @var string
 	 */
-	protected $contentType = '';
+	protected string $contentType = '';
 
 	/**
 	 * Do a redirect

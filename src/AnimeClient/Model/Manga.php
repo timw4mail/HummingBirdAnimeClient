@@ -232,7 +232,7 @@ class Manga extends API {
 	}
 
 	/**
-	 * Search for anime by name
+	 * Search for manga by name
 	 *
 	 * @param string $name
 	 * @return array
@@ -240,6 +240,16 @@ class Manga extends API {
 	public function search($name): array
 	{
 		return $this->kitsuModel->search('manga', $name);
+	}
+
+	/**
+	 * Get recent reading history
+	 *
+	 * @return array
+	 */
+	public function getHistory(): array
+	{
+		return $this->kitsuModel->getMangaHistory();
 	}
 
 	/**

@@ -164,9 +164,7 @@ final class Kitsu {
 			];
 		}
 
-		usort($links, function ($a, $b) {
-			return $a['meta']['name'] <=> $b['meta']['name'];
-		});
+		usort($links, fn ($a, $b) => $a['meta']['name'] <=> $b['meta']['name']);
 
 		return $links;
 	}

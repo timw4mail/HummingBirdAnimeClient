@@ -30,6 +30,7 @@ use Aviat\Ion\Json;
 
 use InvalidArgumentException;
 use Throwable;
+use TypeError;
 
 /**
  * Controller for Anime-related pages
@@ -338,7 +339,7 @@ final class Anime extends BaseController {
 				'data' => $data,
 			]);
 		}
-		catch (\TypeError $e)
+		catch (TypeError $e)
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -347,16 +348,6 @@ final class Anime extends BaseController {
 				'Anime Not Found'
 			);
 		}
-	}
-
-	/**
-	 * Find anime matching the selected genre
-	 *
-	 * @param string $genre
-	 */
-	public function genre(string $genre): void
-	{
-		// @TODO: implement
 	}
 }
 // End of AnimeController.php

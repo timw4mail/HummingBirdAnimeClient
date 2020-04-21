@@ -31,14 +31,14 @@ class HtmlView extends HttpView {
 	 *
 	 * @var HelperLocator
 	 */
-	protected $helper;
+	protected HelperLocator $helper;
 
 	/**
 	 * Response mime type
 	 *
 	 * @var string
 	 */
-	protected $contentType = 'text/html';
+	protected string $contentType = 'text/html';
 
 	/**
 	 * Create the Html View
@@ -73,7 +73,7 @@ class HtmlView extends HttpView {
 
 
 		// Very basic html minify, that won't affect content between html tags
-		$buffer = preg_replace('/>\s+</', '> <', $buffer);
+		// $buffer = preg_replace('/>\s+</', '> <', $buffer);
 
 		return $buffer;
 	}

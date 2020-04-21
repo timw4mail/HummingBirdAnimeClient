@@ -25,85 +25,85 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $age_rating;
+	public string $age_rating = '';
 
 	/**
 	 * @var string
 	 */
-	public $age_rating_guide;
+	public ?string $age_rating_guide = '';
 
 	/**
 	 * @var string
 	 */
-	public $cover_image;
+	public string $cover_image = '';
 
 	/**
 	 * @var string|int
 	 */
-	public $episode_count;
+	public ?int $episode_count = 13;
 
 	/**
 	 * @var string|int
 	 */
-	public $episode_length;
+	public ?int $episode_length = 24;
 
 	/**
 	 * @var array
 	 */
-	public $genres;
+	public array $genres = [];
 
 	/**
 	 * @var string
 	 */
-	public $id;
+	public string $id = '';
 
 	/**
 	 * @var array
 	 */
-	public $included;
+	public array $included = [];
 
 	/**
 	 * @var string
 	 */
-	public $show_type;
+	public string $show_type = '';
 
 	/**
 	 * @var string
 	 */
-	public $slug;
+	public string $slug = '';
 
 	/**
-	 * @var AnimeAiringStatus::NOT_YET_AIRED | AnimeAiringStatus::AIRING | AnimeAiringStatus::FINISHED_AIRING
+	 * @var AnimeAiringStatus
 	 */
-	public $status;
+	public string $status = AnimeAiringStatus::FINISHED_AIRING;
 
 	/**
 	 * @var array
 	 */
-	public $streaming_links;
+	public ?array $streaming_links = [];
 
 	/**
 	 * @var string
 	 */
-	public $synopsis;
+	public string $synopsis = '';
 
 	/**
 	 * @var string
 	 */
-	public $title;
+	public string $title = '';
 
 	/**
 	 * @var array
 	 */
-	public $titles;
+	public array $titles = [];
 
 	/**
 	 * @var string
 	 */
-	public $trailer_id;
+	public ?string $trailer_id = '';
 
 	/**
 	 * @var string
 	 */
-	public $url;
+	public string $url = '';
 }

@@ -337,14 +337,11 @@ final class Manga extends Controller {
 		]);
 	}
 
-	/**
-	 * Find manga matching the selected genre
-	 *
-	 * @param string $genre
-	 */
-	public function genre(string $genre): void
+	public function history(): void
 	{
-		// @TODO: implement
+		$data = $this->model->getHistory();
+
+		$this->outputJSON($data);
 	}
 }
 // End of MangaController.php
