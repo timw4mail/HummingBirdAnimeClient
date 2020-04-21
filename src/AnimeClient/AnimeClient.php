@@ -213,9 +213,9 @@ function checkFolderPermissions(ConfigInterface $config): array
 /**
  * Get an API Client, with better defaults
  *
- * @return DefaultClient
+ * @return HttpClient
  */
-function getApiClient ()
+function getApiClient (): HttpClient
 {
 	static $client;
 
@@ -290,7 +290,7 @@ function getLocalImg ($kitsuUrl, $webp = TRUE): string
  * @param int $height
  * @param string $text
  */
-function createPlaceholderImage ($path, $width, $height, $text = 'Image Unavailable'): void
+function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;

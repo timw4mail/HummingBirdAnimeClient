@@ -29,6 +29,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
 use Throwable;
+use function is_array;
 
 /**
  * Model for handling requests dealing with the anime list
@@ -129,6 +130,16 @@ class Anime extends API {
 	}
 
 	/**
+	 * Get recent watch history
+	 *
+	 * @return array
+	 */
+	public function getHistory(): array
+	{
+		return $this->kitsuModel->getAnimeHistory();
+	}
+
+	/**
 	 * Search for anime by name
 	 *
 	 * @param string $name
@@ -151,7 +162,7 @@ class Anime extends API {
 		$item = $this->kitsuModel->getListItem($itemId);
 		$array = $item->toArray();
 
-		if (\is_array($array['notes']))
+		if (is_array($array['notes']))
 		{
 			$array['notes'] = '';
 		}

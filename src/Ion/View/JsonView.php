@@ -19,6 +19,7 @@ namespace Aviat\Ion\View;
 use Aviat\Ion\Json;
 use Aviat\Ion\JsonException;
 use Aviat\Ion\ViewInterface;
+use function is_string;
 
 /**
  * View class to serialize Json
@@ -30,7 +31,7 @@ class JsonView extends HttpView {
 	 *
 	 * @var string
 	 */
-	protected $contentType = 'application/json';
+	protected string $contentType = 'application/json';
 
 	/**
 	 * Set the output string
@@ -43,7 +44,7 @@ class JsonView extends HttpView {
 	 */
 	public function setOutput($string): ViewInterface
 	{
-		if ( ! \is_string($string))
+		if ( ! is_string($string))
 		{
 			$string = Json::encode($string);
 		}

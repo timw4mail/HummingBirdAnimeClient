@@ -5,8 +5,8 @@ namespace Aviat\AnimeClient;
 $whose = $config->get('whose_list') . "'s ";
 $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
-$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') !== FALSE;
-$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
+$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') === 1;
+$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') === 1;
 
 ?>
 <div id="main-nav" class="flex flex-align-end flex-wrap">

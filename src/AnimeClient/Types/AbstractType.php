@@ -32,6 +32,24 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	}
 
 	/**
+	 * Check the shape of the object, and return the array equivalent
+	 *
+	 * @param array $data
+	 * @return array|null
+	 */
+	final public static function check($data = []): ?array
+	{
+		$currentClass = static::class;
+
+		if (get_parent_class($currentClass) !== FALSE)
+		{
+			return (new $currentClass($data))->toArray();
+		}
+
+		return NULL;
+	}
+
+	/**
 	 * Sets the properties by using the constructor
 	 *
 	 * @param mixed $data
@@ -61,7 +79,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param $name
 	 * @return bool
 	 */
-	public function __isset($name): bool
+	final public function __isset($name): bool
 	{
 		return property_exists($this, $name) && isset($this->$name);
 	}
@@ -73,7 +91,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function __set($name, $value): void
+	final public function __set($name, $value): void
 	{
 		$setterMethod = 'set' . ucfirst($name);
 
@@ -99,7 +117,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param string $name
 	 * @return mixed
 	 */
-	public function __get($name)
+	final public function __get($name)
 	{
 		// Be a bit more lenient here, so that you can easily typecast missing
 		// values to reasonable defaults, and not have to resort to array indexes
@@ -122,7 +140,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param $offset
 	 * @return bool
 	 */
-	public function offsetExists($offset): bool
+	final public function offsetExists($offset): bool
 	{
 		return $this->__isset($offset);
 	}
@@ -133,7 +151,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param $offset
 	 * @return mixed
 	 */
-	public function offsetGet($offset)
+	final public function offsetGet($offset)
 	{
 		return $this->__get($offset);
 	}
@@ -144,7 +162,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param $offset
 	 * @param $value
 	 */
-	public function offsetSet($offset, $value): void
+	final public function offsetSet($offset, $value): void
 	{
 		$this->__set($offset, $value);
 	}
@@ -154,7 +172,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 *
 	 * @param $offset
 	 */
-	public function offsetUnset($offset): void
+	final public function offsetUnset($offset): void
 	{
 		if ($this->offsetExists($offset))
 		{
@@ -167,7 +185,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 *
 	 * @return int
 	 */
-	public function count(): int
+	final public function count(): int
 	{
 		$keys = array_keys($this->toArray());
 		return count($keys);
@@ -179,7 +197,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param mixed $parent
 	 * @return mixed
 	 */
-	public function toArray($parent = null)
+	final public function toArray($parent = null)
 	{
 		$object = $parent ?? $this;
 
@@ -205,7 +223,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 *
 	 * @return bool
 	 */
-	public function isEmpty(): bool
+	final public function isEmpty(): bool
 	{
 		foreach ($this as $value)
 		{

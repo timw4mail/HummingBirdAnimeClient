@@ -19,7 +19,7 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDOException;
 
-use Query\QueryBuilder;
+use Query\QueryBuilderInterface;
 use function Query;
 
 /**
@@ -29,9 +29,9 @@ class Collection extends DB {
 
 	/**
 	 * The query builder object
-	 * @var QueryBuilder
+	 * @var QueryBuilderInterface
 	 */
-	protected QueryBuilder $db;
+	protected QueryBuilderInterface $db;
 
 	/**
 	 * Whether the database is valid for querying

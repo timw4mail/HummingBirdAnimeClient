@@ -367,7 +367,7 @@ final class AnimeCollection extends Collection {
 		}
 		catch (PDOException $e) {}
 
-		$this->db->reset_query();
+		$this->db->resetQuery();
 
 		return $output;
 	}
@@ -446,7 +446,7 @@ final class AnimeCollection extends Collection {
 
 		try
 		{
-			$this->db->insert_batch('genres', $insert);
+			$this->db->insertBatch('genres', $insert);
 		}
 		catch (PDOException $e)
 		{
@@ -486,7 +486,7 @@ final class AnimeCollection extends Collection {
 			$genres[$genre['id']] = $genre['genre'];
 		}
 
-		$this->db->reset_query();
+		$this->db->resetQuery();
 
 		return $genres;
 	}
@@ -509,13 +509,14 @@ final class AnimeCollection extends Collection {
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{
 				$links[$link['hummingbird_id']][] = $link['genre_id'];
-			} else
+			}
+			else
 			{
 				$links[$link['hummingbird_id']] = [$link['genre_id']];
 			}
 		}
 
-		$this->db->reset_query();
+		$this->db->resetQuery();
 
 		return $links;
 	}
