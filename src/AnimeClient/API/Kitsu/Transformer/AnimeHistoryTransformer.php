@@ -73,30 +73,26 @@ class AnimeHistoryTransformer {
 		$count = count($singles);
 		for ($i = 0; $i < $count; $i++)
 		{
+			$entries = [];
 			$entry = $singles[$i];
 			$prevTitle = $entry['title'];
-			$nextId = $i + 1;
-			if ($nextId < $count)
-			{
-				$entries = [];
-				$next = $singles[$nextId];
-				while (
-					$next['kind'] === 'progressed' &&
-					$next['title'] === $prevTitle
-				) {
-					$entries[] = $next;
-					$prevTitle = $next['title'];
+			$nextId = $i;
+			$next = $singles[$nextId];
+			while (
+				$next['kind'] === 'progressed' &&
+				$next['title'] === $prevTitle
+			) {
+				$entries[] = $next;
+				$prevTitle = $next['title'];
 
-					if ($nextId + 1 < $count)
-					{
-						$nextId++;
-						$next = $singles[$nextId];
-					}
-					else
-					{
-						break;
-					}
+				if ($nextId + 1 < $count)
+				{
+					$nextId++;
+					$next = $singles[$nextId];
+					continue;
 				}
+
+				break;
 			}
 
 			if (count($entries) > 1)
@@ -112,9 +108,6 @@ class AnimeHistoryTransformer {
 
 				$title = $entries[0]['title'];
 
-				// Get rid of the single entry added before aggregating
-				// array_pop($output);
-
 				$action = (count($entries) > 3)
 					? "Marathoned episodes {$firstEpisode}-{$lastEpisode} of {$title}"
 					: "Watched episodes {$firstEpisode}-{$lastEpisode} of {$title}";
@@ -128,13 +121,11 @@ class AnimeHistoryTransformer {
 				]);
 
 				// Skip the rest of the aggregate in the main loop
-				$i += count($entries);
-				$prevTitle = $title;
+				$i += count($entries) - 1;
 				continue;
 			}
 			else
 			{
-				$prevTitle = $entry['title'];
 				$output[] = $entry;
 			}
 
