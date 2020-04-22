@@ -179,7 +179,6 @@ final class Anime extends BaseController {
 	 *
 	 * @param string $id
 	 * @param string $status
-	 * @throws RouteNotFound
 	 */
 	public function edit(string $id, $status = 'all'): void
 	{
@@ -231,7 +230,7 @@ final class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(new FormItem($postData));
+		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -271,7 +270,7 @@ final class Anime extends BaseController {
 			die();
 		}
 
-		$response = $this->model->incrementLibraryItem(new FormItem($data));
+		$response = $this->model->incrementLibraryItem(FormItem::from($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);

@@ -34,6 +34,8 @@ use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 use DateTime;
+use Throwable;
+use function in_array;
 
 /**
  * Syncs list data between Anilist and Kitsu
@@ -59,7 +61,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function execute(array $args, array $options = []): void
 	{
@@ -88,7 +90,7 @@ final class SyncLists extends BaseCommand {
 	 * Attempt to synchronize external APIs
 	 *
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function sync(string $type): void
 	{
@@ -344,12 +346,12 @@ final class SyncLists extends BaseCommand {
 					continue;
 				}
 
-				if (\in_array('kitsu', $item['updateType'], TRUE))
+				if (in_array('kitsu', $item['updateType'], TRUE))
 				{
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (\in_array('anilist', $item['updateType'], TRUE))
+				if (in_array('anilist', $item['updateType'], TRUE))
 				{
 					$anilistUpdateItems[] = $item['data'];
 				}
@@ -589,7 +591,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
@@ -599,7 +601,7 @@ final class SyncLists extends BaseCommand {
 			if ($action === 'update')
 			{
 				$requester->addRequest(
-					$this->kitsuModel->updateListItem(new FormItem($item))
+					$this->kitsuModel->updateListItem(FormItem::from($item))
 				);
 			}
 			else if ($action === 'create')
@@ -653,7 +655,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function updateAnilistListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
@@ -664,7 +666,7 @@ final class SyncLists extends BaseCommand {
 			if ($action === 'update')
 			{
 				$requester->addRequest(
-					$this->anilistModel->updateListItem(new FormItem($item), $type)
+					$this->anilistModel->updateListItem(FormItem::from($item), $type)
 				);
 			}
 			else if ($action === 'create')

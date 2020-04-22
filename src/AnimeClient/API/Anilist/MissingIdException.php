@@ -16,4 +16,6 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-class MissingIdException extends \InvalidArgumentException {}
+use InvalidArgumentException;
+
+class MissingIdException extends InvalidArgumentException {}

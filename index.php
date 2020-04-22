@@ -61,7 +61,7 @@ $overrideConfig = file_exists($overrideFile)
 
 $configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
-$checkedConfig = (new ConfigType($configArray))->toArray();
+$checkedConfig = ConfigType::check($configArray);
 $container = $di($checkedConfig);
 
 // Unset 'constants'

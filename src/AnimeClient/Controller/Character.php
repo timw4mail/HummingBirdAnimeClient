@@ -27,7 +27,7 @@ use Aviat\Ion\Di\Exception\NotFoundException;
 /**
  * Controller for character description pages
  */
-class Character extends BaseController {
+final class Character extends BaseController {
 
 	/**
 	 * @var Model

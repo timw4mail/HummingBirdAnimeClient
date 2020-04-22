@@ -66,7 +66,7 @@ final class CharacterTransformer extends AbstractTransformer {
 			}
 		}
 
-		return new Character([
+		return Character::from([
 			'castings' => $castings,
 			'description' => $attributes['description'],
 			'id' => $data[0]['id'],

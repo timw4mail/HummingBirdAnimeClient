@@ -42,7 +42,7 @@ class FormItem extends AbstractType {
 
 	public function setData($value): void
 	{
-		$this->data = new FormItemData($value);
+		$this->data = FormItemData::from($value);
 	}
 }
 

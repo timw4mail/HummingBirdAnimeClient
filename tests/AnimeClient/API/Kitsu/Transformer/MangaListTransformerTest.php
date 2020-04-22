@@ -85,10 +85,10 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 		];
 
 		$actual = $this->transformer->untransform($input);
-		$expected = new FormItem([
+		$expected = FormItem::from([
 			'id' => '15084773',
 			'mal_id' => '26769',
-			'data' => new FormItemData([
+			'data' => FormItemData::from([
 				'status' => 'current',
 				'progress' => 67,
 				'reconsuming' => false,

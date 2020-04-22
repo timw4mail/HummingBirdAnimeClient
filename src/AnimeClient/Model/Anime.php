@@ -167,7 +167,7 @@ class Anime extends API {
 			$array['notes'] = '';
 		}
 
-		return new AnimeListItem($array);
+		return AnimeListItem::from($array);
 	}
 
 	/**

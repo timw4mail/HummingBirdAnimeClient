@@ -105,7 +105,7 @@ final class AnimeTransformer extends AbstractTransformer {
 		ksort($characters);
 		ksort($staff);
 
-		return new AnimePage([
+		return AnimePage::from([
 			'age_rating' => $item['ageRating'],
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'characters' => $characters,

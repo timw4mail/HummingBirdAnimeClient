@@ -37,7 +37,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function create(array $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		$checkedData = Types\MediaListEntry::check($data);
 		return $this->mutateRequest('CreateMediaListEntry', $checkedData);
 	}
 
@@ -49,7 +49,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function createFull(array $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		$checkedData = Types\MediaListEntry::check($data);
 		return $this->mutateRequest('CreateFullMediaListEntry', $checkedData);
 	}
 
@@ -85,10 +85,10 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry([
+		$checkedData = Types\MediaListEntry::check([
 			'id' => $id,
 			'progress' => $data->progress,
-		]))->toArray();
+		]);
 
 		return $this->mutateRequest('IncrementMediaListEntry', $checkedData);
 	}
@@ -110,7 +110,7 @@ final class ListItem extends AbstractListItem {
 			? AnilistStatus::REPEATING
 			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 
-		$updateData = (new Types\MediaListEntry([
+		$updateData = Types\MediaListEntry::check([
 			'id' => (int)$id,
 			'status' => $status,
 			'score' => $rating * 5,
@@ -118,7 +118,7 @@ final class ListItem extends AbstractListItem {
 			'repeat' => (int)$data['reconsumeCount'],
 			'private' => $private,
 			'notes' => $notes,
-		]))->toArray();
+		]);
 
 		return $this->mutateRequest('UpdateMediaListEntry', $updateData);
 	}
