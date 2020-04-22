@@ -34,6 +34,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeHistoryTransformer,
 	AnimeTransformer,
 	AnimeListTransformer,
+	MangaHistoryTransformer,
 	MangaTransformer,
 	MangaListTransformer
 };
@@ -184,7 +185,7 @@ final class Model {
 	public function getAnimeHistory(): array
 	{
 		$raw = $this->getRawHistoryList('anime');
-		$organized = (array)JsonAPI::organizeData($raw);
+		$organized = JsonAPI::organizeData($raw);
 
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
@@ -204,11 +205,14 @@ final class Model {
 	public function getMangaHistory(): array
 	{
 		$raw = $this->getRawHistoryList('manga');
-		$organized = (array)JsonAPI::organizeData($raw);
+		$organized = JsonAPI::organizeData($raw);
 
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
-		return $organized;
+		$transformer = new MangaHistoryTransformer();
+		$transformer->setContainer($this->getContainer());
+
+		return $transformer->transform($organized);
 	}
 
 	/**
@@ -989,7 +993,7 @@ final class Model {
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 */
-	protected function getRawHistoryList(string $type = 'anime', int $entries = 60): array
+	protected function getRawHistoryList(string $type = 'anime', int $entries = 120): array
 	{
 		$size = 20;
 		$pages = ceil($entries / $size);

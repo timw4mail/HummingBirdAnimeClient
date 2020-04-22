@@ -24,17 +24,10 @@ use function Aviat\Ion\_dir;
 
 setlocale(LC_CTYPE, 'en_US');
 
-// Work around the silly timezone error
-$timezone = ini_get('date.timezone');
-if ($timezone === '' || $timezone === FALSE)
-{
-	ini_set('date.timezone', 'GMT');
-}
-
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-// if (array_key_exists('ENV', $_ENV) && $_ENV['ENV'] === 'development')
+if (array_key_exists('ENV', $_SERVER) && $_SERVER['ENV'] === 'development')
 {
 	$whoops = new Run;
 	$whoops->pushHandler(new PrettyPageHandler);
@@ -62,6 +55,24 @@ $overrideConfig = file_exists($overrideFile)
 $configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
 $checkedConfig = ConfigType::check($configArray);
+
+// Set the timezone for date display
+// First look in app config, then PHP config, and at last
+// resort, just set to UTC.
+$timezone = ini_get('date.timezone');
+if (array_key_exists('timezone', $checkedConfig) && ! empty($checkedConfig['timezone']))
+{
+	date_default_timezone_set($checkedConfig['timezone']);
+}
+else if ($timezone !== '')
+{
+	date_default_timezone_set($timezone);
+}
+else
+{
+	date_default_timezone_set('UTC');
+}
+
 $container = $di($checkedConfig);
 
 // Unset 'constants'

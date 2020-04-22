@@ -193,16 +193,6 @@ $routes = [
 			'username' => '.*?'
 		]
 	],
-	'anime_history' => [
-		'controller' => 'history',
-		'path' => '/history/anime',
-		'action' => 'anime',
-	],
-	'manga_history' => [
-		'controller' => 'history',
-		'path' => '/history/manga',
-		'action' => 'manga',
-	],
 	// ---------------------------------------------------------------------
 	// Default / Shared routes
 	// ---------------------------------------------------------------------
@@ -288,6 +278,13 @@ $routes = [
 			'type' => ALPHA_SLUG_PATTERN,
 			'view' => ALPHA_SLUG_PATTERN,
 		],
+	],
+	'history' => [
+		'controller' => 'history',
+		'path' => '/history/{type}',
+		'tokens' => [
+			'type' => SLUG_PATTERN
+		]
 	],
 	'index_redirect' => [
 		'path' => '/',

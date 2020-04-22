@@ -147,6 +147,12 @@ const SETTINGS_MAP = [
 			'default' => 'Somebody',
 			'description' => 'Name of the owner of the list data.',
 		],
+		'timezone' => [
+			'type' => 'string',
+			'title' => 'Timezone',
+			'default' => 'America/Detroit',
+			'description' => 'See https://www.php.net/manual/en/timezones.php for options'
+		],
 		'theme' => [
 			'type' => 'select',
 			'title' => 'Theme',

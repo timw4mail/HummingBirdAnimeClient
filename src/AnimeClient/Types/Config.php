@@ -53,6 +53,11 @@ class Config extends AbstractType {
 	public $dark_theme; /* Deprecated */
 
 	/**
+	 * @var string The PHP timezone
+	 */
+	public string $timezone = '';
+
+	/**
 	 * Default Anime list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title
 	 *
