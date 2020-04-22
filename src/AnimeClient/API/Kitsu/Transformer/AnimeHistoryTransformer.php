@@ -47,11 +47,13 @@ class AnimeHistoryTransformer {
 				continue;
 			}
 
-			if ($entry['attributes']['kind'] === 'progressed')
+			$kind = $entry['attributes']['kind'];
+
+			if ($kind === 'progressed')
 			{
 				$output[] = $this->transformProgress($entry);
 			}
-			else if ($entry['attributes']['kind'] === 'updated')
+			else if ($kind === 'updated')
 			{
 				$output[] = $this->transformUpdated($entry);
 			}
@@ -128,7 +130,6 @@ class AnimeHistoryTransformer {
 			{
 				$output[] = $entry;
 			}
-
 		}
 
 		return $output;

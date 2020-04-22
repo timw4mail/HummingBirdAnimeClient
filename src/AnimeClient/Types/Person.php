@@ -42,6 +42,6 @@ final class Person extends AbstractType {
 
 	public function setCharacters($characters): void
 	{
-		$this->characters = new Characters($characters);
+		$this->characters = Characters::from($characters);
 	}
 }

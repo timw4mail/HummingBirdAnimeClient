@@ -92,6 +92,6 @@ final class AnimeListItem extends AbstractType {
 
 	public function setAnime($anime): void
 	{
-		$this->anime = new Anime($anime);
+		$this->anime = Anime::from($anime);
 	}
 }

@@ -113,7 +113,7 @@ final class MangaTransformer extends AbstractTransformer {
 		ksort($characters);
 		ksort($staff);
 
-		return new MangaPage([
+		return MangaPage::from([
 			'characters' => $characters,
 			'chapter_count' => $this->count($item['chapterCount']),
 			'cover_image' => $item['posterImage']['small'],

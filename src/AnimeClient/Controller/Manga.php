@@ -231,7 +231,7 @@ final class Manga extends Controller {
 		// large form-based updates
 		$transformer = new MangaListTransformer();
 		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem(new FormItem($post_data));
+		$full_result = $this->model->updateLibraryItem(FormItem::from($post_data));
 
 		if ($full_result['statusCode'] === 200)
 		{
@@ -264,7 +264,7 @@ final class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->incrementLibraryItem(new FormItem($data));
+		$response = $this->model->incrementLibraryItem(FormItem::from($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);

@@ -55,7 +55,7 @@ final class UserTransformer extends AbstractTransformer {
 			];
 		}
 
-		return new User([
+		return User::from([
 			'about' => $attributes['about'],
 			'avatar' => getLocalImg($attributes['avatar']['original'], FALSE),
 			'favorites' => $this->organizeFavorites($favorites),

@@ -50,11 +50,22 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	}
 
 	/**
+	 * Static constructor
+	 *
+	 * @param mixed $data
+	 * @return static
+	 */
+	final public static function from($data): self
+	{
+		return new static($data);
+	}
+
+	/**
 	 * Sets the properties by using the constructor
 	 *
 	 * @param mixed $data
 	 */
-	final public function __construct($data = [])
+	final private function __construct($data = [])
 	{
 		$typeKeys = array_keys((array)$this);
 		$dataKeys = array_keys((array)$data);

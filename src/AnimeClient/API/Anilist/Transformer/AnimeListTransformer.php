@@ -42,7 +42,7 @@ class AnimeListTransformer extends AbstractTransformer {
 	{
 		$reconsuming = $item['status'] === AnilistStatus::REPEATING;
 
-		return new FormItem([
+		return FormItem::from([
 			'id' => $item['id'],
 			'mal_id' => $item['media']['idMal'],
 			'data' => [

@@ -36,7 +36,7 @@ final class PersonTransformer extends AbstractTransformer {
 
 		$orgData = $this->organizeData($included);
 
-		return new Person([
+		return Person::from([
 			'id' => $data['id'],
 			'name' => $data['attributes']['name'],
 			'characters' => $orgData['characters'],

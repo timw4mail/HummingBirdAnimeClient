@@ -62,6 +62,6 @@ final class Character extends AbstractType {
 
 	public function setMedia ($media): void
 	{
-		$this->media = new Media($media);
+		$this->media = Media::from($media);
 	}
 }

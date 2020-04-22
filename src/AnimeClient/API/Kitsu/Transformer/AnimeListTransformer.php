@@ -80,7 +80,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($anime);
 		$title = array_shift($titles);
 
-		return new AnimeListItem([
+		return AnimeListItem::from([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
@@ -127,7 +127,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
-		$untransformed = new FormItem([
+		$untransformed = FormItem::from([
 			'id' => $item['id'],
 			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,

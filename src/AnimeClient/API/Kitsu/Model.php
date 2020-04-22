@@ -184,7 +184,9 @@ final class Model {
 	public function getAnimeHistory(): array
 	{
 		$raw = $this->getRawHistoryList('anime');
-		$organized = JsonAPI::organizeData($raw);
+		$organized = (array)JsonAPI::organizeData($raw);
+
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
 		$transformer = new AnimeHistoryTransformer();
 		$transformer->setContainer($this->getContainer());
@@ -202,8 +204,11 @@ final class Model {
 	public function getMangaHistory(): array
 	{
 		$raw = $this->getRawHistoryList('manga');
+		$organized = (array)JsonAPI::organizeData($raw);
 
-		return JsonAPI::organizeData($raw);
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+		return $organized;
 	}
 
 	/**
@@ -413,7 +418,7 @@ final class Model {
 
 		if (empty($baseData))
 		{
-			return (new Anime([]))->toArray();
+			return Anime::from([]);
 		}
 
 		return $this->animeTransformer->transform($baseData);
@@ -669,7 +674,7 @@ final class Model {
 
 		if (empty($baseData))
 		{
-			return new MangaPage([]);
+			return MangaPage::from([]);
 		}
 
 		return $this->mangaTransformer->transform($baseData);

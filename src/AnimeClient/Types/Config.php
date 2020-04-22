@@ -162,16 +162,16 @@ class Config extends AbstractType {
 
 	public function setAnilist ($data): void
 	{
-		$this->anilist = new Config\Anilist($data);
+		$this->anilist = Config\Anilist::from($data);
 	}
 
 	public function setCache ($data): void
 	{
-		$this->cache = new Config\Cache($data);
+		$this->cache = Config\Cache::from($data);
 	}
 
 	public function setDatabase ($data): void
 	{
-		$this->database = new Config\Database($data);
+		$this->database = Config\Database::from($data);
 	}
 }

@@ -29,7 +29,7 @@ class MangaListTransformer extends AbstractTransformer {
 
 	public function transform($item)
 	{
-		return new MangaListItem([]);
+		return MangaListItem::from([]);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function untransform(array $item): FormItem
 	{
-		return new FormItem([
+		return FormItem::from([
 			'id' => $item['id'],
 			'mal_id' => $item['media']['idMal'],
 			'data' => [
