@@ -69,12 +69,12 @@ class AnimeHistoryTransformer {
 	protected function aggregate (array $singles): array
 	{
 		$output = [];
-		$prevTitle = '';
 
 		$count = count($singles);
 		for ($i = 0; $i < $count; $i++)
 		{
 			$entry = $singles[$i];
+			$prevTitle = $entry['title'];
 			$nextId = $i + 1;
 			if ($nextId < $count)
 			{
