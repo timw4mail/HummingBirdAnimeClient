@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -29,6 +29,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
 use Throwable;
+use function is_array;
 
 /**
  * Model for handling requests dealing with the anime list
@@ -40,21 +41,21 @@ class Anime extends API {
 	 *
 	 * @var boolean
 	 */
-	protected $anilistEnabled;
+	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to Anilist API
 	 *
 	 * @var AnilistModel
 	 */
-	protected $anilistModel;
+	protected AnilistModel $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
 	 *
 	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * Anime constructor.
@@ -129,6 +130,16 @@ class Anime extends API {
 	}
 
 	/**
+	 * Get recent watch history
+	 *
+	 * @return array
+	 */
+	public function getHistory(): array
+	{
+		return $this->kitsuModel->getAnimeHistory();
+	}
+
+	/**
 	 * Search for anime by name
 	 *
 	 * @param string $name
@@ -151,7 +162,7 @@ class Anime extends API {
 		$item = $this->kitsuModel->getListItem($itemId);
 		$array = $item->toArray();
 
-		if (\is_array($array['notes']))
+		if (is_array($array['notes']))
 		{
 			$array['notes'] = '';
 		}

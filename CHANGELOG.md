@@ -1,8 +1,13 @@
 # Changelog
 
+## Version 5
+* Updated PHP requirement to 7.4
+* Added anime history view
+
 ## Version 4.2
 * Updated dependencies
 * Updated PHP requirement to 7.3
+* Added option to automatically set dark mode based on the OS  setting
 
 ## Version 4.1
 * Added optional dark theme

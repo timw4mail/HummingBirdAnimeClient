@@ -4,23 +4,24 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\{ArrayWrapper, StringWrapper};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Exception\ConfigException;
+use Aviat\Ion\Type\ArrayType;
+use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -28,22 +29,19 @@ use Psr\Http\Message\RequestInterface;
  */
 final class MenuGenerator extends UrlGenerator {
 
-	use ArrayWrapper;
-	use StringWrapper;
-
 	/**
 	 * Html generation helper
 	 *
 	 * @var HelperLocator
 	 */
-	protected $helper;
+	protected HelperLocator $helper;
 
 	/**
 	 * Request object
 	 *
 	 * @var RequestInterface
 	 */
-	protected $request;
+	protected RequestInterface $request;
 
 	/**
 	 * MenuGenerator constructor.
@@ -74,8 +72,8 @@ final class MenuGenerator extends UrlGenerator {
 			$parsed[$name] = [];
 			foreach ($menu['items'] as $pathName => $partialPath)
 			{
-				$title = (string)$this->string($pathName)->humanize()->titleize();
-				$parsed[$name][$title] = (string)$this->string($menu['route_prefix'])->append($partialPath);
+				$title = (string)StringType::from($pathName)->humanize()->titleize();
+				$parsed[$name][$title] = (string)StringType::from($menu['route_prefix'])->append($partialPath);
 			}
 		}
 
@@ -95,7 +93,7 @@ final class MenuGenerator extends UrlGenerator {
 		$parsedConfig = $this->parseConfig($menus);
 
 		// Bail out early on invalid menu
-		if ( ! $this->arr($parsedConfig)->hasKey($menu))
+		if ( ! ArrayType::from($parsedConfig)->hasKey($menu))
 		{
 			return '';
 		}
@@ -104,7 +102,7 @@ final class MenuGenerator extends UrlGenerator {
 
 		foreach ($menuConfig as $title => $path)
 		{
-			$has = $this->string($this->path())->contains($path);
+			$has = StringType::from($this->path())->contains($path);
 			$selected = ($has && mb_strlen($this->path()) >= mb_strlen($path));
 
 			$link = $this->helper->a($this->url($path), $title);

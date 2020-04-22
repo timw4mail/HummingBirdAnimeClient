@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -25,85 +25,85 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $age_rating;
+	public ?string $age_rating = '';
 
 	/**
 	 * @var string
 	 */
-	public $age_rating_guide;
+	public ?string $age_rating_guide = '';
 
 	/**
 	 * @var string
 	 */
-	public $cover_image;
+	public string $cover_image = '';
 
 	/**
 	 * @var string|int
 	 */
-	public $episode_count;
+	public ?int $episode_count = 13;
 
 	/**
 	 * @var string|int
 	 */
-	public $episode_length;
+	public ?int $episode_length = 24;
 
 	/**
 	 * @var array
 	 */
-	public $genres;
+	public array $genres = [];
 
 	/**
-	 * @var string
+	 * @var string|int
 	 */
-	public $id;
-
-	/**
-	 * @var array
-	 */
-	public $included;
-
-	/**
-	 * @var string
-	 */
-	public $show_type;
-
-	/**
-	 * @var string
-	 */
-	public $slug;
-
-	/**
-	 * @var AnimeAiringStatus::NOT_YET_AIRED | AnimeAiringStatus::AIRING | AnimeAiringStatus::FINISHED_AIRING
-	 */
-	public $status;
+	public $id = '';
 
 	/**
 	 * @var array
 	 */
-	public $streaming_links;
+	public array $included = [];
 
 	/**
 	 * @var string
 	 */
-	public $synopsis;
+	public string $show_type = '';
 
 	/**
 	 * @var string
 	 */
-	public $title;
+	public string $slug = '';
+
+	/**
+	 * @var AnimeAiringStatus
+	 */
+	public string $status = AnimeAiringStatus::FINISHED_AIRING;
 
 	/**
 	 * @var array
 	 */
-	public $titles;
+	public ?array $streaming_links = [];
 
 	/**
 	 * @var string
 	 */
-	public $trailer_id;
+	public string $synopsis = '';
 
 	/**
 	 * @var string
 	 */
-	public $url;
+	public string $title = '';
+
+	/**
+	 * @var array
+	 */
+	public array $titles = [];
+
+	/**
+	 * @var string
+	 */
+	public ?string $trailer_id = '';
+
+	/**
+	 * @var string
+	 */
+	public string $url = '';
 }
