@@ -17,87 +17,15 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
-use Aviat\AnimeClient\Types\HistoryItem;
 
 class MangaHistoryTransformer extends HistoryTransformer {
 	protected string $type = 'manga';
 
+	protected string $progressAction = 'Read chapter';
+
+	protected string $smallAggregateAction = 'Read chapters';
+
+	protected string $largeAggregateAction = 'Blew through chapters';
+
 	protected array $statusMap = MangaReadingStatus::KITSU_TO_TITLE;
-
-	/**
-	 * Combine consecutive 'progressed' events
-	 *
-	 * @param array $singles
-	 * @return array
-	 */
-	protected function aggregate (array $singles): array
-	{
-		$output = [];
-
-		$count = count($singles);
-		for ($i = 0; $i < $count; $i++)
-		{
-			$entries = [];
-			$entry = $singles[$i];
-			$prevTitle = $entry['title'];
-			$nextId = $i;
-			$next = $singles[$nextId];
-			while (
-				$next['kind'] === 'progressed' &&
-				$next['title'] === $prevTitle
-			) {
-				$entries[] = $next;
-				$prevTitle = $next['title'];
-
-				if ($nextId + 1 < $count)
-				{
-					$nextId++;
-					$next = $singles[$nextId];
-					continue;
-				}
-
-				break;
-			}
-
-			if (count($entries) > 1)
-			{
-				$chapters = [];
-				$updated = [];
-
-				foreach ($entries as $e)
-				{
-					$chapters[] = max($e['original']['attributes']['changedData']['progress']);
-					$updated[] = $e['updated'];
-				}
-				$firstChapter = min($chapters);
-				$lastChapter = max($chapters);
-				$firstUpdate = min($updated);
-				$lastUpdate = max($updated);
-
-				$title = $entries[0]['title'];
-
-				$action = (count($entries) > 3)
-					? "Marathoned chapters {$firstChapter}-{$lastChapter}"
-					: "Watched chapters {$firstChapter}-{$lastChapter}";
-
-				$output[] = HistoryItem::from([
-					'action' => $action,
-					'coverImg' => $entries[0]['coverImg'],
-					'dateRange' => [$firstUpdate, $lastUpdate],
-					'isAggregate' => true,
-					'title' => $title,
-					'updated' => $entries[0]['updated'],
-					'url' => $entries[0]['url'],
-				]);
-
-				// Skip the rest of the aggregate in the main loop
-				$i += count($entries) - 1;
-				continue;
-			}
-
-			$output[] = $entry;
-		}
-
-		return $output;
-	}
 }
