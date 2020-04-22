@@ -189,10 +189,7 @@ final class Model {
 
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
-		$transformer = new AnimeHistoryTransformer();
-		$transformer->setContainer($this->getContainer());
-
-		return $transformer->transform($organized);
+		return (new AnimeHistoryTransformer())->transform($organized);
 	}
 
 	/**
@@ -209,10 +206,7 @@ final class Model {
 
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
-		$transformer = new MangaHistoryTransformer();
-		$transformer->setContainer($this->getContainer());
-
-		return $transformer->transform($organized);
+		return (new MangaHistoryTransformer())->transform($organized);
 	}
 
 	/**

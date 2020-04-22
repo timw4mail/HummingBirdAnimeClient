@@ -5,14 +5,18 @@
 		<section>
 		<?php foreach ($items as $name => $item): ?>
 			<article class="flex flex-no-wrap flex-justify-start">
-				<section class="flex-self-center history-img"><?= $helper->picture(
-					$item['coverImg'],
-					'jpg',
-					['width' => '110px', 'height' => '156px'],
-					['width' => '110px', 'height' => '156px']
-				) ?></section>
+				<section class="flex-self-center history-img">
+					<a href="<?= $item['url'] ?>">
+					<?= $helper->picture(
+						$item['coverImg'],
+						'jpg',
+						['width' => '110px', 'height' => '156px'],
+						['width' => '110px', 'height' => '156px']
+					) ?>
+					</a>
+				</section>
 				<section class="flex-self-center">
-					<?= $item['title'] ?>
+					<?= $helper->a($item['url'], $item['title']) ?>
 					<br />
 					<br />
 					<?= $item['action'] ?>
