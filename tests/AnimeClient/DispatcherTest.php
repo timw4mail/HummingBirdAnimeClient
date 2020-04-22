@@ -216,6 +216,7 @@ class DispatcherTest extends AnimeClientTestCase {
 			'settings' => Controller\Settings::class,
 			'user' => Controller\User::class,
 			'images' => Controller\Images::class,
+			'history' => Controller\History::class,
 		];
 
 		return [

@@ -15,6 +15,5 @@
 			</article>
 		<?php endforeach ?>
 		</section>
-		<pre><?= print_r($items, TRUE) ?></pre>
 	<?php endif ?>
 </main>
