@@ -21,5 +21,11 @@ use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 class AnimeHistoryTransformer extends HistoryTransformer {
 	protected string $type = 'anime';
 
+	protected string $progressAction = 'Watched episode';
+
+	protected string $smallAggregateAction = 'Watched episodes';
+
+	protected string $largeAggregateAction = 'Marathoned episodes';
+
 	protected array $statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
 }

@@ -28,6 +28,21 @@ abstract class HistoryTransformer {
 	protected string $type;
 
 	/**
+	 * @var string The message for watching/reading a single episode/chapter
+	 */
+	protected string $progressAction;
+
+	/**
+	 * @var string The message for going though a small number of media in a series
+	 */
+	protected string $smallAggregateAction;
+
+	/**
+	 * @var string The message for going through a large number of media in a series
+	 */
+	protected string $largeAggregateAction;
+
+	/**
 	 * @var array The mapping of api status to display status
 	 */
 	protected array $statusMap;
@@ -101,24 +116,24 @@ abstract class HistoryTransformer {
 
 			if (count($entries) > 1)
 			{
-				$episodes = [];
+				$items = [];
 				$updated = [];
 
 				foreach ($entries as $e)
 				{
-					$episodes[] = max($e['original']['attributes']['changedData']['progress']);
+					$items[] = max($e['original']['attributes']['changedData']['progress']);
 					$updated[] = $e['updated'];
 				}
-				$firstEpisode = min($episodes);
-				$lastEpisode = max($episodes);
+				$firstItem = min($items);
+				$lastItem = max($items);
 				$firstUpdate = min($updated);
 				$lastUpdate = max($updated);
 
 				$title = $entries[0]['title'];
 
 				$action = (count($entries) > 3)
-					? "Marathoned episodes {$firstEpisode}-{$lastEpisode}"
-					: "Watched episodes {$firstEpisode}-{$lastEpisode}";
+					? "{$this->largeAggregateAction} {$firstItem}-{$lastItem}"
+					: "{$this->smallAggregateAction} {$firstItem}-{$lastItem}";
 
 				$output[] = HistoryItem::from([
 					'action' => $action,
@@ -147,14 +162,10 @@ abstract class HistoryTransformer {
 		$data = $entry['relationships'][$this->type][$id]['attributes'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
-		$episode = max($entry['attributes']['changedData']['progress']);
-
-		$action = ($this->type === 'anime')
-			? "Watched episode {$episode}"
-			: "Read chapter {$episode}";
+		$item = max($entry['attributes']['changedData']['progress']);
 
 		return HistoryItem::from([
-			'action' => $action,
+			'action' => "{$this->progressAction} {$item}",
 			'coverImg' => $imgUrl,
 			'kind' => 'progressed',
 			'original' => $entry,
