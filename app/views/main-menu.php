@@ -5,8 +5,8 @@ namespace Aviat\AnimeClient;
 $whose = $config->get('whose_list') . "'s ";
 $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
-$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') === 1;
-$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') === 1;
+$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') !== FALSE;
+$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 
 ?>
 <div id="main-nav" class="flex flex-align-end flex-wrap">
@@ -79,10 +79,12 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') === 1;
 <nav>
 	<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 		<?= $helper->menu($menu_name) ?>
+		<?php if (stripos($_SERVER['REQUEST_URI'], 'history') === FALSE): ?>
 		<br />
 		<ul>
 			<li class="<?= Util::isNotSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
 			<li class="<?= Util::isSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
+		<?php endif ?>
 	<?php endif ?>
 </nav>

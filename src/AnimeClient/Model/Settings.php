@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Model;
 
+use function is_array;
 use const Aviat\AnimeClient\SETTINGS_MAP;
 
 use function Aviat\AnimeClient\arrayToToml;
@@ -124,14 +125,14 @@ final class Settings {
 
 	public function validateSettings(array $settings): array
 	{
-		$config = (new Config($settings))->toArray();
+		$cfg = Config::check($settings);
 
 		$looseConfig = [];
 		$keyedConfig = [];
 
 		// Convert 'boolean' values to true and false
 		// Also order keys so they can be saved properly
-		foreach ($config as $key => $val)
+		foreach ($cfg as $key => $val)
 		{
 			if (is_scalar($val))
 			{
@@ -148,7 +149,7 @@ final class Settings {
 					$looseConfig[$key] = $val;
 				}
 			}
-			elseif (\is_array($val) && ! empty($val))
+			elseif (is_array($val) && ! empty($val))
 			{
 				foreach($val as $k => $v)
 				{

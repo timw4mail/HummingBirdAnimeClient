@@ -54,11 +54,33 @@ final class History extends BaseController {
 		$this->mangaModel = $container->get('manga-model');
 	}
 
-	public function anime(): void
+	public function index(string $type = 'anime'): void
 	{
+		if (method_exists($this, $type))
+		{
+			$this->$type();
+			return;
+		}
+
+		$this->notFound(
+			$this->config->get('whose_list') .
+			"'s List &middot; History &middot; " .
+			'History Not Found',
+			'History Not Found'
+		);
+	}
+
+	private function anime(): void
+	{
+		$this->baseData = array_merge($this->baseData, [
+			'menu_name' => 'anime_list',
+			'other_type' => 'manga',
+			'url_type' => 'anime',
+		]);
+
 		// $this->outputJSON($this->animeModel->getHistory());
 		// return;
-		$this->outputHTML('history/anime', [
+		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
@@ -68,11 +90,17 @@ final class History extends BaseController {
 		]);
 	}
 
-	public function manga(): void
+	private function manga(): void
 	{
-		$this->outputJSON($this->mangaModel->getHistory());
-		return;
-		$this->outputHTML('history/manga', [
+		$this->baseData = array_merge($this->baseData, [
+			'menu_name' => 'manga_list',
+			'other_type' => 'anime',
+			'url_type' => 'manga',
+		]);
+
+		// $this->outputJSON($this->mangaModel->getHistory());
+		// return;
+		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",
 				'Manga',

@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Types;
 
+use DateTimeImmutable;
+
 class HistoryItem extends AbstractType {
 	/**
 	 * @var string Title of the anime/manga
@@ -43,9 +45,17 @@ class HistoryItem extends AbstractType {
 	public string $kind = '';
 
 	/**
-	 * @var string When the item was last updated
+	 * @var DateTimeImmutable When the item was last updated
 	 */
-	public string $updated = '';
+	public ?DateTimeImmutable $updated = NULL;
 
-	public $original;
+	/**
+	 * @var array Range of updated times for the aggregated item
+	 */
+	public array $dateRange = [];
+
+	/**
+	 * @var array The item before transformation
+	 */
+	public array $original = [];
 }

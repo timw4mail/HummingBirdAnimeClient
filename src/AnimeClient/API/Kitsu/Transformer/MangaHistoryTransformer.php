@@ -16,14 +16,14 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Types\HistoryItem;
 use Aviat\Ion\Di\ContainerAware;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
-class AnimeHistoryTransformer {
+class MangaHistoryTransformer {
 	use ContainerAware;
 
 	protected array $skipList = [];
@@ -40,7 +40,7 @@ class AnimeHistoryTransformer {
 
 		foreach ($data as $id => $entry)
 		{
-			if ( ! isset($entry['relationships']['anime']))
+			if ( ! isset($entry['relationships']['manga']))
 			{
 				continue;
 			}
@@ -102,24 +102,24 @@ class AnimeHistoryTransformer {
 
 			if (count($entries) > 1)
 			{
-				$episodes = [];
+				$chapters = [];
 				$updated = [];
 
 				foreach ($entries as $e)
 				{
-					$episodes[] = max($e['original']['attributes']['changedData']['progress']);
+					$chapters[] = max($e['original']['attributes']['changedData']['progress']);
 					$updated[] = $e['updated'];
 				}
-				$firstEpisode = min($episodes);
-				$lastEpisode = max($episodes);
+				$firstChapter = min($chapters);
+				$lastChapter = max($chapters);
 				$firstUpdate = min($updated);
 				$lastUpdate = max($updated);
 
 				$title = $entries[0]['title'];
 
 				$action = (count($entries) > 3)
-					? "Marathoned episodes {$firstEpisode}-{$lastEpisode}"
-					: "Watched episodes {$firstEpisode}-{$lastEpisode}";
+					? "Marathoned chapters {$firstChapter}-{$lastChapter}"
+					: "Watched chapters {$firstChapter}-{$lastChapter}";
 
 				$output[] = HistoryItem::from([
 					'action' => $action,
@@ -143,14 +143,14 @@ class AnimeHistoryTransformer {
 
 	protected function transformProgress ($entry): HistoryItem
 	{
-		$animeId = array_keys($entry['relationships']['anime'])[0];
-		$animeData = $entry['relationships']['anime'][$animeId]['attributes'];
-		$title = $this->linkTitle($animeData);
-		$imgUrl = 'images/anime/' . $animeId . '.webp';
-		$episode = max($entry['attributes']['changedData']['progress']);
+		$mangaId = array_keys($entry['relationships']['manga'])[0];
+		$mangaData = $entry['relationships']['manga'][$mangaId]['attributes'];
+		$title = $this->linkTitle($mangaData);
+		$imgUrl = 'images/manga/' . $mangaId . '.webp';
+		$chapter = max($entry['attributes']['changedData']['progress']);
 
 		return HistoryItem::from([
-			'action' => "Watched episode {$episode}",
+			'action' => "Watched chapter {$chapter}",
 			'coverImg' => $imgUrl,
 			'kind' => 'progressed',
 			'original' => $entry,
@@ -161,17 +161,17 @@ class AnimeHistoryTransformer {
 
 	protected function transformUpdated($entry): HistoryItem
 	{
-		$animeId = array_keys($entry['relationships']['anime'])[0];
-		$animeData = $entry['relationships']['anime'][$animeId]['attributes'];
-		$title = $this->linkTitle($animeData);
-		$imgUrl = 'images/anime/' . $animeId . '.webp';
+		$mangaId = array_keys($entry['relationships']['manga'])[0];
+		$mangaData = $entry['relationships']['manga'][$mangaId]['attributes'];
+		$title = $this->linkTitle($mangaData);
+		$imgUrl = 'images/manga/' . $mangaId . '.webp';
 
 		$kind = array_key_first($entry['attributes']['changedData']);
 
 		if ($kind === 'status')
 		{
 			$status = array_pop($entry['attributes']['changedData']['status']);
-			$statusName = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
+			$statusName = MangaReadingStatus::KITSU_TO_TITLE[$status];
 
 			if ($statusName === 'Completed')
 			{
@@ -198,12 +198,12 @@ class AnimeHistoryTransformer {
 		return $entry;
 	}
 
-	protected function linkTitle (array $animeData): string
+	protected function linkTitle (array $mangaData): string
 	{
-		$url = '/anime/details/' . $animeData['slug'];
+		$url = '/manga/details/' . $mangaData['slug'];
 
 		$helper = $this->getContainer()->get('html-helper');
-		return $helper->a($url, $animeData['canonicalTitle'], ['id' => $animeData['slug']]);
+		return $helper->a($url, $mangaData['canonicalTitle'], ['id' => $mangaData['slug']]);
 	}
 
 	protected function parseDate (string $date): DateTimeImmutable
