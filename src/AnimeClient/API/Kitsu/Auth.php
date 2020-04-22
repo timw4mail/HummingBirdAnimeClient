@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -42,14 +42,14 @@ final class Auth {
 	 *
 	 * @var Model
 	 */
-	private $model;
+	private Model $model;
 
 	/**
 	 * Session object
 	 *
 	 * @var Segment
 	 */
-	private $segment;
+	private Segment $segment;
 
 	/**
 	 * Constructor
@@ -91,9 +91,9 @@ final class Auth {
 			$cacheItem->save();
 
 			// Set the token expiration in the cache
-			$expire_time = $auth['created_at'] + $auth['expires_in'];
+			$expireTime = $auth['created_at'] + $auth['expires_in'];
 			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_EXP_CACHE_KEY);
-			$cacheItem->set($expire_time);
+			$cacheItem->set($expireTime);
 			$cacheItem->save();
 
 			// Set the refresh token in the cache
@@ -103,7 +103,7 @@ final class Auth {
 
 			// Set the session values
 			$this->segment->set('auth_token', $auth['access_token']);
-			$this->segment->set('auth_token_expires', $expire_time);
+			$this->segment->set('auth_token_expires', $expireTime);
 			$this->segment->set('refresh_token', $auth['refresh_token']);
 
 			return TRUE;

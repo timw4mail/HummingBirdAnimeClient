@@ -193,6 +193,16 @@ $routes = [
 			'username' => '.*?'
 		]
 	],
+	'anime_history' => [
+		'controller' => 'history',
+		'path' => '/history/anime',
+		'action' => 'anime',
+	],
+	'manga_history' => [
+		'controller' => 'history',
+		'path' => '/history/manga',
+		'action' => 'manga',
+	],
 	// ---------------------------------------------------------------------
 	// Default / Shared routes
 	// ---------------------------------------------------------------------

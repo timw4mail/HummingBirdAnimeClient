@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,6 +22,17 @@ use Stringy\Stringy;
  * Wrapper around Stringy
  */
 class StringType extends Stringy {
+
+	/**
+	 * Alias for `create` static constructor
+	 *
+	 * @param string $str
+	 * @return $this
+	 */
+	public static function from(string $str): self
+	{
+		return self::create($str);
+	}
 
 	/**
 	 * See if two strings match, despite being delimited differently,

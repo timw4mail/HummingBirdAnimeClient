@@ -4,17 +4,19 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API;
+
+use function in_array;
 
 /**
  * Class encapsulating Json API data structure for a request or response
@@ -105,7 +107,7 @@ final class JsonAPI {
 							$relationship =& $item['relationships'][$relType];
 							unset($relationship['data']);
 
-							if (\in_array($relType, $singular, TRUE))
+							if (in_array($relType, $singular, TRUE))
 							{
 								$relationship = $included[$dataType][$idKey];
 								continue;
@@ -202,11 +204,11 @@ final class JsonAPI {
 		{
 			foreach($items as $id => $item)
 			{
-				if (array_key_exists('relationships', $item) && \is_array($item['relationships']))
+				if (array_key_exists('relationships', $item) && is_array($item['relationships']))
 				{
 					foreach($item['relationships'] as $relType => $props)
 					{
-						if (array_key_exists('data', $props) && \is_array($props['data']) && array_key_exists('id', $props['data']))
+						if (array_key_exists('data', $props) && is_array($props['data']) && array_key_exists('id', $props['data']))
 						{
 							$idKey = $props['data']['id'];
 							$dataType = $props['data']['type'];
@@ -340,7 +342,7 @@ final class JsonAPI {
 
 			foreach ($data['data'] as $item)
 			{
-				if (\is_array($item) && array_key_exists('id', $item))
+				if (is_array($item) && array_key_exists('id', $item))
 				{
 					$organized[$key][] = $item['id'];
 				}

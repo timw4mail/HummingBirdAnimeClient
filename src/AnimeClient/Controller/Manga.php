@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -38,7 +38,7 @@ final class Manga extends Controller {
 	 * The manga model
 	 * @var MangaModel $model
 	 */
-	protected $model;
+	protected MangaModel $model;
 
 	/**
 	 * Constructor
@@ -337,14 +337,11 @@ final class Manga extends Controller {
 		]);
 	}
 
-	/**
-	 * Find manga matching the selected genre
-	 *
-	 * @param string $genre
-	 */
-	public function genre(string $genre): void
+	public function history(): void
 	{
-		// @TODO: implement
+		$data = $this->model->getHistory();
+
+		$this->outputJSON($data);
 	}
 }
 // End of MangaController.php

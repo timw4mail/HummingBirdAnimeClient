@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -18,6 +18,7 @@ namespace Aviat\Ion\Tests;
 
 use function Aviat\Ion\_dir;
 
+use Aviat\Ion\Di\ContainerInterface;
 use PHPUnit\Framework\TestCase;
 use Laminas\Diactoros\ServerRequestFactory;
 
@@ -31,7 +32,7 @@ class IonTestCase extends TestCase {
 	public const TEST_DATA_DIR = __DIR__ . '/test_data';
 	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
-	protected $container;
+	protected ContainerInterface $container;
 	protected static $staticContainer;
 	protected static $session_handler;
 

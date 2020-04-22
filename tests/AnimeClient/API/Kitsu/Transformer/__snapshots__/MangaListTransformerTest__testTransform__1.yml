@@ -1,5 +1,60 @@
-- null
-- null
-- null
-- null
-- null
+-
+    empty: false
+    id: '15084773'
+    mal_id: '26769'
+    chapters: { read: 67, total: '-' }
+    volumes: { read: '-', total: '-' }
+    manga: { empty: false, genres: [Comedy, Romance, School, 'Slice of Life', Thriller], id: '20286', image: 'https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999', slug: bokura-wa-minna-kawaisou, title: 'Bokura wa Minna Kawaisou', titles: {  }, type: Manga, url: 'https://kitsu.io/manga/bokura-wa-minna-kawaisou' }
+    reading_status: current
+    notes: ''
+    rereading: false
+    reread: 0
+    user_rating: 9
+-
+    empty: false
+    id: '15085607'
+    mal_id: '16'
+    chapters: { read: 17, total: 120 }
+    volumes: { read: '-', total: 14 }
+    manga: { empty: false, genres: [Comedy, Ecchi, Harem, Romance, Sports], id: '47', image: 'https://media.kitsu.io/manga/poster_images/47/small.jpg?1434249493', slug: love-hina, title: 'Love Hina', titles: {  }, type: Manga, url: 'https://kitsu.io/manga/love-hina' }
+    reading_status: current
+    notes: ''
+    rereading: false
+    reread: 0
+    user_rating: 7
+-
+    empty: false
+    id: '15084529'
+    mal_id: '35003'
+    chapters: { read: 16, total: '-' }
+    volumes: { read: '-', total: '-' }
+    manga: { empty: false, genres: [Comedy, Ecchi, 'Gender Bender', Romance, School, Sports, Supernatural], id: '11777', image: 'https://media.kitsu.io/manga/poster_images/11777/small.jpg?1438784325', slug: yamada-kun-to-7-nin-no-majo, title: 'Yamada-kun to 7-nin no Majo', titles: ['Yamada-kun and the Seven Witches'], type: Manga, url: 'https://kitsu.io/manga/yamada-kun-to-7-nin-no-majo' }
+    reading_status: current
+    notes: ''
+    rereading: false
+    reread: 0
+    user_rating: 9
+-
+    empty: false
+    id: '15312827'
+    mal_id: '78523'
+    chapters: { read: 68, total: '-' }
+    volumes: { read: '-', total: '-' }
+    manga: { empty: false, genres: [Romance, School, 'Slice of Life'], id: '27175', image: 'https://media.kitsu.io/manga/poster_images/27175/small.jpg?1464379411', slug: relife, title: ReLIFE, titles: {  }, type: Manga, url: 'https://kitsu.io/manga/relife' }
+    reading_status: current
+    notes: ''
+    rereading: false
+    reread: 0
+    user_rating: '-'
+-
+    empty: false
+    id: '15084769'
+    mal_id: '60815'
+    chapters: { read: 43, total: '-' }
+    volumes: { read: '-', total: '-' }
+    manga: { empty: false, genres: [Comedy, School, 'Slice of Life'], id: '25491', image: 'https://media.kitsu.io/manga/poster_images/25491/small.jpg?1434305043', slug: joshikausei, title: Joshikausei, titles: {  }, type: Manga, url: 'https://kitsu.io/manga/joshikausei' }
+    reading_status: current
+    notes: ''
+    rereading: false
+    reread: 0
+    user_rating: 8

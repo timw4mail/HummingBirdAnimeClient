@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -18,13 +18,12 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
-use Aura\Router\{Matcher, Route, Rule};
+use Aura\Router\{Map, Matcher, Route, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
-use Aviat\Ion\StringWrapper;
-
+use Aviat\Ion\Type\StringType;
 use LogicException;
 use ReflectionException;
 
@@ -33,31 +32,29 @@ use ReflectionException;
  */
 final class Dispatcher extends RoutingBase {
 
-	use StringWrapper;
-
 	/**
 	 * The route-matching object
-	 * @var object $router
+	 * @var Map $router
 	 */
-	protected $router;
+	protected Map $router;
 
 	/**
 	 * The route matcher
 	 * @var Matcher $matcher
 	 */
-	protected $matcher;
+	protected Matcher $matcher;
 
 	/**
 	 * Routing array
 	 * @var array
 	 */
-	protected $routes;
+	protected array $routes;
 
 	/**
 	 * Routes added to router
 	 * @var array $outputRoutes
 	 */
-	protected $outputRoutes;
+	protected array $outputRoutes;
 
 	/**
 	 * Constructor
@@ -254,7 +251,7 @@ final class Dispatcher extends RoutingBase {
 		foreach ($classFiles as $file)
 		{
 			$rawClassName = basename(str_replace('.php', '', $file));
-			$path = (string)$this->string($rawClassName)->dasherize();
+			$path = (string)StringType::from($rawClassName)->dasherize();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
 			$controllers[$path] = $className;
