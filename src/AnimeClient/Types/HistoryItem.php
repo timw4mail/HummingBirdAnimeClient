@@ -55,6 +55,11 @@ class HistoryItem extends AbstractType {
 	public array $dateRange = [];
 
 	/**
+	 * @var string Url to details page
+	 */
+	public string $url = '';
+
+	/**
 	 * @var array The item before transformation
 	 */
 	public array $original = [];
