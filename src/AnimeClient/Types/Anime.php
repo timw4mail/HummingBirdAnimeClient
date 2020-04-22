@@ -25,7 +25,7 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public string $age_rating = '';
+	public ?string $age_rating = '';
 
 	/**
 	 * @var string
@@ -53,9 +53,9 @@ class Anime extends AbstractType {
 	public array $genres = [];
 
 	/**
-	 * @var string
+	 * @var string|int
 	 */
-	public string $id = '';
+	public $id = '';
 
 	/**
 	 * @var array
