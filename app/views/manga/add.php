@@ -2,6 +2,7 @@
 <main>
 	<h2>Add Manga to your List</h2>
 	<form action="<?= $action_url ?>" method="post">
+		<?php include realpath(__DIR__ . '/../js-warning.php') ?>
 		<section>
 			<div class="cssload-loader" hidden="hidden">
 				<div class="cssload-inner cssload-one"></div>
