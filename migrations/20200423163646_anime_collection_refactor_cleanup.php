@@ -27,10 +27,6 @@ class AnimeCollectionRefactorCleanup extends AbstractMigration
 		}
 		$this->table('media')->insert($moreMediaTypes)->save();
 
-		// Cleanup existing media types a bit
-		$this->execute("UPDATE media SET type='Bootleg' WHERE id=4");
-		$this->execute('DELETE FROM media WHERE id=1');
-
 		// Remove foreign key and media_id column from anime_set
 		$animeSet = $this->table('anime_set');
 		if ($animeSet->hasColumn('media_id'))
@@ -38,6 +34,10 @@ class AnimeCollectionRefactorCleanup extends AbstractMigration
 			$animeSet->dropForeignKey('media_id')->save();
 			$animeSet->removeColumn('media_id')->save();
 		}
+
+		// Cleanup existing media types a bit
+		$this->execute("UPDATE media SET type='Bootleg' WHERE id=4");
+		$this->execute('DELETE FROM media WHERE id=1');
 	}
 
 	public function down()
