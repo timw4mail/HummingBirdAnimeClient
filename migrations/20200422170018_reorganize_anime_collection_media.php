@@ -23,7 +23,9 @@ class ReorganizeAnimeCollectionMedia extends AbstractMigration
 
 		// Get the old link entries
 		$insertRows = [];
-		$rows = $this->fetchAll('SELECT hummingbird_id, media_id from anime_set');
+		$rows = ($this->table('anime_set')->hasColumn('media_id'))
+			? $this->fetchAll('SELECT hummingbird_id, media_id from anime_set')
+			: [];
 
 		// Filter the numeric keys out of the row results
 		foreach ($rows as $row)
@@ -38,7 +40,6 @@ class ReorganizeAnimeCollectionMedia extends AbstractMigration
 			}
 			$insertRows[] = $row;
 		}
-
 
 		// And put them in the new table
 		$linkTable = $this->table('anime_set_media_link');
