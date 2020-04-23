@@ -2,7 +2,9 @@
 
 ## Version 5
 * Updated PHP requirement to 7.4
-* Added anime history view
+* Added anime watching history view
+* Added manga reading history view
+* Updated anime collection to have more media types
 
 ## Version 4.2
 * Updated dependencies
