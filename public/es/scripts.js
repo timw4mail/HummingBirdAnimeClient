@@ -471,9 +471,7 @@ function renderAnimeSearchResults (data) {
 
 	data.forEach(x => {
 		const item = x.attributes;
-		const titles = item.titles.reduce((prev, current) => {
-			return prev + `${current}<br />`;
-		}, []);
+		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">
@@ -486,7 +484,6 @@ function renderAnimeSearchResults (data) {
 							<source srcset="/public/images/anime/${x.id}.jpg" type="image/jpeg" />
 							<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
 						</picture>
-
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>
@@ -512,9 +509,7 @@ function renderMangaSearchResults (data) {
 
 	data.forEach(x => {
 		const item = x.attributes;
-		const titles = item.titles.reduce((prev, current) => {
-			return prev + `${current}<br />`;
-		}, []);
+		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">

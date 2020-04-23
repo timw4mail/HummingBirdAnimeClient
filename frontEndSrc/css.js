@@ -28,39 +28,43 @@ const processOptions = {
 	stage: 0,
 };
 
-(async () => {
-	// Basic theme
-	const lightMin = await postcss()
+try {
+	(async () => {
+		// Basic theme
+		const lightMin = await postcss()
 			.use(atImport())
 			.use(cssNext(processOptions))
 			.use(cssNano(minOptions))
 			.process(lightCss, {
 				from: 'css/light.css',
 				to: '/public/css/light.min.css',
+			}).catch(console.error);
+		fs.writeFileSync('../public/css/light.min.css', lightMin.css);
+
+		// Dark theme
+		const darkFullMin = await postcss()
+			.use(atImport())
+			.use(cssNext(processOptions))
+			.use(cssNano(minOptions))
+			.process(fullDarkCss, {
+				from: 'css/dark.css',
+				to: '/public/css/dark.min.css',
 			});
-	fs.writeFileSync('../public/css/light.min.css', lightMin);
+		fs.writeFileSync('../public/css/dark.min.css', darkFullMin.css);
 
-	// Dark theme
-	const darkFullMin = await postcss()
-		.use(atImport())
-		.use(cssNext(processOptions))
-		.use(cssNano(minOptions))
-		.process(fullDarkCss, {
-			from: 'css/dark.css',
-			to: '/public/css/dark.min.css',
-		});
-	fs.writeFileSync('../public/css/dark.min.css', darkFullMin);
+		// Dark override
+		const darkMin = await postcss()
+			.use(atImport())
+			.use(cssNext(processOptions))
+			.use(cssNano(minOptions))
+			.process(darkCss, {
+				from: 'css/dark-override.css',
+				to: '/public/css/dark.min.css',
+			}).catch(console.error);
+		const autoDarkCss = `${lightMin} @media (prefers-color-scheme: dark) { ${darkMin.css} }`
+		fs.writeFileSync('../public/css/auto.min.css', autoDarkCss)
 
-	// Dark override
-	const darkMin = await postcss()
-		.use(atImport())
-		.use(cssNext(processOptions))
-		.use(cssNano(minOptions))
-		.process(darkCss, {
-			from: 'css/dark-override.css',
-			to: '/public/css/dark.min.css',
-		});
-	const autoDarkCss = `${lightMin} @media (prefers-color-scheme: dark) { ${darkMin} }`
-	fs.writeFileSync('../public/css/auto.min.css', autoDarkCss)
-
-})();
+	})();
+} catch (e) {
+	console.error(e)
+}

@@ -87,6 +87,10 @@ tbody > tr:nth-child(odd) {
 	background: #ddd;
 }
 
+select[multiple] {
+	width: 100%;
+}
+
 a:hover, a:active {
 	color: var(--link-hover-color)
 }
