@@ -2,6 +2,7 @@
 <main>
 	<h2>Add <?= ucfirst($collection_type) ?> to your Collection</h2>
 	<form action="<?= $action_url ?>" method="post">
+		<?php include realpath(__DIR__ . '/../js-warning.php') ?>
 		<section>
 			<div class="cssload-loader" hidden="hidden">
 				<div class="cssload-inner cssload-one"></div>
@@ -16,13 +17,9 @@
 		<table class="invisible form">
 			<tbody>
 				<tr>
-					<td><label for="media_id">Media</label></td>
-					<td>
-						<select name="media_id" id="media_id">
-						<?php foreach($media_items as $id => $name): ?>
-							<option value="<?= $id ?>"><?= $name ?></option>
-						<?php endforeach ?>
-						</select>
+					<td class="align-right"><label for="media_id">Media</label></td>
+					<td class='align-left'>
+						<?php include '_media-list.php' ?>
 					</td>
 				</tr>
 				<tr>

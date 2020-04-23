@@ -19,6 +19,7 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDO;
 use PDOException;
+use function in_array;
 
 /**
  * Model for getting anime collection data
@@ -80,7 +81,7 @@ final class AnimeCollection extends Collection {
 			return [];
 		}
 
-		$output = [];
+		$flatList = [];
 
 		$query = $this->db->select('id, type')
 			->from('media')
@@ -88,49 +89,28 @@ final class AnimeCollection extends Collection {
 
 		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
 		{
-			$output[$row['id']] = $row['type'];
+			$flatList[$row['id']] = $row['type'];
 		}
 
-		return $output;
-	}
-
-	/**
-	 * Get full collection from the database
-	 *
-	 * @return array
-	 */
-	private function getCollectionFromDatabase(): array
-	{
-		if ( ! $this->validDatabase)
-		{
-			return [];
-		}
-
-		$query = $this->db->select('hummingbird_id, slug, title, alternate_title, show_type,
-			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
-			->from('anime_set a')
-			->join('media', 'media.id=a.media_id', 'inner')
-			->order_by('media')
-			->order_by('title')
-			->group_by('a.hummingbird_id, media.type')
-			->get();
-
-		// Add genres associated with each item
-		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		$genres = $this->getGenreList();
-
-		foreach($rows as &$row)
-		{
-			$id = $row['hummingbird_id'];
-
-			$row['genres'] = array_key_exists($id, $genres)
-				? $genres[$id]
-				: [];
-
-			sort($row['genres']);
-		}
-
-		return $rows;
+		// Organize the media types into groups
+		return [
+			'Common' => [
+				2 => $flatList[2], // Blu-ray
+				3 => $flatList[3], // DVD
+				7 => $flatList[7], // Digital
+				4 => $flatList[4], // Bootleg
+			],
+			'Retro' => [
+				5 => $flatList[5], // LaserDisc
+				6 => $flatList[6], // VHS
+				9 => $flatList[9], // Betamax
+				8 => $flatList[8], // Video CD
+			],
+			'Other' => [
+				10 => $flatList[10], // UMD
+				11 => $flatList[11], // Other
+			]
+		];
 	}
 
 	/**
@@ -146,18 +126,16 @@ final class AnimeCollection extends Collection {
 			return;
 		}
 
-		$id = $data['id'];
-
 		// Check that the anime doesn't already exist
-		$existing = $this->get($id);
-		if ( ! empty($existing))
+		if ($this->has($data['id']))
 		{
 			return;
 		}
 
+		$id = $data['id'];
 		$anime = (object)$this->animeModel->getAnimeById($id);
 		$this->db->set([
-			'hummingbird_id' => $data['id'],
+			'hummingbird_id' => $id,
 			'slug' => $anime->slug,
 			'title' => array_shift($anime->titles),
 			'alternate_title' => implode('<br />', $anime->titles),
@@ -166,11 +144,12 @@ final class AnimeCollection extends Collection {
 			'cover_image' => $anime->cover_image,
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
-			'media_id' => $data['media_id'],
 			'notes' => $data['notes']
 		])->insert('anime_set');
 
-		$this->updateGenre($id);
+		$this->updateMediaLink($id, $data['media_id']);
+
+		$this->updateGenres($id);
 	}
 
 	/**
@@ -211,14 +190,22 @@ final class AnimeCollection extends Collection {
 		}
 
 		$id = $data['hummingbird_id'];
-		unset($data['hummingbird_id']);
+		$media = $data['media_id'];
+		unset($data['hummingbird_id'], $data['media_id']);
 
-		$this->db->set($data)
-			->where('hummingbird_id', $id)
-			->update('anime_set');
+		// If updating from the 'add' page, there
+		// might be no data to actually update in
+		// the anime_set table
+		if ( ! empty($data))
+		{
+			$this->db->set($data)
+				->where('hummingbird_id', $id)
+				->update('anime_set');
+		}
 
-		// Just in case, also update genres
-		$this->updateGenre($id);
+		// Update media and genres
+		$this->updateMediaLink($id, $media);
+		$this->updateGenres($id);
 	}
 
 	/**
@@ -239,6 +226,16 @@ final class AnimeCollection extends Collection {
 
 		foreach ($data as $key => $value)
 		{
+			if (is_array($row[$key]))
+			{
+				if ($row[$key] === $value)
+				{
+					continue;
+				}
+
+				return FALSE;
+			}
+
 			if ((string)$row[$key] !== (string)$value)
 			{
 				return FALSE;
@@ -285,29 +282,60 @@ final class AnimeCollection extends Collection {
 			return FALSE;
 		}
 
-		$animeRow = $this->get($data['hummingbird_id']);
-
-		return empty($animeRow);
+		return $this->has($data['hummingbird_id']) === FALSE;
 	}
 
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int $kitsuId
-	 * @return array | false
+	 * @param int|string $kitsuId
+	 * @return array
 	 */
-	public function get($kitsuId)
+	public function get($kitsuId): array
+	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
+		// Get the main row data
+		$row = $this->db->from('anime_set')
+			->where('hummingbird_id', $kitsuId)
+			->get()
+			->fetch(PDO::FETCH_ASSOC);
+
+		// Get the media ids
+		$mediaRows = $this->db->select('media_id')
+			->from('anime_set_media_link')
+			->where('hummingbird_id', $kitsuId)
+			->get()
+			->fetchAll(PDO::FETCH_ASSOC);
+
+		$row['media_id'] = array_column($mediaRows, 'media_id');
+
+		return $row;
+	}
+
+	/**
+	 * Does this anime already exist in the collection?
+	 *
+	 * @param int|string $kitsuId
+	 * @return bool
+	 */
+	public function has($kitsuId): bool
 	{
 		if ($this->validDatabase === FALSE)
 		{
 			return FALSE;
 		}
 
-		$query = $this->db->from('anime_set')
+		$row = $this->db->select('hummingbird_id')
+			->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
-			->get();
+			->get()
+			->fetch(PDO::FETCH_ASSOC);
 
-		return $query->fetch(PDO::FETCH_ASSOC);
+		return ! empty($row);
 	}
 
 	/**
@@ -372,13 +400,32 @@ final class AnimeCollection extends Collection {
 		return $output;
 	}
 
+	private function updateMediaLink(string $animeId, array $media): void
+	{
+		// Delete the old entries
+		$this->db->where('hummingbird_id', $animeId)
+			->delete('anime_set_media_link');
+
+		// Add the new entries
+		$entries = [];
+		foreach ($media as $id)
+		{
+			$entries[] = [
+				'hummingbird_id' => $animeId,
+				'media_id' => $id,
+			];
+		}
+
+		$this->db->insertBatch('anime_set_media_link', $entries);
+	}
+
 	/**
 	 * Update genre information for selected anime
 	 *
 	 * @param string $animeId The current anime
 	 * @return void
 	 */
-	private function updateGenre($animeId): void
+	private function updateGenres($animeId): void
 	{
 		if ($this->validDatabase === FALSE)
 		{
@@ -405,7 +452,7 @@ final class AnimeCollection extends Collection {
 
 			$animeLinks = $links[$animeId] ?? [];
 
-			if ( ! \in_array($flippedGenres[$animeGenre], $animeLinks, TRUE))
+			if ( ! in_array($flippedGenres[$animeGenre], $animeLinks, TRUE))
 			{
 				$linksToInsert[] = [
 					'hummingbird_id' => $animeId,
@@ -416,7 +463,17 @@ final class AnimeCollection extends Collection {
 
 		if ( ! empty($linksToInsert))
 		{
-			$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
+			try
+			{
+				$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
+			}
+			catch (PDOException $e)
+			{
+				// This often results in a unique constraint violation
+				// So swallow this for now
+				// @TODO Fix properly
+			}
+
 		}
 	}
 
@@ -450,7 +507,7 @@ final class AnimeCollection extends Collection {
 		}
 		catch (PDOException $e)
 		{
-			dump($e);
+			// dump($e);
 		}
 	}
 
@@ -519,6 +576,46 @@ final class AnimeCollection extends Collection {
 		$this->db->resetQuery();
 
 		return $links;
+	}
+
+	/**
+	 * Get full collection from the database
+	 *
+	 * @return array
+	 */
+	private function getCollectionFromDatabase(): array
+	{
+		if ( ! $this->validDatabase)
+		{
+			return [];
+		}
+
+		$query = $this->db->select('a.hummingbird_id, slug, title, alternate_title, show_type,
+			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
+			->from('anime_set a')
+			->join('anime_set_media_link ml', 'ml.hummingbird_id=a.hummingbird_id', 'inner')
+			->join('media', 'media.id=ml.media_id', 'inner')
+			->orderBy('media')
+			->orderBy('title')
+			->groupBy('a.hummingbird_id, media.type')
+			->get();
+
+		// Add genres associated with each item
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$genres = $this->getGenreList();
+
+		foreach($rows as &$row)
+		{
+			$id = $row['hummingbird_id'];
+
+			$row['genres'] = array_key_exists($id, $genres)
+				? $genres[$id]
+				: [];
+
+			sort($row['genres']);
+		}
+
+		return $rows;
 	}
 }
 // End of AnimeCollectionModel.php
