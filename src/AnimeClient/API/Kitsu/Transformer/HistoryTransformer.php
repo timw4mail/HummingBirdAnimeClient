@@ -33,14 +33,19 @@ abstract class HistoryTransformer {
 	protected string $progressAction;
 
 	/**
-	 * @var string The message for going though a small number of media in a series
+	 * @var string The message for rewatching/rereading episode(s)/chapter(s)
 	 */
-	protected string $smallAggregateAction;
+	protected string $reconsumeAction;
 
 	/**
 	 * @var string The message for going through a large number of media in a series
 	 */
 	protected string $largeAggregateAction;
+
+	/**
+	 * @var string The status for items you are rewatching/rereading
+	 */
+	protected string $reconsumingStatus;
 
 	/**
 	 * @var array The mapping of api status to display status
@@ -121,7 +126,8 @@ abstract class HistoryTransformer {
 
 				foreach ($entries as $e)
 				{
-					$items[] = max($e['original']['attributes']['changedData']['progress']);
+					$progressItem = $e['original']['attributes']['changedData']['progress'];
+					$items[] = array_pop($progressItem);
 					$updated[] = $e['updated'];
 				}
 				$firstItem = min($items);
@@ -131,15 +137,23 @@ abstract class HistoryTransformer {
 
 				$title = $entries[0]['title'];
 
-				$action = (count($entries) > 3)
-					? "{$this->largeAggregateAction} {$firstItem}-{$lastItem}"
-					: "{$this->smallAggregateAction} {$firstItem}-{$lastItem}";
+				if ($this->isReconsuming($entries[0]['original']))
+				{
+					$action = "{$this->reconsumeAction}s {$firstItem}-{$lastItem}";
+				}
+				else
+				{
+					$action = (count($entries) > 3)
+						? "{$this->largeAggregateAction} {$firstItem}-{$lastItem}"
+						: "{$this->progressAction}s {$firstItem}-{$lastItem}";
+				}
 
 				$output[] = HistoryItem::from([
 					'action' => $action,
 					'coverImg' => $entries[0]['coverImg'],
 					'dateRange' => [$firstUpdate, $lastUpdate],
 					'isAggregate' => true,
+					'original' => $entries,
 					'title' => $title,
 					'updated' => $entries[0]['updated'],
 					'url' => $entries[0]['url'],
@@ -162,10 +176,14 @@ abstract class HistoryTransformer {
 		$data = $entry['relationships'][$this->type][$id]['attributes'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
-		$item = array_pop($entry['attributes']['changedData']['progress']);
+		$item = end($entry['attributes']['changedData']['progress']);
+
+		$action = ($this->isReconsuming($entry))
+			? "{$this->reconsumeAction} {$item}"
+			: "{$this->progressAction} {$item}";
 
 		return HistoryItem::from([
-			'action' => "{$this->progressAction} {$item}",
+			'action' => $action,
 			'coverImg' => $imgUrl,
 			'kind' => 'progressed',
 			'original' => $entry,
@@ -188,6 +206,13 @@ abstract class HistoryTransformer {
 		{
 			$status = array_pop($entry['attributes']['changedData']['status']);
 			$statusName = $this->statusMap[$status];
+
+			if ($this->isReconsuming($entry))
+			{
+				$statusName = ($statusName === 'Completed')
+					? "Finished {$this->reconsumingStatus}"
+					: $this->reconsumingStatus;
+			}
 
 			return HistoryItem::from([
 				'action' => $statusName,
@@ -221,5 +246,24 @@ abstract class HistoryTransformer {
 	protected function getUrl (array $data): string
 	{
 		return "/{$this->type}/details/{$data['slug']}";
+	}
+
+	protected function isReconsuming ($entry): bool
+	{
+		$le = $this->getLibraryEntry($entry);
+		return $le['reconsuming'];
+	}
+
+	private function getLibraryEntry ($entry): ?array
+	{
+		if ( ! isset($entry['relationships']['libraryEntry']['libraryEntries']))
+		{
+			return NULL;
+		}
+
+		$libraryEntries = $entry['relationships']['libraryEntry']['libraryEntries'];
+		$id = array_keys($libraryEntries)[0];
+
+		return $libraryEntries[$id]['attributes'];
 	}
 }

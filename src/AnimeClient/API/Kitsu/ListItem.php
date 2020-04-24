@@ -151,6 +151,11 @@ final class ListItem extends AbstractListItem {
 			]
 		];
 
+		if (((int) $data->progress) === 0)
+		{
+			$data->progress = 0;
+		}
+
 		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
 			->setJsonBody($requestData);
 
