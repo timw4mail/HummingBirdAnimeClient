@@ -162,7 +162,7 @@ abstract class HistoryTransformer {
 		$data = $entry['relationships'][$this->type][$id]['attributes'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
-		$item = max($entry['attributes']['changedData']['progress']);
+		$item = array_pop($entry['attributes']['changedData']['progress']);
 
 		return HistoryItem::from([
 			'action' => "{$this->progressAction} {$item}",

@@ -134,6 +134,8 @@ final class AnimeCollection extends Collection {
 
 		$id = $data['id'];
 		$anime = (object)$this->animeModel->getAnimeById($id);
+
+		$this->db->beginTransaction();
 		$this->db->set([
 			'hummingbird_id' => $id,
 			'slug' => $anime->slug,
@@ -150,6 +152,8 @@ final class AnimeCollection extends Collection {
 		$this->updateMediaLink($id, $data['media_id']);
 
 		$this->updateGenres($id);
+
+		$this->db->commit();
 	}
 
 	/**
@@ -193,6 +197,8 @@ final class AnimeCollection extends Collection {
 		$media = $data['media_id'];
 		unset($data['hummingbird_id'], $data['media_id']);
 
+		$this->db->beginTransaction();
+
 		// If updating from the 'add' page, there
 		// might be no data to actually update in
 		// the anime_set table
@@ -206,6 +212,8 @@ final class AnimeCollection extends Collection {
 		// Update media and genres
 		$this->updateMediaLink($id, $media);
 		$this->updateGenres($id);
+
+		$this->db->commit();
 	}
 
 	/**
@@ -264,11 +272,18 @@ final class AnimeCollection extends Collection {
 			return;
 		}
 
+		$this->db->beginTransaction();
+
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
 			->delete('genre_anime_set_link');
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
+			->delete('anime_set_media_link');
+
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])
 			->delete('anime_set');
+
+		$this->db->commit();
 	}
 
 	/**
