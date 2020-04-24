@@ -279,6 +279,13 @@ $routes = [
 			'view' => ALPHA_SLUG_PATTERN,
 		],
 	],
+	'history' => [
+		'controller' => 'history',
+		'path' => '/history/{type}',
+		'tokens' => [
+			'type' => SLUG_PATTERN
+		]
+	],
 	'index_redirect' => [
 		'path' => '/',
 		'action' => 'redirectToDefaultRoute',

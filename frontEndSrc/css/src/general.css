@@ -1,0 +1,927 @@
+:root {
+	--blue-link: rgb(18, 113, 219);
+	--link-shadow: 1px 1px 1px #000;
+	--white-link-shadow: 1px 1px 1px #fff;
+	--shadow: 2px 2px 2px #000;
+	--title-overlay: rgba(0, 0, 0, 0.45);
+	--title-overlay-fallback: #000;
+	--text-color: #ffffff;
+	--normal-padding: 0.25em 0.125em;
+	--link-hover-color: #7d12db;
+	--edit-link-hover-color: #db7d12;
+	--edit-link-color: #12db18;
+	--radius: 5px;
+}
+
+template, [hidden="hidden"], .media[hidden] {
+	display: none
+}
+
+body {
+	margin: 0.5em;
+}
+
+
+button {
+	background: #fff;
+	background: linear-gradient(#ddd, #eee, #fff, #eee, #ddd);
+	border-radius: 0.5em;
+	margin: 0;
+	text-transform: none;
+	border-color: #555;
+	color: #555;
+}
+
+button:hover {
+	background: #bbb;
+	background: linear-gradient(#cfcfcf, #dfdfdf, #efefef, #dfdfdf, #cfcfcf);
+	border-color: #555;
+	color: #555;
+}
+
+button:active {
+	background: #ddd;
+	background: linear-gradient(#ddd, #ddd);
+}
+
+.media:hover button {
+	background: linear-gradient(#bbb, #ccc, #ddd, #ccc, #bbb);
+}
+
+.media:hover button:hover {
+	background: linear-gradient(#afafaf, #bfbfbf, #cfcfcf, #bfbfbf, #afafaf);
+}
+
+table {
+	/* min-width: 85%; */
+	box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+	margin: 0 auto;
+}
+
+td {
+	padding: 1em;
+	padding: 1rem;
+}
+
+thead td, thead th {
+	padding: 0.5em;
+	padding: 0.5rem;
+}
+
+input[type=number] {
+	min-width: 0;
+	width: 4.5em;
+}
+
+input[type=checkbox], input[type=radio] {
+	min-width: auto;
+	vertical-align: inherit;
+}
+
+input, textarea {
+	min-width: 30em;
+	min-width: 30rem;
+}
+
+tbody > tr:nth-child(odd) {
+	background: #ddd;
+}
+
+select[multiple] {
+	width: 100%;
+}
+
+a:hover, a:active {
+	color: var(--link-hover-color)
+}
+
+iframe {
+	display: block;
+	margin: 0 auto;
+}
+
+/* -----------------------------------------------------------------------------
+	Utility classes
+------------------------------------------------------------------------------*/
+
+.bracketed {
+	color: var(--edit-link-color);
+}
+
+.bracketed, #main-nav a {
+	text-shadow: var(--link-shadow);
+}
+
+.bracketed:before {
+	content: '[\00a0'
+}
+
+.bracketed:after {
+	content: '\00a0]'
+}
+
+.bracketed:hover, .bracketed:active {
+	color: var(--edit-link-hover-color)
+}
+
+.grow-1 {
+	flex-grow: 1
+}
+
+.flex-wrap {
+	flex-wrap: wrap
+}
+
+.flex-no-wrap {
+	flex-wrap: nowrap
+}
+
+.flex-align-start {
+	align-content: flex-start;
+}
+
+.flex-align-end {
+	align-items: flex-end
+}
+
+.flex-align-space-around {
+	align-content: space-around
+}
+
+.flex-justify-start {
+	justify-content: flex-start;
+}
+
+.flex-justify-space-around {
+	justify-content: space-around
+}
+
+.flex-center {
+	justify-content: center;
+}
+
+.flex-self-center {
+	align-self: center
+}
+
+.flex-space-evenly {
+	justify-content: space-evenly;
+}
+
+.flex {
+	display: inline-block;
+	display: flex
+}
+
+.small-font {
+	font-size: 1.6rem;
+}
+
+.justify {
+	text-align: justify
+}
+
+.align-center {
+	text-align: center !important
+}
+
+.align-left {
+	text-align: left !important
+}
+
+.align-right {
+	text-align: right !important
+}
+
+.valign-top {
+	vertical-align: top
+}
+
+.no-border {
+	border: none
+}
+
+.media-wrap {
+	text-align: center;
+	margin: 0 auto;
+	position: relative;
+}
+
+.media-wrap-flex {
+	display: inline-block;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-evenly;
+	justify-content: space-between;
+	position: relative;
+}
+
+td .media-wrap-flex {
+	justify-content: center;
+}
+
+.danger {
+	background-color: #ff4136;
+	border-color: #924949;
+	color: #924949;
+	/* color: #fff; */
+}
+
+.danger:hover, .danger:active {
+	background-color: #924949;
+	border-color: #ff4136;
+	color: #ff4136;
+	/* color: #fff; */
+}
+
+td.danger, td.danger:hover, td.danger:active {
+	background-color: transparent;
+	color: #924949;
+}
+
+.user-btn {
+	background: transparent;
+	border-color: var(--edit-link-color);
+	color: var(--edit-link-color);
+	text-shadow: var(--link-shadow);
+	padding: 0 0.5em;
+	padding: 0 0.5rem;
+}
+
+.user-btn:hover, .user-btn:active {
+	background: transparent;
+	border-color: var(--edit-link-hover-color);
+	color: var(--edit-link-hover-color);
+}
+
+.user-btn:active {
+	background: var(--edit-link-hover-color);
+	color: #fff;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.full-height {
+	max-height: none;
+}
+
+.toph {
+	margin-top: 0;
+}
+
+/* -----------------------------------------------------------------------------
+	Main Nav
+------------------------------------------------------------------------------*/
+#main-nav {
+	font-family: var(--default-font-list);
+	margin: 2em 0 1.6em;
+	margin: 2rem 0 1.6rem;
+	border-bottom: .1rem solid rgba(0, 0, 0, 0.2);
+	font-size: 3.6em;
+	font-size: 3.6rem;
+	font-style: normal;
+	font-weight: 500;
+}
+
+/* -----------------------------------------------------------------------------
+	Table sorting and form styles
+------------------------------------------------------------------------------*/
+.sorting,
+.sorting-asc,
+.sorting-desc {
+	vertical-align: text-bottom;
+}
+
+.sorting::before {
+	content: " ↕\00a0";
+}
+
+.sorting-asc::before {
+	content: " ↑\00a0";
+}
+
+.sorting-desc::before {
+	content: " ↓\00a0";
+}
+
+.form {
+	/* width: 100%; */
+}
+
+.form thead th, .form thead tr {
+	background: inherit;
+	border: 0;
+}
+
+.form tr > td:nth-child(odd) {
+	text-align: right;
+	min-width: 25px;
+	max-width: 30%;
+}
+
+.form tr > td:nth-child(even) {
+	text-align: left;
+	/* width: 70%; */
+}
+
+.invisible tbody > tr:nth-child(odd) {
+	background: inherit;
+}
+
+.borderless,
+.borderless tr,
+.borderless td,
+.borderless th,
+.invisible tr,
+.invisible td,
+.invisible th {
+	box-shadow: none;
+	border: 0;
+}
+
+/* -----------------------------------------------------------------------------
+	Message boxes
+------------------------------------------------------------------------------*/
+
+.message, .static-message {
+	position: relative;
+	margin: 0.5em auto;
+	padding: 0.5em;
+	width: 95%;
+}
+
+.message .close {
+	width: 1em;
+	height: 1em;
+	position: absolute;
+	right: 0.5em;
+	top: 0.5em;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 1em;
+}
+
+.message:hover .close:after {
+	content: '☒';
+}
+
+.message:hover {
+	cursor: pointer;
+}
+
+.message .icon {
+	left: 0.5em;
+	top: 0.5em;
+	margin-right: 1em;
+}
+
+.message.error, .static-message.error {
+	border: 1px solid #924949;
+	background: #f3e6e6;
+}
+
+.message.error .icon::after {
+	content: '✘';
+}
+
+.message.success, .static-message.success {
+	border: 1px solid #1f8454;
+	background: #70dda9;
+}
+
+.message.success .icon::after {
+	content: '✔'
+}
+
+.message.info, .static-message.info {
+	border: 1px solid #bfbe3a;
+	background: #FFFFCC;
+}
+
+.message.info .icon::after {
+	content: '⚠';
+}
+
+/* -----------------------------------------------------------------------------
+	Base list styles
+------------------------------------------------------------------------------*/
+
+.media, .character, .small-character {
+	position: relative;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+	width: 220px;
+	height: 312px;
+	margin: var(--normal-padding);
+	z-index: 0;
+	background: rgba(0, 0, 0, 0.15);
+}
+
+.details picture.cover,
+picture.cover {
+	display: initial;
+	width: 100%;
+}
+
+.media > img,
+.character > img,
+.small-character > img {
+	width: 100%;
+}
+
+.media .edit-buttons > button {
+	margin: 0.5em auto;
+}
+
+.name,
+.media-metadata > div,
+.medium-metadata > div,
+.row {
+	text-shadow: var(--shadow);
+	color: var(--text-color);
+	padding: var(--normal-padding);
+	text-align: right;
+	z-index: 2;
+}
+
+.media-type, .age-rating {
+	text-align: left;
+}
+
+.media > .media-metadata {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.media > .medium-metadata {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.media > .name {
+	position: absolute;
+	top: 0;
+}
+
+.media > .name a {
+	display: inline-block;
+	transition: none;
+}
+
+.media .name a::before {
+	/* background: var(--title-overlay-fallback);
+    background: var(--title-overlay); */
+	content: '';
+	display: block;
+	height: 312px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 220px;
+	z-index: -1; /* Put the pseudo-element behind its parent */
+}
+
+.media-list .media:hover .name a::before {
+	/* transition: .25s ease; */
+	background: rgba(0, 0, 0, 0.75);
+}
+
+.media > .name span.canonical {
+	font-weight: bold;
+}
+
+.media > .name small {
+	font-weight: normal;
+}
+
+.media:hover .name {
+	background: rgba(0, 0, 0, 0.75);
+}
+
+.media-list .media > .name a:hover,
+.media-list .media > .name a:hover small {
+	color: var(--blue-link);
+}
+
+.media:hover > button[hidden],
+.media:hover > .edit-buttons[hidden] {
+
+	transition: .25s ease;
+	display: block;
+}
+
+.media:hover {
+	transition: .25s ease;
+}
+
+.small-character > .name a,
+.small-character > .name a small,
+.character > .name a,
+.character > .name a small,
+.media > .name a,
+.media > .name a small {
+	background: none;
+	color: #fff;
+	text-shadow: var(--shadow);
+}
+
+/* -----------------------------------------------------------------------------
+	Anime-list-specific styles
+------------------------------------------------------------------------------*/
+.anime .name, .manga .name {
+	background: var(--title-overlay-fallback);
+	background: var(--title-overlay);
+	text-align: center;
+	width: 100%;
+	padding: 0.5em 0.25em;
+}
+
+.anime .media-type,
+.anime .airing-status,
+.anime .user-rating,
+.anime .completion,
+.anime .age-rating,
+.anime .edit,
+.anime .delete {
+	background: none;
+	text-align: center;
+}
+
+.anime .table, .manga .table {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.anime .row, .manga .row {
+	width: 100%;
+	display: inline-block;
+	display: flex;
+	align-content: space-around;
+	justify-content: space-around;
+	text-align: center;
+	padding: 0 inherit;
+}
+
+.anime .row > span, .manga .row > span {
+	text-align: left;
+	z-index: 2;
+}
+
+.anime .row > div, .manga .row > div {
+	font-size: 0.8em;
+	display: inline-block;
+	display: flex-item;
+	align-self: center;
+	text-align: center;
+	vertical-align: middle;
+	z-index: 2;
+}
+
+.anime .media > button.plus-one {
+	border-color: hsla(0, 0%, 100%, .65);
+	position: absolute;
+	top: 138px;
+	top: calc(50% - 21.2px);
+	left: 44px;
+	left: calc(50% - 57.8px);
+	z-index: 50;
+}
+
+/* -----------------------------------------------------------------------------
+	Manga-list-specific styles
+------------------------------------------------------------------------------*/
+.manga .row {
+	padding: 1px;
+}
+
+.manga .media {
+	/* border: 1px solid #ddd; */
+	height: 310px;
+	margin: 0.25em;
+}
+
+.manga .media > .edit-buttons {
+	position: absolute;
+	top: 86px;
+	/* top: calc(50% - 58.5px); */
+	top: calc(50% - 21.2px);
+	left: 43.5px;
+	left: calc(50% - 57.8px);
+	z-index: 40;
+}
+
+.manga .media > .edit-buttons button {
+	border-color: hsla(0, 0%, 100%, .65);
+}
+
+/* -----------------------------------------------------------------------------
+	Search page styles
+------------------------------------------------------------------------------*/
+.media.search > .name {
+	background-color: #555;
+	background-color: rgba(000, 000, 000, 0.35);
+	background-size: cover;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.media.search > .row {
+	z-index: 6;
+}
+
+.big-check, .mal-check {
+	display: none;
+}
+
+.big-check:checked + label {
+	transition: .25s ease;
+	background: rgba(0, 0, 0, 0.75);
+}
+
+.big-check:checked + label:after {
+	content: '✓';
+	font-size: 15em;
+	font-size: 15rem;
+	text-align: center;
+	color: greenyellow;
+	position: absolute;
+	top: 147px;
+	left: 0;
+	width: 100%;
+	z-index: 5;
+}
+
+#series-list article.media {
+	position: relative;
+}
+
+#series-list .name, #series-list .name label {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	vertical-align: middle;
+	line-height: 1.25em;
+}
+
+#series-list .name small {
+	color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+	Details page styles
+-----------------------------------------------------------------------------*/
+.details {
+	margin: 1.5rem auto 0 auto;
+	padding: 1rem;
+	font-size: inherit;
+}
+
+/* .description {
+	max-width: 80rem;
+	columns: 4 28rem;
+	columns: 4 28em;
+
+	margin-bottom: 1.6em;
+	margin-bottom: 1.6rem;
+}
+
+p.description br + br {
+	page-break-before: avoid;
+	page-break-after: auto;
+	page-break-inside: avoid;
+	break-inside: avoid;
+	break-after: auto;
+	break-before: avoid;
+} */
+
+.fixed {
+	max-width: 115em;
+	max-width: 115rem;
+	/* max-width: 80%; */
+	margin: 0 auto;
+}
+
+.details .cover {
+	display: block;
+}
+
+.details .flex > * {
+	margin: 1rem;
+}
+
+.details .media-details td {
+	padding: 0 1.5rem;
+}
+
+.details p {
+	text-align: justify;
+}
+
+.details .media-details td:nth-child(odd) {
+	width: 1%;
+	white-space: nowrap;
+	text-align: right;
+}
+
+.details .media-details td:nth-child(even) {
+	text-align: left;
+}
+
+.details a h1,
+.details a h2 {
+	margin-top: 0;
+}
+
+.character,
+.small-character,
+.person {
+	/* background: rgba(0,0,0,0.5); */
+	width: 225px;
+	height: 350px;
+	vertical-align: middle;
+	white-space: nowrap;
+	position: relative;
+}
+
+.person {
+	width: 225px;
+	height: 338px;
+}
+
+.small-person {
+	width: 200px;
+	height: 300px;
+}
+
+.character a {
+	height: 350px;
+}
+
+.character:hover .name,
+.small-character:hover .name {
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.small-character a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+.small-character .name,
+.character .name {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+}
+
+.small-character img,
+.character img,
+.small-character picture,
+.character picture,
+.person img,
+.person picture {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 5;
+	max-height: 350px;
+	max-width: 225px;
+}
+
+.person img,
+.person picture {
+	max-height: 338px;
+}
+
+.small-person img,
+.small-person picture {
+	max-height: 300px;
+	max-width: 200px;
+}
+
+.min-table {
+	min-width: 0;
+	margin-left: 0;
+}
+
+.max-table {
+	min-width: 100%;
+	margin: 0;
+}
+
+aside.info {
+	/* max-width: 390px; */
+	max-width: 33%;
+}
+
+.fixed aside {
+	max-width: 390px;
+}
+
+/* .fixed aside.info + article {
+	max-width: inherit;
+} */
+
+aside picture, aside img {
+	display: block;
+	margin: 0 auto;
+}
+
+/* aside.info + article {
+	max-width: 66%;
+} */
+
+/* ----------------------------------------------------------------------------
+	User page styles
+-----------------------------------------------------------------------------*/
+.small-character {
+	width: 160px;
+	height: 250px;
+}
+
+.small-character img,
+.small-character picture {
+	max-height: 250px;
+	max-width: 160px;
+}
+
+.user-page .media-wrap {
+	text-align: left;
+}
+
+.media a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
+
+/* ----------------------------------------------------------------------------
+	Images / Logos
+-----------------------------------------------------------------------------*/
+.streaming-logo {
+	width: 50px;
+	height: 50px;
+	vertical-align: middle;
+}
+
+.cover-streaming-link {
+	display: none;
+}
+
+.media:hover .cover-streaming-link {
+	display: block;
+}
+
+.cover-streaming-link .streaming-logo {
+	width: 20px;
+	height: 20px;
+	-webkit-filter: drop-shadow(0 -1px 4px #fff);
+	filter: drop-shadow(0 -1px 4px #fff);
+}
+
+.history-img {
+	width: 110px;
+	height: 156px;
+}
+
+/* ----------------------------------------------------------------------------
+Settings Form
+-----------------------------------------------------------------------------*/
+.settings.form .content article {
+	margin: 1em;
+	display: inline-block;
+	width: auto;
+}
+
+/* ----------------------------------------------------------------------------
+iFrame container
+-----------------------------------------------------------------------------*/
+
+.responsive-iframe {
+	margin-top: 1em;
+	overflow: hidden;
+	padding-bottom: 56.25%;
+	position: relative;
+	height: 0;
+}
+
+.responsive-iframe iframe {
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}

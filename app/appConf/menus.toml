@@ -1,19 +1,21 @@
 [anime_list]
-	route_prefix = "/anime"
+	route_prefix = ""
 	[anime_list.items]
-		watching = '/watching'
-		plan_to_watch = '/plan_to_watch'
-		on_hold = '/on_hold'
-		dropped = '/dropped'
-		completed = '/completed'
-		all = '/all'
+		watch_history = '/history/anime'
+		watching = '/anime/watching'
+		plan_to_watch = '/anime/plan_to_watch'
+		on_hold = '/anime/on_hold'
+		dropped = '/anime/dropped'
+		completed = '/anime/completed'
+		all = '/anime/all'
 
 [manga_list]
-	route_prefix = "/manga"
+	route_prefix = ""
 	[manga_list.items]
-		reading = '/reading'
-		plan_to_read = '/plan_to_read'
-		on_hold = '/on_hold'
-		dropped = '/dropped'
-		completed = '/completed'
-		all = '/all'
+		reading_history = '/history/manga'
+		reading = '/manga/reading'
+		plan_to_read = '/manga/plan_to_read'
+		on_hold = '/manga/on_hold'
+		dropped = '/manga/dropped'
+		completed = '/manga/completed'
+		all = '/manga/all'

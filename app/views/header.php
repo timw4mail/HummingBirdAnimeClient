@@ -6,11 +6,7 @@
 	<meta http-equiv="cache-control" content="no-store" />
 	<meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=1" />
-	<?php if ($config->get('theme') !== 'auto'): ?>
-		<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css/app.min.css') ?>" />
-	<?php elseif ($config->get('theme') === 'auto'): ?>
-		<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css/dark-auto.min.css') ?>" />
-	<?php endif ?>
+	<link rel="stylesheet" href="<?= $urlGenerator->assetUrl('css/' . $config->get('theme') . '.min.css') ?>" />
 	<link rel="<?= $config->get('theme') === 'dark' ? '' : 'alternate ' ?>stylesheet" title="Dark Theme" href="<?= $urlGenerator->assetUrl('css/dark.min.css') ?>" />
 	<link rel="icon" href="<?= $urlGenerator->assetUrl('images/icons/favicon.ico') ?>" />
 	<link rel="apple-touch-icon" sizes="57x57" href="<?= $urlGenerator->assetUrl('images/icons/apple-icon-57x57.png') ?>">

@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -30,9 +30,9 @@ class APIRequestBuilderTest extends TestCase {
 
 	public function setUp(): void	{
 		$this->builder = new class extends APIRequestBuilder {
-			protected $baseUrl = 'https://httpbin.org/';
+			protected string $baseUrl = 'https://httpbin.org/';
 
-			protected $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
+			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
 
 		$this->builder->setLogger(new NullLogger);

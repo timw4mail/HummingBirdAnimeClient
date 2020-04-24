@@ -4,18 +4,19 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
 
+use function is_array;
 use const Aviat\AnimeClient\SETTINGS_MAP;
 
 use function Aviat\AnimeClient\arrayToToml;
@@ -25,16 +26,14 @@ use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\StringWrapper;
 
 /**
  * Model for handling settings control panel
  */
 final class Settings {
 	use ContainerAware;
-	use StringWrapper;
 
-	private $config;
+	private ConfigInterface $config;
 
 	public function __construct(ConfigInterface $config)
 	{
@@ -126,14 +125,14 @@ final class Settings {
 
 	public function validateSettings(array $settings): array
 	{
-		$config = (new Config($settings))->toArray();
+		$cfg = Config::check($settings);
 
 		$looseConfig = [];
 		$keyedConfig = [];
 
 		// Convert 'boolean' values to true and false
 		// Also order keys so they can be saved properly
-		foreach ($config as $key => $val)
+		foreach ($cfg as $key => $val)
 		{
 			if (is_scalar($val))
 			{
@@ -150,7 +149,7 @@ final class Settings {
 					$looseConfig[$key] = $val;
 				}
 			}
-			elseif (\is_array($val) && ! empty($val))
+			elseif (is_array($val) && ! empty($val))
 			{
 				foreach($val as $k => $v)
 				{

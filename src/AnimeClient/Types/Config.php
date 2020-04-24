@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -51,6 +51,11 @@ class Config extends AbstractType {
 	 * @var bool
 	 */
 	public $dark_theme; /* Deprecated */
+
+	/**
+	 * @var string The PHP timezone
+	 */
+	public string $timezone = '';
 
 	/**
 	 * Default Anime list status page, values are listed in
@@ -162,16 +167,16 @@ class Config extends AbstractType {
 
 	public function setAnilist ($data): void
 	{
-		$this->anilist = new Config\Anilist($data);
+		$this->anilist = Config\Anilist::from($data);
 	}
 
 	public function setCache ($data): void
 	{
-		$this->cache = new Config\Cache($data);
+		$this->cache = Config\Cache::from($data);
 	}
 
 	public function setDatabase ($data): void
 	{
-		$this->database = new Config\Database($data);
+		$this->database = Config\Database::from($data);
 	}
 }

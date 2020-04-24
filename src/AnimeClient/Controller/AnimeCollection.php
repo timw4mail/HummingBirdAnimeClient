@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -38,13 +38,13 @@ final class AnimeCollection extends BaseController {
 	 * The anime collection model
 	 * @var AnimeCollectionModel $animeCollectionModel
 	 */
-	private $animeCollectionModel;
+	private AnimeCollectionModel $animeCollectionModel;
 
 	/**
 	 * The anime API model
 	 * @var AnimeModel $animeModel
 	 */
-	private $animeModel;
+	private AnimeModel $animeModel;
 
 	/**
 	 * Constructor
@@ -152,28 +152,7 @@ final class AnimeCollection extends BaseController {
 	public function edit(): void
 	{
 		$this->checkAuth();
-
-		$data = $this->request->getParsedBody();
-		if (array_key_exists('hummingbird_id', $data))
-		{
-			$this->animeCollectionModel->update($data);
-
-			// Verify the item was actually updated
-			if ($this->animeCollectionModel->wasUpdated($data))
-			{
-				$this->setFlashMessage('Successfully updated collection item.', 'success');
-			}
-			else
-			{
-				$this->setFlashMessage('Failed to update collection item.', 'error');
-			}
-		}
-		else
-		{
-			$this->setFlashMessage('No item id to update. Update failed.', 'error');
-		}
-
-		$this->sessionRedirect();
+		$this->update($this->request->getParsedBody());
 	}
 
 	/**
@@ -192,11 +171,24 @@ final class AnimeCollection extends BaseController {
 		if (array_key_exists('id', $data))
 		{
 			// Check for existing entry
-			if ($this->animeCollectionModel->get($data['id']) !== FALSE)
+			if ($this->animeCollectionModel->has($data['id']))
 			{
-				// Redirect to the edit screen, because that's probably what you want!
-				$this->setFlashMessage('Anime already exists, update instead.', 'info');
-				$this->redirect("/anime-collection/edit/{$data['id']}", 303);
+				// Let's just update with the data we have
+				// if the entry already exists.
+				$data['hummingbird_id'] = $data['id'];
+				unset(
+					$data['id'],
+					$data['mal_id'],
+					$data['search']
+				);
+
+				// Don't overwrite notes if the box is empty
+				if (trim($data['notes']) === '')
+				{
+					unset($data['notes']);
+				}
+
+				$this->update($data);
 				return;
 			}
 
@@ -207,13 +199,12 @@ final class AnimeCollection extends BaseController {
 			{
 				$this->setFlashMessage('Successfully added collection item', 'success');
 				$this->sessionRedirect();
+				return;
 			}
 		}
-		else
-		{
-			$this->setFlashMessage('Failed to add collection item.', 'error');
-			$this->redirect('/anime-collection/add', 303);
-		}
+
+		$this->setFlashMessage('Failed to add collection item.', 'error');
+		$this->redirect('/anime-collection/add', 303);
 	}
 
 	/**
@@ -235,16 +226,30 @@ final class AnimeCollection extends BaseController {
 		$this->animeCollectionModel->delete($data);
 
 		// Verify that item was actually deleted
-		if ($this->animeCollectionModel->wasDeleted($data))
+		($this->animeCollectionModel->wasDeleted($data))
+			? $this->setFlashMessage('Successfully removed anime from collection.', 'success')
+			: $this->setFlashMessage('Failed to delete item from collection.', 'error');
+
+		$this->redirect('/anime-collection/view', 303);
+	}
+
+	protected function update($data): void
+	{
+		if (array_key_exists('hummingbird_id', $data))
 		{
-			$this->setFlashMessage('Successfully removed anime from collection.', 'success');
+			$this->animeCollectionModel->update($data);
+
+			// Verify the item was actually updated
+			($this->animeCollectionModel->wasUpdated($data))
+				? $this->setFlashMessage('Successfully updated collection item.', 'success')
+				: $this->setFlashMessage('Failed to update collection item.', 'error');
 		}
 		else
 		{
-			$this->setFlashMessage('Failed to delete item from collection.', 'error');
+			$this->setFlashMessage('No item id to update. Update failed.', 'error');
 		}
 
-		$this->redirect('/anime-collection/view', 303);
+		$this->sessionRedirect();
 	}
 }
 // End of AnimeCollection.php

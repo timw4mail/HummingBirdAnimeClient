@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -21,16 +21,13 @@ use Aviat\AnimeClient\Types\{
 	FormItem, FormItemData,
 	MangaListItem, MangaListItemDetail
 };
-use Aviat\Ion\StringWrapper;
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Data transformation class for zippered Hummingbird manga
  */
 final class MangaListTransformer extends AbstractTransformer {
-
-	use StringWrapper;
-
 	/**
 	 * Remap zipped anime data to a more logical form
 	 *
@@ -85,7 +82,7 @@ final class MangaListTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($manga);
 		$title = array_shift($titles);
 
-		return new MangaListItem([
+		return MangaListItem::from([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'chapters' => [
@@ -96,14 +93,14 @@ final class MangaListTransformer extends AbstractTransformer {
 				'read' => '-', //$item['attributes']['volumes_read'],
 				'total' => $totalVolumes
 			],
-			'manga' => new MangaListItemDetail([
+			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
 				'id' => $mangaId,
 				'image' => $manga['posterImage']['small'],
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => (string)$this->string($manga['subtype'])->upperCaseFirst(),
+				'type' => (string)StringType::from($manga['subtype'])->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => $item['attributes']['status'],
@@ -124,10 +121,10 @@ final class MangaListTransformer extends AbstractTransformer {
 	{
 		$rereading = array_key_exists('rereading', $item) && (bool)$item['rereading'];
 
-		$map = new FormItem([
+		$map = FormItem::from([
 			'id' => $item['id'],
 			'mal_id' => $item['mal_id'],
-			'data' => new FormItemData([
+			'data' => FormItemData::from([
 				'status' => $item['status'],
 				'reconsuming' => $rereading,
 				'reconsumeCount' => (int)$item['reread_count'],

@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,6 +20,8 @@ use Psr\Http\Message\ResponseInterface;
 
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Exception\DoubleRenderException;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Base view response class
@@ -29,14 +31,13 @@ abstract class View
 	implements ViewInterface {
 
 	use Di\ContainerAware;
-	use StringWrapper;
 
 	/**
 	 * HTTP response Object
 	 *
 	 * @var ResponseInterface
 	 */
-	public $response;
+	public ResponseInterface $response;
 
 	/**
 	 * If the view has sent output via
@@ -44,7 +45,7 @@ abstract class View
 	 *
 	 * @var boolean
 	 */
-	protected $hasRendered = FALSE;
+	protected bool $hasRendered = FALSE;
 
 	/**
 	 * Constructor
@@ -92,7 +93,7 @@ abstract class View
 	 *
 	 * @param string $name
 	 * @param string|string[] $value
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 * @return ViewInterface
 	 */
 	public function addHeader(string $name, $value): ViewInterface
@@ -105,8 +106,8 @@ abstract class View
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @throws \InvalidArgumentException
-	 * @throws \RuntimeException
+	 * @throws InvalidArgumentException
+	 * @throws RuntimeException
 	 * @return ViewInterface
 	 */
 	public function setOutput($string): ViewInterface
@@ -120,8 +121,8 @@ abstract class View
 	 * Append additional output.
 	 *
 	 * @param string $string
-	 * @throws \InvalidArgumentException
-	 * @throws \RuntimeException
+	 * @throws InvalidArgumentException
+	 * @throws RuntimeException
 	 * @return ViewInterface
 	 */
 	public function appendOutput(string $string): ViewInterface

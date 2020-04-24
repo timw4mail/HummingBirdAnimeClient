@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -31,8 +31,10 @@ use Aviat\AnimeClient\API\Enum\{
 };
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
+	AnimeHistoryTransformer,
 	AnimeTransformer,
 	AnimeListTransformer,
+	MangaHistoryTransformer,
 	MangaTransformer,
 	MangaListTransformer
 };
@@ -65,27 +67,27 @@ final class Model {
 	 *
 	 * @var AnimeListTransformer
 	 */
-	private $animeListTransformer;
+	private AnimeListTransformer $animeListTransformer;
 
 	/**
 	 * @var AnimeTransformer
 	 */
-	private $animeTransformer;
+	private AnimeTransformer $animeTransformer;
 
 	/**
 	 * @var ListItem
 	 */
-	private $listItem;
+	private ListItem $listItem;
 
 	/**
 	 * @var MangaTransformer
 	 */
-	private $mangaTransformer;
+	private MangaTransformer $mangaTransformer;
 
 	/**
 	 * @var MangaListTransformer
 	 */
-	private $mangaListTransformer;
+	private MangaListTransformer $mangaListTransformer;
 
 	/**
 	 * Constructor
@@ -171,6 +173,38 @@ final class Model {
 		}
 
 		return FALSE;
+	}
+
+	/**
+	 * Retrieve the data for the anime watch history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getAnimeHistory(): array
+	{
+		$raw = $this->getRawHistoryList('anime');
+		$organized = JsonAPI::organizeData($raw);
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+		return (new AnimeHistoryTransformer())->transform($organized);
+	}
+
+	/**
+	 * Retrieve the data for the manga read history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getMangaHistory(): array
+	{
+		$raw = $this->getRawHistoryList('manga');
+		$organized = JsonAPI::organizeData($raw);
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+		return (new MangaHistoryTransformer())->transform($organized);
 	}
 
 	/**
@@ -380,7 +414,7 @@ final class Model {
 
 		if (empty($baseData))
 		{
-			return (new Anime([]))->toArray();
+			return Anime::from([]);
 		}
 
 		return $this->animeTransformer->transform($baseData);
@@ -455,7 +489,7 @@ final class Model {
 			'query' => [
 				'filter' => [
 					'user_id' => $this->getUserIdByUsername(),
-					'media_type' => 'Anime'
+					'kind' => 'anime'
 				],
 				'page' => [
 					'limit' => 1
@@ -584,7 +618,7 @@ final class Model {
 		$defaultOptions = [
 			'filter' => [
 				'user_id' => $this->getUserIdByUsername($this->getUsername()),
-				'media_type' => 'Anime'
+				'kind' => 'anime'
 			],
 			'page' => [
 				'offset' => $offset,
@@ -610,7 +644,7 @@ final class Model {
 		$options = [
 			'filter' => [
 				'user_id' => $this->getUserIdByUsername($this->getUsername()),
-				'media_type' => 'Anime',
+				'kind' => 'anime',
 				'status' => $status,
 			],
 			'include' => 'media,media.categories,media.mappings,anime.streamingLinks',
@@ -636,7 +670,7 @@ final class Model {
 
 		if (empty($baseData))
 		{
-			return new MangaPage([]);
+			return MangaPage::from([]);
 		}
 
 		return $this->mangaTransformer->transform($baseData);
@@ -669,7 +703,7 @@ final class Model {
 			'query' => [
 				'filter' => [
 					'user_id' => $this->getUserIdByUsername($this->getUsername()),
-					'media_type' => 'Manga',
+					'kind' => 'manga',
 					'status' => $status,
 				],
 				'include' => 'media,media.categories,media.mappings',
@@ -724,7 +758,7 @@ final class Model {
 			'query' => [
 				'filter' => [
 					'user_id' => $this->getUserIdByUsername(),
-					'media_type' => 'Manga'
+					'kind' => 'manga'
 				],
 				'page' => [
 					'limit' => 1
@@ -817,7 +851,7 @@ final class Model {
 		$defaultOptions = [
 			'filter' => [
 				'user_id' => $this->getUserIdByUsername($this->getUsername()),
-				'media_type' => 'Manga'
+				'kind' => 'manga'
 			],
 			'page' => [
 				'offset' => $offset,
@@ -940,6 +974,73 @@ final class Model {
 	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
+	}
+
+	/**
+	 * Get the aggregated pages of anime or manga history
+	 *
+	 * @param string $type
+	 * @param int $entries
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	protected function getRawHistoryList(string $type = 'anime', int $entries = 120): array
+	{
+		$size = 20;
+		$pages = ceil($entries / $size);
+
+		$requester = new ParallelAPIRequest();
+
+		// Set up requests
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$offset = $i * $size;
+			$requester->addRequest($this->getRawHistoryPage($type, $offset, $size));
+		}
+
+		$responses = $requester->makeRequests();
+		$output = [];
+
+		foreach($responses as $response)
+		{
+			$data = Json::decode($response);
+			$output[] = $data;
+		}
+
+		return array_merge_recursive(...$output);
+	}
+
+	/**
+	 * Retrieve one page of the anime or manga history
+	 *
+	 * @param string $type
+	 * @param int $offset
+	 * @param int $limit
+	 * @return Request
+	 * @throws InvalidArgumentException
+	 */
+	protected function getRawHistoryPage(string $type, int $offset, int $limit = 20): Request
+	{
+		return $this->setUpRequest('GET', 'library-events', [
+			'query' => [
+				'filter' => [
+					'kind' => 'progressed,updated',
+					'userId' => $this->getUserIdByUsername($this->getUsername()),
+				],
+				'page' => [
+					'offset' => $offset,
+					'limit' => $limit,
+				],
+				'fields' => [
+					'anime' => 'canonicalTitle,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,titles,slug,posterImage',
+					'libraryEntry' => 'reconsuming,reconsumeCount',
+				],
+				'sort' => '-updated_at',
+				'include' => 'anime,manga,libraryEntry',
+			],
+		]);
 	}
 
 	/**

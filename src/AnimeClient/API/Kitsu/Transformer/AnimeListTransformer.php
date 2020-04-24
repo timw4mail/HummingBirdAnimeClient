@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,6 +22,7 @@ use Aviat\AnimeClient\Types\{
 	AnimeListItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime list
@@ -79,7 +80,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$titles = Kitsu::filterTitles($anime);
 		$title = array_shift($titles);
 
-		return new AnimeListItem([
+		return AnimeListItem::from([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
@@ -100,7 +101,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => (string)$this->string($anime['subtype'])->upperCaseFirst(),
+				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
 				'cover_image' => $anime['posterImage']['small'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
@@ -126,7 +127,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
-		$untransformed = new FormItem([
+		$untransformed = FormItem::from([
 			'id' => $item['id'],
 			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,

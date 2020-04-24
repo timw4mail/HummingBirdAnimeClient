@@ -4,26 +4,24 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests\Type;
 
-use Aviat\Ion\StringWrapper;
+use Aviat\Ion\Type\StringType;
 use Aviat\Ion\Tests\IonTestCase;
 
 class StringTypeTest extends IonTestCase {
-	use StringWrapper;
 
-
-	public function dataFuzzyCaseMatch()
+	public function dataFuzzyCaseMatch(): array
 	{
 		return [
 			'space separated' => [
@@ -56,10 +54,13 @@ class StringTypeTest extends IonTestCase {
 
 	/**
 	 * @dataProvider dataFuzzyCaseMatch
+	 * @param string $str1
+	 * @param string $str2
+	 * @param bool $expected
 	 */
-	public function testFuzzyCaseMatch($str1, $str2, $expected)
+	public function testFuzzyCaseMatch(string $str1, string $str2, bool $expected): void
 	{
-		$actual = $this->string($str1)->fuzzyCaseMatch($str2);
+		$actual = StringType::from($str1)->fuzzyCaseMatch($str2);
 		$this->assertEquals($expected, $actual);
 	}
 

@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -37,7 +37,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function create(array $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		$checkedData = Types\MediaListEntry::check($data);
 		return $this->mutateRequest('CreateMediaListEntry', $checkedData);
 	}
 
@@ -49,7 +49,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function createFull(array $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry($data))->toArray();
+		$checkedData = Types\MediaListEntry::check($data);
 		return $this->mutateRequest('CreateFullMediaListEntry', $checkedData);
 	}
 
@@ -85,10 +85,10 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
-		$checkedData = (new Types\MediaListEntry([
+		$checkedData = Types\MediaListEntry::check([
 			'id' => $id,
 			'progress' => $data->progress,
-		]))->toArray();
+		]);
 
 		return $this->mutateRequest('IncrementMediaListEntry', $checkedData);
 	}
@@ -110,7 +110,7 @@ final class ListItem extends AbstractListItem {
 			? AnilistStatus::REPEATING
 			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 
-		$updateData = (new Types\MediaListEntry([
+		$updateData = Types\MediaListEntry::check([
 			'id' => (int)$id,
 			'status' => $status,
 			'score' => $rating * 5,
@@ -118,7 +118,7 @@ final class ListItem extends AbstractListItem {
 			'repeat' => (int)$data['reconsumeCount'],
 			'private' => $private,
 			'notes' => $notes,
-		]))->toArray();
+		]);
 
 		return $this->mutateRequest('UpdateMediaListEntry', $updateData);
 	}

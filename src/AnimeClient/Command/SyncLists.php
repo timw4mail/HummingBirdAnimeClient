@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -34,6 +34,8 @@ use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 use DateTime;
+use Throwable;
+use function in_array;
 
 /**
  * Syncs list data between Anilist and Kitsu
@@ -44,13 +46,13 @@ final class SyncLists extends BaseCommand {
 	 * Model for making requests to Anilist API
 	 * @var AnilistModel
 	 */
-	protected $anilistModel;
+	protected AnilistModel $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
 	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * Run the Kitsu <=> Anilist sync script
@@ -59,7 +61,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function execute(array $args, array $options = []): void
 	{
@@ -88,7 +90,7 @@ final class SyncLists extends BaseCommand {
 	 * Attempt to synchronize external APIs
 	 *
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function sync(string $type): void
 	{
@@ -344,12 +346,12 @@ final class SyncLists extends BaseCommand {
 					continue;
 				}
 
-				if (\in_array('kitsu', $item['updateType'], TRUE))
+				if (in_array('kitsu', $item['updateType'], TRUE))
 				{
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (\in_array('anilist', $item['updateType'], TRUE))
+				if (in_array('anilist', $item['updateType'], TRUE))
 				{
 					$anilistUpdateItems[] = $item['data'];
 				}
@@ -589,7 +591,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function updateKitsuListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
@@ -599,7 +601,7 @@ final class SyncLists extends BaseCommand {
 			if ($action === 'update')
 			{
 				$requester->addRequest(
-					$this->kitsuModel->updateListItem(new FormItem($item))
+					$this->kitsuModel->updateListItem(FormItem::from($item))
 				);
 			}
 			else if ($action === 'create')
@@ -653,7 +655,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $itemsToUpdate
 	 * @param string $action
 	 * @param string $type
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function updateAnilistListItems(array $itemsToUpdate, string $action = 'update', string $type = 'anime'): void
 	{
@@ -664,7 +666,7 @@ final class SyncLists extends BaseCommand {
 			if ($action === 'update')
 			{
 				$requester->addRequest(
-					$this->anilistModel->updateListItem(new FormItem($item), $type)
+					$this->anilistModel->updateListItem(FormItem::from($item), $type)
 				);
 			}
 			else if ($action === 'create')
