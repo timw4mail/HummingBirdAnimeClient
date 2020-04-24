@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -19,6 +19,7 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
 use Aviat\AnimeClient\Types\AnimePage;
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime description page
@@ -104,7 +105,7 @@ final class AnimeTransformer extends AbstractTransformer {
 		ksort($characters);
 		ksort($staff);
 
-		return new AnimePage([
+		return AnimePage::from([
 			'age_rating' => $item['ageRating'],
 			'age_rating_guide' => $item['ageRatingGuide'],
 			'characters' => $characters,
@@ -114,7 +115,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'genres' => $item['genres'],
 			'id' => $item['id'],
 			'included' => $item['included'],
-			'show_type' => (string)$this->string($item['showType'])->upperCaseFirst(),
+			'show_type' => (string)StringType::from($item['showType'])->upperCaseFirst(),
 			'slug' => $item['slug'],
 			'staff' => $staff,
 			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),

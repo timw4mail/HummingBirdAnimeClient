@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,6 +20,7 @@ use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
@@ -31,14 +32,14 @@ class HtmlView extends HttpView {
 	 *
 	 * @var HelperLocator
 	 */
-	protected $helper;
+	protected HelperLocator $helper;
 
 	/**
 	 * Response mime type
 	 *
 	 * @var string
 	 */
-	protected $contentType = 'text/html';
+	protected string $contentType = 'text/html';
 
 	/**
 	 * Create the Html View
@@ -67,7 +68,7 @@ class HtmlView extends HttpView {
 		$data['container'] = $this->container;
 
 		ob_start();
-		extract($data, \EXTR_OVERWRITE);
+		extract($data, EXTR_OVERWRITE);
 		include_once $path;
 		$buffer = ob_get_clean();
 

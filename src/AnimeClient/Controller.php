@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -47,55 +47,55 @@ class Controller {
 	 * The authentication object
 	 * @var Auth $auth ;
 	 */
-	protected $auth;
+	protected Auth $auth;
 
 	/**
 	 * Cache manager
 	 * @var CacheItemPoolInterface
 	 */
-	protected $cache;
+	protected CacheItemPoolInterface $cache;
 
 	/**
 	 * The global configuration object
 	 * @var ConfigInterface $config
 	 */
-	public $config;
+	public ConfigInterface $config;
 
 	/**
 	 * Request object
 	 * @var ServerRequestInterface $request
 	 */
-	protected $request;
+	protected ServerRequestInterface $request;
 
 	/**
 	 * Response object
 	 * @var ResponseInterface $response
 	 */
-	public $response;
+	public ResponseInterface $response;
 
 	/**
 	 * Url generation class
 	 * @var UrlGenerator
 	 */
-	protected $urlGenerator;
+	protected UrlGenerator $urlGenerator;
 
 	/**
 	 * Aura url generator
 	 * @var Generator
 	 */
-	protected $url;
+	protected Generator $url;
 
 	/**
 	 * Session segment
 	 * @var Segment
 	 */
-	protected $session;
+	protected Segment $session;
 
 	/**
 	 * Common data to be sent to views
 	 * @var array
 	 */
-	protected $baseData = [];
+	protected array $baseData = [];
 
 	/**
 	 * Controller constructor.

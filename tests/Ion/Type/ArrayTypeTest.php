@@ -4,28 +4,22 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests\Type;
 
-use Aviat\Ion\ArrayWrapper;
+use Aviat\Ion\Type\ArrayType;
 use Aviat\Ion\Tests\IonTestCase;
 
 class ArrayTypeTest extends IonTestCase {
-	use ArrayWrapper;
-
-	public function setUp(): void	{
-		parent::setUp();
-	}
-
 	public function dataCall()
 	{
 		$method_map = [
@@ -88,33 +82,37 @@ class ArrayTypeTest extends IonTestCase {
 	 * Test the array methods defined for the __Call method
 	 *
 	 * @dataProvider dataCall
+	 * @param string $method
+	 * @param array $array
+	 * @param array $args
+	 * @param $expected
 	 */
-	public function testCall($method, $array, $args, $expected)
+	public function testCall(string $method, array $array, array $args, $expected): void
 	{
-		$obj = $this->arr($array);
+		$obj = ArrayType::from($array);
 		$actual = $obj->__call($method, $args);
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testSet()
+	public function testSet(): void
 	{
-		$obj = $this->arr([]);
+		$obj = ArrayType::from([]);
 		$arraytype = $obj->set('foo', 'bar');
 
-		$this->assertInstanceOf('Aviat\Ion\Type\ArrayType', $arraytype);
+		$this->assertInstanceOf(ArrayType::class, $arraytype);
 		$this->assertEquals('bar', $obj->get('foo'));
 	}
 
-	public function testGet()
+	public function testGet(): void
 	{
 		$array = [1, 2, 3, 4, 5];
-		$obj = $this->arr($array);
+		$obj = ArrayType::from($array);
 		$this->assertEquals($array, $obj->get());
 		$this->assertEquals(1, $obj->get(0));
 		$this->assertEquals(5, $obj->get(4));
 	}
 
-	public function testGetDeepKey()
+	public function testGetDeepKey(): void
 	{
 		$arr = [
 			'foo' => 'bar',
@@ -122,14 +120,14 @@ class ArrayTypeTest extends IonTestCase {
 				'bar' => 'foobar'
 			]
 		];
-		$obj = $this->arr($arr);
+		$obj = ArrayType::from($arr);
 		$this->assertEquals('foobar', $obj->getDeepKey(['baz', 'bar']));
 		$this->assertNull($obj->getDeepKey(['foo', 'bar', 'baz']));
 	}
 
-	public function testMap()
+	public function testMap(): void
 	{
-		$obj = $this->arr([1, 2, 3]);
+		$obj = ArrayType::from([1, 2, 3]);
 		$actual = $obj->map(function($item) {
 			return $item * 2;
 		});
@@ -137,9 +135,9 @@ class ArrayTypeTest extends IonTestCase {
 		$this->assertEquals([2, 4, 6], $actual);
 	}
 
-	public function testBadCall()
+	public function testBadCall(): void
 	{
-		$obj = $this->arr([]);
+		$obj = ArrayType::from([]);
 
 		$this->expectException('InvalidArgumentException');
 		$this->expectExceptionMessage("Method 'foo' does not exist");
@@ -147,20 +145,20 @@ class ArrayTypeTest extends IonTestCase {
 		$obj->foo();
 	}
 
-	public function testShuffle()
+	public function testShuffle(): void
 	{
 		$original = [1, 2, 3, 4];
 		$test = [1, 2, 3, 4];
-		$obj = $this->arr($test);
+		$obj = ArrayType::from($test);
 		$actual = $obj->shuffle();
 
 		//$this->assertNotEquals($actual, $original);
 		$this->assertTrue(is_array($actual));
 	}
 
-	public function testHasKey()
+	public function testHasKey(): void
 	{
-		$obj = $this->arr([
+		$obj = ArrayType::from([
 			'a' => 'b',
 			'z' => 'y'
 		]);
@@ -168,9 +166,9 @@ class ArrayTypeTest extends IonTestCase {
 		$this->assertFalse($obj->hasKey('b'));
 	}
 
-	public function testHasKeyArray()
+	public function testHasKeyArray(): void
 	{
-		$obj = $this->arr([
+		$obj = ArrayType::from([
 			'foo' => [
 				'bar' => [
 					'baz' => [
@@ -191,23 +189,23 @@ class ArrayTypeTest extends IonTestCase {
 		$this->assertFalse($obj->hasKey(['bar', 'baz']));
 	}
 
-	public function testHas()
+	public function testHas(): void
 	{
-		$obj = $this->arr([1, 2, 6, 8, 11]);
+		$obj = ArrayType::from([1, 2, 6, 8, 11]);
 		$this->assertTrue($obj->has(8));
 		$this->assertFalse($obj->has(8745));
 	}
 
-	public function testSearch()
+	public function testSearch(): void
 	{
-		$obj = $this->arr([1, 2, 5, 7, 47]);
+		$obj = ArrayType::from([1, 2, 5, 7, 47]);
 		$actual = $obj->search(47);
 		$this->assertEquals(4, $actual);
 	}
 
-	public function testFill()
+	public function testFill(): void
 	{
-		$obj = $this->arr([]);
+		$obj = ArrayType::from([]);
 		$expected = ['?', '?', '?'];
 		$actual = $obj->fill(0, 3, '?');
 		$this->assertEquals($actual, $expected);

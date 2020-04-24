@@ -32,24 +32,24 @@ class TestEnum extends Enum {
 }
 
 class FriendGrandParentTestClass {
-	protected $grandParentProtected = 84;
+	protected int $grandParentProtected = 84;
 }
 
 class FriendParentTestClass extends FriendGrandParentTestClass {
-	protected $parentProtected = 47;
-	private $parentPrivate = 654;
+	protected int $parentProtected = 47;
+	private int $parentPrivate = 654;
 }
 
 class FriendTestClass extends FriendParentTestClass {
-	protected $protected = 356;
-	private $private = 486;
+	protected int $protected = 356;
+	private int $private = 486;
 
-	protected function getProtected()
+	protected function getProtected(): int
 	{
 		return 4;
 	}
 
-	private function getPrivate()
+	private function getPrivate(): int
 	{
 		return 23;
 	}
@@ -57,7 +57,7 @@ class FriendTestClass extends FriendParentTestClass {
 
 class TestTransformer extends AbstractTransformer {
 
-	public function transform($item)
+	public function transform($item): array
 	{
 		$out = [];
 		$genre_list = (array) $item;
@@ -95,7 +95,7 @@ trait MockViewOutputTrait {
 }
 
 class MockUtil {
-	public function get_cached_image($api_path, $series_slug, $type = "anime")
+	public function get_cached_image($api_path, $series_slug, $type = "anime"): string
 	{
 		return "/public/images/{$type}/{$series_slug}.jpg";
 	}
@@ -144,7 +144,7 @@ trait MockInjectionTrait {
 class MockBaseApiModel extends BaseApiModel {
 
 	use MockInjectionTrait;
-	protected $base_url = 'https://httpbin.org/';
+	protected string $base_url = 'https://httpbin.org/';
 
 	protected function _get_list_from_api(string $status): array
 	{

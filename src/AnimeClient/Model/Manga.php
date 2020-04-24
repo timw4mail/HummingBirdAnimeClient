@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -26,6 +26,7 @@ use Aviat\AnimeClient\Types\{
 	MangaListItem,
 	MangaPage
 };
+use Aviat\AnimeClient\API\{Anilist, Kitsu};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -40,19 +41,19 @@ class Manga extends API {
 	 *
 	 * @var boolean
 	 */
-	protected $anilistEnabled;
+	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to the Anilist API
-	 * @var \Aviat\AnimeClient\API\Anilist\Model
+	 * @var Anilist\Model
 	 */
-	protected $anilistModel;
+	protected Anilist\Model $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var \Aviat\AnimeClient\API\Kitsu\Model
+	 * @var Kitsu\Model
 	 */
-	protected $kitsuModel;
+	protected Kitsu\Model $kitsuModel;
 
 	/**
 	 * Constructor
@@ -231,7 +232,7 @@ class Manga extends API {
 	}
 
 	/**
-	 * Search for anime by name
+	 * Search for manga by name
 	 *
 	 * @param string $name
 	 * @return array
@@ -239,6 +240,16 @@ class Manga extends API {
 	public function search($name): array
 	{
 		return $this->kitsuModel->search('manga', $name);
+	}
+
+	/**
+	 * Get recent reading history
+	 *
+	 * @return array
+	 */
+	public function getHistory(): array
+	{
+		return $this->kitsuModel->getMangaHistory();
 	}
 
 	/**

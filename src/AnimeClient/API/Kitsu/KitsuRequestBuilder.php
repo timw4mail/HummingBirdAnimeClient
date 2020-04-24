@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -25,14 +25,14 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected $baseUrl = 'https://kitsu.io/api/edge/';
+	protected string $baseUrl = 'https://kitsu.io/api/edge/';
 
 	/**
 	 * HTTP headers to send with every request
 	 *
 	 * @var array
 	 */
-	protected $defaultHeaders = [
+	protected array $defaultHeaders = [
 		'User-Agent' =>  USER_AGENT,
 		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',

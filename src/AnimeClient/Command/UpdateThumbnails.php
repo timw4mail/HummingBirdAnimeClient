@@ -4,20 +4,20 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
 
 use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu\Model;
+use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
 use Aviat\AnimeClient\Controller\Images;
 
 /**
@@ -27,14 +27,14 @@ use Aviat\AnimeClient\Controller\Images;
 final class UpdateThumbnails extends ClearThumbnails {
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var Model
+	 * @var KitsuModel
 	 */
-	protected $kitsuModel;
+	protected KitsuModel $kitsuModel;
 
 	/**
 	 * The default controller, which has the method to cache the images
 	 */
-	protected $controller;
+	protected Images $controller;
 
 	public function execute(array $args, array $options = []): void
 	{

@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -21,6 +21,7 @@ use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
@@ -29,6 +30,7 @@ use Aviat\Ion\Json;
 
 use InvalidArgumentException;
 use Throwable;
+use TypeError;
 
 /**
  * Controller for Anime-related pages
@@ -37,9 +39,9 @@ final class Anime extends BaseController {
 
 	/**
 	 * The anime list model
-	 * @var \Aviat\AnimeClient\Model\Anime $model
+	 * @var AnimeModel $model
 	 */
-	protected $model;
+	protected AnimeModel $model;
 
 	/**
 	 * Constructor
@@ -177,7 +179,6 @@ final class Anime extends BaseController {
 	 *
 	 * @param string $id
 	 * @param string $status
-	 * @throws RouteNotFound
 	 */
 	public function edit(string $id, $status = 'all'): void
 	{
@@ -229,7 +230,7 @@ final class Anime extends BaseController {
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(new FormItem($postData));
+		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -269,7 +270,7 @@ final class Anime extends BaseController {
 			die();
 		}
 
-		$response = $this->model->incrementLibraryItem(new FormItem($data));
+		$response = $this->model->incrementLibraryItem(FormItem::from($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -337,7 +338,7 @@ final class Anime extends BaseController {
 				'data' => $data,
 			]);
 		}
-		catch (\TypeError $e)
+		catch (TypeError $e)
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -346,16 +347,6 @@ final class Anime extends BaseController {
 				'Anime Not Found'
 			);
 		}
-	}
-
-	/**
-	 * Find anime matching the selected genre
-	 *
-	 * @param string $genre
-	 */
-	public function genre(string $genre): void
-	{
-		// @TODO: implement
 	}
 }
 // End of AnimeController.php

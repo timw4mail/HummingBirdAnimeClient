@@ -79,10 +79,12 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 <nav>
 	<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 		<?= $helper->menu($menu_name) ?>
+		<?php if (stripos($_SERVER['REQUEST_URI'], 'history') === FALSE): ?>
 		<br />
 		<ul>
 			<li class="<?= Util::isNotSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
 			<li class="<?= Util::isSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
 		</ul>
+		<?php endif ?>
 	<?php endif ?>
 </nav>

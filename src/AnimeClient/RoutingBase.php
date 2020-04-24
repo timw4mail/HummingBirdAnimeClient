@@ -4,50 +4,48 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Config;
+use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
-use Aviat\Ion\StringWrapper;
-use Psr\Http\Message\ServerRequestInterface;
+use Aviat\Ion\Type\StringType;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Base for routing/url classes
  */
 class RoutingBase {
 
-	use StringWrapper;
-
 	/**
 	 * Injection Container
 	 * @var ContainerInterface $container
 	 */
-	protected $container;
+	protected ContainerInterface $container;
 
 	/**
 	 * Config Object
-	 * @var Config
+	 * @var ConfigInterface
 	 */
-	protected $config;
+	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
+	 * @var RequestInterface
 	 */
-	protected $request;
+	protected RequestInterface $request;
 
 	/**
 	 * Constructor
@@ -73,7 +71,7 @@ class RoutingBase {
 	public function path(): string
 	{
 		$path = $this->request->getUri()->getPath();
-		$cleanedPath = $this->string($path)
+		$cleanedPath = StringType::from($path)
 			->replace('%20', '')
 			->trim()
 			->trimRight('/')

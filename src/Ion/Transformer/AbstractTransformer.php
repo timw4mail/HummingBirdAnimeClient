@@ -4,19 +4,17 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Transformer;
-
-use Aviat\Ion\StringWrapper;
 
 use BadMethodCallException;
 
@@ -24,9 +22,6 @@ use BadMethodCallException;
  * Base class for data transformation
  */
 abstract class AbstractTransformer implements TransformerInterface {
-
-	use StringWrapper;
-
 	/**
 	 * Mutate the data structure
 	 *

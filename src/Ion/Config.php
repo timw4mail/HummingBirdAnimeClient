@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.3
+ * PHP version 7.4
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.2
+ * @version     5
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -25,14 +25,12 @@ use InvalidArgumentException;
  */
 class Config implements ConfigInterface {
 
-	use ArrayWrapper;
-
 	/**
 	 * Config object
 	 *
 	 * @var ArrayType
 	 */
-	protected $map;
+	protected ArrayType $map;
 
 	/**
 	 * Constructor
@@ -41,7 +39,7 @@ class Config implements ConfigInterface {
 	 */
 	public function __construct(array $configArray = [])
 	{
-		$this->map = $this->arr($configArray);
+		$this->map = ArrayType::from($configArray);
 	}
 
 	/**

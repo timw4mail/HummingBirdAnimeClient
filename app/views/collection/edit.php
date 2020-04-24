@@ -24,11 +24,7 @@
 				<tr>
 					<td class="align-right"><label for="media_id">Media</label></td>
 					<td class="align-left">
-						<select name="media_id" id="media_id">
-						<?php foreach($media_items as $id => $name): ?>
-							<option <?= $item['media_id'] === $id ? 'selected="selected"' : '' ?> value="<?= $id ?>"><?= $name ?></option>
-						<?php endforeach ?>
-						</select>
+						<?php include '_media-list.php' ?>
 					</td>
 				</tr>
 				<tr>
