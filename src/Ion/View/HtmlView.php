@@ -20,6 +20,7 @@ use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
@@ -67,13 +68,13 @@ class HtmlView extends HttpView {
 		$data['container'] = $this->container;
 
 		ob_start();
-		extract($data, \EXTR_OVERWRITE);
+		extract($data, EXTR_OVERWRITE);
 		include_once $path;
 		$buffer = ob_get_clean();
 
 
 		// Very basic html minify, that won't affect content between html tags
-		// $buffer = preg_replace('/>\s+</', '> <', $buffer);
+		$buffer = preg_replace('/>\s+</', '> <', $buffer);
 
 		return $buffer;
 	}

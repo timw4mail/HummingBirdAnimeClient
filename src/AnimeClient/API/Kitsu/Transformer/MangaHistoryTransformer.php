@@ -23,9 +23,11 @@ class MangaHistoryTransformer extends HistoryTransformer {
 
 	protected string $progressAction = 'Read chapter';
 
-	protected string $smallAggregateAction = 'Read chapters';
+	protected string $reconsumeAction = 'Reread chapter';
 
 	protected string $largeAggregateAction = 'Blew through chapters';
+
+	protected string $reconsumingStatus = 'Rereading';
 
 	protected array $statusMap = MangaReadingStatus::KITSU_TO_TITLE;
 }

@@ -186,7 +186,6 @@ final class Model {
 	{
 		$raw = $this->getRawHistoryList('anime');
 		$organized = JsonAPI::organizeData($raw);
-
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
 		return (new AnimeHistoryTransformer())->transform($organized);
@@ -203,7 +202,6 @@ final class Model {
 	{
 		$raw = $this->getRawHistoryList('manga');
 		$organized = JsonAPI::organizeData($raw);
-
 		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
 
 		return (new MangaHistoryTransformer())->transform($organized);
@@ -1034,11 +1032,13 @@ final class Model {
 					'offset' => $offset,
 					'limit' => $limit,
 				],
-				'fields' => ($type === 'anime')
-					? ['anime' => 'canonicalTitle,titles,slug,posterImage']
-					: ['manga' => 'canonicalTitle,titles,slug,posterImage'],
+				'fields' => [
+					'anime' => 'canonicalTitle,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,titles,slug,posterImage',
+					'libraryEntry' => 'reconsuming,reconsumeCount',
+				],
 				'sort' => '-updated_at',
-				'include' => $type,
+				'include' => 'anime,manga,libraryEntry',
 			],
 		]);
 	}

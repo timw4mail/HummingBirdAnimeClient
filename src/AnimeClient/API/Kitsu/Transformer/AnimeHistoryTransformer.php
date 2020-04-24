@@ -23,9 +23,11 @@ class AnimeHistoryTransformer extends HistoryTransformer {
 
 	protected string $progressAction = 'Watched episode';
 
-	protected string $smallAggregateAction = 'Watched episodes';
+	protected string $reconsumeAction = 'Rewatched episode';
 
 	protected string $largeAggregateAction = 'Marathoned episodes';
+
+	protected string $reconsumingStatus = 'Rewatching';
 
 	protected array $statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
 }
