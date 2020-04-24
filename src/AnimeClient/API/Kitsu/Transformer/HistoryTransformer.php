@@ -73,7 +73,11 @@ abstract class HistoryTransformer {
 
 			if ($kind === 'progressed' && ! empty($entry['attributes']['changedData']['progress']))
 			{
-				$output[] = $this->transformProgress($entry);
+				$transformed = $this->transformProgress($entry);
+				if ($transformed !== NULL)
+				{
+					$output[] = $transformed;
+				}
 			}
 			else if ($kind === 'updated')
 			{
@@ -170,13 +174,19 @@ abstract class HistoryTransformer {
 		return $output;
 	}
 
-	protected function transformProgress (array $entry): HistoryItem
+	protected function transformProgress (array $entry): ?HistoryItem
 	{
 		$id = array_keys($entry['relationships'][$this->type])[0];
 		$data = $entry['relationships'][$this->type][$id]['attributes'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
 		$item = end($entry['attributes']['changedData']['progress']);
+
+		// No showing episode 0 nonsense
+		if (((int)$item) === 0)
+		{
+			return NULL;
+		}
 
 		$action = ($this->isReconsuming($entry))
 			? "{$this->reconsumeAction} {$item}"
