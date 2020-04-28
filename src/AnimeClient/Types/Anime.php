@@ -25,27 +25,27 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public ?string $age_rating = '';
+	public ?string $age_rating;
 
 	/**
 	 * @var string
 	 */
-	public ?string $age_rating_guide = '';
+	public ?string $age_rating_guide;
 
 	/**
 	 * @var string
 	 */
-	public string $cover_image = '';
+	public ?string $cover_image;
 
 	/**
 	 * @var string|int
 	 */
-	public ?int $episode_count = 13;
+	public ?int $episode_count;
 
 	/**
 	 * @var string|int
 	 */
-	public ?int $episode_length = 24;
+	public ?int $episode_length;
 
 	/**
 	 * @var array
@@ -65,12 +65,12 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public string $show_type = '';
+	public ?string $show_type;
 
 	/**
 	 * @var string
 	 */
-	public string $slug = '';
+	public ?string $slug;
 
 	/**
 	 * @var AnimeAiringStatus
@@ -85,12 +85,12 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public string $synopsis = '';
+	public ?string $synopsis;
 
 	/**
 	 * @var string
 	 */
-	public string $title = '';
+	public ?string $title;
 
 	/**
 	 * @var array
@@ -100,10 +100,10 @@ class Anime extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public ?string $trailer_id = '';
+	public ?string $trailer_id;
 
 	/**
 	 * @var string
 	 */
-	public string $url = '';
+	public ?string $url;
 }

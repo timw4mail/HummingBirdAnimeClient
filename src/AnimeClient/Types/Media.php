@@ -20,10 +20,10 @@ final class Media extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $anime = [];
+	public array $anime = [];
 
 	/**
 	 * @var array
 	 */
-	public $manga = [];
+	public array $manga = [];
 }

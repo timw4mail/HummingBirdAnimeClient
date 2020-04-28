@@ -28,17 +28,17 @@ class FormItem extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $anilist_item_id;
+	public ?string $anilist_item_id;
 
 	/**
 	 * @var string
 	 */
-	public $mal_id;
+	public ?string $mal_id;
 
 	/**
 	 * @var FormItemData
 	 */
-	public $data;
+	public ?FormItemData $data;
 
 	public function setData($value): void
 	{
