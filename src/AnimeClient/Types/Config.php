@@ -25,17 +25,17 @@ class Config extends AbstractType {
 	/**
 	 * @var Config\Anilist
 	 */
-	public $anilist;
+	public ?Config\Anilist $anilist;
 
 	/**
 	 * @var Config\Cache
 	 */
-	public $cache;
+	public ?Config\Cache $cache;
 
 	/**
 	 * @var Config\Database
 	 */
-	public $database;
+	public ?Config\Database $database;
 
 	// ------------------------------------------------------------------------
 	// Settings in config.toml
@@ -44,7 +44,7 @@ class Config extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $asset_path; // Path to public folder for urls
+	public ?string $asset_path; // Path to public folder for urls
 
 	/**
 	 * @deprecated Use 'theme' instead
@@ -63,14 +63,14 @@ class Config extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public $default_anime_list_path;
+	public ?string $default_anime_list_path;
 
 	/**
 	 * The list to redirect to from the root url
 	 *
 	 * @var 'anime' | 'manga'
 	 */
-	public $default_list;
+	public ?string $default_list;
 
 	/**
 	 * Default Manga list status page, values are listed in
@@ -78,44 +78,44 @@ class Config extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public $default_manga_list_path;
+	public ?string $default_manga_list_path;
 
 	/**
 	 * @var 'cover_view' | 'list_view'
 	 */
-	public $default_view_type;
+	public ?string $default_view_type;
 
 	/**
 	 * @var string
 	 */
-	public $kitsu_username;
+	public ?string $kitsu_username;
 
 	/**
 	 * @var bool
 	 */
-	public $secure_urls = TRUE;
+	public bool $secure_urls = TRUE;
 
 	/**
 	 * @var bool
 	 */
-	public $show_anime_collection;
+	public bool $show_anime_collection = FALSE;
 
 	/**
 	 * @var bool
 	 */
-	public $show_manga_collection = FALSE;
+	public bool $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
 	 *
 	 * @var 'auto' | 'light' | 'dark'
 	 */
-	public $theme;
+	public ?string $theme;
 
 	/**
 	 * @var string
 	 */
-	public $whose_list;
+	public ?string $whose_list;
 
 	// ------------------------------------------------------------------------
 	// Application config
@@ -124,12 +124,12 @@ class Config extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $menus;
+	public array $menus;
 
 	/**
 	 * @var array
 	 */
-	public $routes;
+	public array $routes;
 
 	// ------------------------------------------------------------------------
 	// Generated config values
@@ -138,32 +138,32 @@ class Config extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $asset_dir; // Path to public folder for local files
+	public ?string $asset_dir; // Path to public folder for local files
 
 	/**
 	 * @var string
 	 */
-	public $base_config_dir;
+	public ?string $base_config_dir;
 
 	/**
 	 * @var string
 	 */
-	public $config_dir;
+	public ?string $config_dir;
 
 	/**
 	 * @var string
 	 */
-	public $data_cache_path;
+	public ?string $data_cache_path;
 
 	/**
 	 * @var string
 	 */
-	public $img_cache_path;
+	public ?string $img_cache_path;
 
 	/**
 	 * @var string
 	 */
-	public $view_path;
+	public ?string $view_path;
 
 	public function setAnilist ($data): void
 	{

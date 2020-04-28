@@ -28,17 +28,17 @@ final class Person extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $name;
+	public ?string $name;
 
 	/**
 	 * @var Characters
 	 */
-	public $characters;
+	public ?Characters $characters;
 
 	/**
 	 * @var array
 	 */
-	public $staff;
+	public array $staff = [];
 
 	public function setCharacters($characters): void
 	{
