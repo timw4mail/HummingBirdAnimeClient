@@ -23,12 +23,12 @@ final class AnimeListItem extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $id;
+	public ?string $id;
 
 	/**
 	 * @var string
 	 */
-	public $mal_id;
+	public ?string $mal_id;
 
 	/**
 	 * @var string
@@ -38,7 +38,7 @@ final class AnimeListItem extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $episodes = [
+	public array $episodes = [
 		'length' => 0,
 		'total' => 0,
 		'watched' => '',
@@ -47,7 +47,7 @@ final class AnimeListItem extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $airing = [
+	public array $airing = [
 		'status' => '',
 		'started' => '',
 		'ended' => '',
@@ -56,32 +56,32 @@ final class AnimeListItem extends AbstractType {
 	/**
 	 * @var Anime
 	 */
-	public $anime;
+	public ?Anime $anime;
 
 	/**
 	 * @var string
 	 */
-	public $notes = '';
+	public ?string $notes;
 
 	/**
 	 * @var bool
 	 */
-	public $private;
+	public bool $private = FALSE;
 
 	/**
 	 * @var bool
 	 */
-	public $rewatching;
+	public bool $rewatching = FALSE;
 
 	/**
 	 * @var int
 	 */
-	public $rewatched;
+	public int $rewatched = 0;
 
 	/**
-	 * @var int
+	 * @var string|int
 	 */
-	public $user_rating;
+	public $user_rating = '';
 
 	/**
 	 * One of Aviat\AnimeClient\API\Enum\AnimeWatchingStatus

@@ -23,45 +23,45 @@ final class User extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $about;
+	public ?string $about;
 
 	/**
 	 * @var string
 	 */
-	public $avatar;
+	public ?string $avatar;
 
 	/**
 	 * @var array
 	 */
-	public $favorites;
+	public ?array $favorites;
 
 	/**
 	 * @var string
 	 */
-	public $location;
+	public ?string $location;
 
 	/**
 	 * @var string
 	 */
-	public $name;
+	public ?string $name;
 
 	/**
 	 * @var string
 	 */
-	public $slug;
+	public ?string $slug;
 
 	/**
 	 * @var array
 	 */
-	public $stats;
+	public ?array $stats;
 
 	/**
 	 * @var array
 	 */
-	public $waifu;
+	public ?array $waifu;
 
 	/**
 	 * @var string
 	 */
-	public $website;
+	public ?string $website;
 }

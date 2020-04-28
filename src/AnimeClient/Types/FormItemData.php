@@ -23,12 +23,12 @@ class FormItemData extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $notes;
+	public ?string $notes;
 
 	/**
 	 * @var bool
 	 */
-	public $private;
+	public bool $private = FALSE;
 
 	/**
 	 * @var int
@@ -46,14 +46,14 @@ class FormItemData extends AbstractType {
 	public $ratingTwenty;
 
 	/**
-	 * @var int
+	 * @var string|int
 	 */
 	public $reconsumeCount;
 
 	/**
 	 * @var bool
 	 */
-	public $reconsuming;
+	public bool $reconsuming = FALSE;
 
 	/**
 	 * @var string
@@ -65,5 +65,5 @@ class FormItemData extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public $updatedAt;
+	public ?string $updatedAt;
 }

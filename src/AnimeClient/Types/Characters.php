@@ -20,10 +20,10 @@ final class Characters extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $main;
+	public array $main = [];
 
 	/**
 	 * @var array
 	 */
-	public $supporting;
+	public array $supporting = [];
 }
