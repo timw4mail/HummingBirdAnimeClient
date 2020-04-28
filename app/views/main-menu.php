@@ -33,7 +33,10 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 				ucfirst($other_type) . ' List'
 			) ?>]
 		<?php else: ?>
-			<?= $whose . ucfirst($url_type) . ' Collection' ?>
+			<?= $helper->a(
+					$url->generate("{$url_type}.collection.view") . $extraSegment,
+					$whose . ucfirst($url_type) . ' Collection'
+			) ?>
 			<?php if($config->get("show_{$other_type}_collection")): ?>
 				[<?= $helper->a(
 					$url->generate("{$other_type}.collection.view") . $extraSegment,
