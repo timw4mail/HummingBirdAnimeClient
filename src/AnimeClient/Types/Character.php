@@ -23,12 +23,12 @@ final class Character extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $castings;
+	public array $castings = [];
 
 	/**
 	 * @var string
 	 */
-	public $description;
+	public ?string $description;
 
 	/**
 	 * @var string
@@ -38,27 +38,27 @@ final class Character extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $included;
+	public array $included = [];
 
 	/**
 	 * @var Media
 	 */
-	public $media;
+	public ?Media $media;
 
 	/**
 	 * @var string
 	 */
-	public $name;
+	public ?string $name;
 
 	/**
 	 * @var array
 	 */
-	public $names;
+	public array $names = [];
 
 	/**
 	 * @var array
 	 */
-	public $otherNames;
+	public array $otherNames = [];
 
 	public function setMedia ($media): void
 	{

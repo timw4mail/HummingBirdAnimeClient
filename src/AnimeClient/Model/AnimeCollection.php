@@ -135,7 +135,6 @@ final class AnimeCollection extends Collection {
 		$id = $data['id'];
 		$anime = (object)$this->animeModel->getAnimeById($id);
 
-		$this->db->beginTransaction();
 		$this->db->set([
 			'hummingbird_id' => $id,
 			'slug' => $anime->slug,
@@ -150,10 +149,7 @@ final class AnimeCollection extends Collection {
 		])->insert('anime_set');
 
 		$this->updateMediaLink($id, $data['media_id']);
-
 		$this->updateGenres($id);
-
-		$this->db->commit();
 	}
 
 	/**
@@ -197,8 +193,6 @@ final class AnimeCollection extends Collection {
 		$media = $data['media_id'];
 		unset($data['hummingbird_id'], $data['media_id']);
 
-		$this->db->beginTransaction();
-
 		// If updating from the 'add' page, there
 		// might be no data to actually update in
 		// the anime_set table
@@ -212,8 +206,6 @@ final class AnimeCollection extends Collection {
 		// Update media and genres
 		$this->updateMediaLink($id, $media);
 		$this->updateGenres($id);
-
-		$this->db->commit();
 	}
 
 	/**
@@ -236,12 +228,7 @@ final class AnimeCollection extends Collection {
 		{
 			if (is_array($row[$key]))
 			{
-				if ($row[$key] === $value)
-				{
-					continue;
-				}
-
-				return FALSE;
+				continue;
 			}
 
 			if ((string)$row[$key] !== (string)$value)
@@ -417,6 +404,8 @@ final class AnimeCollection extends Collection {
 
 	private function updateMediaLink(string $animeId, array $media): void
 	{
+		$this->db->beginTransaction();
+
 		// Delete the old entries
 		$this->db->where('hummingbird_id', $animeId)
 			->delete('anime_set_media_link');
@@ -432,6 +421,8 @@ final class AnimeCollection extends Collection {
 		}
 
 		$this->db->insertBatch('anime_set_media_link', $entries);
+
+		$this->db->commit();
 	}
 
 	/**
@@ -478,17 +469,7 @@ final class AnimeCollection extends Collection {
 
 		if ( ! empty($linksToInsert))
 		{
-			try
-			{
-				$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
-			}
-			catch (PDOException $e)
-			{
-				// This often results in a unique constraint violation
-				// So swallow this for now
-				// @TODO Fix properly
-			}
-
+			$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
 		}
 	}
 
