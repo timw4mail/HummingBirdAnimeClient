@@ -1,3 +1,4 @@
+<?php use function Aviat\AnimeClient\col_not_empty; ?>
 <main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
@@ -13,6 +14,9 @@
 	<?php if (empty($items)): ?>
 		<h3>There's nothing here!</h3>
 	<?php else: ?>
+		<?php
+			$hasNotes = col_not_empty($items, 'notes');
+		?>
 		<table class='media-wrap'>
 			<thead>
 				<tr>
@@ -25,8 +29,8 @@
 					<th>Type</th>
 					<th>Progress</th>
 					<th>Rated</th>
-					<th colspan="2">Attributes</th>
-					<th>Notes</th>
+					<th>Attributes</th>
+					<?php if($hasNotes): ?><th>Notes</th><?php endif ?>
 					<th>Genres</th>
 				</tr>
 			</thead>
@@ -47,9 +51,8 @@
 						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
 							<?= $item['anime']['title'] ?>
 						</a>
-						<?php foreach ($item['anime']['titles'] as $title): ?>
-							<br/><?= $title ?>
-						<?php endforeach ?>
+						<br />
+						<?= implode('<br />', $item['anime']['titles']) ?>
 					</td>
 					<td><?= $item['airing']['status'] ?></td>
 					<td><?= $item['user_rating'] ?> / 10 </td>
@@ -60,41 +63,36 @@
 					</td>
 					<td><?= $item['anime']['age_rating'] ?></td>
 					<td>
-	                    <ul>
-						<?php if ($item['rewatched'] > 0): ?>
-	                        <li>Rewatched <?= $item['rewatched'] ?> time(s)</li>
-						<?php endif ?>
-						<?php foreach(['private','rewatching'] as $attr): ?>
-							<?php if($item[$attr]): ?>
-	                            <li><?= ucfirst($attr); ?></li>
-							<?php endif ?>
-						<?php endforeach ?>
-	                    </ul>
-					</td>
-					<td>
 						<?php foreach($item['anime']['streaming_links'] as $link): ?>
 							<?php if ($link['meta']['link'] !== FALSE): ?>
 								<a href="<?= $link['link'] ?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
 									<?= $helper->img("/public/images/{$link['meta']['image']}", [
-										'class' => 'streaming-logo',
-										'width' => 50,
-										'height' => 50,
-										'alt' => "{$link['meta']['name']} logo",
+											'class' => 'small-streaming-logo',
+											'width' => 25,
+											'height' => 25,
+											'alt' => "{$link['meta']['name']} logo",
 									]) ?>
 								</a>
 							<?php else: ?>
 								<?= $helper->img("/public/images/{$link['meta']['image']}", [
-									'class' => 'streaming-logo',
-									'width' => 50,
-									'height' => 50,
-									'alt' => "{$link['meta']['name']} logo",
+										'class' => 'small-streaming-logo',
+										'width' => 25,
+										'height' => 25,
+										'alt' => "{$link['meta']['name']} logo",
 								]) ?>
 							<?php endif ?>
 						<?php endforeach ?>
+
+						<br />
+
+	                    <ul>
+						<?php if ($item['rewatched'] > 0): ?>li>Rewatched <?= $item['rewatched'] ?> time(s)</li><?php endif ?>
+						<?php foreach(['private','rewatching'] as $attr): ?>
+							<?php if($item[$attr]): ?><li><?= ucfirst($attr); ?></li><?php endif ?>
+						<?php endforeach ?>
+	                    </ul>
 					</td>
-					<td>
-						<p><?= $escape->html($item['notes']) ?></p>
-					</td>
+					<?php if ($hasNotes): ?><td><p><?= $escape->html($item['notes']) ?></p></td><?php endif ?>
 					<td class="align-left">
 						<?php sort($item['anime']->genres) ?>
 						<?= implode(', ', $item['anime']->genres) ?>
