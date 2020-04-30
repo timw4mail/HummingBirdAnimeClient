@@ -101,12 +101,10 @@ final class AnimeCollection extends BaseController {
 			'list' => 'list'
 		];
 
-		$data = $this->animeCollectionModel->getCollection();
-
 		$this->outputHTML('collection/' . $viewMap[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
-			'sections' => $data,
-			'genres' => $this->animeCollectionModel->getGenreList()
+			'sections' => $this->animeCollectionModel->getCollection(),
+			'all' => $this->animeCollectionModel->getFlatCollection(),
 		]);
 	}
 
@@ -233,6 +231,13 @@ final class AnimeCollection extends BaseController {
 		$this->redirect('/anime-collection/view', 303);
 	}
 
+	/**
+	 * Update a collection item
+	 *
+	 * @param $data
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 */
 	protected function update($data): void
 	{
 		if (array_key_exists('hummingbird_id', $data))

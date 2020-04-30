@@ -98,12 +98,12 @@ class Config extends AbstractType {
 	/**
 	 * @var bool
 	 */
-	public bool $show_anime_collection = FALSE;
+	public $show_anime_collection = FALSE;
 
 	/**
 	 * @var bool
 	 */
-	public bool $show_manga_collection = FALSE;
+	public $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
