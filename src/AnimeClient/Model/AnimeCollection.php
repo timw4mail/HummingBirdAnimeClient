@@ -70,6 +70,47 @@ final class AnimeCollection extends Collection {
 	}
 
 	/**
+	 * Get the collection from the database
+	 *
+	 * @return array
+	 */
+	public function getFlatCollection():  array
+	{
+		if ( ! $this->validDatabase)
+		{
+			return [];
+		}
+
+		$query = $this->db->select('a.hummingbird_id, slug, title, alternate_title, show_type,
+			 age_rating, episode_count, episode_length, cover_image, notes')
+			->from('anime_set a')
+			->orderBy('title')
+			->get();
+
+		// Add genres associated with each item
+		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
+		$genres = $this->getGenreList();
+		$media = $this->getMediaList();
+
+		foreach($rows as &$row)
+		{
+			$id = $row['hummingbird_id'];
+
+			$row['genres'] = array_key_exists($id, $genres)
+				? $genres[$id]
+				: [];
+
+			$row['media'] = array_key_exists($id, $media)
+				? $media[$id]
+				: [];
+
+			sort($row['genres']);
+		}
+
+		return $rows;
+	}
+
+	/**
 	 * Get list of media types
 	 *
 	 * @return array
@@ -262,7 +303,7 @@ final class AnimeCollection extends Collection {
 		$this->db->beginTransaction();
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('genre_anime_set_link');
+			->delete('anime_set_genre_link');
 
 		$this->db->where('hummingbird_id', $data['hummingbird_id'])
 			->delete('anime_set_media_link');
@@ -361,7 +402,7 @@ final class AnimeCollection extends Collection {
 		try
 		{
 			$this->db->select('hummingbird_id, genre')
-				->from('genre_anime_set_link gl')
+				->from('anime_set_genre_link gl')
 				->join('genres g', 'g.id=gl.genre_id', 'left');
 
 
@@ -392,6 +433,68 @@ final class AnimeCollection extends Collection {
 				else
 				{
 					$output[$id] = [$genre];
+				}
+			}
+		}
+		catch (PDOException $e) {}
+
+		$this->db->resetQuery();
+
+		return $output;
+	}
+
+	/**
+	 * Get media for anime collection items
+	 *
+	 * @param array $filter
+	 * @return array
+	 */
+	public function getMediaList(array $filter = []): array
+	{
+		if ($this->validDatabase === FALSE)
+		{
+			return [];
+		}
+
+		$output = [];
+
+		// Catch the missing table PDOException
+		// so that the collection does not show an
+		// error by default
+		try
+		{
+			$this->db->select('m.type as media, hummingbird_id')
+				->from('anime_set_media_link ml')
+				->join('media m', 'm.id=ml.media_id', 'left');
+
+
+			if ( ! empty($filter))
+			{
+				$this->db->whereIn('hummingbird_id', $filter);
+			}
+
+			$query = $this->db->orderBy('hummingbird_id')
+				->orderBy('media')
+				->get();
+
+			foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $row)
+			{
+				$id = $row['hummingbird_id'];
+				$media = $row['media'];
+
+				// Empty genre names aren't useful
+				if (empty($media))
+				{
+					continue;
+				}
+
+				if (array_key_exists($id, $output))
+				{
+					$output[$id][] = $media;
+				}
+				else
+				{
+					$output[$id] = [$media];
 				}
 			}
 		}
@@ -469,7 +572,11 @@ final class AnimeCollection extends Collection {
 
 		if ( ! empty($linksToInsert))
 		{
-			$this->db->insertBatch('genre_anime_set_link', $linksToInsert);
+			try
+			{
+				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
+			}
+			catch (PDOException $e) {}
 		}
 	}
 
@@ -554,7 +661,7 @@ final class AnimeCollection extends Collection {
 		$links = [];
 
 		$query = $this->db->select('hummingbird_id, genre_id')
-			->from('genre_anime_set_link')
+			->from('anime_set_genre_link')
 			->get();
 
 		foreach ($query->fetchAll(PDO::FETCH_ASSOC) as $link)

@@ -21,7 +21,7 @@ namespace Aviat\AnimeClient\Types;
  */
 class FormItem extends AbstractType {
 	/**
-	 * @var string
+	 * @var string|int
 	 */
 	public $id;
 
@@ -31,9 +31,9 @@ class FormItem extends AbstractType {
 	public ?string $anilist_item_id;
 
 	/**
-	 * @var string
+	 * @var string|int
 	 */
-	public ?string $mal_id;
+	public  $mal_id;
 
 	/**
 	 * @var FormItemData
