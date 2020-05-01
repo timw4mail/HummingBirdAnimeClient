@@ -19,7 +19,7 @@
 				<tr>
 					<td class="align-right"><label for="media_id">Media</label></td>
 					<td class='align-left'>
-						<?php include '_media-list.php' ?>
+						<?php include '_media-select-list.php' ?>
 					</td>
 				</tr>
 				<tr>

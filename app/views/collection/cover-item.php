@@ -18,7 +18,9 @@
 		</div>
 		<?php endif ?>
 		<div class="row">
+			<?php if ($item['episode_count'] > 1): ?>
 			<div class="completion">Episodes: <?= $item['episode_count'] ?></div>
+			<?php endif ?>
 			<div class="media_type"><?= $item['show_type'] ?></div>
 			<div class="age-rating"><?= $item['age_rating'] ?></div>
 		</div>
