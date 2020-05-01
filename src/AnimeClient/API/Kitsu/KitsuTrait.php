@@ -176,7 +176,7 @@ trait KitsuTrait {
 				$logger->warning('Non 200 response for api call', (array)$response);
 			}
 
-			// throw new FailedResponseException('Failed to get the proper response from the API');
+			throw new FailedResponseException('Failed to get the proper response from the API');
 		}
 
 		try
