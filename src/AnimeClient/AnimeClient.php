@@ -333,3 +333,16 @@ function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Imag
 
 	imagedestroy($pngImage);
 }
+
+/**
+ * Check that there is a value for at least one item in a collection with the specified key
+ *
+ * @param array $search
+ * @param string $key
+ * @return bool
+ */
+function col_not_empty(array $search, string $key): bool
+{
+	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
+	return count($items) > 0;
+}
