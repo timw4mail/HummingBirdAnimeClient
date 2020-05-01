@@ -17,6 +17,7 @@
 namespace Aviat\Ion;
 
 use ReflectionClass;
+use ReflectionException;
 
 /**
  * Class emulating an enumeration type
@@ -27,7 +28,7 @@ abstract class Enum {
 	 * Return the list of constant values for the Enum
 	 *
 	 * @return array
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public static function getConstList(): array
 	{
@@ -48,12 +49,12 @@ abstract class Enum {
 	 *
 	 * @param  mixed $key
 	 * @return boolean
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public static function isValid($key): bool
 	{
 		$values = array_values(static::getConstList());
-		return \in_array($key, $values, TRUE);
+		return in_array($key, $values, TRUE);
 	}
 }
 // End of Enum.php

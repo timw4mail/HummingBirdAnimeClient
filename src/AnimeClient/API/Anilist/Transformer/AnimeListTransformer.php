@@ -29,7 +29,7 @@ class AnimeListTransformer extends AbstractTransformer {
 
 	public function transform($item): AnimeListItem
 	{
-		return new AnimeListItem([]);
+		return AnimeListItem::from([]);
 	}
 
 	/**
