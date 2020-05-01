@@ -26,8 +26,8 @@ use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
 use Aviat\Banker\Pool;
 use Aviat\Ion\Config;
-use Aviat\Ion\Di\{Container, ContainerAware};
-use ConsoleKit\{Command, ConsoleException};
+use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
+use ConsoleKit\{Colors, Command, ConsoleException};
 use ConsoleKit\Widgets\Box;
 use Laminas\Diactoros\{Response, ServerRequestFactory};
 use Monolog\Handler\RotatingFileHandler;
@@ -44,15 +44,30 @@ abstract class BaseCommand extends Command {
 	 * Echo text in a box
 	 *
 	 * @param string $message
+	 * @param string|int|null $fgColor
+	 * @param string|int|null $bgColor
 	 * @return void
 	 */
-	protected function echoBox($message): void
+	public function echoBox(string $message, $fgColor = NULL, $bgColor = NULL): void
 	{
 		try
 		{
-			echo "\n";
+			$len = strlen($message);
+
+			// color message
+			$message = Colors::colorize($message, $fgColor, $bgColor);
+			$colorLen = strlen($message);
+
+			// create the box
 			$box = new Box($this->getConsole(), $message);
+
+			if ($len !== $colorLen)
+			{
+				$box->setPadding((($colorLen - $len) / 2) + 2);
+			}
+
 			$box->write();
+
 			echo "\n";
 		}
 		catch (ConsoleException $e)
@@ -61,12 +76,42 @@ abstract class BaseCommand extends Command {
 		}
 	}
 
+	public function echo(string $message): void
+	{
+		$this->_line($message);
+	}
+
+	public function echoSuccess(string $message): void
+	{
+		$this->_line($message, Colors::GREEN | Colors::BOLD, Colors::BLACK);
+	}
+
+	public function echoWarning(string $message): void
+	{
+		$this->_line($message, Colors::YELLOW | Colors::BOLD, Colors::BLACK);
+	}
+
+	public function echoWarningBox(string $message): void
+	{
+		$this->echoBox($message, Colors::YELLOW | Colors::BOLD, Colors::BLACK);
+	}
+
+	public function echoError(string $message): void
+	{
+		$this->_line($message, Colors::RED | Colors::BOLD, Colors::BLACK);
+	}
+
+	public function echoErrorBox(string $message): void
+	{
+		$this->echoBox($message, Colors::RED | Colors::BOLD, Colors::BLACK);
+	}
+
 	/**
 	 * Setup the Di container
 	 *
-	 * @return Container
+	 * @return Containerinterface
 	 */
-	protected function setupContainer(): Container
+	public function setupContainer(): ContainerInterface
 	{
 		$APP_DIR = realpath(__DIR__ . '/../../../app');
 		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
@@ -82,7 +127,7 @@ abstract class BaseCommand extends Command {
 
 		$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
-		$di = static function ($configArray) use ($APP_DIR): Container {
+		$di = static function (array $configArray) use ($APP_DIR): Container {
 			$container = new Container();
 
 			// -------------------------------------------------------------------------
@@ -103,9 +148,7 @@ abstract class BaseCommand extends Command {
 			$container->setLogger($kitsu_request_logger, 'kitsu-request');
 
 			// Create Config Object
-			$container->set('config', static function() use ($configArray): Config {
-				return new Config($configArray);
-			});
+			$container->set('config', fn () => new Config($configArray));
 
 			// Create Cache Object
 			$container->set('cache', static function($container) {
@@ -115,28 +158,20 @@ abstract class BaseCommand extends Command {
 			});
 
 			// Create Aura Router Object
-			$container->set('aura-router', static function() {
-				return new RouterContainer;
-			});
+			$container->set('aura-router', fn () => new RouterContainer);
 
 			// Create Request/Response Objects
-			$container->set('request', static function() {
-				return ServerRequestFactory::fromGlobals(
-					$_SERVER,
-					$_GET,
-					$_POST,
-					$_COOKIE,
-					$_FILES
-				);
-			});
-			$container->set('response', static function(): Response {
-				return new Response;
-			});
+			$container->set('request', fn () => ServerRequestFactory::fromGlobals(
+				$_SERVER,
+				$_GET,
+				$_POST,
+				$_COOKIE,
+				$_FILES
+			));
+			$container->set('response', fn () => new Response);
 
 			// Create session Object
-			$container->set('session', static function() {
-				return (new SessionFactory())->newInstance($_COOKIE);
-			});
+			$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
 
 			// Models
 			$container->set('kitsu-model', static function($container): Kitsu\Model {
@@ -175,21 +210,21 @@ abstract class BaseCommand extends Command {
 				return $model;
 			});
 
-			$container->set('auth', static function($container): Kitsu\Auth {
-				return new Kitsu\Auth($container);
-			});
+			$container->set('auth', fn ($container) => new Kitsu\Auth($container));
 
-			$container->set('url-generator', static function($container): UrlGenerator {
-				return new UrlGenerator($container);
-			});
+			$container->set('url-generator', fn ($container) => new UrlGenerator($container));
 
-			$container->set('util', static function($container): Util {
-				return new Util($container);
-			});
+			$container->set('util', fn ($container) => new Util($container));
 
 			return $container;
 		};
 
 		return $di($configArray);
+	}
+
+	private function _line(string $message, $fgColor = NULL, $bgColor = NULL): void
+	{
+		$message = Colors::colorize($message, $fgColor, $bgColor);
+		$this->getConsole()->writeln($message);
 	}
 }

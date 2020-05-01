@@ -21,7 +21,6 @@ use const Aviat\AnimeClient\USER_AGENT;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
-use Amp;
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Body\FormBody;
 use Aviat\Ion\Json;
