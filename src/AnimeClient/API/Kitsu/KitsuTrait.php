@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use const PHP_SAPI;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
@@ -69,11 +70,14 @@ trait KitsuTrait {
 			->getSegment(SESSION_SEGMENT);
 
 		$cache = $this->getContainer()->get('cache');
-		$cacheItem = $cache->getItem('kitsu-auth-token');
+		$cacheItem = $cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
 		$token = null;
 
-
-		if ($sessionSegment->get('auth_token') !== NULL && $url !== K::AUTH_URL)
+		if (PHP_SAPI === 'cli' && $cacheItem->isHit())
+		{
+			$token = $cacheItem->get();
+		}
+		else if ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
 		{
 			$token = $sessionSegment->get('auth_token');
 			if ( ! $cacheItem->isHit())
@@ -82,12 +86,8 @@ trait KitsuTrait {
 				$cacheItem->save();
 			}
 		}
-		else if ($sessionSegment->get('auth_token') === NULL && $cacheItem->isHit())
-		{
-			$token = $cacheItem->get();
-		}
 
-		if (NULL !== $token)
+		if ($token !== NULL)
 		{
 			$request = $request->setAuth('bearer', $token);
 		}

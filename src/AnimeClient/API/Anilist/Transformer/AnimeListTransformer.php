@@ -54,7 +54,7 @@ class AnimeListTransformer extends AbstractTransformer {
 				'reconsuming' => $reconsuming,
 				'status' => $reconsuming
 					? KitsuStatus::WATCHING
-					:AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
+					: AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
 				'updatedAt' => (new DateTime())
 					->setTimestamp($item['updatedAt'])
 					->format(DateTime::W3C)
