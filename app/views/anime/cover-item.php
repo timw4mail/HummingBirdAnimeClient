@@ -30,7 +30,15 @@
 
 		<?php if ($item['rewatched'] > 0): ?>
 			<div class="row">
-				<div>Rewatched <?= $item['rewatched'] ?> time(s)</div>
+				<?php if ($item['rewatched'] == 1): ?>
+				<div>Rewatched once</div>
+				<?php elseif ($item['rewatched'] == 2): ?>
+				<div>Rewatched twice</div>
+				<?php elseif ($item['rewatched'] == 3): ?>
+				<div>Rewatched thrice</div>
+				<?php else: ?>
+				<div>Rewatched <?= $item['rewatched'] ?> times</div>
+				<?php endif ?>
 			</div>
 		<?php endif ?>
 
