@@ -86,7 +86,17 @@
 						<br />
 
 	                    <ul>
-						<?php if ($item['rewatched'] > 0): ?>li>Rewatched <?= $item['rewatched'] ?> time(s)</li><?php endif ?>
+						<?php if ($item['rewatched'] > 0): ?>
+							<?php if ($item['rewatched'] == 1): ?>
+							<li>Rewatched once</li>
+							<?php elseif ($item['rewatched'] == 2): ?>
+							<li>Rewatched twice</li>
+							<?php elseif ($item['rewatched'] == 3): ?>
+							<li>Rewatched thrice</li>
+							<?php else: ?>
+							<li>Rewatched <?= $item['rewatched'] ?> times</li>
+							<?php endif ?>
+						<?php endif ?>
 						<?php foreach(['private','rewatching'] as $attr): ?>
 							<?php if($item[$attr]): ?><li><?= ucfirst($attr); ?></li><?php endif ?>
 						<?php endforeach ?>
