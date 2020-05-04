@@ -43,28 +43,25 @@ abstract class BaseCommand extends Command {
 	/**
 	 * Echo text in a box
 	 *
-	 * @param string $message
+	 * @param string|array $message
 	 * @param string|int|null $fgColor
 	 * @param string|int|null $bgColor
 	 * @return void
 	 */
-	public function echoBox(string $message, $fgColor = NULL, $bgColor = NULL): void
+	public function echoBox($message, $fgColor = NULL, $bgColor = NULL): void
 	{
+		if (is_array($message))
+		{
+			$message = implode("\n", $message);
+		}
+
 		try
 		{
-			$len = strlen($message);
-
 			// color message
 			$message = Colors::colorize($message, $fgColor, $bgColor);
-			$colorLen = strlen($message);
 
 			// create the box
 			$box = new Box($this->getConsole(), $message);
-
-			if ($len !== $colorLen)
-			{
-				$box->setPadding((($colorLen - $len) / 2) + 2);
-			}
 
 			$box->write();
 
@@ -104,6 +101,11 @@ abstract class BaseCommand extends Command {
 	public function echoErrorBox(string $message): void
 	{
 		$this->echoBox($message, Colors::RED | Colors::BOLD, Colors::BLACK);
+	}
+
+	public function clearLine(): void
+	{
+		$this->getConsole()->write("\r\e[2K");
 	}
 
 	/**
