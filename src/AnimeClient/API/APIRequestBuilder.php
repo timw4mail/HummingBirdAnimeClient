@@ -79,6 +79,8 @@ abstract class APIRequestBuilder {
 	{
 		$request = (new Request($uri));
 		$request->setHeader('User-Agent', USER_AGENT);
+		$request->setTcpConnectTimeout(300000);
+		$request->setTransferTimeout(300000);
 
 		return $request;
 	}
@@ -269,7 +271,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function newRequest(string $type, string $uri): self
 	{
-		if ( ! \in_array($type, $this->validMethods, TRUE))
+		if ( ! in_array($type, $this->validMethods, TRUE))
 		{
 			throw new InvalidArgumentException('Invalid HTTP method');
 		}
@@ -327,6 +329,8 @@ abstract class APIRequestBuilder {
 		$this->path = '';
 		$this->query = '';
 		$this->request = new Request($requestUrl, $type);
+		$this->request->setInactivityTimeout(300000);
+		$this->request->setTlsHandshakeTimeout(300000);
 		$this->request->setTcpConnectTimeout(300000);
 		$this->request->setTransferTimeout(300000);
 	}

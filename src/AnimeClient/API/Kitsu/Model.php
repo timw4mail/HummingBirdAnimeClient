@@ -38,6 +38,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaTransformer,
 	MangaListTransformer
 };
+use Aviat\AnimeClient\Enum\ListType;
 use Aviat\AnimeClient\Types\{
 	Anime,
 	FormItem,
@@ -173,38 +174,6 @@ final class Model {
 		}
 
 		return FALSE;
-	}
-
-	/**
-	 * Retrieve the data for the anime watch history page
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getAnimeHistory(): array
-	{
-		$raw = $this->getRawHistoryList('anime');
-		$organized = JsonAPI::organizeData($raw);
-		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-		return (new AnimeHistoryTransformer())->transform($organized);
-	}
-
-	/**
-	 * Retrieve the data for the manga read history page
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getMangaHistory(): array
-	{
-		$raw = $this->getRawHistoryList('manga');
-		$organized = JsonAPI::organizeData($raw);
-		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-		return (new MangaHistoryTransformer())->transform($organized);
 	}
 
 	/**
@@ -421,6 +390,22 @@ final class Model {
 	}
 
 	/**
+	 * Retrieve the data for the anime watch history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getAnimeHistory(): array
+	{
+		$raw = $this->getRawHistoryList('anime');
+		$organized = JsonAPI::organizeData($raw);
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+		return (new AnimeHistoryTransformer())->transform($organized);
+	}
+
+	/**
 	 * Get information about a particular anime
 	 *
 	 * @param string $animeId
@@ -485,27 +470,7 @@ final class Model {
 	 */
 	public function getAnimeListCount(string $status = '') : int
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserIdByUsername(),
-					'kind' => 'anime'
-				],
-				'page' => [
-					'limit' => 1
-				],
-				'sort' => '-updated_at'
-			]
-		];
-
-		if ( ! empty($status))
-		{
-			$options['query']['filter']['status'] = $status;
-		}
-
-		$response = $this->getRequest('library-entries', $options);
-
-		return $response['meta']['count'];
+		return $this->getListCount(ListType::ANIME, $status);
 	}
 
 	/**
@@ -677,6 +642,22 @@ final class Model {
 	}
 
 	/**
+	 * Retrieve the data for the manga read history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getMangaHistory(): array
+	{
+		$raw = $this->getRawHistoryList('manga');
+		$organized = JsonAPI::organizeData($raw);
+		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+		return (new MangaHistoryTransformer())->transform($organized);
+	}
+
+	/**
 	 * Get information about a particular manga
 	 *
 	 * @param string $mangaId
@@ -754,27 +735,7 @@ final class Model {
 	 */
 	public function getMangaListCount(string $status = '') : int
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserIdByUsername(),
-					'kind' => 'manga'
-				],
-				'page' => [
-					'limit' => 1
-				],
-				'sort' => '-updated_at'
-			]
-		];
-
-		if ( ! empty($status))
-		{
-			$options['query']['filter']['status'] = $status;
-		}
-
-		$response = $this->getRequest('library-entries', $options);
-
-		return $response['meta']['count'];
+		return $this->getListCount(ListType::MANGA, $status);
 	}
 
 	/**
@@ -976,6 +937,20 @@ final class Model {
 		return $this->listItem->delete($id);
 	}
 
+	public function getSyncList(string $type): array
+	{
+		$options = [
+			'filter' => [
+				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'kind' => $type,
+			],
+			'include' => "{$type},{$type}.mappings",
+			'sort' => '-updated_at'
+		];
+
+		return $this->getRawSyncList($type, $options);
+	}
+
 	/**
 	 * Get the aggregated pages of anime or manga history
 	 *
@@ -1123,5 +1098,94 @@ final class Model {
 		$baseData['id'] = $data['data'][0]['id'];
 		$baseData['included'] = $data['included'];
 		return $baseData;
+	}
+
+	private function getListCount(string $type, string $status = ''): int
+	{
+		$options = [
+			'query' => [
+				'filter' => [
+					'user_id' => $this->getUserIdByUsername(),
+					'kind' => $type,
+				],
+				'page' => [
+					'limit' => 1
+				],
+				'sort' => '-updated_at'
+			]
+		];
+
+		if ( ! empty($status))
+		{
+			$options['query']['filter']['status'] = $status;
+		}
+
+		$response = $this->getRequest('library-entries', $options);
+
+		return $response['meta']['count'];
+	}
+
+	/**
+	 * Get the full anime list
+	 *
+	 * @param string $type
+	 * @param array $options
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	private function getRawSyncList(string $type, array $options): array
+	{
+		$count = $this->getListCount($type);
+		$size = static::LIST_PAGE_SIZE;
+		$pages = ceil($count / $size);
+
+		$requester = new ParallelAPIRequest();
+
+		// Set up requests
+		for ($i = 0; $i < $pages; $i++)
+		{
+			$offset = $i * $size;
+			$requester->addRequest($this->getRawSyncListPage($type, $size, $offset, $options));
+		}
+
+		$responses = $requester->makeRequests();
+		$output = [];
+
+		foreach($responses as $response)
+		{
+			$data = Json::decode($response);
+			$output[] = $data;
+		}
+
+		return array_merge_recursive(...$output);
+	}
+
+	/**
+	 * Get the full anime list in paginated form
+	 *
+	 * @param string $type
+	 * @param int $limit
+	 * @param int $offset
+	 * @param array $options
+	 * @return Request
+	 * @throws InvalidArgumentException
+	 */
+	private function getRawSyncListPage(string $type, int $limit, int $offset = 0, array $options = []): Request
+	{
+		$defaultOptions = [
+			'filter' => [
+				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'kind' => $type,
+			],
+			'page' => [
+				'offset' => $offset,
+				'limit' => $limit
+			],
+			'sort' => '-updated_at'
+		];
+		$options = array_merge($defaultOptions, $options);
+
+		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 }
