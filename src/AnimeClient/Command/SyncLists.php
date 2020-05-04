@@ -74,27 +74,13 @@ final class SyncLists extends BaseCommand {
 
 		foreach ([ListType::ANIME, ListType::MANGA] as $type)
 		{
+			// Main Sync flow
 			$this->fetchCount($type);
 			$rawData = $this->fetch($type);
 			$normalized = $this->transform($type, $rawData);
 			$compared = $this->compare($type, $normalized);
-
-			/* $toUpdateCounts = [
-				'addToAnilist' => count($compared['addToAnilist']),
-				'updateAnilist' => count($compared['updateAnilist']),
-				'addToKitsu' => count($compared['addToKitsu']),
-				'updateKitsu' => count($compared['updateKitsu']),
-			];
-
-			dump($toUpdateCounts); */
-
 			$this->update($type, $compared);
 		}
-
-		/* $this->sync(ListType::ANIME);
-		$this->sync(ListType::MANGA);
-
-		$this->echoBox('Finished syncing lists'); */
 	}
 
 	// ------------------------------------------------------------------------
@@ -158,6 +144,12 @@ final class SyncLists extends BaseCommand {
 		$this->echoBox($displayLines);
 	}
 
+	/**
+	 * Get the list data
+	 *
+	 * @param string $type
+	 * @return array
+	 */
 	protected function fetch(string $type): array
 	{
 		$this->echo('Fetching List Data');
@@ -177,6 +169,13 @@ final class SyncLists extends BaseCommand {
 		];
 	}
 
+	/**
+	 * Normalize the list data for comparison
+	 *
+	 * @param string $type
+	 * @param array $data
+	 * @return array
+	 */
 	protected function transform(string $type, array $data): array
 	{
 		$this->echo('Normalizing List Data');
@@ -196,6 +195,13 @@ final class SyncLists extends BaseCommand {
 		];
 	}
 
+	/**
+	 * Compare the lists data
+	 *
+	 * @param string $type
+	 * @param array $data
+	 * @return array|array[]
+	 */
 	protected function compare(string $type, array $data): array
 	{
 		$this->echo('Comparing List Items');
@@ -203,6 +209,13 @@ final class SyncLists extends BaseCommand {
 		return $this->compareLists($type, $data['anilist'], $data['kitsu']);
 	}
 
+	/**
+	 * Updated outdated list items
+	 *
+	 * @param string $type
+	 * @param array $data
+	 * @throws Throwable
+	 */
 	protected function update(string $type, array $data)
 	{
 		if ( ! empty($data['addToAnilist']))
