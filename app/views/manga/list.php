@@ -53,8 +53,14 @@
 					<td><?= $item['volumes']['total'] ?></td>
 					<td>
 	                    <ul>
-						<?php if ($item['reread'] > 0): ?>
-	                        <li>Reread <?= $item['reread'] ?> time(s)</li>
+						<?php if ($item['reread'] == 1): ?>
+							<li>Reread once</li>
+						<?php elseif ($item['reread'] == 2): ?>
+							<li>Reread twice</li>
+						<?php elseif ($item['reread'] == 3): ?>
+							<li>Reread thrice</li>
+						<?php elseif ($item['reread'] > 3): ?>
+							<li>Reread <?= $item['reread'] ?> times</li>
 						<?php endif ?>
 						<?php foreach(['rereading'] as $attr): ?>
 							<?php if($item[$attr]): ?>

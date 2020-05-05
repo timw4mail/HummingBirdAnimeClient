@@ -68,7 +68,15 @@
 
 						<?php if ($item['reread'] > 0): ?>
 						<div class="row">
-							<div>Reread <?= $item['reread'] ?> time(s)</div>
+							<?php if ($item['reread'] == 1): ?>
+								<div>Reread once</div>
+							<?php elseif ($item['reread'] == 2): ?>
+								<div>Reread twice</div>
+							<?php elseif ($item['reread'] == 3): ?>
+								<div>Reread thrice</div>
+							<?php else: ?>
+								<div>Reread <?= $item['reread'] ?> times</div>
+							<?php endif ?>
 						</div>
 						<?php endif ?>
 
