@@ -252,8 +252,8 @@ final class Model {
 					'fields' => [
 						'characters' => 'canonicalName,slug,image',
 						'characterVoices' => 'mediaCharacter',
-						'anime' => 'canonicalTitle,titles,slug,posterImage',
-						'manga' => 'canonicalTitle,titles,slug,posterImage',
+						'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
+						'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
 						'mediaCharacters' => 'role,media,character',
 						'mediaStaff' => 'role,media,person',
 					],
