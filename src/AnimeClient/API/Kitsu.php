@@ -206,7 +206,7 @@ final class Kitsu {
 		$raw = array_unique([
 			$data['canonicalTitle'],
 			...array_values($data['titles']),
-			...array_values($data['abbreviatedTitles']),
+			...array_values($data['abbreviatedTitles'] ?? []),
 		]);
 
 		return array_diff($raw,[$data['canonicalTitle']]);
@@ -226,17 +226,6 @@ final class Kitsu {
 		if (array_key_exists('titles', $data))
 		{
 			foreach($data['titles'] as $alternateTitle)
-			{
-				if (self::titleIsUnique($alternateTitle, $valid))
-				{
-					$valid[] = $alternateTitle;
-				}
-			}
-		}
-
-		if (array_key_exists('abbreviatedTitles', $data))
-		{
-			foreach ($data['abbreviatedTitles'] as $alternateTitle)
 			{
 				if (self::titleIsUnique($alternateTitle, $valid))
 				{
