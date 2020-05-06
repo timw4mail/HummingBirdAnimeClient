@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\AnimeClient\Enum\EventType;
+use function in_array;
 use const PHP_SAPI;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
@@ -24,10 +26,8 @@ use function Aviat\AnimeClient\getResponse;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
-use Aviat\AnimeClient\API\{
-	FailedResponseException,
-	Kitsu as K
-};
+use Aviat\AnimeClient\API\{FailedResponseException, Kitsu as K};
+use Aviat\Ion\Event;
 use Aviat\Ion\Json;
 use Aviat\Ion\JsonException;
 
@@ -80,7 +80,7 @@ trait KitsuTrait {
 		else if ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
 		{
 			$token = $sessionSegment->get('auth_token');
-			if ( ! $cacheItem->isHit())
+			if ( ! (empty($token) || $cacheItem->isHit()))
 			{
 				$cacheItem->set($token);
 				$cacheItem->save();
@@ -168,12 +168,20 @@ trait KitsuTrait {
 		}
 
 		$response = $this->getResponse($type, $url, $options);
+		$statusCode = $response->getStatus();
 
-		if ((int) $response->getStatus() > 299 || (int) $response->getStatus() < 200)
+		// Check for requests that are unauthorized
+		if ($statusCode === 401 || $statusCode === 403)
+		{
+			Event::emit(EventType::UNAUTHORIZED);
+		}
+
+		// Any other type of failed request
+		if ($statusCode > 299 || $statusCode < 200)
 		{
 			if ($logger)
 			{
-				$logger->warning('Non 200 response for api call', (array)$response);
+				$logger->warning('Non 2xx response for api call', (array)$response);
 			}
 
 			throw new FailedResponseException('Failed to get the proper response from the API');
@@ -188,7 +196,6 @@ trait KitsuTrait {
 			print_r($e);
 			die();
 		}
-
 	}
 
 	/**
@@ -233,12 +240,9 @@ trait KitsuTrait {
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! \in_array((int) $response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE) && $logger)
 		{
-			if ($logger)
-			{
-				$logger->warning('Non 201 response for POST api call', $response->getBody());
-			}
+			$logger->warning('Non 201 response for POST api call', $response->getBody());
 		}
 
 		return JSON::decode(wait($response->getBody()->buffer()), TRUE);
@@ -254,6 +258,6 @@ trait KitsuTrait {
 	protected function deleteRequest(...$args): bool
 	{
 		$response = $this->getResponse('DELETE', ...$args);
-		return ((int) $response->getStatus() === 204);
+		return ($response->getStatus() === 204);
 	}
 }

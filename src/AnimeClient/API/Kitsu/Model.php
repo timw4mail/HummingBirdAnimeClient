@@ -582,7 +582,7 @@ final class Model {
 	{
 		$defaultOptions = [
 			'filter' => [
-				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'user_id' => $this->getUserId(),
 				'kind' => 'anime'
 			],
 			'page' => [
@@ -608,7 +608,7 @@ final class Model {
 	{
 		$options = [
 			'filter' => [
-				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'user_id' => $this->getUserId(),
 				'kind' => 'anime',
 				'status' => $status,
 			],
@@ -683,7 +683,7 @@ final class Model {
 		$options = [
 			'query' => [
 				'filter' => [
-					'user_id' => $this->getUserIdByUsername($this->getUsername()),
+					'user_id' => $this->getUserId(),
 					'kind' => 'manga',
 					'status' => $status,
 				],
@@ -811,7 +811,7 @@ final class Model {
 	{
 		$defaultOptions = [
 			'filter' => [
-				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'user_id' => $this->getUserId(),
 				'kind' => 'manga'
 			],
 			'page' => [
@@ -866,7 +866,7 @@ final class Model {
 	 */
 	public function createListItem(array $data): ?Request
 	{
-		$data['user_id'] = $this->getUserIdByUsername($this->getUsername());
+		$data['user_id'] = $this->getUserId();
 		if ($data['id'] === NULL)
 		{
 			return NULL;
@@ -941,7 +941,7 @@ final class Model {
 	{
 		$options = [
 			'filter' => [
-				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'user_id' => $this->getUserId(),
 				'kind' => $type,
 			],
 			'include' => "{$type},{$type}.mappings",
@@ -1001,7 +1001,7 @@ final class Model {
 			'query' => [
 				'filter' => [
 					'kind' => 'progressed,updated',
-					'userId' => $this->getUserIdByUsername($this->getUsername()),
+					'userId' => $this->getUserId(),
 				],
 				'page' => [
 					'offset' => $offset,
@@ -1016,6 +1016,18 @@ final class Model {
 				'include' => 'anime,manga,libraryEntry',
 			],
 		]);
+	}
+
+	private function getUserId(): string
+	{
+		static $userId = NULL;
+
+		if ($userId === NULL)
+		{
+			$userId = $this->getUserIdByUsername($this->getUsername());
+		}
+
+		return $userId;
 	}
 
 	/**
@@ -1105,7 +1117,7 @@ final class Model {
 		$options = [
 			'query' => [
 				'filter' => [
-					'user_id' => $this->getUserIdByUsername(),
+					'user_id' => $this->getUserId(),
 					'kind' => $type,
 				],
 				'page' => [
@@ -1175,7 +1187,7 @@ final class Model {
 	{
 		$defaultOptions = [
 			'filter' => [
-				'user_id' => $this->getUserIdByUsername($this->getUsername()),
+				'user_id' => $this->getUserId(),
 				'kind' => $type,
 			],
 			'page' => [

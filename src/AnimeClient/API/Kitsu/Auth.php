@@ -27,6 +27,7 @@ use Aviat\AnimeClient\API\{
 };
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Event;
 
 use Throwable;
 use const PHP_SAPI;
@@ -66,6 +67,8 @@ final class Auth {
 		$this->segment = $container->get('session')
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
+
+		Event::on('::unauthorized::', [$this, 'reAuthenticate']);
 	}
 
 	/**
@@ -83,6 +86,28 @@ final class Auth {
 		$username = $config->get('kitsu_username');
 
 		$auth = $this->model->authenticate($username, $password);
+
+		return $this->storeAuth($auth);
+	}
+
+	/**
+	 * Make the call to re-authenticate with the existing refresh token
+	 *
+	 * @param string $refreshToken
+	 * @return boolean
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function reAuthenticate(?string $refreshToken): bool
+	{
+		$refreshToken ??= $this->getAuthToken();
+
+		if (empty($refreshToken))
+		{
+			return FALSE;
+		}
+
+		$auth = $this->model->reAuthenticate($refreshToken);
 
 		return $this->storeAuth($auth);
 	}
@@ -110,7 +135,7 @@ final class Auth {
 	/**
 	 * Retrieve the authentication token from the session
 	 *
-	 * @return string|false
+	 * @return string
 	 */
 	private function getAuthToken(): ?string
 	{
@@ -146,22 +171,14 @@ final class Auth {
 		return $token;
 	}
 
-	/**
-	 * Make the call to re-authenticate with the existing refresh token
-	 *
-	 * @param string $token
-	 * @return boolean
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	private function reAuthenticate(string $token): bool
+	private function getRefreshToken(): ?string
 	{
-		$auth = $this->model->reAuthenticate($token);
-
-		return $this->storeAuth($auth);
+		return (PHP_SAPI === 'cli')
+			? $this->cacheGet(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL)
+			: $this->segment->get('refresh_token');
 	}
 
-	private function storeAuth($auth): bool
+	private function storeAuth(bool $auth): bool
 	{
 		if (FALSE !== $auth)
 		{

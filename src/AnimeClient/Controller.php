@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\Enum\EventType;
 use function Aviat\Ion\_dir;
 
 use Aura\Router\Generator;
@@ -32,6 +33,7 @@ use Aviat\Ion\Di\{
 	Exception\ContainerException,
 	Exception\NotFoundException
 };
+use Aviat\Ion\Event;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -131,6 +133,9 @@ class Controller {
 			'url_type' => 'anime',
 			'urlGenerator' => $urlGenerator,
 		];
+
+		Event::on(EventType::CLEAR_CACHE, fn () => $this->emptyCache());
+		Event::on(EventType::RESET_CACHE_KEY, fn (string $key) => $this->removeCacheItem($key));
 	}
 
 	/**
@@ -429,6 +434,16 @@ class Controller {
 	{
 		(new HttpView($this->container))->redirect($url, $code);
 		exit();
+	}
+
+	private function emptyCache(): void
+	{
+		$this->cache->emptyCache();
+	}
+
+	private function removeCacheItem(string $key): void
+	{
+		$this->cache->deleteItem($key);
 	}
 }
 // End of BaseController.php
