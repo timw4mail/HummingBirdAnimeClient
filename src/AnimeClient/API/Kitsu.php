@@ -196,6 +196,23 @@ final class Kitsu {
 	}
 
 	/**
+	 * Get the list of titles
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public static function getTitles(array $data): array
+	{
+		$raw = array_unique([
+			$data['canonicalTitle'],
+			...array_values($data['titles']),
+			...array_values($data['abbreviatedTitles']),
+		]);
+
+		return array_diff($raw,[$data['canonicalTitle']]);
+	}
+
+	/**
 	 * Filter out duplicate and very similar names from
 	 *
 	 * @param array $data The 'attributes' section of the api data response
@@ -209,6 +226,17 @@ final class Kitsu {
 		if (array_key_exists('titles', $data))
 		{
 			foreach($data['titles'] as $alternateTitle)
+			{
+				if (self::titleIsUnique($alternateTitle, $valid))
+				{
+					$valid[] = $alternateTitle;
+				}
+			}
+		}
+
+		if (array_key_exists('abbreviatedTitles', $data))
+		{
+			foreach ($data['abbreviatedTitles'] as $alternateTitle)
 			{
 				if (self::titleIsUnique($alternateTitle, $valid))
 				{

@@ -23,10 +23,10 @@ final class AnimePage extends Anime {
 	/**
 	 * @var array
 	 */
-	public $characters;
+	public array $characters = [];
 
 	/**
 	 * @var array
 	 */
-	public $staff;
+	public array $staff = [];
 }
