@@ -24,7 +24,7 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
 use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
-use Aviat\Banker\Pool;
+use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
 use ConsoleKit\{Colors, Command, ConsoleException};
@@ -129,104 +129,105 @@ abstract class BaseCommand extends Command {
 
 		$configArray = array_replace_recursive($baseConfig, $config, $overrideConfig);
 
-		$di = static function (array $configArray) use ($APP_DIR): Container {
-			$container = new Container();
-
-			// -------------------------------------------------------------------------
-			// Logging
-			// -------------------------------------------------------------------------
-
-			$app_logger = new Logger('animeclient');
-			$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
-
-			$kitsu_request_logger = new Logger('kitsu-request');
-			$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
-
-			$anilistRequestLogger = new Logger('anilist-request');
-			$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
-
-			$container->setLogger($app_logger);
-			$container->setLogger($anilistRequestLogger, 'anilist-request');
-			$container->setLogger($kitsu_request_logger, 'kitsu-request');
-
-			// Create Config Object
-			$container->set('config', fn () => new Config($configArray));
-
-			// Create Cache Object
-			$container->set('cache', static function($container) {
-				$logger = $container->getLogger();
-				$config = $container->get('config')->get('cache');
-				return new Pool($config, $logger);
-			});
-
-			// Create Aura Router Object
-			$container->set('aura-router', fn () => new RouterContainer);
-
-			// Create Request/Response Objects
-			$container->set('request', fn () => ServerRequestFactory::fromGlobals(
-				$_SERVER,
-				$_GET,
-				$_POST,
-				$_COOKIE,
-				$_FILES
-			));
-			$container->set('response', fn () => new Response);
-
-			// Create session Object
-			$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
-
-			// Models
-			$container->set('kitsu-model', static function($container): Kitsu\Model {
-				$requestBuilder = new KitsuRequestBuilder();
-				$requestBuilder->setLogger($container->getLogger('kitsu-request'));
-
-				$listItem = new Kitsu\ListItem();
-				$listItem->setContainer($container);
-				$listItem->setRequestBuilder($requestBuilder);
-
-				$model = new Kitsu\Model($listItem);
-				$model->setContainer($container);
-				$model->setRequestBuilder($requestBuilder);
-
-				$cache = $container->get('cache');
-				$model->setCache($cache);
-				return $model;
-			});
-			$container->set('anilist-model', static function ($container): Anilist\Model {
-				$requestBuilder = new Anilist\AnilistRequestBuilder();
-				$requestBuilder->setLogger($container->getLogger('anilist-request'));
-
-				$listItem = new Anilist\ListItem();
-				$listItem->setContainer($container);
-				$listItem->setRequestBuilder($requestBuilder);
-
-				$model = new Anilist\Model($listItem);
-				$model->setContainer($container);
-				$model->setRequestBuilder($requestBuilder);
-
-				return $model;
-			});
-			$container->set('settings-model', static function($container): Model\Settings {
-				$model =  new Model\Settings($container->get('config'));
-				$model->setContainer($container);
-				return $model;
-			});
-
-			$container->set('auth', fn ($container) => new Kitsu\Auth($container));
-
-			$container->set('url-generator', fn ($container) => new UrlGenerator($container));
-
-			$container->set('util', fn ($container) => new Util($container));
-
-			return $container;
-		};
-
-		return $di($configArray);
+		return $this->_di($configArray, $APP_DIR);
 	}
 
 	private function _line(string $message, $fgColor = NULL, $bgColor = NULL): void
 	{
 		$message = Colors::colorize($message, $fgColor, $bgColor);
 		$this->getConsole()->writeln($message);
+	}
+
+	private function _di(array $configArray, string $APP_DIR): ContainerInterface
+	{
+		$container = new Container();
+
+		// -------------------------------------------------------------------------
+		// Logging
+		// -------------------------------------------------------------------------
+
+		$app_logger = new Logger('animeclient');
+		$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
+
+		$kitsu_request_logger = new Logger('kitsu-request');
+		$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
+
+		$anilistRequestLogger = new Logger('anilist-request');
+		$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
+
+		$container->setLogger($app_logger);
+		$container->setLogger($anilistRequestLogger, 'anilist-request');
+		$container->setLogger($kitsu_request_logger, 'kitsu-request');
+
+		// Create Config Object
+		$container->set('config', fn () => new Config($configArray));
+
+		// Create Cache Object
+		$container->set('cache', static function($container) {
+			$logger = $container->getLogger();
+			$config = $container->get('config')->get('cache');
+			return new Teller($config, $logger);
+		});
+
+		// Create Aura Router Object
+		$container->set('aura-router', fn () => new RouterContainer);
+
+		// Create Request/Response Objects
+		$container->set('request', fn () => ServerRequestFactory::fromGlobals(
+			$_SERVER,
+			$_GET,
+			$_POST,
+			$_COOKIE,
+			$_FILES
+		));
+		$container->set('response', fn () => new Response);
+
+		// Create session Object
+		$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
+
+		// Models
+		$container->set('kitsu-model', static function($container): Kitsu\Model {
+			$requestBuilder = new KitsuRequestBuilder($container);
+			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
+
+			$listItem = new Kitsu\ListItem();
+			$listItem->setContainer($container);
+			$listItem->setRequestBuilder($requestBuilder);
+
+			$model = new Kitsu\Model($listItem);
+			$model->setContainer($container);
+			$model->setRequestBuilder($requestBuilder);
+
+			$cache = $container->get('cache');
+			$model->setCache($cache);
+			return $model;
+		});
+		$container->set('anilist-model', static function ($container): Anilist\Model {
+			$requestBuilder = new Anilist\AnilistRequestBuilder();
+			$requestBuilder->setLogger($container->getLogger('anilist-request'));
+
+			$listItem = new Anilist\ListItem();
+			$listItem->setContainer($container);
+			$listItem->setRequestBuilder($requestBuilder);
+
+			$model = new Anilist\Model($listItem);
+			$model->setContainer($container);
+			$model->setRequestBuilder($requestBuilder);
+
+			return $model;
+		});
+		$container->set('settings-model', static function($container): Model\Settings {
+			$model =  new Model\Settings($container->get('config'));
+			$model->setContainer($container);
+			return $model;
+		});
+
+		$container->set('auth', fn ($container) => new Kitsu\Auth($container));
+
+		$container->set('url-generator', fn ($container) => new UrlGenerator($container));
+
+		$container->set('util', fn ($container) => new Util($container));
+
+		return $container;
 	}
 }

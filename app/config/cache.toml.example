@@ -4,7 +4,7 @@
 
 # See https://git.timshomepage.net/aviat/banker for more information
 
-# Available drivers are apcu, memcache, memcached, redis or null
+# Available drivers are memcached, redis or null
 # Null cache driver means no caching
 driver = "redis"
 

@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aura\Session\Segment;
 
-use Aviat\Banker\Exception\InvalidArgumentException;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use Aviat\AnimeClient\API\{
@@ -29,8 +28,9 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;
 
+use Psr\SimpleCache\InvalidArgumentException;
+
 use Throwable;
-use const PHP_SAPI;
 
 /**
  * Kitsu API Authentication
@@ -77,7 +77,6 @@ final class Auth {
 	 *
 	 * @param string $password
 	 * @return boolean
-	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 */
 	public function authenticate(string $password): bool
@@ -95,12 +94,11 @@ final class Auth {
 	 *
 	 * @param string $refreshToken
 	 * @return boolean
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
+	 * @throws Throwable|InvalidArgumentException
 	 */
 	public function reAuthenticate(?string $refreshToken): bool
 	{
-		$refreshToken ??= $this->getAuthToken();
+		$refreshToken ??= $this->getRefreshToken();
 
 		if (empty($refreshToken))
 		{
@@ -116,6 +114,7 @@ final class Auth {
 	 * Check whether the current user is authenticated
 	 *
 	 * @return boolean
+	 * @throws InvalidArgumentException
 	 */
 	public function isAuthenticated(): bool
 	{
@@ -136,87 +135,59 @@ final class Auth {
 	 * Retrieve the authentication token from the session
 	 *
 	 * @return string
+	 * @throws InvalidArgumentException
 	 */
-	private function getAuthToken(): ?string
+	public function getAuthToken(): ?string
 	{
-		$now = time();
-
-		if (PHP_SAPI === 'cli')
-		{
-			$token = $this->cacheGet(K::AUTH_TOKEN_CACHE_KEY, NULL);
-			$refreshToken = $this->cacheGet(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
-			$expireTime = $this->cacheGet(K::AUTH_TOKEN_EXP_CACHE_KEY);
-			$isExpired = $now > $expireTime;
-		}
-		else
-		{
-			$token = $this->segment->get('auth_token', NULL);
-			$refreshToken = $this->segment->get('refresh_token', NULL);
-			$isExpired = $now > $this->segment->get('auth_token_expires', $now + 5000);
-		}
-
-		// Attempt to re-authenticate with refresh token
-		/* if ($isExpired === TRUE && $refreshToken !== NULL)
-		{
-			if ($this->reAuthenticate($refreshToken) !== NULL)
-			{
-				return (PHP_SAPI === 'cli')
-					? $this->cacheGet(K::AUTH_TOKEN_CACHE_KEY, NULL)
-					: $this->segment->get('auth_token', NULL);
-			}
-
-			return NULL;
-		}*/
-
-		return $token;
+		return $this->segment->get('auth_token', NULL)
+			?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY, NULL);
 	}
 
+	/**
+	 * Retrieve the refresh token
+	 *
+	 * @return string|null
+	 * @throws InvalidArgumentException
+	 */
 	private function getRefreshToken(): ?string
 	{
-		return (PHP_SAPI === 'cli')
-			? $this->cacheGet(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL)
-			: $this->segment->get('refresh_token');
+		return $this->segment->get('refresh_token')
+			?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
 	}
 
-	private function storeAuth(bool $auth): bool
+	/**
+	 * Save the new authentication information
+	 *
+	 * @param $auth
+	 * @return bool
+	 * @throws InvalidArgumentException
+	 */
+	private function storeAuth($auth): bool
 	{
 		if (FALSE !== $auth)
 		{
-			// Set the token in the cache for command line operations
-			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_CACHE_KEY);
-			$cacheItem->set($auth['access_token']);
-			$cacheItem->save();
-
-			// Set the token expiration in the cache
 			$expire_time = $auth['created_at'] + $auth['expires_in'];
-			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_EXP_CACHE_KEY);
-			$cacheItem->set($expire_time);
-			$cacheItem->save();
 
+			// Set the token in the cache for command line operations
+			// Set the token expiration in the cache
 			// Set the refresh token in the cache
-			$cacheItem = $this->cache->getItem(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
-			$cacheItem->set($auth['refresh_token']);
-			$cacheItem->save();
+			$saved = $this->cache->setMultiple([
+				K::AUTH_TOKEN_CACHE_KEY => $auth['access_token'],
+				K::AUTH_TOKEN_EXP_CACHE_KEY => $expire_time,
+				K::AUTH_TOKEN_REFRESH_CACHE_KEY => $auth['refresh_token'],
+			]);
 
 			// Set the session values
-			$this->segment->set('auth_token', $auth['access_token']);
-			$this->segment->set('auth_token_expires', $expire_time);
-			$this->segment->set('refresh_token', $auth['refresh_token']);
-			return TRUE;
+			if ($saved)
+			{
+				$this->segment->set('auth_token', $auth['access_token']);
+				$this->segment->set('auth_token_expires', $expire_time);
+				$this->segment->set('refresh_token', $auth['refresh_token']);
+				return TRUE;
+			}
 		}
 
 		return FALSE;
-	}
-
-	private function cacheGet(string $key, $default = NULL)
-	{
-		$cacheItem = $this->cache->getItem($key);
-		if ( ! $cacheItem->isHit())
-		{
-			return $default;
-		}
-
-		return $cacheItem->get();
 	}
 }
 // End of KitsuAuth.php

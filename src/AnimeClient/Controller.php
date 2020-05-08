@@ -16,16 +16,16 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\Enum\EventType;
 use function Aviat\Ion\_dir;
 
+use Aviat\AnimeClient\Enum\EventType;
 use Aura\Router\Generator;
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
 use Aviat\Ion\ConfigInterface;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\SimpleCache\CacheInterface;
 
 use Aviat\Ion\Di\{
 	ContainerAware,
@@ -53,9 +53,9 @@ class Controller {
 
 	/**
 	 * Cache manager
-	 * @var CacheItemPoolInterface
+	 * @var CacheInterface
 	 */
-	protected CacheItemPoolInterface $cache;
+	protected CacheInterface $cache;
 
 	/**
 	 * The global configuration object
@@ -134,8 +134,9 @@ class Controller {
 			'urlGenerator' => $urlGenerator,
 		];
 
-		Event::on(EventType::CLEAR_CACHE, fn () => $this->emptyCache());
-		Event::on(EventType::RESET_CACHE_KEY, fn (string $key) => $this->removeCacheItem($key));
+		// Set up 'global' events
+		Event::on(EventType::CLEAR_CACHE, fn () => clearCache($this->cache));
+		Event::on(EventType::RESET_CACHE_KEY, fn (string $key) => $this->cache->delete($key));
 	}
 
 	/**
@@ -434,16 +435,6 @@ class Controller {
 	{
 		(new HttpView($this->container))->redirect($url, $code);
 		exit();
-	}
-
-	private function emptyCache(): void
-	{
-		$this->cache->emptyCache();
-	}
-
-	private function removeCacheItem(string $key): void
-	{
-		$this->cache->deleteItem($key);
 	}
 }
 // End of BaseController.php
