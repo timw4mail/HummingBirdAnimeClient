@@ -92,7 +92,6 @@ const SETTINGS_MAP = [
 			'title' => 'Cache Type',
 			'description' => 'The Cache backend',
 			'options' => [
-				'APCu' => 'apcu',
 				'Memcached' => 'memcached',
 				'Redis' => 'redis',
 				'No Cache' => 'null'
