@@ -149,7 +149,7 @@ final class CharacterTransformer extends AbstractTransformer {
 
 					$person = $p['attributes'];
 					$person['id'] = $pid;
-					$person['image'] = $person['image']['original'];
+					$person['image'] = $person['image']['original'] ?? '';
 
 					uasort($role['relationships']['media']['anime'], static function ($a, $b) {
 						return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];

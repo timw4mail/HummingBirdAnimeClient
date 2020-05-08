@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Command;
 
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use function Aviat\AnimeClient\clearCache;
 
 /**
  * Clears the API Cache
@@ -36,8 +37,17 @@ final class CacheClear extends BaseCommand {
 	{
 		$this->setContainer($this->setupContainer());
 
-		$this->container->get('cache')->clear();
+		$cache = $this->container->get('cache');
 
-		$this->echoBox('API Cache has been cleared.');
+		$cleared = clearCache($cache);
+
+		if ($cleared)
+		{
+			$this->echoBox('API Cache has been cleared.');
+		}
+		else
+		{
+			$this->echoErrorBox('Failed to clear cache.');
+		}
 	}
 }

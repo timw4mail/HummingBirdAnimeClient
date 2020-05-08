@@ -190,11 +190,8 @@ final class Model {
 			$username = $this->getUsername();
 		}
 
-		$cacheItem = $this->cache->getItem(K::AUTH_USER_ID_KEY);
-
-		if ( ! $cacheItem->isHit())
-		{
-			$data = $this->getRequest('users', [
+		return $this->getCached(K::AUTH_USER_ID_KEY, function(string $username) {
+			$data = $this->requestBuilder->getRequest('users', [
 				'query' => [
 					'filter' => [
 						'name' => $username
@@ -202,11 +199,8 @@ final class Model {
 				]
 			]);
 
-			$cacheItem->set($data['data'][0]['id']);
-			$cacheItem->save();
-		}
-
-		return $cacheItem->get();
+			return $data['data'][0]['id'] ?? NULL;
+		}, [$username]);
 	}
 
 	/**
@@ -398,11 +392,23 @@ final class Model {
 	 */
 	public function getAnimeHistory(): array
 	{
-		$raw = $this->getRawHistoryList('anime');
-		$organized = JsonAPI::organizeData($raw);
-		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+		$key = K::ANIME_HISTORY_LIST_CACHE_KEY;
+		$list = $this->cache->get($key, NULL);
 
-		return (new AnimeHistoryTransformer())->transform($organized);
+		if ($list === NULL)
+		{
+			$raw = $this->getRawHistoryList('anime');
+
+			$organized = JsonAPI::organizeData($raw);
+			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+			$list = (new AnimeHistoryTransformer())->transform($organized);
+
+			$this->cache->set($key, $list);
+
+		}
+
+		return $list;
 	}
 
 	/**
@@ -426,9 +432,11 @@ final class Model {
 	 */
 	public function getAnimeList(string $status): array
 	{
-		$cacheItem = $this->cache->getItem("kitsu-anime-list-{$status}");
+		$key = "kitsu-anime-list-{$status}";
 
-		if ( ! $cacheItem->isHit())
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
 		{
 			$data = $this->getRawAnimeList($status) ?? [];
 
@@ -454,11 +462,11 @@ final class Model {
 				$keyed[$item['id']] = $item;
 			}
 
-			$cacheItem->set($keyed);
-			$cacheItem->save();
+			$list = $keyed;
+			$this->cache->set($key, $list);
 		}
 
-		return $cacheItem->get();
+		return $list;
 	}
 
 	/**
@@ -650,11 +658,21 @@ final class Model {
 	 */
 	public function getMangaHistory(): array
 	{
-		$raw = $this->getRawHistoryList('manga');
-		$organized = JsonAPI::organizeData($raw);
-		$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+		$key = K::MANGA_HISTORY_LIST_CACHE_KEY;
+		$list = $this->cache->get($key, NULL);
 
-		return (new MangaHistoryTransformer())->transform($organized);
+		if ($list === NULL)
+		{
+			$raw = $this->getRawHistoryList('manga');
+			$organized = JsonAPI::organizeData($raw);
+			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
+
+			$list = (new MangaHistoryTransformer())->transform($organized);
+
+			$this->cache->set($key, $list);
+		}
+
+		return $list;
 	}
 
 	/**
@@ -696,11 +714,13 @@ final class Model {
 			]
 		];
 
-		$cacheItem = $this->cache->getItem("kitsu-manga-list-{$status}");
+		$key = "kitsu-manga-list-{$status}";
 
-		if ( ! $cacheItem->isHit())
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
 		{
-			$data = $this->getRequest('library-entries', $options) ?? [];
+			$data = $this->requestBuilder->getRequest('library-entries', $options) ?? [];
 
 			// Bail out on no data
 			if (empty($data) || ( ! array_key_exists('included', $data)))
@@ -717,13 +737,12 @@ final class Model {
 			}
 			unset($item);
 
-			$transformed = $this->mangaListTransformer->transformCollection($data['data']);
+			$list = $this->mangaListTransformer->transformCollection($data['data']);
 
-			$cacheItem->set($transformed);
-			$cacheItem->save();
+			$this->cache->set($key, $list);
 		}
 
-		return $cacheItem->get();
+		return $list;
 	}
 
 	/**
