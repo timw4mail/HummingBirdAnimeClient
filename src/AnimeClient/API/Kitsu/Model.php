@@ -116,7 +116,7 @@ final class Model {
 	public function authenticate(string $username, string $password)
 	{
 		// K::AUTH_URL
-		$response = $this->getResponse('POST', K::AUTH_URL, [
+		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
 				'accept' => NULL,
 				'Content-type' => 'application/x-www-form-urlencoded',
@@ -182,6 +182,7 @@ final class Model {
 	 * @param string $username
 	 * @return string
 	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function getUserIdByUsername(string $username = NULL): string
 	{
@@ -211,14 +212,14 @@ final class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		return $this->getRequest('characters', [
+		return $this->requestBuilder->getRequest('characters', [
 			'query' => [
 				'filter' => [
 					'slug' => $slug,
 				],
 				'fields' => [
-					'anime' => 'canonicalTitle,titles,slug,posterImage',
-					'manga' => 'canonicalTitle,titles,slug,posterImage'
+					'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage'
 				],
 				'include' => 'castings.person,castings.media'
 			]
@@ -234,31 +235,22 @@ final class Model {
 	 */
 	public function getPerson(string $id): array
 	{
-		$cacheItem = $this->cache->getItem("kitsu-person-{$id}");
-
-		if ( ! $cacheItem->isHit())
-		{
-			$data = $this->getRequest("people/{$id}", [
-				'query' => [
-					'filter' => [
-						'id' => $id,
-					],
-					'fields' => [
-						'characters' => 'canonicalName,slug,image',
-						'characterVoices' => 'mediaCharacter',
-						'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-						'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-						'mediaCharacters' => 'role,media,character',
-						'mediaStaff' => 'role,media,person',
-					],
-					'include' => 'voices.mediaCharacter.media,voices.mediaCharacter.character,staff.media',
+		return $this->getCached("kitsu-person-{$id}", fn () => $this->requestBuilder->getRequest("people/{$id}", [
+			'query' => [
+				'filter' => [
+					'id' => $id,
 				],
-			]);
-			$cacheItem->set($data);
-			$cacheItem->save();
-		}
-
-		return $cacheItem->get();
+				'fields' => [
+					'characters' => 'canonicalName,slug,image',
+					'characterVoices' => 'mediaCharacter',
+					'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
+					'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
+					'mediaCharacters' => 'role,media,character',
+					'mediaStaff' => 'role,media,person',
+				],
+				'include' => 'voices.mediaCharacter.media,voices.mediaCharacter.character,staff.media',
+			],
+		]));
 	}
 
 	/**
@@ -269,7 +261,7 @@ final class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		return $this->getRequest('users', [
+		return $this->requestBuilder->getRequest('users', [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -306,7 +298,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->getRequest($type, $options);
+		$raw = $this->requestBuilder->getRequest($type, $options);
 		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
 
 		foreach ($raw['data'] as &$item)
@@ -351,7 +343,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->getRequest('mappings', $options);
+		$raw = $this->requestBuilder->getRequest('mappings', $options);
 
 		if ( ! array_key_exists('included', $raw))
 		{
@@ -555,7 +547,7 @@ final class Model {
 				'include' => 'mappings'
 			]
 		];
-		$data = $this->getRequest("anime/{$kitsuAnimeId}", $options);
+		$data = $this->requestBuilder->getRequest("anime/{$kitsuAnimeId}", $options);
 
 		if ( ! array_key_exists('included', $data))
 		{
@@ -601,7 +593,7 @@ final class Model {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 
 	/**
@@ -841,7 +833,7 @@ final class Model {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 
 	/**
@@ -858,7 +850,7 @@ final class Model {
 				'include' => 'mappings'
 			]
 		];
-		$data = $this->getRequest("manga/{$kitsuMangaId}", $options);
+		$data = $this->requestBuilder->getRequest("manga/{$kitsuMangaId}", $options);
 		$mappings = array_column($data['included'], 'attributes');
 
 		foreach($mappings as $map)
@@ -1016,7 +1008,7 @@ final class Model {
 	 */
 	protected function getRawHistoryPage(string $type, int $offset, int $limit = 20): Request
 	{
-		return $this->setUpRequest('GET', 'library-events', [
+		return $this->requestBuilder->setUpRequest('GET', 'library-events', [
 			'query' => [
 				'filter' => [
 					'kind' => 'progressed,updated',
@@ -1078,7 +1070,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->getRequest("{$type}/{$id}", $options);
+		$data = $this->requestBuilder->getRequest("{$type}/{$id}", $options);
 
 		if (empty($data['data']))
 		{
@@ -1118,7 +1110,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->getRequest($type, $options);
+		$data = $this->requestBuilder->getRequest($type, $options);
 
 		if (empty($data['data']))
 		{
@@ -1151,7 +1143,7 @@ final class Model {
 			$options['query']['filter']['status'] = $status;
 		}
 
-		$response = $this->getRequest('library-entries', $options);
+		$response = $this->requestBuilder->getRequest('library-entries', $options);
 
 		return $response['meta']['count'];
 	}
@@ -1217,6 +1209,6 @@ final class Model {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 }
