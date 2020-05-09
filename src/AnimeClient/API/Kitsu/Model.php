@@ -155,18 +155,25 @@ final class Model {
 	 */
 	public function reAuthenticate(string $token)
 	{
-		$response = $this->getResponse('POST', K::AUTH_URL, [
+		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
+				'accept' => NULL,
+				'Content-type' => 'application/x-www-form-urlencoded',
 				'Accept-encoding' => '*'
-
 			],
 			'form_params' => [
 				'grant_type' => 'refresh_token',
 				'refresh_token' => $token
 			]
 		]);
-
 		$data = Json::decode(wait($response->getBody()->buffer()));
+
+		if (array_key_exists('error', $data))
+		{
+			dump($data['error']);
+			dump($response);
+			die();
+		}
 
 		if (array_key_exists('access_token', $data))
 		{
