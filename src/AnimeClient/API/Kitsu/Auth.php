@@ -139,8 +139,13 @@ final class Auth {
 	 */
 	public function getAuthToken(): ?string
 	{
-		return $this->segment->get('auth_token', NULL)
-			?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY, NULL);
+		if (PHP_SAPI === 'cli')
+		{
+			return $this->segment->get('auth_token', NULL)
+				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY, NULL);
+		}
+
+		return $this->segment->get('auth_token', NULL);
 	}
 
 	/**
@@ -151,8 +156,13 @@ final class Auth {
 	 */
 	private function getRefreshToken(): ?string
 	{
-		return $this->segment->get('refresh_token')
-			?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
+		if (PHP_SAPI === 'cli')
+		{
+			return $this->segment->get('refresh_token')
+				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
+		}
+
+		return $this->segment->get('refresh_token');
 	}
 
 	/**
