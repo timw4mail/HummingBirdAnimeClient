@@ -225,13 +225,16 @@ final class Kitsu {
 		// The 'canonical' title is always returned
 		$valid = [$data['canonicalTitle']];
 
-		if (array_key_exists('titles', $data))
+		foreach (['titles', 'abbreviatedTitles'] as $key)
 		{
-			foreach($data['titles'] as $alternateTitle)
+			if (array_key_exists($key, $data) && is_array($data[$key]))
 			{
-				if (self::titleIsUnique($alternateTitle, $valid))
+				foreach($data[$key] as $alternateTitle)
 				{
-					$valid[] = $alternateTitle;
+					if (self::titleIsUnique($alternateTitle, $valid))
+					{
+						$valid[] = $alternateTitle;
+					}
 				}
 			}
 		}
