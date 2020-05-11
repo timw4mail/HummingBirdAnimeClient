@@ -98,12 +98,12 @@ final class MangaTransformer extends AbstractTransformer {
 
 		if ( ! empty($characters['main']))
 		{
-			uasort($characters['main'], fn ($a, $b) => $a['name'] <=> $b['anime']);
+			uasort($characters['main'], fn ($a, $b) => $a['name'] <=> $b['name']);
 		}
 
 		if ( ! empty($characters['supporting']))
 		{
-			uasort($characters['supporting'], fn ($a, $b) => $a['name'] <=> $b['anime']);
+			uasort($characters['supporting'], fn ($a, $b) => $a['name'] <=> $b['name']);
 		}
 
 		ksort($characters);
