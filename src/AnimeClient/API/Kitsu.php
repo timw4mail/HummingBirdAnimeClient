@@ -61,73 +61,6 @@ final class Kitsu {
 	}
 
 	/**
-	 * Get the name and logo for the streaming service of the current link
-	 *
-	 * @param string $hostname
-	 * @return array
-	 */
-	protected static function getServiceMetaData(string $hostname = NULL): array
-	{
-		$hostname = str_replace('www.', '', $hostname);
-
-		$serviceMap = [
-			'amazon.com' => [
-				'name' => 'Amazon Prime',
-				'link' => TRUE,
-				'image' => 'streaming-logos/amazon.svg',
-			],
-			'crunchyroll.com' => [
-				'name' => 'Crunchyroll',
-				'link' => TRUE,
-				'image' => 'streaming-logos/crunchyroll.svg',
-			],
-			'daisuki.net' => [
-				'name' => 'Daisuki',
-				'link' => TRUE,
-				'image' => 'streaming-logos/daisuki.svg'
-			],
-			'funimation.com' => [
-				'name' => 'Funimation',
-				'link' => TRUE,
-				'image' => 'streaming-logos/funimation.svg',
-			],
-			'hidive.com' => [
-				'name' => 'Hidive',
-				'link' => TRUE,
-				'image' => 'streaming-logos/hidive.svg',
-			],
-			'hulu.com' => [
-				'name' => 'Hulu',
-				'link' => TRUE,
-				'image' => 'streaming-logos/hulu.svg',
-			],
-			'tubitv.com' => [
-				'name' => 'TubiTV',
-				'link' => TRUE,
-				'image' => 'streaming-logos/tubitv.svg',
-			],
-			'viewster.com' => [
-				'name' => 'Viewster',
-				'link' => TRUE,
-				'image' => 'streaming-logos/viewster.svg'
-			],
-		];
-
-		if (array_key_exists($hostname, $serviceMap))
-		{
-			return $serviceMap[$hostname];
-		}
-
-		// Default to Netflix, because the API links are broken,
-		// and there's no other real identifier for Netflix
-		return [
-			'name' => 'Netflix',
-			'link' => FALSE,
-			'image' => 'streaming-logos/netflix.svg',
-		];
-	}
-
-	/**
 	 * Reorganize streaming links
 	 *
 	 * @param array $included
@@ -240,6 +173,74 @@ final class Kitsu {
 		}
 
 		return $valid;
+	}
+
+
+	/**
+	 * Get the name and logo for the streaming service of the current link
+	 *
+	 * @param string $hostname
+	 * @return array
+	 */
+	protected static function getServiceMetaData(string $hostname = NULL): array
+	{
+		$hostname = str_replace('www.', '', $hostname);
+
+		$serviceMap = [
+			'amazon.com' => [
+				'name' => 'Amazon Prime',
+				'link' => TRUE,
+				'image' => 'streaming-logos/amazon.svg',
+			],
+			'crunchyroll.com' => [
+				'name' => 'Crunchyroll',
+				'link' => TRUE,
+				'image' => 'streaming-logos/crunchyroll.svg',
+			],
+			'daisuki.net' => [
+				'name' => 'Daisuki',
+				'link' => TRUE,
+				'image' => 'streaming-logos/daisuki.svg'
+			],
+			'funimation.com' => [
+				'name' => 'Funimation',
+				'link' => TRUE,
+				'image' => 'streaming-logos/funimation.svg',
+			],
+			'hidive.com' => [
+				'name' => 'Hidive',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hidive.svg',
+			],
+			'hulu.com' => [
+				'name' => 'Hulu',
+				'link' => TRUE,
+				'image' => 'streaming-logos/hulu.svg',
+			],
+			'tubitv.com' => [
+				'name' => 'TubiTV',
+				'link' => TRUE,
+				'image' => 'streaming-logos/tubitv.svg',
+			],
+			'viewster.com' => [
+				'name' => 'Viewster',
+				'link' => TRUE,
+				'image' => 'streaming-logos/viewster.svg'
+			],
+		];
+
+		if (array_key_exists($hostname, $serviceMap))
+		{
+			return $serviceMap[$hostname];
+		}
+
+		// Default to Netflix, because the API links are broken,
+		// and there's no other real identifier for Netflix
+		return [
+			'name' => 'Netflix',
+			'link' => FALSE,
+			'image' => 'streaming-logos/netflix.svg',
+		];
 	}
 
 	/**
