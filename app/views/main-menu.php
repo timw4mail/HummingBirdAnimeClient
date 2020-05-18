@@ -14,7 +14,8 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 		<?php if(strpos($route_path, 'collection') === FALSE): ?>
 			<?= $helper->a(
 				$urlGenerator->defaultUrl($url_type),
-				$whose . ucfirst($url_type) . ' List'
+				$whose . ucfirst($url_type) . ' List',
+					['aria-current'=> 'page']
 			) ?>
 			<?php if($config->get("show_{$url_type}_collection")): ?>
 				[<?= $helper->a(
@@ -35,7 +36,8 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 		<?php else: ?>
 			<?= $helper->a(
 					$url->generate("{$url_type}.collection.view") . $extraSegment,
-					$whose . ucfirst($url_type) . ' Collection'
+					$whose . ucfirst($url_type) . ' Collection',
+					['aria-current'=> 'page']
 			) ?>
 			<?php if($config->get("show_{$other_type}_collection")): ?>
 				[<?= $helper->a(
@@ -79,15 +81,22 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 		</span>
 	<?php endif ?>
 </div>
+<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 <nav>
-	<?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 		<?= $helper->menu($menu_name) ?>
 		<?php if (stripos($_SERVER['REQUEST_URI'], 'history') === FALSE): ?>
 		<br />
 		<ul>
-			<li class="<?= Util::isNotSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url($route_path) ?>">Cover View</a></li>
-			<li class="<?= Util::isSelected('list', $lastSegment) ?>"><a href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a></li>
+			<?php $currentView = Util::eq('list', $lastSegment) ? 'list' : 'cover' ?>
+			<li class="<?= Util::isNotSelected('list', $lastSegment) ?>">
+				<a aria-current="<?= Util::ariaCurrent($currentView === 'cover') ?>"
+						href="<?= $urlGenerator->url($route_path) ?>">Cover View</a>
+			</li>
+			<li class="<?= Util::isSelected('list', $lastSegment) ?>">
+				<a aria-current="<?= Util::ariaCurrent($currentView === 'list') ?>"
+						href="<?= $urlGenerator->url("{$route_path}/list") ?>">List View</a>
+			</li>
 		</ul>
 		<?php endif ?>
-	<?php endif ?>
 </nav>
+<?php endif ?>
