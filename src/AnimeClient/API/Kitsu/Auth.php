@@ -96,7 +96,7 @@ final class Auth {
 	 * @return boolean
 	 * @throws Throwable|InvalidArgumentException
 	 */
-	public function reAuthenticate(?string $refreshToken): bool
+	public function reAuthenticate(?string $refreshToken = NULL): bool
 	{
 		$refreshToken ??= $this->getRefreshToken();
 
