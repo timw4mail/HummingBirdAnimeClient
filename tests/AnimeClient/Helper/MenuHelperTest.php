@@ -55,7 +55,7 @@ class MenuHelperTest extends AnimeClientTestCase {
 		$expected['no selection'] = $this->helper->ul()->__toString();
 
 		// selected
-		$link = $this->helper->a($this->urlGenerator->url('/foobar'), 'Index');
+		$link = $this->helper->a($this->urlGenerator->url('/foobar'), 'Index', ['aria-current' => 'location']);
 		$this->helper->ul()->rawItem($link, ['class' => 'selected']);
 		$expected['selected'] = $this->helper->ul()->__toString();
 
