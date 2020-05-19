@@ -16,12 +16,14 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\Enum\EventType;
 use function Aviat\Ion\_dir;
 
 use Aura\Router\{Map, Matcher, Route, Rule};
 
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Event;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Type\StringType;
 use LogicException;
@@ -161,10 +163,7 @@ final class Dispatcher extends RoutingBase {
 			throw new LogicException('Missing controller');
 		}
 
-		if (array_key_exists('controller', $route->attributes))
-		{
-			$controllerName = $route->attributes['controller'];
-		}
+		$controllerName = $route->attributes['controller'];
 
 		// Get the full namespace for a controller if a short name is given
 		if (strpos($controllerName, '\\') === FALSE)
@@ -283,7 +282,7 @@ final class Dispatcher extends RoutingBase {
 				$logger->debug('Dispatcher - controller arguments', $params);
 			}
 
-			\call_user_func_array([$controller, $method], $params);
+			call_user_func_array([$controller, $method], $params);
 		}
 		catch (FailedResponseException $e)
 		{
@@ -293,7 +292,14 @@ final class Dispatcher extends RoutingBase {
 				'API request timed out',
 				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻');
 		}
-
+		/* finally
+		{
+			// Log out on session/api token expiration
+			Event::on(EventType::UNAUTHORIZED, static function () {
+				$controllerName = DEFAULT_CONTROLLER;
+				(new $controllerName($this->container))->logout();
+			});
+		} */
 	}
 
 	/**

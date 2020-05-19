@@ -28,7 +28,7 @@ class FormItemData extends AbstractType {
 	/**
 	 * @var bool
 	 */
-	public bool $private = FALSE;
+	public ?bool $private = FALSE;
 
 	/**
 	 * @var int

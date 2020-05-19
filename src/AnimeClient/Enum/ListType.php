@@ -14,24 +14,15 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Kitsu;
+namespace Aviat\AnimeClient\Enum;
 
-trait KitsuTrait {
-	/**
-	 * The request builder for the Kitsu API
-	 * @var KitsuRequestBuilder
-	 */
-	protected KitsuRequestBuilder $requestBuilder;
+use Aviat\Ion\Enum as BaseEnum;
 
-	/**
-	 * Set the request builder object
-	 *
-	 * @param KitsuRequestBuilder $requestBuilder
-	 * @return self
-	 */
-	public function setRequestBuilder($requestBuilder): self
-	{
-		$this->requestBuilder = $requestBuilder;
-		return $this;
-	}
+/**
+ * Types of lists
+ */
+final class ListType extends BaseEnum {
+	public const ANIME = 'anime';
+	public const DRAMA = 'drama';
+	public const MANGA = 'manga';
 }

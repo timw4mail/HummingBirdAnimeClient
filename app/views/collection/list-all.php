@@ -35,7 +35,7 @@
 				<td><?= $item['episode_length'] ?></td>
 				<td><?= $item['show_type'] ?></td>
 				<td><?= $item['age_rating'] ?></td>
-				<td class="align-left"><?= $item['notes'] ?></td>
+				<td class="align-left"><?= nl2br($item['notes'], TRUE) ?></td>
 				<td class="align-left"><?= implode(', ', $item['genres']) ?></td>
 			</tr>
 		<?php endforeach ?>

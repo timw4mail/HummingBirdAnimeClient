@@ -105,7 +105,10 @@ final class MenuGenerator extends UrlGenerator {
 			$has = StringType::from($this->path())->contains($path);
 			$selected = ($has && mb_strlen($this->path()) >= mb_strlen($path));
 
-			$link = $this->helper->a($this->url($path), $title);
+			$linkAttrs = ($selected)
+				? ['aria-current' => 'location']
+				: [];
+			$link = $this->helper->a($this->url($path), $title, $linkAttrs);
 
 			$attrs = $selected
 				? ['class' => 'selected']

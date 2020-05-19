@@ -26,7 +26,7 @@ trait ContainerAware {
 	 *
 	 * @var ContainerInterface
 	 */
-	protected $container;
+	protected ContainerInterface $container;
 
 	/**
 	 * Set the container for the current object

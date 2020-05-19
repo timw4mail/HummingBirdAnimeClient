@@ -25,10 +25,11 @@ use Aviat\AnimeClient\API\{
 	Kitsu\KitsuRequestBuilder
 };
 use Aviat\AnimeClient\Model;
-use Aviat\Banker\Pool;
+use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\ContainerInterface;
+use Psr\SimpleCache\CacheInterface;
 use Laminas\Diactoros\{Response, ServerRequestFactory};
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
@@ -64,10 +65,10 @@ return static function (array $configArray = []): Container {
 	$container->set('config', fn () => new Config($configArray));
 
 	// Create Cache Object
-	$container->set('cache', static function(ContainerInterface $container): Pool {
+	$container->set('cache', static function(ContainerInterface $container): CacheInterface {
 		$logger = $container->getLogger();
 		$config = $container->get('config')->get('cache');
-		return new Pool($config, $logger);
+		return new Teller($config, $logger);
 	});
 
 	// Create Aura Router Object
@@ -113,7 +114,7 @@ return static function (array $configArray = []): Container {
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
-		$requestBuilder = new KitsuRequestBuilder();
+		$requestBuilder = new KitsuRequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 		$listItem = new Kitsu\ListItem();

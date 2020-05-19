@@ -98,6 +98,11 @@ class Anime extends AbstractType {
 	public array $titles = [];
 
 	/**
+	 * @var array
+	 */
+	public array $titles_more = [];
+
+	/**
 	 * @var string
 	 */
 	public ?string $trailer_id;
