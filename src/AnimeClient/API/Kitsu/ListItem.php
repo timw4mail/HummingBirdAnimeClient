@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
-use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
@@ -78,7 +77,7 @@ final class ListItem extends AbstractListItem {
 
 		$request = $this->requestBuilder->newRequest('POST', 'library-entries');
 
-		if ($authHeader !== FALSE)
+		if ($authHeader !== NULL)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
@@ -97,7 +96,7 @@ final class ListItem extends AbstractListItem {
 		$authHeader = $this->getAuthHeader();
 		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
 
-		if ($authHeader !== FALSE)
+		if ($authHeader !== NULL)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
@@ -119,7 +118,7 @@ final class ListItem extends AbstractListItem {
 				'include' => 'media,media.categories,media.mappings'
 			]);
 
-		if ($authHeader !== FALSE)
+		if ($authHeader !== NULL)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
@@ -159,7 +158,7 @@ final class ListItem extends AbstractListItem {
 		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
 			->setJsonBody($requestData);
 
-		if ($authHeader !== FALSE)
+		if ($authHeader !== NULL)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
@@ -172,24 +171,15 @@ final class ListItem extends AbstractListItem {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	private function getAuthHeader()
+	private function getAuthHeader(): ?string
 	{
-		$cache = $this->getContainer()->get('cache');
-		$cacheItem = $cache->getItem('kitsu-auth-token');
-		$sessionSegment = $this->getContainer()
-			->get('session')
-			->getSegment(SESSION_SEGMENT);
+		$auth = $this->getContainer()->get('auth');
+		$token = $auth->getAuthToken();
 
-		if ($sessionSegment->get('auth_token') !== NULL) {
-			$token = $sessionSegment->get('auth_token');
+		if ( ! empty($token)) {
 			return "bearer {$token}";
 		}
 
-		if ($cacheItem->isHit()) {
-			$token = $cacheItem->get();
-			return "bearer {$token}";
-		}
-
-		return FALSE;
+		return NULL;
 	}
 }

@@ -55,6 +55,29 @@ class Util {
 	}
 
 	/**
+	 * Absolutely equal?
+	 *
+	 * @param $left
+	 * @param $right
+	 * @return bool
+	 */
+	public static function eq($left, $right): bool
+	{
+		return $left === $right;
+	}
+
+	/**
+	 * Set aria-current attribute based on a condition check
+	 *
+	 * @param bool $condition
+	 * @return string
+	 */
+	public static function ariaCurrent(bool $condition): string
+	{
+		return $condition ? 'true' : 'false';
+	}
+
+	/**
 	 * HTML selection helper function
 	 *
 	 * @param string $left - First item to compare
@@ -63,7 +86,7 @@ class Util {
 	 */
 	public static function isSelected(string $left, string $right): string
 	{
-		return ($left === $right) ? 'selected' : '';
+		return static::eq($left, $right) ? 'selected' : '';
 	}
 
 	/**

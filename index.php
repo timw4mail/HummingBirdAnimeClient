@@ -27,7 +27,7 @@ setlocale(LC_CTYPE, 'en_US');
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (array_key_exists('ENV', $_SERVER) && $_SERVER['ENV'] === 'development')
+if (file_exists('.is-dev'))
 {
 	$whoops = new Run;
 	$whoops->pushHandler(new PrettyPageHandler);

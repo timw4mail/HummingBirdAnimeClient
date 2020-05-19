@@ -103,9 +103,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(static function () use ($client, $url) {
-				return yield $client->request($url);
-			});
+			$promises[$key] = call(fn () => yield $client->request($url));
 		}
 
 		return wait(all($promises));

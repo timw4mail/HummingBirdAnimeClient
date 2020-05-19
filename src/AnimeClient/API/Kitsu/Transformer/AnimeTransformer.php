@@ -42,6 +42,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 		$title = $item['canonicalTitle'];
 		$titles = Kitsu::filterTitles($item);
+		$titles_more = Kitsu::getTitles($item);
 
 		$characters = [];
 		$staff = [];
@@ -123,6 +124,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'synopsis' => $item['synopsis'],
 			'title' => $title,
 			'titles' => $titles,
+			'titles_more' => $titles_more,
 			'trailer_id' => $item['youtubeVideoId'],
 			'url' => "https://kitsu.io/anime/{$item['slug']}",
 		]);

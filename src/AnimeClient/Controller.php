@@ -18,13 +18,14 @@ namespace Aviat\AnimeClient;
 
 use function Aviat\Ion\_dir;
 
+use Aviat\AnimeClient\Enum\EventType;
 use Aura\Router\Generator;
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
 use Aviat\Ion\ConfigInterface;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\SimpleCache\CacheInterface;
 
 use Aviat\Ion\Di\{
 	ContainerAware,
@@ -32,6 +33,7 @@ use Aviat\Ion\Di\{
 	Exception\ContainerException,
 	Exception\NotFoundException
 };
+use Aviat\Ion\Event;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
@@ -51,9 +53,9 @@ class Controller {
 
 	/**
 	 * Cache manager
-	 * @var CacheItemPoolInterface
+	 * @var CacheInterface
 	 */
-	protected CacheItemPoolInterface $cache;
+	protected CacheInterface $cache;
 
 	/**
 	 * The global configuration object
@@ -131,6 +133,10 @@ class Controller {
 			'url_type' => 'anime',
 			'urlGenerator' => $urlGenerator,
 		];
+
+		// Set up 'global' events
+		Event::on(EventType::CLEAR_CACHE, fn () => clearCache($this->cache));
+		Event::on(EventType::RESET_CACHE_KEY, fn (string $key) => $this->cache->delete($key));
 	}
 
 	/**

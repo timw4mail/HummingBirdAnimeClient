@@ -16,7 +16,8 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Aviat\Banker\Pool;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * Helper methods for dealing with the Cache
@@ -24,17 +25,17 @@ use Aviat\Banker\Pool;
 trait CacheTrait {
 
 	/**
-	 * @var Pool
+	 * @var CacheInterface
 	 */
-	protected Pool $cache;
+	protected CacheInterface $cache;
 
 	/**
 	 * Inject the cache object
 	 *
-	 * @param Pool $cache
+	 * @param CacheInterface $cache
 	 * @return $this
 	 */
-	public function setCache(Pool $cache): self
+	public function setCache(CacheInterface $cache): self
 	{
 		$this->cache = $cache;
 		return $this;
@@ -43,11 +44,39 @@ trait CacheTrait {
 	/**
 	 * Get the cache object if it exists
 	 *
-	 * @return Pool
+	 * @return CacheInterface
 	 */
-	public function getCache(): Pool
+	public function getCache(): CacheInterface
 	{
 		return $this->cache;
+	}
+
+	/**
+	 * Get the cached value if it exists, otherwise set the cache value
+	 * and return it.
+	 *
+	 * @param string $key
+	 * @param callable $primer
+	 * @param array $primeArgs
+	 * @return mixed|null
+	 * @throws InvalidArgumentException
+	 */
+	public function getCached(string $key, callable $primer, ?array $primeArgs = [])
+	{
+		$value = $this->cache->get($key, NULL);
+
+		if ($value === NULL)
+		{
+			$value = $primer(...$primeArgs);
+			if ($value === NULL)
+			{
+				return NULL;
+			}
+
+			$this->cache->set($key, $value);
+		}
+
+		return $value;
 	}
 
 	/**
@@ -61,7 +90,7 @@ trait CacheTrait {
 	public function getHashForMethodCall($object, string $method, array $args = []): string
 	{
 		$keyObj = [
-			'class' => \get_class($object),
+			'class' => get_class($object),
 			'method' => $method,
 			'args' => $args,
 		];

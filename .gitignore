@@ -147,3 +147,5 @@ public/images/characters/**
 public/images/people/**
 public/mal_mappings.json
 .phpunit.result.cache
+
+.is-dev

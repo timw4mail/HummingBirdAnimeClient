@@ -38,7 +38,7 @@
 	"aura/html": "^2.5.0",
 	"aura/router": "^3.1.0",
 	"aura/session": "^2.1.0",
-	"aviat/banker": "^2.0.0",
+	"aviat/banker": "^3.1.1",
 	"aviat/query": "^3.0.0",
 	"danielstjules/stringy": "^3.1.0",
 	"ext-dom": "*",

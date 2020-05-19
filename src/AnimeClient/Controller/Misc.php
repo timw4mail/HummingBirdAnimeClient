@@ -17,6 +17,8 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\Event;
 use Aviat\Ion\View\HtmlView;
 
 /**
@@ -30,7 +32,10 @@ final class Misc extends BaseController {
 	 */
 	public function clearCache(): void
 	{
-		$this->cache->clear();
+		$this->checkAuth();
+
+		Event::emit(EventType::CLEAR_CACHE);
+
 		$this->outputHTML('blank', [
 			'title' => 'Cache cleared'
 		]);
@@ -89,8 +94,6 @@ final class Misc extends BaseController {
 	 */
 	public function logout(): void
 	{
-		$this->checkAuth();
-
 		$auth = $this->container->get('auth');
 		$auth->logout();
 

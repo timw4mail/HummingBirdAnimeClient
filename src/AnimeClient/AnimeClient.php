@@ -16,6 +16,9 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\API\Kitsu;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use function Amp\Promise\wait;
 
 use Amp\Http\Client\Request;
@@ -25,6 +28,8 @@ use Amp\Http\Client\HttpClientBuilder;
 
 use Aviat\Ion\ConfigInterface;
 use Yosymfony\Toml\{Toml, TomlBuilder};
+
+use Throwable;
 
 // ----------------------------------------------------------------------------
 //! TOML Functions
@@ -232,7 +237,7 @@ function getApiClient (): HttpClient
  *
  * @param string|Request $request
  * @return Response
- * @throws \Throwable
+ * @throws Throwable
  */
 function getResponse ($request): Response
 {
@@ -256,7 +261,7 @@ function getResponse ($request): Response
  */
 function getLocalImg ($kitsuUrl, $webp = TRUE): string
 {
-	if ( ! is_string($kitsuUrl))
+	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
 		return 'images/placeholder.webp';
 	}
@@ -345,4 +350,31 @@ function col_not_empty(array $search, string $key): bool
 {
 	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
 	return count($items) > 0;
+}
+
+/**
+ * Clear the cache, but save user auth data
+ *
+ * @param CacheInterface $cache
+ * @return bool
+ * @throws InvalidArgumentException
+ */
+function clearCache(CacheInterface $cache): bool
+{
+	// Save the user data, if it exists, for priming the cache
+	$userData = $cache->getMultiple([
+		Kitsu::AUTH_USER_ID_KEY,
+		Kitsu::AUTH_TOKEN_CACHE_KEY,
+		Kitsu::AUTH_TOKEN_EXP_CACHE_KEY,
+		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
+	], NULL);
+
+	$userData = array_filter((array)$userData, fn ($value) => $value !== NULL);
+	$cleared = $cache->clear();
+
+	$saved = ( ! empty($userData))
+		? $cache->setMultiple($userData)
+		: TRUE;
+
+	return $cleared && $saved;
 }
