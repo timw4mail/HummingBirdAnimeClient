@@ -23,7 +23,7 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
-use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
+use Aviat\AnimeClient\API\Kitsu\KitsuJsonApiRequestBuilder;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
@@ -187,16 +187,20 @@ abstract class BaseCommand extends Command {
 
 		// Models
 		$container->set('kitsu-model', static function($container): Kitsu\Model {
-			$requestBuilder = new KitsuRequestBuilder($container);
+			$jsonApiRequestBuilder = new KitsuJsonApiRequestBuilder($container);
+			$jsonApiRequestBuilder->setLogger($container->getLogger('kitsu-request'));
+
+			$requestBuilder = new Kitsu\KitsuRequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 			$listItem = new Kitsu\ListItem();
 			$listItem->setContainer($container);
-			$listItem->setRequestBuilder($requestBuilder);
+			$listItem->setJsonApiRequestBuilder($jsonApiRequestBuilder);
 
 			$model = new Kitsu\Model($listItem);
 			$model->setContainer($container);
-			$model->setRequestBuilder($requestBuilder);
+			$model->setJsonApiRequestBuilder($jsonApiRequestBuilder)
+				->setRequestBuilder($requestBuilder);
 
 			$cache = $container->get('cache');
 			$model->setCache($cache);

@@ -75,7 +75,7 @@ final class ListItem extends AbstractListItem {
 
 		$authHeader = $this->getAuthHeader();
 
-		$request = $this->requestBuilder->newRequest('POST', 'library-entries');
+		$request = $this->jsonApiRequestBuilder->newRequest('POST', 'library-entries');
 
 		if ($authHeader !== NULL)
 		{
@@ -94,7 +94,7 @@ final class ListItem extends AbstractListItem {
 	public function delete(string $id): Request
 	{
 		$authHeader = $this->getAuthHeader();
-		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
+		$request = $this->jsonApiRequestBuilder->newRequest('DELETE', "library-entries/{$id}");
 
 		if ($authHeader !== NULL)
 		{
@@ -113,7 +113,7 @@ final class ListItem extends AbstractListItem {
 	{
 		$authHeader = $this->getAuthHeader();
 
-		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
+		$request = $this->jsonApiRequestBuilder->newRequest('GET', "library-entries/{$id}")
 			->setQuery([
 				'include' => 'media,media.categories,media.mappings'
 			]);
@@ -155,7 +155,7 @@ final class ListItem extends AbstractListItem {
 			$data->progress = 0;
 		}
 
-		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
+		$request = $this->jsonApiRequestBuilder->newRequest('PATCH', "library-entries/{$id}")
 			->setJsonBody($requestData);
 
 		if ($authHeader !== NULL)
