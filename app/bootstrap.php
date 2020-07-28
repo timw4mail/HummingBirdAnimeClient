@@ -22,7 +22,7 @@ use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{
 	Anilist,
 	Kitsu,
-	Kitsu\KitsuRequestBuilder
+	Kitsu\KitsuJsonApiRequestBuilder
 };
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Teller;
@@ -114,16 +114,20 @@ return static function (array $configArray = []): Container {
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
-		$requestBuilder = new KitsuRequestBuilder($container);
+		$jsonApiRequestBuilder = new KitsuJsonApiRequestBuilder($container);
+		$jsonApiRequestBuilder->setLogger($container->getLogger('kitsu-request'));
+
+		$requestBuilder = new Kitsu\KitsuRequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 		$listItem = new Kitsu\ListItem();
 		$listItem->setContainer($container);
-		$listItem->setRequestBuilder($requestBuilder);
+		$listItem->setJsonApiRequestBuilder($jsonApiRequestBuilder);
 
 		$model = new Kitsu\Model($listItem);
 		$model->setContainer($container);
-		$model->setRequestBuilder($requestBuilder);
+		$model->setJsonApiRequestBuilder($jsonApiRequestBuilder)
+			->setRequestBuilder($requestBuilder);
 
 		$cache = $container->get('cache');
 		$model->setCache($cache);

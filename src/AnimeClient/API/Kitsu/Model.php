@@ -25,30 +25,16 @@ use Aviat\AnimeClient\API\{
 	Kitsu as K,
 	ParallelAPIRequest
 };
-use Aviat\AnimeClient\API\Enum\{
-	AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
-	MangaReadingStatus\Kitsu as KitsuReadingStatus
-};
-use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
-	AnimeHistoryTransformer,
 	AnimeTransformer,
 	AnimeListTransformer,
-	MangaHistoryTransformer,
 	MangaTransformer,
 	MangaListTransformer
-};
-use Aviat\AnimeClient\Enum\ListType;
-use Aviat\AnimeClient\Types\{
-	Anime,
-	FormItem,
-	MangaPage
 };
 
 use Aviat\Banker\Exception\InvalidArgumentException;
 use Aviat\Ion\{Di\ContainerAware, Json};
 
-use ReflectionException;
 use Throwable;
 
 /**
@@ -58,37 +44,16 @@ final class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use KitsuTrait;
+	use KitsuAnimeTrait;
+	use KitsuMangaTrait;
+	use KitsuMutationTrait;
 
-	private const LIST_PAGE_SIZE = 100;
-
-	/**
-	 * Class to map anime list items
-	 * to a common format used by
-	 * templates
-	 *
-	 * @var AnimeListTransformer
-	 */
-	private AnimeListTransformer $animeListTransformer;
-
-	/**
-	 * @var AnimeTransformer
-	 */
-	private AnimeTransformer $animeTransformer;
+	protected const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * @var ListItem
 	 */
-	private ListItem $listItem;
-
-	/**
-	 * @var MangaTransformer
-	 */
-	private MangaTransformer $mangaTransformer;
-
-	/**
-	 * @var MangaListTransformer
-	 */
-	private MangaListTransformer $mangaListTransformer;
+	protected ListItem $listItem;
 
 	/**
 	 * Constructor
@@ -116,7 +81,7 @@ final class Model {
 	public function authenticate(string $username, string $password)
 	{
 		// K::AUTH_URL
-		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
+		$response = $this->jsonApiRequestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
 				'accept' => NULL,
 				'Content-type' => 'application/x-www-form-urlencoded',
@@ -155,7 +120,7 @@ final class Model {
 	 */
 	public function reAuthenticate(string $token)
 	{
-		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
+		$response = $this->jsonApiRequestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
 				'accept' => NULL,
 				'Content-type' => 'application/x-www-form-urlencoded',
@@ -199,7 +164,7 @@ final class Model {
 		}
 
 		return $this->getCached(K::AUTH_USER_ID_KEY, function(string $username) {
-			$data = $this->requestBuilder->getRequest('users', [
+			$data = $this->jsonApiRequestBuilder->getRequest('users', [
 				'query' => [
 					'filter' => [
 						'name' => $username
@@ -219,7 +184,7 @@ final class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		return $this->requestBuilder->getRequest('characters', [
+		return $this->jsonApiRequestBuilder->getRequest('characters', [
 			'query' => [
 				'filter' => [
 					'slug' => $slug,
@@ -242,7 +207,7 @@ final class Model {
 	 */
 	public function getPerson(string $id): array
 	{
-		return $this->getCached("kitsu-person-{$id}", fn () => $this->requestBuilder->getRequest("people/{$id}", [
+		return $this->getCached("kitsu-person-{$id}", fn () => $this->jsonApiRequestBuilder->getRequest("people/{$id}", [
 			'query' => [
 				'filter' => [
 					'id' => $id,
@@ -268,7 +233,7 @@ final class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		return $this->requestBuilder->getRequest('users', [
+		return $this->jsonApiRequestBuilder->getRequest('users', [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -305,7 +270,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->requestBuilder->getRequest($type, $options);
+		$raw = $this->jsonApiRequestBuilder->getRequest($type, $options);
 		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
 
 		foreach ($raw['data'] as &$item)
@@ -350,7 +315,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->requestBuilder->getRequest('mappings', $options);
+		$raw = $this->jsonApiRequestBuilder->getRequest('mappings', $options);
 
 		if ( ! array_key_exists('included', $raw))
 		{
@@ -358,539 +323,6 @@ final class Model {
 		}
 
 		return $raw['included'][0]['id'];
-	}
-
-	// -------------------------------------------------------------------------
-	// ! Anime-specific methods
-	// -------------------------------------------------------------------------
-
-	/**
-	 * Get information about a particular anime
-	 *
-	 * @param string $slug
-	 * @return Anime
-	 */
-	public function getAnime(string $slug): Anime
-	{
-		$baseData = $this->getRawMediaData('anime', $slug);
-
-		if (empty($baseData))
-		{
-			return Anime::from([]);
-		}
-
-		return $this->animeTransformer->transform($baseData);
-	}
-
-	/**
-	 * Retrieve the data for the anime watch history page
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getAnimeHistory(): array
-	{
-		$key = K::ANIME_HISTORY_LIST_CACHE_KEY;
-		$list = $this->cache->get($key, NULL);
-
-		if ($list === NULL)
-		{
-			$raw = $this->getRawHistoryList('anime');
-
-			$organized = JsonAPI::organizeData($raw);
-			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-			$list = (new AnimeHistoryTransformer())->transform($organized);
-
-			$this->cache->set($key, $list);
-
-		}
-
-		return $list;
-	}
-
-	/**
-	 * Get information about a particular anime
-	 *
-	 * @param string $animeId
-	 * @return Anime
-	 */
-	public function getAnimeById(string $animeId): Anime
-	{
-		$baseData = $this->getRawMediaDataById('anime', $animeId);
-		return $this->animeTransformer->transform($baseData);
-	}
-
-	/**
-	 * Get the anime list for the configured user
-	 *
-	 * @param string $status - The watching status to filter the list with
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getAnimeList(string $status): array
-	{
-		$key = "kitsu-anime-list-{$status}";
-
-		$list = $this->cache->get($key, NULL);
-
-		if ($list === NULL)
-		{
-			$data = $this->getRawAnimeList($status) ?? [];
-
-			// Bail out on no data
-			if (empty($data))
-			{
-				return [];
-			}
-
-			$included = JsonAPI::organizeIncludes($data['included']);
-			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['included'] = $included;
-			}
-			unset($item);
-			$transformed = $this->animeListTransformer->transformCollection($data['data']);
-			$keyed = [];
-
-			foreach($transformed as $item)
-			{
-				$keyed[$item['id']] = $item;
-			}
-
-			$list = $keyed;
-			$this->cache->set($key, $list);
-		}
-
-		return $list;
-	}
-
-	/**
-	 * Get the number of anime list items
-	 *
-	 * @param string $status - Optional status to filter by
-	 * @return int
-	 * @throws InvalidArgumentException
-	 */
-	public function getAnimeListCount(string $status = '') : int
-	{
-		return $this->getListCount(ListType::ANIME, $status);
-	}
-
-	/**
-	 * Get the full anime list
-	 *
-	 * @param array $options
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getFullRawAnimeList(array $options = [
-		'include' => 'anime.mappings'
-	]): array
-	{
-		$status = $options['filter']['status'] ?? '';
-		$count = $this->getAnimeListCount($status);
-		$size = static::LIST_PAGE_SIZE;
-		$pages = ceil($count / $size);
-
-		$requester = new ParallelAPIRequest();
-
-		// Set up requests
-		for ($i = 0; $i < $pages; $i++)
-		{
-			$offset = $i * $size;
-			$requester->addRequest($this->getPagedAnimeList($size, $offset, $options));
-		}
-
-		$responses = $requester->makeRequests();
-		$output = [];
-
-		foreach($responses as $response)
-		{
-			$data = Json::decode($response);
-			$output[] = $data;
-		}
-
-		return array_merge_recursive(...$output);
-	}
-
-	/**
-	 * Get all the anime entries, that are organized for output to html
-	 *
-	 * @return array
-	 * @throws ReflectionException
-	 * @throws InvalidArgumentException
-	 */
-	public function getFullOrganizedAnimeList(): array
-	{
-		$output = [];
-
-		$statuses = KitsuWatchingStatus::getConstList();
-
-		foreach ($statuses as $key => $status)
-		{
-			$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
-			$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
-		}
-
-		return $output;
-	}
-
-	/**
-	 * Get the mal id for the anime represented by the kitsu id
-	 * to enable updating MyAnimeList
-	 *
-	 * @param string $kitsuAnimeId The id of the anime on Kitsu
-	 * @return string|null Returns the mal id if it exists, otherwise null
-	 */
-	public function getMalIdForAnime(string $kitsuAnimeId): ?string
-	{
-		$options = [
-			'query' => [
-				'include' => 'mappings'
-			]
-		];
-		$data = $this->requestBuilder->getRequest("anime/{$kitsuAnimeId}", $options);
-
-		if ( ! array_key_exists('included', $data))
-		{
-			return NULL;
-		}
-
-		$mappings = array_column($data['included'], 'attributes');
-
-		foreach($mappings as $map)
-		{
-			if ($map['externalSite'] === 'myanimelist/anime')
-			{
-				return $map['externalId'];
-			}
-		}
-
-		return NULL;
-	}
-
-	/**
-	 * Get the full anime list in paginated form
-	 *
-	 * @param int $limit
-	 * @param int $offset
-	 * @param array $options
-	 * @return Request
-	 * @throws InvalidArgumentException
-	 */
-	public function getPagedAnimeList(int $limit, int $offset = 0, array $options = [
-		'include' => 'anime.mappings'
-	]): Request
-	{
-		$defaultOptions = [
-			'filter' => [
-				'user_id' => $this->getUserId(),
-				'kind' => 'anime'
-			],
-			'page' => [
-				'offset' => $offset,
-				'limit' => $limit
-			],
-			'sort' => '-updated_at'
-		];
-		$options = array_merge($defaultOptions, $options);
-
-		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
-	}
-
-	/**
-	 * Get the raw (unorganized) anime list for the configured user
-	 *
-	 * @param string $status - The watching status to filter the list with
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getRawAnimeList(string $status): array
-	{
-		$options = [
-			'filter' => [
-				'user_id' => $this->getUserId(),
-				'kind' => 'anime',
-				'status' => $status,
-			],
-			'include' => 'media,media.categories,media.mappings,anime.streamingLinks',
-			'sort' => '-updated_at'
-		];
-
-		return $this->getFullRawAnimeList($options);
-	}
-
-	// -------------------------------------------------------------------------
-	// ! Manga-specific methods
-	// -------------------------------------------------------------------------
-
-	/**
-	 * Get information about a particular manga
-	 *
-	 * @param string $slug
-	 * @return MangaPage
-	 */
-	public function getManga(string $slug): MangaPage
-	{
-		$baseData = $this->getRawMediaData('manga', $slug);
-
-		if (empty($baseData))
-		{
-			return MangaPage::from([]);
-		}
-
-		return $this->mangaTransformer->transform($baseData);
-	}
-
-	/**
-	 * Retrieve the data for the manga read history page
-	 *
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getMangaHistory(): array
-	{
-		$key = K::MANGA_HISTORY_LIST_CACHE_KEY;
-		$list = $this->cache->get($key, NULL);
-
-		if ($list === NULL)
-		{
-			$raw = $this->getRawHistoryList('manga');
-			$organized = JsonAPI::organizeData($raw);
-			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-			$list = (new MangaHistoryTransformer())->transform($organized);
-
-			$this->cache->set($key, $list);
-		}
-
-		return $list;
-	}
-
-	/**
-	 * Get information about a particular manga
-	 *
-	 * @param string $mangaId
-	 * @return MangaPage
-	 */
-	public function getMangaById(string $mangaId): MangaPage
-	{
-		$baseData = $this->getRawMediaDataById('manga', $mangaId);
-		return $this->mangaTransformer->transform($baseData);
-	}
-
-	/**
-	 * Get the manga list for the configured user
-	 *
-	 * @param string $status - The reading status by which to filter the list
-	 * @param int $limit - The number of list items to fetch per page
-	 * @param int $offset - The page offset
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function getMangaList(string $status, int $limit = 200, int $offset = 0): array
-	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserId(),
-					'kind' => 'manga',
-					'status' => $status,
-				],
-				'include' => 'media,media.categories,media.mappings',
-				'page' => [
-					'offset' => $offset,
-					'limit' => $limit
-				],
-				'sort' => '-updated_at'
-			]
-		];
-
-		$key = "kitsu-manga-list-{$status}";
-
-		$list = $this->cache->get($key, NULL);
-
-		if ($list === NULL)
-		{
-			$data = $this->requestBuilder->getRequest('library-entries', $options) ?? [];
-
-			// Bail out on no data
-			if (empty($data) || ( ! array_key_exists('included', $data)))
-			{
-				return [];
-			}
-
-			$included = JsonAPI::organizeIncludes($data['included']);
-			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
-
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['included'] = $included;
-			}
-			unset($item);
-
-			$list = $this->mangaListTransformer->transformCollection($data['data']);
-
-			$this->cache->set($key, $list);
-		}
-
-		return $list;
-	}
-
-	/**
-	 * Get the number of manga list items
-	 *
-	 * @param string $status - Optional status to filter by
-	 * @return int
-	 * @throws InvalidArgumentException
-	 */
-	public function getMangaListCount(string $status = '') : int
-	{
-		return $this->getListCount(ListType::MANGA, $status);
-	}
-
-	/**
-	 * Get the full manga list
-	 *
-	 * @param array $options
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	public function getFullRawMangaList(array $options = [
-		'include' => 'manga.mappings'
-	]): array
-	{
-		$status = $options['filter']['status'] ?? '';
-		$count = $this->getMangaListCount($status);
-		$size = static::LIST_PAGE_SIZE;
-		$pages = ceil($count / $size);
-
-		$requester = new ParallelAPIRequest();
-
-		// Set up requests
-		for ($i = 0; $i < $pages; $i++)
-		{
-			$offset = $i * $size;
-			$requester->addRequest($this->getPagedMangaList($size, $offset, $options));
-		}
-
-		$responses = $requester->makeRequests();
-		$output = [];
-
-		foreach($responses as $response)
-		{
-			$data = Json::decode($response);
-			$output[] = $data;
-		}
-
-		return array_merge_recursive(...$output);
-	}
-
-	/**
-	 * Get all Manga lists
-	 *
-	 * @return array
-	 * @throws ReflectionException
-	 * @throws InvalidArgumentException
-	 */
-	public function getFullOrganizedMangaList(): array
-	{
-		$statuses = KitsuReadingStatus::getConstList();
-		$output = [];
-		foreach ($statuses as $status)
-		{
-			$mappedStatus = MangaReadingStatus::KITSU_TO_TITLE[$status];
-			$output[$mappedStatus] = $this->getMangaList($status);
-		}
-
-		return $output;
-	}
-
-	/**
-	 * Get the full manga list in paginated form
-	 *
-	 * @param int $limit
-	 * @param int $offset
-	 * @param array $options
-	 * @return Request
-	 * @throws InvalidArgumentException
-	 */
-	public function getPagedMangaList(int $limit, int $offset = 0, array $options = [
-		'include' => 'manga.mappings'
-	]): Request
-	{
-		$defaultOptions = [
-			'filter' => [
-				'user_id' => $this->getUserId(),
-				'kind' => 'manga'
-			],
-			'page' => [
-				'offset' => $offset,
-				'limit' => $limit
-			],
-			'sort' => '-updated_at'
-		];
-		$options = array_merge($defaultOptions, $options);
-
-		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
-	}
-
-	/**
-	 * Get the mal id for the manga represented by the kitsu id
-	 * to enable updating MyAnimeList
-	 *
-	 * @param string $kitsuMangaId The id of the manga on Kitsu
-	 * @return string|null Returns the mal id if it exists, otherwise null
-	 */
-	public function getMalIdForManga(string $kitsuMangaId): ?string
-	{
-		$options = [
-			'query' => [
-				'include' => 'mappings'
-			]
-		];
-		$data = $this->requestBuilder->getRequest("manga/{$kitsuMangaId}", $options);
-		$mappings = array_column($data['included'], 'attributes');
-
-		foreach($mappings as $map)
-		{
-			if ($map['externalSite'] === 'myanimelist/manga')
-			{
-				return $map['externalId'];
-			}
-		}
-
-		return NULL;
-	}
-
-	// -------------------------------------------------------------------------
-	// ! Generic API calls
-	// -------------------------------------------------------------------------
-
-	/**
-	 * Create a list item
-	 *
-	 * @param array $data
-	 * @return Request
-	 * @throws InvalidArgumentException
-	 */
-	public function createListItem(array $data): ?Request
-	{
-		$data['user_id'] = $this->getUserId();
-		if ($data['id'] === NULL)
-		{
-			return NULL;
-		}
-
-		return $this->listItem->create($data);
 	}
 
 	/**
@@ -923,38 +355,13 @@ final class Model {
 	}
 
 	/**
-	 * Increase the progress count for a list item
+	 * Get the data to sync Kitsu anime/manga list with another API
 	 *
-	 * @param FormItem $data
-	 * @return Request
+	 * @param string $type
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
-	public function incrementListItem(FormItem $data): Request
-	{
-		return $this->listItem->increment($data['id'], $data['data']);
-	}
-
-	/**
-	 * Modify a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
-	 */
-	public function updateListItem(FormItem $data): Request
-	{
-		return $this->listItem->update($data['id'], $data['data']);
-	}
-
-	/**
-	 * Remove a list item
-	 *
-	 * @param string $id - The id of the list item to remove
-	 * @return Request
-	 */
-	public function deleteListItem(string $id): Request
-	{
-		return $this->listItem->delete($id);
-	}
-
 	public function getSyncList(string $type): array
 	{
 		$options = [
@@ -1015,7 +422,7 @@ final class Model {
 	 */
 	protected function getRawHistoryPage(string $type, int $offset, int $limit = 20): Request
 	{
-		return $this->requestBuilder->setUpRequest('GET', 'library-events', [
+		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-events', [
 			'query' => [
 				'filter' => [
 					'kind' => 'progressed,updated',
@@ -1077,7 +484,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->requestBuilder->getRequest("{$type}/{$id}", $options);
+		$data = $this->jsonApiRequestBuilder->getRequest("{$type}/{$id}", $options);
 
 		if (empty($data['data']))
 		{
@@ -1117,7 +524,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->requestBuilder->getRequest($type, $options);
+		$data = $this->jsonApiRequestBuilder->getRequest($type, $options);
 
 		if (empty($data['data']))
 		{
@@ -1150,7 +557,7 @@ final class Model {
 			$options['query']['filter']['status'] = $status;
 		}
 
-		$response = $this->requestBuilder->getRequest('library-entries', $options);
+		$response = $this->jsonApiRequestBuilder->getRequest('library-entries', $options);
 
 		return $response['meta']['count'];
 	}
@@ -1216,6 +623,6 @@ final class Model {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 }
