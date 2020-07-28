@@ -60,7 +60,10 @@ trait KitsuAnimeTrait {
 	 */
 	public function getAnime(string $slug): Anime
 	{
-		$baseData = $this->getRawMediaData('anime', $slug);
+		$baseData = $this->requestBuilder->runQuery('AnimeDetails', [
+			'slug' => $slug
+		]);
+		// $baseData = $this->getRawMediaData('anime', $slug);
 
 		if (empty($baseData))
 		{

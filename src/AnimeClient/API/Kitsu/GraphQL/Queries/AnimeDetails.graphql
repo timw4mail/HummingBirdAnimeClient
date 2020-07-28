@@ -1,8 +1,9 @@
-query ($slug: String) {
+query ($slug: String!) {
 	findAnimeBySlug(slug: $slug) {
+		id
 		ageRating
 		ageRatingGuide
-		bannerImage {
+		posterImage {
 			original {
 				height
 				name
@@ -16,12 +17,26 @@ query ($slug: String) {
 				width
 			}
 		}
+		categories {
+			nodes {
+				title
+			}
+		}
 		characters {
 			nodes {
 				character {
+					id
 					names {
 						canonical
 						alternatives
+					}
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
 					}
 					slug
 				}
@@ -52,6 +67,7 @@ query ($slug: String) {
 				startCursor
 			}
 		}
+		startDate
 		endDate
 		episodeCount
 		episodeLength
@@ -114,5 +130,6 @@ query ($slug: String) {
 			localized
 		}
 		totalLength
+		youtubeTrailerVideoId
 	}
 }
