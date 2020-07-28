@@ -35,6 +35,45 @@ final class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimePage
 	{
+		$base = $item['data']['findAnimeBySlug'];
+
+		$characters = [];
+		$staff = [];
+		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+
+		sort($genres);
+
+		$title = $base['titles']['canonical'];
+		$titles = Kitsu::filterLocalizedTitles($base['titles']);
+
+		$data = [
+			'age_rating' => $base['ageRating'],
+			'age_rating_guide' => $base['ageRatingGuide'],
+			'characters' => $characters,
+			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'episode_count' => $base['episodeCount'],
+			'episode_length' => (int)($base['episodeLength'] / 60),
+			'genres' => $genres,
+			'id' => $base['id'],
+			// 'show_type' => (string)StringType::from($item['showType'])->upperCaseFirst(),
+			'slug' => $base['slug'],
+			'staff' => $staff,
+			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
+			'streaming_links' => [], // Kitsu::parseStreamingLinks($item['included']),
+			'synopsis' => $base['synopsis']['en'],
+			'title' => $title,
+			'titles' => [],
+			'titles_more' => $titles,
+			'trailer_id' => $base['youtubeTrailerVideoId'],
+			'url' => "https://kitsu.io/anime/{$base['slug']}",
+		];
+
+		// dump($data); die();
+
+		return AnimePage::from($data);
+	}
+
+	private function oldTransform($item): AnimePage {
 		$item['included'] = JsonAPI::organizeIncludes($item['included']);
 		$genres = $item['included']['categories'] ?? [];
 		$item['genres'] = array_column($genres, 'title') ?? [];
