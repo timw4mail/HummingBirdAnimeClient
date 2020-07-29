@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\MangaPage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
@@ -34,106 +34,90 @@ final class MangaTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): MangaPage
 	{
-		$genres = [];
+		// TODO: missing GraphQL data:
+		// * chapter count
+		// * volume count
+		// * manga type
 
-		$item['included'] = JsonAPI::organizeIncluded($item['included']);
-
-		if (array_key_exists('categories', $item['included']))
-		{
-			foreach ($item['included']['categories'] as $cat)
-			{
-				$genres[] = $cat['attributes']['title'];
-			}
-			sort($genres);
-		}
-
-		$title = $item['canonicalTitle'];
-		$rawTitles = array_values($item['titles']);
-		$titles = array_unique(array_diff($rawTitles, [$title]));
+		$base = array_key_exists('findMangaBySlug', $item['data'])
+			? $item['data']['findMangaBySlug']
+			: $item['data']['findMangaById'];
 
 		$characters = [];
 		$staff = [];
+		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		sort($genres);
 
-		if (array_key_exists('mediaCharacters', $item['included']))
+		$title = $base['titles']['canonical'];
+		$titles = Kitsu::filterLocalizedTitles($base['titles']);
+
+		if (count($base['characters']['nodes']) > 0)
 		{
-			$mediaCharacters = $item['included']['mediaCharacters'];
+			$characters['main'] = [];
+			$characters['supporting'] = [];
 
-			foreach ($mediaCharacters as $rel)
+			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
-				// dd($rel);
-				// $charId = $rel['relationships']['character']['data']['id'];
-				$role = $rel['attributes']['role'];
+				$type = $rawCharacter['role'] === 'MAIN' ? 'main' : 'supporting';
+				$details = $rawCharacter['character'];
+				$characters[$type][$details['id']] = [
+					'image' => $details['image'],
+					'name' => $details['names']['canonical'],
+					'slug' => $details['slug'],
+				];
+			}
 
-				foreach ($rel['relationships']['character']['characters'] as $charId => $char)
-				{
-					if (array_key_exists($charId, $item['included']['characters']))
-					{
-						$characters[$role][$charId] = $char['attributes'];
-					}
-				}
+			uasort($characters['main'], fn($a, $b) => $a['name'] <=> $b['name']);
+			uasort($characters['supporting'], fn($a, $b) => $a['name'] <=> $b['name']);
+
+			if (empty($characters['supporting']))
+			{
+				unset($characters['supporting']);
 			}
 		}
 
-		if (array_key_exists('mediaStaff', $item['included']))
+		if (count($base['staff']['nodes']) > 0)
 		{
-			foreach ($item['included']['mediaStaff'] as $id => $staffing)
+			foreach ($base['staff']['nodes'] as $staffing)
 			{
-				$role = $staffing['attributes']['role'];
+				$person = $staffing['person'];
+				$role = $staffing['role'];
+				$name = $person['names']['localized'][$person['names']['canonical']];
 
-				foreach ($staffing['relationships']['person']['people'] as $personId => $personDetails)
+				if ( ! array_key_exists($role, $staff))
 				{
-					if ( ! array_key_exists($role, $staff))
-					{
-						$staff[$role] = [];
-					}
-
-					$staff[$role][$personId] = [
-						'id' => $personId,
-						'name' => $personDetails['attributes']['name'] ?? '??',
-						'image' => $personDetails['attributes']['image'],
-					];
+					$staff[$role] = [];
 				}
+
+				$staff[$role][$person['id']] = [
+					'id' => $person['id'],
+					'name' => $name,
+					'image' => [
+						'original' => $person['image']['original']['url'],
+					],
+				];
+
+				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
+
+			ksort($staff);
 		}
 
-		if ( ! empty($characters['main']))
-		{
-			uasort($characters['main'], fn ($a, $b) => $a['name'] <=> $b['name']);
-		}
-
-		if ( ! empty($characters['supporting']))
-		{
-			uasort($characters['supporting'], fn ($a, $b) => $a['name'] <=> $b['name']);
-		}
-
-		ksort($characters);
-		ksort($staff);
-
-		return MangaPage::from([
+		$data = [
+			'age_rating' => $base['ageRating'],
+			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'chapter_count' => $this->count($item['chapterCount']),
-			'cover_image' => $item['posterImage']['small'],
+			'cover_image' => $base['posterImage']['views'][1]['url'],
 			'genres' => $genres,
-			'id' => $item['id'],
-			'included' => $item['included'],
-			'manga_type' => $item['mangaType'],
+			'id' => $base['id'],
 			'staff' => $staff,
-			'synopsis' => $item['synopsis'],
+			'status' => Kitsu::getPublishingStatus($base['status'], $base['startDate'], $base['endDate']),
+			'synopsis' => $base['synopsis']['en'],
 			'title' => $title,
 			'titles' => $titles,
-			'url' => "https://kitsu.io/manga/{$item['slug']}",
-			'volume_count' => $this->count($item['volumeCount']),
-		]);
-	}
+			'url' => "https://kitsu.io/manga/{$base['slug']}",
+		];
 
-	/**
-	 * @param int|null $value
-	 * @return string
-	 */
-	private function count(int $value = NULL): string
-	{
-		return ((int)$value === 0)
-			? '-'
-			: (string)$value;
+		return MangaPage::from($data);
 	}
 }

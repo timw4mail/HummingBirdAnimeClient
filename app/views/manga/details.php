@@ -7,6 +7,10 @@
 
 			<table class="media-details">
 				<tr>
+					<td class="align-right">Publishing Status</td>
+					<td><?= $data['status'] ?></td>
+				</tr>
+				<?php /* <tr>
 					<td>Manga Type</td>
 					<td><?= ucfirst($data['manga_type']) ?></td>
 				</tr>
@@ -17,7 +21,15 @@
 				<tr>
 					<td>Chapter Count</td>
 					<td><?= $data['chapter_count'] ?></td>
-				</tr>
+				</tr> */ ?>
+
+				<?php if ( ! empty($data['age_rating'])): ?>
+					<tr>
+						<td>Age Rating</td>
+						<td><abbr title="<?= $data['age_rating_guide'] ?>"><?= $data['age_rating'] ?></abbr>
+						</td>
+					</tr>
+				<?php endif ?>
 				<tr>
 					<td>Genres</td>
 					<td>
@@ -82,16 +94,16 @@
 						type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
 					<label for="staff-role<?= $i ?>"><?= $role ?></label>
 					<section class='content media-wrap flex flex-wrap flex-justify-start'>
-						<?php foreach ($people as $pid => $person): ?>
+						<?php foreach ($people as $person): ?>
 							<article class='character person'>
-								<?php $link = $url->generate('person', ['id' => $pid]) ?>
+								<?php $link = $url->generate('person', ['id' => $person['id']]) ?>
 								<div class="name">
 									<a href="<?= $link ?>">
 										<?= $person['name'] ?>
 									</a>
 								</div>
 								<a href="<?= $link ?>">
-									<?= $helper->picture("images/people/{$pid}.webp") ?>
+									<?= $helper->picture("images/people/{$person['id']}.webp") ?>
 								</a>
 							</article>
 						<?php endforeach ?>
