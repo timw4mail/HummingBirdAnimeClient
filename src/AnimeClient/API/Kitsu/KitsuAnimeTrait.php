@@ -63,7 +63,6 @@ trait KitsuAnimeTrait {
 		$baseData = $this->requestBuilder->runQuery('AnimeDetails', [
 			'slug' => $slug
 		]);
-		// $baseData = $this->getRawMediaData('anime', $slug);
 
 		if (empty($baseData))
 		{
@@ -109,7 +108,10 @@ trait KitsuAnimeTrait {
 	 */
 	public function getAnimeById(string $animeId): Anime
 	{
-		$baseData = $this->getRawMediaDataById('anime', $animeId);
+		$baseData = $this->requestBuilder->runQuery('AnimeDetailsById', [
+			'id' => $animeId,
+		]);
+		// $baseData = $this->getRawMediaDataById('anime', $animeId);
 		return $this->animeTransformer->transform($baseData);
 	}
 
