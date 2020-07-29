@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\API;
 
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
 use DateTimeImmutable;
 
 /**
@@ -63,6 +64,28 @@ final class Kitsu {
 		}
 
 		return AnimeAiringStatus::NOT_YET_AIRED;
+	}
+
+	public static function getPublishingStatus(string $kitsuStatus, string $startDate = NULL, string $endDate = NULL): string
+	{
+		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');
+		$endPubDate = new DateTimeImmutable($endDate ?? 'next year');
+		$now = new DateTimeImmutable();
+
+		$isDone = $now > $endPubDate;
+		$isCurrent = ($now > $startPubDate) && ! $isDone;
+
+		if ($kitsuStatus === 'CURRENT' || $isCurrent)
+		{
+			return MangaPublishingStatus::CURRENT;
+		}
+
+		if ($kitsuStatus === 'FINISHED' || $isDone)
+		{
+			return MangaPublishingStatus::FINISHED;
+		}
+
+		return MangaPublishingStatus::NOT_YET_PUBLISHED;
 	}
 
 	/**

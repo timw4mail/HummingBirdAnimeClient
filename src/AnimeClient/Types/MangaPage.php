@@ -16,10 +16,22 @@
 
 namespace Aviat\AnimeClient\Types;
 
+use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
+
 /**
  * Type representing an Anime object for display
  */
 final class MangaPage extends AbstractType {
+	/**
+	 * @var string
+	 */
+	public ?string $age_rating;
+
+	/**
+	 * @var string
+	 */
+	public ?string $age_rating_guide;
+
 	/**
 	 * @var array
 	 */
@@ -46,42 +58,42 @@ final class MangaPage extends AbstractType {
 	public $id;
 
 	/**
-	 * @var array
-	 */
-	public $included;
-
-	/**
 	 * @var string
 	 */
 	public $manga_type;
 
 	/**
-	 * @var array
+	 * @var MangaPublishingStatus
 	 */
-	public $staff;
-
-	/**
-	 * @var string
-	 */
-	public $synopsis;
-
-	/**
-	 * @var string
-	 */
-	public $title;
+	public string $status = MangaPublishingStatus::FINISHED;
 
 	/**
 	 * @var array
 	 */
-	public $titles;
+	public array $staff;
 
 	/**
 	 * @var string
 	 */
-	public $url;
+	public string $synopsis;
+
+	/**
+	 * @var string
+	 */
+	public string $title;
+
+	/**
+	 * @var array
+	 */
+	public array $titles;
+
+	/**
+	 * @var string
+	 */
+	public string $url;
 
 	/**
 	 * @var int
 	 */
-	public $volume_count;
+	public ?int $volume_count;
 }

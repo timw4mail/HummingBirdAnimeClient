@@ -56,13 +56,31 @@ trait KitsuMangaTrait {
 	 */
 	public function getManga(string $slug): MangaPage
 	{
-		$baseData = $this->getRawMediaData('manga', $slug);
+		$baseData = $this->requestBuilder->runQuery('MangaDetails', [
+			'slug' => $slug
+		]);
+		// $baseData = $this->getRawMediaData('manga', $slug);
 
 		if (empty($baseData))
 		{
 			return MangaPage::from([]);
 		}
 
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	/**
+	 * Get information about a particular manga
+	 *
+	 * @param string $mangaId
+	 * @return MangaPage
+	 */
+	public function getMangaById(string $mangaId): MangaPage
+	{
+		$baseData = $this->requestBuilder->runQuery('MangaDetailsById', [
+			'id' => $mangaId,
+		]);
+		// $baseData = $this->getRawMediaDataById('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
 
@@ -90,18 +108,6 @@ trait KitsuMangaTrait {
 		}
 
 		return $list;
-	}
-
-	/**
-	 * Get information about a particular manga
-	 *
-	 * @param string $mangaId
-	 * @return MangaPage
-	 */
-	public function getMangaById(string $mangaId): MangaPage
-	{
-		$baseData = $this->getRawMediaDataById('manga', $mangaId);
-		return $this->mangaTransformer->transform($baseData);
 	}
 
 	/**
