@@ -41,24 +41,6 @@ query ($slug: String!) {
 					slug
 				}
 				role
-				voices {
-					nodes {
-						id
-						licensor {
-							id
-							name
-						}
-						locale
-						person {
-							id
-							names {
-								alternatives
-								canonical
-								localized
-							}
-						}
-					}
-				}
 			}
 			pageInfo {
 				endCursor

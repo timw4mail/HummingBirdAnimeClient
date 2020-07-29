@@ -46,6 +46,26 @@ final class AnimeTransformer extends AbstractTransformer {
 		$title = $base['titles']['canonical'];
 		$titles = Kitsu::filterLocalizedTitles($base['titles']);
 
+		if (count($base['characters']['nodes']) > 0)
+		{
+			$characters['main'] = [];
+			$characters['supporting'] = [];
+
+			foreach ($base['characters']['nodes'] as $rawCharacter)
+			{
+				$type = $rawCharacter['role'] === 'MAIN' ? 'main' : 'supporting';
+				$details = $rawCharacter['character'];
+				$characters[$type][$details['id']] = [
+					'image' => $details['image'],
+					'name' => $details['names']['canonical'],
+					'slug' => $details['slug'],
+				];
+			}
+
+			uasort($characters['main'], fn($a, $b) => $a['name'] <=> $b['name']);
+			uasort($characters['supporting'], fn($a, $b) => $a['name'] <=> $b['name']);
+		}
+
 		$data = [
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],

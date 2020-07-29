@@ -11,10 +11,10 @@
 					<td class="align-right">Airing Status</td>
 					<td><?= $data['status'] ?></td>
 				</tr>
-				<tr>
+				<?php /* <tr>
 					<td>Show Type</td>
 					<td><?= $data['show_type'] ?></td>
-				</tr>
+				</tr> */ ?>
 				<tr>
 					<td>Episode Count</td>
 					<td><?= $data['episode_count'] ?? '-' ?></td>
@@ -130,7 +130,7 @@
 							<article class="<?= $role === 'supporting' ? 'small-' : '' ?>character">
 								<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
 								<div class="name">
-									<?= $helper->a($link, $char['name']); ?>
+									<?= $helper->a($link, $char['name']) ?>
 								</div>
 								<a href="<?= $link ?>">
 									<?= $helper->picture("images/characters/{$id}.webp") ?>
