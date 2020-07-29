@@ -141,7 +141,7 @@ final class Kitsu {
 	 * @param array $data
 	 * @return array
 	 */
-	public static function getTitles(array $data): array
+	public static function oldGetTitles(array $data): array
 	{
 		$raw = array_unique([
 			$data['canonicalTitle'],
@@ -150,6 +150,23 @@ final class Kitsu {
 		]);
 
 		return array_diff($raw,[$data['canonicalTitle']]);
+	}
+
+	/**
+	 * Get the list of titles
+	 *
+	 * @param array $titles
+	 * @return array
+	 */
+	public static function getTitles(array $titles): array
+	{
+		$raw = array_unique([
+			$titles['canonical'],
+			...array_values($titles['localized']),
+			// ...array_values($data['abbreviatedTitles'] ?? []),
+		]);
+
+		return array_diff($raw,[$titles['canonical']]);
 	}
 
 	/**

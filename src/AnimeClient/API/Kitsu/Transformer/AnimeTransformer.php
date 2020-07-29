@@ -34,7 +34,9 @@ final class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimePage
 	{
-		$base = $item['data']['findAnimeBySlug'];
+		$base = array_key_exists('findAnimeBySlug', $item['data'])
+			? $item['data']['findAnimeBySlug']
+			: $item['data']['findAnimeById'];
 		$characters = [];
 		$staff = [];
 		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
@@ -42,7 +44,8 @@ final class AnimeTransformer extends AbstractTransformer {
 		sort($genres);
 
 		$title = $base['titles']['canonical'];
-		$titles = Kitsu::filterLocalizedTitles($base['titles']);
+		$titles = Kitsu::getTitles($base['titles']);
+		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
 		if (count($base['characters']['nodes']) > 0)
 		{
@@ -103,12 +106,13 @@ final class AnimeTransformer extends AbstractTransformer {
 			'id' => $base['id'],
 			'slug' => $base['slug'],
 			'staff' => $staff,
+			'show_type' => 'TV', // TODO: get show type
 			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
 			'streaming_links' => [], // Kitsu::parseStreamingLinks($item['included']),
 			'synopsis' => $base['synopsis']['en'],
 			'title' => $title,
-			'titles' => [],
-			'titles_more' => $titles,
+			'titles' => $titles,
+			'titles_more' => $titles_more,
 			'total_length' => $base['totalLength'],
 			'trailer_id' => $base['youtubeTrailerVideoId'],
 			'url' => "https://kitsu.io/anime/{$base['slug']}",
