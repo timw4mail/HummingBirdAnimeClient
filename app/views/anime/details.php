@@ -1,4 +1,7 @@
-<?php use function Aviat\AnimeClient\getLocalImg; ?>
+<?php
+use Aviat\AnimeClient\API\Kitsu;
+use function Aviat\AnimeClient\getLocalImg;
+?>
 <main class="details fixed">
 	<section class="flex">
 		<aside class="info">
@@ -11,20 +14,28 @@
 					<td class="align-right">Airing Status</td>
 					<td><?= $data['status'] ?></td>
 				</tr>
-				<?php /* <tr>
-					<td>Show Type</td>
-					<td><?= $data['show_type'] ?></td>
-				</tr> */ ?>
-				<tr>
-					<td>Episode Count</td>
-					<td><?= $data['episode_count'] ?? '-' ?></td>
-				</tr>
-				<?php if ( ! empty($data['episode_length'])): ?>
+
+				<?php if ($data['episode_count'] !== 1): ?>
 					<tr>
-						<td>Episode Length</td>
-						<td><?= $data['episode_length'] ?> minutes</td>
+						<td>Episode Count</td>
+						<td><?= $data['episode_count'] ?? '-' ?></td>
 					</tr>
 				<?php endif ?>
+
+				<?php if (( ! empty($data['episode_length'])) && $data['episode_count'] !== 1): ?>
+					<tr>
+						<td>Episode Length</td>
+						<td><?= Kitsu::friendlyTime($data['episode_length']) ?></td>
+					</tr>
+				<?php endif ?>
+
+				<?php if (isset($data['total_length'], $data['episode_count'])): ?>
+					<tr>
+						<td>Total Length</td>
+						<td><?= Kitsu::friendlyTime($data['total_length']) ?></td>
+					</tr>
+				<?php endif ?>
+
 				<?php if ( ! empty($data['age_rating'])): ?>
 					<tr>
 						<td>Age Rating</td>

@@ -108,6 +108,15 @@ class Anime extends AbstractType {
 	public ?string $trailer_id;
 
 	/**
+	 * Length of the entire series in seconds
+	 *
+	 * @var int|null
+	 */
+	public ?int $total_length;
+
+	/**
+	 * Kitsu detail page url
+	 *
 	 * @var string
 	 */
 	public ?string $url;

@@ -31,6 +31,11 @@ final class Kitsu {
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
 
+	public const SECONDS_IN_MINUTE = 60;
+	public const MINUTES_IN_HOUR = 60;
+	public const MINUTES_IN_DAY = 1440;
+	public const MINUTES_IN_YEAR = 525_600;
+
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
 	 *
@@ -268,6 +273,64 @@ final class Kitsu {
 			'link' => FALSE,
 			'image' => 'streaming-logos/netflix.svg',
 		];
+	}
+
+	/**
+	 * Convert a time in seconds to a more human-readable format
+	 *
+	 * @param int $seconds
+	 * @return string
+	 */
+	public static function friendlyTime(int $seconds): string
+	{
+		// All the seconds left
+		$remSeconds = $seconds % self::SECONDS_IN_MINUTE;
+		$minutes = ($seconds - $remSeconds) / self::SECONDS_IN_MINUTE;
+
+		// Minutes short of a year
+		$years = (int)floor($minutes / self::MINUTES_IN_YEAR);
+		$minutes %= self::MINUTES_IN_YEAR;
+
+		// Minutes short of a day
+		$extraMinutes = $minutes % self::MINUTES_IN_DAY;
+		$days = ($minutes - $extraMinutes) / self::MINUTES_IN_DAY;
+
+		// Minutes short of an hour
+		$remMinutes = $extraMinutes % self::MINUTES_IN_HOUR;
+		$hours = ($extraMinutes - $remMinutes) / self::MINUTES_IN_HOUR;
+
+		$parts = [];
+		foreach ([
+			'year' => $years,
+			'day' => $days,
+			'hour' => $hours,
+			'minute' => $remMinutes,
+			'second' => $remSeconds
+	 	] as $label => $value)
+		{
+			if ($value === 0)
+			{
+				continue;
+			}
+
+			if ($value > 1)
+			{
+				$label .= 's';
+			}
+
+			$parts[] = "{$value} {$label}";
+		}
+
+		$last = array_pop($parts);
+
+		if (empty($parts))
+		{
+			return $last;
+		}
+
+		return (count($parts) > 1)
+			? implode(', ', $parts) . ", and {$last}"
+			: "{$parts[0]}, {$last}";
 	}
 
 	/**
