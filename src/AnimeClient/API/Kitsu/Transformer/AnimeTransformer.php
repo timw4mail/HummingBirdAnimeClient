@@ -66,6 +66,33 @@ final class AnimeTransformer extends AbstractTransformer {
 			uasort($characters['supporting'], fn($a, $b) => $a['name'] <=> $b['name']);
 		}
 
+		if (count($base['staff']['nodes']) > 0)
+		{
+			foreach ($base['staff']['nodes'] as $staffing)
+			{
+				$person = $staffing['person'];
+				$role = $staffing['role'];
+				$name = $person['names']['localized'][$person['names']['canonical']];
+
+				if ( ! array_key_exists($role, $staff))
+				{
+					$staff[$role] = [];
+				}
+
+				$staff[$role][$person['id']] = [
+					'id' => $person['id'],
+					'name' => $name,
+					'image' => [
+						'original' => $person['image']['original']['url'],
+					],
+				];
+
+				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
+			}
+
+			ksort($staff);
+		}
+
 		$data = [
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
