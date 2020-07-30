@@ -95,6 +95,7 @@ query ($slug: String!) {
 						canonical
 						localized
 					}
+					#slug
 				}
 				role
 			}
@@ -106,6 +107,7 @@ query ($slug: String!) {
 			}
 		}
 		status
+		#subType
 		synopsis
 		titles {
 			canonical

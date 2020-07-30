@@ -42,7 +42,7 @@
 		</aside>
 		<article class="text">
 			<h2 class="toph"><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
-			<?php foreach ($data['titles'] as $title): ?>
+			<?php foreach ($data['titles_more'] as $title): ?>
 				<h3><?= $title ?></h3>
 			<?php endforeach ?>
 

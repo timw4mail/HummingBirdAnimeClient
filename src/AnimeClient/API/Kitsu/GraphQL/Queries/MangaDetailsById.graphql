@@ -22,6 +22,8 @@ query ($id: ID!) {
 				title
 			}
 		}
+		# chapterCount
+		# volumeCount
 		characters {
 			nodes {
 				character {
@@ -91,6 +93,7 @@ query ($id: ID!) {
 						canonical
 						localized
 					}
+					#slug
 				}
 				role
 			}
@@ -102,6 +105,7 @@ query ($id: ID!) {
 			}
 		}
 		status
+		#subType
 		synopsis
 		titles {
 			canonical

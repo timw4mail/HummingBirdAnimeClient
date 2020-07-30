@@ -1,64 +1,80 @@
-# Requires authentication to select associated user
-query {
-	session {
-		account {
-			email
-			id
-			proSubscription {
-				billingService
-				tier
+query ($slug: String!) {
+	findProfileBySlug(slug: $slug) {
+		about
+		avatarImage {
+			original {
+				name
+				url
+				width
+				height
 			}
 		}
-		profile {
-			about
-			avatarImage {
-				original {
-					name
-					url
-					width
-					height
-				}
+		bannerImage {
+			original {
+				name
+				url
+				width
+				height
 			}
-			bannerImage {
-				original {
-					name
-					url
-					width
-					height
-				}
-			}
-			id
-			name
-			proMessage
-			proTier
-			slug
-			url
-			waifu {
+		}
+		id
+		name
+		proMessage
+		proTier
+		slug
+		stats {
+			animeAmountConsumed {
+				completed
 				id
-				image {
-					original {
-						name
-						url
-						width
-						height
-					}
+				media
+				recalculatedAt
+				time
+				units
+			}
+			animeCategoryBreakdown {
+				categories
+				recalculatedAt
+				total
+			}
+			mangaAmountConsumed {
+				completed
+				id
+				media
+				recalculatedAt
+				units
+			}
+			mangaCategoryBreakdown {
+				categories
+				recalculatedAt
+				total
+			}
+		}
+		url
+		waifu {
+			id
+			image {
+				original {
+					name
+					url
+					width
+					height
 				}
-				names {
+			}
+			names {
+				canonical
+				alternatives
+				localized
+			}
+			primaryMedia {
+				slug
+				titles {
 					canonical
 					alternatives
 					localized
 				}
-				primaryMedia {
-					slug
-					titles {
-						canonical
-						alternatives
-						localized
-					}
-				}
-				slug
 			}
-			waifuOrHusbando
+			slug
 		}
+		# waifuOrHusbando
 	}
 }
