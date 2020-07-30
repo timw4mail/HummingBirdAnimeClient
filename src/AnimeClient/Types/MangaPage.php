@@ -35,7 +35,7 @@ final class MangaPage extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $characters;
+	public array $characters;
 
 	/**
 	 * @var int
@@ -50,7 +50,7 @@ final class MangaPage extends AbstractType {
 	/**
 	 * @var array
 	 */
-	public $genres;
+	public array $genres;
 
 	/**
 	 * @var string
@@ -86,6 +86,11 @@ final class MangaPage extends AbstractType {
 	 * @var array
 	 */
 	public array $titles;
+
+	/**
+	 * A potentially longer list of titles for the details page
+	 */
+	public array $titles_more;
 
 	/**
 	 * @var string

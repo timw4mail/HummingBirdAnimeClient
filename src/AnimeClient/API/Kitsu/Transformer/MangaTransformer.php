@@ -49,7 +49,8 @@ final class MangaTransformer extends AbstractTransformer {
 		sort($genres);
 
 		$title = $base['titles']['canonical'];
-		$titles = Kitsu::filterLocalizedTitles($base['titles']);
+		$titles = Kitsu::getTitles($base['titles']);
+		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
 		if (count($base['characters']['nodes']) > 0)
 		{
@@ -107,14 +108,18 @@ final class MangaTransformer extends AbstractTransformer {
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
+			// 'chapter_count' => $base['chapterCount'],
+			// 'volume_count' => $base['volumeCount'],
 			'cover_image' => $base['posterImage']['views'][1]['url'],
 			'genres' => $genres,
+			// 'manga_type' => $base['subType'],
 			'id' => $base['id'],
 			'staff' => $staff,
 			'status' => Kitsu::getPublishingStatus($base['status'], $base['startDate'], $base['endDate']),
 			'synopsis' => $base['synopsis']['en'],
 			'title' => $title,
 			'titles' => $titles,
+			'titles_more' => $titles_more,
 			'url' => "https://kitsu.io/manga/{$base['slug']}",
 		];
 

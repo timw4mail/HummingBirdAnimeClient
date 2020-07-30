@@ -46,14 +46,10 @@ final class UserTransformer extends AbstractTransformer {
 		}
 		unset($item);
 
-		$waifu = [];
-		if (array_key_exists('waifu', $rels))
-		{
-			$waifu = [
-				'label' => $attributes['waifuOrHusbando'],
-				'character' => $rels['waifu']['attributes'],
-			];
-		}
+		$waifu = (array_key_exists('waifu', $rels)) ? [
+			'label' => $attributes['waifuOrHusbando'],
+			'character' => $rels['waifu']['attributes'],
+		] : [];
 
 		return User::from([
 			'about' => $attributes['about'],
