@@ -34,6 +34,10 @@ final class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimePage
 	{
+		// TODO: missing GraphQL data:
+		// * streaming links
+		// * show type
+
 		$base = array_key_exists('findAnimeBySlug', $item['data'])
 			? $item['data']['findAnimeBySlug']
 			: $item['data']['findAnimeById'];
@@ -65,6 +69,11 @@ final class AnimeTransformer extends AbstractTransformer {
 
 			uasort($characters['main'], fn($a, $b) => $a['name'] <=> $b['name']);
 			uasort($characters['supporting'], fn($a, $b) => $a['name'] <=> $b['name']);
+
+			if (empty($characters['supporting']))
+			{
+				unset($characters['supporting']);
+			}
 		}
 
 		if (count($base['staff']['nodes']) > 0)
@@ -94,8 +103,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			ksort($staff);
 		}
 
-		// @TODO: Streaming Links
-		$data = [
+		return AnimePage::from([
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
@@ -116,8 +124,6 @@ final class AnimeTransformer extends AbstractTransformer {
 			'total_length' => $base['totalLength'],
 			'trailer_id' => $base['youtubeTrailerVideoId'],
 			'url' => "https://kitsu.io/anime/{$base['slug']}",
-		];
-
-		return AnimePage::from($data);
+		]);
 	}
 }
