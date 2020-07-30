@@ -189,9 +189,9 @@ final class Model {
 				'filter' => [
 					'slug' => $slug,
 				],
-				'fields' => [
-					'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-					'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage'
+				'fields' => [ // For some characters, these filters cause issues...so leave them out
+					// 'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
+					// 'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage'
 				],
 				'include' => 'castings.person,castings.media'
 			]
