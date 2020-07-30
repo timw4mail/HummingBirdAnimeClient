@@ -19,12 +19,14 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
 use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 
 use Aviat\Ion\Json;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
+use const Aviat\AnimeClient\SESSION_SEGMENT;
 use const Aviat\AnimeClient\USER_AGENT;
 
 use Aviat\AnimeClient\API\APIRequestBuilder;
@@ -69,17 +71,32 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	public function setUpRequest(string $url, array $options = []): Request
 	{
-		/* $config = $this->getContainer()->get('config');
-		$anilistConfig = $config->get('anilist'); */
-
 		$request = $this->newRequest('POST', $url);
 
-		// You can only authenticate the request if you
-		// actually have an access_token saved
-		/* if ($config->has(['anilist', 'access_token']))
+		$sessionSegment = $this->getContainer()
+			->get('session')
+			->getSegment(SESSION_SEGMENT);
+
+		$cache = $this->getContainer()->get('cache');
+		$token = null;
+
+		if ($cache->has(K::AUTH_TOKEN_CACHE_KEY))
 		{
-			$request = $request->setAuth('bearer', $anilistConfig['access_token']);
-		} */
+			$token = $cache->get(K::AUTH_TOKEN_CACHE_KEY);
+		}
+		else if ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
+		{
+			$token = $sessionSegment->get('auth_token');
+			if ( ! (empty($token) || $cache->has(K::AUTH_TOKEN_CACHE_KEY)))
+			{
+				$cache->set(K::AUTH_TOKEN_CACHE_KEY, $token);
+			}
+		}
+
+		if ($token !== NULL)
+		{
+			$request = $request->setAuth('bearer', $token);
+		}
 
 		if (array_key_exists('form_params', $options))
 		{
