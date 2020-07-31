@@ -32,6 +32,9 @@ final class Kitsu {
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
 
+	public const GRAPHQL_ENDPOINT = 'https://kitsu.io/api/graphql';
+	public const JSON_API_ENDPOINT = 'https://kitsu.io/api/edge/';
+
 	public const SECONDS_IN_MINUTE = 60;
 	public const MINUTES_IN_HOUR = 60;
 	public const MINUTES_IN_DAY = 1440;

@@ -247,7 +247,7 @@ trait KitsuAnimeTrait {
 				'include' => 'mappings'
 			]
 		];
-		$data = $this->jsonApiRequestBuilder->getRequest("anime/{$kitsuAnimeId}", $options);
+		$data = $this->requestBuilder->getRequest("anime/{$kitsuAnimeId}", $options);
 
 		if ( ! array_key_exists('included', $data))
 		{
@@ -293,7 +293,7 @@ trait KitsuAnimeTrait {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 
 	/**

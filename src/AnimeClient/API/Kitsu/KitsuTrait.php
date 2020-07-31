@@ -18,19 +18,13 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 trait KitsuTrait {
 	/**
-	 * The request builder for the Kitsu GraphQL API
+	 * The request builder for the Kitsu API
 	 * @var KitsuRequestBuilder
 	 */
-	protected ?KitsuRequestBuilder $requestBuilder = null;
+	protected KitsuRequestBuilder $requestBuilder;
 
 	/**
-	 * The request builder for the Kitsu API
-	 * @var KitsuJsonApiRequestBuilder
-	 */
-	protected KitsuJsonApiRequestBuilder $jsonApiRequestBuilder;
-
-	/**
-	 * Set the GraphQL request builder object
+	 * Set the request builder object
 	 *
 	 * @param KitsuRequestBuilder $requestBuilder
 	 * @return $this
@@ -38,18 +32,6 @@ trait KitsuTrait {
 	public function setRequestBuilder(KitsuRequestBuilder $requestBuilder): self
 	{
 		$this->requestBuilder = $requestBuilder;
-		return $this;
-	}
-
-	/**
-	 * Set the request builder object
-	 *
-	 * @param KitsuJsonApiRequestBuilder $requestBuilder
-	 * @return self
-	 */
-	public function setJsonApiRequestBuilder($requestBuilder): self
-	{
-		$this->jsonApiRequestBuilder = $requestBuilder;
 		return $this;
 	}
 }

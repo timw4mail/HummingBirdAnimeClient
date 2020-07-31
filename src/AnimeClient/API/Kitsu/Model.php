@@ -81,7 +81,7 @@ final class Model {
 	public function authenticate(string $username, string $password)
 	{
 		// K::AUTH_URL
-		$response = $this->jsonApiRequestBuilder->getResponse('POST', K::AUTH_URL, [
+		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
 				'accept' => NULL,
 				'Content-type' => 'application/x-www-form-urlencoded',
@@ -120,7 +120,7 @@ final class Model {
 	 */
 	public function reAuthenticate(string $token)
 	{
-		$response = $this->jsonApiRequestBuilder->getResponse('POST', K::AUTH_URL, [
+		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
 				'accept' => NULL,
 				'Content-type' => 'application/x-www-form-urlencoded',
@@ -164,7 +164,7 @@ final class Model {
 		}
 
 		return $this->getCached(K::AUTH_USER_ID_KEY, function(string $username) {
-			$data = $this->jsonApiRequestBuilder->getRequest('users', [
+			$data = $this->requestBuilder->getRequest('users', [
 				'query' => [
 					'filter' => [
 						'name' => $username
@@ -184,7 +184,7 @@ final class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		return $this->jsonApiRequestBuilder->getRequest('characters', [
+		return $this->requestBuilder->getRequest('characters', [
 			'query' => [
 				'filter' => [
 					'slug' => $slug,
@@ -207,7 +207,7 @@ final class Model {
 	 */
 	public function getPerson(string $id): array
 	{
-		return $this->getCached("kitsu-person-{$id}", fn () => $this->jsonApiRequestBuilder->getRequest("people/{$id}", [
+		return $this->getCached("kitsu-person-{$id}", fn () => $this->requestBuilder->getRequest("people/{$id}", [
 			'query' => [
 				'filter' => [
 					'id' => $id,
@@ -233,7 +233,7 @@ final class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		return $this->jsonApiRequestBuilder->getRequest('users', [
+		return $this->requestBuilder->getRequest('users', [
 			'query' => [
 				'filter' => [
 					'name' => $username,
@@ -270,7 +270,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->jsonApiRequestBuilder->getRequest($type, $options);
+		$raw = $this->requestBuilder->getRequest($type, $options);
 		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
 
 		foreach ($raw['data'] as &$item)
@@ -315,7 +315,7 @@ final class Model {
 			]
 		];
 
-		$raw = $this->jsonApiRequestBuilder->getRequest('mappings', $options);
+		$raw = $this->requestBuilder->getRequest('mappings', $options);
 
 		if ( ! array_key_exists('included', $raw))
 		{
@@ -422,7 +422,7 @@ final class Model {
 	 */
 	protected function getRawHistoryPage(string $type, int $offset, int $limit = 20): Request
 	{
-		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-events', [
+		return $this->requestBuilder->setUpRequest('GET', 'library-events', [
 			'query' => [
 				'filter' => [
 					'kind' => 'progressed,updated',
@@ -484,7 +484,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->jsonApiRequestBuilder->getRequest("{$type}/{$id}", $options);
+		$data = $this->requestBuilder->getRequest("{$type}/{$id}", $options);
 
 		if (empty($data['data']))
 		{
@@ -524,7 +524,7 @@ final class Model {
 			]
 		];
 
-		$data = $this->jsonApiRequestBuilder->getRequest($type, $options);
+		$data = $this->requestBuilder->getRequest($type, $options);
 
 		if (empty($data['data']))
 		{
@@ -557,7 +557,7 @@ final class Model {
 			$options['query']['filter']['status'] = $status;
 		}
 
-		$response = $this->jsonApiRequestBuilder->getRequest('library-entries', $options);
+		$response = $this->requestBuilder->getRequest('library-entries', $options);
 
 		return $response['meta']['count'];
 	}
@@ -623,6 +623,6 @@ final class Model {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 }

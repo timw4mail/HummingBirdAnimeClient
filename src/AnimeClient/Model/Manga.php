@@ -199,13 +199,13 @@ class Manga extends API {
 		}
 
 		$results = $requester->makeRequests();
-		$body = Json::decode($results['kitsu']);
-		$statusCode = array_key_exists('error', $body) ? 400 : 200;
 
-		return [
-			'body' => Json::decode($results['kitsu']),
-			'statusCode' => $statusCode
-		];
+		$body = Json::decode($results['kitsu']);
+		$statusCode = array_key_exists('errors', $body)
+			? $body['errors'][0]['status']
+			: 200;
+
+		return [$body, $statusCode];
 	}
 
 	/**

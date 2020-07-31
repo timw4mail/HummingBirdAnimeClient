@@ -143,7 +143,7 @@ trait KitsuMangaTrait {
 
 		if ($list === NULL)
 		{
-			$data = $this->jsonApiRequestBuilder->getRequest('library-entries', $options) ?? [];
+			$data = $this->requestBuilder->getRequest('library-entries', $options) ?? [];
 
 			// Bail out on no data
 			if (empty($data) || ( ! array_key_exists('included', $data)))
@@ -264,7 +264,7 @@ trait KitsuMangaTrait {
 		];
 		$options = array_merge($defaultOptions, $options);
 
-		return $this->jsonApiRequestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
+		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 
 	/**
@@ -281,7 +281,7 @@ trait KitsuMangaTrait {
 				'include' => 'mappings'
 			]
 		];
-		$data = $this->jsonApiRequestBuilder->getRequest("manga/{$kitsuMangaId}", $options);
+		$data = $this->requestBuilder->getRequest("manga/{$kitsuMangaId}", $options);
 		$mappings = array_column($data['included'], 'attributes');
 
 		foreach($mappings as $map)
