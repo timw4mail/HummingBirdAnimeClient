@@ -23,7 +23,6 @@ use Aura\Router\Generator;
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
 use Aviat\Ion\ConfigInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -176,8 +175,6 @@ class Controller {
 	 * If one is not set, redirect to default url
 	 *
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function sessionRedirect(): void

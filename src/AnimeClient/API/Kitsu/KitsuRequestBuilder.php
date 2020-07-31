@@ -16,20 +16,23 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
-use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Kitsu as K;
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
-
-use Aviat\Ion\Json;
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 use const Aviat\AnimeClient\USER_AGENT;
 
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
+
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
 use Aviat\AnimeClient\API\APIRequestBuilder;
+use Aviat\AnimeClient\API\FailedResponseException;
+use Aviat\AnimeClient\API\Kitsu as K;
+use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Event;
+use Aviat\Ion\Json;
+use Aviat\Ion\JsonException;
 
 final class KitsuRequestBuilder extends APIRequestBuilder {
 	use ContainerAware;
@@ -38,13 +41,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected string $baseUrl = 'https://kitsu.io/api/graphql';
-
-	/**
-	 * Valid HTTP request methods
-	 * @var array
-	 */
-	protected array $validMethods = ['POST'];
+	protected string $baseUrl = K::JSON_API_ENDPOINT;
 
 	/**
 	 * HTTP headers to send with every request
@@ -52,9 +49,11 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * @var array
 	 */
 	protected array $defaultHeaders = [
-		'User-Agent' => USER_AGENT,
-		'Accept' => 'application/json',
-		'Content-Type' => 'application/json',
+		'User-Agent' =>  USER_AGENT,
+		'Accept' => 'application/vnd.api+json',
+		'Content-Type' => 'application/vnd.api+json',
+		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
+		'CLIENT_SECRET' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
 
 	public function __construct(ContainerInterface $container)
@@ -64,14 +63,15 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a request object
+	 *
+	 * @param string $type
 	 * @param string $url
 	 * @param array $options
 	 * @return Request
-	 * @throws Throwable
 	 */
-	public function setUpRequest(string $url, array $options = []): Request
+	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
-		$request = $this->newRequest('POST', $url);
+		$request = $this->newRequest($type, $url);
 
 		$sessionSegment = $this->getContainer()
 			->get('session')
@@ -122,6 +122,69 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
+	 * Remove some boilerplate for get requests
+	 *
+	 * @param mixed ...$args
+	 * @throws Throwable
+	 * @return array
+	 */
+	public function getRequest(...$args): array
+	{
+		return $this->request('GET', ...$args);
+	}
+
+	/**
+	 * Remove some boilerplate for patch requests
+	 *
+	 * @param mixed ...$args
+	 * @throws Throwable
+	 * @return array
+	 */
+	public function patchRequest(...$args): array
+	{
+		return $this->request('PATCH', ...$args);
+	}
+
+	/**
+	 * Remove some boilerplate for post requests
+	 *
+	 * @param mixed ...$args
+	 * @throws Throwable
+	 * @return array
+	 */
+	public function postRequest(...$args): array
+	{
+		$logger = NULL;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('kitsu-request');
+		}
+
+		$response = $this->getResponse('POST', ...$args);
+		$validResponseCodes = [200, 201];
+
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE) && $logger)
+		{
+			$logger->warning('Non 2xx response for POST api call', $response->getBody());
+		}
+
+		return JSON::decode(wait($response->getBody()->buffer()), TRUE);
+	}
+
+	/**
+	 * Remove some boilerplate for delete requests
+	 *
+	 * @param mixed ...$args
+	 * @throws Throwable
+	 * @return bool
+	 */
+	public function deleteRequest(...$args): bool
+	{
+		$response = $this->getResponse('DELETE', ...$args);
+		return ($response->getStatus() === 204);
+	}
+
+	/**
 	 * Run a GraphQL API query
 	 *
 	 * @param string $name
@@ -130,7 +193,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
-		$file = realpath(__DIR__ . "/GraphQL/Queries/{$name}.graphql");
+		$file =__DIR__ . "/GraphQL/Queries/{$name}.graphql";
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');
@@ -151,7 +214,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 			}
 		}
 
-		return $this->postRequest([
+		return $this->graphResponse([
 			'body' => $body
 		]);
 	}
@@ -164,15 +227,14 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
-		$file = realpath(__DIR__ . "/GraphQL/Mutations/{$name}.graphql");
-		if (!file_exists($file))
+		$file = __DIR__ . "/GraphQL/Mutations/{$name}.graphql";
+		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}
 
 		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
 		$query = file_get_contents($file);
-
 		$body = [
 			'query' => $query
 		];
@@ -185,7 +247,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 			}
 		}
 
-		return $this->setUpRequest(Anilist::BASE_URL, [
+		return $this->setUpRequest('POST', K::GRAPHQL_ENDPOINT, [
 			'body' => $body,
 		]);
 	}
@@ -196,7 +258,7 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 * @return array
 	 * @throws Throwable
 	 */
-	public function mutate (string $name, array $variables = []): array
+	public function mutate(string $name, array $variables = []): array
 	{
 		$request = $this->mutateRequest($name, $variables);
 		$response = $this->getResponseFromRequest($request);
@@ -207,29 +269,34 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	/**
 	 * Make a request
 	 *
+	 * @param string $type
 	 * @param string $url
 	 * @param array $options
 	 * @return Response
 	 * @throws Throwable
 	 */
-	private function getResponse(string $url, array $options = []): Response
+	public function getResponse(string $type, string $url, array $options = []): Response
 	{
 		$logger = NULL;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('anilist-request');
+			$logger = $this->container->getLogger('kitsu-request');
 		}
 
-		$request = $this->setUpRequest($url, $options);
+		$request = $this->setUpRequest($type, $url, $options);
+
 		$response = getResponse($request);
 
-		$logger->debug('Anilist response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			'requestHeaders' => $request->getHeaders(),
-		]);
+		if ($logger)
+		{
+			$logger->debug('Kitsu API Response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				'requestHeaders' => $request->getHeaders(),
+			]);
+		}
 
 		return $response;
 	}
@@ -244,12 +311,12 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 		$logger = NULL;
 		if ($this->getContainer())
 		{
-			$logger = $this->container->getLogger('anilist-request');
+			$logger = $this->container->getLogger('kitsu-request');
 		}
 
 		$response = getResponse($request);
 
-		$logger->debug('Anilist response', [
+		$logger->debug('Kitsu GraphQL response', [
 			'status' => $response->getStatus(),
 			'reason' => $response->getReason(),
 			'body' => $response->getBody(),
@@ -261,27 +328,26 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * Remove some boilerplate for post requests
+	 * Remove some boilerplate for GraphQL requests
 	 *
 	 * @param array $options
 	 * @return array
-	 * @throws Throwable
+	 * @throws \Throwable
 	 */
-	protected function postRequest(array $options = []): array
+	protected function graphResponse(array $options = []): array
 	{
-		$response = $this->getResponse($this->baseUrl, $options);
+		$response = $this->getResponse('POST', K::GRAPHQL_ENDPOINT, $options);
 		$validResponseCodes = [200, 201];
 
 		$logger = NULL;
 		if ($this->getContainer())
 		{
 			$logger = $this->container->getLogger('kitsu-request');
-			$logger->debug('Kitsu response', [
+			$logger->debug('Kitsu GraphQL response', [
 				'status' => $response->getStatus(),
 				'reason' => $response->getReason(),
 				'body' => $response->getBody(),
 				'headers' => $response->getHeaders(),
-				//'requestHeaders' => $request->getHeaders(),
 			]);
 		}
 
@@ -289,12 +355,62 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 		{
 			if ($logger !== NULL)
 			{
-				$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
+				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
 			}
 		}
 
-		// dump(wait($response->getBody()->buffer()));
-
 		return Json::decode(wait($response->getBody()->buffer()));
 	}
+
+	/**
+	 * Make a request
+	 *
+	 * @param string $type
+	 * @param string $url
+	 * @param array $options
+	 * @throws JsonException
+	 * @throws FailedResponseException
+	 * @throws Throwable
+	 * @return array
+	 */
+	private function request(string $type, string $url, array $options = []): array
+	{
+		$logger = NULL;
+		if ($this->getContainer())
+		{
+			$logger = $this->container->getLogger('kitsu-request');
+		}
+
+		$response = $this->getResponse($type, $url, $options);
+		$statusCode = $response->getStatus();
+
+		// Check for requests that are unauthorized
+		if ($statusCode === 401 || $statusCode === 403)
+		{
+			Event::emit(EventType::UNAUTHORIZED);
+		}
+
+		// Any other type of failed request
+		if ($statusCode > 299 || $statusCode < 200)
+		{
+			if ($logger)
+			{
+				$logger->warning('Non 2xx response for api call', (array)$response);
+			}
+
+			throw new FailedResponseException('Failed to get the proper response from the API');
+		}
+
+		try
+		{
+			return Json::decode(wait($response->getBody()->buffer()));
+		}
+		catch (JsonException $e)
+		{
+			print_r($e);
+			die();
+		}
+	}
+
+
 }

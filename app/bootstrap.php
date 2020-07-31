@@ -21,8 +21,9 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{
 	Anilist,
+	Anilist\AnilistRequestBuilder,
 	Kitsu,
-	Kitsu\KitsuJsonApiRequestBuilder
+	Kitsu\KitsuRequestBuilder
 };
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Teller;
@@ -45,13 +46,13 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 
 	$appLogger = new Logger('animeclient');
-	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
+	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::WARNING));
 
 	$anilistRequestLogger = new Logger('anilist-request');
-	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
+	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::WARNING));
 
 	$kitsuRequestLogger = new Logger('kitsu-request');
-	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
+	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::WARNING));
 
 	$container->setLogger($appLogger);
 	$container->setLogger($anilistRequestLogger, 'anilist-request');
@@ -113,28 +114,23 @@ return static function (array $configArray = []): Container {
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
-		$jsonApiRequestBuilder = new KitsuJsonApiRequestBuilder($container);
-		$jsonApiRequestBuilder->setLogger($container->getLogger('kitsu-request'));
-
-		$requestBuilder = new Kitsu\KitsuRequestBuilder($container);
+		$requestBuilder = new KitsuRequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 		$listItem = new Kitsu\ListItem();
 		$listItem->setContainer($container);
-		$listItem->setJsonApiRequestBuilder($jsonApiRequestBuilder)
-			->setRequestBuilder($requestBuilder);
+		$listItem->setRequestBuilder($requestBuilder);
 
 		$model = new Kitsu\Model($listItem);
 		$model->setContainer($container);
-		$model->setJsonApiRequestBuilder($jsonApiRequestBuilder)
-			->setRequestBuilder($requestBuilder);
+		$model->setRequestBuilder($requestBuilder);
 
 		$cache = $container->get('cache');
 		$model->setCache($cache);
 		return $model;
 	});
 	$container->set('anilist-model', static function(ContainerInterface $container): Anilist\Model {
-		$requestBuilder = new Anilist\AnilistRequestBuilder();
+		$requestBuilder = new AnilistRequestBuilder();
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 		$listItem = new Anilist\ListItem();

@@ -264,10 +264,10 @@ final class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->incrementLibraryItem(FormItem::from($data));
+		[$body, $statusCode] = $this->model->incrementLibraryItem(FormItem::from($data));
 
 		$this->cache->clear();
-		$this->outputJSON($response['body'], $response['statusCode']);
+		$this->outputJSON($body, $statusCode);
 	}
 
 	/**
