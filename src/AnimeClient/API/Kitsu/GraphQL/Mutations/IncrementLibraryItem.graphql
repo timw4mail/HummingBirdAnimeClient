@@ -1,0 +1,8 @@
+mutation($id: ID!, $progress: Int) {
+	updateLibraryEntry(input: { id: $id, progress: $progress }) {
+		libraryEntry {
+			id
+			progress
+		}
+	}
+}
