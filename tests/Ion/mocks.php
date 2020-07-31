@@ -20,7 +20,6 @@ use Aviat\Ion\Enum;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\View;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 // -----------------------------------------------------------------------------
@@ -119,19 +118,6 @@ trait MockViewOutputTrait {
 
 		$this->hasRendered = TRUE;
 	}
-}
-
-class TestView extends View {
-	public function send(): void
-	{
-		if ($this->hasRendered)
-		{
-			throw new DoubleRenderException();
-		}
-
-		$this->hasRendered = TRUE;
-	}
-	public function output() {}
 }
 
 class TestHtmlView extends HtmlView {

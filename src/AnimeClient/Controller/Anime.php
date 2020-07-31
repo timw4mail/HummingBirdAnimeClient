@@ -209,7 +209,7 @@ final class Anime extends BaseController {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->model->search($query));
+		$this->outputJSON($this->model->search($query), 200);
 	}
 
 	/**
