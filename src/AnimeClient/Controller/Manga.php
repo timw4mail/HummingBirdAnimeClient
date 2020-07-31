@@ -210,7 +210,7 @@ final class Manga extends Controller {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->model->search($query));
+		$this->outputJSON($this->model->search($query), 200);
 	}
 
 	/**
@@ -335,13 +335,6 @@ final class Manga extends Controller {
 			'data' => $data,
 			'staff' => $staff,
 		]);
-	}
-
-	public function history(): void
-	{
-		$data = $this->model->getHistory();
-
-		$this->outputJSON($data);
 	}
 }
 // End of MangaController.php

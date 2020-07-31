@@ -70,12 +70,6 @@ class Controller {
 	protected ServerRequestInterface $request;
 
 	/**
-	 * Response object
-	 * @var ResponseInterface $response
-	 */
-	public ResponseInterface $response;
-
-	/**
 	 * Url generation class
 	 * @var UrlGenerator
 	 */
@@ -118,7 +112,6 @@ class Controller {
 		$this->cache =  $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
-		$this->response = $container->get('response');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
@@ -416,12 +409,12 @@ class Controller {
 	 * @throws DoubleRenderException
 	 * @return void
 	 */
-	protected function outputJSON($data = 'Empty response', int $code = 200): void
+	protected function outputJSON($data, int $code): void
 	{
-		(new JsonView($this->container))
+		(new JsonView())
+			->setOutput($data)
 			->setStatusCode($code)
-			->setOutput($data);
-		exit();
+			->send();
 	}
 
 	/**
@@ -433,7 +426,7 @@ class Controller {
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		(new HttpView($this->container))->redirect($url, $code);
+		(new HttpView())->redirect($url, $code);
 		exit();
 	}
 }

@@ -17,15 +17,18 @@
 namespace Aviat\Ion\View;
 
 use Aura\Html\HelperLocator;
+use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use Laminas\Diactoros\Response\HtmlResponse;
 use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
  */
 class HtmlView extends HttpView {
+	use ContainerAware;
 
 	/**
 	 * HTML generator/escaper helper
@@ -50,8 +53,11 @@ class HtmlView extends HttpView {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
+		parent::__construct();
+
+		$this->setContainer($container);
 		$this->helper = $container->get('html-helper');
+		$this->response = new HtmlResponse('');
 	}
 
 	/**

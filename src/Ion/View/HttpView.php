@@ -16,16 +16,32 @@
 
 namespace Aviat\Ion\View;
 
+use Aviat\Ion\ViewInterface;
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
 use Aviat\Ion\Exception\DoubleRenderException;
-use Aviat\Ion\View as BaseView;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Base view class for Http output
  */
-class HttpView extends BaseView {
+class HttpView implements ViewInterface{
+
+	/**
+	 * HTTP response Object
+	 *
+	 * @var ResponseInterface
+	 */
+	public ResponseInterface $response;
+
+	/**
+	 * If the view has sent output via
+	 * __toString or send method
+	 *
+	 * @var boolean
+	 */
+	protected bool $hasRendered = FALSE;
 
 	/**
 	 * Response mime type
@@ -33,6 +49,91 @@ class HttpView extends BaseView {
 	 * @var string
 	 */
 	protected string $contentType = '';
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		$this->response = new Response();
+	}
+
+	/**
+	 * Send output to client
+	 */
+	public function __destruct()
+	{
+		if ( ! $this->hasRendered)
+		{
+			$this->send();
+		}
+	}
+
+	/**
+	 * Return rendered output as string. Renders the view,
+	 * and any attempts to call again will result in a DoubleRenderException
+	 *
+	 * @throws DoubleRenderException
+	 * @return string
+	 */
+	public function __toString(): string
+	{
+		if ($this->hasRendered)
+		{
+			throw new DoubleRenderException();
+		}
+		$this->hasRendered = TRUE;
+		return $this->getOutput();
+	}
+
+	/**
+	 * Add an http header
+	 *
+	 * @param string $name
+	 * @param string|string[] $value
+	 * @return HttpView
+	 */
+	public function addHeader(string $name, $value): self
+	{
+		$this->response = $this->response->withHeader($name, $value);
+		return $this;
+	}
+
+	/**
+	 * Set the output string
+	 *
+	 * @param mixed $string
+	 * @return HttpView
+	 */
+	public function setOutput($string): self
+	{
+		$this->response->getBody()->write($string);
+
+
+		return $this;
+	}
+
+	/**
+	 * Append additional output.
+	 *
+	 * @param string $string
+	 * @return HttpView
+	 */
+	public function appendOutput(string $string): self
+	{
+		return $this->setOutput($string);
+	}
+
+	/**
+	 * Get the current output as a string. Does not
+	 * render view or send headers.
+	 *
+	 * @return string
+	 */
+	public function getOutput(): string
+	{
+		return (string)$this->response->getBody();
+	}
 
 	/**
 	 * Do a redirect
@@ -55,7 +156,7 @@ class HttpView extends BaseView {
 	 * @throws \InvalidArgumentException
 	 * @return HttpView
 	 */
-	public function setStatusCode(int $code): HttpView
+	public function setStatusCode(int $code): self
 	{
 		$this->response = $this->response->withStatus($code)
 			->withProtocolVersion('1.1');

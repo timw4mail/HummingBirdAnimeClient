@@ -30,7 +30,7 @@ use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
-use Laminas\Diactoros\{Response, ServerRequestFactory};
+use Laminas\Diactoros\ServerRequestFactory;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -96,7 +96,7 @@ return static function (array $configArray = []): Container {
 		return $htmlHelper;
 	});
 
-	// Create Request/Response Objects
+	// Create Request Object
 	$container->set('request', fn () => ServerRequestFactory::fromGlobals(
 		$_SERVER,
 		$_GET,
@@ -104,7 +104,6 @@ return static function (array $configArray = []): Container {
 		$_COOKIE,
 		$_FILES
 	));
-	$container->set('response', fn () => new Response);
 
 	// Create session Object
 	$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
@@ -122,7 +121,8 @@ return static function (array $configArray = []): Container {
 
 		$listItem = new Kitsu\ListItem();
 		$listItem->setContainer($container);
-		$listItem->setJsonApiRequestBuilder($jsonApiRequestBuilder);
+		$listItem->setJsonApiRequestBuilder($jsonApiRequestBuilder)
+			->setRequestBuilder($requestBuilder);
 
 		$model = new Kitsu\Model($listItem);
 		$model->setContainer($container);
