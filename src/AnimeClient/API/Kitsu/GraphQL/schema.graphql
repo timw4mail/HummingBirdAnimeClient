@@ -1,0 +1,1953 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+	query: Query
+	mutation: Mutation
+}
+
+"Generic Amount Consumed based on Media"
+interface AmountConsumed {
+	"Total media completed atleast once."
+	completed: Int!
+	id: ID!
+	"Total amount of media."
+	media: Int!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"Total progress of library including reconsuming."
+	units: Int!
+}
+
+"Generic error fields used by all errors."
+interface Base {
+	"The error code."
+	code: String
+	"A description of the error"
+	message: String!
+	"Which input value this error came from"
+	path: [String!]
+}
+
+"Generic Category Breakdown based on Media"
+interface CategoryBreakdown {
+	"A Map of category_id -> count for all categories present on the library entries"
+	categories: Map!
+	id: ID!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"The total amount of library entries."
+	total: Int!
+}
+
+"An episodic media in the Kitsu database"
+interface EpisodicInterface {
+	"The number of episodes in this series"
+	episodeCount: Int
+	"The general length (in seconds) of each episode"
+	episodeLength: Int
+	"Episodes for this media"
+	episodes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		number: [Int!]
+	): EpisodeConnection!
+	"The total length (in seconds) of the entire series"
+	totalLength: Int
+}
+
+"A media in the Kitsu database"
+interface Media {
+	"The recommended minimum age group for this media"
+	ageRating: AgeRating
+	"An explanation of why this received the age rating it did"
+	ageRatingGuide: String
+	"The average rating of this media amongst all Kitsu users"
+	averageRating: Float
+	"A large banner image for this media"
+	bannerImage: Image!
+	"A list of categories for this media"
+	categories(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CategoryConnection!
+	"The characters who starred in this media"
+	characters(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaCharacterConnection!
+	"the day that this media made its final release"
+	endDate: Date
+	"The number of users with this in their favorites"
+	favoritesCount: Int
+	id: ID!
+	"A list of mappings for this media"
+	mappings(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MappingConnection!
+	"The time of the next release of this media"
+	nextRelease: ISO8601DateTime
+	"The poster image of this media"
+	posterImage: Image!
+	"The companies which helped to produce this media"
+	productions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaProductionConnection!
+	"A list of quotes from this media"
+	quotes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): QuoteConnection!
+	"A list of reactions for this media"
+	reactions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaReactionConnection!
+	"The season this was released in"
+	season: ReleaseSeason
+	"Whether the media is Safe-for-Work"
+	sfw: Boolean!
+	"The URL-friendly identifier of this media"
+	slug: String!
+	"The staff members who worked on this media"
+	staff(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaStaffConnection!
+	"The day that this media first released"
+	startDate: Date
+	"The current releasing status of this media"
+	status: ReleaseStatus!
+	"A brief (mostly spoiler-free) summary/description of the media"
+	synopsis(locales: [String!]): Map!
+	"Description of when this media is expected to release"
+	tba: String
+	"The titles for this media in various locales"
+	titles: TitlesList!
+	"Anime or Manga."
+	type: String!
+	"The number of users with this in their library"
+	userCount: Int
+}
+
+"Objects which are Mappable"
+union MappingItem = Anime | Category | Character | Episode | Manga | Person | Producer
+
+"A user account on Kitsu"
+type Account {
+	"The country this user resides in"
+	country: String
+	"The email addresses associated with this account"
+	email: [String!]!
+	"Facebook account linked to the account"
+	facebookId: String
+	id: ID!
+	"Primary language for the account"
+	language: String
+	"Longest period an account has had a PRO subscription for in seconds"
+	maxProStreak: Int
+	"The PRO subscription for this account"
+	proSubscription: ProSubscription
+	"The profile for this account"
+	profile: Profile!
+	"Media rating system used for the account"
+	ratingSystem: RatingSystem!
+	"Whether Not Safe For Work content is accessible"
+	sfwFilter: Boolean
+	"Time zone of the account"
+	timeZone: String
+	"Preferred language for media titles"
+	titleLanguagePreference: TitleLanguagePreference
+	"Twitter account linked to the account"
+	twitterId: String
+}
+
+type Anime implements EpisodicInterface & Media {
+	"The recommended minimum age group for this media"
+	ageRating: AgeRating
+	"An explanation of why this received the age rating it did"
+	ageRatingGuide: String
+	"The average rating of this media amongst all Kitsu users"
+	averageRating: Float
+	"A large banner image for this media"
+	bannerImage: Image!
+	"A list of categories for this media"
+	categories(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CategoryConnection!
+	"The characters who starred in this media"
+	characters(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaCharacterConnection!
+	"the day that this media made its final release"
+	endDate: Date
+	"The number of episodes in this series"
+	episodeCount: Int
+	"The general length (in seconds) of each episode"
+	episodeLength: Int
+	"Episodes for this media"
+	episodes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		number: [Int!]
+	): EpisodeConnection!
+	"The number of users with this in their favorites"
+	favoritesCount: Int
+	id: ID!
+	"A list of mappings for this media"
+	mappings(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MappingConnection!
+	"The time of the next release of this media"
+	nextRelease: ISO8601DateTime
+	"The poster image of this media"
+	posterImage: Image!
+	"The companies which helped to produce this media"
+	productions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaProductionConnection!
+	"A list of quotes from this media"
+	quotes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): QuoteConnection!
+	"A list of reactions for this media"
+	reactions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaReactionConnection!
+	"The season this was released in"
+	season: ReleaseSeason
+	"Whether the media is Safe-for-Work"
+	sfw: Boolean!
+	"The URL-friendly identifier of this media"
+	slug: String!
+	"The staff members who worked on this media"
+	staff(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaStaffConnection!
+	"The day that this media first released"
+	startDate: Date
+	"The current releasing status of this media"
+	status: ReleaseStatus!
+	"A secondary type for categorizing Anime."
+	subtype: AnimeSubtype!
+	"A brief (mostly spoiler-free) summary/description of the media"
+	synopsis(locales: [String!]): Map!
+	"Description of when this media is expected to release"
+	tba: String
+	"The titles for this media in various locales"
+	titles: TitlesList!
+	"The total length (in seconds) of the entire series"
+	totalLength: Int
+	"Anime or Manga."
+	type: String!
+	"The number of users with this in their library"
+	userCount: Int
+	"Video id for a trailer on YouTube"
+	youtubeTrailerVideoId: String
+}
+
+type AnimeAmountConsumed implements AmountConsumed {
+	"Total media completed atleast once."
+	completed: Int!
+	id: ID!
+	"Total amount of media."
+	media: Int!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"Total time spent in minutes."
+	time: Int!
+	"Total progress of library including reconsuming."
+	units: Int!
+}
+
+type AnimeCategoryBreakdown implements CategoryBreakdown {
+	"A Map of category_id -> count for all categories present on the library entries"
+	categories: Map!
+	id: ID!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"The total amount of library entries."
+	total: Int!
+}
+
+"The connection type for Anime."
+type AnimeConnection {
+	"A list of edges."
+	edges: [AnimeEdge]
+	"A list of nodes."
+	nodes: [Anime]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"Autogenerated return type of AnimeCreate"
+type AnimeCreatePayload {
+	anime: Anime
+	"Graphql Errors"
+	errors: [Generic!]
+}
+
+"Autogenerated return type of AnimeDelete"
+type AnimeDeletePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	result: DeleteResult!
+}
+
+"An edge in a connection."
+type AnimeEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Anime
+}
+
+type AnimeMutation {
+	"Create an Anime"
+	create(
+		"New Anime to create"
+		input: AnimeCreateInput!
+	): AnimeCreatePayload
+	"Delete an Anime"
+	delete(
+		"ID of the Anime to delete"
+		id: ID!
+	): AnimeDeletePayload
+	"Update an Anime"
+	update(
+		"ID of the Anime to update"
+		id: ID!,
+		"Anime attributes to update"
+		input: AnimeUpdateInput!
+	): AnimeUpdatePayload
+}
+
+"Autogenerated return type of AnimeUpdate"
+type AnimeUpdatePayload {
+	anime: Anime
+	"Graphql Errors"
+	errors: [Generic!]
+}
+
+"Information about a specific Category"
+type Category {
+	"The child categories."
+	children(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CategoryConnection
+	"A description of the category."
+	description(locales: [String!]): Map
+	id: ID!
+	"Whether the category is Not-Safe-for-Work."
+	isNsfw: Boolean!
+	"The parent category. Each category can have one parent."
+	parent: Category
+	"The URL-friendly identifier of this Category."
+	slug: String!
+	"The name of the category."
+	title(locales: [String!]): Map!
+}
+
+"The connection type for Category."
+type CategoryConnection {
+	"A list of edges."
+	edges: [CategoryEdge]
+	"A list of nodes."
+	nodes: [Category]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type CategoryEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Category
+}
+
+"Information about a Character in the Kitsu database"
+type Character {
+	id: ID!
+	"An image of the character"
+	image: Image
+	"The name for this character in various locales"
+	names: TitlesList!
+	"The original media this character showed up in"
+	primaryMedia: Media
+	"The URL-friendly identifier of this character"
+	slug: String!
+}
+
+"Information about a VA (Person) voicing a Character in a Media"
+type CharacterVoice {
+	id: ID!
+	"The company who hired this voice actor to play this role"
+	licensor: Producer
+	"The BCP47 locale tag for the voice acting role"
+	locale: String!
+	"The MediaCharacter node"
+	mediaCharacter: MediaCharacter!
+	"The person who voice acted this role"
+	person: Person!
+}
+
+"The connection type for CharacterVoice."
+type CharacterVoiceConnection {
+	"A list of edges."
+	edges: [CharacterVoiceEdge]
+	"A list of nodes."
+	nodes: [CharacterVoice]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type CharacterVoiceEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: CharacterVoice
+}
+
+"A comment on a post"
+type Comment {
+	"The user who created this comment for the parent post."
+	author: Profile!
+	"Unmodified content."
+	content: String!
+	"Html formatted content."
+	contentFormatted: String!
+	id: ID!
+	"Users who liked this comment."
+	likes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"The parent comment if this comment was a reply to another."
+	parent: Comment
+	"The post that this comment is attached to."
+	post: Post!
+	"All replies to a specific comment."
+	replies(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CommentConnection!
+}
+
+"The connection type for Comment."
+type CommentConnection {
+	"A list of edges."
+	edges: [CommentEdge]
+	"A list of nodes."
+	nodes: [Comment]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type CommentEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Comment
+}
+
+type DeleteResult {
+	"ID of the deleted entity"
+	id: ID!
+	"Type of the deleted entity"
+	typeName: String!
+}
+
+"An Episode of a Media"
+type Episode {
+	"The time when the episode aired"
+	airedAt: ISO8601DateTime
+	id: ID!
+	"The length of the Episode in seconds"
+	length: Int
+	"The sequence number of this episode in the season"
+	number: Int!
+	"A brief summary or description of the episode"
+	synopsis: [LocalizedString!]
+	"A thumbnail image for the episode"
+	thumbnail: Image
+	"The titles for this episode in various locales"
+	titles: TitlesList!
+}
+
+"The connection type for Episode."
+type EpisodeConnection {
+	"A list of edges."
+	edges: [EpisodeEdge]
+	"A list of nodes."
+	nodes: [Episode]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type EpisodeEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Episode
+}
+
+type Generic implements Base {
+	"The error code."
+	code: String
+	"A description of the error"
+	message: String!
+	"Which input value this error came from"
+	path: [String!]
+}
+
+type GenericDelete {
+	id: ID!
+}
+
+type Image {
+	"The original image"
+	original: ImageView!
+	"The various generated views of this image"
+	views(names: [String!]): [ImageView!]!
+}
+
+type ImageView {
+	"The height of the image"
+	height: Int
+	"The name of this view of the image"
+	name: String!
+	"The URL of this view of the image"
+	url: String!
+	"The width of the image"
+	width: Int
+}
+
+"The user library filterable by media_type and status"
+type Library {
+	"All Library Entries for a specific Media"
+	all(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+	"Library Entries for a specific Media filtered by the completed status"
+	completed(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+	"Library Entries for a specific Media filtered by the current status"
+	current(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+	"Library Entries for a specific Media filtered by the dropped status"
+	dropped(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+	"Library Entries for a specific Media filtered by the on_hold status"
+	onHold(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+	"Library Entries for a specific Media filtered by the planned status"
+	planned(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		mediaType: media_type!
+	): LibraryEntryConnection!
+}
+
+"Information about a specific media entry for a user"
+type LibraryEntry {
+	"When the user finished this media."
+	finishedAt: ISO8601DateTime
+	id: ID!
+	"The media related to this library entry."
+	media: Media!
+	"Notes left by the profile related to this library entry."
+	notes: String
+	"If the media related to the library entry is Not-Safe-for-Work."
+	nsfw: Boolean!
+	"If this library entry is publicly visibile from their profile, or hidden."
+	private: Boolean!
+	"The number of episodes/chapters this user has watched/read"
+	progress: Int!
+	"When the user last watched an episode or read a chapter of this media."
+	progressedAt: ISO8601DateTime
+	"How much you enjoyed this media (lower meaning not liking)."
+	rating: Int
+	"The reaction based on the media of this library entry."
+	reaction: MediaReaction
+	"Amount of times this media has been rewatched."
+	reconsumeCount: Int!
+	"If the profile is currently rewatching this media."
+	reconsuming: Boolean!
+	"When the user started this media."
+	startedAt: ISO8601DateTime
+	status: LibraryEntryStatus!
+	"The user who created this library entry."
+	user: Profile!
+	"Volumes that the profile owns (physically or digital)."
+	volumesOwned: Int!
+}
+
+"The connection type for LibraryEntry."
+type LibraryEntryConnection {
+	"A list of edges."
+	edges: [LibraryEntryEdge]
+	"A list of nodes."
+	nodes: [LibraryEntry]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"Autogenerated return type of LibraryEntryCreate"
+type LibraryEntryCreatePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	libraryEntry: LibraryEntry
+}
+
+"Autogenerated return type of LibraryEntryDelete"
+type LibraryEntryDeletePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	libraryEntry: GenericDelete
+}
+
+"An edge in a connection."
+type LibraryEntryEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: LibraryEntry
+}
+
+"Autogenerated return type of LibraryEntryUpdate"
+type LibraryEntryUpdatePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	libraryEntry: LibraryEntry
+}
+
+type LocalizedString {
+	"The IETF/BCP 47 locale tag for this string"
+	locale: String!
+	"The text value of this string"
+	text: String!
+}
+
+type Manga implements Media {
+	"The recommended minimum age group for this media"
+	ageRating: AgeRating
+	"An explanation of why this received the age rating it did"
+	ageRatingGuide: String
+	"The average rating of this media amongst all Kitsu users"
+	averageRating: Float
+	"A large banner image for this media"
+	bannerImage: Image!
+	"A list of categories for this media"
+	categories(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CategoryConnection!
+	"The number of chapters in this manga."
+	chapterCount: Int
+	"The estimated number of chapters in this manga."
+	chapterCountGuess: Int
+	"The characters who starred in this media"
+	characters(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaCharacterConnection!
+	"the day that this media made its final release"
+	endDate: Date
+	"The number of users with this in their favorites"
+	favoritesCount: Int
+	id: ID!
+	"A list of mappings for this media"
+	mappings(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MappingConnection!
+	"The time of the next release of this media"
+	nextRelease: ISO8601DateTime
+	"The poster image of this media"
+	posterImage: Image!
+	"The companies which helped to produce this media"
+	productions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaProductionConnection!
+	"A list of quotes from this media"
+	quotes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): QuoteConnection!
+	"A list of reactions for this media"
+	reactions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaReactionConnection!
+	"The season this was released in"
+	season: ReleaseSeason
+	"Whether the media is Safe-for-Work"
+	sfw: Boolean!
+	"The URL-friendly identifier of this media"
+	slug: String!
+	"The staff members who worked on this media"
+	staff(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaStaffConnection!
+	"The day that this media first released"
+	startDate: Date
+	"The current releasing status of this media"
+	status: ReleaseStatus!
+	"A secondary type for categorizing Manga."
+	subtype: MangaSubtype!
+	"A brief (mostly spoiler-free) summary/description of the media"
+	synopsis(locales: [String!]): Map!
+	"Description of when this media is expected to release"
+	tba: String
+	"The titles for this media in various locales"
+	titles: TitlesList!
+	"Anime or Manga."
+	type: String!
+	"The number of users with this in their library"
+	userCount: Int
+	"The number of volumes in this manga."
+	volumeCount: Int
+}
+
+type MangaAmountConsumed implements AmountConsumed {
+	"Total media completed atleast once."
+	completed: Int!
+	id: ID!
+	"Total amount of media."
+	media: Int!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"Total progress of library including reconsuming."
+	units: Int!
+}
+
+type MangaCategoryBreakdown implements CategoryBreakdown {
+	"A Map of category_id -> count for all categories present on the library entries"
+	categories: Map!
+	id: ID!
+	"The profile related to the user for this stat."
+	profile: Profile!
+	"Last time we fully recalculated this stat."
+	recalculatedAt: ISO8601Date!
+	"The total amount of library entries."
+	total: Int!
+}
+
+"The connection type for Manga."
+type MangaConnection {
+	"A list of edges."
+	edges: [MangaEdge]
+	"A list of nodes."
+	nodes: [Manga]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MangaEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Manga
+}
+
+"Media Mappings from External Sites (MAL, Anilist, etc..) to Kitsu."
+type Mapping {
+	"The ID of the media from the external site."
+	externalId: ID!
+	"The name of the site which kitsu media is being linked from."
+	externalSite: MappingExternalSite!
+	id: ID!
+	"The kitsu object that is mapped."
+	item: MappingItem!
+}
+
+"The connection type for Mapping."
+type MappingConnection {
+	"A list of edges."
+	edges: [MappingEdge]
+	"A list of nodes."
+	nodes: [Mapping]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MappingEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Mapping
+}
+
+"Information about a Character starring in a Media"
+type MediaCharacter {
+	"The character"
+	character: Character!
+	id: ID!
+	"The media"
+	media: Media!
+	"The role this character had in the media"
+	role: CharacterRole!
+	"The voices of this character"
+	voices(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		locale: [String!]
+	): CharacterVoiceConnection
+}
+
+"The connection type for MediaCharacter."
+type MediaCharacterConnection {
+	"A list of edges."
+	edges: [MediaCharacterEdge]
+	"A list of nodes."
+	nodes: [MediaCharacter]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MediaCharacterEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: MediaCharacter
+}
+
+"The connection type for Media."
+type MediaConnection {
+	"A list of edges."
+	edges: [MediaEdge]
+	"A list of nodes."
+	nodes: [Media]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type MediaEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Media
+}
+
+"The role a company played in the creation or localization of a media"
+type MediaProduction {
+	id: ID!
+	"The media"
+	media: Media!
+	"The producer"
+	person: Producer!
+	"The role this company played"
+	role: String!
+}
+
+"The connection type for MediaProduction."
+type MediaProductionConnection {
+	"A list of edges."
+	edges: [MediaProductionEdge]
+	"A list of nodes."
+	nodes: [MediaProduction]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MediaProductionEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: MediaProduction
+}
+
+"A simple review that is 140 characters long expressing how you felt about a media"
+type MediaReaction {
+	"The author who wrote this reaction."
+	author: Profile!
+	id: ID!
+	"The library entry related to this reaction."
+	libraryEntry: LibraryEntry!
+	"Users who liked this reaction."
+	likes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"The media related to this reaction."
+	media: Media!
+	"When this media reaction was written based on media progress."
+	progress: Int!
+	"The reaction text related to a media."
+	reaction: String!
+}
+
+"The connection type for MediaReaction."
+type MediaReactionConnection {
+	"A list of edges."
+	edges: [MediaReactionEdge]
+	"A list of nodes."
+	nodes: [MediaReaction]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MediaReactionEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: MediaReaction
+}
+
+"Information about a person working on an anime"
+type MediaStaff {
+	id: ID!
+	"The media"
+	media: Media!
+	"The person"
+	person: Person!
+	"The role this person had in the creation of this media"
+	role: String!
+}
+
+"The connection type for MediaStaff."
+type MediaStaffConnection {
+	"A list of edges."
+	edges: [MediaStaffEdge]
+	"A list of nodes."
+	nodes: [MediaStaff]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type MediaStaffEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: MediaStaff
+}
+
+type Mutation {
+	anime: AnimeMutation!
+	"Create a Library Entry"
+	createLibraryEntry(
+		"Create a Library Entry"
+		input: LibraryEntryCreateInput!
+	): LibraryEntryCreatePayload
+	"Delete a Library Entry"
+	deleteLibraryEntry(
+		"Delete Library Entry"
+		input: GenericDeleteInput!
+	): LibraryEntryDeletePayload
+	pro: ProMutation!
+	"Update a Library Entry"
+	updateLibraryEntry(
+		"Update Library Entry"
+		input: LibraryEntryUpdateInput!
+	): LibraryEntryUpdatePayload
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+	"When paginating forwards, the cursor to continue."
+	endCursor: String
+	"When paginating forwards, are there more items?"
+	hasNextPage: Boolean!
+	"When paginating backwards, are there more items?"
+	hasPreviousPage: Boolean!
+	"When paginating backwards, the cursor to continue."
+	startCursor: String
+}
+
+"""
+
+A Voice Actor, Director, Animator, or other person who works in the creation and\
+    localization of media
+"""
+type Person {
+	"A short biography of the person"
+	biography: Person
+	"The day when this person was born"
+	birthday: Date
+	id: ID!
+	"An image of the person"
+	image: Image
+	"The name of this person in various languages"
+	names: TitlesList!
+	"The voice-acting roles this person has had"
+	voices: CharacterVoice
+}
+
+"A post that is visible to your followers and globally in the news-feed."
+type Post {
+	"The user who created this post."
+	author: Profile!
+	"All comments related to this post."
+	comments(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CommentConnection!
+	"Unmodified content."
+	content: String!
+	"Html formatted content."
+	contentFormatted: String!
+	"Users that are watching this post"
+	follows(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	id: ID!
+	"If a post is Not-Safe-for-Work."
+	isNsfw: Boolean!
+	"If this post spoils the tagged media."
+	isSpoiler: Boolean!
+	"Users that have liked this post."
+	likes(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"The media tagged in this post."
+	media: Media
+}
+
+"The connection type for Post."
+type PostConnection {
+	"A list of edges."
+	edges: [PostEdge]
+	"A list of nodes."
+	nodes: [Post]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type PostEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Post
+}
+
+type ProMutation {
+	"Set the user's discord tag"
+	setDiscord(
+		"Your discord tag (Name#1234)"
+		discord: String!
+	): SetDiscordPayload
+	"Set the user's Hall-of-Fame message"
+	setMessage(
+		"The message to set for your Hall of Fame entry"
+		message: String!
+	): SetMessagePayload
+	"End the user's pro subscription"
+	unsubscribe: UnsubscribePayload
+}
+
+"A subscription to Kitsu PRO"
+type ProSubscription {
+	"The account which is subscribed to Pro benefits"
+	account: Account!
+	"The billing service used for this subscription"
+	billingService: RecurringBillingService!
+	"The tier of Pro the account is subscribed to"
+	tier: ProTier!
+}
+
+"A company involved in the creation or localization of media"
+type Producer {
+	id: ID!
+	"The name of this production company"
+	name: String!
+}
+
+"A user profile on Kitsu"
+type Profile {
+	"A short biographical blurb about this profile"
+	about: String
+	"An avatar image to easily identify this profile"
+	avatarImage: Image
+	"A banner to display at the top of the profile"
+	bannerImage: Image
+	"When the user was born"
+	birthday: ISO8601Date
+	"All comments to any post this user has made."
+	comments(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): CommentConnection!
+	"People that follow the user"
+	followers(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"People the user is following"
+	following(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"What the user identifies as"
+	gender: String
+	id: ID!
+	"The user library of their media"
+	library: Library!
+	"The user's general location"
+	location: String
+	"Media reactions written by this user."
+	mediaReactions(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MediaReactionConnection!
+	"""
+
+	A non-unique publicly visible name for the profile.
+	Minimum of 3 characters and any valid Unicode character
+	"""
+	name: String!
+	"Post pinned to the user profile"
+	pinnedPost: Post
+	"All posts this profile has made."
+	posts(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): PostConnection!
+	"The message this user has submitted to the Hall of Fame"
+	proMessage: String
+	"The PRO level the user currently has"
+	proTier: ProTier
+	"Links to the user on other (social media) sites."
+	siteLinks(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): SiteLinkConnection
+	"The URL-friendly identifier for this profile"
+	slug: String
+	"The different stats we calculate for this user."
+	stats: ProfileStats!
+	"A fully qualified URL to the profile"
+	url: String
+	"The character this profile has declared as their waifu or husbando"
+	waifu: Character
+	"The properly-gendered term for the user's waifu"
+	waifuOrHusbando: WaifuOrHusbando
+}
+
+"The connection type for Profile."
+type ProfileConnection {
+	"A list of edges."
+	edges: [ProfileEdge]
+	"A list of nodes."
+	nodes: [Profile]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type ProfileEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Profile
+}
+
+"The different types of user stats that we calculate."
+type ProfileStats {
+	"The total amount of anime you have watched over your whole life."
+	animeAmountConsumed: AnimeAmountConsumed!
+	"The breakdown of the different categories related to the anime you have completed"
+	animeCategoryBreakdown: AnimeCategoryBreakdown!
+	"The total amount of manga you ahve read over your whole life."
+	mangaAmountConsumed: MangaAmountConsumed!
+	"The breakdown of the different categories related to the manga you have completed"
+	mangaCategoryBreakdown: MangaCategoryBreakdown!
+}
+
+type Query {
+	"All Anime in the Kitsu database"
+	anime(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): AnimeConnection!
+	"Find a single Anime by ID"
+	findAnimeById(id: ID!): Anime
+	"Find a single Anime by Slug"
+	findAnimeBySlug(slug: String!): Anime
+	"Find a single Category by ID"
+	findCategoryById(id: ID!): Category
+	"Find a single Category by Slug"
+	findCategoryBySlug(slug: String!): Category
+	"Find a single Character by ID"
+	findCharacterById(id: ID!): Character
+	"Find a single Character by Slug"
+	findCharacterBySlug(slug: String!): Character
+	"Find a single Manga by ID"
+	findMangaById(id: ID!): Manga
+	"Find a single Manga by Slug"
+	findMangaBySlug(slug: String!): Manga
+	"Find a single User by ID"
+	findProfileById(id: ID!): Profile
+	"Find a single User by Slug"
+	findProfileBySlug(slug: String!): Profile
+	"List trending media on Kitsu"
+	globalTrending(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		medium: String!
+	): MediaConnection!
+	"List trending media within your network"
+	localTrending(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int,
+		medium: String!
+	): MediaConnection!
+	"Find a specific Mapping Item by External ID and External Site."
+	lookupMapping(externalId: ID!, externalSite: MappingExternalSite!): MappingItem
+	"All Manga in the Kitsu database"
+	manga(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): MangaConnection!
+	"Patrons sorted by a Proprietary Magic Algorithm"
+	patrons(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): ProfileConnection!
+	"Get your current session info"
+	session: Session!
+}
+
+"A quote from a media"
+type Quote {
+	id: ID!
+	"The lines of the quote"
+	lines(
+		"Returns the elements in the list that come after the specified cursor."
+		after: String,
+		"Returns the elements in the list that come before the specified cursor."
+		before: String,
+		"Returns the first _n_ elements from the list."
+		first: Int,
+		"Returns the last _n_ elements from the list."
+		last: Int
+	): QuoteLineConnection!
+	"The media this quote is excerpted from"
+	media: Media!
+}
+
+"The connection type for Quote."
+type QuoteConnection {
+	"A list of edges."
+	edges: [QuoteEdge]
+	"A list of nodes."
+	nodes: [Quote]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type QuoteEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: Quote
+}
+
+"A line in a quote"
+type QuoteLine {
+	"The character who said this line"
+	character: Character!
+	"The line that was spoken"
+	content: String!
+	id: ID!
+	"The quote this line is in"
+	quote: Quote!
+}
+
+"The connection type for QuoteLine."
+type QuoteLineConnection {
+	"A list of edges."
+	edges: [QuoteLineEdge]
+	"A list of nodes."
+	nodes: [QuoteLine]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type QuoteLineEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: QuoteLine
+}
+
+"Information about a user session"
+type Session {
+	"The account associated with this session"
+	account: Account
+	"The profile associated with this session"
+	profile: Profile
+}
+
+"Autogenerated return type of SetDiscord"
+type SetDiscordPayload {
+	discord: String!
+	"Graphql Errors"
+	errors: [Generic!]
+}
+
+"Autogenerated return type of SetMessage"
+type SetMessagePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	message: String!
+}
+
+"A link to a user's profile on an external site."
+type SiteLink {
+	"The user profile the site is linked to."
+	author: Profile!
+	id: ID!
+	"A fully qualified URL of the user profile on an external site."
+	url: String!
+}
+
+"The connection type for SiteLink."
+type SiteLinkConnection {
+	"A list of edges."
+	edges: [SiteLinkEdge]
+	"A list of nodes."
+	nodes: [SiteLink]
+	"Information to aid in pagination."
+	pageInfo: PageInfo!
+	"The total amount of nodes."
+	totalCount: Int!
+}
+
+"An edge in a connection."
+type SiteLinkEdge {
+	"A cursor for use in pagination."
+	cursor: String!
+	"The item at the end of the edge."
+	node: SiteLink
+}
+
+type TitlesList {
+	"A list of additional, alternative, abbreviated, or unofficial titles"
+	alternatives: [String!]!
+	"The official or de facto international title"
+	canonical: String!
+	"The locale code that identifies which title is used as the canonical title"
+	canonicalLocale: String!
+	"The list of localized titles keyed by locale"
+	localized(locales: [String!]): Map!
+}
+
+"Autogenerated return type of Unsubscribe"
+type UnsubscribePayload {
+	"Graphql Errors"
+	errors: [Generic!]
+	expiresAt: ISO8601DateTime
+}
+
+enum AgeRating {
+	"Acceptable for all ages"
+	G
+	"Parental guidance suggested; should be safe for preteens and older"
+	PG
+	"Possible lewd or intense themes; should be safe for teens and older"
+	R
+	"Contains adult content or themes; should only be viewed by adults"
+	R18
+}
+
+enum AnimeSubtype {
+	MOVIE
+	MUSIC
+	"Original Net Animation (Web Anime)."
+	ONA
+	"Original Video Animation. Anime directly released to video market."
+	OVA
+	"Spinoffs or Extras of the original."
+	SPECIAL
+	TV
+}
+
+enum CharacterRole {
+	"A background character who generally only appears in a few episodes"
+	BACKGROUND
+	"A character from a different franchise making a (usually brief) appearance"
+	CAMEO
+	"A character who appears throughout a series and is a focal point of the media"
+	MAIN
+	"A character who appears in multiple episodes but is not a main character"
+	RECURRING
+}
+
+enum LibraryEntryStatus {
+	"The user completed this media."
+	COMPLETED
+	"The user is currently reading or watching this media."
+	CURRENT
+	"The user started but chose not to finish this media."
+	DROPPED
+	"The user started but paused reading or watching this media."
+	ON_HOLD
+	"The user plans to read or watch this media in future."
+	PLANNED
+}
+
+enum MangaSubtype {
+	"Self published work."
+	DOUJIN
+	MANGA
+	"Chinese comics produced in China and in the Greater China region."
+	MANHUA
+	"A style of South Korean comic books and graphic novels"
+	MANHWA
+	NOVEL
+	"Original English Language."
+	OEL
+	ONESHOT
+}
+
+enum MappingExternalSite {
+	ANIDB
+	ANILIST_ANIME
+	ANILIST_MANGA
+	ANIMENEWSNETWORK
+	AOZORA
+	HULU
+	IMDB_EPISODES
+	MANGAUPDATES
+	MYANIMELIST_ANIME
+	MYANIMELIST_CHARACTERS
+	MYANIMELIST_MANGA
+	MYANIMELIST_PEOPLE
+	MYANIMELIST_PRODUCERS
+	MYDRAMALIST
+	THETVDB
+	THETVDB_SEASON
+	THETVDB_SERIES
+	TRAKT
+}
+
+enum ProTier {
+	"Aozora Pro (only hides ads)"
+	AO_PRO @deprecated(reason : "No longer for sale")
+	"Aozora Pro+ (only hides ads)"
+	AO_PRO_PLUS @deprecated(reason : "No longer for sale")
+	"Top tier of Kitsu Pro"
+	PATRON
+	"Basic tier of Kitsu Pro"
+	PRO
+}
+
+enum RatingSystem {
+	"1-20 in increments of 1 displayed as 1-10 in 0.5 increments"
+	ADVANCED
+	"1-20 in increments of 2 displayed as 5 stars in 0.5 star increments"
+	REGULAR
+	"1-20 displayed as 4 smileys - Awful (1), Meh (8), Good (14) and Great (20)"
+	SIMPLE
+}
+
+enum RecurringBillingService {
+	"Billed through Apple In-App Subscription"
+	APPLE
+	"Billed through Google Play Subscription"
+	GOOGLE_PLAY
+	"Bill a PayPal account"
+	PAYPAL
+	"Bill a credit card via Stripe"
+	STRIPE
+}
+
+enum ReleaseSeason {
+	"Released during the Fall season"
+	FALL
+	"Released during the Spring season"
+	SPRING
+	"Released during the Summer season"
+	SUMMER
+	"Released during the Winter season"
+	WINTER
+}
+
+enum ReleaseStatus {
+	"This media is currently releasing"
+	CURRENT
+	"This media is no longer releasing"
+	FINISHED
+	"The release date has not been announced yet"
+	TBA
+	"This media is not released yet"
+	UNRELEASED
+	"This media is releasing soon"
+	UPCOMING
+}
+
+enum TitleLanguagePreference {
+	"Prefer the most commonly-used title for media"
+	CANONICAL
+	"Prefer the localized title for media"
+	LOCALIZED
+	"Prefer the romanized title for media"
+	ROMANIZED
+}
+
+enum WaifuOrHusbando {
+	HUSBANDO
+	WAIFU
+}
+
+"これはアニメやマンガです"
+enum media_type {
+	ANIME
+	MANGA
+}
+
+input AnimeCreateInput {
+	ageRating: AgeRating
+	ageRatingGuide: String
+	bannerImage: Upload
+	endDate: Date
+	episodeCount: Int
+	episodeLength: Int
+	posterImage: Upload
+	startDate: Date
+	synopsis: Map!
+	tba: String
+	titles: TitlesListInput!
+	youtubeTrailerVideoId: String
+}
+
+input AnimeUpdateInput {
+	ageRating: AgeRating
+	ageRatingGuide: String
+	bannerImage: Upload
+	endDate: Date
+	episodeCount: Int
+	episodeLength: Int
+	posterImage: Upload
+	startDate: Date
+	synopsis: Map
+	tba: String
+	titles: TitlesListInput
+	youtubeTrailerVideoId: String
+}
+
+input GenericDeleteInput {
+	id: ID!
+}
+
+input LibraryEntryCreateInput {
+	finishedAt: ISO8601DateTime
+	mediaId: ID!
+	mediaType: media_type!
+	notes: String
+	private: Boolean = false
+	progress: Int = 0
+	rating: Int
+	reconsumeCount: Int = 0
+	reconsuming: Boolean = false
+	startedAt: ISO8601DateTime
+	status: LibraryEntryStatus!
+	userId: ID!
+	volumesOwned: Int = 0
+}
+
+input LibraryEntryUpdateInput {
+	finishedAt: ISO8601DateTime
+	id: ID!
+	notes: String
+	private: Boolean
+	progress: Int
+	rating: Int
+	reconsumeCount: Int
+	reconsuming: Boolean
+	startedAt: ISO8601DateTime
+	status: LibraryEntryStatus
+	volumesOwned: Int
+}
+
+input TitlesListInput {
+	alternatives: [String!]
+	canonicalLocale: String
+	localized: Map
+}
+
+
+"A date, expressed as an ISO8601 string"
+scalar Date
+
+"An ISO 8601-encoded date"
+scalar ISO8601Date
+
+"An ISO 8601-encoded datetime"
+scalar ISO8601DateTime
+
+"A loose key-value map in GraphQL"
+scalar Map
+
+scalar Upload

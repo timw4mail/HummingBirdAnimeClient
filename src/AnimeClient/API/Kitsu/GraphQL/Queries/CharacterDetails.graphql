@@ -1,0 +1,24 @@
+query ($slug: String!) {
+	findCharacterBySlug(slug: $slug) {
+		id
+		image {
+			original {
+				url
+			}
+		}
+		names {
+			alternatives
+			canonical
+			#canonicalLocale
+			localized
+		},
+		primaryMedia {
+			posterImage {
+				original {
+					url
+				}
+			}
+		},
+		slug
+	}
+}
