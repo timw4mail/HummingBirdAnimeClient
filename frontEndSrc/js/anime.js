@@ -72,7 +72,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 				return;
 			}
 
-			if (resData.data.attributes.status === 'COMPLETED') {
+			if (resData.data.status === 'COMPLETED') {
 				_.hide(parentSel);
 			}
 
