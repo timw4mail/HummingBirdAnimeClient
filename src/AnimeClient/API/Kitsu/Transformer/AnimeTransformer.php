@@ -36,7 +36,6 @@ final class AnimeTransformer extends AbstractTransformer {
 	{
 		// TODO: missing GraphQL data:
 		// * streaming links
-		// * show type
 
 		$base = array_key_exists('findAnimeBySlug', $item['data'])
 			? $item['data']['findAnimeBySlug']
@@ -114,7 +113,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'id' => $base['id'],
 			'slug' => $base['slug'],
 			'staff' => $staff,
-			'show_type' => 'TV', // $base['showType']
+			'show_type' => $base['subtype'],
 			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
 			'streaming_links' => [], // Kitsu::parseStreamingLinks($item['included']),
 			'synopsis' => $base['synopsis']['en'],

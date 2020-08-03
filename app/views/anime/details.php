@@ -15,6 +15,11 @@ use function Aviat\AnimeClient\getLocalImg;
 					<td><?= $data['status'] ?></td>
 				</tr>
 
+				<tr>
+					<td>Show Type</td>
+					<td><?= (strlen($data['show_type']) > 3) ? ucfirst(strtolower($data['show_type'])) : $data['show_type'] ?></td>
+				</tr>
+
 				<?php if ($data['episode_count'] !== 1): ?>
 					<tr>
 						<td>Episode Count</td>

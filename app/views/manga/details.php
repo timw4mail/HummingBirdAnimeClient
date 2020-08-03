@@ -10,18 +10,22 @@
 					<td class="align-right">Publishing Status</td>
 					<td><?= $data['status'] ?></td>
 				</tr>
-				<?php /* <tr>
+				<tr>
 					<td>Manga Type</td>
-					<td><?= ucfirst($data['manga_type']) ?></td>
+					<td><?= ucfirst(strtolower($data['manga_type'])) ?></td>
 				</tr>
+				<?php if ( ! empty($data['volume_count'])): ?>
 				<tr>
 					<td>Volume Count</td>
 					<td><?= $data['volume_count'] ?></td>
 				</tr>
+				<?php endif ?>
+				<?php if ( ! empty($data['chapter_count'])): ?>
 				<tr>
 					<td>Chapter Count</td>
 					<td><?= $data['chapter_count'] ?></td>
-				</tr> */ ?>
+				</tr>
+				<?php endif ?>
 
 				<?php if ( ! empty($data['age_rating'])): ?>
 					<tr>

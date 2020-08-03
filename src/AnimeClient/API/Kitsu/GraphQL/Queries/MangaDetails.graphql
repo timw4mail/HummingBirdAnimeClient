@@ -22,8 +22,8 @@ query ($slug: String!) {
 				title
 			}
 		}
-		# chapterCount
-		# volumeCount
+		chapterCount
+		volumeCount
 		characters {
 			nodes {
 				character {
@@ -105,7 +105,7 @@ query ($slug: String!) {
 			}
 		}
 		status
-		#subType
+		subtype
 		synopsis
 		titles {
 			canonical
