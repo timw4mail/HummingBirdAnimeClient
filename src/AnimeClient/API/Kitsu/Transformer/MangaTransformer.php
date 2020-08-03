@@ -34,11 +34,6 @@ final class MangaTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): MangaPage
 	{
-		// TODO: missing GraphQL data:
-		// * chapter count
-		// * volume count
-		// * manga type
-
 		$base = array_key_exists('findMangaBySlug', $item['data'])
 			? $item['data']['findMangaBySlug']
 			: $item['data']['findMangaById'];
@@ -108,11 +103,11 @@ final class MangaTransformer extends AbstractTransformer {
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			// 'chapter_count' => $base['chapterCount'],
-			// 'volume_count' => $base['volumeCount'],
+			'chapter_count' => $base['chapterCount'],
+			'volume_count' => $base['volumeCount'],
 			'cover_image' => $base['posterImage']['views'][1]['url'],
 			'genres' => $genres,
-			// 'manga_type' => $base['subType'],
+			'manga_type' => $base['subtype'],
 			'id' => $base['id'],
 			'staff' => $staff,
 			'status' => Kitsu::getPublishingStatus($base['status'], $base['startDate'], $base['endDate']),

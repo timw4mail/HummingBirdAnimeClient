@@ -107,7 +107,7 @@ query ($id: ID!) {
 			}
 		}
 		status
-		#subType
+		subtype
 		synopsis
 		titles {
 			canonical

@@ -22,8 +22,8 @@ query ($id: ID!) {
 				title
 			}
 		}
-		# chapterCount
-		# volumeCount
+		chapterCount
+		volumeCount
 		characters {
 			nodes {
 				character {
@@ -105,7 +105,7 @@ query ($id: ID!) {
 			}
 		}
 		status
-		#subType
+		subtype
 		synopsis
 		titles {
 			canonical

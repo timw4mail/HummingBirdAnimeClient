@@ -107,7 +107,7 @@ query ($slug: String!) {
 			}
 		}
 		status
-		# subType
+		subtype
 		synopsis
 		titles {
 			canonical
