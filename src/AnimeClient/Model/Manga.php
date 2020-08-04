@@ -171,7 +171,7 @@ class Manga extends API {
 
 		$results = $requester->makeRequests();
 		$body = Json::decode($results['kitsu']);
-		$statusCode = array_key_exists('error', $body) ? 400: 200;
+		$statusCode = array_key_exists('errors', $body) ? 400: 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),

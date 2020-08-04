@@ -151,29 +151,16 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
-		$authHeader = $this->getAuthHeader();
-		$requestData = [
-			'data' => [
-				'id' => $id,
-				'type' => 'libraryEntries',
-				'attributes' => $data
-			]
-		];
-
-		if (((int) $data->progress) === 0)
-		{
-			$data->progress = 0;
-		}
-
-		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
-			->setJsonBody($requestData);
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		return $request->getFullRequest();
+		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', [
+			'id' => $id,
+			'notes' => $data['notes'],
+			'private' => (bool)$data['private'],
+			'progress' => (int)$data['progress'],
+			'ratingTwenty' => (int)$data['ratingTwenty'],
+			'reconsumeCount' => (int)$data['reconsumeCount'],
+			'reconsuming' => (bool)$data['reconsuming'],
+			'status' => strtoupper($data['status']),
+		]);
 	}
 
 	/**
