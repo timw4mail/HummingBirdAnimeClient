@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -24,7 +24,7 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const NOT_FOUND_METHOD = 'notFound';
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/5";
+const USER_AGENT = "Tim's Anime Client/5.1";
 
 // Regex patterns
 const ALPHA_SLUG_PATTERN = '[a-z_]+';
