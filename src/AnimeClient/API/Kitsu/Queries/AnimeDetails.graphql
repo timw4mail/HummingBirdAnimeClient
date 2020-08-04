@@ -54,20 +54,6 @@ query ($slug: String!) {
 		episodeCount
 		episodeLength
 		totalLength
-		posterImage {
-			original {
-				height
-				name
-				url
-				width
-			}
-			views {
-				height
-				name
-				url
-				width
-			}
-		}
 		season
 		sfw
 		slug

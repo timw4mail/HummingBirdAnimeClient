@@ -193,13 +193,12 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
-		$file =__DIR__ . "/GraphQL/Queries/{$name}.graphql";
+		$file = __DIR__ . "/Queries/{$name}.graphql";
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');
 		}
 
-		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
 		$query = file_get_contents($file);
 		$body = [
 			'query' => $query
@@ -227,13 +226,12 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 	 */
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
-		$file = __DIR__ . "/GraphQL/Mutations/{$name}.graphql";
+		$file = __DIR__ . "/Mutations/{$name}.graphql";
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}
 
-		// $query = str_replace(["\t", "\n"], ' ', file_get_contents($file));
 		$query = file_get_contents($file);
 		$body = [
 			'query' => $query

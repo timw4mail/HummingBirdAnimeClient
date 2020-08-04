@@ -18,6 +18,10 @@ query ($slug: String!) {
 					url
 				}
 			}
+			titles {
+				canonical
+			}
+			type
 		},
 		slug
 	}

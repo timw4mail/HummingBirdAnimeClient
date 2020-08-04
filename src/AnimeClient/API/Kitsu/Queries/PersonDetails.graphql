@@ -1,0 +1,69 @@
+query ($id: ID!) {
+	findPersonById(id: $id) {
+		id
+		birthday
+		image {
+			original {
+				height
+				name
+				url
+				width
+			}
+			views {
+				height
+				name
+				url
+				width
+			}
+		}
+		names {
+			alternatives
+			canonical
+			localized
+		}
+		voices {
+			licensor {
+				name
+			}
+			locale
+			mediaCharacter {
+				role
+				character {
+					id
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
+					}
+					names {
+						canonical
+					}
+				}
+				media {
+					id
+					posterImage {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					titles {
+						canonical
+						localized
+					}
+				}
+			}
+		}
+	}
+}
