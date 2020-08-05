@@ -44,6 +44,16 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function create(array $data): Request
 	{
+		return $this->requestBuilder->mutateRequest('CreateLibraryItem', [
+			'id' => $data['id'],
+			'status' => strtoupper($data['status']),
+			'type' => strtoupper($data['type']),
+			'userId' => $data['user_id'],
+		]);
+	}
+
+	public function createFull(array $data): Request
+	{
 		$body = [
 			'data' => [
 				'type' => 'libraryEntries',
@@ -93,15 +103,9 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function delete(string $id): Request
 	{
-		$authHeader = $this->getAuthHeader();
-		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		return $request->getFullRequest();
+		return $this->requestBuilder->mutateRequest('DeleteLibraryItem', [
+			'id' => $id
+		]);
 	}
 
 	/**

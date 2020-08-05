@@ -27,8 +27,9 @@ query ($id: ID!) {
 				character {
 					id
 					names {
-						canonical
 						alternatives
+						canonical
+						localized
 					}
 					image {
 						original {
@@ -54,20 +55,6 @@ query ($id: ID!) {
 		episodeCount
 		episodeLength
 		totalLength
-		posterImage {
-			original {
-				height
-				name
-				url
-				width
-			}
-			views {
-				height
-				name
-				url
-				width
-			}
-		}
 		season
 		sfw
 		slug
@@ -110,7 +97,9 @@ query ($id: ID!) {
 		subtype
 		synopsis
 		titles {
+			alternatives
 			canonical
+			canonicalLocale
 			localized
 		}
 		totalLength
