@@ -27,8 +27,9 @@ query ($slug: String!) {
 				character {
 					id
 					names {
-						canonical
 						alternatives
+						canonical
+						localized
 					}
 					image {
 						original {
@@ -96,7 +97,9 @@ query ($slug: String!) {
 		subtype
 		synopsis
 		titles {
+			alternatives
 			canonical
+			canonicalLocale
 			localized
 		}
 		totalLength

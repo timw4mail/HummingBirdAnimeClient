@@ -1,0 +1,27 @@
+# Create minimal library item
+# This is the more common use case, when adding an anime or manga to
+# the user's library.
+mutation (
+	$userId: ID!
+	$id: ID!,
+	$type: media_type!,
+	$status: LibraryEntryStatus!,
+) {
+	createLibraryEntry (input: {
+		userId: $userId
+		mediaId: $id
+		mediaType: $type
+		status: $status
+	}) {
+		libraryEntry {
+			id
+			media {
+				type
+			}
+			user {
+				id
+			}
+			status
+		}
+	}
+}
