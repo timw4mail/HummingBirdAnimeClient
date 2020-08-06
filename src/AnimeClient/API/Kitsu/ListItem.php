@@ -35,7 +35,7 @@ use Throwable;
  */
 final class ListItem extends AbstractListItem {
 	use ContainerAware;
-	use KitsuTrait;
+	use RequestBuilderTrait;
 
 	/**
 	 * @param array $data

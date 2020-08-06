@@ -34,7 +34,7 @@ use Aviat\Ion\Event;
 use Aviat\Ion\Json;
 use Aviat\Ion\JsonException;
 
-final class KitsuRequestBuilder extends APIRequestBuilder {
+final class RequestBuilder extends APIRequestBuilder {
 	use ContainerAware;
 
 	/**
@@ -397,20 +397,11 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 			{
 				$logger->warning('Non 2xx response for api call', (array)$response);
 			}
-
-			throw new FailedResponseException('Failed to get the proper response from the API');
+dump($rawBody);
+die();
+			// throw new FailedResponseException('Failed to get the proper response from the API');
 		}
 
-		try
-		{
-			return Json::decode(wait($response->getBody()->buffer()));
-		}
-		catch (JsonException $e)
-		{
-			print_r($e);
-			die();
-		}
+		return Json::decode($rawBody);
 	}
-
-
 }

@@ -43,10 +43,10 @@ use Throwable;
 final class Model {
 	use CacheTrait;
 	use ContainerAware;
-	use KitsuTrait;
-	use KitsuAnimeTrait;
-	use KitsuMangaTrait;
-	use KitsuMutationTrait;
+	use RequestBuilderTrait;
+	use AnimeTrait;
+	use MangaTrait;
+	use MutationTrait;
 
 	protected const LIST_PAGE_SIZE = 100;
 

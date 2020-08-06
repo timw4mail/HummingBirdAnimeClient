@@ -23,7 +23,7 @@ use Aviat\Banker\Exception\InvalidArgumentException;
 /**
  * Kitsu API calls that mutate data, C/U/D parts of CRUD
  */
-trait KitsuMutationTrait {
+trait MutationTrait {
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------

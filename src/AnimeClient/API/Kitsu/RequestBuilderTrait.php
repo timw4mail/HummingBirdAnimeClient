@@ -16,20 +16,20 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-trait KitsuTrait {
+trait RequestBuilderTrait {
 	/**
 	 * The request builder for the Kitsu API
-	 * @var KitsuRequestBuilder
+	 * @var RequestBuilder
 	 */
-	protected KitsuRequestBuilder $requestBuilder;
+	protected RequestBuilder $requestBuilder;
 
 	/**
 	 * Set the request builder object
 	 *
-	 * @param KitsuRequestBuilder $requestBuilder
+	 * @param RequestBuilder $requestBuilder
 	 * @return $this
 	 */
-	public function setRequestBuilder(KitsuRequestBuilder $requestBuilder): self
+	public function setRequestBuilder(RequestBuilder $requestBuilder): self
 	{
 		$this->requestBuilder = $requestBuilder;
 		return $this;

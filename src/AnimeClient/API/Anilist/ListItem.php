@@ -27,7 +27,7 @@ use Aviat\AnimeClient\Types\FormItemData;
  * CRUD operations for MAL list items
  */
 final class ListItem extends AbstractListItem {
-	use AnilistTrait;
+	use RequestBuilderTrait;
 
 	/**
 	 * Create a minimal list item

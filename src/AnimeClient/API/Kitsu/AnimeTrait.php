@@ -33,7 +33,7 @@ use Aviat\Ion\Json;
 /**
  * Anime-related list methods
  */
-trait KitsuAnimeTrait {
+trait AnimeTrait {
 	/**
 	 * Class to map anime list items
 	 * to a common format used by

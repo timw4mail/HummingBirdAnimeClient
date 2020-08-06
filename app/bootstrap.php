@@ -19,12 +19,7 @@ namespace Aviat\AnimeClient;
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\{
-	Anilist,
-	Anilist\AnilistRequestBuilder,
-	Kitsu,
-	Kitsu\KitsuRequestBuilder
-};
+use Aviat\AnimeClient\API\{Anilist, Kitsu};
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
@@ -114,7 +109,7 @@ return static function (array $configArray = []): Container {
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
-		$requestBuilder = new KitsuRequestBuilder($container);
+		$requestBuilder = new Kitsu\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 		$listItem = new Kitsu\ListItem();
@@ -130,7 +125,7 @@ return static function (array $configArray = []): Container {
 		return $model;
 	});
 	$container->set('anilist-model', static function(ContainerInterface $container): Anilist\Model {
-		$requestBuilder = new AnilistRequestBuilder($container);
+		$requestBuilder = new Anilist\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 		$listItem = new Anilist\ListItem();

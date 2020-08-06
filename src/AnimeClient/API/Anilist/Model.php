@@ -35,7 +35,7 @@ use Throwable;
  */
 final class Model
 {
-	use AnilistTrait;
+	use RequestBuilderTrait;
 	/**
 	 * @var ListItem
 	 */

@@ -30,7 +30,7 @@ use const Aviat\AnimeClient\USER_AGENT;
 
 use Aviat\AnimeClient\API\APIRequestBuilder;
 
-final class AnilistRequestBuilder extends APIRequestBuilder {
+final class RequestBuilder extends APIRequestBuilder {
 	use ContainerAware;
 
 	/**

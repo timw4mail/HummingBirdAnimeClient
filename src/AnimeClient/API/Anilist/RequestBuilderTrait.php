@@ -18,19 +18,19 @@ namespace Aviat\AnimeClient\API\Anilist;
 
 use Aviat\Ion\Di\ContainerAware;
 
-trait AnilistTrait {
+trait RequestBuilderTrait {
 	use ContainerAware;
 
 	/**
 	 * The request builder for the Anilist API
-	 * @var AnilistRequestBuilder
+	 * @var RequestBuilder
 	 */
-	protected AnilistRequestBuilder $requestBuilder;
+	protected RequestBuilder $requestBuilder;
 
 	/**
 	 * Set the request builder object
 	 *
-	 * @param AnilistRequestBuilder $requestBuilder
+	 * @param RequestBuilder $requestBuilder
 	 * @return self
 	 */
 	public function setRequestBuilder($requestBuilder): self
