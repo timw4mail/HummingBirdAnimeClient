@@ -263,6 +263,8 @@ class Controller {
 
 		$view->appendOutput($this->loadPartial($view, $template, $data));
 		$view->appendOutput($this->loadPartial($view, 'footer', $data));
+
+		return $view;
 	}
 
 	/**
@@ -394,8 +396,7 @@ class Controller {
 		}
 
 		$view->setStatusCode($code);
-		$this->renderFullPage($view, $template, $data);
-		exit();
+		$this->renderFullPage($view, $template, $data)->send();
 	}
 
 	/**
@@ -423,8 +424,7 @@ class Controller {
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		(new HttpView())->redirect($url, $code);
-		exit();
+		(new HttpView())->redirect($url, $code)->send();
 	}
 }
 // End of BaseController.php
