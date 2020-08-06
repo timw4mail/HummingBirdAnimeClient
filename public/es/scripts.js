@@ -451,6 +451,48 @@ function filterMedia (event) {
 	}
 }
 
+// ----------------------------------------------------------------------------
+// Other event setup
+// ----------------------------------------------------------------------------
+(() => {
+	// Var is intentional
+	var hidden = null;
+	var visibilityChange = null;
+
+	if (typeof document.hidden !== "undefined") {
+		hidden = "hidden";
+		visibilityChange = "visibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+		hidden = "msHidden";
+		visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+		hidden = "webkitHidden";
+		visibilityChange = "webkitvisibilitychange";
+	}
+
+	function handleVisibilityChange() {
+		// Check the user's session to see if they are currently logged-in
+		// when the page becomes visible
+		if ( ! document[hidden]) {
+			AnimeClient.get('/heartbeat', (beat) => {
+				const status = JSON.parse(beat);
+
+				// If the session is expired, immediately reload so that
+				// you can't attempt to do an action that requires authentication
+				if (status.hasAuth !== true) {
+					location.reload();
+				}
+			});
+		}
+	}
+
+	if (hidden === null) {
+		console.info('Page visibility API not supported, JS session check will not work');
+	} else {
+		document.addEventListener(visibilityChange, handleVisibilityChange, false);
+	}
+})();
+
 if ('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('/sw.js').then(reg => {
 		console.log('Service worker registered', reg.scope);

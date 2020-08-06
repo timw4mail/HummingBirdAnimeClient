@@ -142,9 +142,9 @@ class HttpView implements ViewInterface{
 	 * @param int    $code
 	 * @param array $headers
 	 * @throws \InvalidArgumentException
-	 * @return void
+	 * @return self
 	 */
-	public function redirect(string $url, int $code = 302, array $headers = []): void
+	public function redirect(string $url, int $code = 302, array $headers = []): self
 	{
 		$this->response = new Response\RedirectResponse($url, $code, $headers);
 	}

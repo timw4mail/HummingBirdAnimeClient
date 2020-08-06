@@ -74,10 +74,9 @@ final class Misc extends BaseController {
 	 */
 	public function loginAction(): void
 	{
-		$auth = $this->container->get('auth');
 		$post = $this->request->getParsedBody();
 
-		if ($auth->authenticate($post['password']))
+		if ($this->auth->authenticate($post['password']))
 		{
 			$this->sessionRedirect();
 			return;
@@ -94,9 +93,16 @@ final class Misc extends BaseController {
 	 */
 	public function logout(): void
 	{
-		$auth = $this->container->get('auth');
-		$auth->logout();
+		$this->auth->logout();
 
 		$this->redirectToDefaultRoute();
+	}
+
+	/**
+	 * Check if the current user is logged in
+	 */
+	public function heartbeat(): void
+	{
+		$this->outputJSON(['hasAuth' => $this->auth->isAuthenticated()], 200);
 	}
 }
