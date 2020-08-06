@@ -130,7 +130,7 @@ return static function (array $configArray = []): Container {
 		return $model;
 	});
 	$container->set('anilist-model', static function(ContainerInterface $container): Anilist\Model {
-		$requestBuilder = new AnilistRequestBuilder();
+		$requestBuilder = new AnilistRequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 		$listItem = new Anilist\ListItem();

@@ -87,6 +87,7 @@ final class MangaTransformer extends AbstractTransformer {
 
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
+					'slug' => $person['slug'],
 					'name' => $name,
 					'image' => [
 						'original' => $person['image']['original']['url'],

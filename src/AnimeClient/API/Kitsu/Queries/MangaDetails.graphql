@@ -93,7 +93,7 @@ query ($slug: String!) {
 						canonical
 						localized
 					}
-					#slug
+					slug
 				}
 				role
 			}

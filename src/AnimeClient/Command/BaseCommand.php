@@ -147,13 +147,13 @@ abstract class BaseCommand extends Command {
 		// -------------------------------------------------------------------------
 
 		$app_logger = new Logger('animeclient');
-		$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
+		$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::WARNING));
 
 		$kitsu_request_logger = new Logger('kitsu-request');
-		$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
+		$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::WARNING));
 
 		$anilistRequestLogger = new Logger('anilist-request');
-		$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
+		$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::WARNING));
 
 		$container->setLogger($app_logger);
 		$container->setLogger($anilistRequestLogger, 'anilist-request');
@@ -203,7 +203,7 @@ abstract class BaseCommand extends Command {
 			return $model;
 		});
 		$container->set('anilist-model', static function ($container): Anilist\Model {
-			$requestBuilder = new Anilist\AnilistRequestBuilder();
+			$requestBuilder = new Anilist\AnilistRequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 			$listItem = new Anilist\ListItem();

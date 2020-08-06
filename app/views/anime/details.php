@@ -174,7 +174,7 @@ use function Aviat\AnimeClient\getLocalImg;
 					<section class='content media-wrap flex flex-wrap flex-justify-start'>
 						<?php foreach ($people as $pid => $person): ?>
 							<article class='character small-person'>
-								<?php $link = $url->generate('person', ['id' => $person['id']]) ?>
+								<?php $link = $url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]) ?>
 								<div class="name">
 									<a href="<?= $link ?>">
 										<?= $person['name'] ?>

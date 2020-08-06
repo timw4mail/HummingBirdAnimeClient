@@ -38,7 +38,7 @@ final class ListItem extends AbstractListItem {
 	public function create(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
-		return $this->mutateRequest('CreateMediaListEntry', $checkedData);
+		return $this->requestBuilder->mutateRequest('CreateMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -50,7 +50,7 @@ final class ListItem extends AbstractListItem {
 	public function createFull(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
-		return $this->mutateRequest('CreateFullMediaListEntry', $checkedData);
+		return $this->requestBuilder->mutateRequest('CreateFullMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -62,7 +62,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function delete(string $id, string $type = 'anime'): Request
 	{
-		return $this->mutateRequest('DeleteMediaListEntry', ['id' => $id]);
+		return $this->requestBuilder->mutateRequest('DeleteMediaListEntry', ['id' => $id]);
 	}
 
 	/**
@@ -73,7 +73,7 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function get(string $id): array
 	{
-		return $this->runQuery('MediaListItem', ['id' => $id]);
+		return $this->requestBuilder->runQuery('MediaListItem', ['id' => $id]);
 	}
 
 	/**
@@ -90,7 +90,7 @@ final class ListItem extends AbstractListItem {
 			'progress' => $data->progress,
 		]);
 
-		return $this->mutateRequest('IncrementMediaListEntry', $checkedData);
+		return $this->requestBuilder->mutateRequest('IncrementMediaListEntry', $checkedData);
 	}
 
 	/**
@@ -120,6 +120,6 @@ final class ListItem extends AbstractListItem {
 			'notes' => $notes,
 		]);
 
-		return $this->mutateRequest('UpdateMediaListEntry', $updateData);
+		return $this->requestBuilder->mutateRequest('UpdateMediaListEntry', $updateData);
 	}
 }
