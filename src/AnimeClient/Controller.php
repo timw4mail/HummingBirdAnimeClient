@@ -240,12 +240,11 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
-	 * @throws InvalidArgumentException
+	 * @return HtmlView
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return void
 	 */
-	protected function renderFullPage($view, string $template, array $data): void
+	protected function renderFullPage($view, string $template, array $data): HtmlView
 	{
 		$csp = [
 			"default-src 'self'",
