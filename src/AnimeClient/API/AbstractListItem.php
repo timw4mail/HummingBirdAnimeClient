@@ -33,6 +33,14 @@ abstract class AbstractListItem {
 	abstract public function create(array $data): Request;
 
 	/**
+	 * Create a full list item for syncing
+	 *
+	 * @param array $data
+	 * @return Request
+	 */
+	abstract public function createFull(array $data): Request;
+
+	/**
 	 * Retrieve a list item
 	 *
 	 * @param string $id - The id of the list item

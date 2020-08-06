@@ -33,7 +33,7 @@ use Aviat\Ion\Json;
 /**
  * Manga-related list methods
  */
-trait KitsuMangaTrait {
+trait MangaTrait {
 	/**
 	 * @var MangaTransformer
 	 */

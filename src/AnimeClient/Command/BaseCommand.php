@@ -23,7 +23,6 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
-use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
@@ -187,7 +186,7 @@ abstract class BaseCommand extends Command {
 
 		// Models
 		$container->set('kitsu-model', static function($container): Kitsu\Model {
-			$requestBuilder = new KitsuRequestBuilder($container);
+			$requestBuilder = new Kitsu\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 			$listItem = new Kitsu\ListItem();
@@ -203,7 +202,7 @@ abstract class BaseCommand extends Command {
 			return $model;
 		});
 		$container->set('anilist-model', static function ($container): Anilist\Model {
-			$requestBuilder = new Anilist\AnilistRequestBuilder($container);
+			$requestBuilder = new Anilist\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 			$listItem = new Anilist\ListItem();
