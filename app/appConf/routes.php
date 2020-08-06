@@ -175,9 +175,10 @@ $routes = [
 		]
 	],
 	'person' => [
-		'path' => '/people/{id}',
+		'path' => '/people/{id}{/slug}',
 		'tokens' => [
-			'id' => SLUG_PATTERN
+			'id' => SLUG_PATTERN,
+			'slug' => SLUG_PATTERN,
 		]
 	],
 	'default_user_info' => [

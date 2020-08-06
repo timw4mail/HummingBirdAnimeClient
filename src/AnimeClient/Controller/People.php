@@ -51,11 +51,14 @@ final class People extends BaseController {
 	 * Show information about a person
 	 *
 	 * @param string $id
+	 * @param string|null $slug
 	 * @return void
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
-	public function index(string $id): void
+	public function index(string $id, ?string $slug = NULL): void
 	{
-		$rawData = $this->model->getPerson($id);
+		$rawData = $this->model->getPerson($id, $slug);
 		$data = (new PersonTransformer())->transform($rawData)->toArray();
 
 		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))

@@ -94,6 +94,7 @@ final class AnimeTransformer extends AbstractTransformer {
 					'image' => [
 						'original' => $person['image']['original']['url'],
 					],
+					'slug' => $person['slug'],
 				];
 
 				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);

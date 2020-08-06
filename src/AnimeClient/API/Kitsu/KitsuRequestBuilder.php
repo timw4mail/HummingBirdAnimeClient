@@ -388,6 +388,8 @@ final class KitsuRequestBuilder extends APIRequestBuilder {
 			Event::emit(EventType::UNAUTHORIZED);
 		}
 
+		$rawBody = wait($response->getBody()->buffer());
+
 		// Any other type of failed request
 		if ($statusCode > 299 || $statusCode < 200)
 		{

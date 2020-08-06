@@ -82,7 +82,7 @@ query ($id: ID!) {
 						canonical
 						localized
 					}
-					#slug
+					slug
 				}
 				role
 			}

@@ -100,7 +100,7 @@
 					<section class='content media-wrap flex flex-wrap flex-justify-start'>
 						<?php foreach ($people as $person): ?>
 							<article class='character person'>
-								<?php $link = $url->generate('person', ['id' => $person['id']]) ?>
+								<?php $link = $url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]) ?>
 								<div class="name">
 									<a href="<?= $link ?>">
 										<?= $person['name'] ?>
