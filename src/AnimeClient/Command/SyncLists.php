@@ -105,7 +105,7 @@ final class SyncLists extends BaseCommand {
 		if ( ! $anilistEnabled)
 		{
 			$this->echoErrorBox('Anlist API is not enabled. Can not sync.');
-			die();
+			exit();
 		}
 
 		// Authentication is required to update Kitsu
@@ -296,17 +296,7 @@ final class SyncLists extends BaseCommand {
 	{
 		$uType = ucfirst($type);
 
-		$kitsuCount = 0;
-		try
-		{
-			$kitsuCount = $this->kitsuModel->{"get{$uType}ListCount"}();
-		}
-		catch (FailedResponseException $e)
-		{
-			dump($e);
-		}
-
-		return $kitsuCount;
+		return $this->kitsuModel->{"get{$uType}ListCount"}() ?? 0;
 	}
 
 	private function fetchKitsu(string $type): array
@@ -327,7 +317,10 @@ final class SyncLists extends BaseCommand {
 
 		if ( ! array_key_exists('included', $data))
 		{
-			dump($data);
+			dump([
+				'problem' => 'Missing included data in method ' . __METHOD__,
+				'data' => $data
+			]);
 			return [];
 		}
 
@@ -742,7 +735,11 @@ final class SyncLists extends BaseCommand {
 				}
 			}
 
-			dump($responseData);
+			dump([
+				'problem' => 'Failed to update kitsu list item',
+				'syncDate' => $itemsToUpdate[$key],
+				'responseData' => $responseData,
+			]);
 			$verb = ($action === SyncAction::UPDATE) ? SyncAction::UPDATE : SyncAction::CREATE;
 			$this->echoError("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
 
@@ -799,7 +796,11 @@ final class SyncLists extends BaseCommand {
 			}
 			else
 			{
-				dump($responseData);
+				dump([
+					'problem' => 'Failed to update anilist list item',
+					'syncDate' => $itemsToUpdate[$key],
+					'responseData' => $responseData,
+				]);
 				$verb = ($action === SyncAction::UPDATE) ? SyncAction::UPDATE : SyncAction::CREATE;
 				$this->echoError("Failed to {$verb} Anilist {$type} list item with id: {$id}");
 			}

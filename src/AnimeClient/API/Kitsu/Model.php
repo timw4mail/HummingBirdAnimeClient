@@ -98,8 +98,11 @@ final class Model {
 
 		if (array_key_exists('error', $data))
 		{
-			dump($data['error']);
-			dump($response);
+			dump([
+				'method' => __CLASS__ . '\\' . __METHOD__,
+				'error' => $data['error'],
+				'response' => $response,
+			]);
 			die();
 		}
 
@@ -135,8 +138,11 @@ final class Model {
 
 		if (array_key_exists('error', $data))
 		{
-			dump($data['error']);
-			dump($response);
+			dump([
+				'method' => __CLASS__ . '\\' . __METHOD__,
+				'error' => $data['error'],
+				'response' => $response,
+			]);
 			die();
 		}
 
