@@ -51,6 +51,7 @@ query ($id: ID!) {
 				startCursor
 			}
 		}
+		description
 		startDate
 		endDate
 		posterImage {
@@ -106,7 +107,6 @@ query ($id: ID!) {
 		}
 		status
 		subtype
-		synopsis
 		titles {
 			canonical
 			canonicalLocale

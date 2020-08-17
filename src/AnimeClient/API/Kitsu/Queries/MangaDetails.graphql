@@ -51,6 +51,7 @@ query ($slug: String!) {
 				startCursor
 			}
 		}
+		description
 		startDate
 		endDate
 		posterImage {
@@ -106,7 +107,6 @@ query ($slug: String!) {
 		}
 		status
 		subtype
-		synopsis
 		titles {
 			canonical
 			canonicalLocale

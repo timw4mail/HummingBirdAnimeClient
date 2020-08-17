@@ -50,6 +50,7 @@ query ($id: ID!) {
 				startCursor
 			}
 		}
+		description
 		startDate
 		endDate
 		episodeCount
@@ -95,7 +96,6 @@ query ($id: ID!) {
 		}
 		status
 		subtype
-		synopsis
 		titles {
 			alternatives
 			canonical
