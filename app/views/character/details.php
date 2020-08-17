@@ -43,15 +43,14 @@ use Aviat\AnimeClient\API\Kitsu;
 						<article class="media">
 							<?php
 							$link = $url->generate('anime.details', ['id' => $anime['slug']]);
-							$titles = Kitsu::getTitles($anime['titles']);
 							?>
 							<a href="<?= $link ?>">
 								<?= $helper->picture("images/anime/{$anime['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
-									<?= $anime['titles']['canonical'] ?>
-									<?php foreach ($titles as $title): ?>
+									<?= $anime['title'] ?>
+									<?php foreach ($anime['titles'] as $title): ?>
 										<br />
 										<small><?= $title ?></small>
 									<?php endforeach ?>
@@ -71,15 +70,14 @@ use Aviat\AnimeClient\API\Kitsu;
 						<article class="media">
 							<?php
 							$link = $url->generate('manga.details', ['id' => $manga['slug']]);
-							$titles = Kitsu::getTitles($manga['titles']);
 							?>
 							<a href="<?= $link ?>">
 								<?= $helper->picture("images/manga/{$manga['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
-									<?= $manga['titles']['canonical'] ?>
-									<?php foreach ($titles as $title): ?>
+									<?= $manga['title'] ?>
+									<?php foreach ($manga['titles'] as $title): ?>
 										<br />
 										<small><?= $title ?></small>
 									<?php endforeach ?>
@@ -172,12 +170,12 @@ use Aviat\AnimeClient\API\Kitsu;
 									<th>Cast Member</th>
 									<th>Series</th>
 								</tr>
-								<?php foreach ($casting as $cid => $c): ?>
+								<?php foreach ($casting as $c): ?>
 									<tr>
 										<td>
 											<article class="character">
 												<?php
-												$link = $url->generate('person', ['id' => $c['person']['id']]);
+												$link = $url->generate('person', ['id' => $c['person']['id'], 'slug' => $c['person']['slug']]);
 												?>
 												<a href="<?= $link ?>">
 													<?= $helper->picture(getLocalImg($c['person']['image'])) ?>
@@ -192,16 +190,15 @@ use Aviat\AnimeClient\API\Kitsu;
 												<?php foreach ($c['series'] as $series): ?>
 													<article class="media">
 														<?php
-														$link = $url->generate('anime.details', ['id' => $series['attributes']['slug']]);
-														$titles = Kitsu::filterTitles($series['attributes']);
+														$link = $url->generate('anime.details', ['id' => $series['slug']]);
 														?>
 														<a href="<?= $link ?>">
-															<?= $helper->picture(getLocalImg($series['attributes']['posterImage']['small'], TRUE)) ?>
+															<?= $helper->picture(getLocalImg($series['posterImage'], TRUE)) ?>
 														</a>
 														<div class="name">
 															<a href="<?= $link ?>">
-																<?= array_shift($titles) ?>
-																<?php foreach ($titles as $title): ?>
+																<?= $series['title'] ?>
+																<?php foreach ($series['titles'] as $title): ?>
 																	<br />
 																	<small><?= $title ?></small>
 																<?php endforeach ?>

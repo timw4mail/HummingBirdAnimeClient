@@ -293,6 +293,34 @@ final class Kitsu {
 	}
 
 	/**
+	 * Filter out duplicate and very similar titles from a GraphQL response
+	 *
+	 * @param array $titles
+	 * @return array
+	 */
+	public static function getFilteredTitles(array $titles): array
+	{
+		// The 'canonical' title is always considered
+		$valid = [$titles['canonical']];
+
+		if (array_key_exists('localized', $titles) && is_array($titles['localized']))
+		{
+			foreach($titles['localized'] as $alternateTitle)
+			{
+				if (self::titleIsUnique($alternateTitle, $valid))
+				{
+					$valid[] = $alternateTitle;
+				}
+			}
+		}
+
+		// Don't return the canonical titles
+		array_shift($valid);
+
+		return $valid;
+	}
+
+	/**
 	 * Get the name and logo for the streaming service of the current link
 	 *
 	 * @param string $hostname
