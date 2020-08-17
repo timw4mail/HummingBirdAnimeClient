@@ -97,7 +97,7 @@ final class Kitsu {
 	 * @param array $included
 	 * @return array
 	 */
-	public static function parseStreamingLinks(array $included): array
+	public static function oldParseStreamingLinks(array $included): array
 	{
 		if (
 			( ! array_key_exists('streamingLinks', $included)) ||
@@ -110,6 +110,47 @@ final class Kitsu {
 		$links = [];
 
 		foreach ($included['streamingLinks'] as $streamingLink)
+		{
+			$url = $streamingLink['url'];
+
+			// 'Fix' links that start with the hostname,
+			// rather than a protocol
+			if (strpos($url, '//') === FALSE)
+			{
+				$url = '//' . $url;
+			}
+
+			$host = parse_url($url, \PHP_URL_HOST);
+
+			$links[] = [
+				'meta' => static::getServiceMetaData($host),
+				'link' => $streamingLink['url'],
+				'subs' => $streamingLink['subs'],
+				'dubs' => $streamingLink['dubs']
+			];
+		}
+
+		usort($links, fn ($a, $b) => $a['meta']['name'] <=> $b['meta']['name']);
+
+		return $links;
+	}
+
+	/**
+	 * Reorganize streaming links
+	 *
+	 * @param array $included
+	 * @return array
+	 */
+	public static function parseStreamingLinks(array $nodes): array
+	{
+		if (count($nodes) === 0)
+		{
+			return [];
+		}
+
+		$links = [];
+
+		foreach ($nodes as $streamingLink)
 		{
 			$url = $streamingLink['url'];
 
@@ -152,7 +193,7 @@ final class Kitsu {
 
 			if (count($anime['relationships']['streamingLinks']) > 0)
 			{
-				return static::parseStreamingLinks($anime['relationships']);
+				return static::oldParseStreamingLinks($anime['relationships']);
 			}
 
 			return $links;

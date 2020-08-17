@@ -94,8 +94,20 @@ query ($slug: String!) {
 			}
 		}
 		status
+		streamingLinks {
+			nodes {
+				dubs
+				subs
+				regions
+				streamer {
+					id
+					siteName
+				}
+				url
+			}
+		}
 		subtype
-		synopsis
+		description
 		titles {
 			alternatives
 			canonical
