@@ -48,7 +48,7 @@ final class Model {
 	use MangaTrait;
 	use MutationTrait;
 
-	protected const LIST_PAGE_SIZE = 100;
+	protected const LIST_PAGE_SIZE = 75;
 
 	/**
 	 * @var ListItem
@@ -367,7 +367,7 @@ final class Model {
 				'kind' => $type,
 			],
 			'include' => "{$type},{$type}.mappings",
-			'sort' => '-updated_at'
+			// 'sort' => '-updated_at'
 		];
 
 		return $this->getRawSyncList($type, $options);
