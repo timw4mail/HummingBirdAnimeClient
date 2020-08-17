@@ -267,7 +267,7 @@ final class Anime extends BaseController {
 		if (empty($data))
 		{
 			$this->errorPage(400, 'Bad Request', '');
-			die();
+			exit();
 		}
 
 		$response = $this->model->incrementLibraryItem(FormItem::from($data));

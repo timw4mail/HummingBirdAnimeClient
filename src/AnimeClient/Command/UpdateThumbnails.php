@@ -77,9 +77,6 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$includes = JsonAPI::organizeIncludes($animeList['included']);
 		$animeIds = array_keys($includes['anime']);
 
-		// print_r($mangaIds);
-		// die();
-
 		return [
 			'anime' => $animeIds,
 			'manga' => $mangaIds,

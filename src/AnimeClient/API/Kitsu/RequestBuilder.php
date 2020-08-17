@@ -154,16 +154,12 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	public function postRequest(...$args): array
 	{
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('kitsu-request');
-		}
+		$logger = $this->container->getLogger('kitsu-request');
 
 		$response = $this->getResponse('POST', ...$args);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE) && $logger)
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger->warning('Non 2xx response for POST api call', $response->getBody());
 		}
@@ -275,26 +271,17 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('kitsu-request');
-		}
-
+		$logger = $this->container->getLogger('kitsu-request');
 		$request = $this->setUpRequest($type, $url, $options);
-
 		$response = getResponse($request);
 
-		if ($logger)
-		{
-			$logger->debug('Kitsu API Response', [
-				'status' => $response->getStatus(),
-				'reason' => $response->getReason(),
-				'body' => $response->getBody(),
-				'headers' => $response->getHeaders(),
-				'requestHeaders' => $request->getHeaders(),
-			]);
-		}
+		$logger->debug('Kitsu API Response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+			'requestHeaders' => $request->getHeaders(),
+		]);
 
 		return $response;
 	}
@@ -306,12 +293,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	private function getResponseFromRequest(Request $request): Response
 	{
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('kitsu-request');
-		}
-
+		$logger = $this->container->getLogger('kitsu-request');
 		$response = getResponse($request);
 
 		$logger->debug('Kitsu GraphQL response', [
@@ -337,24 +319,17 @@ final class RequestBuilder extends APIRequestBuilder {
 		$response = $this->getResponse('POST', K::GRAPHQL_ENDPOINT, $options);
 		$validResponseCodes = [200, 201];
 
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('kitsu-request');
-			$logger->debug('Kitsu GraphQL response', [
-				'status' => $response->getStatus(),
-				'reason' => $response->getReason(),
-				'body' => $response->getBody(),
-				'headers' => $response->getHeaders(),
-			]);
-		}
+		$logger = $this->container->getLogger('kitsu-request');
+		$logger->debug('Kitsu GraphQL response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+		]);
 
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			if ($logger !== NULL)
-			{
-				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
-			}
+			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
 		}
 
 		return Json::decode(wait($response->getBody()->buffer()));
@@ -373,12 +348,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	private function request(string $type, string $url, array $options = []): array
 	{
-		$logger = NULL;
-		if ($this->getContainer())
-		{
-			$logger = $this->container->getLogger('kitsu-request');
-		}
-
+		$logger = $this->container->getLogger('kitsu-request');
 		$response = $this->getResponse($type, $url, $options);
 		$statusCode = $response->getStatus();
 
