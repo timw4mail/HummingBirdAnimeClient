@@ -54,22 +54,15 @@ abstract class BaseCommand extends Command {
 			$message = implode("\n", $message);
 		}
 
-		try
-		{
-			// color message
-			$message = Colors::colorize($message, $fgColor, $bgColor);
+		// color message
+		$message = Colors::colorize($message, $fgColor, $bgColor);
 
-			// create the box
-			$box = new Box($this->getConsole(), $message);
+		// create the box
+		$box = new Box($this->getConsole(), $message);
 
-			$box->write();
+		$box->write();
 
-			echo "\n";
-		}
-		catch (ConsoleException $e)
-		{
-			// oops
-		}
+		echo "\n";
 	}
 
 	public function echo(string $message): void

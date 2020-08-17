@@ -363,15 +363,18 @@ final class RequestBuilder extends APIRequestBuilder {
 		// Any other type of failed request
 		if ($statusCode > 299 || $statusCode < 200)
 		{
-			if ($logger)
-			{
-				$logger->warning('Non 2xx response for api call', (array)$response);
-			}
-dump($rawBody);
-die();
-			// throw new FailedResponseException('Failed to get the proper response from the API');
+			$logger->warning('Non 2xx response for api call', (array)$response);
 		}
 
-		return Json::decode($rawBody);
+		try
+		{
+			return Json::decode($rawBody);
+		}
+		catch (JsonException $e)
+		{
+			// dump($e);
+			dump($rawBody);
+			die();
+		}
 	}
 }
