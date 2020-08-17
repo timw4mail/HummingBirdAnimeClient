@@ -112,7 +112,7 @@ final class MangaTransformer extends AbstractTransformer {
 			'id' => $base['id'],
 			'staff' => $staff,
 			'status' => Kitsu::getPublishingStatus($base['status'], $base['startDate'], $base['endDate']),
-			'synopsis' => $base['synopsis']['en'],
+			'synopsis' => $base['description']['en'],
 			'title' => $title,
 			'titles' => $titles,
 			'titles_more' => $titles_more,

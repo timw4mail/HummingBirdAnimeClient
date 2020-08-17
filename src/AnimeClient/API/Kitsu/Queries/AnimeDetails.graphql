@@ -50,6 +50,7 @@ query ($slug: String!) {
 				startCursor
 			}
 		}
+		description
 		startDate
 		endDate
 		episodeCount
@@ -107,7 +108,6 @@ query ($slug: String!) {
 			}
 		}
 		subtype
-		description
 		titles {
 			alternatives
 			canonical
