@@ -190,17 +190,8 @@ final class Model {
 	 */
 	public function getCharacter(string $slug): array
 	{
-		return $this->requestBuilder->getRequest('characters', [
-			'query' => [
-				'filter' => [
-					'slug' => $slug,
-				],
-				'fields' => [ // For some characters, these filters cause issues...so leave them out
-					// 'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-					// 'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage'
-				],
-				'include' => 'castings.person,castings.media'
-			]
+		return $this->requestBuilder->runQuery('CharacterDetails', [
+			'slug' => $slug
 		]);
 	}
 

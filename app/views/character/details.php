@@ -42,15 +42,15 @@ use Aviat\AnimeClient\API\Kitsu;
 					<?php foreach ($data['media']['anime'] as $id => $anime): ?>
 						<article class="media">
 							<?php
-							$link = $url->generate('anime.details', ['id' => $anime['attributes']['slug']]);
-							$titles = Kitsu::filterTitles($anime['attributes']);
+							$link = $url->generate('anime.details', ['id' => $anime['slug']]);
+							$titles = Kitsu::getTitles($anime['titles']);
 							?>
 							<a href="<?= $link ?>">
-								<?= $helper->picture("images/anime/{$id}.webp") ?>
+								<?= $helper->picture("images/anime/{$anime['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
+									<?= $anime['titles']['canonical'] ?>
 									<?php foreach ($titles as $title): ?>
 										<br />
 										<small><?= $title ?></small>
@@ -70,15 +70,15 @@ use Aviat\AnimeClient\API\Kitsu;
 					<?php foreach ($data['media']['manga'] as $id => $manga): ?>
 						<article class="media">
 							<?php
-							$link = $url->generate('manga.details', ['id' => $manga['attributes']['slug']]);
-							$titles = Kitsu::filterTitles($manga['attributes']);
+							$link = $url->generate('manga.details', ['id' => $manga['slug']]);
+							$titles = Kitsu::getTitles($manga['titles']);
 							?>
 							<a href="<?= $link ?>">
-								<?= $helper->picture("images/manga/{$id}.webp") ?>
+								<?= $helper->picture("images/manga/{$manga['id']}.webp") ?>
 							</a>
 							<div class="name">
 								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
+									<?= $manga['titles']['canonical'] ?>
 									<?php foreach ($titles as $title): ?>
 										<br />
 										<small><?= $title ?></small>
