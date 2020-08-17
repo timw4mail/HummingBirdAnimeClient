@@ -1,7 +1,9 @@
 mutation ($id: ID!) {
-	deleteLibraryEntry(input: {id: $id}) {
-		libraryEntry {
-			id
+	libraryEntry{
+		delete(input: {id: $id}) {
+			libraryEntry {
+				id
+			}
 		}
 	}
 }

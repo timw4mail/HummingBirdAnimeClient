@@ -7,13 +7,15 @@ mutation (
 	$mediaType: media_type!,
 	$status: MediaListStatus,
 ) {
-	createLibraryEntry (input: {
-		userId: $userId
-		mediaId: $id
-		mediaType: $mediaType
-		status: $status
-	}) {
-		mediaId
-		status
+	libraryEntry {
+		create(input: {
+			userId: $userId
+			mediaId: $id
+			mediaType: $mediaType
+			status: $status
+		}) {
+			mediaId
+			status
+		}
 	}
 }
