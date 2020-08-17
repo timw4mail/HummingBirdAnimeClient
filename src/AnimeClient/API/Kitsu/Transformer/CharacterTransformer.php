@@ -32,6 +32,65 @@ final class CharacterTransformer extends AbstractTransformer {
 	 */
 	public function transform($characterData): Character
 	{
+		$data = $characterData['data']['findCharacterBySlug'] ?? [];
+		$castings = [];
+		$media = [
+			'anime' => [],
+			'manga' => [],
+		];
+
+		$names = array_unique(
+			array_merge(
+				[$data['names']['canonical']],
+				array_values($data['names']['localized'])
+			)
+		);
+		$name = array_shift($names);
+
+		if (isset($data['media']['nodes']))
+		{
+			[$media, $castings] = $this->organizeMediaAndVoices($data['media']['nodes']);
+		}
+
+		return Character::from([
+			'castings' => $castings,
+			'description' => $data['description']['en'],
+			'id' => $data['id'],
+			'media' => $media,
+			'name' => $name,
+			'names' => $names,
+			'otherNames' => $data['names']['alternatives'],
+		]);
+	}
+
+	protected function organizeMediaAndVoices (array $data): array
+	{
+		if (empty($data))
+		{
+			return [[], []];
+		}
+
+		$rawMedia = array_column($data, 'media');
+		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
+		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
+
+		uasort($rawAnime, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
+		uasort($rawManga, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
+
+		$media = [
+			'anime' => $rawAnime,
+			'manga' => $rawManga,
+		];
+
+		return [$media, []];
+	}
+
+	/**
+	 * @param array $characterData
+	 * @return Character
+	 */
+	public function oldTransform($characterData): Character
+	{
 		$data = JsonAPI::organizeData($characterData);
 		$attributes = $data[0]['attributes'];
 		$castings = [];

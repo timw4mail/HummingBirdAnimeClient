@@ -6,10 +6,11 @@ query ($slug: String!) {
 				url
 			}
 		}
+		description
 		names {
 			alternatives
 			canonical
-			#canonicalLocale
+			canonicalLocale
 			localized
 		},
 		primaryMedia {
@@ -23,6 +24,63 @@ query ($slug: String!) {
 			}
 			type
 		},
+		media {
+			nodes {
+				media {
+					id
+					slug
+					titles {
+						alternatives
+						canonical
+						canonicalLocale
+						localized
+					}
+					posterImage {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					type
+				}
+				voices {
+					nodes {
+						id
+						licensor {
+							name
+						}
+						locale
+						person {
+							id
+							slug
+							name
+							names {
+								alternatives
+								canonical
+								canonicalLocale
+								localized
+							}
+							image {
+								original {
+									height
+									width
+									url
+									name
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		slug
 	}
 }
