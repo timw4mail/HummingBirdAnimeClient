@@ -8,25 +8,27 @@ mutation(
 	$reconsuming: Boolean,
 	$status: LibraryEntryStatus!,
 ) {
-	updateLibraryEntry(input: {
-		id: $id,
-		notes: $notes
-		private: $private
-		progress: $progress
-		rating: $ratingTwenty
-		reconsumeCount: $reconsumeCount
-		reconsuming: $reconsuming
-		status: $status
-	}) {
-		libraryEntry {
-			id
-			notes
-			private
-			progress
-			rating
-			reconsumeCount
-			reconsuming
-			status
+	libraryEntry{
+		update(input: {
+			id: $id,
+			notes: $notes
+			private: $private
+			progress: $progress
+			rating: $ratingTwenty
+			reconsumeCount: $reconsumeCount
+			reconsuming: $reconsuming
+			status: $status
+		}) {
+			libraryEntry {
+				id
+				notes
+				private
+				progress
+				rating
+				reconsumeCount
+				reconsuming
+				status
+			}
 		}
 	}
 }
