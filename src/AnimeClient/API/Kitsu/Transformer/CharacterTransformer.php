@@ -17,9 +17,11 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\Character;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Locale;
 
 /**
  * Data transformation class for character pages
@@ -70,19 +72,88 @@ final class CharacterTransformer extends AbstractTransformer {
 			return [[], []];
 		}
 
+		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
+
 		$rawMedia = array_column($data, 'media');
 		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
 		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
 
-		uasort($rawAnime, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
-		uasort($rawManga, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
+		$anime = array_map(static function ($item) {
+			$output = $item;
+			unset($output['titles']);
+			$output['title'] = $item['titles']['canonical'];
+			$output['titles'] = Kitsu::getFilteredTitles($item['titles']);
+
+			return $output;
+		}, $rawAnime);
+		$manga = array_map(static function ($item) {
+			$output = $item;
+			unset($output['titles']);
+			$output['title'] = $item['titles']['canonical'];
+			$output['titles'] = Kitsu::getFilteredTitles($item['titles']);
+
+			return $output;
+		}, $rawManga);
+
+		uasort($anime, $titleSort);
+		uasort($manga, $titleSort);
 
 		$media = [
-			'anime' => $rawAnime,
-			'manga' => $rawManga,
+			'anime' => $anime,
+			'manga' => $manga,
 		];
 
-		return [$media, []];
+		$rawVoices = array_filter($data, fn($item) => count((array)$item['voices']['nodes']) > 0);
+
+		if (empty($rawVoices))
+		{
+			return [$media, []];
+		}
+
+		$castings = [
+			'Voice Actor' => [],
+		];
+
+		foreach ($rawVoices as $voiceMap)
+		{
+			foreach ($voiceMap['voices']['nodes'] as $voice)
+			{
+				$lang = Locale::getDisplayLanguage($voice['locale'], 'en');
+				$id = $voice['person']['name'];
+				$seriesId = $voiceMap['media']['id'];
+
+				if ( ! array_key_exists($lang, $castings['Voice Actor']))
+				{
+					$castings['Voice Actor'][$lang] = [];
+				}
+
+				if ( ! array_key_exists($id, $castings['Voice Actor'][$lang]))
+				{
+					$castings['Voice Actor'][$lang][$id] = [
+						'person' => [
+							'id' => $voice['person']['id'],
+							'slug' => $voice['person']['slug'],
+							'image' => $voice['person']['image']['original']['url'],
+							'name' => $voice['person']['name'],
+						],
+						'series' => []
+					];
+				}
+
+				$castings['Voice Actor'][$lang][$id]['series'][$seriesId] = [
+					'id' => $seriesId,
+					'slug' => $voiceMap['media']['slug'],
+					'title' => $voiceMap['media']['titles']['canonical'],
+					'titles' => Kitsu::getFilteredTitles($voiceMap['media']['titles']),
+					'posterImage' => $voiceMap['media']['posterImage']['views'][1]['url'],
+				];
+
+				uasort($castings['Voice Actor'][$lang][$id]['series'], $titleSort);
+				ksort($castings['Voice Actor'][$lang]);
+			}
+		}
+
+		return [$media, $castings];
 	}
 
 	/**

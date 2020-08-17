@@ -1,6 +1,7 @@
 query ($id: ID!) {
 	findPersonById(id: $id) {
 		id
+		description
 		birthday
 		image {
 			original {
@@ -22,45 +23,44 @@ query ($id: ID!) {
 			localized
 		}
 		voices {
-			licensor {
-				name
-			}
-			locale
-			mediaCharacter {
-				role
-				character {
-					id
-					image {
-						original {
-							height
-							name
-							url
-							width
+			nodes {
+				locale
+				mediaCharacter {
+					role
+					character {
+						id
+						image {
+							original {
+								height
+								name
+								url
+								width
+							}
+						}
+						names {
+							canonical
 						}
 					}
-					names {
-						canonical
-					}
-				}
-				media {
-					id
-					posterImage {
-						original {
-							height
-							name
-							url
-							width
+					media {
+						id
+						posterImage {
+							original {
+								height
+								name
+								url
+								width
+							}
+							views {
+								height
+								name
+								url
+								width
+							}
 						}
-						views {
-							height
-							name
-							url
-							width
+						titles {
+							canonical
+							localized
 						}
-					}
-					titles {
-						canonical
-						localized
 					}
 				}
 			}
