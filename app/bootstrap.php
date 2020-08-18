@@ -25,10 +25,11 @@ use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\ContainerInterface;
-use Psr\SimpleCache\CacheInterface;
 use Laminas\Diactoros\ServerRequestFactory;
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Psr\SimpleCache\CacheInterface;
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -41,17 +42,18 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 
 	$appLogger = new Logger('animeclient');
-	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::WARNING));
-
-	$anilistRequestLogger = new Logger('anilist-request');
-	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::WARNING));
-
-	$kitsuRequestLogger = new Logger('kitsu-request');
-	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::WARNING));
-
+	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', 2, Logger::WARNING));
 	$container->setLogger($appLogger);
-	$container->setLogger($anilistRequestLogger, 'anilist-request');
-	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
+
+	foreach (['anilist-request', 'kitsu-request', 'kitsu-graphql'] as $channel)
+	{
+		$logger = new Logger($channel);
+		$handler = new RotatingFileHandler(__DIR__ . "/logs/{$channel}.log", 2, Logger::WARNING);
+		$handler->setFormatter(new JsonFormatter());
+		$logger->pushHandler($handler);
+
+		$container->setLogger($logger, $channel);
+	}
 
 	// -------------------------------------------------------------------------
 	// Injected Objects

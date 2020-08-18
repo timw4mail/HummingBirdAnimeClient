@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use Monolog\Formatter\JsonFormatter;
 use function Aviat\AnimeClient\loadToml;
 use function Aviat\AnimeClient\loadTomlFile;
 
@@ -138,18 +139,19 @@ abstract class BaseCommand extends Command {
 		// Logging
 		// -------------------------------------------------------------------------
 
-		$app_logger = new Logger('animeclient');
-		$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::WARNING));
+		$appLogger = new Logger('animeclient');
+		$appLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', 2, Logger::WARNING));
+		$container->setLogger($appLogger);
 
-		$kitsu_request_logger = new Logger('kitsu-request');
-		$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::WARNING));
+		foreach (['anilist-request-cli', 'kitsu-request-cli'] as $channel)
+		{
+			$logger = new Logger($channel);
+			$handler = new RotatingFileHandler( "{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
+			$handler->setFormatter(new JsonFormatter());
+			$logger->pushHandler($handler);
 
-		$anilistRequestLogger = new Logger('anilist-request');
-		$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::WARNING));
-
-		$container->setLogger($app_logger);
-		$container->setLogger($anilistRequestLogger, 'anilist-request');
-		$container->setLogger($kitsu_request_logger, 'kitsu-request');
+			$container->setLogger($logger, $channel);
+		}
 
 		// Create Config Object
 		$container->set('config', fn () => new Config($configArray));
