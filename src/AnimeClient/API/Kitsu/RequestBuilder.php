@@ -319,16 +319,9 @@ final class RequestBuilder extends APIRequestBuilder {
 		$response = $this->getResponse('POST', K::GRAPHQL_ENDPOINT, $options);
 		$validResponseCodes = [200, 201];
 
-		$logger = $this->container->getLogger('kitsu-request');
-		$logger->debug('Kitsu GraphQL response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-		]);
-
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
+			$logger = $this->container->getLogger('kitsu-graphql');
 			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
 		}
 

@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\Types\Character;
 
@@ -74,6 +73,7 @@ final class CharacterTransformer extends AbstractTransformer {
 
 		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
 
+		// First, let's deal with related media
 		$rawMedia = array_column($data, 'media');
 		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
 		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
@@ -103,6 +103,7 @@ final class CharacterTransformer extends AbstractTransformer {
 			'manga' => $manga,
 		];
 
+		// And now, reorganize voice actor relationships
 		$rawVoices = array_filter($data, fn($item) => count((array)$item['voices']['nodes']) > 0);
 
 		if (empty($rawVoices))
@@ -154,155 +155,5 @@ final class CharacterTransformer extends AbstractTransformer {
 		}
 
 		return [$media, $castings];
-	}
-
-	/**
-	 * @param array $characterData
-	 * @return Character
-	 */
-	public function oldTransform($characterData): Character
-	{
-		$data = JsonAPI::organizeData($characterData);
-		$attributes = $data[0]['attributes'];
-		$castings = [];
-
-		$names = array_unique(
-			array_merge(
-				[$attributes['canonicalName']],
-				$attributes['names']
-			)
-		);
-		$name = array_shift($names);
-
-		if (array_key_exists('included', $data))
-		{
-			if (array_key_exists('anime', $data['included']))
-			{
-				uasort($data['included']['anime'], static function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('manga', $data['included']))
-			{
-				uasort($data['included']['manga'], static function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('castings', $data['included']))
-			{
-				$castings = $this->organizeCast($data['included']['castings']);
-			}
-		}
-
-		return Character::from([
-			'castings' => $castings,
-			'description' => $attributes['description'],
-			'id' => $data[0]['id'],
-			'media' => [
-				'anime' => $data['included']['anime'] ?? [],
-				'manga' => $data['included']['manga'] ?? [],
-			],
-			'name' => $name,
-			'names' => $names,
-			'otherNames' => $attributes['otherNames'],
-		]);
-	}
-
-	/**
-	 * Organize VA => anime relationships
-	 *
-	 * @param array $cast
-	 * @return array
-	 */
-	private function dedupeCast(array $cast): array
-	{
-		$output = [];
-		$people = [];
-
-		$i = 0;
-		foreach ($cast as &$role)
-		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
-
-
-			$person = current($role['relationships']['person']['people'])['attributes'];
-			$hasName = array_key_exists($person['name'], $people);
-
-			if ( ! $hasName)
-			{
-				$people[$person['name']] = $i;
-				$role['relationships']['media']['anime'] = [current($role['relationships']['media']['anime'])];
-				$output[$i] = $role;
-
-				$i++;
-
-				continue;
-			}
-
-			if (array_key_exists('anime', $role['relationships']['media']))
-			{
-				$key = $people[$person['name']];
-				$output[$key]['relationships']['media']['anime'][] = current($role['relationships']['media']['anime']);
-			}
-			continue;
-		}
-
-		return $output;
-	}
-
-	protected function organizeCast(array $cast): array
-	{
-		$cast = $this->dedupeCast($cast);
-		$output = [];
-
-		foreach ($cast as $id => $role)
-		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
-
-			$language = $role['attributes']['language'];
-			$roleName = $role['attributes']['role'];
-			$isVA = $role['attributes']['voiceActor'];
-
-			if ($isVA)
-			{
-				foreach ($role['relationships']['person']['people'] as $pid => $peoples)
-				{
-					$p = $peoples;
-
-					$person = $p['attributes'];
-					$person['id'] = $pid;
-					$person['image'] = $person['image']['original'] ?? '';
-
-					uasort($role['relationships']['media']['anime'], static function ($a, $b) {
-						return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-					});
-
-					$item = [
-						'person' => $person,
-						'series' => $role['relationships']['media']['anime']
-					];
-
-					$output[$roleName][$language][] = $item;
-				}
-			}
-			else
-			{
-				foreach ($role['relationships']['person']['people'] as $pid => $person)
-				{
-					$person['id'] = $pid;
-					$output[$roleName][$pid] = $person;
-				}
-			}
-		}
-
-		return $output;
 	}
 }
