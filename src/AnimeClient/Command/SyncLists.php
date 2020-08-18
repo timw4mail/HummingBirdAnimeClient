@@ -24,6 +24,7 @@ use Aviat\AnimeClient\API\{
 	JsonAPI,
 	ParallelAPIRequest
 };
+use Aviat\AnimeClient\API;
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
@@ -99,7 +100,7 @@ final class SyncLists extends BaseCommand {
 		$this->setCache($this->container->get('cache'));
 
 		$config = $this->container->get('config');
-		$anilistEnabled = $config->get(['anilist', 'enabled']);
+		$anilistEnabled = $config->get([API::ANILIST, 'enabled']);
 
 		// We can't sync kitsu against itself!
 		if ( ! $anilistEnabled)
@@ -164,8 +165,8 @@ final class SyncLists extends BaseCommand {
 		$this->clearLine();
 
 		return [
-			'anilist' => $anilist,
-			'kitsu' => $kitsu,
+			API::ANILIST => $anilist,
+			API::KITSU => $kitsu,
 		];
 	}
 
@@ -181,17 +182,17 @@ final class SyncLists extends BaseCommand {
 		$this->echo('Normalizing List Data');
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
-		$kitsu = $this->transformKitsu($type, $data['kitsu']);
+		$kitsu = $this->transformKitsu($type, $data[API::KITSU]);
 		$progress->incr();
 
-		$anilist = $this->transformAnilist($type, $data['anilist']);
+		$anilist = $this->transformAnilist($type, $data[API::ANILIST]);
 		$progress->incr();
 
 		$this->clearLine();
 
 		return [
-			'anilist' => $anilist,
-			'kitsu' => $kitsu,
+			API::ANILIST => $anilist,
+			API::KITSU => $kitsu,
 		];
 	}
 
@@ -206,7 +207,7 @@ final class SyncLists extends BaseCommand {
 	{
 		$this->echo('Comparing List Items');
 
-		return $this->compareLists($type, $data['anilist'], $data['kitsu']);
+		return $this->compareLists($type, $data[API::ANILIST], $data[API::KITSU]);
 	}
 
 	/**
@@ -435,12 +436,12 @@ final class SyncLists extends BaseCommand {
 					continue;
 				}
 
-				if (in_array('kitsu', $item['updateType'], TRUE))
+				if (in_array(API::KITSU, $item['updateType'], TRUE))
 				{
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (in_array('anilist', $item['updateType'], TRUE))
+				if (in_array(API::ANILIST, $item['updateType'], TRUE))
 				{
 					$anilistUpdateItems[] = $item['data'];
 				}
@@ -529,7 +530,7 @@ final class SyncLists extends BaseCommand {
 		if ($kitsuItem['data']['status'] === 'completed' && $kitsuItem['data']['reconsuming'] === TRUE)
 		{
 			$update['data']['reconsuming'] = FALSE;
-			$return['updateType'][] = 'kitsu';
+			$return['updateType'][] = API::KITSU;
 		}
 
 		// If status is the same, and progress count is different, use greater progress
@@ -538,12 +539,12 @@ final class SyncLists extends BaseCommand {
 			if ($diff['progress'] === 1)
 			{
 				$update['data']['progress'] = $kitsuItem['data']['progress'];
-				$return['updateType'][] = 'anilist';
+				$return['updateType'][] = API::ANILIST;
 			}
 			else if($diff['progress'] === -1)
 			{
 				$update['data']['progress'] = $anilistItem['data']['progress'];
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -553,11 +554,12 @@ final class SyncLists extends BaseCommand {
 			if ($dateDiff === 1)
 			{
 				$update['data']['status'] = $kitsuItem['data']['status'];
-				$return['updateType'][] = 'anilist';
-			} else if ($dateDiff === -1)
+				$return['updateType'][] = API::ANILIST;
+			}
+			else if ($dateDiff === -1)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -574,7 +576,7 @@ final class SyncLists extends BaseCommand {
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
 
-				$return['updateType'][] = 'anilist';
+				$return['updateType'][] = API::ANILIST;
 			}
 			else if($dateDiff === -1)
 			{
@@ -585,7 +587,7 @@ final class SyncLists extends BaseCommand {
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
 
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -599,12 +601,12 @@ final class SyncLists extends BaseCommand {
 			)
 			{
 				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
-				$return['updateType'][] = 'anilist';
+				$return['updateType'][] = API::ANILIST;
 			}
 			else if($dateDiff === -1 && $anilistItem['data']['rating'] !== 0)
 			{
 				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -614,12 +616,12 @@ final class SyncLists extends BaseCommand {
 			if ($kitsuItem['data']['notes'] !== '')
 			{
 				$update['data']['notes'] = $kitsuItem['data']['notes'];
-				$return['updateType'][] = 'anilist';
+				$return['updateType'][] = API::ANILIST;
 			}
 			else
 			{
 				$update['data']['notes'] = $anilistItem['data']['notes'];
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -629,12 +631,12 @@ final class SyncLists extends BaseCommand {
 			if ($diff['reconsumeCount'] === 1)
 			{
 				$update['data']['reconsumeCount'] = $kitsuItem['data']['reconsumeCount'];
-				$return['updateType'][] = 'anilist';
+				$return['updateType'][] = API::ANILIST;
 			}
 			else if ($diff['reconsumeCount'] === -1)
 			{
 				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
-				$return['updateType'][] = 'kitsu';
+				$return['updateType'][] = API::KITSU;
 			}
 		}
 
@@ -645,8 +647,8 @@ final class SyncLists extends BaseCommand {
 		}
 
 		$return['meta'] = [
-			'kitsu' => $kitsuItem['data'],
-			'anilist' => $anilistItem['data'],
+			API::KITSU => $kitsuItem['data'],
+			API::ANILIST => $anilistItem['data'],
 			'dateDiff' => $dateDiff,
 			'diff' => $diff,
 		];
@@ -656,7 +658,7 @@ final class SyncLists extends BaseCommand {
 		// Fill in missing data values for update on Anlist
 		// so I don't have to create a really complex graphql query
 		// to handle each combination of fields
-		if ($return['updateType'][0] === 'anilist')
+		if ($return['updateType'][0] === API::ANILIST)
 		{
 			$prevData = [
 				'notes' => $kitsuItem['data']['notes'],
