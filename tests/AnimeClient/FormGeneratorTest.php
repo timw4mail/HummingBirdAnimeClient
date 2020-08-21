@@ -252,12 +252,12 @@ class FormGeneratorTest extends AnimeClientTestCase {
 	{
 		parent::setUp();
 
-		$this->generator = new FormGenerator($this->container);
+		$this->generator = FormGenerator::new($this->container);
 	}
 
 	public function testSanity(): void
 	{
-		$generator = new FormGenerator($this->container);
+		$generator = FormGenerator::new($this->container);
 		$this->assertInstanceOf(FormGenerator::class, $generator);
 	}
 

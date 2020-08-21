@@ -26,12 +26,12 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 
 	public function setUp(): void	{
 		parent::setUp();
-		$this->generator = new MenuGenerator($this->container);
+		$this->generator = MenuGenerator::new($this->container);
 	}
 
 	public function testSanity()
 	{
-		$generator = new MenuGenerator($this->container);
+		$generator = MenuGenerator::new($this->container);
 		$this->assertInstanceOf(MenuGenerator::class, $generator);
 	}
 
