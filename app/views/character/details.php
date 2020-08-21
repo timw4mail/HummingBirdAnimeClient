@@ -33,61 +33,20 @@ use Aviat\AnimeClient\API\Kitsu;
 
 	<?php if ( ! (empty($data['media']['anime']) || empty($data['media']['manga']))): ?>
 		<h3>Media</h3>
-		<div class="tabs">
-			<?php if ( ! empty($data['media']['anime'])): ?>
-				<input checked="checked" type="radio" id="media-anime" name="media-tabs" />
-				<label for="media-anime">Anime</label>
 
-				<section class="media-wrap content">
-					<?php foreach ($data['media']['anime'] as $id => $anime): ?>
-						<article class="media">
-							<?php
-							$link = $url->generate('anime.details', ['id' => $anime['slug']]);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/anime/{$anime['id']}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= $anime['title'] ?>
-									<?php foreach ($anime['titles'] as $title): ?>
-										<br />
-										<small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-					<?php endforeach ?>
-				</section>
-			<?php endif ?>
+		<?= $component->tabs('character-media', $data['media'], static function ($media, $mediaType) use ($url, $component, $helper) {
+			$rendered = [];
+			foreach ($media as $id => $item)
+			{
+				$rendered[] = $component->media(
+					array_merge([$item['title']], $item['titles']),
+					$url->generate("{$mediaType}.details", ['id' => $item['slug']]),
+					$helper->picture("images/{$mediaType}/{$item['id']}.webp")
+				);
+			}
 
-			<?php if ( ! empty($data['media']['manga'])): ?>
-				<input type="radio" id="media-manga" name="media-tabs" />
-				<label for="media-manga">Manga</label>
-
-				<section class="media-wrap content">
-					<?php foreach ($data['media']['manga'] as $id => $manga): ?>
-						<article class="media">
-							<?php
-							$link = $url->generate('manga.details', ['id' => $manga['slug']]);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/manga/{$manga['id']}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= $manga['title'] ?>
-									<?php foreach ($manga['titles'] as $title): ?>
-										<br />
-										<small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-					<?php endforeach ?>
-				</section>
-			<?php endif ?>
-		</div>
+			return implode('', array_map('mb_trim', $rendered));
+		}, 'media-wrap content') ?>
 	<?php endif ?>
 
 	<section>
