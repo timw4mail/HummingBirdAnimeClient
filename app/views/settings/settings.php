@@ -28,9 +28,7 @@ $nestedPrefix = 'config';
 				/>
 				<label for="settings-tab<?= $i ?>"><h3><?= $sectionMapping[$section] ?></h3></label>
 				<section class="content">
-					<?php require __DIR__ . '/_form.php' ?>
 					<?php if ($section === 'anilist'): ?>
-						<hr />
 						<?php $auth = $anilistModel->checkAuth(); ?>
 						<?php if (array_key_exists('errors', $auth)): ?>
 							<p class="static-message error">Not Authorized.</p>
@@ -43,11 +41,15 @@ $nestedPrefix = 'config';
 							<p class="static-message info">
 								Linked to Anilist. Your access token will expire around <?= date('F j, Y, g:i a T', $expires) ?>
 							</p>
+							<?php require __DIR__ . '/_form.php' ?>
 							<?= $helper->a(
-								$url->generate('anilist-redirect'),
-								'Update Access Token'
-							) ?>
+										$url->generate('anilist-redirect'),
+										'Update Access Token',
+										['class' => 'bracketed user-btn']
+								) ?>
 						<?php endif ?>
+					<?php else: ?>
+					<?php require __DIR__ . '/_form.php' ?>
 					<?php endif ?>
 				</section>
 				<?php $i++; ?>

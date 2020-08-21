@@ -57,79 +57,40 @@ use Aviat\AnimeClient\API\Kitsu;
 		<article>
 			<?php if ( ! empty($data['favorites'])): ?>
 			<h3>Favorites</h3>
-			<div class="tabs">
-				<?php $i = 0 ?>
-				<?php if ( ! empty($data['favorites']['characters'])): ?>
-					<input type="radio" name="user-favorites" id="user-fav-chars" <?= $i === 0 ? 'checked' : '' ?> />
-					<label for="user-fav-chars">Characters</label>
-					<section class="content full-width media-wrap">
-					<?php foreach($data['favorites']['characters'] as $id => $char): ?>
-						<?php if ( ! empty($char['image']['original'])): ?>
-						<article class="character">
-							<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-							<div class="name"><?= $helper->a($link, $char['canonicalName']); ?></div>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/characters/{$char['id']}.webp") ?>
-							</a>
-						</article>
-						<?php endif ?>
-					<?php endforeach ?>
-					</section>
-					<?php $i++; ?>
-				<?php endif ?>
-				<?php if ( ! empty($data['favorites']['anime'])): ?>
-					<input type="radio" name="user-favorites" id="user-fav-anime" <?= $i === 0 ? 'checked' : '' ?> />
-					<label for="user-fav-anime">Anime</label>
-					<section class="content full-width media-wrap">
-						<?php foreach($data['favorites']['anime'] as $anime): ?>
-						<article class="media">
-							<?php
-								$link = $url->generate('anime.details', ['id' => $anime['slug']]);
-								$titles = Kitsu::filterTitles($anime);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/anime/{$anime['id']}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
-									<?php foreach ($titles as $title): ?>
-										<br /><small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-						<?php endforeach ?>
-					</section>
-					<?php $i++; ?>
-				<?php endif ?>
-				<?php if ( ! empty($data['favorites']['manga'])): ?>
-					<input type="radio" name="user-favorites" id="user-fav-manga" <?= $i === 0 ? 'checked' : '' ?> />
-					<label for="user-fav-manga">Manga</label>
-					<section class="content full-width media-wrap">
-						<?php foreach($data['favorites']['manga'] as $manga): ?>
-						<article class="media">
-							<?php
-								$link = $url->generate('manga.details', ['id' => $manga['slug']]);
-								$titles = Kitsu::filterTitles($manga);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/manga/{$manga['id']}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
-									<?php foreach ($titles as $title): ?>
-										<br /><small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-						<?php endforeach ?>
-					</section>
-					<?php $i++; ?>
-				<?php endif ?>
-			</div>
+			<?= $component->tabs('user-favorites', $data['favorites'], static function ($items, $type) use ($component, $helper, $url) {
+				$rendered = [];
+				if ($type === 'characters')
+				{
+					uasort($items, fn ($a, $b) => $a['canonicalName'] <=> $b['canonicalName']);
+				}
+				else
+				{
+					uasort($items, fn ($a, $b) => Kitsu::filterTitles($a)[0] <=> Kitsu::filterTitles($b)[0]);
+				}
+
+				foreach ($items as $id => $item)
+				{
+					if ($type === 'characters')
+					{
+						$rendered[] = $component->character(
+								$item['canonicalName'],
+								$url->generate('character', ['slug', $item['slug']]),
+								$helper->picture("images/characters/{$item['id']}.webp")
+						);
+					}
+					else
+					{
+						$rendered[] = $component->media(
+								Kitsu::filterTitles($item),
+								$url->generate("{$type}.details", ['id' => $item['slug']]),
+								$helper->picture("images/{$type}/{$item['id']}.webp"),
+						);
+					}
+				}
+
+				return implode('', array_map('mb_trim', $rendered));
+
+			}, 'content full-width media-wrap') ?>
 			<?php endif ?>
 		</article>
 	</section>

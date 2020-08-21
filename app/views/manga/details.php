@@ -60,61 +60,34 @@
 	<?php if (count($data['characters']) > 0): ?>
 		<h2>Characters</h2>
 
-		<div class="tabs">
-			<?php $i = 0 ?>
-			<?php foreach ($data['characters'] as $role => $list): ?>
-				<input
-					type="radio" name="character-role-tabs"
-					id="character-tabs<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
-				<label for="character-tabs<?= $i ?>"><?= ucfirst($role) ?></label>
-				<section class="content media-wrap flex flex-wrap flex-justify-start">
-					<?php foreach ($list as $id => $char): ?>
-						<?php if ( ! empty($char['image']['original'])): ?>
-							<article class="<?= $role === 'supporting' ? 'small-' : '' ?>character">
-								<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-								<div class="name">
-									<?= $helper->a($link, $char['name']); ?>
-								</div>
-								<a href="<?= $link ?>">
-									<?= $helper->picture("images/characters/{$id}.webp") ?>
-								</a>
-							</article>
-						<?php endif ?>
-					<?php endforeach ?>
-				</section>
-				<?php $i++ ?>
-			<?php endforeach ?>
-		</div>
+		<?= $component->tabs('manga-characters', $data['characters'], static function($list, $role) use ($component, $helper, $url) {
+			$rendered = [];
+			foreach ($list as $id => $char)
+			{
+				$rendered[] = $component->character(
+					$char['name'],
+					$url->generate('character', ['slug' => $char['slug']]),
+					$helper->picture("images/characters/{$id}.webp"),
+					($role !== 'main') ? 'small-character' : 'character'
+				);
+			}
+
+			return implode('', array_map('mb_trim', $rendered));
+		}) ?>
 	<?php endif ?>
 
 	<?php if (count($data['staff']) > 0): ?>
 		<h2>Staff</h2>
 
-		<div class="vertical-tabs">
-			<?php $i = 0 ?>
-			<?php foreach ($data['staff'] as $role => $people): ?>
-				<div class="tab">
-					<input
-						type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
-					<label for="staff-role<?= $i ?>"><?= $role ?></label>
-					<section class='content media-wrap flex flex-wrap flex-justify-start'>
-						<?php foreach ($people as $person): ?>
-							<article class='character person'>
-								<?php $link = $url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]) ?>
-								<div class="name">
-									<a href="<?= $link ?>">
-										<?= $person['name'] ?>
-									</a>
-								</div>
-								<a href="<?= $link ?>">
-									<?= $helper->picture("images/people/{$person['id']}.webp") ?>
-								</a>
-							</article>
-						<?php endforeach ?>
-					</section>
-				</div>
-				<?php $i++ ?>
-			<?php endforeach ?>
-		</div>
+		<?= $component->verticalTabs('manga-staff', $data['staff'],
+				fn($people) => implode('', array_map(
+						fn ($person) => $component->character(
+							$person['name'],
+							$url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]),
+							$helper->picture("images/people/{$person['id']}.webp")
+						),
+						$people
+				))
+		) ?>
 	<?php endif ?>
 </main>
