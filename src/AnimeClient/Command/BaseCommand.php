@@ -143,7 +143,7 @@ abstract class BaseCommand extends Command {
 		$appLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', 2, Logger::WARNING));
 		$container->setLogger($appLogger);
 
-		foreach (['anilist-request-cli', 'kitsu-request-cli'] as $channel)
+		foreach (['kitsu-request', 'anilist-request', 'anilist-request-cli', 'kitsu-request-cli'] as $channel)
 		{
 			$logger = new Logger($channel);
 			$handler = new RotatingFileHandler( "{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
