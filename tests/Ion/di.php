@@ -40,9 +40,8 @@ return static function(array $config_array = []) {
 	});
 
 	// Create Html helper Object
-	$container->set('html-helper', static function() {
-		return (new HelperLocatorFactory)->newInstance();
-	});
+	$container->set('html-helper', fn() => (new HelperLocatorFactory)->newInstance());
+	$container->set('component-helper', fn() => (new HelperLocatorFactory)->newInstance());
 
 	return $container;
 };

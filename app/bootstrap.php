@@ -32,8 +32,11 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\SimpleCache\CacheInterface;
 
-define('APP_DIR', __DIR__);
-define('TEMPLATE_DIR', APP_DIR . '/templates');
+if ( ! defined('APP_DIR'))
+{
+	define('APP_DIR', __DIR__);
+	define('TEMPLATE_DIR', APP_DIR . '/templates');
+}
 
 // -----------------------------------------------------------------------------
 // Setup DI container
