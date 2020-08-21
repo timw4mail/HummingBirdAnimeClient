@@ -39,9 +39,28 @@ final class FormGenerator {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function __construct(ContainerInterface $container)
+	private function __construct(ContainerInterface $container)
 	{
 		$this->helper = $container->get('html-helper');
+	}
+
+	/**
+	 * Create a new FormGenerator
+	 *
+	 * @param ContainerInterface $container
+	 * @return $this
+	 */
+	public static function new(ContainerInterface $container): self
+	{
+		try
+		{
+			return new static($container);
+		}
+		catch (\Throwable $e)
+		{
+			dump($e);
+			die();
+		}
 	}
 
 	/**

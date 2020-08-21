@@ -26,7 +26,7 @@
 </head>
 <body class="<?= $escape->attr($url_type) ?> list">
 	<?php include 'setup-check.php' ?>
-	<header>
+	<header tabindex="0">
 	<?php
 		include 'main-menu.php';
 		if(isset($message) && is_array($message))
@@ -39,5 +39,4 @@
 			}
 		}
 	?>
-
 	</header>

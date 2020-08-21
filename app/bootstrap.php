@@ -20,6 +20,7 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{Anilist, Kitsu};
+use Aviat\AnimeClient\Component;
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
@@ -30,6 +31,9 @@ use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\SimpleCache\CacheInterface;
+
+define('APP_DIR', __DIR__);
+define('TEMPLATE_DIR', APP_DIR . '/templates');
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -72,26 +76,43 @@ return static function (array $configArray = []): Container {
 	// Create Aura Router Object
 	$container->set('aura-router', fn() => new RouterContainer);
 
-	// Create Html helper Object
+	// Create Html helpers
 	$container->set('html-helper', static function(ContainerInterface $container) {
 		$htmlHelper = (new HelperLocatorFactory)->newInstance();
-		$htmlHelper->set('menu', static function() use ($container) {
-			$menuHelper = new Helper\Menu();
-			$menuHelper->setContainer($container);
-			return $menuHelper;
-		});
-		$htmlHelper->set('field', static function() use ($container) {
-			$formHelper = new Helper\Form();
-			$formHelper->setContainer($container);
-			return $formHelper;
-		});
-		$htmlHelper->set('picture', static function() use ($container) {
-			$pictureHelper = new Helper\Picture();
-			$pictureHelper->setContainer($container);
-			return $pictureHelper;
-		});
+		$helpers = [
+			'menu' => Helper\Menu::class,
+			'field' => Helper\Form::class,
+			'picture' => Helper\Picture::class,
+		];
+
+		foreach ($helpers as $name => $class)
+		{
+			$htmlHelper->set($name, static function() use ($class, $container) {
+				$helper = new $class;
+				$helper->setContainer($container);
+				return $helper;
+			});
+		}
 
 		return $htmlHelper;
+	});
+
+	// Create Component helpers
+	$container->set('component-helper', static function () {
+		$helper = (new HelperLocatorFactory)->newInstance();
+		$components = [
+			'character' => Component\Character::class,
+			'media' => Component\Media::class,
+			'tabs' => Component\Tabs::class,
+			'verticalTabs' => Component\VerticalTabs::class,
+		];
+
+		foreach ($components as $name => $componentClass)
+		{
+			$helper->set($name, fn () => new $componentClass);
+		}
+
+		return $helper;
 	});
 
 	// Create Request Object

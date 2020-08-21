@@ -156,65 +156,50 @@ use Aviat\AnimeClient\API\Kitsu;
 			<?php if ( ! empty($vas)): ?>
 				<h4>Voice Actors</h4>
 
-				<div class="tabs">
-					<?php $i = 0; ?>
+				<?= $component->tabs('character-vas', $vas, static function ($casting) use ($url, $component, $helper) {
+					$castings = [];
+					foreach ($casting as $id => $c):
+						$person = $component->character(
+							$c['person']['name'],
+							$url->generate('person', [
+								'id' => $c['person']['id'],
+								'slug' => $c['person']['slug']
+							]),
+							$helper->picture(getLocalImg($c['person']['image']))
+						);
+						$medias = array_map(fn ($series) => $component->media(
+							array_merge([$series['title']], $series['titles']),
+							$url->generate('anime.details', ['id' => $series['slug']]),
+							$helper->picture(getLocalImg($series['posterImage'], TRUE))
+						), $c['series']);
+						$media = implode('', array_map('mb_trim', $medias));
 
-					<?php foreach ($vas as $language => $casting): ?>
-						<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="character-va<?= $i ?>"
-							name="character-vas"
-						/>
-						<label for="character-va<?= $i ?>"><?= $language ?></label>
-						<section class="content">
-							<table class="borderless max-table">
-								<tr>
-									<th>Cast Member</th>
-									<th>Series</th>
-								</tr>
-								<?php foreach ($casting as $c): ?>
-									<tr>
-										<td>
-											<article class="character">
-												<?php
-												$link = $url->generate('person', ['id' => $c['person']['id'], 'slug' => $c['person']['slug']]);
-												?>
-												<a href="<?= $link ?>">
-													<?= $helper->picture(getLocalImg($c['person']['image'])) ?>
-													<div class="name">
-														<?= $c['person']['name'] ?>
-													</div>
-												</a>
-											</article>
-										</td>
-										<td width="75%">
-											<section class="align-left media-wrap-flex">
-												<?php foreach ($c['series'] as $series): ?>
-													<article class="media">
-														<?php
-														$link = $url->generate('anime.details', ['id' => $series['slug']]);
-														?>
-														<a href="<?= $link ?>">
-															<?= $helper->picture(getLocalImg($series['posterImage'], TRUE)) ?>
-														</a>
-														<div class="name">
-															<a href="<?= $link ?>">
-																<?= $series['title'] ?>
-																<?php foreach ($series['titles'] as $title): ?>
-																	<br />
-																	<small><?= $title ?></small>
-																<?php endforeach ?>
-															</a>
-														</div>
-													</article>
-												<?php endforeach ?>
-											</section>
-										</td>
-									</tr>
-								<?php endforeach ?>
-							</table>
-						</section>
-						<?php $i++ ?>
-					<?php endforeach ?>
-				</div>
+						$castings[] = <<<HTML
+							<tr>
+								<td>{$person}</td>
+								<td width="75%">
+									<section class="align-left media-wrap-flex">
+										{$media}
+									</section>
+								</td>
+							</tr>
+HTML;
+					endforeach;
+
+					$languages = implode('', array_map('mb_trim', $castings));
+
+					return <<<HTML
+						<table class="borderless max-table">
+							<thead>
+							<tr>
+								<th>Cast Member</th>
+								<th>Series</th>
+							</tr>
+							</thead>
+							<tbody>{$languages}</tbody>
+						</table>
+HTML;
+				}, 'content') ?>
 			<?php endif ?>
 		<?php endif ?>
 	</section>
