@@ -35,6 +35,6 @@ final class Form {
 	 */
 	public function __invoke(string $name, array $form)
 	{
-		return (new FormGenerator($this->container))->generate($name, $form);
+		return FormGenerator::new($this->container)->generate($name, $form);
 	}
 }

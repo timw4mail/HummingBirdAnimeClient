@@ -16,7 +16,6 @@
 
 namespace Aviat\Ion\View;
 
-use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
@@ -29,13 +28,6 @@ use const EXTR_OVERWRITE;
  */
 class HtmlView extends HttpView {
 	use ContainerAware;
-
-	/**
-	 * HTML generator/escaper helper
-	 *
-	 * @var HelperLocator
-	 */
-	protected HelperLocator $helper;
 
 	/**
 	 * Response mime type
@@ -56,7 +48,6 @@ class HtmlView extends HttpView {
 		parent::__construct();
 
 		$this->setContainer($container);
-		$this->helper = $container->get('html-helper');
 		$this->response = new HtmlResponse('');
 	}
 
@@ -69,8 +60,10 @@ class HtmlView extends HttpView {
 	 */
 	public function renderTemplate(string $path, array $data): string
 	{
-		$data['helper'] = $this->helper;
-		$data['escape'] = $this->helper->escape();
+		$helper = $this->container->get('html-helper');
+		$data['component'] = $this->container->get('component-helper');
+		$data['helper'] = $helper;
+		$data['escape'] = $helper->escape();
 		$data['container'] = $this->container;
 
 		ob_start();

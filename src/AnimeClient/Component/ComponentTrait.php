@@ -14,28 +14,17 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Helper;
-
-use Aviat\AnimeClient\MenuGenerator;
-use Aviat\Ion\Di\ContainerAware;
+namespace Aviat\AnimeClient\Component;
 
 /**
- * MenuGenerator helper wrapper
+ * Shared logic for component-based functionality, like Tabs
  */
-final class Menu {
-
-	use ContainerAware;
-
-	/**
-	 * Create the html for the selected menu
-	 *
-	 * @param  string $menuName
-	 * @return string
-	 */
-	public function __invoke($menuName)
+trait ComponentTrait {
+	public function render(string $path, array $data): string
 	{
-		return MenuGenerator::new($this->container)->generate($menuName);
+		ob_start();
+		extract($data, EXTR_OVERWRITE);
+		include \TEMPLATE_DIR . '/' .$path;
+		return ob_get_clean();
 	}
-
 }
-// End of Menu.php

@@ -1,9 +1,11 @@
 <?php
+
 use Aviat\AnimeClient\API\Kitsu;
 use function Aviat\AnimeClient\getLocalImg;
+
 ?>
 <main class="details fixed">
-	<section class="flex">
+	<section class="flex" unselectable>
 		<aside class="info">
 			<?= $helper->picture("images/anime/{$data['id']}-original.webp") ?>
 
@@ -115,81 +117,69 @@ use function Aviat\AnimeClient\getLocalImg;
 			<?php endif ?>
 			<?php if ( ! empty($data['trailer_id'])): ?>
 				<div class="responsive-iframe">
-				<h4>Trailer</h4>
-				<iframe
-					width="560"
-					height="315"
-					src="https://www.youtube.com/embed/<?= $data['trailer_id'] ?>"
-					frameborder="0"
-					allow="autoplay; encrypted-media"
-					allowfullscreen
-				></iframe>
+					<h4>Trailer</h4>
+					<iframe
+						width="560"
+						height="315"
+						role='img'
+						src="https://www.youtube.com/embed/<?= $data['trailer_id'] ?>"
+						allow="autoplay; encrypted-media"
+						allowfullscreen
+						tabindex='0'
+						title="<?= $data['title'] ?> trailer video"
+					></iframe>
 				</div>
 			<?php endif ?>
 		</article>
 	</section>
 
 	<?php if (count($data['characters']) > 0): ?>
-	<section>
-		<h2>Characters</h2>
+		<section>
+			<h2>Characters</h2>
 
-		<div class="tabs">
-			<?php $i = 0 ?>
-			<?php foreach ($data['characters'] as $role => $list): ?>
-				<input
-					type="radio" name="character-types"
-					id="character-types-<?= $i ?>" <?= ($i === 0) ? 'checked' : '' ?> />
-				<label for="character-types-<?= $i ?>"><?= ucfirst($role) ?></label>
-				<section class="content media-wrap flex flex-wrap flex-justify-start">
-					<?php foreach ($list as $id => $char): ?>
-						<?php if ( ! empty($char['image']['original'])): ?>
-							<article class="<?= $role === 'supporting' ? 'small-' : '' ?>character">
-								<?php $link = $url->generate('character', ['slug' => $char['slug']]) ?>
-								<div class="name">
-									<?= $helper->a($link, $char['name']) ?>
-								</div>
-								<a href="<?= $link ?>">
-									<?= $helper->picture("images/characters/{$id}.webp") ?>
-								</a>
-							</article>
-						<?php endif ?>
-					<?php endforeach ?>
-				</section>
-				<?php $i++; ?>
-			<?php endforeach ?>
-		</div>
-	</section>
+			<?= $component->tabs('character-types', $data['characters'], static function ($characterList, $role)
+			use ($component, $url, $helper) {
+				$rendered = [];
+				foreach ($characterList as $id => $character):
+					if (empty($character['image']['original']))
+					{
+						continue;
+					}
+					$rendered[] = $component->character(
+						$character['name'],
+						$url->generate('character', ['slug' => $character['slug']]),
+						$helper->picture("images/characters/{$id}.webp"),
+						(strtolower($role) !== 'main') ? 'small-character' : 'character'
+					);
+				endforeach;
+
+				return implode('', array_map('mb_trim', $rendered));
+			}) ?>
+		</section>
 	<?php endif ?>
 
 	<?php if (count($data['staff']) > 0): ?>
-	<section>
-		<h2>Staff</h2>
+		<section>
+			<h2>Staff</h2>
 
-		<div class="vertical-tabs">
-			<?php $i = 0; ?>
-			<?php foreach ($data['staff'] as $role => $people): ?>
-				<div class="tab">
-					<input type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
-					<label for="staff-role<?= $i ?>"><?= $role ?></label>
-					<section class='content media-wrap flex flex-wrap flex-justify-start'>
-						<?php foreach ($people as $pid => $person): ?>
-							<article class='character small-person'>
-								<?php $link = $url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]) ?>
-								<div class="name">
-									<a href="<?= $link ?>">
-										<?= $person['name'] ?>
-									</a>
-								</div>
-								<a href="<?= $link ?>">
-									<?= $helper->picture(getLocalImg($person['image']['original'] ?? NULL)) ?>
-								</a>
-							</article>
-						<?php endforeach ?>
-					</section>
-				</div>
-				<?php $i++; ?>
-			<?php endforeach ?>
-		</div>
-	</section>
+			<?= $component->verticalTabs('staff-role', $data['staff'], static function ($staffList)
+			use ($component, $url, $helper) {
+				$rendered = [];
+				foreach ($staffList as $id => $person):
+					if (empty($person['image']['original']))
+					{
+						continue;
+					}
+					$rendered[] = $component->character(
+						$person['name'],
+						$url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]),
+						$helper->picture(getLocalImg($person['image']['original'] ?? NULL)),
+						'character small-person',
+					);
+				endforeach;
+
+				return implode('', array_map('mb_trim', $rendered));
+			}) ?>
+		</section>
 	<?php endif ?>
 </main>
