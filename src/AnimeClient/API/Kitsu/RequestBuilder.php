@@ -255,7 +255,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	public function mutate(string $name, array $variables = []): array
 	{
 		$request = $this->mutateRequest($name, $variables);
-		$response = $this->getResponseFromRequest($request);
+		$response = getResponse($request);
 
 		return Json::decode(wait($response->getBody()->buffer()));
 	}
@@ -267,7 +267,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * @param string $url
 	 * @param array $options
 	 * @return Response
-	 * @throws Throwable
+	 * @throws \Throwable
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -276,27 +276,6 @@ final class RequestBuilder extends APIRequestBuilder {
 		$response = getResponse($request);
 
 		$logger->debug('Kitsu API Response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			'requestHeaders' => $request->getHeaders(),
-		]);
-
-		return $response;
-	}
-
-	/**
-	 * @param Request $request
-	 * @return Response
-	 * @throws Throwable
-	 */
-	private function getResponseFromRequest(Request $request): Response
-	{
-		$logger = $this->container->getLogger('kitsu-request');
-		$response = getResponse($request);
-
-		$logger->debug('Kitsu GraphQL response', [
 			'status' => $response->getStatus(),
 			'reason' => $response->getReason(),
 			'body' => $response->getBody(),

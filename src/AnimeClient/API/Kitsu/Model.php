@@ -28,6 +28,7 @@ use Aviat\AnimeClient\API\{
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
 	AnimeListTransformer,
+	LibraryEntryTransformer,
 	MangaTransformer,
 	MangaListTransformer
 };
@@ -331,24 +332,12 @@ final class Model {
 	public function getListItem(string $listId)
 	{
 		$baseData = $this->listItem->get($listId);
-		$included = JsonAPI::organizeIncludes($baseData['included']);
-
-		if (array_key_exists('anime', $included))
+		if ( ! isset($baseData['data']['findLibraryEntryById']))
 		{
-			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-			$baseData['data']['included'] = $included;
-			return $this->animeListTransformer->transform($baseData['data']);
+			return [];
 		}
 
-		if (array_key_exists('manga', $included))
-		{
-			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
-			$baseData['data']['included'] = $included;
-			$baseData['data']['manga'] = $baseData['included'][0];
-			return $this->mangaListTransformer->transform($baseData['data']);
-		}
-
-		return $baseData['data'];
+		return (new LibraryEntryTransformer())->transform($baseData['data']['findLibraryEntryById']);
 	}
 
 	/**
@@ -462,76 +451,6 @@ final class Model {
 		return $this->getContainer()
 			->get('config')
 			->get(['kitsu_username']);
-	}
-
-	/**
-	 * Get the raw data for the anime/manga id
-	 *
-	 * @param string $type
-	 * @param string $id
-	 * @return array
-	 */
-	private function getRawMediaDataById(string $type, string $id): array
-	{
-		$options = [
-			'query' => [
-				'include' => ($type === 'anime')
-					? 'categories,mappings,streamingLinks'
-					: 'categories,mappings',
-			]
-		];
-
-		$data = $this->requestBuilder->getRequest("{$type}/{$id}", $options);
-
-		if (empty($data['data']))
-		{
-			return [];
-		}
-
-		$baseData = $data['data']['attributes'];
-		$baseData['id'] = $id;
-		$baseData['included'] = $data['included'];
-		return $baseData;
-	}
-
-	/**
-	 * Get media item by slug
-	 *
-	 * @param string $type
-	 * @param string $slug
-	 * @return array
-	 */
-	private function getRawMediaData(string $type, string $slug): array
-	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'slug' => $slug
-				],
-				'fields' => [
-					'categories' => 'slug,title',
-					'characters' => 'slug,name,image',
-					'mappings' => 'externalSite,externalId',
-					'animeCharacters' => 'character,role',
-					'mediaCharacters' => 'character,role',
-				],
-				'include' => ($type === 'anime')
-					? 'staff,staff.person,categories,mappings,streamingLinks,animeCharacters.character,characters.character'
-					: 'staff,staff.person,categories,mappings,characters.character',
-			]
-		];
-
-		$data = $this->requestBuilder->getRequest($type, $options);
-
-		if (empty($data['data']))
-		{
-			return [];
-		}
-
-		$baseData = $data['data'][0]['attributes'];
-		$baseData['id'] = $data['data'][0]['id'];
-		$baseData['included'] = $data['included'];
-		return $baseData;
 	}
 
 	private function getListCount(string $type, string $status = ''): int

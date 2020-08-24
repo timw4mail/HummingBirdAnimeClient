@@ -49,12 +49,14 @@ final class MangaTransformer extends AbstractTransformer {
 
 		if (count($base['characters']['nodes']) > 0)
 		{
-			$characters['main'] = [];
-			$characters['supporting'] = [];
-
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
-				$type = $rawCharacter['role'] === 'MAIN' ? 'main' : 'supporting';
+				$type = mb_strtolower($rawCharacter['role']);
+				if ( ! isset($characters[$type]))
+				{
+					$characters[$type] = [];
+				}
+
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
 					'image' => $details['image'],
@@ -63,13 +65,19 @@ final class MangaTransformer extends AbstractTransformer {
 				];
 			}
 
-			uasort($characters['main'], fn($a, $b) => $a['name'] <=> $b['name']);
-			uasort($characters['supporting'], fn($a, $b) => $a['name'] <=> $b['name']);
-
-			if (empty($characters['supporting']))
+			foreach (array_keys($characters) as $type)
 			{
-				unset($characters['supporting']);
+				if (empty($characters[$type]))
+				{
+					unset($characters[$type]);
+				}
+				else
+				{
+					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
+				}
 			}
+
+			krsort($characters);
 		}
 
 		if (count($base['staff']['nodes']) > 0)

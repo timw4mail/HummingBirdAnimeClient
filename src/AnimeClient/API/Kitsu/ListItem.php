@@ -115,21 +115,9 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function get(string $id): array
 	{
-		$authHeader = $this->getAuthHeader();
-
-		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
-			->setQuery([
-				'include' => 'media,media.categories,media.mappings'
-			]);
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		$request = $request->getFullRequest();
-		$response = getResponse($request);
-		return Json::decode(wait($response->getBody()->buffer()));
+		return $this->requestBuilder->runQuery('GetLibraryItem', [
+			'id' => $id,
+		]);
 	}
 
 	/**
