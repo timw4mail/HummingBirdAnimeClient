@@ -355,67 +355,12 @@ final class Model {
 	/**
 	 * Get the aggregated pages of anime or manga history
 	 *
-	 * @param string $type
-	 * @param int $entries
 	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
-	protected function getRawHistoryList(string $type = 'anime', int $entries = 120): array
+	protected function getRawHistoryList(): array
 	{
-		$size = 20;
-		$pages = ceil($entries / $size);
-
-		$requester = new ParallelAPIRequest();
-
-		// Set up requests
-		for ($i = 0; $i < $pages; $i++)
-		{
-			$offset = $i * $size;
-			$requester->addRequest($this->getRawHistoryPage($type, $offset, $size));
-		}
-
-		$responses = $requester->makeRequests();
-		$output = [];
-
-		foreach($responses as $response)
-		{
-			$data = Json::decode($response);
-			$output[] = $data;
-		}
-
-		return array_merge_recursive(...$output);
-	}
-
-	/**
-	 * Retrieve one page of the anime or manga history
-	 *
-	 * @param string $type
-	 * @param int $offset
-	 * @param int $limit
-	 * @return Request
-	 * @throws InvalidArgumentException
-	 */
-	protected function getRawHistoryPage(string $type, int $offset, int $limit = 20): Request
-	{
-		return $this->requestBuilder->setUpRequest('GET', 'library-events', [
-			'query' => [
-				'filter' => [
-					'kind' => 'progressed,updated',
-					'userId' => $this->getUserId(),
-				],
-				'page' => [
-					'offset' => $offset,
-					'limit' => $limit,
-				],
-				'fields' => [
-					'anime' => 'canonicalTitle,titles,slug,posterImage',
-					'manga' => 'canonicalTitle,titles,slug,posterImage',
-					'libraryEntry' => 'reconsuming,reconsumeCount',
-				],
-				'sort' => '-updated_at',
-				'include' => 'anime,manga,libraryEntry',
-			],
+		return $this->requestBuilder->runQuery('GetUserHistory', [
+			'slug' => $this->getUsername(),
 		]);
 	}
 

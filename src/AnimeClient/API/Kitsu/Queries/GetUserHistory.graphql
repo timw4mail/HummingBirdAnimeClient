@@ -1,0 +1,35 @@
+query ($slug: String!) {
+	findProfileBySlug(slug: $slug) {
+		libraryEvents {
+			nodes {
+				id
+				changedData
+				kind
+				libraryEntry {
+					reconsumeCount
+					reconsuming
+					private
+					notes
+				}
+				media {
+					__typename
+					id
+					slug
+					posterImage {
+						views {
+							width
+							height
+							url
+						}
+					}
+					titles {
+						alternatives
+						canonical
+						localized
+					}
+				}
+				updatedAt
+			}
+		}
+	}
+}

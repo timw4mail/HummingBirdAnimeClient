@@ -102,10 +102,7 @@ trait AnimeTrait {
 		{
 			$raw = $this->getRawHistoryList('anime');
 
-			$organized = JsonAPI::organizeData($raw);
-			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-			$list = (new AnimeHistoryTransformer())->transform($organized);
+			$list = (new AnimeHistoryTransformer())->transform($raw);
 
 			$this->cache->set($key, $list);
 

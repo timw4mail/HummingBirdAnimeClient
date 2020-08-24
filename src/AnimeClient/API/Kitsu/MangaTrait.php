@@ -97,10 +97,7 @@ trait MangaTrait {
 		if ($list === NULL)
 		{
 			$raw = $this->getRawHistoryList('manga');
-			$organized = JsonAPI::organizeData($raw);
-			$organized = array_filter($organized, fn ($item) => array_key_exists('relationships', $item));
-
-			$list = (new MangaHistoryTransformer())->transform($organized);
+			$list = (new MangaHistoryTransformer())->transform($raw);
 
 			$this->cache->set($key, $list);
 		}
