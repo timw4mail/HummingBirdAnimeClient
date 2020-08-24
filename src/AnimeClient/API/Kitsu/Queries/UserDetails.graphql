@@ -17,11 +17,18 @@ query ($slug: String!) {
 				height
 			}
 		}
+		birthday
 		id
 		name
 		proMessage
 		proTier
 		slug
+		siteLinks {
+			nodes {
+				id
+				url
+			}
+		}
 		stats {
 			animeAmountConsumed {
 				completed
@@ -31,11 +38,6 @@ query ($slug: String!) {
 				time
 				units
 			}
-			animeCategoryBreakdown {
-				categories
-				recalculatedAt
-				total
-			}
 			mangaAmountConsumed {
 				completed
 				id
@@ -43,15 +45,11 @@ query ($slug: String!) {
 				recalculatedAt
 				units
 			}
-			mangaCategoryBreakdown {
-				categories
-				recalculatedAt
-				total
-			}
 		}
 		url
 		waifu {
 			id
+			slug
 			image {
 				original {
 					name
@@ -65,16 +63,7 @@ query ($slug: String!) {
 				alternatives
 				localized
 			}
-			primaryMedia {
-				slug
-				titles {
-					canonical
-					alternatives
-					localized
-				}
-			}
-			slug
 		}
-		# waifuOrHusbando
+		waifuOrHusbando
 	}
 }

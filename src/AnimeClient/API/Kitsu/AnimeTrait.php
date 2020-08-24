@@ -73,6 +73,20 @@ trait AnimeTrait {
 	}
 
 	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $animeId
+	 * @return Anime
+	 */
+	public function getAnimeById(string $animeId): Anime
+	{
+		$baseData = $this->requestBuilder->runQuery('AnimeDetailsById', [
+			'id' => $animeId,
+		]);
+		return $this->animeTransformer->transform($baseData);
+	}
+
+	/**
 	 * Retrieve the data for the anime watch history page
 	 *
 	 * @return array
@@ -98,21 +112,6 @@ trait AnimeTrait {
 		}
 
 		return $list;
-	}
-
-	/**
-	 * Get information about a particular anime
-	 *
-	 * @param string $animeId
-	 * @return Anime
-	 */
-	public function getAnimeById(string $animeId): Anime
-	{
-		$baseData = $this->requestBuilder->runQuery('AnimeDetailsById', [
-			'id' => $animeId,
-		]);
-		// $baseData = $this->getRawMediaDataById('anime', $animeId);
-		return $this->animeTransformer->transform($baseData);
 	}
 
 	/**
