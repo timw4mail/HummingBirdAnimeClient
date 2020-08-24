@@ -36,7 +36,7 @@ use Aviat\AnimeClient\API\Kitsu;
 							$character = $data['waifu']['character'];
 							echo $helper->a(
 								$url->generate('character', ['slug' => $character['slug']]),
-								$character['canonicalName']
+								$character['names']['canonical']
 							);
 						?>
 					</td>
@@ -59,29 +59,32 @@ use Aviat\AnimeClient\API\Kitsu;
 			<h3>Favorites</h3>
 			<?= $component->tabs('user-favorites', $data['favorites'], static function ($items, $type) use ($component, $helper, $url) {
 				$rendered = [];
-				if ($type === 'characters')
+				if ($type === 'character')
 				{
-					uasort($items, fn ($a, $b) => $a['canonicalName'] <=> $b['canonicalName']);
+					uasort($items, fn ($a, $b) => $a['names']['canonical'] <=> $b['names']['canonical']);
 				}
 				else
 				{
-					uasort($items, fn ($a, $b) => Kitsu::filterTitles($a)[0] <=> Kitsu::filterTitles($b)[0]);
+					uasort($items, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
 				}
 
 				foreach ($items as $id => $item)
 				{
-					if ($type === 'characters')
+					if ($type === 'character')
 					{
 						$rendered[] = $component->character(
-								$item['canonicalName'],
-								$url->generate('character', ['slug', $item['slug']]),
+								$item['names']['canonical'],
+								$url->generate('character', ['slug' => $item['slug']]),
 								$helper->picture("images/characters/{$item['id']}.webp")
 						);
 					}
 					else
 					{
 						$rendered[] = $component->media(
-								Kitsu::filterTitles($item),
+								array_merge(
+										[$item['titles']['canonical']],
+										Kitsu::getFilteredTitles($item['titles']),
+								),
 								$url->generate("{$type}.details", ['id' => $item['slug']]),
 								$helper->picture("images/{$type}/{$item['id']}.webp"),
 						);

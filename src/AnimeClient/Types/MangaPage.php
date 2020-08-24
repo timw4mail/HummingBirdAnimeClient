@@ -53,6 +53,11 @@ final class MangaPage extends AbstractType {
 	public array $genres;
 
 	/**
+	 * @var array
+	 */
+	public array $links;
+
+	/**
 	 * @var string
 	 */
 	public $id;

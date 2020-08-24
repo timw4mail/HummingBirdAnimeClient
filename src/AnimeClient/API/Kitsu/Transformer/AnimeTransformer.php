@@ -38,6 +38,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			? $item['data']['findAnimeBySlug']
 			: $item['data']['findAnimeById'];
 		$characters = [];
+		$links = [];
 		$staff = [];
 		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 
@@ -108,6 +109,11 @@ final class AnimeTransformer extends AbstractTransformer {
 			ksort($staff);
 		}
 
+		if (count($base['mappings']['nodes']) > 0)
+		{
+			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/anime/{$base['slug']}");
+		}
+
 		return AnimePage::from([
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
@@ -116,12 +122,13 @@ final class AnimeTransformer extends AbstractTransformer {
 			'episode_count' => $base['episodeCount'],
 			'episode_length' => $base['episodeLength'],
 			'genres' => $genres,
+			'links' => $links,
 			'id' => $base['id'],
 			'slug' => $base['slug'],
 			'staff' => $staff,
 			'show_type' => $base['subtype'],
 			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
-			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes']),
+			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes'] ?? []),
 			'synopsis' => $base['description']['en'],
 			'title' => $title,
 			'titles' => $titles,

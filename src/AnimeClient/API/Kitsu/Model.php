@@ -231,18 +231,8 @@ final class Model {
 	 */
 	public function getUserData(string $username): array
 	{
-		return $this->requestBuilder->getRequest('users', [
-			'query' => [
-				'filter' => [
-					'name' => $username,
-				],
-				'fields' => [
-					'anime' => 'slug,canonicalTitle,posterImage',
-					'manga' => 'slug,canonicalTitle,posterImage',
-					'characters' => 'slug,canonicalName,image',
-				],
-				'include' => 'waifu,favorites.item,stats'
-			]
+		return $this->requestBuilder->runQuery('UserDetails', [
+			'slug' => $username,
 		]);
 	}
 

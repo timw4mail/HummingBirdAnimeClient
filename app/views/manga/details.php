@@ -34,6 +34,18 @@
 						</td>
 					</tr>
 				<?php endif ?>
+
+				<?php if (count($data['links']) > 0): ?>
+					<tr>
+						<td>External Links</td>
+						<td>
+							<?php foreach ($data['links'] as $urlName => $externalUrl): ?>
+								<a rel='external' href="<?= $externalUrl ?>"><?= $urlName ?></a><br />
+							<?php endforeach ?>
+						</td>
+					</tr>
+				<?php endif ?>
+
 				<tr>
 					<td>Genres</td>
 					<td>
@@ -45,7 +57,7 @@
 			<br />
 		</aside>
 		<article class="text">
-			<h2 class="toph"><a rel="external" href="<?= $data['url'] ?>"><?= $data['title'] ?></a></h2>
+			<h2 class="toph"><?= $data['title'] ?></h2>
 			<?php foreach ($data['titles_more'] as $title): ?>
 				<h3><?= $title ?></h3>
 			<?php endforeach ?>

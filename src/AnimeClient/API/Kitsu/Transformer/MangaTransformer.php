@@ -39,6 +39,7 @@ final class MangaTransformer extends AbstractTransformer {
 			: $item['data']['findMangaById'];
 
 		$characters = [];
+		$links = [];
 		$staff = [];
 		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 		sort($genres);
@@ -108,6 +109,11 @@ final class MangaTransformer extends AbstractTransformer {
 			ksort($staff);
 		}
 
+		if (count($base['mappings']['nodes']) > 0)
+		{
+			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/manga/{$base['slug']}");
+		}
+
 		$data = [
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
@@ -116,6 +122,7 @@ final class MangaTransformer extends AbstractTransformer {
 			'volume_count' => $base['volumeCount'],
 			'cover_image' => $base['posterImage']['views'][1]['url'],
 			'genres' => $genres,
+			'links' => $links,
 			'manga_type' => $base['subtype'],
 			'id' => $base['id'],
 			'staff' => $staff,
