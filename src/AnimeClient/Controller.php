@@ -285,6 +285,7 @@ class Controller {
 			'title' => $title,
 			'message' => $message,
 		], NULL, 404);
+		exit();
 	}
 
 	/**
