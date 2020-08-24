@@ -19,6 +19,7 @@ query ($slug: String!) {
 		}
 		birthday
 		id
+		location
 		name
 		proMessage
 		proTier
@@ -27,6 +28,89 @@ query ($slug: String!) {
 			nodes {
 				id
 				url
+			}
+		}
+		favorites {
+			nodes {
+				id
+				item {
+					__typename,
+					...on Anime {
+						id
+						slug
+						posterImage {
+							original {
+								url
+								height
+								width
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						titles {
+							canonical
+							localized
+						}
+					}
+					...on Manga {
+						id
+						slug
+						posterImage {
+							original {
+								url
+								height
+								width
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						titles {
+							canonical
+							localized
+						}
+					}
+					...on Person {
+						id
+						slug
+						image {
+							original {
+								url
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						names {
+							alternatives
+							canonical
+							canonicalLocale
+							localized
+						},
+					}
+					...on Character {
+						id
+						slug
+						image {
+							original {
+								url
+							}
+						}
+						names {
+							alternatives
+							canonical
+							canonicalLocale
+							localized
+						},
+					}
+				}
 			}
 		}
 		stats {

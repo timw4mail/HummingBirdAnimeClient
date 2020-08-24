@@ -91,6 +91,48 @@ final class Kitsu {
 		return MangaPublishingStatus::NOT_YET_PUBLISHED;
 	}
 
+	public static function mappingsToUrls(array $mappings, string $kitsuLink = ''): array
+	{
+		$output = [];
+		foreach ($mappings as $mapping)
+		{
+			switch ($mapping['externalSite'])
+			{
+				case 'ANIDB':
+					$output['AniDB'] = "https://anidb.net/anime/{$mapping['externalId']}";
+				break;
+
+				case 'ANILIST_ANIME':
+					$output['Anilist'] = "https://anilist.co/anime/{$mapping['externalId']}/";
+				break;
+
+				case 'ANILIST_MANGA':
+					$output['Anilist'] = "https://anilist.co/manga/{$mapping['externalId']}/";
+				break;
+
+				case 'MYANIMELIST_ANIME':
+					$output['MyAnimeList'] = "https://myanimelist.net/anime/{$mapping['externalId']}";
+				break;
+
+				case 'MYANIMELIST_MANGA':
+					$output['MyAnimeList'] = "https://myanimelist.net/manga/{$mapping['externalId']}";
+				break;
+
+				default:
+					continue 2;
+			}
+		}
+
+		if ($kitsuLink !== '')
+		{
+			$output['Kitsu'] = $kitsuLink;
+		}
+
+		ksort($output);
+
+		return $output;
+	}
+
 	/**
 	 * Reorganize streaming links
 	 *

@@ -28,5 +28,10 @@ final class AnimePage extends Anime {
 	/**
 	 * @var array
 	 */
+	public array $links = [];
+
+	/**
+	 * @var array
+	 */
 	public array $staff = [];
 }
