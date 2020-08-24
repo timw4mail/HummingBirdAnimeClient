@@ -77,7 +77,7 @@ final class Model
 			])
 			->getFullRequest();
 
-		$response = $this->getResponseFromRequest($request);
+		$response = $this->requestBuilder->getResponseFromRequest($request);
 
 		return Json::decode(wait($response->getBody()->buffer()));
 	}

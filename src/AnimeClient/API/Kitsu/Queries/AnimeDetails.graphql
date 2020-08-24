@@ -59,6 +59,12 @@ query ($slug: String!) {
 		season
 		sfw
 		slug
+		mappings {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
 		staff {
 			nodes {
 				person {

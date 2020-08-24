@@ -138,7 +138,7 @@ final class Kitsu {
 	/**
 	 * Reorganize streaming links
 	 *
-	 * @param array $included
+	 * @param array $nodes
 	 * @return array
 	 */
 	public static function parseStreamingLinks(array $nodes): array

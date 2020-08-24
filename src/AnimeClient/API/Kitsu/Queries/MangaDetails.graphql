@@ -54,6 +54,12 @@ query ($slug: String!) {
 		description
 		startDate
 		endDate
+		mappings {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
 		posterImage {
 			original {
 				height

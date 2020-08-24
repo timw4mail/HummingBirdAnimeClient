@@ -59,6 +59,12 @@ query ($id: ID!) {
 		season
 		sfw
 		slug
+		mappings {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
 		staff {
 			nodes {
 				person {

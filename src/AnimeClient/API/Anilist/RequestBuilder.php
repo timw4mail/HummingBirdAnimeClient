@@ -218,7 +218,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * @return Response
 	 * @throws Throwable
 	 */
-	private function getResponseFromRequest(Request $request): Response
+	public function getResponseFromRequest(Request $request): Response
 	{
 		$logger = $this->container->getLogger('anilist-request');
 

@@ -54,6 +54,12 @@ query ($id: ID!) {
 		description
 		startDate
 		endDate
+		mappings {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
 		posterImage {
 			original {
 				height
