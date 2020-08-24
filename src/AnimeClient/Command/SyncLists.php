@@ -655,7 +655,7 @@ final class SyncLists extends BaseCommand {
 		$return['data'] = $update;
 		$return['updateType'] = array_unique($return['updateType']);
 
-		// Fill in missing data values for update on Anlist
+		// Fill in missing data values for update
 		// so I don't have to create a really complex graphql query
 		// to handle each combination of fields
 		if ($return['updateType'][0] === API::ANILIST)
@@ -668,6 +668,22 @@ final class SyncLists extends BaseCommand {
 				'reconsumeCount' => $kitsuItem['data']['reconsumeCount'],
 				'reconsuming' => $kitsuItem['data']['reconsuming'],
 				'status' => $kitsuItem['data']['status'],
+			];
+
+			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
+		}
+		else if ($return['updateType'][0] === API::KITSU)
+		{
+			$prevData = [
+				'notes' => $anilistItem['data']['notes'],
+				'private' => $anilistItem['data']['private'],
+				'progress' => $anilistItem['data']['progress'] ?? 0,
+				'rating' => (((int)$anilistItem['data']['rating']) > 0)
+					? $anilistItem['data']['rating'] / 5
+					: 0,
+				'reconsumeCount' => $anilistItem['data']['reconsumeCount'],
+				'reconsuming' => $anilistItem['data']['reconsuming'],
+				'status' => $anilistItem['data']['status'],
 			];
 
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
@@ -718,6 +734,7 @@ final class SyncLists extends BaseCommand {
 			$responseData = Json::decode($response);
 
 			$id = $itemsToUpdate[$key]['id'];
+			$mal_id = $itemsToUpdate[$key]['mal_id'];
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === SyncAction::UPDATE) ? 'updated' : 'created';
@@ -743,7 +760,7 @@ final class SyncLists extends BaseCommand {
 				'responseData' => $responseData,
 			]);
 			$verb = ($action === SyncAction::UPDATE) ? SyncAction::UPDATE : SyncAction::CREATE;
-			$this->echoError("Failed to {$verb} Kitsu {$type} list item with id: {$id}");
+			$this->echoError("Failed to {$verb} Kitsu {$type} list item with id: {$id}, and mal_id: {$mal_id}");
 
 		}
 	}

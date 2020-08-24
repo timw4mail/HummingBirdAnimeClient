@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
+use Aviat\AnimeClient\API\Kitsu\Transformer\LibraryEntryTransformer;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Types\{
@@ -159,15 +160,7 @@ class Anime extends API {
 	 */
 	public function getLibraryItem(string $itemId): AnimeListItem
 	{
-		$item = $this->kitsuModel->getListItem($itemId);
-		$array = $item->toArray();
-
-		if (is_array($array['notes']))
-		{
-			$array['notes'] = '';
-		}
-
-		return AnimeListItem::from($array);
+		return $this->kitsuModel->getListItem($itemId);
 	}
 
 	/**
