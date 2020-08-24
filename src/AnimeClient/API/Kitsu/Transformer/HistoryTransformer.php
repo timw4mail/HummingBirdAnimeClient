@@ -60,18 +60,25 @@ abstract class HistoryTransformer {
 	 */
 	public function transform(array $data): array
 	{
+		$base = $data['data']['findProfileBySlug']['libraryEvents']['nodes'] ?? [];
 		$output = [];
 
-		foreach ($data as $entry)
+		foreach ($base as $entry)
 		{
-			if ( ! isset($entry['relationships'][$this->type]))
+			if ( ! (strtolower($entry['media']['__typename']) === $this->type))
 			{
 				continue;
 			}
 
-			$kind = $entry['attributes']['kind'];
+			// Hide private library entries
+			if ($entry['libraryEntry']['private'] === true)
+			{
+				continue;
+			}
 
-			if ($kind === 'progressed' && ! empty($entry['attributes']['changedData']['progress']))
+			$kind = strtolower($entry['kind']);
+
+			if ($kind === 'progressed' && ! empty($entry['changedData']['progress']))
 			{
 				$transformed = $this->transformProgress($entry);
 				if ($transformed !== NULL)
@@ -130,7 +137,7 @@ abstract class HistoryTransformer {
 
 				foreach ($entries as $e)
 				{
-					$progressItem = $e['original']['attributes']['changedData']['progress'];
+					$progressItem = $e['original']['changedData']['progress'];
 					$items[] = array_pop($progressItem);
 					$updated[] = $e['updated'];
 				}
@@ -176,11 +183,11 @@ abstract class HistoryTransformer {
 
 	protected function transformProgress (array $entry): ?HistoryItem
 	{
-		$id = array_keys($entry['relationships'][$this->type])[0];
-		$data = $entry['relationships'][$this->type][$id]['attributes'];
+		$id = $entry['media']['id'];
+		$data = $entry['media'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
-		$item = end($entry['attributes']['changedData']['progress']);
+		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
 		if (((int)$item) === 0)
@@ -198,23 +205,23 @@ abstract class HistoryTransformer {
 			'kind' => 'progressed',
 			'original' => $entry,
 			'title' => $title,
-			'updated' => $this->parseDate($entry['attributes']['updatedAt']),
+			'updated' => $this->parseDate($entry['updatedAt']),
 			'url' => $this->getUrl($data),
 		]);
 	}
 
 	protected function transformUpdated($entry): HistoryItem
 	{
-		$id = array_keys($entry['relationships'][$this->type])[0];
-		$data = $entry['relationships'][$this->type][$id]['attributes'];
+		$id = $entry['media']['id'];
+		$data = $entry['media'];
 		$title = $this->linkTitle($data);
 		$imgUrl = "images/{$this->type}/{$id}.webp";
 
-		$kind = array_key_first($entry['attributes']['changedData']);
+		$kind = array_key_first($entry['changedData']);
 
 		if ($kind === 'status')
 		{
-			$status = array_pop($entry['attributes']['changedData']['status']);
+			$status = array_pop($entry['changedData']['status']);
 			$statusName = $this->statusMap[$status];
 
 			if ($this->isReconsuming($entry))
@@ -230,7 +237,7 @@ abstract class HistoryTransformer {
 				'kind' => 'updated',
 				'original' => $entry,
 				'title' => $title,
-				'updated' => $this->parseDate($entry['attributes']['updatedAt']),
+				'updated' => $this->parseDate($entry['updatedAt']),
 				'url' => $this->getUrl($data),
 			]);
 		}
@@ -240,13 +247,13 @@ abstract class HistoryTransformer {
 
 	protected function linkTitle (array $data): string
 	{
-		return $data['canonicalTitle'];
+		return $data['titles']['canonical'];
 	}
 
 	protected function parseDate (string $date): DateTimeImmutable
 	{
 		$dateTime = DateTimeImmutable::createFromFormat(
-			DateTimeInterface::RFC3339_EXTENDED,
+			DateTimeInterface::RFC3339,
 			$date
 		);
 
@@ -260,20 +267,6 @@ abstract class HistoryTransformer {
 
 	protected function isReconsuming ($entry): bool
 	{
-		$le = $this->getLibraryEntry($entry);
-		return $le['reconsuming'];
-	}
-
-	private function getLibraryEntry ($entry): ?array
-	{
-		if ( ! isset($entry['relationships']['libraryEntry']['libraryEntries']))
-		{
-			return NULL;
-		}
-
-		$libraryEntries = $entry['relationships']['libraryEntry']['libraryEntries'];
-		$id = array_keys($libraryEntries)[0];
-
-		return $libraryEntries[$id]['attributes'];
+		return $entry['libraryEntry']['reconsuming'];
 	}
 }
