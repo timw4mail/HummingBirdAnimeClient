@@ -1,0 +1,73 @@
+query($id: ID!) {
+	findLibraryEntryById(id: $id) {
+		id
+		updatedAt
+		notes
+		nsfw
+		private
+		progress
+		reconsumeCount
+		reconsuming
+		status
+		rating
+		media {
+			id
+			slug
+			ageRating
+			categories {
+				nodes {
+					title
+				}
+			}
+			mappings {
+				nodes {
+					externalId
+					externalSite
+				}
+			}
+			posterImage {
+				views {
+					width
+					height
+					url
+				}
+				original {
+					width
+					height
+					url
+				}
+			}
+			startDate
+			endDate
+			titles {
+				canonical
+				localized
+				canonicalLocale
+			}
+			type
+			...on Anime {
+				episodeCount
+				episodeLength
+				streamingLinks {
+					nodes {
+						dubs
+						subs
+						regions
+						streamer {
+							id
+							siteName
+						}
+						url
+					}
+				}
+				subtype
+			}
+			...on Manga {
+				chapterCount
+				volumeCount
+				subtype
+
+			}
+		}
+	}
+}

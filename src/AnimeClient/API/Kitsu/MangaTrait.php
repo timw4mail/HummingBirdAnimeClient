@@ -59,7 +59,6 @@ trait MangaTrait {
 		$baseData = $this->requestBuilder->runQuery('MangaDetails', [
 			'slug' => $slug
 		]);
-		// $baseData = $this->getRawMediaData('manga', $slug);
 
 		if (empty($baseData))
 		{
@@ -80,7 +79,6 @@ trait MangaTrait {
 		$baseData = $this->requestBuilder->runQuery('MangaDetailsById', [
 			'id' => $mangaId,
 		]);
-		// $baseData = $this->getRawMediaDataById('manga', $mangaId);
 		return $this->mangaTransformer->transform($baseData);
 	}
 

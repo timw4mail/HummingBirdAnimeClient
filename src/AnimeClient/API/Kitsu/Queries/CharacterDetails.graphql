@@ -13,17 +13,6 @@ query ($slug: String!) {
 			canonicalLocale
 			localized
 		},
-		primaryMedia {
-			posterImage {
-				original {
-					url
-				}
-			}
-			titles {
-				canonical
-			}
-			type
-		},
 		media {
 			nodes {
 				media {
