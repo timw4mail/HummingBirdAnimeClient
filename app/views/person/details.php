@@ -55,7 +55,7 @@ use Aviat\AnimeClient\API\Kitsu;
 					$character = $component->character(
 						$item['character']['canonicalName'],
 						$url->generate('character', ['slug' => $item['character']['slug']]),
-						$helper->picture(getLocalImg($item['character']['image']['original']))
+						$helper->picture(getLocalImg($item['character']['image']['original'] ?? null))
 					);
 					$medias = [];
 					foreach ($item['media'] as $sid => $series)
