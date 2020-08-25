@@ -260,7 +260,7 @@ function ajaxSerialize(data) {
  *
  * @param  {string} url - the url to request
  * @param  {Object} config  - the configuration object
- * @return {void}
+ * @return {XMLHttpRequest}
  */
 AnimeClient.ajax = (url, config) => {
 	// Set some sane defaults
@@ -321,6 +321,8 @@ AnimeClient.ajax = (url, config) => {
 	} else {
 		request.send(config.data);
 	}
+
+	return request
 };
 
 /**
@@ -329,6 +331,7 @@ AnimeClient.ajax = (url, config) => {
  * @param {string} url
  * @param {object|function} data
  * @param {function} [callback]
+ * @return {XMLHttpRequest}
  */
 AnimeClient.get = (url, data, callback = null) => {
 	if (callback === null) {
