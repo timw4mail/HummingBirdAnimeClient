@@ -119,7 +119,7 @@ final class Kitsu {
 				break;
 
 				default:
-					continue 2;
+					// Do Nothing
 			}
 		}
 
@@ -328,7 +328,7 @@ final class Kitsu {
 			}
 		}
 
-		// Don't return the canonical titles
+		// Don't return the canonical title
 		array_shift($valid);
 
 		return $valid;
@@ -356,7 +356,7 @@ final class Kitsu {
 			}
 		}
 
-		// Don't return the canonical titles
+		// Don't return the canonical title
 		array_shift($valid);
 
 		return $valid;

@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 5.1
+* Added session check, so when coming back to a page, if the session is expired, the page will refresh.
+* Updated logging config so that much fewer, much smaller files are generated.
+
 ## Version 5
 * Updated PHP requirement to 7.4
 * Added anime watching history view
