@@ -260,7 +260,7 @@ function ajaxSerialize(data) {
  *
  * @param  {string} url - the url to request
  * @param  {Object} config  - the configuration object
- * @return {void}
+ * @return {XMLHttpRequest}
  */
 AnimeClient.ajax = (url, config) => {
 	// Set some sane defaults
@@ -321,6 +321,8 @@ AnimeClient.ajax = (url, config) => {
 	} else {
 		request.send(config.data);
 	}
+
+	return request
 };
 
 /**
@@ -329,6 +331,7 @@ AnimeClient.ajax = (url, config) => {
  * @param {string} url
  * @param {object|function} data
  * @param {function} [callback]
+ * @return {XMLHttpRequest}
  */
 AnimeClient.get = (url, data, callback = null) => {
 	if (callback === null) {
@@ -589,7 +592,7 @@ const search = (query) => {
 	AnimeClient.show('.cssload-loader');
 
 	// Do the api search
-	AnimeClient.get(AnimeClient.url('/anime-collection/search'), { query }, (searchResults, status) => {
+	return AnimeClient.get(AnimeClient.url('/anime-collection/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 
 		// Hide the loader
@@ -601,13 +604,19 @@ const search = (query) => {
 };
 
 if (AnimeClient.hasElement('.anime #search')) {
+	let prevRequest = null;
+
 	AnimeClient.on('#search', 'input', AnimeClient.throttle(250, (e) => {
 		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query);
 	}));
 }
 
@@ -675,7 +684,7 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 
 const search$1 = (query) => {
 	AnimeClient.show('.cssload-loader');
-	AnimeClient.get(AnimeClient.url('/manga/search'), { query }, (searchResults, status) => {
+	return AnimeClient.get(AnimeClient.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		AnimeClient.hide('.cssload-loader');
 		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
@@ -683,13 +692,19 @@ const search$1 = (query) => {
 };
 
 if (AnimeClient.hasElement('.manga #search')) {
+	let prevRequest = null;
+
 	AnimeClient.on('#search', 'input', AnimeClient.throttle(250, (e) => {
 		let query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search$1(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search$1(query);
 	}));
 }
 
