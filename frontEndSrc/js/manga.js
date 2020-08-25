@@ -3,7 +3,7 @@ import { renderMangaSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	_.show('.cssload-loader');
-	_.get(_.url('/manga/search'), { query }, (searchResults, status) => {
+	return _.get(_.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		_.hide('.cssload-loader');
 		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
@@ -11,13 +11,19 @@ const search = (query) => {
 };
 
 if (_.hasElement('.manga #search')) {
+	let prevRequest = null
+
 	_.on('#search', 'input', _.throttle(250, (e) => {
 		let query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query);
 	}));
 }
 
