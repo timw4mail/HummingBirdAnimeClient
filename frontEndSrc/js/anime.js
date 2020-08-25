@@ -6,7 +6,7 @@ const search = (query) => {
 	_.show('.cssload-loader');
 
 	// Do the api search
-	_.get(_.url('/anime-collection/search'), { query }, (searchResults, status) => {
+	return _.get(_.url('/anime-collection/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 
 		// Hide the loader
@@ -18,13 +18,19 @@ const search = (query) => {
 };
 
 if (_.hasElement('.anime #search')) {
+	let prevRequest = null;
+
 	_.on('#search', 'input', _.throttle(250, (e) => {
 		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query);
 	}));
 }
 
