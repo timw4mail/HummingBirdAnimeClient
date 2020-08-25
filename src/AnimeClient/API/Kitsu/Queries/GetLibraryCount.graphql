@@ -1,0 +1,9 @@
+query ($slug: String!, $type: media_type!, $status: [LibraryEntryStatus!]) {
+	findProfileBySlug(slug: $slug) {
+		library {
+			all(mediaType: $type, status: $status) {
+				totalCount
+			}
+		}
+	}
+}

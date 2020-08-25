@@ -390,27 +390,18 @@ final class Model {
 
 	private function getListCount(string $type, string $status = ''): int
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserId(),
-					'kind' => $type,
-				],
-				'page' => [
-					'limit' => 1
-				],
-				'sort' => '-updated_at'
-			]
+		$args = [
+			'type' => strtoupper($type),
+			'slug' => $this->getUsername()
 		];
-
-		if ( ! empty($status))
+		if ($status !== '')
 		{
-			$options['query']['filter']['status'] = $status;
+			$args['status'] = strtoupper($status);
 		}
 
-		$response = $this->requestBuilder->getRequest('library-entries', $options);
+		$res = $this->requestBuilder->runQuery('GetLibraryCount', $args);
 
-		return $response['meta']['count'];
+		return $res['data']['findProfileBySlug']['library']['all']['totalCount'];
 	}
 
 	/**
