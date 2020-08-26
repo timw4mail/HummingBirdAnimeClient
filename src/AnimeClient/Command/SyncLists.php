@@ -26,7 +26,6 @@ use Aviat\AnimeClient\API\{
 };
 use Aviat\AnimeClient\API;
 use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Kitsu;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Enum\{APISource, ListType, SyncAction};
 use Aviat\AnimeClient\Types\FormItem;
@@ -50,9 +49,9 @@ final class SyncLists extends BaseCommand {
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var Kitsu\Model
+	 * @var API\Kitsu\Model
 	 */
-	private Kitsu\Model $kitsuModel;
+	private API\Kitsu\Model $kitsuModel;
 
 	/**
 	 * Does the Kitsu API have valid authentication?

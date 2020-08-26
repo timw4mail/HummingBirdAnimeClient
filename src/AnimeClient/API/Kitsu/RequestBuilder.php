@@ -24,9 +24,9 @@ use function Aviat\AnimeClient\getResponse;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
+use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\AnimeClient\API\FailedResponseException;
-use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\Enum\EventType;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;

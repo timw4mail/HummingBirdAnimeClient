@@ -1,7 +1,7 @@
 <?php
 
 use function Aviat\AnimeClient\getLocalImg;
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 
 ?>
 <main class="character-page details fixed">

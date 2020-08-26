@@ -1,6 +1,6 @@
 <?php
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use function Aviat\AnimeClient\getLocalImg;
 
 ?>

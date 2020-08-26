@@ -1,4 +1,4 @@
-<?php use function Aviat\AnimeClient\col_not_empty; ?>
+<?php use function Aviat\AnimeClient\colNotEmpty; ?>
 <main>
 	<?php if ($auth->isAuthenticated()): ?>
 		<a class="bracketed" href="<?= $url->generate($collection_type . '.collection.add.get') ?>">Add Item</a>
@@ -12,7 +12,7 @@
 		<?php $i = 0; ?>
 		<div class="tabs">
 			<?php foreach ($sections as $name => $items): ?>
-				<?php $hasNotes = col_not_empty($items, 'notes') ?>
+				<?php $hasNotes = colNotEmpty($items, 'notes') ?>
 				<input type="radio" id="collection-tab-<?= $i ?>" name="collection-tabs" />
 				<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
 				<div class="content full-height">

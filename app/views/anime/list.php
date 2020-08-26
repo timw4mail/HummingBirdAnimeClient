@@ -1,4 +1,4 @@
-<?php use function Aviat\AnimeClient\col_not_empty; ?>
+<?php use function Aviat\AnimeClient\colNotEmpty; ?>
 <main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
@@ -15,7 +15,7 @@
 		<h3>There's nothing here!</h3>
 	<?php else: ?>
 		<?php
-			$hasNotes = col_not_empty($items, 'notes');
+			$hasNotes = colNotEmpty($items, 'notes');
 		?>
 		<table class='media-wrap'>
 			<thead>

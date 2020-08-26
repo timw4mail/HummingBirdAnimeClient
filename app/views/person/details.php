@@ -1,6 +1,6 @@
 <?php
 use function Aviat\AnimeClient\getLocalImg;
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 ?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">

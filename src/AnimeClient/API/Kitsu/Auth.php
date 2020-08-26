@@ -20,10 +20,8 @@ use Aura\Session\Segment;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
-use Aviat\AnimeClient\API\{
-	CacheTrait,
-	Kitsu as K
-};
+use Aviat\AnimeClient\Kitsu as K;
+use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;
