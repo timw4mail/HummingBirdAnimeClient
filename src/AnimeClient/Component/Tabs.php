@@ -26,13 +26,16 @@ final class Tabs {
 	 * also used to generate id attributes
 	 * @param array $tabData The data used to create the tab content, indexed by the tab label
 	 * @param callable $cb The function to generate the tab content
+	 * @param string $className
+	 * @param bool $hasSectionWrapper
 	 * @return string
 	 */
 	public function __invoke(
 		string $name,
 		array $tabData,
 		callable $cb,
-		string $className = 'content media-wrap flex flex-wrap flex-justify-start'
+		string $className = 'content media-wrap flex flex-wrap flex-justify-start',
+		bool $hasSectionWrapper = false
 	): string
 	{
 		return $this->render('tabs.php', [
@@ -40,6 +43,7 @@ final class Tabs {
 			'data' => $tabData,
 			'callback' => $cb,
 			'className' => $className,
+			'hasSectionWrapper' => $hasSectionWrapper,
 		]);
 	}
 }

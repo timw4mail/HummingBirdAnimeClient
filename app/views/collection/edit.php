@@ -1,3 +1,4 @@
+<?php use function Aviat\AnimeClient\renderTemplate ?>
 <?php if ($auth->isAuthenticated()): ?>
 <main>
 	<h2>Edit Anime Collection Item</h2>
@@ -24,7 +25,7 @@
 				<tr>
 					<td class="align-right"><label for="media_id">Media</label></td>
 					<td class="align-left">
-						<?php include '_media-select-list.php' ?>
+						<?php include 'media-select-list.php' ?>
 					</td>
 				</tr>
 				<tr>

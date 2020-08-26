@@ -101,9 +101,11 @@ return static function (array $configArray = []): Container {
 	});
 
 	// Create Component helpers
-	$container->set('component-helper', static function () {
+	$container->set('component-helper', static function (ContainerInterface $container) {
 		$helper = (new HelperLocatorFactory)->newInstance();
 		$components = [
+			'animeCover' => Component\AnimeCover::class,
+			'mangaCover' => Component\MangaCover::class,
 			'character' => Component\Character::class,
 			'media' => Component\Media::class,
 			'tabs' => Component\Tabs::class,
@@ -112,7 +114,11 @@ return static function (array $configArray = []): Container {
 
 		foreach ($components as $name => $componentClass)
 		{
-			$helper->set($name, fn () => new $componentClass);
+			$helper->set($name, static function () use ($container, $componentClass) {
+				$helper = new $componentClass;
+				$helper->setContainer($container);
+				return $helper;
+			});
 		}
 
 		return $helper;

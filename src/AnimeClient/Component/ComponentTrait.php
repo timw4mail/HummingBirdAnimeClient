@@ -16,15 +16,35 @@
 
 namespace Aviat\AnimeClient\Component;
 
+use Aviat\Ion\Di\ContainerAware;
+use const TEMPLATE_DIR;
+use function Aviat\AnimeClient\renderTemplate;
+
 /**
  * Shared logic for component-based functionality, like Tabs
  */
 trait ComponentTrait {
+	use ContainerAware;
+
+	/**
+	 * Render a template with common container values
+	 *
+	 * @param string $path
+	 * @param array $data
+	 * @return string
+	 */
 	public function render(string $path, array $data): string
 	{
-		ob_start();
-		extract($data, EXTR_OVERWRITE);
-		include \TEMPLATE_DIR . '/' .$path;
-		return ob_get_clean();
+		$container = $this->getContainer();
+		$helper = $container->get('html-helper');
+
+		$baseData = [
+			'auth' => $container->get('auth'),
+			'escape' => $helper->escape(),
+			'helper' => $helper,
+			'url' => $container->get('aura-router')->getGenerator(),
+		];
+
+		return renderTemplate(TEMPLATE_DIR . '/' . $path, array_merge($baseData, $data));
 	}
 }

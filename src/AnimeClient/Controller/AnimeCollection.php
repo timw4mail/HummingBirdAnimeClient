@@ -101,10 +101,14 @@ final class AnimeCollection extends BaseController {
 			'list' => 'list'
 		];
 
+		$sections = array_merge(
+			['All' => $this->animeCollectionModel->getFlatCollection()],
+			$this->animeCollectionModel->getCollection()
+		);
+
 		$this->outputHTML('collection/' . $viewMap[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
-			'sections' => $this->animeCollectionModel->getCollection(),
-			'all' => $this->animeCollectionModel->getFlatCollection(),
+			'sections' => $sections,
 		]);
 	}
 

@@ -11,6 +11,11 @@
 				<?= ($i === 0) ? 'checked="checked"' : '' ?>
 			/>
 			<label for="<?= $id ?>"><?= ucfirst($tabName) ?></label>
+
+			<?php if ($hasSectionWrapper): ?>
+			<div class="content full-height">
+			<?php endif ?>
+
 			<section
 				id="_<?= $id ?>"
 				role="tabpanel"
@@ -18,6 +23,10 @@
 			>
 				<?= $callback($tabData, $tabName) ?>
 			</section>
+
+			<?php if ($hasSectionWrapper): ?>
+			</div>
+			<?php endif ?>
 		<?php endif ?>
 	<?php $i++; endforeach ?>
 </div>

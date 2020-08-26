@@ -1,3 +1,4 @@
+<?php use function Aviat\AnimeClient\renderTemplate; ?>
 <main class="media-list">
 <?php if ($auth->isAuthenticated()): ?>
 <a class="bracketed" href="<?= $url->generate($collection_type . '.collection.add.get') ?>">Add Item</a>
@@ -8,30 +9,20 @@
 	<br />
 	<label>Filter: <input type='text' class='media-filter' /></label>
 	<br />
-	<div class="tabs">
-	<?php $i = 0; ?>
-	<?php foreach ($sections as $name => $items): ?>
-		<input type="radio" id="collection-tab-<?= $i ?>" name="collection-tabs" />
-		<label for="collection-tab-<?= $i ?>"><h2><?= $name ?></h2></label>
-		<div class="content full-height">
-			<section class="media-wrap">
-				<?php foreach ($items as $item): ?>
-					<?php include __DIR__ . '/cover-item.php'; ?>
-				<?php endforeach ?>
-			</section>
-		</div>
-		<?php $i++; ?>
-	<?php endforeach ?>
-	<!-- All Tab -->
-	<input type='radio' checked='checked' id='collection-tab-<?= $i ?>' name='collection-tabs' />
-	<label for='collection-tab-<?= $i ?>'><h2>All</h2></label>
-	<div class='content full-height'>
-		<section class="media-wrap">
-			<?php foreach ($all as $item): ?>
-				<?php include __DIR__ . '/cover-item.php'; ?>
-			<?php endforeach ?>
-		</section>
-	</div>
-	</div>
+	<?= $component->tabs('collection-tab', $sections, static function ($items) use ($auth, $collection_type, $helper, $url, $component) {
+		$rendered = [];
+		foreach ($items as $item)
+		{
+			$rendered[] = renderTemplate(__DIR__ . '/cover-item.php', [
+					'auth' => $auth,
+					'collection_type' => $collection_type,
+					'helper' => $helper,
+					'item' => $item,
+					'url' => $url,
+			]);
+		}
+
+		return implode('', array_map('mb_trim', $rendered));
+	}, 'media-wrap', true) ?>
 <?php endif ?>
 </main>
