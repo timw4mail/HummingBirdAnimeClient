@@ -211,7 +211,6 @@ class DispatcherTest extends AnimeClientTestCase {
 			'character' => Controller\Character::class,
 			'misc' => Controller\Misc::class,
 			'manga' => Controller\Manga::class,
-			'manga-collection' => Controller\MangaCollection::class,
 			'people' => Controller\People::class,
 			'settings' => Controller\Settings::class,
 			'user' => Controller\User::class,
