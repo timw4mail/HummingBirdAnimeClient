@@ -370,3 +370,18 @@ function clearCache(CacheInterface $cache): bool
 
 	return $cleared && $saved;
 }
+
+/**
+ * Render a PHP code template as a string
+ *
+ * @param string $path
+ * @param array $data
+ * @return string
+ */
+function renderTemplate(string $path, array $data): string
+{
+	ob_start();
+	extract($data, EXTR_OVERWRITE);
+	include $path;
+	return ob_get_clean();
+}

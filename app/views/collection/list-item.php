@@ -11,6 +11,9 @@
 		</a>
 		<?= ! empty($item['alternate_title']) ? ' <br /><small> ' . $item['alternate_title'] . '</small>' : '' ?>
 	</td>
+	<?php if ($hasMedia): ?>
+	<td><?= implode(', ', $item['media']) ?></td>
+	<?php endif ?>
 	<td><?= ($item['episode_count'] > 1) ? $item['episode_count'] : '-'  ?></td>
 	<td><?= $item['episode_length'] ?></td>
 	<td><?= $item['show_type'] ?></td>

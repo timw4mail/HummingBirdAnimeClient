@@ -7,7 +7,7 @@
 				type="radio"
 				role='tab'
 				aria-controls="_<?= $id ?>"
-				name="staff-roles"
+				name="<?= $name ?>"
 				id="<?= $id ?>"
 				<?= $i === 0 ? 'checked="checked"' : '' ?>
 			/>

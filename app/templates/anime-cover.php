@@ -1,7 +1,7 @@
 <article
 	class="media"
- 	data-kitsu-id="<?= $item['id'] ?>"
- 	data-mal-id="<?= $item['mal_id'] ?>"
+	data-kitsu-id="<?= $item['id'] ?>"
+	data-mal-id="<?= $item['mal_id'] ?>"
 >
 	<?php if ($auth->isAuthenticated()): ?>
 		<button title="Increment episode count" class="plus-one" hidden>+1 Episode</button>
@@ -31,13 +31,13 @@
 		<?php if ($item['rewatched'] > 0): ?>
 			<div class="row">
 				<?php if ($item['rewatched'] == 1): ?>
-				<div>Rewatched once</div>
+					<div>Rewatched once</div>
 				<?php elseif ($item['rewatched'] == 2): ?>
-				<div>Rewatched twice</div>
+					<div>Rewatched twice</div>
 				<?php elseif ($item['rewatched'] == 3): ?>
-				<div>Rewatched thrice</div>
+					<div>Rewatched thrice</div>
 				<?php else: ?>
-				<div>Rewatched <?= $item['rewatched'] ?> times</div>
+					<div>Rewatched <?= $item['rewatched'] ?> times</div>
 				<?php endif ?>
 			</div>
 		<?php endif ?>
