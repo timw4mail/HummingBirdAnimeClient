@@ -424,7 +424,14 @@ class Controller {
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		(new HttpView())->redirect($url, $code)->send();
+		try
+		{
+			(new HttpView())->redirect($url, $code)->send();
+		}
+		catch (\Throwable $e)
+		{
+
+		}
 	}
 }
 // End of BaseController.php

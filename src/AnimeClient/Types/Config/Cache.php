@@ -24,6 +24,12 @@ class Cache extends AbstractType {
 	 */
 	public $driver;
 
+	public $host;
+
+	public $port;
+
+	public $database;
+
 	/**
 	 * @var array
 	 */

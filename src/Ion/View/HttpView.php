@@ -147,6 +147,7 @@ class HttpView implements ViewInterface{
 	public function redirect(string $url, int $code = 302, array $headers = []): self
 	{
 		$this->response = new Response\RedirectResponse($url, $code, $headers);
+		return $this;
 	}
 
 	/**
