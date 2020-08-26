@@ -19,10 +19,10 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use function Amp\Promise\wait;
 
 use Amp\Http\Client\Request;
+use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
 	JsonAPI,
-	Kitsu as K,
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{

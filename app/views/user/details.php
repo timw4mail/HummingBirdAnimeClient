@@ -1,5 +1,5 @@
 <?php
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 ?>
 <main class="user-page details">
 	<h2 class="toph">

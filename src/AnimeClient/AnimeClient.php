@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use function Amp\Promise\wait;
@@ -84,43 +84,6 @@ function loadTomlFile(string $filename): array
 }
 
 /**
- * Recursively create a toml file from a data array
- *
- * @param TomlBuilder $builder
- * @param iterable $data
- * @param null $parentKey
- */
-function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
-{
-	foreach ($data as $key => $value)
-	{
-		if ($value === NULL)
-		{
-			continue;
-		}
-
-
-		if (is_scalar($value) || isSequentialArray($value))
-		{
-			// $builder->addTable('');
-			$builder->addValue($key, $value);
-			continue;
-		}
-
-		$newKey = ($parentKey !== NULL)
-			? "{$parentKey}.{$key}"
-			: $key;
-
-		if ( ! isSequentialArray($value))
-		{
-			$builder->addTable($newKey);
-		}
-
-		_iterateToml($builder, $value, $newKey);
-	}
-}
-
-/**
  * Serialize config data into a Toml file
  *
  * @param mixed $data
@@ -129,6 +92,35 @@ function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): 
 function arrayToToml(iterable $data): string
 {
 	$builder = new TomlBuilder();
+	function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+	{
+		foreach ($data as $key => $value)
+		{
+			if ($value === NULL)
+			{
+				continue;
+			}
+
+
+			if (is_scalar($value) || isSequentialArray($value))
+			{
+				// $builder->addTable('');
+				$builder->addValue($key, $value);
+				continue;
+			}
+
+			$newKey = ($parentKey !== NULL)
+				? "{$parentKey}.{$key}"
+				: $key;
+
+			if ( ! isSequentialArray($value))
+			{
+				$builder->addTable($newKey);
+			}
+
+			_iterateToml($builder, $value, $newKey);
+		}
+	}
 
 	_iterateToml($builder, $data);
 
@@ -346,7 +338,7 @@ function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Imag
  * @param string $key
  * @return bool
  */
-function col_not_empty(array $search, string $key): bool
+function colNotEmpty(array $search, string $key): bool
 {
 	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
 	return count($items) > 0;

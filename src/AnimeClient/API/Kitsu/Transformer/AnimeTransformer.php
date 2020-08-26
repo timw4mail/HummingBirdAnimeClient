@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\AnimePage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 

@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use function Aviat\AnimeClient\getLocalImg;
 
 use Aviat\AnimeClient\Types\User;

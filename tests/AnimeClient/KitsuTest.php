@@ -16,7 +16,7 @@
 
 namespace Aviat\AnimeClient\Tests\API;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
 use PHPUnit\Framework\TestCase;
 

@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Http\Client\Request;
+use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu as K;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
@@ -100,7 +100,7 @@ trait AnimeTrait {
 
 		if ($list === NULL)
 		{
-			$raw = $this->getRawHistoryList('anime');
+			$raw = $this->getRawHistoryList();
 
 			$list = (new AnimeHistoryTransformer())->transform($raw);
 
