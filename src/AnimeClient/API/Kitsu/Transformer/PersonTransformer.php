@@ -132,11 +132,24 @@ final class PersonTransformer extends AbstractTransformer {
 				{
 					$characters[$role][$charId]['media'][$media['id']] = $media;
 				}
+			}
 
+			foreach ($characters as $role => $_)
+			{
+				// Sort the characters by name
 				uasort(
-					$characters[$role][$charId]['media'],
-					fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
+					$characters[$role],
+					fn($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
 				);
+
+				// Sort the media for the character
+				foreach ($characters[$role] as $charId => $__)
+				{
+					uasort(
+						$characters[$role][$charId]['media'],
+						fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
+					);
+				}
 			}
 
 			krsort($characters);
