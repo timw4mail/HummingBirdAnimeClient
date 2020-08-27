@@ -1,5 +1,5 @@
-query ($id: ID!) {
-	findPersonById(id: $id) {
+query ($slug: String!) {
+	findPersonBySlug(slug: $slug) {
 		id
 		description
 		birthday
@@ -22,6 +22,36 @@ query ($id: ID!) {
 			canonical
 			localized
 		}
+		mediaStaff {
+			nodes {
+				id
+				role
+				media {
+					id
+					slug
+					type
+					posterImage {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					titles {
+						alternatives
+						canonical
+						localized
+					}
+				}
+			}
+		}
 		voices {
 			nodes {
 				locale
@@ -29,6 +59,7 @@ query ($id: ID!) {
 					role
 					character {
 						id
+						slug
 						image {
 							original {
 								height
@@ -43,6 +74,7 @@ query ($id: ID!) {
 					}
 					media {
 						id
+						slug
 						posterImage {
 							original {
 								height

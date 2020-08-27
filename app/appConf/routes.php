@@ -186,9 +186,8 @@ $routes = [
 		]
 	],
 	'person' => [
-		'path' => '/people/{id}{/slug}',
+		'path' => '/people/{slug}',
 		'tokens' => [
-			'id' => SLUG_PATTERN,
 			'slug' => SLUG_PATTERN,
 		]
 	],

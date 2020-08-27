@@ -163,7 +163,7 @@ CSS Tabs
 	/* text-align: center; */
 }
 
-.tabs .content {
+.tabs .content, .single-tab {
 	display: none;
 	max-height: 950px;
 	border: 1px solid #e5e5e5;
@@ -175,7 +175,14 @@ CSS Tabs
 	overflow: auto;
 }
 
-.tabs .content.full-height {
+.single-tab {
+	display: block;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 48px 80px -32px rgba(0, 0, 0, 0.3);
+	margin-top: 1.5em;
+}
+
+.tabs .content.full-height, .single-tab.full-height {
 	max-height: none;
 }
 

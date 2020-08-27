@@ -95,7 +95,7 @@
 				fn($people) => implode('', array_map(
 						fn ($person) => $component->character(
 							$person['name'],
-							$url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]),
+							$url->generate('person', ['slug' => $person['slug']]),
 							$helper->picture("images/people/{$person['id']}.webp")
 						),
 						$people
