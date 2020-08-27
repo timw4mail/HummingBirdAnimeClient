@@ -38,6 +38,17 @@ final class Tabs {
 		bool $hasSectionWrapper = false
 	): string
 	{
+		if (count($tabData) < 2)
+		{
+			return $this->render('single-tab.php', [
+				'name' => $name,
+				'data' => $tabData,
+				'callback' => $cb,
+				'className' => $className . ' single-tab',
+				'hasSectionWrapper' => $hasSectionWrapper,
+			]);
+		}
+
 		return $this->render('tabs.php', [
 			'name' => $name,
 			'data' => $tabData,

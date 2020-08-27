@@ -199,27 +199,14 @@ final class Model {
 	/**
 	 * Get information about a person
 	 *
-	 * @param string $id
+	 * @param string $slug
 	 * @return array
 	 * @throws InvalidArgumentException
 	 */
-	public function getPerson(string $id): array
+	public function getPerson(string $slug): array
 	{
-		return $this->getCached("kitsu-person-{$id}", fn () => $this->requestBuilder->getRequest("people/{$id}", [
-			'query' => [
-				'filter' => [
-					'id' => $id,
-				],
-				'fields' => [
-					'characters' => 'canonicalName,slug,image',
-					'characterVoices' => 'mediaCharacter',
-					'anime' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-					'manga' => 'canonicalTitle,abbreviatedTitles,titles,slug,posterImage',
-					'mediaCharacters' => 'role,media,character',
-					'mediaStaff' => 'role,media,person',
-				],
-				'include' => 'voices.mediaCharacter.media,voices.mediaCharacter.character,staff.media',
-			],
+		return $this->getCached("kitsu-person-{$slug}", fn () => $this->requestBuilder->runQuery('PersonDetails', [
+			'slug' => $slug
 		]));
 	}
 

@@ -147,7 +147,8 @@ button:active {
 .tabs > [type="radio"]:checked + label,
 .tabs > [type="radio"]:checked + label + .content,
 .vertical-tabs [type="radio"]:checked + label,
-.vertical-tabs [type="radio"]:checked ~ .content {
+.vertical-tabs [type="radio"]:checked ~ .content,
+.single-tab {
 	/* border-color: #333; */
 	border: 0;
 	background: #666;

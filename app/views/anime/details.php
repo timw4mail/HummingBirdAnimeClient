@@ -186,7 +186,7 @@ use function Aviat\AnimeClient\getLocalImg;
 					}
 					$rendered[] = $component->character(
 						$person['name'],
-						$url->generate('person', ['id' => $person['id'], 'slug' => $person['slug']]),
+						$url->generate('person', ['slug' => $person['slug']]),
 						$helper->picture(getLocalImg($person['image']['original'] ?? NULL)),
 						'character small-person',
 					);

@@ -50,7 +50,7 @@ final class CharacterTransformer extends AbstractTransformer {
 
 		if (isset($data['media']['nodes']))
 		{
-			[$media, $castings] = $this->organizeMediaAndVoices($data['media']['nodes']);
+			[$media, $castings] = $this->organizeMediaAndVoices($data['media']['nodes'] ?? []);
 		}
 
 		return Character::from([

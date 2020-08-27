@@ -1,6 +1,5 @@
 <?php
 use function Aviat\AnimeClient\getLocalImg;
-use Aviat\AnimeClient\Kitsu;
 ?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
@@ -9,6 +8,14 @@ use Aviat\AnimeClient\Kitsu;
 		</div>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
+			<?php foreach ($data['names'] as $name): ?>
+				<h3><?= $name ?></h3>
+			<?php endforeach ?>
+			<br />
+			<hr />
+			<div class="description">
+				<p><?= str_replace("\n", '</p><p>', $data['description']) ?></p>
+			</div>
 		</div>
 	</section>
 
@@ -24,7 +31,6 @@ use Aviat\AnimeClient\Kitsu;
 							type="radio" name="staff-roles" id="staff-role<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?> />
 						<label for="staff-role<?= $i ?>"><?= $role ?></label>
 						<?php foreach ($entries as $type => $casting): ?>
-							<?php if ($type === 'characters') continue; ?>
 							<?php if (isset($entries['manga'], $entries['anime'])): ?>
 								<h4><?= ucfirst($type) ?></h4>
 							<?php endif ?>
@@ -32,7 +38,7 @@ use Aviat\AnimeClient\Kitsu;
 								<?php foreach ($casting as $sid => $series): ?>
 									<?php $mediaType = in_array($type, ['anime', 'manga'], TRUE) ? $type : 'anime'; ?>
 									<?= $component->media(
-											Kitsu::filterTitles($series),
+											$series['titles'],
 											$url->generate("{$mediaType}.details", ['id' => $series['slug']]),
 											$helper->picture("images/{$type}/{$sid}.webp")
 									) ?>
@@ -46,7 +52,7 @@ use Aviat\AnimeClient\Kitsu;
 		</section>
 	<?php endif ?>
 
-	<?php if ( ! (empty($data['characters']['main']) || empty($data['characters']['supporting']))): ?>
+	<?php if ( ! empty($data['characters'])): ?>
 		<section>
 			<h3>Voice Acting Roles</h3>
 			<?= $component->tabs('voice-acting-roles', $data['characters'], static function ($characterList) use ($component, $helper, $url) {
@@ -61,7 +67,7 @@ use Aviat\AnimeClient\Kitsu;
 					foreach ($item['media'] as $sid => $series)
 					{
 						$medias[] = $component->media(
-							Kitsu::filterTitles($series),
+							$series['titles'],
 							$url->generate('anime.details', ['id' => $series['slug']]),
 							$helper->picture("images/anime/{$sid}.webp")
 						);

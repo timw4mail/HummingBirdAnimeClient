@@ -120,10 +120,7 @@ use Aviat\AnimeClient\Kitsu;
 					foreach ($casting as $id => $c):
 						$person = $component->character(
 							$c['person']['name'],
-							$url->generate('person', [
-								'id' => $c['person']['id'],
-								'slug' => $c['person']['slug']
-							]),
+							$url->generate('person', ['slug' => $c['person']['slug']]),
 							$helper->picture(getLocalImg($c['person']['image']))
 						);
 						$medias = array_map(fn ($series) => $component->media(
