@@ -454,9 +454,14 @@ function filterMedia (event) {
 	}
 }
 
-// ----------------------------------------------------------------------------
-// Other event setup
-// ----------------------------------------------------------------------------
+if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('/sw.js').then(reg => {
+		console.log('Service worker registered', reg.scope);
+	}).catch(error => {
+		console.error('Failed to register service worker', error);
+	});
+}
+
 (() => {
 	// Var is intentional
 	var hidden = null;
@@ -483,6 +488,7 @@ function filterMedia (event) {
 				// If the session is expired, immediately reload so that
 				// you can't attempt to do an action that requires authentication
 				if (status.hasAuth !== true) {
+					document.removeEventListener(visibilityChange, handleVisibilityChange, false);
 					location.reload();
 				}
 			});
@@ -495,14 +501,6 @@ function filterMedia (event) {
 		document.addEventListener(visibilityChange, handleVisibilityChange, false);
 	}
 })();
-
-if ('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('/sw.js').then(reg => {
-		console.log('Service worker registered', reg.scope);
-	}).catch(error => {
-		console.error('Failed to register service worker', error);
-	});
-}
 
 // Click on hidden MAL checkbox so
 // that MAL id is passed
