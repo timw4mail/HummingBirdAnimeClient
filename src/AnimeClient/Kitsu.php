@@ -413,6 +413,11 @@ final class Kitsu {
 				'link' => TRUE,
 				'image' => 'streaming-logos/viewster.svg'
 			],
+			'vrv.co' => [
+				'name' => 'VRV',
+				'link' => TRUE,
+				'image' => 'streaming-logos/vrv.svg',
+			]
 		];
 
 		if (array_key_exists($hostname, $serviceMap))
