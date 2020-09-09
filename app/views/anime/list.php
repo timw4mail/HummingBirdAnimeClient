@@ -31,7 +31,6 @@
 					<th>Rated</th>
 					<th>Attributes</th>
 					<?php if($hasNotes): ?><th>Notes</th><?php endif ?>
-					<th>Genres</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -103,10 +102,6 @@
 	                    </ul>
 					</td>
 					<?php if ($hasNotes): ?><td><p><?= $escape->html($item['notes']) ?></p></td><?php endif ?>
-					<td class="align-left">
-						<?php sort($item['anime']->genres) ?>
-						<?= implode(', ', $item['anime']->genres) ?>
-					</td>
 				</tr>
 				<?php endforeach ?>
 			</tbody>
