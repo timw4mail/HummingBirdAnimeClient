@@ -25,7 +25,6 @@
 					<th># of Volumes</th>
 					<th>Attributes</th>
 					<th>Type</th>
-					<th>Genres</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -70,9 +69,6 @@
 	                    </ul>
 					</td>
 					<td><?= $item['manga']['type'] ?></td>
-					<td class="align-left">
-						<?= implode(', ', $item['manga']['genres']) ?>
-					</td>
 				</tr>
 				<?php endforeach ?>
 			</tbody>
