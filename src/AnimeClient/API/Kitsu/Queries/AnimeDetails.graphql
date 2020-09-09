@@ -17,12 +17,12 @@ query ($slug: String!) {
 				width
 			}
 		}
-		categories {
+		categories(first: 100) {
 			nodes {
 				title
 			}
 		}
-		characters {
+		characters(first: 100) {
 			nodes {
 				character {
 					id
@@ -59,13 +59,13 @@ query ($slug: String!) {
 		season
 		sfw
 		slug
-		mappings {
+		mappings(first: 10) {
 			nodes {
 				externalId
 				externalSite
 			}
 		}
-		staff {
+		staff(first: 100) {
 			nodes {
 				person {
 					id
@@ -101,7 +101,7 @@ query ($slug: String!) {
 			}
 		}
 		status
-		streamingLinks {
+		streamingLinks(first: 10) {
 			nodes {
 				dubs
 				subs

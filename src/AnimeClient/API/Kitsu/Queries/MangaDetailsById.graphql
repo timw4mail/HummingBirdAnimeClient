@@ -17,14 +17,14 @@ query ($id: ID!) {
 				width
 			}
 		}
-		categories {
+		categories(first: 100) {
 			nodes {
 				title
 			}
 		}
 		chapterCount
 		volumeCount
-		characters {
+		characters(first: 100) {
 			nodes {
 				character {
 					id
@@ -54,7 +54,7 @@ query ($id: ID!) {
 		description
 		startDate
 		endDate
-		mappings {
+		mappings(first: 10) {
 			nodes {
 				externalId
 				externalSite
@@ -76,7 +76,7 @@ query ($id: ID!) {
 		}
 		sfw
 		slug
-		staff {
+		staff(first: 100) {
 			nodes {
 				person {
 					id

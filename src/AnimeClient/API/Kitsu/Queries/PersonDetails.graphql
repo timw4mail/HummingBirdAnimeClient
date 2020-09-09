@@ -22,7 +22,7 @@ query ($slug: String!) {
 			canonical
 			localized
 		}
-		mediaStaff {
+		mediaStaff(first: 100) {
 			nodes {
 				id
 				role
@@ -52,7 +52,7 @@ query ($slug: String!) {
 				}
 			}
 		}
-		voices {
+		voices(first: 100) {
 			nodes {
 				locale
 				mediaCharacter {

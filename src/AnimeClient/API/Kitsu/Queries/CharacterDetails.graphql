@@ -13,7 +13,7 @@ query ($slug: String!) {
 			canonicalLocale
 			localized
 		},
-		media {
+		media(first: 100) {
 			nodes {
 				media {
 					id
@@ -40,7 +40,7 @@ query ($slug: String!) {
 					}
 					type
 				}
-				voices {
+				voices(first: 100) {
 					nodes {
 						id
 						licensor {

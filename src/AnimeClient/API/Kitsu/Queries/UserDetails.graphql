@@ -24,13 +24,13 @@ query ($slug: String!) {
 		proMessage
 		proTier
 		slug
-		siteLinks {
+		siteLinks(first: 20) {
 			nodes {
 				id
 				url
 			}
 		}
-		favorites {
+		favorites(first: 100) {
 			nodes {
 				id
 				item {

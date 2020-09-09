@@ -1,7 +1,12 @@
-query ($slug: String!, $type: media_type!, $status: [LibraryEntryStatus!]) {
+query (
+	$slug: String!,
+	$type: media_type!,
+	$status: [LibraryEntryStatus!],
+	$after: String
+) {
 	findProfileBySlug(slug: $slug) {
 		library {
-			all(mediaType: $type, status: $status) {
+			all(first: 100, after: $after, mediaType: $type, status: $status) {
 				pageInfo {
 					endCursor
 					hasNextPage
@@ -24,12 +29,12 @@ query ($slug: String!, $type: media_type!, $status: [LibraryEntryStatus!]) {
 						id
 						ageRating
 						ageRatingGuide
-						categories {
+						categories(first: 100) {
 							nodes {
 								title
 							}
 						}
-						mappings {
+						mappings(first: 10) {
 							nodes {
 								externalId
 								externalSite
@@ -60,7 +65,7 @@ query ($slug: String!, $type: media_type!, $status: [LibraryEntryStatus!]) {
 						}
 						...on Anime {
 							episodeCount
-							streamingLinks {
+							streamingLinks(first: 10) {
 								nodes {
 									dubs
 									subs

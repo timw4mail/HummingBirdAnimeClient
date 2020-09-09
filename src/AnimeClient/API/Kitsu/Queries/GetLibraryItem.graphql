@@ -14,12 +14,12 @@ query($id: ID!) {
 			id
 			slug
 			ageRating
-			categories {
+			categories(first: 100) {
 				nodes {
 					title
 				}
 			}
-			mappings {
+			mappings(first: 10) {
 				nodes {
 					externalId
 					externalSite
@@ -48,7 +48,7 @@ query($id: ID!) {
 			...on Anime {
 				episodeCount
 				episodeLength
-				streamingLinks {
+				streamingLinks(first: 10) {
 					nodes {
 						dubs
 						subs
