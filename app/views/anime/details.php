@@ -36,7 +36,7 @@ use function Aviat\AnimeClient\getLocalImg;
 					</tr>
 				<?php endif ?>
 
-				<?php if (isset($data['total_length'], $data['episode_count']) && ! empty($data['total_length'])): ?>
+				<?php if (isset($data['total_length'], $data['episode_count']) && $data['total_length'] > 0): ?>
 					<tr>
 						<td>Total Length</td>
 						<td><?= Kitsu::friendlyTime($data['total_length']) ?></td>
