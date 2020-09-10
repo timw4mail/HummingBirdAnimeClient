@@ -637,12 +637,12 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently watching
 	if (isNaN(watchedCount) || watchedCount === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last episode, mark as completed
 	if ((!isNaN(watchedCount)) && (watchedCount + 1) === totalCount) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	AnimeClient.show('#loading-shadow');
@@ -662,7 +662,7 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 				return;
 			}
 
-			if (resData.data.status === 'COMPLETED') {
+			if (String(resData.data.status).toUpperCase() === 'COMPLETED') {
 				AnimeClient.hide(parentSel);
 			}
 
@@ -733,12 +733,12 @@ AnimeClient.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently reading
 	if (isNaN(completed) || completed === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last chapter, mark as completed
 	if ((!isNaN(completed)) && (completed + 1) === total) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	// Update the total count
@@ -752,7 +752,7 @@ AnimeClient.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		type: 'POST',
 		mimeType: 'application/json',
 		success: () => {
-			if (data.data.status === 'completed') {
+			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				AnimeClient.hide(parentSel);
 			}
 

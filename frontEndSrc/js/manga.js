@@ -54,12 +54,12 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently reading
 	if (isNaN(completed) || completed === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last chapter, mark as completed
 	if ((!isNaN(completed)) && (completed + 1) === total) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	// Update the total count
@@ -73,7 +73,7 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		type: 'POST',
 		mimeType: 'application/json',
 		success: () => {
-			if (data.data.status === 'completed') {
+			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				_.hide(parentSel);
 			}
 

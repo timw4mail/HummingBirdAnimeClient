@@ -53,12 +53,12 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently watching
 	if (isNaN(watchedCount) || watchedCount === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last episode, mark as completed
 	if ((!isNaN(watchedCount)) && (watchedCount + 1) === totalCount) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	_.show('#loading-shadow');
@@ -78,7 +78,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 				return;
 			}
 
-			if (resData.data.status === 'COMPLETED') {
+			if (String(resData.data.status).toUpperCase() === 'COMPLETED') {
 				_.hide(parentSel);
 			}
 
