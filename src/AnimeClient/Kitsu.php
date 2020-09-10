@@ -94,33 +94,59 @@ final class Kitsu {
 	public static function mappingsToUrls(array $mappings, string $kitsuLink = ''): array
 	{
 		$output = [];
+
+		$urlMap = [
+			'ANIDB' => [
+				'key' => 'AniDB',
+				'url' => 'https://anidb.net/anime/{}',
+			],
+			'ANILIST_ANIME' => [
+				'key' => 'Anilist',
+				'url' => 'https://anilist.co/anime/{}/',
+			],
+			'ANILIST_MANGA' => [
+				'key' => 'Anilist',
+				'url' => 'https://anilist.co/anime/{}/',
+			],
+			'ANIMENEWSNETWORK' => [
+				'key' => 'AnimeNewsNetwork',
+				'url' => 'https://www.animenewsnetwork.com/encyclopedia/anime.php?id={}',
+			],
+			'MANGAUPDATES' => [
+				'key' => 'MangaUpdates',
+				'url' => 'https://www.mangaupdates.com/series.html?id={}',
+			],
+			'MYANIMELIST_ANIME' => [
+				'key' => 'MyAnimeList',
+				'url' => 'https://myanimelist.net/anime/{}',
+			],
+			'MYANIMELIST_CHARACTERS' => [
+				'key' => 'MyAnimeList',
+				'url' => 'https://myanimelist.net/character/{}',
+			],
+			'MYANIMELIST_MANGA' => [
+				'key' => 'MyAnimeList',
+				'url' => 'https://myanimelist.net/manga/{}',
+			],
+			'MYANIMELIST_PEOPLE' => [
+				'key' => 'MyAnimeList',
+				'url' => 'https://myanimelist.net/people/{}',
+			],
+		];
+
 		foreach ($mappings as $mapping)
 		{
-			switch ($mapping['externalSite'])
+			if ( ! array_key_exists($mapping['externalSite'], $urlMap))
 			{
-				case 'ANIDB':
-					$output['AniDB'] = "https://anidb.net/anime/{$mapping['externalId']}";
-				break;
-
-				case 'ANILIST_ANIME':
-					$output['Anilist'] = "https://anilist.co/anime/{$mapping['externalId']}/";
-				break;
-
-				case 'ANILIST_MANGA':
-					$output['Anilist'] = "https://anilist.co/manga/{$mapping['externalId']}/";
-				break;
-
-				case 'MYANIMELIST_ANIME':
-					$output['MyAnimeList'] = "https://myanimelist.net/anime/{$mapping['externalId']}";
-				break;
-
-				case 'MYANIMELIST_MANGA':
-					$output['MyAnimeList'] = "https://myanimelist.net/manga/{$mapping['externalId']}";
-				break;
-
-				default:
-					// Do Nothing
+				continue;
 			}
+
+			$uMap = $urlMap[$mapping['externalSite']];
+			$key = $uMap['key'];
+			$url = str_replace('{}', $mapping['externalId'], $uMap['url']);
+
+
+			$output[$key] = $url;
 		}
 
 		if ($kitsuLink !== '')
@@ -365,7 +391,7 @@ final class Kitsu {
 	/**
 	 * Get the name and logo for the streaming service of the current link
 	 *
-	 * @param string $hostname
+	 * @param string|null $hostname
 	 * @return array
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
@@ -373,6 +399,11 @@ final class Kitsu {
 		$hostname = str_replace('www.', '', $hostname);
 
 		$serviceMap = [
+			'animelab.com' => [
+				'name' => 'Animelab',
+				'link' => TRUE,
+				'image' => 'streaming-logos/animelab.svg',
+			],
 			'amazon.com' => [
 				'name' => 'Amazon Prime',
 				'link' => TRUE,
