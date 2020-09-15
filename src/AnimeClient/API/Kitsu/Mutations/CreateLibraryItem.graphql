@@ -4,8 +4,8 @@
 mutation (
 	$userId: ID!
 	$id: ID!,
-	$type: media_type!,
-	$status: LibraryEntryStatus!,
+	$type: MediaTypeEnum!,
+	$status: LibraryEntryStatusEnum!,
 ) {
 	libraryEntry {
 		create(input: {

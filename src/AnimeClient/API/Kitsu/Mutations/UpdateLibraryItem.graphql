@@ -6,7 +6,7 @@ mutation(
 	$ratingTwenty: Int,
 	$reconsumeCount: Int!,
 	$reconsuming: Boolean,
-	$status: LibraryEntryStatus!,
+	$status: LibraryEntryStatusEnum!,
 ) {
 	libraryEntry{
 		update(input: {
