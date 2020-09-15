@@ -1,7 +1,7 @@
 query (
 	$slug: String!,
-	$type: media_type!,
-	$status: [LibraryEntryStatus!],
+	$type: MediaTypeEnum!,
+	$status: [LibraryEntryStatusEnum!],
 	$after: String
 ) {
 	findProfileBySlug(slug: $slug) {
