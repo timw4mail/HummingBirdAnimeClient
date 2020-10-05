@@ -4,8 +4,14 @@
 mutation (
 	$userId: ID!
 	$id: ID!,
-	$mediaType: media_type!,
-	$status: MediaListStatus,
+	$mediaType: MediaTypeEnum!,
+	$status: LibraryEntryStatusEnum!,
+	$notes: String,
+	$private: Boolean,
+	$progress: Int,
+	$reconsumeCount: Int,
+	$reconsuming: Boolean,
+	$rating: Int,
 ) {
 	libraryEntry {
 		create(input: {
@@ -13,9 +19,30 @@ mutation (
 			mediaId: $id
 			mediaType: $mediaType
 			status: $status
+			notes: $notes
+			private: $private
+			progress: $progress
+			reconsuming: $reconsuming
+			reconsumeCount: $reconsumeCount
+			rating: $rating
 		}) {
-			mediaId
-			status
+			libraryEntry {
+				user {
+					id
+					slug
+				}
+				media {
+					id
+					slug
+				}
+				status
+				notes
+				private
+				progress
+				reconsumeCount
+				reconsuming
+				rating
+			}
 		}
 	}
 }
