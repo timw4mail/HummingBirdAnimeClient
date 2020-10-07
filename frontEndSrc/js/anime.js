@@ -6,7 +6,7 @@ const search = (query) => {
 	_.show('.cssload-loader');
 
 	// Do the api search
-	_.get(_.url('/anime-collection/search'), { query }, (searchResults, status) => {
+	return _.get(_.url('/anime-collection/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 
 		// Hide the loader
@@ -18,13 +18,19 @@ const search = (query) => {
 };
 
 if (_.hasElement('.anime #search')) {
+	let prevRequest = null;
+
 	_.on('#search', 'input', _.throttle(250, (e) => {
 		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query);
 	}));
 }
 
@@ -47,12 +53,12 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently watching
 	if (isNaN(watchedCount) || watchedCount === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last episode, mark as completed
 	if ((!isNaN(watchedCount)) && (watchedCount + 1) === totalCount) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	_.show('#loading-shadow');
