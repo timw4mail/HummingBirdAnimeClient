@@ -32,7 +32,7 @@
 						<td>
 							<select name="watching_status" id="watching_status">
 							<?php foreach($statuses as $status_key => $status_title): ?>
-								<option <?php if($item['watching_status'] === $status_key): ?>selected="selected"<?php endif ?>
+								<option <?php if(strtolower($item['watching_status']) === $status_key): ?>selected="selected"<?php endif ?>
 									value="<?= $status_key ?>"><?= $status_title ?></option>
 							<?php endforeach ?>
 							</select>

@@ -143,16 +143,27 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
-		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', [
+		// Data to always send
+		$updateData = [
 			'id' => $id,
 			'notes' => $data['notes'],
 			'private' => (bool)$data['private'],
-			'progress' => (int)$data['progress'],
-			'ratingTwenty' => (int)$data['ratingTwenty'],
 			'reconsumeCount' => (int)$data['reconsumeCount'],
 			'reconsuming' => (bool)$data['reconsuming'],
 			'status' => strtoupper($data['status']),
-		]);
+		];
+
+		// Only send these variables if they have a value
+		if ($data['progress'] !== NULL)
+		{
+			$updateData['progress'] = (int)$data['progress'];
+		}
+		if ($data['ratingTwenty'] !== NULL)
+		{
+			$updateData['ratingTwenty'] = (int)$data['ratingTwenty'];
+		}
+
+		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', $updateData);
 	}
 
 	/**
