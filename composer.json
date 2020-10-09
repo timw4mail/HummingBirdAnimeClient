@@ -34,7 +34,8 @@
 	}
   },
   "require": {
-	"amphp/http-client": "^4.2.2",
+	"amphp/amp": "^2.5.0",
+	"amphp/http-client": "^4.5.0",
 	"aura/html": "^2.5.0",
 	"aura/router": "^3.1.0",
 	"aura/session": "^2.1.0",
@@ -66,7 +67,7 @@
 	"phpstan/phpstan": "^0.12.19",
 	"phpunit/phpunit": "^8.5.2",
 	"roave/security-advisories": "dev-master",
-	"robmorgan/phinx": "^0.10.6",
+	"robmorgan/phinx": "^0.12.4",
 	"sebastian/phpcpd": "^4.1.0",
 	"spatie/phpunit-snapshot-assertions": "^4.1.0",
 	"squizlabs/php_codesniffer": "^3.5.4",
