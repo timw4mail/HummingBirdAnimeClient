@@ -17,11 +17,12 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Http\Client\Request;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\OldAnimeListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
@@ -39,9 +40,9 @@ trait AnimeTrait {
 	 * to a common format used by
 	 * templates
 	 *
-	 * @var AnimeListTransformer
+	 * @var OldAnimeListTransformer
 	 */
-	protected AnimeListTransformer $animeListTransformer;
+	protected OldAnimeListTransformer $oldListTransformer;
 
 	/**
 	 * @var AnimeTransformer
@@ -126,6 +127,45 @@ trait AnimeTrait {
 
 		if ($list === NULL)
 		{
+			$data = $this->getRawList(ListType::ANIME, $status) ?? [];
+
+			// Bail out on no data
+			if (empty($data))
+			{
+				return [];
+			}
+
+			$transformer = new AnimeListTransformer();
+			$transformed = $transformer->transformCollection($data);
+			$keyed = [];
+
+			foreach($transformed as $item)
+			{
+				$keyed[$item['id']] = $item;
+			}
+
+			$list = $keyed;
+			$this->cache->set($key, $list);
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @return array
+	 * @throws InvalidArgumentException
+	 */
+	public function oldGetAnimeList(string $status): array
+	{
+		$key = "kitsu-anime-list-{$status}";
+
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
+		{
 			$data = $this->getRawAnimeList($status) ?? [];
 
 			// Bail out on no data
@@ -142,7 +182,7 @@ trait AnimeTrait {
 				$item['included'] = $included;
 			}
 			unset($item);
-			$transformed = $this->animeListTransformer->transformCollection($data['data']);
+			$transformed = $this->oldListTransformer->transformCollection($data['data']);
 			$keyed = [];
 
 			foreach($transformed as $item)
