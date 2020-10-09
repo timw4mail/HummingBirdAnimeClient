@@ -180,14 +180,7 @@ final class RequestBuilder extends APIRequestBuilder {
 		return ($response->getStatus() === 204);
 	}
 
-	/**
-	 * Run a GraphQL API query
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
-	 */
-	public function runQuery(string $name, array $variables = []): array
+	public function queryRequest(string $name, array $variables = []): Request
 	{
 		$file = __DIR__ . "/Queries/{$name}.graphql";
 		if ( ! file_exists($file))
@@ -209,9 +202,31 @@ final class RequestBuilder extends APIRequestBuilder {
 			}
 		}
 
-		return $this->graphResponse([
-			'body' => $body
+		return $this->setUpRequest('POST', K::GRAPHQL_ENDPOINT, [
+			'body' => $body,
 		]);
+	}
+
+	/**
+	 * Run a GraphQL API query
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return array
+	 */
+	public function runQuery(string $name, array $variables = []): array
+	{
+		$request = $this->queryRequest($name, $variables);
+		$response = getResponse($request);
+		$validResponseCodes = [200, 201];
+
+		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		{
+			$logger = $this->container->getLogger('kitsu-graphql');
+			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+		}
+
+		return Json::decode(wait($response->getBody()->buffer()));
 	}
 
 	/**
@@ -256,6 +271,13 @@ final class RequestBuilder extends APIRequestBuilder {
 	{
 		$request = $this->mutateRequest($name, $variables);
 		$response = getResponse($request);
+		$validResponseCodes = [200, 201];
+
+		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		{
+			$logger = $this->container->getLogger('kitsu-graphql');
+			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+		}
 
 		return Json::decode(wait($response->getBody()->buffer()));
 	}
@@ -284,27 +306,6 @@ final class RequestBuilder extends APIRequestBuilder {
 		]);
 
 		return $response;
-	}
-
-	/**
-	 * Remove some boilerplate for GraphQL requests
-	 *
-	 * @param array $options
-	 * @return array
-	 * @throws \Throwable
-	 */
-	protected function graphResponse(array $options = []): array
-	{
-		$response = $this->getResponse('POST', K::GRAPHQL_ENDPOINT, $options);
-		$validResponseCodes = [200, 201];
-
-		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
-		{
-			$logger = $this->container->getLogger('kitsu-graphql');
-			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
-		}
-
-		return Json::decode(wait($response->getBody()->buffer()));
 	}
 
 	/**

@@ -17,7 +17,9 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getApiClient;
 
+use Amp;
 use Amp\Http\Client\Request;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\{
@@ -27,7 +29,7 @@ use Aviat\AnimeClient\API\{
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
-	AnimeListTransformer,
+	OldAnimeListTransformer,
 	LibraryEntryTransformer,
 	MangaTransformer,
 	MangaListTransformer
@@ -49,7 +51,7 @@ final class Model {
 	use MangaTrait;
 	use MutationTrait;
 
-	protected const LIST_PAGE_SIZE = 75;
+	protected const LIST_PAGE_SIZE = 100;
 
 	/**
 	 * @var ListItem
@@ -64,7 +66,7 @@ final class Model {
 	public function __construct(ListItem $listItem)
 	{
 		$this->animeTransformer = new AnimeTransformer();
-		$this->animeListTransformer = new AnimeListTransformer();
+		$this->oldListTransformer = new OldAnimeListTransformer();
 		$this->mangaTransformer = new MangaTransformer();
 		$this->mangaListTransformer = new MangaListTransformer();
 
@@ -349,6 +351,81 @@ final class Model {
 		return $this->requestBuilder->runQuery('GetUserHistory', [
 			'slug' => $this->getUsername(),
 		]);
+	}
+
+	/**
+	 * Get the raw anime/manga list from GraphQL
+	 *
+	 * @param string $type
+	 * @param string $status
+	 * @return array
+	 */
+	public function getRawList(string $type, string $status = ''): array
+	{
+		$pages = [];
+
+		foreach ($this->getRawListPages(strtoupper($type), strtoupper($status)) as $page)
+		{
+			$pages[] = $page;
+		}
+
+		return array_merge(...$pages);
+	}
+
+	protected function getRawListPages(string $type, string $status = ''): ?\Generator
+	{
+		$items = $this->getRawPages($type, $status);
+
+		while (wait($items->advance()))
+		{
+			yield $items->getCurrent();
+		}
+	}
+
+	protected function getRawPages(string $type, string $status = ''): Amp\Iterator
+	{
+		$cursor = '';
+		$username = $this->getUsername();
+
+		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username) {
+			while (TRUE)
+			{
+				$vars = [
+					'type' => $type,
+					'slug' => $username,
+				];
+				if ($status !== '')
+				{
+					$vars['status'] = $status;
+				}
+				if ($cursor !== '')
+				{
+					$vars['after'] = $cursor;
+				}
+
+				$request = $this->requestBuilder->queryRequest('GetLibrary', $vars);
+				$response = yield getApiClient()->request($request);
+				$json = yield $response->getBody()->buffer();
+
+				$rawData = Json::decode($json);
+				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
+				$page = $data['pageInfo'];
+				if (empty($data))
+				{
+					// @TODO Error logging
+					break;
+				}
+
+				$cursor = $page['endCursor'];
+
+				yield $emit($data['nodes']);
+
+				if ($page['hasNextPage'] === FALSE)
+				{
+					break;
+				}
+			}
+		});
 	}
 
 	private function getUserId(): string

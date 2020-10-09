@@ -240,7 +240,6 @@ function getResponse ($request): Response
 		$request = new Request($request);
 	}
 
-
 	return wait($client->request($request));
 }
 

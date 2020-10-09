@@ -52,6 +52,8 @@ query (
 						sfw
 						slug
 						status
+						startDate
+						endDate
 						type
 						titles {
 							canonical
@@ -60,6 +62,7 @@ query (
 						}
 						...on Anime {
 							episodeCount
+							episodeLength
 							streamingLinks(first: 10) {
 								nodes {
 									dubs
