@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\{
 	FormItem,
@@ -52,7 +52,7 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 		$this->beforeTransform = $rawBefore['data'];
 		// $this->afterTransform = Json::decodeFile("{$this->dir}/mangaListAfterTransform.json");
 
-		$this->transformer = new MangaListTransformer();
+		$this->transformer = new OldMangaListTransformer();
 	}
 
 	public function testTransform()

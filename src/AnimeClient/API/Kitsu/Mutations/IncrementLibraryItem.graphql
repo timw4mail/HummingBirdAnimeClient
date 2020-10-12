@@ -1,4 +1,4 @@
-mutation($id: ID!, $progress: Int) {
+mutation($id: ID!, $progress: Int!) {
 	libraryEntry{
 		update(input: { id: $id, progress: $progress }) {
 			libraryEntry {
