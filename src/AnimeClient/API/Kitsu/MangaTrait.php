@@ -21,7 +21,7 @@ use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
@@ -40,9 +40,9 @@ trait MangaTrait {
 	protected MangaTransformer $mangaTransformer;
 
 	/**
-	 * @var MangaListTransformer
+	 * @var OldMangaListTransformer
 	 */
-	protected MangaListTransformer $mangaListTransformer;
+	protected OldMangaListTransformer $mangaListTransformer;
 
 	// -------------------------------------------------------------------------
 	// ! Manga-specific methods
