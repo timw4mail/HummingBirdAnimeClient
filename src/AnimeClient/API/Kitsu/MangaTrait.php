@@ -21,6 +21,7 @@ use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus;
 use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
@@ -109,54 +110,35 @@ trait MangaTrait {
 	 * Get the manga list for the configured user
 	 *
 	 * @param string $status - The reading status by which to filter the list
-	 * @param int $limit - The number of list items to fetch per page
-	 * @param int $offset - The page offset
 	 * @return array
 	 * @throws InvalidArgumentException
 	 */
-	public function getMangaList(string $status, int $limit = 200, int $offset = 0): array
+	public function getMangaList(string $status): array
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'user_id' => $this->getUserId(),
-					'kind' => 'manga',
-					'status' => $status,
-				],
-				'include' => 'media,media.categories,media.mappings',
-				'page' => [
-					'offset' => $offset,
-					'limit' => $limit
-				],
-				'sort' => '-updated_at'
-			]
-		];
-
 		$key = "kitsu-manga-list-{$status}";
 
 		$list = $this->cache->get($key, NULL);
 
 		if ($list === NULL)
 		{
-			$data = $this->requestBuilder->getRequest('library-entries', $options) ?? [];
+			$data = $this->getRawList(ListType::MANGA, $status) ?? [];
 
 			// Bail out on no data
-			if (empty($data) || ( ! array_key_exists('included', $data)))
+			if (empty($data))
 			{
 				return [];
 			}
 
-			$included = JsonAPI::organizeIncludes($data['included']);
-			$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
+			$transformer = new MangaListTransformer();
+			$transformed = $transformer->transformCollection($data);
+			$keyed = [];
 
-			foreach($data['data'] as $i => &$item)
+			foreach($transformed as $item)
 			{
-				$item['included'] = $included;
+				$keyed[$item['id']] = $item;
 			}
-			unset($item);
 
-			$list = $this->mangaListTransformer->transformCollection($data['data']);
-
+			$list = $keyed;
 			$this->cache->set($key, $list);
 		}
 
