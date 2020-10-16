@@ -329,16 +329,27 @@ final class Model {
 	 */
 	public function getSyncList(string $type): array
 	{
-		$options = [
-			'filter' => [
-				'user_id' => $this->getUserId(),
-				'kind' => $type,
-			],
-			'include' => "{$type},{$type}.mappings",
-			// 'sort' => '-updated_at'
+		$statuses = [
+			'CURRENT',
+			'PLANNED',
+			'ON_HOLD',
+			'DROPPED',
+			'COMPLETED',
 		];
 
-		return $this->getRawSyncList($type, $options);
+		$pages = [];
+
+		// Although I can fetch the whole list without segregating by status,
+		// this way is much faster...
+		foreach ($statuses as $status)
+		{
+			foreach ($this->getRawSyncListPages(strtoupper($type), $status) as $page)
+			{
+				$pages[] = $page;
+			}
+		}
+
+		return array_merge(...$pages);
 	}
 
 	/**
@@ -412,8 +423,63 @@ final class Model {
 				$page = $data['pageInfo'];
 				if (empty($data))
 				{
+					dump($rawData);
+					die();
+
 					// @TODO Error logging
 					break;
+				}
+
+				$cursor = $page['endCursor'];
+
+				yield $emit($data['nodes']);
+
+				if ($page['hasNextPage'] === FALSE)
+				{
+					break;
+				}
+			}
+		});
+	}
+
+	protected function getRawSyncListPages(string $type, string $status): ?\Generator
+	{
+		$items = $this->getRawSyncPages($type, $status);
+
+		while (wait($items->advance()))
+		{
+			yield $items->getCurrent();
+		}
+	}
+
+	protected function getRawSyncPages(string $type, $status): Amp\Iterator {
+		$cursor = '';
+		$username = $this->getUsername();
+
+		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username) {
+			while (TRUE)
+			{
+				$vars = [
+					'type' => $type,
+					'slug' => $username,
+					'status' => $status,
+				];
+				if ($cursor !== '')
+				{
+					$vars['after'] = $cursor;
+				}
+
+				$request = $this->requestBuilder->queryRequest('GetSyncLibrary', $vars);
+				$response = yield getApiClient()->request($request);
+				$json = yield $response->getBody()->buffer();
+
+				$rawData = Json::decode($json);
+				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
+				$page = $data['pageInfo'];
+				if (empty($data))
+				{
+					dump($rawData);
+					die();
 				}
 
 				$cursor = $page['endCursor'];
@@ -466,69 +532,5 @@ final class Model {
 		$res = $this->requestBuilder->runQuery('GetLibraryCount', $args);
 
 		return $res['data']['findProfileBySlug']['library']['all']['totalCount'];
-	}
-
-	/**
-	 * Get the full anime list
-	 *
-	 * @param string $type
-	 * @param array $options
-	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
-	 */
-	private function getRawSyncList(string $type, array $options): array
-	{
-		$count = $this->getListCount($type);
-		$size = static::LIST_PAGE_SIZE;
-		$pages = ceil($count / $size);
-
-		$requester = new ParallelAPIRequest();
-
-		// Set up requests
-		for ($i = 0; $i < $pages; $i++)
-		{
-			$offset = $i * $size;
-			$requester->addRequest($this->getRawSyncListPage($type, $size, $offset, $options));
-		}
-
-		$responses = $requester->makeRequests();
-		$output = [];
-
-		foreach($responses as $response)
-		{
-			$data = Json::decode($response);
-			$output[] = $data;
-		}
-
-		return array_merge_recursive(...$output);
-	}
-
-	/**
-	 * Get the full anime list in paginated form
-	 *
-	 * @param string $type
-	 * @param int $limit
-	 * @param int $offset
-	 * @param array $options
-	 * @return Request
-	 * @throws InvalidArgumentException
-	 */
-	private function getRawSyncListPage(string $type, int $limit, int $offset = 0, array $options = []): Request
-	{
-		$defaultOptions = [
-			'filter' => [
-				'user_id' => $this->getUserId(),
-				'kind' => $type,
-			],
-			'page' => [
-				'offset' => $offset,
-				'limit' => $limit
-			],
-			'sort' => '-updated_at'
-		];
-		$options = array_merge($defaultOptions, $options);
-
-		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
 }

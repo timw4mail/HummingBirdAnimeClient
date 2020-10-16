@@ -19,7 +19,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 use Amp\Http\Client\Request;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus;
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;

@@ -20,14 +20,12 @@ use ConsoleKit\Widgets;
 
 use Aviat\AnimeClient\API\{
 	Anilist\MissingIdException,
-	FailedResponseException,
-	JsonAPI,
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\API;
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
-use Aviat\AnimeClient\Enum\{APISource, ListType, SyncAction};
+use Aviat\AnimeClient\Enum\{ListType, SyncAction};
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
@@ -40,6 +38,9 @@ use function in_array;
  * Syncs list data between Anilist and Kitsu
  */
 final class SyncLists extends BaseCommand {
+	protected const KITSU_GREATER = 1;
+	protected const ANILIST_GREATER = -1;
+	protected const SAME = 0;
 
 	/**
 	 * Model for making requests to Anilist API
@@ -315,37 +316,24 @@ final class SyncLists extends BaseCommand {
 			return [];
 		}
 
-		if ( ! array_key_exists('included', $data))
-		{
-			dump([
-				'problem' => 'Missing included data in method ' . __METHOD__,
-				'data' => $data
-			]);
-			return [];
-		}
-
-		$includes = JsonAPI::organizeIncludes($data['included']);
-		$includes['mappings'] = $this->filterMappings($includes['mappings'], $type);
-
 		$output = [];
 
-		foreach($data['data'] as $listItem)
+		foreach($data as $listItem)
 		{
-			$id = $listItem['relationships'][$type]['data']['id'];
-
-			$potentialMappings = $includes[$type][$id]['relationships']['mappings'];
+			// If there's no mapping, we can't sync, so continue
+			if ( ! is_array($listItem['media']['mappings']['nodes']))
+			{
+				continue;
+			}
 			$malId = NULL;
 
-			foreach ($potentialMappings as $mappingId)
+			foreach ($listItem['media']['mappings']['nodes'] as $mapping)
 			{
-				if (is_array($mappingId))
+				$uType = strtoupper($type);
+				if ($mapping['externalSite'] === "MYANIMELIST_{$uType}")
 				{
-					continue;
-				}
-
-				if (array_key_exists($mappingId, $includes['mappings']))
-				{
-					$malId = $includes['mappings'][$mappingId]['externalId'];
+					$malId = $mapping['externalId'];
+					break;
 				}
 			}
 
@@ -355,10 +343,22 @@ final class SyncLists extends BaseCommand {
 				continue;
 			}
 
-			$output[$listItem['id']] = [
-				'id' => $listItem['id'],
+			$output[$listItem['media']['id']] = [
+				'id' => $listItem['media']['id'],
+				'slug' => $listItem['media']['slug'],
 				'malId' => $malId,
-				'data' => $listItem['attributes'],
+				'data' => [
+					'notes' => $listItem['notes'],
+					'private' => $listItem['private'],
+					'progress' => $listItem['progress'],
+					// Comparision is done on 1-10 scale,
+					// Kitsu returns 1-20 scale.
+					'rating' => $listItem['rating'] / 2,
+					'reconsumeCount' => $listItem['reconsumeCount'],
+					'reconsuming' => $listItem['reconsuming'],
+					'status' => strtolower($listItem['status']),
+					'updatedAt' => $listItem['progressedAt'],
+				]
 			];
 		}
 
@@ -460,7 +460,7 @@ final class SyncLists extends BaseCommand {
 					'private' => $kItem['private'],
 					'progress' => $kItem['progress'],
 					'repeat' => $kItem['reconsumeCount'],
-					'score' => $kItem['ratingTwenty'] * 5, // 100 point score on Anilist
+					'score' => $kItem['rating'] * 10, // 100 point score on Anilist
 					'status' => $newItemStatus,
 				],
 			];
@@ -492,10 +492,9 @@ final class SyncLists extends BaseCommand {
 			'status',
 		];
 		$diff = [];
-		$dateDiff = new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime((string)$anilistItem['data']['updatedAt']);
-
-		// Correct differences in notation
-		$kitsuItem['data']['rating'] = $kitsuItem['data']['ratingTwenty'] / 2;
+		$dateDiff = ($kitsuItem['data']['updatedAt'] !== NULL)
+			? new DateTime($kitsuItem['data']['updatedAt']) <=> new DateTime((string)$anilistItem['data']['updatedAt'])
+			: 0;
 
 		foreach($compareKeys as $key)
 		{
@@ -535,12 +534,12 @@ final class SyncLists extends BaseCommand {
 		// If status is the same, and progress count is different, use greater progress
 		if ($sameStatus && ( ! $sameProgress))
 		{
-			if ($diff['progress'] === 1)
+			if ($diff['progress'] === self::KITSU_GREATER)
 			{
 				$update['data']['progress'] = $kitsuItem['data']['progress'];
 				$return['updateType'][] = API::ANILIST;
 			}
-			else if($diff['progress'] === -1)
+			else if($diff['progress'] === self::ANILIST_GREATER)
 			{
 				$update['data']['progress'] = $anilistItem['data']['progress'];
 				$return['updateType'][] = API::KITSU;
@@ -550,12 +549,12 @@ final class SyncLists extends BaseCommand {
 		// If status is different, use the status of the more recently updated item
 		if ( ! $sameStatus)
 		{
-			if ($dateDiff === 1)
+			if ($dateDiff === self::KITSU_GREATER)
 			{
 				$update['data']['status'] = $kitsuItem['data']['status'];
 				$return['updateType'][] = API::ANILIST;
 			}
-			else if ($dateDiff === -1)
+			else if ($dateDiff === self::ANILIST_GREATER)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
 				$return['updateType'][] = API::KITSU;
@@ -566,7 +565,7 @@ final class SyncLists extends BaseCommand {
 		// But, at least for now, assume newer record is correct
 		if ( ! ($sameStatus || $sameProgress))
 		{
-			if ($dateDiff === 1)
+			if ($dateDiff === self::KITSU_GREATER)
 			{
 				$update['data']['status'] = $kitsuItem['data']['status'];
 
@@ -577,7 +576,7 @@ final class SyncLists extends BaseCommand {
 
 				$return['updateType'][] = API::ANILIST;
 			}
-			else if($dateDiff === -1)
+			else if($dateDiff === self::ANILIST_GREATER)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
 
@@ -594,7 +593,7 @@ final class SyncLists extends BaseCommand {
 		if ( ! $sameRating)
 		{
 			if (
-				$dateDiff === 1 &&
+				$dateDiff === self::KITSU_GREATER &&
 				$kitsuItem['data']['rating'] !== 0 &&
 				$kitsuItem['data']['ratingTwenty'] !== 0
 			)
@@ -602,7 +601,7 @@ final class SyncLists extends BaseCommand {
 				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
 				$return['updateType'][] = API::ANILIST;
 			}
-			else if($dateDiff === -1 && $anilistItem['data']['rating'] !== 0)
+			else if($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
 			{
 				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
 				$return['updateType'][] = API::KITSU;
@@ -612,7 +611,7 @@ final class SyncLists extends BaseCommand {
 		// If notes are set, use kitsu, otherwise, set kitsu from anilist
 		if ( ! $sameNotes)
 		{
-			if ($kitsuItem['data']['notes'] !== '')
+			if ( ! empty($kitsuItem['data']['notes']))
 			{
 				$update['data']['notes'] = $kitsuItem['data']['notes'];
 				$return['updateType'][] = API::ANILIST;
@@ -627,12 +626,12 @@ final class SyncLists extends BaseCommand {
 		// Assume the larger reconsumeCount is correct
 		if ( ! $sameRewatchCount)
 		{
-			if ($diff['reconsumeCount'] === 1)
+			if ($diff['reconsumeCount'] === self::KITSU_GREATER)
 			{
 				$update['data']['reconsumeCount'] = $kitsuItem['data']['reconsumeCount'];
 				$return['updateType'][] = API::ANILIST;
 			}
-			else if ($diff['reconsumeCount'] === -1)
+			else if ($diff['reconsumeCount'] === self::ANILIST_GREATER)
 			{
 				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
 				$return['updateType'][] = API::KITSU;
@@ -659,11 +658,14 @@ final class SyncLists extends BaseCommand {
 		// to handle each combination of fields
 		if ($return['updateType'][0] === API::ANILIST)
 		{
+			// Anilist GraphQL expects a rating from 1-100
 			$prevData = [
 				'notes' => $kitsuItem['data']['notes'],
 				'private' => $kitsuItem['data']['private'],
 				'progress' => $kitsuItem['data']['progress'],
-				'rating' => $kitsuItem['data']['ratingTwenty'] * 5,
+				// Transformed Kitsu data returns a rating from 1-10
+				// Anilist expects a rating from 1-100
+				'rating' => $kitsuItem['data']['rating'] * 10,
 				'reconsumeCount' => $kitsuItem['data']['reconsumeCount'],
 				'reconsuming' => $kitsuItem['data']['reconsuming'],
 				'status' => $kitsuItem['data']['status'],
@@ -677,6 +679,8 @@ final class SyncLists extends BaseCommand {
 				'notes' => $anilistItem['data']['notes'],
 				'private' => $anilistItem['data']['private'],
 				'progress' => $anilistItem['data']['progress'] ?? 0,
+				// Anilist returns a rating between 1-100
+				// Kitsu expects a rating from 1-20
 				'rating' => (((int)$anilistItem['data']['rating']) > 0)
 					? $anilistItem['data']['rating'] / 5
 					: 0,
@@ -823,31 +827,5 @@ final class SyncLists extends BaseCommand {
 				$this->echoError("Failed to {$verb} Anilist {$type} list item with id: {$id}");
 			}
 		}
-	}
-
-	// ------------------------------------------------------------------------
-	// Other Helpers
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Filter Kitsu mappings for the specified type
-	 *
-	 * @param array $includes
-	 * @param string $type
-	 * @return array
-	 */
-	private function filterMappings(array $includes, string $type = ListType::ANIME): array
-	{
-		$output = [];
-
-		foreach($includes as $id => $mapping)
-		{
-			if ($mapping['externalSite'] === "myanimelist/{$type}")
-			{
-				$output[$id] = $mapping;
-			}
-		}
-
-		return $output;
 	}
 }
