@@ -36,21 +36,14 @@ final class MangaListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): MangaListItem
 	{
-		$included = $item['included'];
-		$mangaId = $item['relationships']['media']['data']['id'];
-		$manga = $included['manga'][$mangaId];
+		$mangaId = $item['media']['id'];
+		$manga = $item['media'];
 
 		$genres = [];
 
-		foreach ($manga['relationships']['categories'] as $genre)
-		{
-			$genres[] = $genre['title'];
-		}
-
-		sort($genres);
-
-		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
-			? $item['attributes']['ratingTwenty'] / 2
+		// Rating is 1-20, we want 1-10
+		$rating = (int) $item['rating'] !== 0
+			? $item['rating'] / 2
 			: '-';
 
 		$totalChapters = ((int) $manga['chapterCount'] !== 0)
@@ -61,17 +54,18 @@ final class MangaListTransformer extends AbstractTransformer {
 			? $manga['volumeCount']
 			: '-';
 
-		$readChapters = ((int) $item['attributes']['progress'] !== 0)
-			? $item['attributes']['progress']
+		$readChapters = ((int) $item['progress'] !== 0)
+			? $item['progress']
 			: '-';
 
 		$MALid = NULL;
 
-		if (array_key_exists('mappings', $manga['relationships']))
+		$mappings = $manga['mappings']['nodes'] ?? [];
+		if ( ! empty($mappings))
 		{
-			foreach ($manga['relationships']['mappings'] as $mapping)
+			foreach ($mappings as $mapping)
 			{
-				if ($mapping['externalSite'] === 'myanimelist/manga')
+				if ($mapping['externalSite'] === 'MYANIMELIST_MANGA')
 				{
 					$MALid = $mapping['externalId'];
 					break;
@@ -79,8 +73,8 @@ final class MangaListTransformer extends AbstractTransformer {
 			}
 		}
 
-		$titles = Kitsu::filterTitles($manga);
-		$title = array_shift($titles);
+		$titles = Kitsu::getFilteredTitles($manga['titles']);
+		$title = $manga['titles']['canonical'];
 
 		return MangaListItem::from([
 			'id' => $item['id'],
@@ -96,17 +90,17 @@ final class MangaListTransformer extends AbstractTransformer {
 			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
 				'id' => $mangaId,
-				'image' => $manga['posterImage']['small'],
+				'image' => $manga['posterImage']['views'][1]['url'],
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => (string)StringType::from($manga['subtype'])->upperCaseFirst(),
+				'type' => (string)StringType::from($manga['subtype'])->toLowerCase()->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
-			'reading_status' => $item['attributes']['status'],
-			'notes' => $item['attributes']['notes'],
-			'rereading' => (bool)$item['attributes']['reconsuming'],
-			'reread' => $item['attributes']['reconsumeCount'],
+			'reading_status' => strtolower($item['status']),
+			'notes' => $item['notes'],
+			'rereading' => (bool)$item['reconsuming'],
+			'reread' => $item['reconsumeCount'],
 			'user_rating' => $rating,
 		]);
 	}

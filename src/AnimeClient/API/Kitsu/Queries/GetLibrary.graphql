@@ -79,6 +79,7 @@ query (
 						}
 						...on Manga {
 							chapterCount
+							volumeCount
 							subtype
 						}
 					}

@@ -20,7 +20,6 @@ use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\OldAnimeListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
@@ -137,52 +136,6 @@ trait AnimeTrait {
 
 			$transformer = new AnimeListTransformer();
 			$transformed = $transformer->transformCollection($data);
-			$keyed = [];
-
-			foreach($transformed as $item)
-			{
-				$keyed[$item['id']] = $item;
-			}
-
-			$list = $keyed;
-			$this->cache->set($key, $list);
-		}
-
-		return $list;
-	}
-
-	/**
-	 * Get the anime list for the configured user
-	 *
-	 * @param string $status - The watching status to filter the list with
-	 * @return array
-	 * @throws InvalidArgumentException
-	 */
-	public function oldGetAnimeList(string $status): array
-	{
-		$key = "kitsu-anime-list-{$status}";
-
-		$list = $this->cache->get($key, NULL);
-
-		if ($list === NULL)
-		{
-			$data = $this->getRawAnimeList($status) ?? [];
-
-			// Bail out on no data
-			if (empty($data))
-			{
-				return [];
-			}
-
-			$included = JsonAPI::organizeIncludes($data['included']);
-			$included = JsonAPI::inlineIncludedRelationships($included, 'anime');
-
-			foreach($data['data'] as $i => &$item)
-			{
-				$item['included'] = $included;
-			}
-			unset($item);
-			$transformed = $this->oldListTransformer->transformCollection($data['data']);
 			$keyed = [];
 
 			foreach($transformed as $item)
