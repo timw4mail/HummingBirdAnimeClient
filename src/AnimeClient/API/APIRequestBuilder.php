@@ -34,6 +34,12 @@ abstract class APIRequestBuilder {
 	use LoggerAwareTrait;
 
 	/**
+	 * Where to look for GraphQL request files
+	 * @var string
+	 */
+	protected string $filePath = __DIR__;
+
+	/**
 	 * Url prefix for making url requests
 	 * @var string
 	 */
@@ -292,6 +298,74 @@ abstract class APIRequestBuilder {
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Create a GraphQL query and return the Request object
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return Request
+	 */
+	public function queryRequest(string $name, array $variables = []): Request
+	{
+		$file = "{$this->filePath}/Queries/{$name}.graphql";
+		if ( ! file_exists($file))
+		{
+			throw new LogicException('GraphQL query file does not exist.');
+		}
+
+		$query = file_get_contents($file);
+		$body = [
+			'query' => $query
+		];
+
+		if ( ! empty($variables))
+		{
+			$body['variables'] = [];
+			foreach($variables as $key => $val)
+			{
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->setUpRequest('POST', $this->baseUrl, [
+			'body' => $body,
+		]);
+	}
+
+	/**
+	 * Create a GraphQL mutation request, and return the Request object
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return Request
+	 * @throws Throwable
+	 */
+	public function mutateRequest (string $name, array $variables = []): Request
+	{
+		$file = "{$this->filePath}/Mutations/{$name}.graphql";
+		if ( ! file_exists($file))
+		{
+			throw new LogicException('GraphQL mutation file does not exist.');
+		}
+
+		$query = file_get_contents($file);
+		$body = [
+			'query' => $query
+		];
+
+		if (!empty($variables)) {
+			$body['variables'] = [];
+			foreach ($variables as $key => $val)
+			{
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->setUpRequest('POST', $this->baseUrl, [
+			'body' => $body,
+		]);
 	}
 
 	/**

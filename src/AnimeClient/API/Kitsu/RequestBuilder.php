@@ -43,7 +43,13 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * The base url for api requests
 	 * @var string $base_url
 	 */
-	protected string $baseUrl = K::JSON_API_ENDPOINT;
+	protected string $baseUrl = K::GRAPHQL_ENDPOINT;
+
+	/**
+	 * Where to look for GraphQL request files
+	 * @var string
+	 */
+	protected string $filePath = __DIR__;
 
 	/**
 	 * HTTP headers to send with every request
@@ -124,92 +130,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * Remove some boilerplate for get requests
-	 *
-	 * @param mixed ...$args
-	 * @throws Throwable
-	 * @return array
-	 */
-	public function getRequest(...$args): array
-	{
-		return $this->request('GET', ...$args);
-	}
-
-	/**
-	 * Remove some boilerplate for patch requests
-	 *
-	 * @param mixed ...$args
-	 * @throws Throwable
-	 * @return array
-	 */
-	public function patchRequest(...$args): array
-	{
-		return $this->request('PATCH', ...$args);
-	}
-
-	/**
-	 * Remove some boilerplate for post requests
-	 *
-	 * @param mixed ...$args
-	 * @throws Throwable
-	 * @return array
-	 */
-	public function postRequest(...$args): array
-	{
-		$logger = $this->container->getLogger('kitsu-request');
-
-		$response = $this->getResponse('POST', ...$args);
-		$validResponseCodes = [200, 201];
-
-		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
-		{
-			$logger->warning('Non 2xx response for POST api call', $response->getBody());
-		}
-
-		return JSON::decode(wait($response->getBody()->buffer()), TRUE);
-	}
-
-	/**
-	 * Remove some boilerplate for delete requests
-	 *
-	 * @param mixed ...$args
-	 * @throws Throwable
-	 * @return bool
-	 */
-	public function deleteRequest(...$args): bool
-	{
-		$response = $this->getResponse('DELETE', ...$args);
-		return ($response->getStatus() === 204);
-	}
-
-	public function queryRequest(string $name, array $variables = []): Request
-	{
-		$file = __DIR__ . "/Queries/{$name}.graphql";
-		if ( ! file_exists($file))
-		{
-			throw new LogicException('GraphQL query file does not exist.');
-		}
-
-		$query = file_get_contents($file);
-		$body = [
-			'query' => $query
-		];
-
-		if ( ! empty($variables))
-		{
-			$body['variables'] = [];
-			foreach($variables as $key => $val)
-			{
-				$body['variables'][$key] = $val;
-			}
-		}
-
-		return $this->setUpRequest('POST', K::GRAPHQL_ENDPOINT, [
-			'body' => $body,
-		]);
-	}
-
-	/**
 	 * Run a GraphQL API query
 	 *
 	 * @param string $name
@@ -232,38 +152,8 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
-	 * @throws Throwable
-	 */
-	public function mutateRequest (string $name, array $variables = []): Request
-	{
-		$file = __DIR__ . "/Mutations/{$name}.graphql";
-		if ( ! file_exists($file))
-		{
-			throw new LogicException('GraphQL mutation file does not exist.');
-		}
-
-		$query = file_get_contents($file);
-		$body = [
-			'query' => $query
-		];
-
-		if (!empty($variables)) {
-			$body['variables'] = [];
-			foreach ($variables as $key => $val)
-			{
-				$body['variables'][$key] = $val;
-			}
-		}
-
-		return $this->setUpRequest('POST', K::GRAPHQL_ENDPOINT, [
-			'body' => $body,
-		]);
-	}
-
-	/**
+	 * Run a GraphQL mutation
+	 *
 	 * @param string $name
 	 * @param array $variables
 	 * @return array
