@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\Kitsu\Transformer\OldAnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
@@ -228,7 +228,7 @@ final class Anime extends BaseController {
 
 		// Do some minor data manipulation for
 		// large form-based updates
-		$transformer = new OldAnimeListTransformer();
+		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
 		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
 

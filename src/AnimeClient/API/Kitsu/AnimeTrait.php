@@ -21,7 +21,6 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\OldAnimeListTransformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\API\ParallelAPIRequest;
@@ -34,14 +33,6 @@ use Aviat\Ion\Json;
  * Anime-related list methods
  */
 trait AnimeTrait {
-	/**
-	 * Class to map anime list items
-	 * to a common format used by
-	 * templates
-	 *
-	 * @var OldAnimeListTransformer
-	 */
-	protected OldAnimeListTransformer $oldListTransformer;
 
 	/**
 	 * @var AnimeTransformer
