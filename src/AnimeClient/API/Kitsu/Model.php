@@ -29,10 +29,8 @@ use Aviat\AnimeClient\API\{
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeTransformer,
-	OldAnimeListTransformer,
 	LibraryEntryTransformer,
 	MangaTransformer,
-	OldMangaListTransformer
 };
 
 use Aviat\Banker\Exception\InvalidArgumentException;
@@ -66,9 +64,7 @@ final class Model {
 	public function __construct(ListItem $listItem)
 	{
 		$this->animeTransformer = new AnimeTransformer();
-		$this->oldListTransformer = new OldAnimeListTransformer();
 		$this->mangaTransformer = new MangaTransformer();
-		$this->mangaListTransformer = new OldMangaListTransformer();
 
 		$this->listItem = $listItem;
 	}

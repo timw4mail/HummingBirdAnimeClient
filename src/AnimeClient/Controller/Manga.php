@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller;
-use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
@@ -229,7 +229,7 @@ final class Manga extends Controller {
 
 		// Do some minor data manipulation for
 		// large form-based updates
-		$transformer = new OldMangaListTransformer();
+		$transformer = new MangaListTransformer();
 		$post_data = $transformer->untransform($data);
 		$full_result = $this->model->updateLibraryItem(FormItem::from($post_data));
 
