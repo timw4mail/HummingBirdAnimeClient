@@ -16,26 +16,35 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getApiClient;
-
 use Amp;
-use Amp\Http\Client\Request;
-use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
-	ParallelAPIRequest
+	Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
+	Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus,
+	Mapping\AnimeWatchingStatus,
+	Mapping\MangaReadingStatus
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
+	AnimeHistoryTransformer,
+	AnimeListTransformer,
 	AnimeTransformer,
 	LibraryEntryTransformer,
-	MangaTransformer,
+	MangaHistoryTransformer,
+	MangaListTransformer,
+	MangaTransformer
 };
-
+use Aviat\AnimeClient\Enum\ListType;
+use Aviat\AnimeClient\Kitsu as K;
+use Aviat\AnimeClient\Types\Anime;
+use Aviat\AnimeClient\Types\MangaPage;
 use Aviat\Banker\Exception\InvalidArgumentException;
-use Aviat\Ion\{Di\ContainerAware, Json};
-
+use Aviat\Ion\{
+	Di\ContainerAware,
+	Json
+};
 use Throwable;
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getApiClient;
 
 /**
  * Kitsu API Model
@@ -44,11 +53,19 @@ final class Model {
 	use CacheTrait;
 	use ContainerAware;
 	use RequestBuilderTrait;
-	use AnimeTrait;
-	use MangaTrait;
 	use MutationTrait;
 
 	protected const LIST_PAGE_SIZE = 100;
+
+	/**
+	 * @var AnimeTransformer
+	 */
+	protected AnimeTransformer $animeTransformer;
+
+	/**
+	 * @var MangaTransformer
+	 */
+	protected MangaTransformer $mangaTransformer;
 
 	/**
 	 * @var ListItem
@@ -220,6 +237,278 @@ final class Model {
 		]);
 	}
 
+	// -------------------------------------------------------------------------
+	// ! Anime-specific methods
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $slug
+	 * @return Anime
+	 */
+	public function getAnime(string $slug): Anime
+	{
+		$baseData = $this->requestBuilder->runQuery('AnimeDetails', [
+			'slug' => $slug
+		]);
+
+		if (empty($baseData))
+		{
+			return Anime::from([]);
+		}
+
+		return $this->animeTransformer->transform($baseData);
+	}
+
+	/**
+	 * Get information about a particular anime
+	 *
+	 * @param string $animeId
+	 * @return Anime
+	 */
+	public function getAnimeById(string $animeId): Anime
+	{
+		$baseData = $this->requestBuilder->runQuery('AnimeDetailsById', [
+			'id' => $animeId,
+		]);
+		return $this->animeTransformer->transform($baseData);
+	}
+
+	/**
+	 * Retrieve the data for the anime watch history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getAnimeHistory(): array
+	{
+		$key = K::ANIME_HISTORY_LIST_CACHE_KEY;
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
+		{
+			$raw = $this->getHistoryList();
+
+			$list = (new AnimeHistoryTransformer())->transform($raw);
+
+			$this->cache->set($key, $list);
+
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Get the anime list for the configured user
+	 *
+	 * @param string $status - The watching status to filter the list with
+	 * @return array
+	 * @throws InvalidArgumentException
+	 */
+	public function getAnimeList(string $status): array
+	{
+		$key = "kitsu-anime-list-{$status}";
+
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
+		{
+			$data = $this->getList(ListType::ANIME, $status) ?? [];
+
+			// Bail out on no data
+			if (empty($data))
+			{
+				return [];
+			}
+
+			$transformer = new AnimeListTransformer();
+			$transformed = $transformer->transformCollection($data);
+			$keyed = [];
+
+			foreach($transformed as $item)
+			{
+				$keyed[$item['id']] = $item;
+			}
+
+			$list = $keyed;
+			$this->cache->set($key, $list);
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Get the number of anime list items
+	 *
+	 * @param string $status - Optional status to filter by
+	 * @return int
+	 * @throws InvalidArgumentException
+	 */
+	public function getAnimeListCount(string $status = '') : int
+	{
+		return $this->getListCount(ListType::ANIME, $status);
+	}
+
+	/**
+	 * Get all the anime entries, that are organized for output to html
+	 *
+	 * @return array
+	 * @throws ReflectionException
+	 * @throws InvalidArgumentException
+	 */
+	public function getFullOrganizedAnimeList(): array
+	{
+		$output = [];
+
+		$statuses = KitsuWatchingStatus::getConstList();
+
+		foreach ($statuses as $key => $status)
+		{
+			$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
+			$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
+		}
+
+		return $output;
+	}
+
+	// -------------------------------------------------------------------------
+	// ! Manga-specific methods
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Get information about a particular manga
+	 *
+	 * @param string $slug
+	 * @return MangaPage
+	 */
+	public function getManga(string $slug): MangaPage
+	{
+		$baseData = $this->requestBuilder->runQuery('MangaDetails', [
+			'slug' => $slug
+		]);
+
+		if (empty($baseData))
+		{
+			return MangaPage::from([]);
+		}
+
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	/**
+	 * Get information about a particular manga
+	 *
+	 * @param string $mangaId
+	 * @return MangaPage
+	 */
+	public function getMangaById(string $mangaId): MangaPage
+	{
+		$baseData = $this->requestBuilder->runQuery('MangaDetailsById', [
+			'id' => $mangaId,
+		]);
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	/**
+	 * Retrieve the data for the manga read history page
+	 *
+	 * @return array
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 */
+	public function getMangaHistory(): array
+	{
+		$key = K::MANGA_HISTORY_LIST_CACHE_KEY;
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
+		{
+			$raw = $this->getHistoryList();
+			$list = (new MangaHistoryTransformer())->transform($raw);
+
+			$this->cache->set($key, $list);
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Get the manga list for the configured user
+	 *
+	 * @param string $status - The reading status by which to filter the list
+	 * @return array
+	 * @throws InvalidArgumentException
+	 */
+	public function getMangaList(string $status): array
+	{
+		$key = "kitsu-manga-list-{$status}";
+
+		$list = $this->cache->get($key, NULL);
+
+		if ($list === NULL)
+		{
+			$data = $this->getList(ListType::MANGA, $status) ?? [];
+
+			// Bail out on no data
+			if (empty($data))
+			{
+				return [];
+			}
+
+			$transformer = new MangaListTransformer();
+			$transformed = $transformer->transformCollection($data);
+			$keyed = [];
+
+			foreach($transformed as $item)
+			{
+				$keyed[$item['id']] = $item;
+			}
+
+			$list = $keyed;
+			$this->cache->set($key, $list);
+		}
+
+		return $list;
+	}
+
+	/**
+	 * Get the number of manga list items
+	 *
+	 * @param string $status - Optional status to filter by
+	 * @return int
+	 * @throws InvalidArgumentException
+	 */
+	public function getMangaListCount(string $status = '') : int
+	{
+		return $this->getListCount(ListType::MANGA, $status);
+	}
+
+	/**
+	 * Get all Manga lists
+	 *
+	 * @return array
+	 * @throws ReflectionException
+	 * @throws InvalidArgumentException
+	 */
+	public function getFullOrganizedMangaList(): array
+	{
+		$statuses = KitsuReadingStatus::getConstList();
+		$output = [];
+		foreach ($statuses as $status)
+		{
+			$mappedStatus = MangaReadingStatus::KITSU_TO_TITLE[$status];
+			$output[$mappedStatus] = $this->getMangaList($status);
+		}
+
+		return $output;
+	}
+
+	// ------------------------------------------------------------------------
+	// Base methods
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Search for an anime or manga
 	 *
@@ -300,6 +589,31 @@ final class Model {
 		return (new LibraryEntryTransformer())->transform($baseData['data']['findLibraryEntryById']);
 	}
 
+	public function getThumbList(string $type): array
+	{
+		$statuses = [
+			'CURRENT',
+			'PLANNED',
+			'ON_HOLD',
+			'DROPPED',
+			'COMPLETED',
+		];
+
+		$pages = [];
+
+		// Although I can fetch the whole list without segregating by status,
+		// this way is much faster...
+		foreach ($statuses as $status)
+		{
+			foreach ($this->getPages([$this, 'getThumbListPages'], strtoupper($type), $status) as $page)
+			{
+				$pages[] = $page;
+			}
+		}
+
+		return array_merge(...$pages);
+	}
+
 	/**
 	 * Get the data to sync Kitsu anime/manga list with another API
 	 *
@@ -324,7 +638,7 @@ final class Model {
 		// this way is much faster...
 		foreach ($statuses as $status)
 		{
-			foreach ($this->getRawSyncListPages(strtoupper($type), $status) as $page)
+			foreach ($this->getPages([$this, 'getSyncPages'], strtoupper($type), $status) as $page)
 			{
 				$pages[] = $page;
 			}
@@ -338,7 +652,7 @@ final class Model {
 	 *
 	 * @return array
 	 */
-	protected function getRawHistoryList(): array
+	protected function getHistoryList(): array
 	{
 		return $this->requestBuilder->runQuery('GetUserHistory', [
 			'slug' => $this->getUsername(),
@@ -352,11 +666,11 @@ final class Model {
 	 * @param string $status
 	 * @return array
 	 */
-	public function getRawList(string $type, string $status = ''): array
+	protected function getList(string $type, string $status = ''): array
 	{
 		$pages = [];
 
-		foreach ($this->getRawListPages(strtoupper($type), strtoupper($status)) as $page)
+		foreach ($this->getPages([$this, 'getListPages'], strtoupper($type), strtoupper($status)) as $page)
 		{
 			$pages[] = $page;
 		}
@@ -364,17 +678,7 @@ final class Model {
 		return array_merge(...$pages);
 	}
 
-	protected function getRawListPages(string $type, string $status = ''): ?\Generator
-	{
-		$items = $this->getRawPages($type, $status);
-
-		while (wait($items->advance()))
-		{
-			yield $items->getCurrent();
-		}
-	}
-
-	protected function getRawPages(string $type, string $status = ''): Amp\Iterator
+	private function getListPages(string $type, string $status = ''): Amp\Iterator
 	{
 		$cursor = '';
 		$username = $this->getUsername();
@@ -423,17 +727,7 @@ final class Model {
 		});
 	}
 
-	protected function getRawSyncListPages(string $type, string $status): ?\Generator
-	{
-		$items = $this->getRawSyncPages($type, $status);
-
-		while (wait($items->advance()))
-		{
-			yield $items->getCurrent();
-		}
-	}
-
-	protected function getRawSyncPages(string $type, $status): Amp\Iterator {
+	private function getSyncPages(string $type, string $status): Amp\Iterator {
 		$cursor = '';
 		$username = $this->getUsername();
 
@@ -473,6 +767,59 @@ final class Model {
 				}
 			}
 		});
+	}
+
+	private function getThumbListPages(string $type, string $status): Amp\Iterator
+	{
+		$cursor = '';
+		$username = $this->getUsername();
+
+		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username) {
+			while (TRUE)
+			{
+				$vars = [
+					'type' => $type,
+					'slug' => $username,
+					'status' => $status,
+				];
+				if ($cursor !== '')
+				{
+					$vars['after'] = $cursor;
+				}
+
+				$request = $this->requestBuilder->queryRequest('GetLibraryThumbs', $vars);
+				$response = yield getApiClient()->request($request);
+				$json = yield $response->getBody()->buffer();
+
+				$rawData = Json::decode($json);
+				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
+				$page = $data['pageInfo'];
+				if (empty($data))
+				{
+					dump($rawData);
+					die();
+				}
+
+				$cursor = $page['endCursor'];
+
+				yield $emit($data['nodes']);
+
+				if ($page['hasNextPage'] === FALSE)
+				{
+					break;
+				}
+			}
+		});
+	}
+
+	private function getPages(callable $method, ...$args): ?\Generator
+	{
+		$items = $method(...$args);
+
+		while (wait($items->advance()))
+		{
+			yield $items->getCurrent();
+		}
 	}
 
 	private function getUserId(): string

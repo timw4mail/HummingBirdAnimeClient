@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Model as KitsuModel;
 use Aviat\AnimeClient\Controller\Images;
 
@@ -44,7 +43,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$this->controller = new Images($this->container);
 		$this->kitsuModel = $this->container->get('kitsu-model');
 
-		// Clear the existing thunbnails
+		// Clear the existing thumbnails
 		parent::execute($args, $options);
 
 		$ids = $this->getImageList();
@@ -69,13 +68,14 @@ final class UpdateThumbnails extends ClearThumbnails {
 	 */
 	public function getImageList(): array
 	{
-		$mangaList = $this->kitsuModel->getFullRawMangaList();
-		$includes = JsonAPI::organizeIncludes($mangaList['included']);
-		$mangaIds = array_keys($includes['manga']);
-
-		$animeList = $this->kitsuModel->getFullRawAnimeList();
-		$includes = JsonAPI::organizeIncludes($animeList['included']);
-		$animeIds = array_keys($includes['anime']);
+		$animeIds = array_map(
+			fn ($item) => $item['media']['id'],
+			$this->kitsuModel->getThumbList('ANIME')
+		);
+		$mangaIds = array_map(
+			fn ($item) => $item['media']['id'],
+			$this->kitsuModel->getThumbList('MANGA')
+		);
 
 		return [
 			'anime' => $animeIds,
