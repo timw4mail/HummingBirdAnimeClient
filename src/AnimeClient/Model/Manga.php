@@ -38,7 +38,7 @@ class Manga extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	public function getList($status): array
+	public function getList(string $status): array
 	{
 		if ($status === 'All')
 		{
@@ -63,7 +63,7 @@ class Manga extends API {
 	 * @param string $manga_id
 	 * @return MangaPage
 	 */
-	public function getManga($manga_id): MangaPage
+	public function getManga(string $manga_id): MangaPage
 	{
 		return $this->kitsuModel->getManga($manga_id);
 	}
@@ -105,7 +105,7 @@ class Manga extends API {
 			Title::COMPLETED => [],
 		];
 
-		foreach ($data as &$entry) {
+		foreach ($data as $entry) {
 			$statusMap = MangaReadingStatus::KITSU_TO_TITLE;
 			$key = $statusMap[$entry['reading_status']];
 			$output[$key][] = $entry;

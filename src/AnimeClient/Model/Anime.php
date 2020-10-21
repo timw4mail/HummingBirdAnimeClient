@@ -42,7 +42,7 @@ class Anime extends API {
 	 * @param string $status
 	 * @return array
 	 */
-	public function getList($status): array
+	public function getList(string $status): array
 	{
 		$data = $this->kitsuModel->getAnimeList($status);
 		$this->sortByName($data, 'anime');
