@@ -512,20 +512,19 @@ AnimeClient.on('main', 'change', '.big-check', (e) => {
 function renderAnimeSearchResults (data) {
 	const results = [];
 
-	data.forEach(x => {
-		const item = x.attributes;
+	data.forEach(item => {
 		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">
 				<div class="name">
-					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
+					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
+					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
 					<label for="${item.slug}">
 						<picture width="220">
-							<source srcset="/public/images/anime/${x.id}.webp" type="image/webp" />
-							<source srcset="/public/images/anime/${x.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
+							<source srcset="/public/images/anime/${item.id}.webp" type="image/webp" />
+							<source srcset="/public/images/anime/${item.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/anime/${item.id}.jpg" alt="" width="220" />
 						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
@@ -550,20 +549,19 @@ function renderAnimeSearchResults (data) {
 function renderMangaSearchResults (data) {
 	const results = [];
 
-	data.forEach(x => {
-		const item = x.attributes;
+	data.forEach(item => {
 		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">
 				<div class="name">
-					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
+					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
+					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
 					<label for="${item.slug}">
 						<picture width="220">
-							<source srcset="/public/images/manga/${x.id}.webp" type="image/webp" />
-							<source srcset="/public/images/manga/${x.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/manga/${x.id}.jpg" alt="" width="220" />
+							<source srcset="/public/images/manga/${item.id}.webp" type="image/webp" />
+							<source srcset="/public/images/manga/${item.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/manga/${item.id}.jpg" alt="" width="220" />
 						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
@@ -597,7 +595,7 @@ const search = (query) => {
 		AnimeClient.hide('.cssload-loader');
 
 		// Show the results
-		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
+		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults);
 	});
 };
 
@@ -685,7 +683,7 @@ const search$1 = (query) => {
 	return AnimeClient.get(AnimeClient.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		AnimeClient.hide('.cssload-loader');
-		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
+		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults);
 	});
 };
 

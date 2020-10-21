@@ -24,7 +24,6 @@ use Amp\Http\Client\Request;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\{
 	CacheTrait,
-	JsonAPI,
 	ParallelAPIRequest
 };
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
@@ -230,40 +229,41 @@ final class Model {
 	 */
 	public function search(string $type, string $query): array
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'text' => $query,
-				],
-				'page' => [
-					'offset' => 0,
-					'limit' => 20
-				],
-				'include' => 'mappings'
-			]
-		];
+		$uType = ucfirst(strtolower($type));
+		$raw = $this->requestBuilder->runQuery("Search{$uType}", [
+			'query' => $query,
+		]);
 
-		$raw = $this->requestBuilder->getRequest($type, $options);
-		$raw['included'] = JsonAPI::organizeIncluded($raw['included']);
+		$nodes = $raw['data']["search{$uType}ByTitle"]['nodes'];
+		$data = [];
 
-		foreach ($raw['data'] as &$item)
+		foreach ($nodes as $item)
 		{
-			$item['attributes']['titles'] = K::filterTitles($item['attributes']);
-			array_shift($item['attributes']['titles']);
+			$searchItem = [
+				'id' => $item['id'],
+				'slug' => $item['slug'],
+				'canonicalTitle' => $item['titles']['canonical'],
+				'titles' => array_values(K::getTitles($item['titles'])),
+			];
 
-			// Map the mal_id if it exists for syncing with other APIs
-			foreach($item['relationships']['mappings']['data'] as $rel)
+			// Search for MAL mapping
+			if (is_array($item['mappings']['nodes']))
 			{
-				$mapping = $raw['included']['mappings'][$rel['id']];
-
-				if ($mapping['attributes']['externalSite'] === "myanimelist/{$type}")
+				foreach($item['mappings']['nodes'] as $mapping)
 				{
-					$item['mal_id'] = $mapping['attributes']['externalId'];
+					if ($mapping['externalSite'] === "MYANIMELIST_" . strtoupper($type))
+					{
+						$searchItem['mal_id'] = $mapping['externalId'];
+						break;
+					}
 				}
 			}
+
+			$data[] = $searchItem;
+
 		}
 
-		return $raw;
+		return $data;
 	}
 
 	/**

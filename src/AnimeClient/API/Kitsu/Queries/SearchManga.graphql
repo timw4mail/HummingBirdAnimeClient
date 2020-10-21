@@ -1,0 +1,19 @@
+query ($query: String!) {
+	searchMangaByTitle(title: $query, first: 20) {
+		nodes {
+			id
+			mappings(first: 10) {
+				nodes {
+					externalId
+					externalSite
+				}
+			}
+			slug
+			titles {
+				canonical
+				localized
+				alternatives
+			}
+		}
+	}
+}
