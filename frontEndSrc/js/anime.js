@@ -13,7 +13,7 @@ const search = (query) => {
 		_.hide('.cssload-loader');
 
 		// Show the results
-		_.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
+		_.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults);
 	});
 };
 

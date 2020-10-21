@@ -6,7 +6,7 @@ const search = (query) => {
 	return _.get(_.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		_.hide('.cssload-loader');
-		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
+		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults);
 	});
 };
 

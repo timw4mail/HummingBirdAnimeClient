@@ -34,6 +34,8 @@ use Aviat\Ion\Event;
 use Aviat\Ion\Json;
 use Aviat\Ion\JsonException;
 
+use LogicException;
+
 final class RequestBuilder extends APIRequestBuilder {
 	use ContainerAware;
 
