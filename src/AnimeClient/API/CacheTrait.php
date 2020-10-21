@@ -57,7 +57,7 @@ trait CacheTrait {
 	 *
 	 * @param string $key
 	 * @param callable $primer
-	 * @param array $primeArgs
+	 * @param array|null $primeArgs
 	 * @return mixed|null
 	 * @throws InvalidArgumentException
 	 */
@@ -77,23 +77,5 @@ trait CacheTrait {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Generate a hash as a cache key from the current method call
-	 *
-	 * @param mixed $object
-	 * @param string $method
-	 * @param array  $args
-	 * @return string
-	 */
-	public function getHashForMethodCall($object, string $method, array $args = []): string
-	{
-		$keyObj = [
-			'class' => get_class($object),
-			'method' => $method,
-			'args' => $args,
-		];
-		return sha1(json_encode($keyObj));
 	}
 }

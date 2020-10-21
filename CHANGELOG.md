@@ -3,6 +3,7 @@
 ## Version 5.1
 * Added session check, so when coming back to a page, if the session is expired, the page will refresh.
 * Updated logging config so that much fewer, much smaller files are generated.
+* Updated Kitsu integration to use GraphQL API, reducing a lot of internal complexity.
 
 ## Version 5
 * Updated PHP requirement to 7.4

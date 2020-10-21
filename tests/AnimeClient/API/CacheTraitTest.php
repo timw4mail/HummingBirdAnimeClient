@@ -36,10 +36,4 @@ class CacheTraitTest extends AnimeClientTestCase {
 		$this->testClass->setCache($cachePool);
 		$this->assertEquals($cachePool, $this->testClass->getCache());
 	}
-
-	public function testGetHashForMethodCall()
-	{
-		$hash = $this->testClass->getHashForMethodCall($this, __METHOD__, []);
-		$this->assertEquals('684ba0a5c29ffec452c5f6a07d2eee6932575490', $hash);
-	}
 }
