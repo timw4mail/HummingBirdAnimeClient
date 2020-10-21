@@ -279,27 +279,12 @@ final class Model {
 	 */
 	public function getKitsuIdFromMALId(string $malId, string $type='anime'): ?string
 	{
-		$options = [
-			'query' => [
-				'filter' => [
-					'external_site' => "myanimelist/{$type}",
-					'external_id' => $malId
-				],
-				'fields' => [
-					'media' => 'id,slug'
-				],
-				'include' => 'item'
-			]
-		];
+		$raw = $this->requestBuilder->runQuery('GetIdByMapping', [
+			'id' => $malId,
+			'site' => strtoupper("MYANIMELIST_{$type}"),
+		]);
 
-		$raw = $this->requestBuilder->getRequest('mappings', $options);
-
-		if ( ! array_key_exists('included', $raw))
-		{
-			return NULL;
-		}
-
-		return $raw['included'][0]['id'];
+		return $raw['data']['lookupMapping']['id'] ?? NULL;
 	}
 
 	/**

@@ -24,7 +24,6 @@ class AnimeTransformerTest extends AnimeClientTestCase {
 
 	protected $dir;
 	protected $beforeTransform;
-	protected $afterTransform;
 	protected $transformer;
 
 	public function setUp(): void	{
@@ -38,8 +37,6 @@ class AnimeTransformerTest extends AnimeClientTestCase {
 
 	public function testTransform()
 	{
-		$this->markTestSkipped('Skip until fixed with GraphQL snapshot');
-
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}

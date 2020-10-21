@@ -16,9 +16,8 @@
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu\Transformer\OldAnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\Ion\Friend;
 use Aviat\Ion\Json;
 
 class AnimeListTransformerTest extends AnimeClientTestCase {
@@ -31,9 +30,10 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
-		$this->beforeTransform = Json::decodeFile("{$this->dir}/animeListItemBeforeTransform.json");
+		$raw = Json::decodeFile("{$this->dir}/animeListItemBeforeTransform.json");
+		$this->beforeTransform = $raw['data']['findLibraryEntryById'];
 
-		$this->transformer = new OldAnimeListTransformer();
+		$this->transformer = new AnimeListTransformer();
 	}
 
 	public function testTransform()
