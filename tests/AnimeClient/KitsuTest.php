@@ -31,16 +31,4 @@ class KitsuTest extends TestCase {
 	{
 		$this->assertEquals([], Kitsu::parseStreamingLinks([]));
 	}
-
-	public function testTitleIsUniqueEmpty()
-	{
-		$actual = Kitsu::filterTitles([
-			'canonicalTitle' => 'Foo',
-			'titles' => [
-				null,
-				''
-			]
-		]);
-		$this->assertEquals(['Foo'], $actual);
-	}
 }
