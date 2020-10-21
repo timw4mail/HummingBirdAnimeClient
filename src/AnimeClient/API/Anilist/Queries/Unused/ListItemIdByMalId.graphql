@@ -1,9 +1,0 @@
-query ($id: Int, $type: MediaType) {
-	Media (idMal: $id, type: $type) {
-		mediaListEntry {
-			id
-			userId
-			mediaId
-		}
-	}
-}

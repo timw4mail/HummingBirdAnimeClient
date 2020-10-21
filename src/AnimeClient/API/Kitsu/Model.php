@@ -172,10 +172,9 @@ final class Model {
 	/**
 	 * Get the userid for a username from Kitsu
 	 *
-	 * @param string $username
+	 * @param string|null $username
 	 * @return string
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
+	 * @throws \Psr\SimpleCache\InvalidArgumentException
 	 */
 	public function getUserIdByUsername(string $username = NULL): string
 	{
@@ -185,15 +184,11 @@ final class Model {
 		}
 
 		return $this->getCached(K::AUTH_USER_ID_KEY, function(string $username) {
-			$data = $this->requestBuilder->getRequest('users', [
-				'query' => [
-					'filter' => [
-						'name' => $username
-					]
-				]
+			$data = $this->requestBuilder->runQuery('GetUserId', [
+				'slug' => $username
 			]);
 
-			return $data['data'][0]['id'] ?? NULL;
+			return $data['data']['findProfileBySlug']['id'] ?? NULL;
 		}, [$username]);
 	}
 
