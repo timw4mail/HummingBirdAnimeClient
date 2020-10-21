@@ -242,32 +242,4 @@ trait MangaTrait {
 
 		return $this->requestBuilder->setUpRequest('GET', 'library-entries', ['query' => $options]);
 	}
-
-	/**
-	 * Get the mal id for the manga represented by the kitsu id
-	 * to enable updating MyAnimeList
-	 *
-	 * @param string $kitsuMangaId The id of the manga on Kitsu
-	 * @return string|null Returns the mal id if it exists, otherwise null
-	 */
-	public function getMalIdForManga(string $kitsuMangaId): ?string
-	{
-		$options = [
-			'query' => [
-				'include' => 'mappings'
-			]
-		];
-		$data = $this->requestBuilder->getRequest("manga/{$kitsuMangaId}", $options);
-		$mappings = array_column($data['included'], 'attributes');
-
-		foreach($mappings as $map)
-		{
-			if ($map['externalSite'] === 'myanimelist/manga')
-			{
-				return $map['externalId'];
-			}
-		}
-
-		return NULL;
-	}
 }

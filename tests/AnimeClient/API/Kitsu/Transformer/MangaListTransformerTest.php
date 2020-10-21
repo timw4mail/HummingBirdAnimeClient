@@ -16,8 +16,7 @@
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
-use Aviat\AnimeClient\API\Kitsu\Transformer\OldMangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\{
 	FormItem,
@@ -30,29 +29,17 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 	protected $dir;
 	protected $rawBefore;
 	protected $beforeTransform;
-	protected $afterTransform;
 	protected $transformer;
 
 	public function setUp(): void	{
 		parent::setUp();
 
-		$kitsuModel = $this->container->get('kitsu-model');
-
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
 		// Prep for transform
-		$rawBefore = Json::decodeFile("{$this->dir}/mangaListBeforeTransform.json");
-		$included = JsonAPI::organizeIncludes($rawBefore['included']);
-		$included = JsonAPI::inlineIncludedRelationships($included, 'manga');
-		foreach($rawBefore['data'] as $i => &$item)
-		{
-			$item['included'] = $included;
-		}
-
-		$this->beforeTransform = $rawBefore['data'];
-		// $this->afterTransform = Json::decodeFile("{$this->dir}/mangaListAfterTransform.json");
-
-		$this->transformer = new OldMangaListTransformer();
+		$raw = Json::decodeFile("{$this->dir}/mangaListBeforeTransform.json");
+		$this->beforeTransform = $raw['data']['findProfileBySlug']['library']['all']['nodes'];
+		$this->transformer = new MangaListTransformer();
 	}
 
 	public function testTransform()

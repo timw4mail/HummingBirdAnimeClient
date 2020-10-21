@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
@@ -25,26 +24,19 @@ class MangaTransformerTest extends AnimeClientTestCase {
 
 	protected $dir;
 	protected $beforeTransform;
-	protected $afterTransform;
 	protected $transformer;
 
 	public function setUp(): void	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
-		$data = Json::decodeFile("{$this->dir}/mangaBeforeTransform.json");
-		$baseData = $data['data'][0]['attributes'];
-		$baseData['included'] = $data['included'];
-		$baseData['id'] = $data['data'][0]['id'];
-		$this->beforeTransform = $baseData;
+		$this->beforeTransform = Json::decodeFile("{$this->dir}/mangaBeforeTransform.json");
 
 		$this->transformer = new MangaTransformer();
 	}
 
 	public function testTransform()
 	{
-		$this->markTestSkipped('Skip until fixed with GraphQL snapshot');
-
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}

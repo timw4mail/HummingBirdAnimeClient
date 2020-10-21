@@ -1,197 +1,465 @@
 {
-	"data": [{
-		"id": "20286",
-		"type": "manga",
-		"links": {
-			"self": "https://kitsu.io/api/edge/manga/20286"
+  "data": {
+	"findMangaBySlug": {
+	  "id": "20286",
+	  "ageRating": "PG",
+	  "ageRatingGuide": "",
+	  "posterImage": {
+		"original": {
+		  "height": null,
+		  "name": "original",
+		  "url": "https://media.kitsu.io/manga/poster_images/20286/original.jpg?1434293999",
+		  "width": null
 		},
-		"attributes": {
-			"slug": "bokura-wa-minna-kawaisou",
-			"synopsis": "Usa, a high-school student aspiring to begin a bachelor lifestyle, moves into a new apartment only to discover that he not only shares a room with a perverted roommate that has an obsession for underaged girls, but also that another girl, Ritsu, a love-at-first-sight, is living in the same building as well!\n(Source: Kirei Cake)",
-			"coverImageTopOffset": 40,
-			"titles": {
-				"en_us": null,
-				"en_jp": "Bokura wa Minna Kawaisou"
-			},
-			"canonicalTitle": "Bokura wa Minna Kawaisou",
-			"abbreviatedTitles": null,
-			"averageRating": 4.12281805954249,
-			"ratingFrequencies": {
-				"0.5": "0",
-				"1.0": "1",
-				"1.5": "0",
-				"2.0": "1",
-				"2.5": "2",
-				"3.0": "6",
-				"3.5": "21",
-				"4.0": "38",
-				"4.5": "35",
-				"5.0": "43",
-				"nil": "16"
-			},
-			"favoritesCount": 0,
-			"startDate": "2010-01-01",
-			"endDate": null,
-			"popularityRank": 262,
-			"ratingRank": 127,
-			"ageRating": "PG",
-			"ageRatingGuide": null,
-			"posterImage": {
-				"tiny": "https://media.kitsu.io/manga/poster_images/20286/tiny.jpg?1434293999",
-				"small": "https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999",
-				"medium": "https://media.kitsu.io/manga/poster_images/20286/medium.jpg?1434293999",
-				"large": "https://media.kitsu.io/manga/poster_images/20286/large.jpg?1434293999",
-				"original": "https://media.kitsu.io/manga/poster_images/20286/original.jpg?1434293999"
-			},
-			"coverImage": {
-				"small": "https://media.kitsu.io/manga/cover_images/20286/small.jpg?1430793688",
-				"large": "https://media.kitsu.io/manga/cover_images/20286/large.jpg?1430793688",
-				"original": "https://media.kitsu.io/manga/cover_images/20286/original.jpg?1430793688"
-			},
-			"subtype": "manga",
-			"chapterCount": null,
-			"volumeCount": 0,
-			"serialization": "Young King Ours",
-			"mangaType": "manga"
-		},
-		"relationships": {
-			"genres": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/genres",
-					"related": "https://kitsu.io/api/edge/manga/20286/genres"
-				},
-				"data": [{
-					"type": "genres",
-					"id": "3"
-				}, {
-					"type": "genres",
-					"id": "24"
-				}, {
-					"type": "genres",
-					"id": "16"
-				}, {
-					"type": "genres",
-					"id": "14"
-				}, {
-					"type": "genres",
-					"id": "18"
-				}]
-			},
-			"castings": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/castings",
-					"related": "https://kitsu.io/api/edge/manga/20286/castings"
-				}
-			},
-			"installments": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/installments",
-					"related": "https://kitsu.io/api/edge/manga/20286/installments"
-				}
-			},
-			"mappings": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/mappings",
-					"related": "https://kitsu.io/api/edge/manga/20286/mappings"
-				},
-				"data": [{
-					"type": "mappings",
-					"id": "48014"
-				}]
-			},
-			"reviews": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/reviews",
-					"related": "https://kitsu.io/api/edge/manga/20286/reviews"
-				}
-			},
-			"mediaRelationships": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/manga/20286/relationships/media-relationships",
-					"related": "https://kitsu.io/api/edge/manga/20286/media-relationships"
-				}
+		"views": [
+		  {
+			"height": null,
+			"name": "tiny",
+			"url": "https://media.kitsu.io/manga/poster_images/20286/tiny.jpg?1434293999",
+			"width": null
+		  },
+		  {
+			"height": null,
+			"name": "small",
+			"url": "https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999",
+			"width": null
+		  },
+		  {
+			"height": null,
+			"name": "medium",
+			"url": "https://media.kitsu.io/manga/poster_images/20286/medium.jpg?1434293999",
+			"width": null
+		  },
+		  {
+			"height": null,
+			"name": "large",
+			"url": "https://media.kitsu.io/manga/poster_images/20286/large.jpg?1434293999",
+			"width": null
+		  }
+		]
+	  },
+	  "categories": {
+		"nodes": [
+		  {
+			"title": {
+			  "en": "Comedy"
 			}
-		}
-	}],
-	"included": [{
-		"id": "3",
-		"type": "genres",
-		"links": {
-			"self": "https://kitsu.io/api/edge/genres/3"
-		},
-		"attributes": {
-			"name": "Comedy",
-			"slug": "comedy",
-			"description": null
-		}
-	}, {
-		"id": "24",
-		"type": "genres",
-		"links": {
-			"self": "https://kitsu.io/api/edge/genres/24"
-		},
-		"attributes": {
-			"name": "School",
-			"slug": "school",
-			"description": null
-		}
-	}, {
-		"id": "16",
-		"type": "genres",
-		"links": {
-			"self": "https://kitsu.io/api/edge/genres/16"
-		},
-		"attributes": {
-			"name": "Slice of Life",
-			"slug": "slice-of-life",
-			"description": ""
-		}
-	}, {
-		"id": "14",
-		"type": "genres",
-		"links": {
-			"self": "https://kitsu.io/api/edge/genres/14"
-		},
-		"attributes": {
-			"name": "Romance",
-			"slug": "romance",
-			"description": ""
-		}
-	}, {
-		"id": "18",
-		"type": "genres",
-		"links": {
-			"self": "https://kitsu.io/api/edge/genres/18"
-		},
-		"attributes": {
-			"name": "Thriller",
-			"slug": "thriller",
-			"description": null
-		}
-	}, {
-		"id": "48014",
-		"type": "mappings",
-		"links": {
-			"self": "https://kitsu.io/api/edge/mappings/48014"
-		},
-		"attributes": {
-			"externalSite": "myanimelist/manga",
-			"externalId": "26769"
-		},
-		"relationships": {
-			"media": {
-				"links": {
-					"self": "https://kitsu.io/api/edge/mappings/48014/relationships/media",
-					"related": "https://kitsu.io/api/edge/mappings/48014/media"
-				}
+		  },
+		  {
+			"title": {
+			  "en": "School Life"
 			}
+		  },
+		  {
+			"title": {
+			  "en": "Slice of Life"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Romance"
+			}
+		  }
+		]
+	  },
+	  "chapterCount": 90,
+	  "volumeCount": 10,
+	  "characters": {
+		"nodes": [
+		  {
+			"character": {
+			  "id": "83463",
+			  "names": {
+				"canonical": "Yoko Mabuchi",
+				"alternatives": [
+				  "Yoko-chan"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				}
+			  },
+			  "slug": "yoko-mabuchi"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "40540",
+			  "names": {
+				"canonical": "Ritsu Kawai",
+				"alternatives": [
+				  "Ricchan"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/40540/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "ritsu-kawai"
+			},
+			"role": "MAIN"
+		  },
+		  {
+			"character": {
+			  "id": "40541",
+			  "names": {
+				"canonical": "Kazunari Usa",
+				"alternatives": [
+				  "Oddball handler"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/40541/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "kazunari-usa"
+			},
+			"role": "MAIN"
+		  },
+		  {
+			"character": {
+			  "id": "62591",
+			  "names": {
+				"canonical": "Chinatsu",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/62591/original.jpg?1485073100",
+				  "width": null
+				}
+			  },
+			  "slug": "chinatsu"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "72839",
+			  "names": {
+				"canonical": "Hayashi",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/72839/original.jpg?1485079724",
+				  "width": null
+				}
+			  },
+			  "slug": "hayashi-ec3a2705-5d5c-493c-b172-bbee2d04b5b9"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "78362",
+			  "names": {
+				"canonical": "Houjou",
+				"alternatives": [
+				  "Yamamoto"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/78362/original.jpg?1485081676",
+				  "width": null
+				}
+			  },
+			  "slug": "houjou"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "55131",
+			  "names": {
+				"canonical": "Sumiko Kawai",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/55131/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "sumiko-kawai"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "90353",
+			  "names": {
+				"canonical": "Kurokawa",
+				"alternatives": [
+				  "Saionji"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/90353/original.jpg?1485086356",
+				  "width": null
+				}
+			  },
+			  "slug": "kurokawa-a493ddf6-0f02-4abf-8b18-ab6ae2198b6e"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "77996",
+			  "names": {
+				"canonical": "Maemura",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/77996/original.jpg?1485081552",
+				  "width": null
+				}
+			  },
+			  "slug": "maemura"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "55132",
+			  "names": {
+				"canonical": "Mayumi Nishikino",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/55132/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mayumi-nishikino"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "74335",
+			  "names": {
+				"canonical": "Tae Shinohara",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/74335/original.jpg?1485080245",
+				  "width": null
+				}
+			  },
+			  "slug": "tae-shinohara"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "95032",
+			  "names": {
+				"canonical": "Shirosaki",
+				"alternatives": [
+				  "Shiro"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/95032/original.jpg?1485088329",
+				  "width": null
+				}
+			  },
+			  "slug": "shirosaki-2ed2e15c-9cee-4756-92f1-027c4820e224"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "55133",
+			  "names": {
+				"canonical": "Tagami",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/55133/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "tagami"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "71479",
+			  "names": {
+				"canonical": "Miharu Tsuneda",
+				"alternatives": [
+				  "Tsuneko"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/71479/original.jpg?1485079211",
+				  "width": null
+				}
+			  },
+			  "slug": "miharu-tsuneda"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "55134",
+			  "names": {
+				"canonical": "Mother Usa",
+				"alternatives": []
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mother-usa"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "55135",
+			  "names": {
+				"canonical": "Sayaka Watanabe",
+				"alternatives": [
+				  "Nabe"
+				]
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/55135/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "sayaka-watanabe"
+			},
+			"role": "BACKGROUND"
+		  }
+		],
+		"pageInfo": {
+		  "endCursor": "MTY",
+		  "hasNextPage": false,
+		  "hasPreviousPage": false,
+		  "startCursor": "MQ"
 		}
-	}],
-	"meta": {
-		"count": 1
-	},
-	"links": {
-		"first": "https://kitsu.io/api/edge/manga?filter%5Bslug%5D=bokura-wa-minna-kawaisou&include=genres%2Cmappings&page%5Blimit%5D=10&page%5Boffset%5D=0",
-		"last": "https://kitsu.io/api/edge/manga?filter%5Bslug%5D=bokura-wa-minna-kawaisou&include=genres%2Cmappings&page%5Blimit%5D=10&page%5Boffset%5D=0"
+	  },
+	  "description": {
+		"en": "Usa, a high-school student aspiring to begin a bachelor lifestyle, moves into a new apartment only to discover that he not only shares a room with a perverted roommate that has an obsession for underaged girls, but also that another girl, Ritsu, a love-at-first-sight, is living in the same building as well!\r\n(Source: Kirei Cake)"
+	  },
+	  "startDate": "2010-04-30",
+	  "endDate": "2017-12-28",
+	  "mappings": {
+		"nodes": [
+		  {
+			"externalId": "56769",
+			"externalSite": "ANILIST_MANGA"
+		  },
+		  {
+			"externalId": "26769",
+			"externalSite": "MYANIMELIST_MANGA"
+		  }
+		]
+	  },
+	  "sfw": true,
+	  "slug": "bokura-wa-minna-kawaisou",
+	  "staff": {
+		"nodes": [
+		  {
+			"person": {
+			  "id": "8712",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/8712/original.jpg?1533271952",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Ruri Miyahara",
+				  "ja_jp": "宮原 るり"
+				}
+			  },
+			  "slug": "ruri-miyahara"
+			},
+			"role": "Story \u0026 Art"
+		  }
+		],
+		"pageInfo": {
+		  "endCursor": "MQ",
+		  "hasNextPage": false,
+		  "hasPreviousPage": false,
+		  "startCursor": "MQ"
+		}
+	  },
+	  "status": "FINISHED",
+	  "subtype": "MANGA",
+	  "titles": {
+		"canonical": "Bokura wa Minna Kawai-sou",
+		"canonicalLocale": "en_jp",
+		"localized": {
+		  "en": "The Kawai Complex Guide to Manors and Hostel",
+		  "en_jp": "Bokura wa Minna Kawai-sou",
+		  "en_us": "The Kawai Complex Guide to Manors and Hostel",
+		  "ja_jp": "僕らはみんな河合荘"
+		}
+	  }
 	}
+  }
 }

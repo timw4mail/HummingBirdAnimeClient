@@ -223,40 +223,6 @@ trait AnimeTrait {
 	}
 
 	/**
-	 * Get the mal id for the anime represented by the kitsu id
-	 * to enable updating MyAnimeList
-	 *
-	 * @param string $kitsuAnimeId The id of the anime on Kitsu
-	 * @return string|null Returns the mal id if it exists, otherwise null
-	 */
-	public function getMalIdForAnime(string $kitsuAnimeId): ?string
-	{
-		$options = [
-			'query' => [
-				'include' => 'mappings'
-			]
-		];
-		$data = $this->requestBuilder->getRequest("anime/{$kitsuAnimeId}", $options);
-
-		if ( ! array_key_exists('included', $data))
-		{
-			return NULL;
-		}
-
-		$mappings = array_column($data['included'], 'attributes');
-
-		foreach($mappings as $map)
-		{
-			if ($map['externalSite'] === 'myanimelist/anime')
-			{
-				return $map['externalId'];
-			}
-		}
-
-		return NULL;
-	}
-
-	/**
 	 * Get the full anime list in paginated form
 	 *
 	 * @param int $limit
