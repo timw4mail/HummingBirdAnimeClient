@@ -10,16 +10,13 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\View;
 
 use Aviat\Ion\Json;
-use Aviat\Ion\JsonException;
-use Aviat\Ion\ViewInterface;
-use function is_string;
 
 /**
  * View class to serialize Json
@@ -37,12 +34,9 @@ class JsonView extends HttpView {
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @throws \InvalidArgumentException
-	 * @throws \RuntimeException
-	 * @throws JsonException
-	 * @return ViewInterface
+	 * @return JsonView
 	 */
-	public function setOutput($string): ViewInterface
+	public function setOutput($string): self
 	{
 		if ( ! is_string($string))
 		{

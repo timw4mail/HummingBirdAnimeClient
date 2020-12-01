@@ -1,0 +1,90 @@
+query (
+	$slug: String!,
+	$type: MediaTypeEnum!,
+	$status: [LibraryEntryStatusEnum!],
+	$after: String
+) {
+	findProfileBySlug(slug: $slug) {
+		library {
+			all(first: 100, after: $after, mediaType: $type, status: $status) {
+				pageInfo {
+					endCursor
+					hasNextPage
+					hasPreviousPage
+					startCursor
+				}
+				totalCount
+				nodes {
+					id
+					notes
+					nsfw
+					private
+					progress
+					progressedAt
+					rating
+					reconsumeCount
+					reconsuming
+					status
+					media {
+						id
+						ageRating
+						ageRatingGuide
+						mappings(first: 10) {
+							nodes {
+								externalId
+								externalSite
+							}
+						}
+						posterImage {
+							original {
+								height
+								name
+								url
+								width
+							}
+							views {
+								height
+								name
+								url
+								width
+							}
+						}
+						sfw
+						slug
+						status
+						startDate
+						endDate
+						type
+						titles {
+							canonical
+							localized
+							alternatives
+						}
+						...on Anime {
+							episodeCount
+							episodeLength
+							streamingLinks(first: 10) {
+								nodes {
+									dubs
+									subs
+									regions
+									streamer {
+										id
+										siteName
+									}
+									url
+								}
+							}
+							subtype
+						}
+						...on Manga {
+							chapterCount
+							volumeCount
+							subtype
+						}
+					}
+				}
+			}
+		}
+	}
+}

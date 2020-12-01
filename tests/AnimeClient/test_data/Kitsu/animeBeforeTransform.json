@@ -1,292 +1,3754 @@
 {
-	"id": 32344,
-    "slug": "attack-on-titan",
-    "synopsis": "Several hundred years ago, humans were nearly exterminated by titans. Titans are typically several stories tall, seem to have no intelligence, devour human beings and, worst of all, seem to do it for the pleasure rather than as a food source. A small percentage of humanity survived by enclosing themselves in a city protected by extremely high walls, even taller than the biggest of titans. Flash forward to the present and the city has not seen a titan in over 100 years. Teenage boy Eren and his foster sister Mikasa witness something horrific as the city walls are destroyed by a colossal titan that appears out of thin air. As the smaller titans flood the city, the two kids watch in horror as their mother is eaten alive. Eren vows that he will murder every single titan and take revenge for all of mankind.\n\n(Source: ANN)",
-    "coverImageTopOffset": 263,
-    "titles": {
-        "en": "Attack on Titan",
-        "en_jp": "Shingeki no Kyojin",
-        "ja_jp": "\u9032\u6483\u306e\u5de8\u4eba"
-    },
-    "canonicalTitle": "Attack on Titan",
-    "abbreviatedTitles": null,
-    "averageRating": 4.2678183033371,
-    "ratingFrequencies": {
-        "0.0": "3",
-        "0.5": "126",
-        "1.0": "292",
-        "1.5": "172",
-        "2.0": "394",
-        "2.5": "817",
-        "3.0": "2423",
-        "3.5": "3210",
-        "4.0": "5871",
-        "4.5": "6159",
-        "5.0": "13117",
-        "nil": "18571",
-        "0.479": "-1",
-        "4.658": "-3",
-        "4.726": "-1",
-        "4.932": "-1",
-        "2.05479452054794": "1",
-        "2.53424657534247": "1",
-        "4.10958904109589": "1",
-        "4.65753424657534": "3",
-        "4.72602739726027": "3",
-        "4.86301369863014": "1",
-        "4.93150684931507": "2",
-        "0.273972602739726": "1",
-        "0.410958904109589": "2",
-        "0.479452054794521": "1",
-        "0.684931506849315": "1"
-    },
-    "startDate": "2013-04-07",
-    "endDate": "2013-09-28",
-    "posterImage": {
-        "tiny": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/tiny.jpg?1418580054",
-        "small": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/small.jpg?1418580054",
-        "medium": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/medium.jpg?1418580054",
-        "large": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/large.jpg?1418580054",
-        "original": "https:\/\/media.kitsu.io\/anime\/poster_images\/7442\/original.jpg?1418580054"
-    },
-    "coverImage": {
-        "small": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/small.jpg?1471880659",
-        "large": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/large.jpg?1471880659",
-        "original": "https:\/\/media.kitsu.io\/anime\/cover_images\/7442\/original.png?1471880659"
-    },
-    "episodeCount": 25,
-    "episodeLength": 24,
-    "subtype": "TV",
-    "youtubeVideoId": "n4Nj6Y_SNYI",
-    "ageRating": "R",
-    "ageRatingGuide": "Violence, Profanity",
-    "showType": "TV",
-    "nsfw": false,
-    "included": [
-        {
-            "id": "23",
-            "type": "categories",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/23"
-            },
-            "attributes": {
-                "name": "Super Power",
-                "slug": "super-power",
-                "description": null
-            }
-        },
-        {
-            "id": "11",
-            "type": "categories",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/11"
-            },
-            "attributes": {
-                "name": "Fantasy",
-                "slug": "fantasy",
-                "description": ""
-            }
-        },
-        {
-            "id": "4",
-            "type": "categories",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/4"
-            },
-            "attributes": {
-                "name": "Drama",
-                "slug": "drama",
-                "description": ""
-            }
-        },
-        {
-            "id": "1",
-            "type": "categories",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/categories\/1"
-            },
-            "attributes": {
-                "name": "Action",
-                "slug": "action",
-                "description": ""
-            }
-        },
-        {
-            "id": "5686",
-            "type": "mappings",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686"
-            },
-            "attributes": {
-                "externalSite": "myanimelist\/anime",
-                "externalId": "16498"
-            },
-            "relationships": {
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/5686\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "14153",
-            "type": "mappings",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153"
-            },
-            "attributes": {
-                "externalSite": "thetvdb\/series",
-                "externalId": "267440"
-            },
-            "relationships": {
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/14153\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "15073",
-            "type": "mappings",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073"
-            },
-            "attributes": {
-                "externalSite": "thetvdb\/season",
-                "externalId": "514060"
-            },
-            "relationships": {
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/mappings\/15073\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "103",
-            "type": "streamingLinks",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103"
-            },
-            "attributes": {
-                "url": "http:\/\/www.crunchyroll.com\/attack-on-titan",
-                "subs": [
-                    "en"
-                ],
-                "dubs": [
-                    "ja"
-                ]
-            },
-            "relationships": {
-                "streamer": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/relationships\/streamer",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/streamer"
-                    }
-                },
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/103\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "102",
-            "type": "streamingLinks",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102"
-            },
-            "attributes": {
-                "url": "http:\/\/www.hulu.com\/attack-on-titan",
-                "subs": [
-                    "en"
-                ],
-                "dubs": [
-                    "ja"
-                ]
-            },
-            "relationships": {
-                "streamer": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/relationships\/streamer",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/streamer"
-                    }
-                },
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/102\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "101",
-            "type": "streamingLinks",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101"
-            },
-            "attributes": {
-                "url": "http:\/\/www.funimation.com\/shows\/attack-on-titan\/videos\/episodes",
-                "subs": [
-                    "en"
-                ],
-                "dubs": [
-                    "ja"
-                ]
-            },
-            "relationships": {
-                "streamer": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/relationships\/streamer",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/streamer"
-                    }
-                },
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/101\/media"
-                    }
-                }
-            }
-        },
-        {
-            "id": "100",
-            "type": "streamingLinks",
-            "links": {
-                "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100"
-            },
-            "attributes": {
-                "url": "t",
-                "subs": [
-                    "en"
-                ],
-                "dubs": [
-                    "ja"
-                ]
-            },
-            "relationships": {
-                "streamer": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/relationships\/streamer",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/streamer"
-                    }
-                },
-                "media": {
-                    "links": {
-                        "self": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/relationships\/media",
-                        "related": "https:\/\/kitsu.io\/api\/edge\/streaming-links\/100\/media"
-                    }
-                }
-            }
-        }
-    ]
+  "data": {
+	"findAnimeBySlug": {
+	  "id": "7442",
+	  "ageRating": "R",
+	  "ageRatingGuide": "Violence, Profanity",
+	  "posterImage": {
+		"original": {
+		  "height": 1270,
+		  "name": "original",
+		  "url": "https://media.kitsu.io/anime/poster_images/7442/original.jpg?1597698856",
+		  "width": 920
+		},
+		"views": [
+		  {
+			"height": 156,
+			"name": "tiny",
+			"url": "https://media.kitsu.io/anime/poster_images/7442/tiny.jpg?1597698856",
+			"width": 110
+		  },
+		  {
+			"height": 402,
+			"name": "small",
+			"url": "https://media.kitsu.io/anime/poster_images/7442/small.jpg?1597698856",
+			"width": 284
+		  },
+		  {
+			"height": 554,
+			"name": "medium",
+			"url": "https://media.kitsu.io/anime/poster_images/7442/medium.jpg?1597698856",
+			"width": 390
+		  },
+		  {
+			"height": 780,
+			"name": "large",
+			"url": "https://media.kitsu.io/anime/poster_images/7442/large.jpg?1597698856",
+			"width": 550
+		  }
+		]
+	  },
+	  "categories": {
+		"nodes": [
+		  {
+			"title": {
+			  "en": "Shounen"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Post Apocalypse"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Violence"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Action"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Adventure"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Fantasy"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Alternative Past"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Angst"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Horror"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Drama"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Military"
+			}
+		  },
+		  {
+			"title": {
+			  "en": "Super Power"
+			}
+		  }
+		]
+	  },
+	  "characters": {
+		"nodes": [
+		  {
+			"character": {
+			  "id": "38506",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Armin Arlert",
+				"localized": {
+				  "en": "Armin Arlert",
+				  "ja_jp": "アルミン・アルレルト"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38506/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "armin-arelet"
+			},
+			"role": "MAIN"
+		  },
+		  {
+			"character": {
+			  "id": "38507",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Eren Yeager",
+				"localized": {
+				  "en": "Eren Yeager",
+				  "ja_jp": "エレン・イェーガー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38507/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "eren-jager"
+			},
+			"role": "MAIN"
+		  },
+		  {
+			"character": {
+			  "id": "39810",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mother Ackerman",
+				"localized": {
+				  "en": "Mother Ackerman",
+				  "ja_jp": "ミカサの母"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39810/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mother-ackerman"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39809",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Father Ackerman",
+				"localized": {
+				  "en": "Father Ackerman",
+				  "ja_jp": "ミカサの父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39809/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "father-ackerman"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39800",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Grandfather Arlert",
+				"localized": {
+				  "en": "Grandfather Arlert",
+				  "ja_jp": "アルミンの祖父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39800/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "armin-s-grandfather"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39806",
+			  "names": {
+				"alternatives": [
+				  "Barto",
+				  "Wald"
+				],
+				"canonical": "Balto",
+				"localized": {
+				  "en": "Balto",
+				  "ja_jp": "バルト"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39806/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "balto"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52587",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Moblit Berner",
+				"localized": {
+				  "en": "Moblit Berner",
+				  "ja_jp": "モブリット・バーナー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52587/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "moblit-berner"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38509",
+			  "names": {
+				"alternatives": [
+				  "Potato Girl"
+				],
+				"canonical": "Sasha Blouse",
+				"localized": {
+				  "en": "Sasha Blouse",
+				  "ja_jp": "サシャ・ブラウス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38509/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "sasha-braus"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38508",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Marco Bott",
+				"localized": {
+				  "en": "Marco Bott",
+				  "ja_jp": "マルコ・ボット"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38508/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "marco-bodt"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "86508",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mother Bozado",
+				"localized": {
+				  "en": "Mother Bozado",
+				  "ja_jp": "オルオ母"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/86508/original.jpg?1485084880",
+				  "width": null
+				}
+			  },
+			  "slug": "mother-bozado"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "88007",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Father Bozado",
+				"localized": {
+				  "en": "Father Bozado",
+				  "ja_jp": "オルオ父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/88007/original.jpg?1485085456",
+				  "width": null
+				}
+			  },
+			  "slug": "father-bozado"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52588",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Oluo Bozado",
+				"localized": {
+				  "en": "Oluo Bozado",
+				  "ja_jp": "オルオ・ボザド"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52588/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "oluo-bozado"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39811",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Reiner Braun",
+				"localized": {
+				  "en": "Reiner Braun",
+				  "ja_jp": "ライナー・ブラウン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39811/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "reiner-braun"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39812",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Riko Brzenska",
+				"localized": {
+				  "en": "Riko Brzenska",
+				  "ja_jp": "リコ・ブレツェンスカ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39812/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "riko-brzenska"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39813",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mina Carolina",
+				"localized": {
+				  "en": "Mina Carolina",
+				  "ja_jp": "ミーナ・カロライナ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39813/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mina-carolina"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39804",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dazz",
+				"localized": {
+				  "en": "Dazz",
+				  "ja_jp": "ダズ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39804/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "dazz"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "78275",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dieter",
+				"localized": {
+				  "en": "Dieter",
+				  "ja_jp": "ディター"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/78275/original.jpg?1485081646",
+				  "width": null
+				}
+			  },
+			  "slug": "dieter"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39814",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Ian Dietrich",
+				"localized": {
+				  "en": "Ian Dietrich",
+				  "ja_jp": "イアン・ディートリッヒ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39814/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "ian-dietrich"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52589",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Nile Dok",
+				"localized": {
+				  "en": "Nile Dok",
+				  "ja_jp": "ナイル・ドーク"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52589/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "nile-dok"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52590",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Hitch Dreyse",
+				"localized": {
+				  "en": "Hitch Dreyse",
+				  "ja_jp": "ヒッチ・ドリス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52590/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "hitch-dreyse"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "80627",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dennis Eibringer",
+				"localized": {
+				  "en": "Dennis Eibringer",
+				  "ja_jp": "デニス・アイブリンガ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/80627/original.jpg?1485082510",
+				  "width": null
+				}
+			  },
+			  "slug": "dennis-eibringer"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "83223",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Eld's lover",
+				"localized": {
+				  "en": "Eld's lover",
+				  "ja_jp": "エルド恋人"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/83223/original.jpg?1485083597",
+				  "width": null
+				}
+			  },
+			  "slug": "eld-s-lover"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "72418",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Boris Feulner",
+				"localized": {
+				  "en": "Boris Feulner",
+				  "ja_jp": "ボリス・フォイルナー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/72418/original.jpg?1485079569",
+				  "width": null
+				}
+			  },
+			  "slug": "boris-feulner"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39802",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Franz",
+				"localized": {
+				  "en": "Franz",
+				  "ja_jp": "フランツ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39802/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "franz-06354328-6618-42d4-be45-3fcff7b57e8a"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52591",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Marlo Freudenberg",
+				"localized": {
+				  "en": "Marlo Freudenberg",
+				  "ja_jp": "マルロ・フロイデンベルク"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52591/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "marlo-freudenberg"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39807",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Gustav",
+				"localized": {
+				  "en": "Gustav",
+				  "ja_jp": "グスタフ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39807/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "gustav-bb1524a1-58c3-484d-9da1-8fa5880a1e69"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39803",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Hannah",
+				"localized": {
+				  "en": "Hannah",
+				  "ja_jp": "ハンナ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39803/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "hannah"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39794",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Hannes",
+				"localized": {
+				  "en": "Hannes",
+				  "ja_jp": "ハンネス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39794/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "hannes"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39816",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Bertolt Hoover",
+				"localized": {
+				  "en": "Bertolt Hoover",
+				  "ja_jp": "ベルトルト・フーバー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39816/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "bertolt-hoover"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39797",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Hugo",
+				"localized": {
+				  "en": "Hugo",
+				  "ja_jp": "フーゴ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39797/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "hugo"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39817",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mitabi Jarnach",
+				"localized": {
+				  "en": "Mitabi Jarnach",
+				  "ja_jp": "ミタビ・ヤルナッハ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39817/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mitabi-jarnach"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39815",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Eld Jinn",
+				"localized": {
+				  "en": "Eld Jinn",
+				  "ja_jp": "エルド・ジン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39815/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "erd-gin"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "67384",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mother Jinn",
+				"localized": {
+				  "en": "Mother Jinn",
+				  "ja_jp": "エルド母"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/67384/original.jpg?1485077794",
+				  "width": null
+				}
+			  },
+			  "slug": "mother-jinn"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "72984",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Jurgen",
+				"localized": {
+				  "en": "Jurgen",
+				  "ja_jp": "ユルゲン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/72984/original.jpg?1485079775",
+				  "width": null
+				}
+			  },
+			  "slug": "jurgen"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38510",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Jean Kirstein",
+				"localized": {
+				  "en": "Jean Kirstein",
+				  "ja_jp": "ジャン・キルシュタイン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38510/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "jean-kirschtein"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38512",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Krista Lenz",
+				"localized": {
+				  "en": "Krista Lenz",
+				  "ja_jp": "クリスタ・レンズ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38512/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "christa-renz"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "90705",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Father Leonhart",
+				"localized": {
+				  "en": "Father Leonhart",
+				  "ja_jp": "アニの父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/90705/original.jpg?1485086503",
+				  "width": null
+				}
+			  },
+			  "slug": "father-leonhart"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38511",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Annie Leonhart",
+				"localized": {
+				  "en": "Annie Leonhart",
+				  "ja_jp": "アニ・レオンハート"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38511/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "annie-leonhardt"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39556",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Levi",
+				"localized": {
+				  "en": "Levi",
+				  "ja_jp": "リヴァイ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39556/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "levi"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39805",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Instructor",
+				"localized": {
+				  "en": "Instructor",
+				  "ja_jp": "眼鏡の教官"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39805/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "megane-no-kyoukan"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39798",
+			  "names": {
+				"alternatives": [
+				  "Brown"
+				],
+				"canonical": "Moses",
+				"localized": {
+				  "en": "Moses",
+				  "ja_jp": "モーゼス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39798/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "moses"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39799",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Moses's Mother",
+				"localized": {
+				  "en": "Moses's Mother",
+				  "ja_jp": "モーゼスの母"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39799/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "moses-s-mother"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52583",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Nanaba",
+				"localized": {
+				  "en": "Nanaba",
+				  "ja_jp": "ナナバ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52583/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "nanaba"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52593",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dita Ness",
+				"localized": {
+				  "en": "Dita Ness",
+				  "ja_jp": "ディータ・ネス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52593/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "dita-ness"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39795",
+			  "names": {
+				"alternatives": [
+				  "Minister Nick"
+				],
+				"canonical": "Nick",
+				"localized": {
+				  "en": "Nick",
+				  "ja_jp": "ニック"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39795/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "nick-77245a04-f2c1-40ce-b458-222d708e2fe1"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "92572",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Pere",
+				"localized": {
+				  "en": "Pere",
+				  "ja_jp": "ペール"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/92572/original.jpg?1485087363",
+				  "width": null
+				}
+			  },
+			  "slug": "pere"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39818",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dot Pixis",
+				"localized": {
+				  "en": "Dot Pixis",
+				  "ja_jp": "ドット・ピクシス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39818/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "dot-pixis"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39819",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Petra Ral",
+				"localized": {
+				  "en": "Petra Ral",
+				  "ja_jp": "ペトラ・ラル"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39819/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "petra-ral"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "91050",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Father Ral",
+				"localized": {
+				  "en": "Father Ral",
+				  "ja_jp": "ペトラ父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/91050/original.jpg?1485086660",
+				  "width": null
+				}
+			  },
+			  "slug": "father-ral"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52595",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Dimo Reeves",
+				"localized": {
+				  "en": "Dimo Reeves",
+				  "ja_jp": "ディモ・リーブス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52595/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "dimo-reeves"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39820",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Anka Rheinberger",
+				"localized": {
+				  "en": "Anka Rheinberger",
+				  "ja_jp": "アンカ・ラインベルガー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39820/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "anka-rheinberger"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39801",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Samuel",
+				"localized": {
+				  "en": "Samuel",
+				  "ja_jp": "サムエル"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39801/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "samuel"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39821",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Gunther Schultz",
+				"localized": {
+				  "en": "Gunther Schultz",
+				  "ja_jp": "グンタ・シュルツ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39821/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "gunter-schulz"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "72049",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mother Schultz",
+				"localized": {
+				  "en": "Mother Schultz",
+				  "ja_jp": "グンタ母"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/72049/original.jpg?1485079414",
+				  "width": null
+				}
+			  },
+			  "slug": "mother-schultz"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "88409",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Grandfather Schultz",
+				"localized": {
+				  "en": "Grandfather Schultz",
+				  "ja_jp": "グンタ祖父"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/88409/original.jpg?1485085615",
+				  "width": null
+				}
+			  },
+			  "slug": "grandfather-schultz"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39822",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Keith Shardis",
+				"localized": {
+				  "en": "Keith Shardis",
+				  "ja_jp": "キース・シャーディス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39822/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "keith-shardis"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52596",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Luke Siss",
+				"localized": {
+				  "en": "Luke Siss",
+				  "ja_jp": "ルーク・シス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52596/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "luke-siss"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39823",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Erwin Smith",
+				"localized": {
+				  "en": "Erwin Smith",
+				  "ja_jp": "エルヴィン・スミス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39823/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "erwin-smith"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38513",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Connie Springer",
+				"localized": {
+				  "en": "Connie Springer",
+				  "ja_jp": "コニー・スプリンガー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38513/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "conny-springer"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39824",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Nack Tierce",
+				"localized": {
+				  "en": "Nack Tierce",
+				  "ja_jp": "ナック・ティアス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39824/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "nack-tierce"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39808",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Tom",
+				"localized": {
+				  "en": "Tom",
+				  "ja_jp": "トム"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39808/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "tom-7c968172-923e-4d22-823a-251d8856bfb5"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "77248",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Darius Baer Varbrun",
+				"localized": {
+				  "en": "Darius Baer Varbrun",
+				  "ja_jp": "ダリウス・ベーア＝ヴァルブルン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/77248/original.jpg?1485081285",
+				  "width": null
+				}
+			  },
+			  "slug": "darius-baer-varbrun"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39825",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Kitts Verman",
+				"localized": {
+				  "en": "Kitts Verman",
+				  "ja_jp": "キッツ・ヴェールマン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39825/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "kitts-verman"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39826",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Thomas Wagner",
+				"localized": {
+				  "en": "Thomas Wagner",
+				  "ja_jp": "トーマス・ワグナー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39826/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "thomas-wagner"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39828",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Grisha Yeager",
+				"localized": {
+				  "en": "Grisha Yeager",
+				  "ja_jp": "グリシャ・イェーガー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39828/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "grisha-yeager"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39827",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Carla Yeager",
+				"localized": {
+				  "en": "Carla Yeager",
+				  "ja_jp": "カルラ・イェーガー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39827/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "carla-yeager"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39796",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Ymir",
+				"localized": {
+				  "en": "Ymir",
+				  "ja_jp": "ユミル"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39796/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "ymir-24b34432-0237-4b22-a800-2e1ac512db5c"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39829",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mike Zacharias",
+				"localized": {
+				  "en": "Mike Zacharias",
+				  "ja_jp": "ミケ・ザカリアス"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39829/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mike-zacharias"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52597",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Darius Zackly",
+				"localized": {
+				  "en": "Darius Zackly",
+				  "ja_jp": "ダリス・ザックレー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52597/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "darius-zackly"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39830",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Millius Zermusky",
+				"localized": {
+				  "en": "Millius Zermusky",
+				  "ja_jp": "ミリウス・ゼルムスキー"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39830/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "millius-zermusky"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "39831",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Hange Zoë",
+				"localized": {
+				  "en": "Hange Zoë",
+				  "ja_jp": "ハンジ・ゾエ"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/39831/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "hange-zoe"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "38505",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Mikasa Ackerman",
+				"localized": {
+				  "en": "Mikasa Ackerman",
+				  "ja_jp": "ミカサ・アッカーマン"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/38505/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "mikasa-ackerman"
+			},
+			"role": "MAIN"
+		  },
+		  {
+			"character": {
+			  "id": "95639",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Abel",
+				"localized": {
+				  "en": "Abel",
+				  "ja_jp": "ゴーグル"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/95639/original.jpg?1533149500",
+				  "width": null
+				}
+			  },
+			  "slug": "goggles"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52585",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Keiji",
+				"localized": {
+				  "en": "Keiji",
+				  "ja_jp": null
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52585/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "keiji"
+			},
+			"role": "BACKGROUND"
+		  },
+		  {
+			"character": {
+			  "id": "52591",
+			  "names": {
+				"alternatives": [],
+				"canonical": "Marlo Freudenberg",
+				"localized": {
+				  "en": "Marlo Freudenberg",
+				  "ja_jp": "マルロ・フロイデンベルク"
+				}
+			  },
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/characters/images/52591/original.jpg?1483096805",
+				  "width": null
+				}
+			  },
+			  "slug": "marlo-freudenberg"
+			},
+			"role": "BACKGROUND"
+		  }
+		],
+		"pageInfo": {
+		  "endCursor": "NzU",
+		  "hasNextPage": false,
+		  "hasPreviousPage": false,
+		  "startCursor": "MQ"
+		}
+	  },
+	  "description": {
+		"en": "Centuries ago, mankind was slaughtered to near extinction by monstrous humanoid creatures called titans, forcing humans to hide in fear behind enormous concentric walls. What makes these giants truly terrifying is that their taste for human flesh is not born out of hunger but what appears to be out of pleasure. To ensure their survival, the remnants of humanity began living within defensive barriers, resulting in one hundred years without a single titan encounter. However, that fragile calm is soon shattered when a colossal titan manages to breach the supposedly impregnable outer wall, reigniting the fight for survival against the man-eating abominations.\n\nAfter witnessing a horrific personal loss at the hands of the invading creatures, Eren Yeager dedicates his life to their eradication by enlisting into the Survey Corps, an elite military unit that combats the merciless humanoids outside the protection of the walls. Based on Hajime Isayama's award-winning manga, Shingeki no Kyojin follows Eren, along with his adopted sister Mikasa Ackerman and his childhood friend Armin Arlert, as they join the brutal war against the titans and race to discover a way of defeating them before the last walls are breached.\n\n(Source: MAL Rewrite)"
+	  },
+	  "startDate": "2013-04-07",
+	  "endDate": "2013-09-29",
+	  "episodeCount": 25,
+	  "episodeLength": 1440,
+	  "totalLength": 36000,
+	  "season": "SPRING",
+	  "sfw": true,
+	  "slug": "attack-on-titan",
+	  "mappings": {
+		"nodes": [
+		  {
+			"externalId": "9541",
+			"externalSite": "ANIDB"
+		  },
+		  {
+			"externalId": "16498",
+			"externalSite": "ANILIST_ANIME"
+		  },
+		  {
+			"externalId": "HgLInLJMbE",
+			"externalSite": "AOZORA"
+		  },
+		  {
+			"externalId": "50011596",
+			"externalSite": "HULU"
+		  },
+		  {
+			"externalId": "16498",
+			"externalSite": "MYANIMELIST_ANIME"
+		  },
+		  {
+			"externalId": "267440/1",
+			"externalSite": "THETVDB"
+		  },
+		  {
+			"externalId": "514060",
+			"externalSite": "THETVDB_SEASON"
+		  },
+		  {
+			"externalId": "267440",
+			"externalSite": "THETVDB_SERIES"
+		  },
+		  {
+			"externalId": "1420",
+			"externalSite": "TRAKT"
+		  }
+		]
+	  },
+	  "staff": {
+		"nodes": [
+		  {
+			"person": {
+			  "id": "22220",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/22220/original.jpg?1533274286",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Jouji Wada",
+				  "ja_jp": "和田 丈嗣"
+				}
+			  },
+			  "slug": "jouji-wada"
+			},
+			"role": "Producer"
+		  },
+		  {
+			"person": {
+			  "id": "3976",
+			  "birthday": "1976-11-05",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/3976/original.jpg?1416264991",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tetsurou Araki",
+				  "ja_jp": "荒木 哲郎"
+				}
+			  },
+			  "slug": "tetsurou-araki"
+			},
+			"role": "Director"
+		  },
+		  {
+			"person": {
+			  "id": "431",
+			  "birthday": "1962-05-20",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/431/original.jpg?1416260864",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Masafumi Mima",
+				  "ja_jp": "三間 雅文"
+				}
+			  },
+			  "slug": "masafumi-mima"
+			},
+			"role": "Sound Director"
+		  },
+		  {
+			"person": {
+			  "id": "21476",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Shinpei Ezaki",
+				  "ja_jp": "江崎 慎平"
+				}
+			  },
+			  "slug": "shinpei-ezaki"
+			},
+			"role": "Episode Director, Storyboard"
+		  },
+		  {
+			"person": {
+			  "id": "21437",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Yoshiyuki Fujiwara",
+				  "ja_jp": "藤原 佳幸"
+				}
+			  },
+			  "slug": "yoshiyuki-fujiwara"
+			},
+			"role": "Episode Director, Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "364",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/364/original.jpg?1416260777",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Masashi Ishihama",
+				  "ja_jp": "石浜 真史"
+				}
+			  },
+			  "slug": "masashi-ishihama"
+			},
+			"role": "Episode Director, Storyboard, Animation Director, Key Animation, Background Art"
+		  },
+		  {
+			"person": {
+			  "id": "3982",
+			  "birthday": "1981-12-02",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/3982/original.jpg?1533272323",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Yuzuru Tachikawa",
+				  "ja_jp": "立川 譲"
+				}
+			  },
+			  "slug": "yuzuru-tachikawa"
+			},
+			"role": "Episode Director, Storyboard"
+		  },
+		  {
+			"person": {
+			  "id": "9220",
+			  "birthday": "1971-04-22",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/9220/original.jpg?1416270341",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hiroyuki Tanaka",
+				  "ja_jp": "田中 洋之"
+				}
+			  },
+			  "slug": "hiroyuki-tanaka"
+			},
+			"role": "Episode Director, Assistant Director"
+		  },
+		  {
+			"person": {
+			  "id": "21396",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/21396/original.jpg?1533273728",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Daisuke Tokudo",
+				  "ja_jp": "徳土 大介"
+				}
+			  },
+			  "slug": "daisuke-tokudo"
+			},
+			"role": "Episode Director, Storyboard, Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "1460",
+			  "birthday": "1977-04-13",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/1460/original.jpg?1416262235",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Sayo Yamamoto",
+				  "ja_jp": "山本 沙代"
+				}
+			  },
+			  "slug": "sayo-yamamoto"
+			},
+			"role": "Episode Director, Storyboard"
+		  },
+		  {
+			"person": {
+			  "id": "1216",
+			  "birthday": "1974-10-24",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/1216/original.jpg?1416261888",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "John Burgmeier"
+				}
+			  },
+			  "slug": "john-burgmeier"
+			},
+			"role": "Script"
+		  },
+		  {
+			"person": {
+			  "id": "1918",
+			  "birthday": "1965-04-07",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/1918/original.jpg?1416262710",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Yasuko Kobayashi",
+				  "ja_jp": "小林 靖子"
+				}
+			  },
+			  "slug": "yasuko-kobayashi"
+			},
+			"role": "Script, Series Composition"
+		  },
+		  {
+			"person": {
+			  "id": "7687",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/7687/original.jpg?1416268918",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tyson Rinehart"
+				}
+			  },
+			  "slug": "tyson-rinehart"
+			},
+			"role": "Script"
+		  },
+		  {
+			"person": {
+			  "id": "19526",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hiroshi Seko",
+				  "ja_jp": "瀬古 浩司"
+				}
+			  },
+			  "slug": "hiroshi-seko"
+			},
+			"role": "Script"
+		  },
+		  {
+			"person": {
+			  "id": "1461",
+			  "birthday": "1968-07-06",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/1461/original.jpg?1416262236",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Noboru Takagi",
+				  "ja_jp": "高木 登"
+				}
+			  },
+			  "slug": "noboru-takagi"
+			},
+			"role": "Script"
+		  },
+		  {
+			"person": {
+			  "id": "440",
+			  "birthday": "1976-05-25",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/440/original.jpg?1416260875",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "John Michael Tatum"
+				}
+			  },
+			  "slug": "john-michael-tatum"
+			},
+			"role": "Script"
+		  },
+		  {
+			"person": {
+			  "id": "21721",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/21721/original.jpg?1533274009",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tomohiro Hirata",
+				  "ja_jp": "平田 智浩"
+				}
+			  },
+			  "slug": "tomohiro-hirata"
+			},
+			"role": "Storyboard, Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "24043",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Minoru Oohara",
+				  "ja_jp": "大原 実"
+				}
+			  },
+			  "slug": "minoru-oohara"
+			},
+			"role": "Storyboard"
+		  },
+		  {
+			"person": {
+			  "id": "21610",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Keiichi Sasajima",
+				  "ja_jp": "笹嶋 啓一"
+				}
+			  },
+			  "slug": "keiichi-sasajima"
+			},
+			"role": "Storyboard"
+		  },
+		  {
+			"person": {
+			  "id": "18196",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/18196/original.jpg?1533273064",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Cinema Staff"
+				}
+			  },
+			  "slug": "cinema-staff"
+			},
+			"role": "Theme Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "6847",
+			  "birthday": "1985-07-16",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/6847/original.jpg?1416268029",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Yoko Hikasa",
+				  "ja_jp": "日笠 陽子"
+				}
+			  },
+			  "slug": "yoko-hikasa"
+			},
+			"role": "Theme Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "8718",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/8718/original.jpg?1416270072",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Linked Horizon"
+				}
+			  },
+			  "slug": "linked-horizon"
+			},
+			"role": "Theme Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "17299",
+			  "birthday": "1978-06-19",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/17299/original.jpg?1533270886",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Revo",
+				  "ja_jp": "Revo "
+				}
+			  },
+			  "slug": "revo"
+			},
+			"role": "Theme Song Lyrics, Theme Song Composition, Theme Song Arrangement"
+		  },
+		  {
+			"person": {
+			  "id": "17751",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/17751/original.jpg?1533270888",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "mpi",
+				  "ja_jp": "mpi "
+				}
+			  },
+			  "slug": "mpi"
+			},
+			"role": "Theme Song Lyrics, Inserted Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "9491",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Misao Abe",
+				  "ja_jp": "阿部 美佐緒"
+				}
+			  },
+			  "slug": "misao-abe"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "9490",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/9490/original.jpg?1533272773",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kouichi Arai",
+				  "ja_jp": "新井 浩一"
+				}
+			  },
+			  "slug": "kouichi-arai"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "3006",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/3006/original.jpg?1533270886",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kyouji Asano",
+				  "ja_jp": "浅野 恭司"
+				}
+			  },
+			  "slug": "kyouji-asano"
+			},
+			"role": "Character Design"
+		  },
+		  {
+			"person": {
+			  "id": "9221",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/9221/original.jpg?1416270342",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Aimee Blackschleger"
+				}
+			  },
+			  "slug": "aimee-blackschleger"
+			},
+			"role": "Inserted Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "22549",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Takaaki Chiba",
+				  "ja_jp": "千葉 崇明"
+				}
+			  },
+			  "slug": "takaaki-chiba"
+			},
+			"role": "Key Animation, Chief Animation Director, Animation Director"
+		  },
+		  {
+			"person": {
+			  "id": "9111",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/9111/original.jpg?1416270225",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Cyua"
+				}
+			  },
+			  "slug": "cyua"
+			},
+			"role": "Inserted Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "435",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/435/original.jpg?1416260869",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Gen Fukunaga",
+				  "ja_jp": "フクナガ ゲン"
+				}
+			  },
+			  "slug": "gen-fukunaga"
+			},
+			"role": "Executive Producer"
+		  },
+		  {
+			"person": {
+			  "id": "22444",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Masami Gotou",
+				  "ja_jp": "後藤 雅巳"
+				}
+			  },
+			  "slug": "masami-gotou"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "23609",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Takashi Habe",
+				  "ja_jp": "波部 崇"
+				}
+			  },
+			  "slug": "takashi-habe"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "9499",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Akira Hamaguchi",
+				  "ja_jp": "浜口 明"
+				}
+			  },
+			  "slug": "akira-hamaguchi"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "23292",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Satoshi Hashimoto",
+				  "ja_jp": "橋本 賢"
+				}
+			  },
+			  "slug": "satoshi-hashimoto-d5208a27-4ad0-4f06-b53d-eb95fa7105db"
+			},
+			"role": "Color Design"
+		  },
+		  {
+			"person": {
+			  "id": "22109",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Aya Hida",
+				  "ja_jp": "肥田 文"
+				}
+			  },
+			  "slug": "aya-hida"
+			},
+			"role": "Editing"
+		  },
+		  {
+			"person": {
+			  "id": "17186",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Izumi Hirose",
+				  "ja_jp": "広瀬 いづみ"
+				}
+			  },
+			  "slug": "izumi-hirose"
+			},
+			"role": "Color Setting"
+		  },
+		  {
+			"person": {
+			  "id": "8034",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/8034/original.jpg?1416269308",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Atsushi Ikariya",
+				  "ja_jp": "碇谷 敦"
+				}
+			  },
+			  "slug": "atsushi-ikariya"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "23895",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/23895/original.jpg?1486414118",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Arifumi Imai",
+				  "ja_jp": "今井 有文"
+				}
+			  },
+			  "slug": "arifumi-imai"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "8719",
+			  "birthday": "1986-08-29",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/8719/original.jpg?1416270073",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hajime Isayama",
+				  "ja_jp": "諫山 創"
+				}
+			  },
+			  "slug": "hajime-isayama"
+			},
+			"role": "Original Creator"
+		  },
+		  {
+			"person": {
+			  "id": "2097",
+			  "birthday": "1964-04-28",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/2097/original.jpg?1533271648",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hiromi Katou",
+				  "ja_jp": "加藤 裕美"
+				}
+			  },
+			  "slug": "hiromi-katou"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "8161",
+			  "birthday": "1978-05-31",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/8161/original.jpg?1416269452",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Mika Kobayashi",
+				  "ja_jp": "小林 未郁"
+				}
+			  },
+			  "slug": "mika-kobayashi"
+			},
+			"role": "Inserted Song Performance"
+		  },
+		  {
+			"person": {
+			  "id": "24522",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Naoki Kobayashi",
+				  "ja_jp": "小林 直樹"
+				}
+			  },
+			  "slug": "naoki-kobayashi"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "21400",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/21400/original.jpg?1533270885",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Masashi Koizuka",
+				  "ja_jp": "肥塚 正史"
+				}
+			  },
+			  "slug": "masashi-koizuka"
+			},
+			"role": "Assistant Director"
+		  },
+		  {
+			"person": {
+			  "id": "22605",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/22605/original.jpg?1533274386",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tatsuya Koyanagi",
+				  "ja_jp": "小柳 達也"
+				}
+			  },
+			  "slug": "tatsuya-koyanagi"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "5639",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Shizuo Kurahashi",
+				  "ja_jp": "倉橋 静男"
+				}
+			  },
+			  "slug": "shizuo-kurahashi"
+			},
+			"role": "Sound Effects"
+		  },
+		  {
+			"person": {
+			  "id": "466",
+			  "birthday": "1970-07-14",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/466/original.jpg?1416260915",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Mike McFarland"
+				}
+			  },
+			  "slug": "mike-mcfarland"
+			},
+			"role": "ADR Director"
+		  },
+		  {
+			"person": {
+			  "id": "22417",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tatsuya Miki",
+				  "ja_jp": "三木 達也"
+				}
+			  },
+			  "slug": "tatsuya-miki"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "9486",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/9486/original.jpg?1533273224",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kazuhiro Miwa",
+				  "ja_jp": "三輪 和宏"
+				}
+			  },
+			  "slug": "kazuhiro-miwa"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "22734",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kana Miyai",
+				  "ja_jp": "宮井 加奈"
+				}
+			  },
+			  "slug": "kana-miyai"
+			},
+			"role": "Animation Director"
+		  },
+		  {
+			"person": {
+			  "id": "23813",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Jun Okabe",
+				  "ja_jp": "岡部 順"
+				}
+			  },
+			  "slug": "jun-okabe"
+			},
+			"role": "Background Art"
+		  },
+		  {
+			"person": {
+			  "id": "22705",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Satoshi Sakai",
+				  "ja_jp": "酒井 智史"
+				}
+			  },
+			  "slug": "satoshi-sakai"
+			},
+			"role": "Animation Director"
+		  },
+		  {
+			"person": {
+			  "id": "5377",
+			  "birthday": "1980-09-12",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/5377/original.jpg?1416266441",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hiroyuki Sawano",
+				  "ja_jp": "澤野 弘之"
+				}
+			  },
+			  "slug": "hiroyuki-sawano"
+			},
+			"role": "Music"
+		  },
+		  {
+			"person": {
+			  "id": "3414",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Shirou Shibata",
+				  "ja_jp": "柴田 志朗"
+				}
+			  },
+			  "slug": "shirou-shibata"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "23332",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hideki Takahashi",
+				  "ja_jp": "高橋 英樹"
+				}
+			  },
+			  "slug": "hideki-takahashi-4e5a48eb-bac3-40a3-96ce-e19ebb50a6c3"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "254",
+			  "birthday": "1984-06-01",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Hironori Tanaka",
+				  "ja_jp": "田中 宏紀"
+				}
+			  },
+			  "slug": "hironori-tanaka"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "22537",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kazuhiro Yamada",
+				  "ja_jp": "山田 和弘"
+				}
+			  },
+			  "slug": "kazuhiro-yamada"
+			},
+			"role": "Director of Photography"
+		  },
+		  {
+			"person": {
+			  "id": "23501",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Naoto Yamatani",
+				  "ja_jp": "山谷 尚人"
+				}
+			  },
+			  "slug": "naoto-yamatani"
+			},
+			"role": "Sound Effects"
+		  },
+		  {
+			"person": {
+			  "id": "24925",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Yumiko Ishii",
+				  "ja_jp": "石井 ゆみこ"
+				}
+			  },
+			  "slug": "yumiko-ishii"
+			},
+			"role": "Animation Director, Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "3577",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Toshiyuki Komaru",
+				  "ja_jp": "小丸 敏之"
+				}
+			  },
+			  "slug": "toshiyuki-komaru"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "14999",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Toshiyuki Satou",
+				  "ja_jp": "佐藤 利幸"
+				}
+			  },
+			  "slug": "toshiyuki-satou"
+			},
+			"role": "Key Animation, Animation Director, In-Between Animation"
+		  },
+		  {
+			"person": {
+			  "id": "23566",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Senbon Umishima",
+				  "ja_jp": "海島 千本"
+				}
+			  },
+			  "slug": "senbon-umishima"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "123",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/123/original.jpg?1533271550",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kenichi Yoshida",
+				  "ja_jp": "吉田 健一"
+				}
+			  },
+			  "slug": "kenichi-yoshida"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "30444",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/30444/original.jpg?1533274624",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Shuuhei Yabuta",
+				  "ja_jp": "薮田 修平"
+				}
+			  },
+			  "slug": "shuuhei-yabuta"
+			},
+			"role": "Director"
+		  },
+		  {
+			"person": {
+			  "id": "31841",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/31841/original.jpg?1533274884",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Tatsuma Minamikawa",
+				  "ja_jp": "南川 達馬"
+				}
+			  },
+			  "slug": "tatsuma-minamikawa"
+			},
+			"role": "Episode Director"
+		  },
+		  {
+			"person": {
+			  "id": "34959",
+			  "birthday": "1964-06-03",
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/34959/original.jpg?1533275373",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Seiji Kameda",
+				  "ja_jp": "亀田 誠治"
+				}
+			  },
+			  "slug": "seiji-kameda"
+			},
+			"role": "Theme Song Arrangement"
+		  },
+		  {
+			"person": {
+			  "id": "34195",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/people/images/34195/original.jpg?1533275252",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "You Moriyama",
+				  "ja_jp": "森山 洋"
+				}
+			  },
+			  "slug": "you-moriyama"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "33987",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Akira Tabata",
+				  "ja_jp": "田畑 昭"
+				}
+			  },
+			  "slug": "akira-tabata"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "34806",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Orie Tanaka",
+				  "ja_jp": "田中 織枝"
+				}
+			  },
+			  "slug": "orie-tanaka"
+			},
+			"role": "Key Animation"
+		  },
+		  {
+			"person": {
+			  "id": "34384",
+			  "birthday": null,
+			  "image": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "/images/original/missing.png",
+				  "width": null
+				},
+				"views": []
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "en",
+				"localized": {
+				  "en": "Kazuhiko Wanibuchi",
+				  "ja_jp": "鰐淵 和彦"
+				}
+			  },
+			  "slug": "kazuhiko-wanibuchi"
+			},
+			"role": "Key Animation"
+		  }
+		],
+		"pageInfo": {
+		  "endCursor": "NzA",
+		  "hasNextPage": false,
+		  "hasPreviousPage": false,
+		  "startCursor": "MQ"
+		}
+	  },
+	  "status": "FINISHED",
+	  "streamingLinks": {
+		"nodes": [
+		  {
+			"dubs": [
+			  "ja"
+			],
+			"subs": [
+			  "en"
+			],
+			"regions": [
+			  "US"
+			],
+			"streamer": {
+			  "id": "8",
+			  "siteName": "TubiTV"
+			},
+			"url": "https://tubitv.com/series/2318"
+		  },
+		  {
+			"dubs": [
+			  "ja"
+			],
+			"subs": [
+			  "en"
+			],
+			"regions": [
+			  "US"
+			],
+			"streamer": {
+			  "id": "3",
+			  "siteName": "Crunchyroll"
+			},
+			"url": "http://www.crunchyroll.com/attack-on-titan"
+		  },
+		  {
+			"dubs": [
+			  "ja"
+			],
+			"subs": [
+			  "en"
+			],
+			"regions": [
+			  "US"
+			],
+			"streamer": {
+			  "id": "6",
+			  "siteName": "Netflix"
+			},
+			"url": "https://www.netflix.com/title/70299043"
+		  },
+		  {
+			"dubs": [
+			  "ja"
+			],
+			"subs": [
+			  "en"
+			],
+			"regions": [
+			  "US"
+			],
+			"streamer": {
+			  "id": "2",
+			  "siteName": "Funimation"
+			},
+			"url": "https://www.funimation.com/shows/attack-on-titan/"
+		  },
+		  {
+			"dubs": [
+			  "ja"
+			],
+			"subs": [
+			  "en"
+			],
+			"regions": [
+			  "US"
+			],
+			"streamer": {
+			  "id": "1",
+			  "siteName": "Hulu"
+			},
+			"url": "https://www.hulu.com/attack-on-titan"
+		  }
+		]
+	  },
+	  "subtype": "TV",
+	  "titles": {
+		"alternatives": [
+		  "AoT"
+		],
+		"canonical": "Attack on Titan",
+		"canonicalLocale": "en",
+		"localized": {
+		  "en": "Attack on Titan",
+		  "en_jp": "Shingeki no Kyojin",
+		  "en_us": "Attack on Titan",
+		  "ja_jp": "進撃の巨人"
+		}
+	  },
+	  "youtubeTrailerVideoId": "LHtdKWJdif4"
+	}
+  }
 }

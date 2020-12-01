@@ -10,13 +10,13 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use function Aviat\AnimeClient\clearCache;

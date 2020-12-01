@@ -1,0 +1,153 @@
+query ($slug: String!) {
+	findProfileBySlug(slug: $slug) {
+		about
+		avatarImage {
+			original {
+				name
+				url
+				width
+				height
+			}
+		}
+		bannerImage {
+			original {
+				name
+				url
+				width
+				height
+			}
+		}
+		birthday
+		id
+		location
+		name
+		proMessage
+		proTier
+		slug
+		siteLinks(first: 20) {
+			nodes {
+				id
+				url
+			}
+		}
+		favorites(first: 100) {
+			nodes {
+				id
+				item {
+					__typename,
+					...on Anime {
+						id
+						slug
+						posterImage {
+							original {
+								url
+								height
+								width
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						titles {
+							canonical
+							localized
+						}
+					}
+					...on Manga {
+						id
+						slug
+						posterImage {
+							original {
+								url
+								height
+								width
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						titles {
+							canonical
+							localized
+						}
+					}
+					...on Person {
+						id
+						slug
+						image {
+							original {
+								url
+							}
+							views {
+								url
+								height
+								width
+							}
+						}
+						names {
+							alternatives
+							canonical
+							canonicalLocale
+							localized
+						},
+					}
+					...on Character {
+						id
+						slug
+						image {
+							original {
+								url
+							}
+						}
+						names {
+							alternatives
+							canonical
+							canonicalLocale
+							localized
+						},
+					}
+				}
+			}
+		}
+		stats {
+			animeAmountConsumed {
+				completed
+				id
+				media
+				recalculatedAt
+				time
+				units
+			}
+			mangaAmountConsumed {
+				completed
+				id
+				media
+				recalculatedAt
+				units
+			}
+		}
+		url
+		waifu {
+			id
+			slug
+			image {
+				original {
+					name
+					url
+					width
+					height
+				}
+			}
+			names {
+				canonical
+				alternatives
+				localized
+			}
+		}
+		waifuOrHusbando
+	}
+}

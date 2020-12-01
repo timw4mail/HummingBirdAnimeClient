@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -35,7 +35,7 @@ use Throwable;
  */
 final class Model
 {
-	use AnilistTrait;
+	use RequestBuilderTrait;
 	/**
 	 * @var ListItem
 	 */
@@ -77,7 +77,7 @@ final class Model
 			])
 			->getFullRequest();
 
-		$response = $this->getResponseFromRequest($request);
+		$response = $this->requestBuilder->getResponseFromRequest($request);
 
 		return Json::decode(wait($response->getBody()->buffer()));
 	}
@@ -89,7 +89,7 @@ final class Model
 	 */
 	public function checkAuth(): array
 	{
-		return $this->runQuery('CheckLogin');
+		return $this->requestBuilder->runQuery('CheckLogin');
 	}
 
 	/**
@@ -110,7 +110,7 @@ final class Model
 			throw new InvalidArgumentException('Anilist username is not defined in config');
 		}
 
-		return $this->runQuery('SyncUserList', [
+		return $this->requestBuilder->runQuery('SyncUserList', [
 			'name' => $anilistUser,
 			'type' => $type,
 		]);
@@ -275,16 +275,24 @@ final class Model
 	 * Get the Anilist list item id from the media id from its MAL id
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
+	 *
+	 * @param string $mediaId
+	 * @return string|null
 	 */
-	private function getListIdFromMediaId(string $mediaId): string
+	private function getListIdFromMediaId(string $mediaId): ?string
 	{
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
 
-		$info = $this->runQuery('ListItemIdByMediaId', [
+		$info = $this->requestBuilder->runQuery('ListItemIdByMediaId', [
 			'id' => $mediaId,
 			'userName' => $anilistUser,
 		]);
+
+		if ( ! empty($info['errors']))
+		{
+			return NULL;
+		}
 
 		return (string)$info['data']['MediaList']['id'];
 	}
@@ -303,7 +311,7 @@ final class Model
 			return NULL;
 		}
 
-		$info = $this->runQuery('MediaIdByMalId', [
+		$info = $this->requestBuilder->runQuery('MediaIdByMalId', [
 			'id' => $malId,
 			'type' => mb_strtoupper($type),
 		]);

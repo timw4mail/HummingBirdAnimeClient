@@ -1,0 +1,20 @@
+query (
+	$id: ID!,
+	$site: MappingExternalSiteEnum!,
+) {
+	lookupMapping(externalSite: $site, externalId: $id) {
+		__typename,
+		...on Anime {
+			id
+		}
+		...on Manga {
+			id
+		}
+		...on Character {
+			id
+		}
+		...on Person {
+			id
+		}
+	}
+}

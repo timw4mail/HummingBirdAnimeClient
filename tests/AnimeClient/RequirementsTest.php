@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,7 +22,7 @@ class RequirementsTest extends AnimeClientTestCase {
 
 	public function testPHPVersion(): void
 	{
-		$this->assertTrue(version_compare(PHP_VERSION, "5.4", "ge"));
+		$this->assertTrue(version_compare(PHP_VERSION, "7.4", "ge"));
 	}
 
 	public function testHasPDO(): void

@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,10 +20,8 @@ use Aura\Session\Segment;
 
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
-use Aviat\AnimeClient\API\{
-	CacheTrait,
-	Kitsu as K
-};
+use Aviat\AnimeClient\Kitsu as K;
+use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;

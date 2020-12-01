@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -19,20 +19,24 @@ namespace Aviat\AnimeClient;
 use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\{
-	Anilist,
-	Kitsu,
-	Kitsu\KitsuRequestBuilder
-};
+use Aviat\AnimeClient\API\{Anilist, Kitsu};
+use Aviat\AnimeClient\Component;
 use Aviat\AnimeClient\Model;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\ContainerInterface;
-use Psr\SimpleCache\CacheInterface;
-use Laminas\Diactoros\{Response, ServerRequestFactory};
+use Laminas\Diactoros\ServerRequestFactory;
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use Psr\SimpleCache\CacheInterface;
+
+if ( ! defined('APP_DIR'))
+{
+	define('APP_DIR', __DIR__);
+	define('TEMPLATE_DIR', APP_DIR . '/templates');
+}
 
 // -----------------------------------------------------------------------------
 // Setup DI container
@@ -45,17 +49,18 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 
 	$appLogger = new Logger('animeclient');
-	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', Logger::NOTICE));
-
-	$anilistRequestLogger = new Logger('anilist-request');
-	$anilistRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/anilist_request.log', Logger::NOTICE));
-
-	$kitsuRequestLogger = new Logger('kitsu-request');
-	$kitsuRequestLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/kitsu_request.log', Logger::NOTICE));
-
+	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', 2, Logger::WARNING));
 	$container->setLogger($appLogger);
-	$container->setLogger($anilistRequestLogger, 'anilist-request');
-	$container->setLogger($kitsuRequestLogger, 'kitsu-request');
+
+	foreach (['anilist-request', 'kitsu-request', 'kitsu-graphql'] as $channel)
+	{
+		$logger = new Logger($channel);
+		$handler = new RotatingFileHandler(__DIR__ . "/logs/{$channel}.log", 2, Logger::WARNING);
+		$handler->setFormatter(new JsonFormatter());
+		$logger->pushHandler($handler);
+
+		$container->setLogger($logger, $channel);
+	}
 
 	// -------------------------------------------------------------------------
 	// Injected Objects
@@ -74,29 +79,52 @@ return static function (array $configArray = []): Container {
 	// Create Aura Router Object
 	$container->set('aura-router', fn() => new RouterContainer);
 
-	// Create Html helper Object
+	// Create Html helpers
 	$container->set('html-helper', static function(ContainerInterface $container) {
 		$htmlHelper = (new HelperLocatorFactory)->newInstance();
-		$htmlHelper->set('menu', static function() use ($container) {
-			$menuHelper = new Helper\Menu();
-			$menuHelper->setContainer($container);
-			return $menuHelper;
-		});
-		$htmlHelper->set('field', static function() use ($container) {
-			$formHelper = new Helper\Form();
-			$formHelper->setContainer($container);
-			return $formHelper;
-		});
-		$htmlHelper->set('picture', static function() use ($container) {
-			$pictureHelper = new Helper\Picture();
-			$pictureHelper->setContainer($container);
-			return $pictureHelper;
-		});
+		$helpers = [
+			'menu' => Helper\Menu::class,
+			'field' => Helper\Form::class,
+			'picture' => Helper\Picture::class,
+		];
+
+		foreach ($helpers as $name => $class)
+		{
+			$htmlHelper->set($name, static function() use ($class, $container) {
+				$helper = new $class;
+				$helper->setContainer($container);
+				return $helper;
+			});
+		}
 
 		return $htmlHelper;
 	});
 
-	// Create Request/Response Objects
+	// Create Component helpers
+	$container->set('component-helper', static function (ContainerInterface $container) {
+		$helper = (new HelperLocatorFactory)->newInstance();
+		$components = [
+			'animeCover' => Component\AnimeCover::class,
+			'mangaCover' => Component\MangaCover::class,
+			'character' => Component\Character::class,
+			'media' => Component\Media::class,
+			'tabs' => Component\Tabs::class,
+			'verticalTabs' => Component\VerticalTabs::class,
+		];
+
+		foreach ($components as $name => $componentClass)
+		{
+			$helper->set($name, static function () use ($container, $componentClass) {
+				$helper = new $componentClass;
+				$helper->setContainer($container);
+				return $helper;
+			});
+		}
+
+		return $helper;
+	});
+
+	// Create Request Object
 	$container->set('request', fn () => ServerRequestFactory::fromGlobals(
 		$_SERVER,
 		$_GET,
@@ -104,7 +132,6 @@ return static function (array $configArray = []): Container {
 		$_COOKIE,
 		$_FILES
 	));
-	$container->set('response', fn () => new Response);
 
 	// Create session Object
 	$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
@@ -114,7 +141,7 @@ return static function (array $configArray = []): Container {
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
-		$requestBuilder = new KitsuRequestBuilder($container);
+		$requestBuilder = new Kitsu\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 		$listItem = new Kitsu\ListItem();
@@ -130,7 +157,7 @@ return static function (array $configArray = []): Container {
 		return $model;
 	});
 	$container->set('anilist-model', static function(ContainerInterface $container): Anilist\Model {
-		$requestBuilder = new Anilist\AnilistRequestBuilder();
+		$requestBuilder = new Anilist\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 		$listItem = new Anilist\ListItem();

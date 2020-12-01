@@ -1,0 +1,101 @@
+query ($slug: String!) {
+	findPersonBySlug(slug: $slug) {
+		id
+		description
+		birthday
+		image {
+			original {
+				height
+				name
+				url
+				width
+			}
+			views {
+				height
+				name
+				url
+				width
+			}
+		}
+		names {
+			alternatives
+			canonical
+			localized
+		}
+		mediaStaff(first: 100) {
+			nodes {
+				id
+				role
+				media {
+					id
+					slug
+					type
+					posterImage {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					titles {
+						alternatives
+						canonical
+						localized
+					}
+				}
+			}
+		}
+		voices(first: 100) {
+			nodes {
+				locale
+				mediaCharacter {
+					role
+					character {
+						id
+						slug
+						image {
+							original {
+								height
+								name
+								url
+								width
+							}
+						}
+						names {
+							canonical
+						}
+					}
+					media {
+						id
+						slug
+						posterImage {
+							original {
+								height
+								name
+								url
+								width
+							}
+							views {
+								height
+								name
+								url
+								width
+							}
+						}
+						titles {
+							canonical
+							localized
+						}
+					}
+				}
+			}
+		}
+	}
+}

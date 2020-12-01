@@ -1,28 +1,28 @@
 empty: false
-id: '15839442'
-mal_id: '33206'
+id: '435513'
+mal_id: '209'
 episodes:
-    watched: '-'
-    total: '-'
-    length: null
+    watched: 7
+    total: 26
+    length: 1500
 airing:
-    status: 'Currently Airing'
-    started: '2017-01-12'
-    ended: null
+    status: 'Finished Airing'
+    started: '2003-09-01'
+    ended: '2004-03-16'
 anime:
     empty: false
-    age_rating: null
-    cover_image: 'https://media.kitsu.io/anime/poster_images/12243/small.jpg?1481144116'
-    genres: [Comedy, Fantasy, 'Slice of Life']
-    id: '12243'
+    age_rating: PG
+    cover_image: 'https://media.kitsu.io/anime/poster_images/185/small.jpg?1597697520'
+    genres: {  }
+    id: '185'
     show_type: TV
-    slug: kobayashi-san-chi-no-maid-dragon
-    streaming_links: {  }
-    title: 'Kobayashi-san Chi no Maid Dragon'
-    titles: ['Miss Kobayashi''s Dragon Maid', 小林さんちのメイドラゴン]
-notes: null
+    slug: r-o-d
+    streaming_links: [{ meta: { name: Crunchyroll, link: true, image: streaming-logos/crunchyroll.svg }, link: 'http://www.crunchyroll.com/rod', subs: [en], dubs: [ja] }, { meta: { name: Hulu, link: true, image: streaming-logos/hulu.svg }, link: 'http://www.hulu.com/rod-the-tv', subs: [en], dubs: [ja] }]
+    title: 'R.O.D the TV'
+    titles: ['アール・オー・ディー ザ・ティーヴィー']
+notes: ''
 private: false
 rewatching: false
 rewatched: 0
 user_rating: '-'
-watching_status: current
+watching_status: CURRENT

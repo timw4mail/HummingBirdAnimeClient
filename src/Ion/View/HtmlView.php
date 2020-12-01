@@ -10,29 +10,24 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\View;
 
-use Aura\Html\HelperLocator;
+use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use Laminas\Diactoros\Response\HtmlResponse;
 use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
  */
 class HtmlView extends HttpView {
-
-	/**
-	 * HTML generator/escaper helper
-	 *
-	 * @var HelperLocator
-	 */
-	protected HelperLocator $helper;
+	use ContainerAware;
 
 	/**
 	 * Response mime type
@@ -50,8 +45,10 @@ class HtmlView extends HttpView {
 	 */
 	public function __construct(ContainerInterface $container)
 	{
-		parent::__construct($container);
-		$this->helper = $container->get('html-helper');
+		parent::__construct();
+
+		$this->setContainer($container);
+		$this->response = new HtmlResponse('');
 	}
 
 	/**
@@ -63,8 +60,10 @@ class HtmlView extends HttpView {
 	 */
 	public function renderTemplate(string $path, array $data): string
 	{
-		$data['helper'] = $this->helper;
-		$data['escape'] = $this->helper->escape();
+		$helper = $this->container->get('html-helper');
+		$data['component'] = $this->container->get('component-helper');
+		$data['helper'] = $helper;
+		$data['escape'] = $helper->escape();
 		$data['container'] = $this->container;
 
 		ob_start();

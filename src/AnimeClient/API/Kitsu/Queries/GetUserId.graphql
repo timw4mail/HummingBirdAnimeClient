@@ -1,0 +1,6 @@
+query ($slug: String!) {
+	findProfileBySlug(slug: $slug) {
+		id
+		slug
+	}
+}

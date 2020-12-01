@@ -1,7 +1,7 @@
 <?php
 
 use function Aviat\AnimeClient\getLocalImg;
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 
 ?>
 <main class="character-page details fixed">
@@ -33,63 +33,20 @@ use Aviat\AnimeClient\API\Kitsu;
 
 	<?php if ( ! (empty($data['media']['anime']) || empty($data['media']['manga']))): ?>
 		<h3>Media</h3>
-		<div class="tabs">
-			<?php if ( ! empty($data['media']['anime'])): ?>
-				<input checked="checked" type="radio" id="media-anime" name="media-tabs" />
-				<label for="media-anime">Anime</label>
 
-				<section class="media-wrap content">
-					<?php foreach ($data['media']['anime'] as $id => $anime): ?>
-						<article class="media">
-							<?php
-							$link = $url->generate('anime.details', ['id' => $anime['attributes']['slug']]);
-							$titles = Kitsu::filterTitles($anime['attributes']);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/anime/{$id}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
-									<?php foreach ($titles as $title): ?>
-										<br />
-										<small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-					<?php endforeach ?>
-				</section>
-			<?php endif ?>
+		<?= $component->tabs('character-media', $data['media'], static function ($media, $mediaType) use ($url, $component, $helper) {
+			$rendered = [];
+			foreach ($media as $id => $item)
+			{
+				$rendered[] = $component->media(
+					array_merge([$item['title']], $item['titles']),
+					$url->generate("{$mediaType}.details", ['id' => $item['slug']]),
+					$helper->picture("images/{$mediaType}/{$item['id']}.webp")
+				);
+			}
 
-			<?php if ( ! empty($data['media']['manga'])): ?>
-				<input type="radio" id="media-manga" name="media-tabs" />
-				<label for="media-manga">Manga</label>
-
-				<section class="media-wrap content">
-					<?php foreach ($data['media']['manga'] as $id => $manga): ?>
-						<article class="media">
-							<?php
-							$link = $url->generate('manga.details', ['id' => $manga['attributes']['slug']]);
-							$titles = Kitsu::filterTitles($manga['attributes']);
-							?>
-							<a href="<?= $link ?>">
-								<?= $helper->picture("images/manga/{$id}.webp") ?>
-							</a>
-							<div class="name">
-								<a href="<?= $link ?>">
-									<?= array_shift($titles) ?>
-									<?php foreach ($titles as $title): ?>
-										<br />
-										<small><?= $title ?></small>
-									<?php endforeach ?>
-								</a>
-							</div>
-						</article>
-					<?php endforeach ?>
-				</section>
-			<?php endif ?>
-		</div>
+			return implode('', array_map('mb_trim', $rendered));
+		}, 'media-wrap content') ?>
 	<?php endif ?>
 
 	<section>
@@ -158,66 +115,47 @@ use Aviat\AnimeClient\API\Kitsu;
 			<?php if ( ! empty($vas)): ?>
 				<h4>Voice Actors</h4>
 
-				<div class="tabs">
-					<?php $i = 0; ?>
+				<?= $component->tabs('character-vas', $vas, static function ($casting) use ($url, $component, $helper) {
+					$castings = [];
+					foreach ($casting as $id => $c):
+						$person = $component->character(
+							$c['person']['name'],
+							$url->generate('person', ['slug' => $c['person']['slug']]),
+							$helper->picture(getLocalImg($c['person']['image']))
+						);
+						$medias = array_map(fn ($series) => $component->media(
+							array_merge([$series['title']], $series['titles']),
+							$url->generate('anime.details', ['id' => $series['slug']]),
+							$helper->picture(getLocalImg($series['posterImage'], TRUE))
+						), $c['series']);
+						$media = implode('', array_map('mb_trim', $medias));
 
-					<?php foreach ($vas as $language => $casting): ?>
-						<input <?= $i === 0 ? 'checked="checked"' : '' ?> type="radio" id="character-va<?= $i ?>"
-							name="character-vas"
-						/>
-						<label for="character-va<?= $i ?>"><?= $language ?></label>
-						<section class="content">
-							<table class="borderless max-table">
-								<tr>
-									<th>Cast Member</th>
-									<th>Series</th>
-								</tr>
-								<?php foreach ($casting as $cid => $c): ?>
-									<tr>
-										<td>
-											<article class="character">
-												<?php
-												$link = $url->generate('person', ['id' => $c['person']['id']]);
-												?>
-												<a href="<?= $link ?>">
-													<?= $helper->picture(getLocalImg($c['person']['image'])) ?>
-													<div class="name">
-														<?= $c['person']['name'] ?>
-													</div>
-												</a>
-											</article>
-										</td>
-										<td width="75%">
-											<section class="align-left media-wrap-flex">
-												<?php foreach ($c['series'] as $series): ?>
-													<article class="media">
-														<?php
-														$link = $url->generate('anime.details', ['id' => $series['attributes']['slug']]);
-														$titles = Kitsu::filterTitles($series['attributes']);
-														?>
-														<a href="<?= $link ?>">
-															<?= $helper->picture(getLocalImg($series['attributes']['posterImage']['small'], TRUE)) ?>
-														</a>
-														<div class="name">
-															<a href="<?= $link ?>">
-																<?= array_shift($titles) ?>
-																<?php foreach ($titles as $title): ?>
-																	<br />
-																	<small><?= $title ?></small>
-																<?php endforeach ?>
-															</a>
-														</div>
-													</article>
-												<?php endforeach ?>
-											</section>
-										</td>
-									</tr>
-								<?php endforeach ?>
-							</table>
-						</section>
-						<?php $i++ ?>
-					<?php endforeach ?>
-				</div>
+						$castings[] = <<<HTML
+							<tr>
+								<td>{$person}</td>
+								<td width="75%">
+									<section class="align-left media-wrap-flex">
+										{$media}
+									</section>
+								</td>
+							</tr>
+HTML;
+					endforeach;
+
+					$languages = implode('', array_map('mb_trim', $castings));
+
+					return <<<HTML
+						<table class="borderless max-table">
+							<thead>
+							<tr>
+								<th>Cast Member</th>
+								<th>Series</th>
+							</tr>
+							</thead>
+							<tbody>{$languages}</tbody>
+						</table>
+HTML;
+				}, 'content') ?>
 			<?php endif ?>
 		<?php endif ?>
 	</section>

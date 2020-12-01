@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -57,7 +57,7 @@ trait CacheTrait {
 	 *
 	 * @param string $key
 	 * @param callable $primer
-	 * @param array $primeArgs
+	 * @param array|null $primeArgs
 	 * @return mixed|null
 	 * @throws InvalidArgumentException
 	 */
@@ -77,23 +77,5 @@ trait CacheTrait {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Generate a hash as a cache key from the current method call
-	 *
-	 * @param mixed $object
-	 * @param string $method
-	 * @param array  $args
-	 * @return string
-	 */
-	public function getHashForMethodCall($object, string $method, array $args = []): string
-	{
-		$keyObj = [
-			'class' => get_class($object),
-			'method' => $method,
-			'args' => $args,
-		];
-		return sha1(json_encode($keyObj));
 	}
 }

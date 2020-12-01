@@ -260,7 +260,7 @@ function ajaxSerialize(data) {
  *
  * @param  {string} url - the url to request
  * @param  {Object} config  - the configuration object
- * @return {void}
+ * @return {XMLHttpRequest}
  */
 AnimeClient.ajax = (url, config) => {
 	// Set some sane defaults
@@ -321,6 +321,8 @@ AnimeClient.ajax = (url, config) => {
 	} else {
 		request.send(config.data);
 	}
+
+	return request
 };
 
 /**
@@ -329,6 +331,7 @@ AnimeClient.ajax = (url, config) => {
  * @param {string} url
  * @param {object|function} data
  * @param {function} [callback]
+ * @return {XMLHttpRequest}
  */
 AnimeClient.get = (url, data, callback = null) => {
 	if (callback === null) {
@@ -459,6 +462,46 @@ if ('serviceWorker' in navigator) {
 	});
 }
 
+(() => {
+	// Var is intentional
+	var hidden = null;
+	var visibilityChange = null;
+
+	if (typeof document.hidden !== "undefined") {
+		hidden = "hidden";
+		visibilityChange = "visibilitychange";
+	} else if (typeof document.msHidden !== "undefined") {
+		hidden = "msHidden";
+		visibilityChange = "msvisibilitychange";
+	} else if (typeof document.webkitHidden !== "undefined") {
+		hidden = "webkitHidden";
+		visibilityChange = "webkitvisibilitychange";
+	}
+
+	function handleVisibilityChange() {
+		// Check the user's session to see if they are currently logged-in
+		// when the page becomes visible
+		if ( ! document[hidden]) {
+			AnimeClient.get('/heartbeat', (beat) => {
+				const status = JSON.parse(beat);
+
+				// If the session is expired, immediately reload so that
+				// you can't attempt to do an action that requires authentication
+				if (status.hasAuth !== true) {
+					document.removeEventListener(visibilityChange, handleVisibilityChange, false);
+					location.reload();
+				}
+			});
+		}
+	}
+
+	if (hidden === null) {
+		console.info('Page visibility API not supported, JS session check will not work');
+	} else {
+		document.addEventListener(visibilityChange, handleVisibilityChange, false);
+	}
+})();
+
 // Click on hidden MAL checkbox so
 // that MAL id is passed
 AnimeClient.on('main', 'change', '.big-check', (e) => {
@@ -469,20 +512,19 @@ AnimeClient.on('main', 'change', '.big-check', (e) => {
 function renderAnimeSearchResults (data) {
 	const results = [];
 
-	data.forEach(x => {
-		const item = x.attributes;
+	data.forEach(item => {
 		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">
 				<div class="name">
-					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
+					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
+					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
 					<label for="${item.slug}">
 						<picture width="220">
-							<source srcset="/public/images/anime/${x.id}.webp" type="image/webp" />
-							<source srcset="/public/images/anime/${x.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/anime/${x.id}.jpg" alt="" width="220" />
+							<source srcset="/public/images/anime/${item.id}.webp" type="image/webp" />
+							<source srcset="/public/images/anime/${item.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/anime/${item.id}.jpg" alt="" width="220" />
 						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
@@ -507,20 +549,19 @@ function renderAnimeSearchResults (data) {
 function renderMangaSearchResults (data) {
 	const results = [];
 
-	data.forEach(x => {
-		const item = x.attributes;
+	data.forEach(item => {
 		const titles = item.titles.join('<br />');
 
 		results.push(`
 			<article class="media search">
 				<div class="name">
-					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${x.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${x.id}" />
+					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
+					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
 					<label for="${item.slug}">
 						<picture width="220">
-							<source srcset="/public/images/manga/${x.id}.webp" type="image/webp" />
-							<source srcset="/public/images/manga/${x.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/manga/${x.id}.jpg" alt="" width="220" />
+							<source srcset="/public/images/manga/${item.id}.webp" type="image/webp" />
+							<source srcset="/public/images/manga/${item.id}.jpg" type="image/jpeg" />
+							<img src="/public/images/manga/${item.id}.jpg" alt="" width="220" />
 						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
@@ -547,25 +588,31 @@ const search = (query) => {
 	AnimeClient.show('.cssload-loader');
 
 	// Do the api search
-	AnimeClient.get(AnimeClient.url('/anime-collection/search'), { query }, (searchResults, status) => {
+	return AnimeClient.get(AnimeClient.url('/anime-collection/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 
 		// Hide the loader
 		AnimeClient.hide('.cssload-loader');
 
 		// Show the results
-		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults.data);
+		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults);
 	});
 };
 
 if (AnimeClient.hasElement('.anime #search')) {
+	let prevRequest = null;
+
 	AnimeClient.on('#search', 'input', AnimeClient.throttle(250, (e) => {
 		const query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query);
 	}));
 }
 
@@ -588,12 +635,12 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently watching
 	if (isNaN(watchedCount) || watchedCount === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last episode, mark as completed
 	if ((!isNaN(watchedCount)) && (watchedCount + 1) === totalCount) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	AnimeClient.show('#loading-shadow');
@@ -613,7 +660,7 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 				return;
 			}
 
-			if (resData.data.attributes.status === 'completed') {
+			if (resData.data.libraryEntry.update.libraryEntry.status === 'COMPLETED') {
 				AnimeClient.hide(parentSel);
 			}
 
@@ -633,21 +680,27 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 
 const search$1 = (query) => {
 	AnimeClient.show('.cssload-loader');
-	AnimeClient.get(AnimeClient.url('/manga/search'), { query }, (searchResults, status) => {
+	return AnimeClient.get(AnimeClient.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		AnimeClient.hide('.cssload-loader');
-		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults.data);
+		AnimeClient.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults);
 	});
 };
 
 if (AnimeClient.hasElement('.manga #search')) {
+	let prevRequest = null;
+
 	AnimeClient.on('#search', 'input', AnimeClient.throttle(250, (e) => {
 		let query = encodeURIComponent(e.target.value);
 		if (query === '') {
 			return;
 		}
 
-		search$1(query);
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search$1(query);
 	}));
 }
 
@@ -678,12 +731,12 @@ AnimeClient.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	// If the episode count is 0, and incremented,
 	// change status to currently reading
 	if (isNaN(completed) || completed === 0) {
-		data.data.status = 'current';
+		data.data.status = 'CURRENT';
 	}
 
 	// If you increment at the last chapter, mark as completed
 	if ((!isNaN(completed)) && (completed + 1) === total) {
-		data.data.status = 'completed';
+		data.data.status = 'COMPLETED';
 	}
 
 	// Update the total count
@@ -697,7 +750,7 @@ AnimeClient.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		type: 'POST',
 		mimeType: 'application/json',
 		success: () => {
-			if (data.data.status === 'completed') {
+			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				AnimeClient.hide(parentSel);
 			}
 

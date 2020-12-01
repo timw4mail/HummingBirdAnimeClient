@@ -10,12 +10,13 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
 
+use Monolog\Formatter\JsonFormatter;
 use function Aviat\AnimeClient\loadToml;
 use function Aviat\AnimeClient\loadTomlFile;
 
@@ -23,7 +24,6 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
-use Aviat\AnimeClient\API\Kitsu\KitsuRequestBuilder;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
@@ -55,22 +55,15 @@ abstract class BaseCommand extends Command {
 			$message = implode("\n", $message);
 		}
 
-		try
-		{
-			// color message
-			$message = Colors::colorize($message, $fgColor, $bgColor);
+		// color message
+		$message = Colors::colorize($message, $fgColor, $bgColor);
 
-			// create the box
-			$box = new Box($this->getConsole(), $message);
+		// create the box
+		$box = new Box($this->getConsole(), $message);
 
-			$box->write();
+		$box->write();
 
-			echo "\n";
-		}
-		catch (ConsoleException $e)
-		{
-			// oops
-		}
+		echo "\n";
 	}
 
 	public function echo(string $message): void
@@ -146,18 +139,19 @@ abstract class BaseCommand extends Command {
 		// Logging
 		// -------------------------------------------------------------------------
 
-		$app_logger = new Logger('animeclient');
-		$app_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', Logger::NOTICE));
+		$appLogger = new Logger('animeclient');
+		$appLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', 2, Logger::WARNING));
+		$container->setLogger($appLogger);
 
-		$kitsu_request_logger = new Logger('kitsu-request');
-		$kitsu_request_logger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/kitsu_request-cli.log', Logger::NOTICE));
+		foreach (['kitsu-request', 'anilist-request', 'anilist-request-cli', 'kitsu-request-cli'] as $channel)
+		{
+			$logger = new Logger($channel);
+			$handler = new RotatingFileHandler( "{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
+			$handler->setFormatter(new JsonFormatter());
+			$logger->pushHandler($handler);
 
-		$anilistRequestLogger = new Logger('anilist-request');
-		$anilistRequestLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/anilist_request-cli.log', Logger::NOTICE));
-
-		$container->setLogger($app_logger);
-		$container->setLogger($anilistRequestLogger, 'anilist-request');
-		$container->setLogger($kitsu_request_logger, 'kitsu-request');
+			$container->setLogger($logger, $channel);
+		}
 
 		// Create Config Object
 		$container->set('config', fn () => new Config($configArray));
@@ -187,7 +181,7 @@ abstract class BaseCommand extends Command {
 
 		// Models
 		$container->set('kitsu-model', static function($container): Kitsu\Model {
-			$requestBuilder = new KitsuRequestBuilder($container);
+			$requestBuilder = new Kitsu\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
 			$listItem = new Kitsu\ListItem();
@@ -203,7 +197,7 @@ abstract class BaseCommand extends Command {
 			return $model;
 		});
 		$container->set('anilist-model', static function ($container): Anilist\Model {
-			$requestBuilder = new Anilist\AnilistRequestBuilder();
+			$requestBuilder = new Anilist\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
 			$listItem = new Anilist\ListItem();

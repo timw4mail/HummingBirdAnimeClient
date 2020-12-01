@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -35,11 +35,5 @@ class CacheTraitTest extends AnimeClientTestCase {
 		$cachePool = $this->container->get('cache');
 		$this->testClass->setCache($cachePool);
 		$this->assertEquals($cachePool, $this->testClass->getCache());
-	}
-
-	public function testGetHashForMethodCall()
-	{
-		$hash = $this->testClass->getHashForMethodCall($this, __METHOD__, []);
-		$this->assertEquals('684ba0a5c29ffec452c5f6a07d2eee6932575490', $hash);
 	}
 }

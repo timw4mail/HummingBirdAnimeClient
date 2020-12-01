@@ -10,13 +10,13 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\{
 	FormItem,
 	AnimeListItem
@@ -38,34 +38,27 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimeListItem
 	{
-		$included = $item['included'];
-		$animeId = $item['relationships']['media']['data']['id'];
-		$anime = $included['anime'][$animeId];
+		$animeId = $item['media']['id'];
+		$anime = $item['media'];
 
 		$genres = [];
 
-		foreach($anime['relationships']['categories'] as $genre)
-		{
-			$genres[] = $genre['title'];
-		}
-
-		sort($genres);
-
-		$rating = (int) $item['attributes']['ratingTwenty'] !== 0
-			? $item['attributes']['ratingTwenty'] / 2
+		$rating = (int) $item['rating'] !== 0
+			? (int)$item['rating'] / 2
 			: '-';
 
-		$total_episodes = array_key_exists('episodeCount', $anime) && (int) $anime['episodeCount'] !== 0
+		$total_episodes = (int) $anime['episodeCount'] !== 0
 			? (int) $anime['episodeCount']
 			: '-';
 
 		$MALid = NULL;
 
-		if (array_key_exists('mappings', $anime['relationships']))
+		$mappings = $anime['mappings']['nodes'] ?? [];
+		if ( ! empty($mappings))
 		{
-			foreach ($anime['relationships']['mappings'] as $mapping)
+			foreach ($mappings as $mapping)
 			{
-				if ($mapping['externalSite'] === 'myanimelist/anime')
+				if ($mapping['externalSite'] === 'MYANIMELIST_ANIME')
 				{
 					$MALid = $mapping['externalId'];
 					break;
@@ -73,19 +66,19 @@ final class AnimeListTransformer extends AbstractTransformer {
 			}
 		}
 
-		$streamingLinks = array_key_exists('streamingLinks', $anime['relationships'])
-			? Kitsu::parseListItemStreamingLinks($included, $animeId)
+		$streamingLinks = array_key_exists('nodes', $anime['streamingLinks'])
+			? Kitsu::parseStreamingLinks($anime['streamingLinks']['nodes'])
 			: [];
 
-		$titles = Kitsu::filterTitles($anime);
-		$title = array_shift($titles);
+		$titles = Kitsu::getFilteredTitles($anime['titles']);
+		$title = $anime['titles']['canonical'];
 
 		return AnimeListItem::from([
 			'id' => $item['id'],
 			'mal_id' => $MALid,
 			'episodes' => [
-				'watched' => (int) $item['attributes']['progress'] !== 0
-					? (int) $item['attributes']['progress']
+				'watched' => (int) $item['progress'] !== 0
+					? (int) $item['progress']
 					: '-',
 				'total' => $total_episodes,
 				'length' => $anime['episodeLength'],
@@ -102,16 +95,16 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'titles' => $titles,
 				'slug' => $anime['slug'],
 				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
-				'cover_image' => $anime['posterImage']['small'],
+				'cover_image' => $anime['posterImage']['views'][1]['url'],
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
 			],
-			'watching_status' => $item['attributes']['status'],
-			'notes' => $item['attributes']['notes'],
-			'rewatching' => (bool) $item['attributes']['reconsuming'],
-			'rewatched' => (int) $item['attributes']['reconsumeCount'],
+			'watching_status' => $item['status'],
+			'notes' => $item['notes'],
+			'rewatching' => (bool) $item['reconsuming'],
+			'rewatched' => (int) $item['reconsumeCount'],
 			'user_rating' => $rating,
-			'private' => $item['attributes']['private'] ?? FALSE,
+			'private' => $item['private'] ?? FALSE,
 		]);
 	}
 

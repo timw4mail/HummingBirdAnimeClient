@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -35,7 +35,7 @@ use Throwable;
  */
 final class ListItem extends AbstractListItem {
 	use ContainerAware;
-	use KitsuTrait;
+	use RequestBuilderTrait;
 
 	/**
 	 * @param array $data
@@ -43,6 +43,16 @@ final class ListItem extends AbstractListItem {
 	 * @throws Throwable
 	 */
 	public function create(array $data): Request
+	{
+		return $this->requestBuilder->mutateRequest('CreateLibraryItem', [
+			'id' => $data['id'],
+			'status' => strtoupper($data['status']),
+			'type' => strtoupper($data['type']),
+			'userId' => $data['user_id'],
+		]);
+	}
+
+	public function createFull(array $data): Request
 	{
 		$body = [
 			'data' => [
@@ -93,15 +103,9 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function delete(string $id): Request
 	{
-		$authHeader = $this->getAuthHeader();
-		$request = $this->requestBuilder->newRequest('DELETE', "library-entries/{$id}");
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		return $request->getFullRequest();
+		return $this->requestBuilder->mutateRequest('DeleteLibraryItem', [
+			'id' => $id
+		]);
 	}
 
 	/**
@@ -111,26 +115,24 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function get(string $id): array
 	{
-		$authHeader = $this->getAuthHeader();
-
-		$request = $this->requestBuilder->newRequest('GET', "library-entries/{$id}")
-			->setQuery([
-				'include' => 'media,media.categories,media.mappings'
-			]);
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		$request = $request->getFullRequest();
-		$response = getResponse($request);
-		return Json::decode(wait($response->getBody()->buffer()));
+		return $this->requestBuilder->runQuery('GetLibraryItem', [
+			'id' => $id,
+		]);
 	}
 
+	/**
+	 * Increase the progress on the medium by 1
+	 *
+	 * @param string $id
+	 * @param FormItemData $data
+	 * @return Request
+	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
-		return $this->update($id, $data);
+		return $this->requestBuilder->mutateRequest('IncrementLibraryItem', [
+			'id' => $id,
+			'progress' => $data->progress
+		]);
 	}
 
 	/**
@@ -141,29 +143,27 @@ final class ListItem extends AbstractListItem {
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
-		$authHeader = $this->getAuthHeader();
-		$requestData = [
-			'data' => [
-				'id' => $id,
-				'type' => 'libraryEntries',
-				'attributes' => $data
-			]
+		// Data to always send
+		$updateData = [
+			'id' => $id,
+			'notes' => $data['notes'],
+			'private' => (bool)$data['private'],
+			'reconsumeCount' => (int)$data['reconsumeCount'],
+			'reconsuming' => (bool)$data['reconsuming'],
+			'status' => strtoupper($data['status']),
 		];
 
-		if (((int) $data->progress) === 0)
+		// Only send these variables if they have a value
+		if ($data['progress'] !== NULL)
 		{
-			$data->progress = 0;
+			$updateData['progress'] = (int)$data['progress'];
+		}
+		if ($data['ratingTwenty'] !== NULL)
+		{
+			$updateData['ratingTwenty'] = (int)$data['ratingTwenty'];
 		}
 
-		$request = $this->requestBuilder->newRequest('PATCH', "library-entries/{$id}")
-			->setJsonBody($requestData);
-
-		if ($authHeader !== NULL)
-		{
-			$request = $request->setHeader('Authorization', $authHeader);
-		}
-
-		return $request->getFullRequest();
+		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', $updateData);
 	}
 
 	/**

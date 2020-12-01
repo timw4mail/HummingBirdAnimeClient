@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -39,9 +39,28 @@ final class FormGenerator {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function __construct(ContainerInterface $container)
+	private function __construct(ContainerInterface $container)
 	{
 		$this->helper = $container->get('html-helper');
+	}
+
+	/**
+	 * Create a new FormGenerator
+	 *
+	 * @param ContainerInterface $container
+	 * @return $this
+	 */
+	public static function new(ContainerInterface $container): self
+	{
+		try
+		{
+			return new static($container);
+		}
+		catch (\Throwable $e)
+		{
+			dump($e);
+			die();
+		}
 	}
 
 	/**

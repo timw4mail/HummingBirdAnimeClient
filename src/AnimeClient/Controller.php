@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -23,7 +23,6 @@ use Aura\Router\Generator;
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
 use Aviat\Ion\ConfigInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -70,12 +69,6 @@ class Controller {
 	protected ServerRequestInterface $request;
 
 	/**
-	 * Response object
-	 * @var ResponseInterface $response
-	 */
-	public ResponseInterface $response;
-
-	/**
 	 * Url generation class
 	 * @var UrlGenerator
 	 */
@@ -118,7 +111,6 @@ class Controller {
 		$this->cache =  $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
-		$this->response = $container->get('response');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
@@ -183,8 +175,6 @@ class Controller {
 	 * If one is not set, redirect to default url
 	 *
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function sessionRedirect(): void
@@ -250,12 +240,11 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
-	 * @throws InvalidArgumentException
+	 * @return HtmlView
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return void
 	 */
-	protected function renderFullPage($view, string $template, array $data): void
+	protected function renderFullPage($view, string $template, array $data): HtmlView
 	{
 		$csp = [
 			"default-src 'self'",
@@ -273,6 +262,8 @@ class Controller {
 
 		$view->appendOutput($this->loadPartial($view, $template, $data));
 		$view->appendOutput($this->loadPartial($view, 'footer', $data));
+
+		return $view;
 	}
 
 	/**
@@ -294,6 +285,7 @@ class Controller {
 			'title' => $title,
 			'message' => $message,
 		], NULL, 404);
+		exit();
 	}
 
 	/**
@@ -404,8 +396,7 @@ class Controller {
 		}
 
 		$view->setStatusCode($code);
-		$this->renderFullPage($view, $template, $data);
-		exit();
+		$this->renderFullPage($view, $template, $data)->send();
 	}
 
 	/**
@@ -416,12 +407,12 @@ class Controller {
 	 * @throws DoubleRenderException
 	 * @return void
 	 */
-	protected function outputJSON($data = 'Empty response', int $code = 200): void
+	protected function outputJSON($data, int $code): void
 	{
-		(new JsonView($this->container))
+		(new JsonView())
+			->setOutput($data)
 			->setStatusCode($code)
-			->setOutput($data);
-		exit();
+			->send();
 	}
 
 	/**
@@ -433,8 +424,14 @@ class Controller {
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		(new HttpView($this->container))->redirect($url, $code);
-		exit();
+		try
+		{
+			(new HttpView())->redirect($url, $code)->send();
+		}
+		catch (\Throwable $e)
+		{
+
+		}
 	}
 }
 // End of BaseController.php
