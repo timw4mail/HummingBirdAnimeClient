@@ -1,0 +1,122 @@
+query ($slug: String!) {
+	findMangaBySlug(slug: $slug) {
+		id
+		ageRating
+		ageRatingGuide
+		posterImage {
+			original {
+				height
+				name
+				url
+				width
+			}
+			views {
+				height
+				name
+				url
+				width
+			}
+		}
+		categories(first: 100) {
+			nodes {
+				title
+			}
+		}
+		chapterCount
+		volumeCount
+		characters(first: 100) {
+			nodes {
+				character {
+					id
+					names {
+						canonical
+						alternatives
+					}
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
+					}
+					slug
+				}
+				role
+			}
+			pageInfo {
+				endCursor
+				hasNextPage
+				hasPreviousPage
+				startCursor
+			}
+		}
+		description
+		startDate
+		endDate
+		mappings(first: 10) {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
+		posterImage {
+			original {
+				height
+				name
+				url
+				width
+			}
+			views {
+				height
+				name
+				url
+				width
+			}
+		}
+		sfw
+		slug
+		staff(first: 100) {
+			nodes {
+				person {
+					id
+					birthday
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					names {
+						alternatives
+						canonical
+						localized
+					}
+					slug
+				}
+				role
+			}
+			pageInfo {
+				endCursor
+				hasNextPage
+				hasPreviousPage
+				startCursor
+			}
+		}
+		status
+		subtype
+		titles {
+			canonical
+			canonicalLocale
+			localized
+		}
+	}
+}

@@ -10,13 +10,12 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
@@ -25,18 +24,13 @@ class MangaTransformerTest extends AnimeClientTestCase {
 
 	protected $dir;
 	protected $beforeTransform;
-	protected $afterTransform;
 	protected $transformer;
 
 	public function setUp(): void	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
-		$data = Json::decodeFile("{$this->dir}/mangaBeforeTransform.json");
-		$baseData = $data['data'][0]['attributes'];
-		$baseData['included'] = $data['included'];
-		$baseData['id'] = $data['data'][0]['id'];
-		$this->beforeTransform = $baseData;
+		$this->beforeTransform = Json::decodeFile("{$this->dir}/mangaBeforeTransform.json");
 
 		$this->transformer = new MangaTransformer();
 	}

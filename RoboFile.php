@@ -227,7 +227,7 @@ class RoboFile extends Tasks {
 	{
 		$this->lint();
 
-		$this->_run(['phpunit']);
+		$this->_run(['vendor/bin/phpunit']);
 	}
 
 	/**

@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -31,6 +31,14 @@ abstract class AbstractListItem {
 	 * @return Request
 	 */
 	abstract public function create(array $data): Request;
+
+	/**
+	 * Create a full list item for syncing
+	 *
+	 * @param array $data
+	 * @return Request
+	 */
+	abstract public function createFull(array $data): Request;
 
 	/**
 	 * Retrieve a list item

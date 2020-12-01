@@ -10,13 +10,13 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Kitsu;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use function Amp\Promise\wait;
@@ -84,43 +84,6 @@ function loadTomlFile(string $filename): array
 }
 
 /**
- * Recursively create a toml file from a data array
- *
- * @param TomlBuilder $builder
- * @param iterable $data
- * @param null $parentKey
- */
-function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
-{
-	foreach ($data as $key => $value)
-	{
-		if ($value === NULL)
-		{
-			continue;
-		}
-
-
-		if (is_scalar($value) || isSequentialArray($value))
-		{
-			// $builder->addTable('');
-			$builder->addValue($key, $value);
-			continue;
-		}
-
-		$newKey = ($parentKey !== NULL)
-			? "{$parentKey}.{$key}"
-			: $key;
-
-		if ( ! isSequentialArray($value))
-		{
-			$builder->addTable($newKey);
-		}
-
-		_iterateToml($builder, $value, $newKey);
-	}
-}
-
-/**
  * Serialize config data into a Toml file
  *
  * @param mixed $data
@@ -129,6 +92,35 @@ function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): 
 function arrayToToml(iterable $data): string
 {
 	$builder = new TomlBuilder();
+	function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+	{
+		foreach ($data as $key => $value)
+		{
+			if ($value === NULL)
+			{
+				continue;
+			}
+
+
+			if (is_scalar($value) || isSequentialArray($value))
+			{
+				// $builder->addTable('');
+				$builder->addValue($key, $value);
+				continue;
+			}
+
+			$newKey = ($parentKey !== NULL)
+				? "{$parentKey}.{$key}"
+				: $key;
+
+			if ( ! isSequentialArray($value))
+			{
+				$builder->addTable($newKey);
+			}
+
+			_iterateToml($builder, $value, $newKey);
+		}
+	}
 
 	_iterateToml($builder, $data);
 
@@ -248,7 +240,6 @@ function getResponse ($request): Response
 		$request = new Request($request);
 	}
 
-
 	return wait($client->request($request));
 }
 
@@ -346,7 +337,7 @@ function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Imag
  * @param string $key
  * @return bool
  */
-function col_not_empty(array $search, string $key): bool
+function colNotEmpty(array $search, string $key): bool
 {
 	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
 	return count($items) > 0;
@@ -377,4 +368,19 @@ function clearCache(CacheInterface $cache): bool
 		: TRUE;
 
 	return $cleared && $saved;
+}
+
+/**
+ * Render a PHP code template as a string
+ *
+ * @param string $path
+ * @param array $data
+ * @return string
+ */
+function renderTemplate(string $path, array $data): string
+{
+	ob_start();
+	extract($data, EXTR_OVERWRITE);
+	include $path;
+	return ob_get_clean();
 }

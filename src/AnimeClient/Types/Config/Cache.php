@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -23,6 +23,12 @@ class Cache extends AbstractType {
 	 * @var string
 	 */
 	public $driver;
+
+	public $host;
+
+	public $port;
+
+	public $database;
 
 	/**
 	 * @var array

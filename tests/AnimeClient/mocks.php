@@ -10,7 +10,6 @@ use Aviat\AnimeClient\Model\{
 };
 use Aviat\Ion\{Enum, Friend, Json};
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\View;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 // -----------------------------------------------------------------------------
@@ -83,7 +82,7 @@ trait MockViewOutputTrait {
 			$props[$reflectProp->getName()] = $reflectProp->getValue($this);
 		}
 
-		$view = new TestView($this->container);
+		$view = new TestView();
 		$friend = new Friend($view);
 		foreach($props as $name => $val)
 		{
@@ -101,7 +100,7 @@ class MockUtil {
 	}
 }
 
-class TestView extends View {
+class TestView extends HttpView {
 	public function send(): void {}
 	protected function output(): void
 	{

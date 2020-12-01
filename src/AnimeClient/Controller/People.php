@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -50,12 +50,14 @@ final class People extends BaseController {
 	/**
 	 * Show information about a person
 	 *
-	 * @param string $id
+	 * @param string $slug
 	 * @return void
+	 * @throws ContainerException
+	 * @throws NotFoundException
 	 */
-	public function index(string $id): void
+	public function index(string $slug): void
 	{
-		$rawData = $this->model->getPerson($id);
+		$rawData = $this->model->getPerson($slug);
 		$data = (new PersonTransformer())->transform($rawData)->toArray();
 
 		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))

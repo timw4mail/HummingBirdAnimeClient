@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -82,7 +82,7 @@ final class AnimeCollection extends BaseController {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->animeModel->search($query));
+		$this->outputJSON($this->animeModel->search($query), 200);
 	}
 
 	/**
@@ -101,10 +101,14 @@ final class AnimeCollection extends BaseController {
 			'list' => 'list'
 		];
 
+		$sections = array_merge(
+			['All' => $this->animeCollectionModel->getFlatCollection()],
+			$this->animeCollectionModel->getCollection()
+		);
+
 		$this->outputHTML('collection/' . $viewMap[$view], [
 			'title' => $this->config->get('whose_list') . "'s Anime Collection",
-			'sections' => $this->animeCollectionModel->getCollection(),
-			'all' => $this->animeCollectionModel->getFlatCollection(),
+			'sections' => $sections,
 		]);
 	}
 

@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -209,7 +209,7 @@ final class Anime extends BaseController {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->model->search($query));
+		$this->outputJSON($this->model->search($query), 200);
 	}
 
 	/**
@@ -267,7 +267,7 @@ final class Anime extends BaseController {
 		if (empty($data))
 		{
 			$this->errorPage(400, 'Bad Request', '');
-			die();
+			exit();
 		}
 
 		$response = $this->model->incrementLibraryItem(FormItem::from($data));

@@ -1,0 +1,75 @@
+query ($slug: String!) {
+	findCharacterBySlug(slug: $slug) {
+		id
+		image {
+			original {
+				url
+			}
+		}
+		description
+		names {
+			alternatives
+			canonical
+			canonicalLocale
+			localized
+		},
+		media(first: 100) {
+			nodes {
+				media {
+					id
+					slug
+					titles {
+						alternatives
+						canonical
+						canonicalLocale
+						localized
+					}
+					posterImage {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					type
+				}
+				voices(first: 100) {
+					nodes {
+						id
+						licensor {
+							name
+						}
+						locale
+						person {
+							id
+							slug
+							name
+							names {
+								alternatives
+								canonical
+								canonicalLocale
+								localized
+							}
+							image {
+								original {
+									height
+									width
+									url
+									name
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		slug
+	}
+}

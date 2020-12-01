@@ -10,16 +10,15 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\{JsonAPI, Kitsu};
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\AnimePage;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime description page
@@ -35,98 +34,108 @@ final class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimePage
 	{
-		$item['included'] = JsonAPI::organizeIncludes($item['included']);
-		$genres = $item['included']['categories'] ?? [];
-		$item['genres'] = array_column($genres, 'title') ?? [];
-		sort($item['genres']);
-
-		$title = $item['canonicalTitle'];
-		$titles = Kitsu::filterTitles($item);
-		$titles_more = Kitsu::getTitles($item);
-
+		$base = array_key_exists('findAnimeBySlug', $item['data'])
+			? $item['data']['findAnimeBySlug']
+			: $item['data']['findAnimeById'];
 		$characters = [];
+		$links = [];
 		$staff = [];
+		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 
-		if (array_key_exists('animeCharacters', $item['included']))
+		sort($genres);
+
+		$title = $base['titles']['canonical'];
+		$titles = Kitsu::getTitles($base['titles']);
+		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
+
+		if (count($base['characters']['nodes']) > 0)
 		{
-			$animeCharacters = $item['included']['animeCharacters'];
-
-			foreach ($animeCharacters as $rel)
+			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
-				$charId = $rel['relationships']['character']['data']['id'];
-				$role = $rel['role'];
-
-				if (array_key_exists($charId, $item['included']['characters']))
+				$type = mb_strtolower($rawCharacter['role']);
+				if ( ! isset($characters[$type]))
 				{
-					$characters[$role][$charId] = $item['included']['characters'][$charId];
+					$characters[$type] = [];
+				}
+
+				$details = $rawCharacter['character'];
+				$characters[$type][$details['id']] = [
+					'image' => $details['image'],
+					'name' => $details['names']['canonical'],
+					'slug' => $details['slug'],
+				];
+			}
+
+			foreach (array_keys($characters) as $type)
+			{
+				if (empty($characters[$type]))
+				{
+					unset($characters[$type]);
+				}
+				else
+				{
+					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
 				}
 			}
+
+			krsort($characters);
 		}
 
-		if (array_key_exists('mediaStaff', $item['included']))
+		if (count($base['staff']['nodes']) > 0)
 		{
-			foreach ($item['included']['mediaStaff'] as $id => $staffing)
+			foreach ($base['staff']['nodes'] as $staffing)
 			{
-				$personId = $staffing['relationships']['person']['data']['id'];
-				$personDetails = $item['included']['people'][$personId];
-
+				$person = $staffing['person'];
 				$role = $staffing['role'];
+				$name = $person['names']['localized'][$person['names']['canonical']];
 
 				if ( ! array_key_exists($role, $staff))
 				{
 					$staff[$role] = [];
 				}
 
-				$staff[$role][$personId] = [
-					'id' => $personId,
-					'name' => $personDetails['name'] ?? '??',
-					'image' => $personDetails['image'],
+				$staff[$role][$person['id']] = [
+					'id' => $person['id'],
+					'name' => $name,
+					'image' => [
+						'original' => $person['image']['original']['url'],
+					],
+					'slug' => $person['slug'],
 				];
 
-				usort($staff[$role], function ($a, $b) {
-					return $a['name'] <=> $b['name'];
-				});
+				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
+
+			ksort($staff);
 		}
 
-		if ( ! empty($characters['main']))
+		if (count($base['mappings']['nodes']) > 0)
 		{
-			uasort($characters['main'], static function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
+			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/anime/{$base['slug']}");
 		}
-
-		if ( ! empty($characters['supporting']))
-		{
-			uasort($characters['supporting'], static function ($a, $b) {
-				return $a['name'] <=> $b['name'];
-			});
-		}
-
-		ksort($characters);
-		ksort($staff);
 
 		return AnimePage::from([
-			'age_rating' => $item['ageRating'],
-			'age_rating_guide' => $item['ageRatingGuide'],
+			'age_rating' => $base['ageRating'],
+			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'cover_image' => $item['posterImage']['small'],
-			'episode_count' => $item['episodeCount'],
-			'episode_length' => $item['episodeLength'],
-			'genres' => $item['genres'],
-			'id' => $item['id'],
-			'included' => $item['included'],
-			'show_type' => (string)StringType::from($item['showType'])->upperCaseFirst(),
-			'slug' => $item['slug'],
+			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'episode_count' => $base['episodeCount'],
+			'episode_length' => $base['episodeLength'],
+			'genres' => $genres,
+			'links' => $links,
+			'id' => $base['id'],
+			'slug' => $base['slug'],
 			'staff' => $staff,
-			'status' => Kitsu::getAiringStatus($item['startDate'], $item['endDate']),
-			'streaming_links' => Kitsu::parseStreamingLinks($item['included']),
-			'synopsis' => $item['synopsis'],
+			'show_type' => $base['subtype'],
+			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
+			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes'] ?? []),
+			'synopsis' => $base['description']['en'],
 			'title' => $title,
 			'titles' => $titles,
 			'titles_more' => $titles_more,
-			'trailer_id' => $item['youtubeVideoId'],
-			'url' => "https://kitsu.io/anime/{$item['slug']}",
+			'total_length' => $base['totalLength'],
+			'trailer_id' => $base['youtubeTrailerVideoId'],
+			'url' => "https://kitsu.io/anime/{$base['slug']}",
 		]);
 	}
 }

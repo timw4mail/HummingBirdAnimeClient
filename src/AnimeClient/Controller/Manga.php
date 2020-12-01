@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -210,7 +210,7 @@ final class Manga extends Controller {
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->model->search($query));
+		$this->outputJSON($this->model->search($query), 200);
 	}
 
 	/**
@@ -264,10 +264,12 @@ final class Manga extends Controller {
 			$data = $this->request->getParsedBody();
 		}
 
-		$response = $this->model->incrementLibraryItem(FormItem::from($data));
+		$res = $this->model->incrementLibraryItem(FormItem::from($data));
+		$body = $res['body'];
+		$statusCode = $res['statusCode'];
 
 		$this->cache->clear();
-		$this->outputJSON($response['body'], $response['statusCode']);
+		$this->outputJSON($body, $statusCode);
 	}
 
 	/**
@@ -335,13 +337,6 @@ final class Manga extends Controller {
 			'data' => $data,
 			'staff' => $staff,
 		]);
-	}
-
-	public function history(): void
-	{
-		$data = $this->model->getHistory();
-
-		$this->outputJSON($data);
 	}
 }
 // End of MangaController.php

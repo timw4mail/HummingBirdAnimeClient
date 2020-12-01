@@ -20,7 +20,7 @@
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
 				<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
-					<?php include __DIR__ . '/cover-item.php' ?>
+					<?= $component->animeCover($item) ?>
 				<?php endforeach ?>
 			</section>
 		</section>

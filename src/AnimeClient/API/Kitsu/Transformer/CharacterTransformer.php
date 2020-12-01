@@ -10,16 +10,17 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\JsonAPI;
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\Character;
 
 use Aviat\Ion\Transformer\AbstractTransformer;
+use Locale;
 
 /**
  * Data transformation class for character pages
@@ -32,147 +33,127 @@ final class CharacterTransformer extends AbstractTransformer {
 	 */
 	public function transform($characterData): Character
 	{
-		$data = JsonAPI::organizeData($characterData);
-		$attributes = $data[0]['attributes'];
+		$data = $characterData['data']['findCharacterBySlug'] ?? [];
 		$castings = [];
+		$media = [
+			'anime' => [],
+			'manga' => [],
+		];
 
 		$names = array_unique(
 			array_merge(
-				[$attributes['canonicalName']],
-				$attributes['names']
+				[$data['names']['canonical']],
+				array_values($data['names']['localized'])
 			)
 		);
 		$name = array_shift($names);
 
-		if (array_key_exists('included', $data))
+		if (isset($data['media']['nodes']))
 		{
-			if (array_key_exists('anime', $data['included']))
-			{
-				uasort($data['included']['anime'], static function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('manga', $data['included']))
-			{
-				uasort($data['included']['manga'], static function ($a, $b) {
-					return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-				});
-			}
-
-			if (array_key_exists('castings', $data['included']))
-			{
-				$castings = $this->organizeCast($data['included']['castings']);
-			}
+			[$media, $castings] = $this->organizeMediaAndVoices($data['media']['nodes'] ?? []);
 		}
 
 		return Character::from([
 			'castings' => $castings,
-			'description' => $attributes['description'],
-			'id' => $data[0]['id'],
-			'media' => [
-				'anime' => $data['included']['anime'] ?? [],
-				'manga' => $data['included']['manga'] ?? [],
-			],
+			'description' => $data['description']['en'],
+			'id' => $data['id'],
+			'media' => $media,
 			'name' => $name,
 			'names' => $names,
-			'otherNames' => $attributes['otherNames'],
+			'otherNames' => $data['names']['alternatives'],
 		]);
 	}
 
-	/**
-	 * Organize VA => anime relationships
-	 *
-	 * @param array $cast
-	 * @return array
-	 */
-	private function dedupeCast(array $cast): array
+	protected function organizeMediaAndVoices (array $data): array
 	{
-		$output = [];
-		$people = [];
-
-		$i = 0;
-		foreach ($cast as &$role)
+		if (empty($data))
 		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
-
-
-			$person = current($role['relationships']['person']['people'])['attributes'];
-			$hasName = array_key_exists($person['name'], $people);
-
-			if ( ! $hasName)
-			{
-				$people[$person['name']] = $i;
-				$role['relationships']['media']['anime'] = [current($role['relationships']['media']['anime'])];
-				$output[$i] = $role;
-
-				$i++;
-
-				continue;
-			}
-
-			if (array_key_exists('anime', $role['relationships']['media']))
-			{
-				$key = $people[$person['name']];
-				$output[$key]['relationships']['media']['anime'][] = current($role['relationships']['media']['anime']);
-			}
-			continue;
+			return [[], []];
 		}
 
-		return $output;
-	}
+		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
 
-	protected function organizeCast(array $cast): array
-	{
-		$cast = $this->dedupeCast($cast);
-		$output = [];
+		// First, let's deal with related media
+		$rawMedia = array_column($data, 'media');
+		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
+		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
 
-		foreach ($cast as $id => $role)
+		$anime = array_map(static function ($item) {
+			$output = $item;
+			unset($output['titles']);
+			$output['title'] = $item['titles']['canonical'];
+			$output['titles'] = Kitsu::getFilteredTitles($item['titles']);
+
+			return $output;
+		}, $rawAnime);
+		$manga = array_map(static function ($item) {
+			$output = $item;
+			unset($output['titles']);
+			$output['title'] = $item['titles']['canonical'];
+			$output['titles'] = Kitsu::getFilteredTitles($item['titles']);
+
+			return $output;
+		}, $rawManga);
+
+		uasort($anime, $titleSort);
+		uasort($manga, $titleSort);
+
+		$media = [
+			'anime' => $anime,
+			'manga' => $manga,
+		];
+
+		// And now, reorganize voice actor relationships
+		$rawVoices = array_filter($data, fn($item) => count((array)$item['voices']['nodes']) > 0);
+
+		if (empty($rawVoices))
 		{
-			if (empty($role['attributes']['role']))
-			{
-				continue;
-			}
+			return [$media, []];
+		}
 
-			$language = $role['attributes']['language'];
-			$roleName = $role['attributes']['role'];
-			$isVA = $role['attributes']['voiceActor'];
+		$castings = [
+			'Voice Actor' => [],
+		];
 
-			if ($isVA)
+		foreach ($rawVoices as $voiceMap)
+		{
+			foreach ($voiceMap['voices']['nodes'] as $voice)
 			{
-				foreach ($role['relationships']['person']['people'] as $pid => $peoples)
+				$lang = Locale::getDisplayLanguage($voice['locale'], 'en');
+				$id = $voice['person']['name'];
+				$seriesId = $voiceMap['media']['id'];
+
+				if ( ! array_key_exists($lang, $castings['Voice Actor']))
 				{
-					$p = $peoples;
+					$castings['Voice Actor'][$lang] = [];
+				}
 
-					$person = $p['attributes'];
-					$person['id'] = $pid;
-					$person['image'] = $person['image']['original'] ?? '';
-
-					uasort($role['relationships']['media']['anime'], static function ($a, $b) {
-						return $a['attributes']['canonicalTitle'] <=> $b['attributes']['canonicalTitle'];
-					});
-
-					$item = [
-						'person' => $person,
-						'series' => $role['relationships']['media']['anime']
+				if ( ! array_key_exists($id, $castings['Voice Actor'][$lang]))
+				{
+					$castings['Voice Actor'][$lang][$id] = [
+						'person' => [
+							'id' => $voice['person']['id'],
+							'slug' => $voice['person']['slug'],
+							'image' => $voice['person']['image']['original']['url'],
+							'name' => $voice['person']['name'],
+						],
+						'series' => []
 					];
+				}
 
-					$output[$roleName][$language][] = $item;
-				}
-			}
-			else
-			{
-				foreach ($role['relationships']['person']['people'] as $pid => $person)
-				{
-					$person['id'] = $pid;
-					$output[$roleName][$pid] = $person;
-				}
+				$castings['Voice Actor'][$lang][$id]['series'][$seriesId] = [
+					'id' => $seriesId,
+					'slug' => $voiceMap['media']['slug'],
+					'title' => $voiceMap['media']['titles']['canonical'],
+					'titles' => Kitsu::getFilteredTitles($voiceMap['media']['titles']),
+					'posterImage' => $voiceMap['media']['posterImage']['views'][1]['url'],
+				];
+
+				uasort($castings['Voice Actor'][$lang][$id]['series'], $titleSort);
+				ksort($castings['Voice Actor'][$lang]);
 			}
 		}
 
-		return $output;
+		return [$media, $castings];
 	}
 }

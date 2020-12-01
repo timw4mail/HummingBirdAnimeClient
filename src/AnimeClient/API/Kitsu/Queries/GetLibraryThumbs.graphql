@@ -1,0 +1,25 @@
+query (
+	$slug: String!,
+	$type: MediaTypeEnum!,
+	$status: [LibraryEntryStatusEnum!],
+	$after: String
+) {
+	findProfileBySlug(slug: $slug) {
+		library {
+			all(first: 100, after: $after, mediaType: $type, status: $status) {
+				pageInfo {
+					endCursor
+					hasNextPage
+					hasPreviousPage
+					startCursor
+				}
+				totalCount
+				nodes {
+					media {
+						id
+					}
+				}
+			}
+		}
+	}
+}

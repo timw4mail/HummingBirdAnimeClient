@@ -29,6 +29,17 @@ use const Aviat\AnimeClient\{
 // -------------------------------------------------------------------------
 $routes = [
 	// ---------------------------------------------------------------------
+	// AJAX Routes
+	// ---------------------------------------------------------------------
+	'cache_purge' => [
+		'path' => '/cache_purge',
+		'action' => 'clearCache',
+	],
+	'heartbeat' => [
+		'path' => '/heartbeat',
+		'action' => 'heartbeat',
+	],
+	// ---------------------------------------------------------------------
 	// Anime List Routes
 	// ---------------------------------------------------------------------
 	'anime.add.get' => [
@@ -175,9 +186,9 @@ $routes = [
 		]
 	],
 	'person' => [
-		'path' => '/people/{id}',
+		'path' => '/people/{slug}',
 		'tokens' => [
-			'id' => SLUG_PATTERN
+			'slug' => SLUG_PATTERN,
 		]
 	],
 	'default_user_info' => [
@@ -214,10 +225,6 @@ $routes = [
 			'type' => SLUG_PATTERN,
 			'file' => '[a-z0-9\-]+\.[a-z]{3,4}'
 		]
-	],
-	'cache_purge' => [
-		'path' => '/cache_purge',
-		'action' => 'clearCache',
 	],
 	'settings' => [
 		'path' => '/settings',

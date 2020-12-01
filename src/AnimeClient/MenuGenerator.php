@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -44,40 +44,20 @@ final class MenuGenerator extends UrlGenerator {
 	protected RequestInterface $request;
 
 	/**
-	 * MenuGenerator constructor.
-	 *
 	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
+	 * @return static
 	 */
-	public function __construct(ContainerInterface $container)
+	public static function new(ContainerInterface $container): self
 	{
-		parent::__construct($container);
-		$this->helper = $container->get('html-helper');
-		$this->request = $container->get('request');
-	}
-
-	/**
-	 * Generate the full menu structure from the config files
-	 *
-	 * @param array $menus
-	 * @return array
-	 */
-	protected function parseConfig(array $menus) : array
-	{
-		$parsed = [];
-
-		foreach ($menus as $name => $menu)
+		try
 		{
-			$parsed[$name] = [];
-			foreach ($menu['items'] as $pathName => $partialPath)
-			{
-				$title = (string)StringType::from($pathName)->humanize()->titleize();
-				$parsed[$name][$title] = (string)StringType::from($menu['route_prefix'])->append($partialPath);
-			}
+			return new static($container);
 		}
-
-		return $parsed;
+		catch (\Throwable $e)
+		{
+			dump($e);
+			die();
+		}
 	}
 
 	/**
@@ -119,6 +99,43 @@ final class MenuGenerator extends UrlGenerator {
 
 		// Create the menu html
 		return (string) $this->helper->ul();
+	}
+
+	/**
+	 * MenuGenerator constructor.
+	 *
+	 * @param ContainerInterface $container
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 */
+	private function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->helper = $container->get('html-helper');
+		$this->request = $container->get('request');
+	}
+
+	/**
+	 * Generate the full menu structure from the config files
+	 *
+	 * @param array $menus
+	 * @return array
+	 */
+	private function parseConfig(array $menus) : array
+	{
+		$parsed = [];
+
+		foreach ($menus as $name => $menu)
+		{
+			$parsed[$name] = [];
+			foreach ($menu['items'] as $pathName => $partialPath)
+			{
+				$title = (string)StringType::from($pathName)->humanize()->titleize();
+				$parsed[$name][$title] = (string)StringType::from($menu['route_prefix'])->append($partialPath);
+			}
+		}
+
+		return $parsed;
 	}
 }
 // End of MenuGenerator.php

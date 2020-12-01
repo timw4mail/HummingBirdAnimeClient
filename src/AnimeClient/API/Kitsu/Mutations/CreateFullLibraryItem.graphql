@@ -1,0 +1,48 @@
+# Create full library item
+# Flesh out a library item with data - most commonly used for syncing lists
+# between APIs
+mutation (
+	$userId: ID!
+	$id: ID!,
+	$mediaType: MediaTypeEnum!,
+	$status: LibraryEntryStatusEnum!,
+	$notes: String,
+	$private: Boolean,
+	$progress: Int,
+	$reconsumeCount: Int,
+	$reconsuming: Boolean,
+	$rating: Int,
+) {
+	libraryEntry {
+		create(input: {
+			userId: $userId
+			mediaId: $id
+			mediaType: $mediaType
+			status: $status
+			notes: $notes
+			private: $private
+			progress: $progress
+			reconsuming: $reconsuming
+			reconsumeCount: $reconsumeCount
+			rating: $rating
+		}) {
+			libraryEntry {
+				user {
+					id
+					slug
+				}
+				media {
+					id
+					slug
+				}
+				status
+				notes
+				private
+				progress
+				reconsumeCount
+				reconsuming
+				rating
+			}
+		}
+	}
+}

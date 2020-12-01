@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -35,6 +35,6 @@ final class Form {
 	 */
 	public function __invoke(string $name, array $form)
 	{
-		return (new FormGenerator($this->container))->generate($name, $form);
+		return FormGenerator::new($this->container)->generate($name, $form);
 	}
 }

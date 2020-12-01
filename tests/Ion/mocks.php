@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -20,7 +20,6 @@ use Aviat\Ion\Enum;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\View;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 // -----------------------------------------------------------------------------
@@ -119,19 +118,6 @@ trait MockViewOutputTrait {
 
 		$this->hasRendered = TRUE;
 	}
-}
-
-class TestView extends View {
-	public function send(): void
-	{
-		if ($this->hasRendered)
-		{
-			throw new DoubleRenderException();
-		}
-
-		$this->hasRendered = TRUE;
-	}
-	public function output() {}
 }
 
 class TestHtmlView extends HtmlView {

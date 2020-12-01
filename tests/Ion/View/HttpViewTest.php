@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -28,7 +28,7 @@ class HttpViewTest extends IonTestCase {
 
 	public function setUp(): void	{
 		parent::setUp();
-		$this->view = new TestHttpView($this->container);
+		$this->view = new TestHttpView();
 		$this->friend = new Friend($this->view);
 	}
 

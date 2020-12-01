@@ -9,6 +9,9 @@ use ConsoleKit\Console;
 
 $_SERVER['HTTP_HOST'] = 'localhost';
 
+define('APP_DIR', __DIR__ . '/app');
+define('TEMPLATE_DIR', APP_DIR . '/templates');
+
 // -----------------------------------------------------------------------------
 // Start console script
 // -----------------------------------------------------------------------------

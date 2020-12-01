@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -26,12 +26,12 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 
 	public function setUp(): void	{
 		parent::setUp();
-		$this->generator = new MenuGenerator($this->container);
+		$this->generator = MenuGenerator::new($this->container);
 	}
 
 	public function testSanity()
 	{
-		$generator = new MenuGenerator($this->container);
+		$generator = MenuGenerator::new($this->container);
 		$this->assertInstanceOf(MenuGenerator::class, $generator);
 	}
 

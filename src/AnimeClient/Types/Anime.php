@@ -10,7 +10,7 @@
  * @author      Timothy J. Warren <tim@timshomepage.net>
  * @copyright   2015 - 2020  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5
+ * @version     5.1
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -108,6 +108,15 @@ class Anime extends AbstractType {
 	public ?string $trailer_id;
 
 	/**
+	 * Length of the entire series in seconds
+	 *
+	 * @var int|null
+	 */
+	public ?int $total_length;
+
+	/**
+	 * Kitsu detail page url
+	 *
 	 * @var string
 	 */
 	public ?string $url;
