@@ -34,9 +34,7 @@ final class AnimeTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): AnimePage
 	{
-		$base = array_key_exists('findAnimeBySlug', $item['data'])
-			? $item['data']['findAnimeBySlug']
-			: $item['data']['findAnimeById'];
+		$base = $item['data']['findAnimeBySlug'] ?? $item['data']['findAnimeById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];

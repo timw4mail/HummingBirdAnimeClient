@@ -348,5 +348,43 @@ final class Anime extends BaseController {
 			);
 		}
 	}
+
+	public function random()
+	{
+		try
+		{
+			$data = $this->model->getRandomAnime();
+
+			if ($data->isEmpty())
+			{
+				$this->notFound(
+					$this->config->get('whose_list') .
+					"'s Anime List &middot; Anime &middot; " .
+					'Anime not found',
+					'Anime Not Found'
+				);
+
+				return;
+			}
+
+			$this->outputHTML('anime/details', [
+				'title' => $this->formatTitle(
+					$this->config->get('whose_list') . "'s Anime List",
+					'Anime',
+					$data->title
+				),
+				'data' => $data,
+			]);
+		}
+		catch (TypeError $e)
+		{
+			$this->notFound(
+				$this->config->get('whose_list') .
+				"'s Anime List &middot; Anime &middot; " .
+				'Anime not found',
+				'Anime Not Found'
+			);
+		}
+	}
 }
 // End of AnimeController.php

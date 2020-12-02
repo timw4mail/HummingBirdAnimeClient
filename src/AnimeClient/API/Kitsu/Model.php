@@ -256,6 +256,15 @@ final class Model {
 		return $this->animeTransformer->transform($baseData);
 	}
 
+	public function getRandomAnime(): Anime
+	{
+		$baseData = $this->requestBuilder->runQuery('RandomMedia', [
+			'type' => 'ANIME'
+		]);
+
+		return $this->animeTransformer->transform($baseData);
+	}
+
 	/**
 	 * Get information about a particular anime
 	 *
@@ -388,6 +397,15 @@ final class Model {
 		{
 			return MangaPage::from([]);
 		}
+
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	public function getRandomManga(): MangaPage
+	{
+		$baseData = $this->requestBuilder->runQuery('RandomMedia', [
+			'type' => 'MANGA'
+		]);
 
 		return $this->mangaTransformer->transform($baseData);
 	}
