@@ -338,5 +338,43 @@ final class Manga extends Controller {
 			'staff' => $staff,
 		]);
 	}
+
+	/**
+	 * View details of a random manga
+	 *
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 * @return void
+	 */
+	public function random(): void
+	{
+		$data = $this->model->getRandomManga();
+		$staff = [];
+		$characters = [];
+
+		if ($data->isEmpty())
+		{
+			$this->notFound(
+				$this->config->get('whose_list') .
+				"'s Manga List &middot; Manga &middot; " .
+				'Manga not found',
+				'Manga Not Found'
+			);
+			return;
+		}
+
+		$this->outputHTML('manga/details', [
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Manga List",
+				'Manga',
+				$data['title']
+			),
+			'characters' => $characters,
+			'data' => $data,
+			'staff' => $staff,
+		]);
+	}
 }
 // End of MangaController.php

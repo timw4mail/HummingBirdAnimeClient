@@ -84,6 +84,16 @@ class Anime extends API {
 	}
 
 	/**
+	 * Get information about a random anime
+	 *
+	 * @return AnimeType
+	 */
+	public function getRandomAnime(): AnimeType
+	{
+		return $this->kitsuModel->getRandomAnime();
+	}
+
+	/**
 	 * Get anime by its kitsu id
 	 *
 	 * @param string $animeId

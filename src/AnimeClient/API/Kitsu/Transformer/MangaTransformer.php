@@ -34,10 +34,7 @@ final class MangaTransformer extends AbstractTransformer {
 	 */
 	public function transform($item): MangaPage
 	{
-		$base = array_key_exists('findMangaBySlug', $item['data'])
-			? $item['data']['findMangaBySlug']
-			: $item['data']['findMangaById'];
-
+		$base = $item['data']['findMangaBySlug'] ?? $item['data']['findMangaById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];

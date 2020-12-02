@@ -51,6 +51,10 @@ $routes = [
 		'action' => 'add',
 		'verb' => 'post',
 	],
+	'anime.random' => [
+		'path' => '/anime/details/random',
+		'action' => 'random',
+	],
 	'anime.details' => [
 		'path' => '/anime/details/{id}',
 		'action' => 'details',
@@ -83,6 +87,10 @@ $routes = [
 		'path' => '/manga/delete',
 		'action' => 'delete',
 		'verb' => 'post',
+	],
+	'manga.random' => [
+		'path' => '/manga/details/random',
+		'action' => 'random',
 	],
 	'manga.details' => [
 		'path' => '/manga/details/{id}',

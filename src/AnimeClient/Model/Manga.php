@@ -69,6 +69,16 @@ class Manga extends API {
 	}
 
 	/**
+	 * Get the details of a random manga
+	 *
+	 * @return MangaPage
+	 */
+	public function getRandomManga(): MangaPage
+	{
+		return $this->kitsuModel->getRandomManga();
+	}
+
+	/**
 	 * Get anime by its kitsu id
 	 *
 	 * @param string $animeId
