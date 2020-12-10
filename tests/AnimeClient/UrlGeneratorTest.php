@@ -18,6 +18,7 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
+use Aviat\Ion\Exception\DoubleRenderException;
 
 class UrlGeneratorTest extends AnimeClientTestCase {
 
@@ -48,5 +49,15 @@ class UrlGeneratorTest extends AnimeClientTestCase {
 
 		$result = $urlGenerator->assetUrl(...$args);
 		$this->assertEquals($expected, $result);
+	}
+
+	public function testDefaultUrlInvalidType(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage("Invalid default type: 'foo'");
+
+		$urlGenerator = new UrlGenerator($this->container);
+		$url = $urlGenerator->defaultUrl('foo');
+
 	}
 }

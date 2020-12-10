@@ -49,15 +49,7 @@ final class MenuGenerator extends UrlGenerator {
 	 */
 	public static function new(ContainerInterface $container): self
 	{
-		try
-		{
-			return new static($container);
-		}
-		catch (\Throwable $e)
-		{
-			dump($e);
-			die();
-		}
+		return new self($container);
 	}
 
 	/**
@@ -67,7 +59,7 @@ final class MenuGenerator extends UrlGenerator {
 	 * @throws ConfigException
 	 * @return string
 	 */
-	public function generate($menu) : string
+	public function generate(string $menu) : string
 	{
 		$menus = $this->config->get('menus');
 		$parsedConfig = $this->parseConfig($menus);

@@ -64,28 +64,4 @@ final class Anilist {
 		MangaReadingStatus::DROPPED => KMRS::DROPPED,
 		MangaReadingStatus::PLAN_TO_READ => KMRS::PLAN_TO_READ,
 	];
-
-	public static function getIdToWatchingStatusMap(): array
-	{
-		return [
-			'CURRENT' => AnimeWatchingStatus::WATCHING,
-			'COMPLETED' => AnimeWatchingStatus::COMPLETED,
-			'PAUSED' => AnimeWatchingStatus::ON_HOLD,
-			'DROPPED' => AnimeWatchingStatus::DROPPED,
-			'PLANNING' => AnimeWatchingStatus::PLAN_TO_WATCH,
-			'REPEATING' => AnimeWatchingStatus::WATCHING,
-		];
-	}
-
-	public static function getIdToReadingStatusMap(): array
-	{
-		return [
-			'CURRENT' => MangaReadingStatus::READING,
-			'COMPLETED' => MangaReadingStatus::COMPLETED,
-			'PAUSED' => MangaReadingStatus::ON_HOLD,
-			'DROPPED' => MangaReadingStatus::DROPPED,
-			'PLANNING' => MangaReadingStatus::PLAN_TO_READ,
-			'REPEATING' => MangaReadingStatus::READING,
-		];
-	}
 }
