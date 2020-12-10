@@ -94,7 +94,7 @@ final class AnimeCollection extends BaseController {
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
-	public function view($view): void
+	public function view(string $view = ''): void
 	{
 		$viewMap = [
 			'' => 'cover',

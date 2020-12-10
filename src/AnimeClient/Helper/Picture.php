@@ -49,7 +49,8 @@ final class Picture {
 	];
 
 	/**
-	 * Create the html for an html picture element
+	 * Create the html for an html picture element.
+	 * Uses .webp images with fallback
 	 *
 	 * @param string $uri
 	 * @param string $fallbackExt

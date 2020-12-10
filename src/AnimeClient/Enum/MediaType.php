@@ -14,27 +14,15 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API\Anilist;
+namespace Aviat\AnimeClient\Enum;
 
-use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Enum as BaseEnum;
 
-trait RequestBuilderTrait {
-	use ContainerAware;
-
-	/**
-	 * The request builder for the Anilist API
-	 */
-	protected RequestBuilder $requestBuilder;
-
-	/**
-	 * Set the request builder object
-	 *
-	 * @param RequestBuilder $requestBuilder
-	 * @return self
-	 */
-	public function setRequestBuilder(RequestBuilder $requestBuilder): self
-	{
-		$this->requestBuilder = $requestBuilder;
-		return $this;
-	}
+/**
+ * Types of media
+ */
+final class MediaType extends BaseEnum {
+	public const ANIME = 'anime';
+	public const DRAMA = 'drama';
+	public const MANGA = 'manga';
 }

@@ -16,13 +16,9 @@
 
 namespace Aviat\AnimeClient\Enum;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\Enum;
 
-/**
- * Types of lists
- */
-final class ListType extends BaseEnum {
-	public const ANIME = 'anime';
-	public const DRAMA = 'drama';
-	public const MANGA = 'manga';
+final class API extends Enum {
+	public const ANILIST = 'anilist';
+	public const KITSU = 'kitsu';
 }

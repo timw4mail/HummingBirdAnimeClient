@@ -134,6 +134,7 @@ final class AnimeCollection extends Collection {
 		}
 
 		// Organize the media types into groups
+		// @TODO: make this more database-driven, rather than hardcoded
 		return [
 			'Common' => [
 				2 => $flatList[2], // Blu-ray

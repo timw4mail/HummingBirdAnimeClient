@@ -28,7 +28,7 @@ class JsonViewTest extends HttpViewTest {
 		$this->friend = new Friend($this->view);
 	}
 
-	public function testSetOutputJSON()
+	public function testSetOutputJSON():void
 	{
 		// Extend view class to remove destructor which does output
 		$view = new TestJsonView();
@@ -40,7 +40,7 @@ class JsonViewTest extends HttpViewTest {
 		$this->assertEquals($expected, $view->getOutput());
 	}
 
-	public function testSetOutput()
+	public function testSetOutput():void
 	{
 		// Directly set string
 		$view = new TestJsonView();
@@ -50,7 +50,7 @@ class JsonViewTest extends HttpViewTest {
 		$this->assertEquals($expected, $view->getOutput());
 	}
 
-	public function testOutput()
+	public function testOutputType():void
 	{
 		$this->assertEquals('application/json', $this->friend->contentType);
 	}

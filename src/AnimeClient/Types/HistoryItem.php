@@ -20,47 +20,47 @@ use DateTimeImmutable;
 
 class HistoryItem extends AbstractType {
 	/**
-	 * @var string Title of the anime/manga
+	 * Title of the anime/manga
 	 */
 	public string $title = '';
 
 	/**
-	 * @var string The url of the cover image
+	 * The url of the cover image
 	 */
 	public string $coverImg = '';
 
 	/**
-	 * @var string The type of action done
+	 * The type of action done
 	 */
 	public string $action = '';
 
 	/**
-	 * @var bool Is this item a combination of items?
+	 * Is this item a combination of items?
 	 */
 	public bool $isAggregate = FALSE;
 
 	/**
-	 * @var string The kind of history event
+	 * The kind of history event
 	 */
 	public string $kind = '';
 
 	/**
-	 * @var DateTimeImmutable When the item was last updated
+	 * When the item was last updated
 	 */
 	public ?DateTimeImmutable $updated = NULL;
 
 	/**
-	 * @var array Range of updated times for the aggregated item
+	 * Range of updated times for the aggregated item
 	 */
 	public array $dateRange = [];
 
 	/**
-	 * @var string Url to details page
+	 * Url to details page
 	 */
 	public string $url = '';
 
 	/**
-	 * @var array The item before transformation
+	 * The item before transformation
 	 */
 	public array $original = [];
 }

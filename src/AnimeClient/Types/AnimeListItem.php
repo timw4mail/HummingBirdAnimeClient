@@ -20,14 +20,8 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an anime watch list item
  */
 final class AnimeListItem extends AbstractType {
-	/**
-	 * @var string
-	 */
 	public ?string $id;
 
-	/**
-	 * @var string
-	 */
 	public ?string $mal_id;
 
 	/**
@@ -35,47 +29,26 @@ final class AnimeListItem extends AbstractType {
 	 */
 	public $anilist_item_id;
 
-	/**
-	 * @var array
-	 */
 	public array $episodes = [
 		'length' => 0,
 		'total' => 0,
 		'watched' => '',
 	];
 
-	/**
-	 * @var array
-	 */
 	public array $airing = [
 		'status' => '',
 		'started' => '',
 		'ended' => '',
 	];
 
-	/**
-	 * @var Anime
-	 */
 	public ?Anime $anime;
 
-	/**
-	 * @var string
-	 */
 	public ?string $notes;
 
-	/**
-	 * @var bool
-	 */
 	public bool $private = FALSE;
 
-	/**
-	 * @var bool
-	 */
 	public bool $rewatching = FALSE;
 
-	/**
-	 * @var int
-	 */
 	public int $rewatched = 0;
 
 	/**
@@ -85,10 +58,8 @@ final class AnimeListItem extends AbstractType {
 
 	/**
 	 * One of Aviat\AnimeClient\API\Enum\AnimeWatchingStatus
-	 *
-	 * @var string
 	 */
-	public $watching_status;
+	public string $watching_status;
 
 	public function setAnime($anime): void
 	{

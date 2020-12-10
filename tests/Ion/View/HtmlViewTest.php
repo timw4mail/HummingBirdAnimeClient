@@ -29,7 +29,7 @@ class HtmlViewTest extends HttpViewTest {
 		$this->view = new TestHtmlView($this->container);
 	}
 
-	public function testRenderTemplate()
+	public function testRenderTemplate(): void
 	{
 		$path = _dir(self::TEST_VIEW_DIR, 'test_view.php');
 		$expected = '<tag>foo</tag>';

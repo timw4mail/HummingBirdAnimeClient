@@ -28,7 +28,7 @@ abstract class DB {
 	 * The database connection information array
 	 * @var array $dbConfig
 	 */
-	protected $dbConfig = [];
+	protected array $dbConfig = [];
 
 	/**
 	 * Constructor

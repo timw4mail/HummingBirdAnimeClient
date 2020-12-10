@@ -92,4 +92,10 @@ class UtilTest extends AnimeClientTestCase {
 		]);
 		$this->assertEquals(!$expected, $this->util->isFormPage());
 	}
+
+	public function testAriaCurrent(): void
+	{
+		$this->assertEquals('true', Util::ariaCurrent(true));
+		$this->assertEquals('false', Util::ariaCurrent(false));
+	}
 }

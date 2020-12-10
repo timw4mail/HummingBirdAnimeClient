@@ -17,13 +17,7 @@
 namespace Aviat\AnimeClient\Types;
 
 final class Media extends AbstractType {
-	/**
-	 * @var array
-	 */
 	public array $anime = [];
 
-	/**
-	 * @var array
-	 */
 	public array $manga = [];
 }

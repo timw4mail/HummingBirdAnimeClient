@@ -33,7 +33,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer,
 	MangaTransformer
 };
-use Aviat\AnimeClient\Enum\ListType;
+use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\Anime;
 use Aviat\AnimeClient\Types\MangaPage;
@@ -319,7 +319,7 @@ final class Model {
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(ListType::ANIME, $status) ?? [];
+			$data = $this->getList(MediaType::ANIME, $status) ?? [];
 
 			// Bail out on no data
 			if (empty($data))
@@ -352,7 +352,7 @@ final class Model {
 	 */
 	public function getAnimeListCount(string $status = '') : int
 	{
-		return $this->getListCount(ListType::ANIME, $status);
+		return $this->getListCount(MediaType::ANIME, $status);
 	}
 
 	/**
@@ -462,7 +462,7 @@ final class Model {
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(ListType::MANGA, $status) ?? [];
+			$data = $this->getList(MediaType::MANGA, $status) ?? [];
 
 			// Bail out on no data
 			if (empty($data))
@@ -495,7 +495,7 @@ final class Model {
 	 */
 	public function getMangaListCount(string $status = '') : int
 	{
-		return $this->getListCount(ListType::MANGA, $status);
+		return $this->getListCount(MediaType::MANGA, $status);
 	}
 
 	/**

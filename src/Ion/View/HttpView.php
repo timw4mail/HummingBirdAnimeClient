@@ -180,6 +180,7 @@ class HttpView implements ViewInterface{
 	/**
 	 * Send the appropriate response
 	 *
+	 * @codeCoverageIgnore
 	 * @throws DoubleRenderException
 	 * @throws \InvalidArgumentException
 	 * @return void

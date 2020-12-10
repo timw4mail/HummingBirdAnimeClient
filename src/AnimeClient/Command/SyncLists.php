@@ -25,7 +25,8 @@ use Aviat\AnimeClient\API\{
 use Aviat\AnimeClient\API;
 use Aviat\AnimeClient\API\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
-use Aviat\AnimeClient\Enum\{ListType, SyncAction};
+use Aviat\AnimeClient\Enum;
+use Aviat\AnimeClient\Enum\{MediaType, SyncAction};
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
@@ -73,7 +74,7 @@ final class SyncLists extends BaseCommand {
 	{
 		$this->init();
 
-		foreach ([ListType::ANIME, ListType::MANGA] as $type)
+		foreach ([MediaType::ANIME, MediaType::MANGA] as $type)
 		{
 			// Main Sync flow
 			$this->fetchCount($type);
@@ -100,7 +101,7 @@ final class SyncLists extends BaseCommand {
 		$this->setCache($this->container->get('cache'));
 
 		$config = $this->container->get('config');
-		$anilistEnabled = $config->get([API::ANILIST, 'enabled']);
+		$anilistEnabled = $config->get([Enum\API::ANILIST, 'enabled']);
 
 		// We can't sync kitsu against itself!
 		if ( ! $anilistEnabled)
@@ -165,8 +166,8 @@ final class SyncLists extends BaseCommand {
 		$this->clearLine();
 
 		return [
-			API::ANILIST => $anilist,
-			API::KITSU => $kitsu,
+			Enum\API::ANILIST => $anilist,
+			Enum\API::KITSU => $kitsu,
 		];
 	}
 
@@ -182,17 +183,17 @@ final class SyncLists extends BaseCommand {
 		$this->echo('Normalizing List Data');
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
-		$kitsu = $this->transformKitsu($type, $data[API::KITSU]);
+		$kitsu = $this->transformKitsu($type, $data[Enum\API::KITSU]);
 		$progress->incr();
 
-		$anilist = $this->transformAnilist($type, $data[API::ANILIST]);
+		$anilist = $this->transformAnilist($type, $data[Enum\API::ANILIST]);
 		$progress->incr();
 
 		$this->clearLine();
 
 		return [
-			API::ANILIST => $anilist,
-			API::KITSU => $kitsu,
+			Enum\API::ANILIST => $anilist,
+			Enum\API::KITSU => $kitsu,
 		];
 	}
 
@@ -207,7 +208,7 @@ final class SyncLists extends BaseCommand {
 	{
 		$this->echo('Comparing List Items');
 
-		return $this->compareLists($type, $data[API::ANILIST], $data[API::KITSU]);
+		return $this->compareLists($type, $data[Enum\API::ANILIST], $data[Enum\API::KITSU]);
 	}
 
 	/**
@@ -280,8 +281,8 @@ final class SyncLists extends BaseCommand {
 	private function fetchAnilist(string $type): array
 	{
 		static $list = [
-			ListType::ANIME => NULL,
-			ListType::MANGA => NULL,
+			MediaType::ANIME => NULL,
+			MediaType::MANGA => NULL,
 		];
 
 		// This uses a static so I don't have to fetch this list twice for a count
@@ -435,12 +436,12 @@ final class SyncLists extends BaseCommand {
 					continue;
 				}
 
-				if (in_array(API::KITSU, $item['updateType'], TRUE))
+				if (in_array(Enum\API::KITSU, $item['updateType'], TRUE))
 				{
 					$kitsuUpdateItems[] = $item['data'];
 				}
 
-				if (in_array(API::ANILIST, $item['updateType'], TRUE))
+				if (in_array(Enum\API::ANILIST, $item['updateType'], TRUE))
 				{
 					$anilistUpdateItems[] = $item['data'];
 				}
@@ -448,7 +449,7 @@ final class SyncLists extends BaseCommand {
 				continue;
 			}
 
-			$statusMap = ($type === ListType::ANIME) ? AnimeWatchingStatus::class : MangaReadingStatus::class;
+			$statusMap = ($type === MediaType::ANIME) ? AnimeWatchingStatus::class : MangaReadingStatus::class;
 
 			// Looks like this item only exists on Kitsu
 			$kItem = $kitsuItem['data'];
@@ -528,7 +529,7 @@ final class SyncLists extends BaseCommand {
 		if ($kitsuItem['data']['status'] === 'completed' && $kitsuItem['data']['reconsuming'] === TRUE)
 		{
 			$update['data']['reconsuming'] = FALSE;
-			$return['updateType'][] = API::KITSU;
+			$return['updateType'][] = Enum\API::KITSU;
 		}
 
 		// If status is the same, and progress count is different, use greater progress
@@ -537,12 +538,12 @@ final class SyncLists extends BaseCommand {
 			if ($diff['progress'] === self::KITSU_GREATER)
 			{
 				$update['data']['progress'] = $kitsuItem['data']['progress'];
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if($diff['progress'] === self::ANILIST_GREATER)
 			{
 				$update['data']['progress'] = $anilistItem['data']['progress'];
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -552,12 +553,12 @@ final class SyncLists extends BaseCommand {
 			if ($dateDiff === self::KITSU_GREATER)
 			{
 				$update['data']['status'] = $kitsuItem['data']['status'];
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if ($dateDiff === self::ANILIST_GREATER)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -574,7 +575,7 @@ final class SyncLists extends BaseCommand {
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
 
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if($dateDiff === self::ANILIST_GREATER)
 			{
@@ -585,7 +586,7 @@ final class SyncLists extends BaseCommand {
 					$update['data']['progress'] = $kitsuItem['data']['progress'];
 				}
 
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -599,12 +600,12 @@ final class SyncLists extends BaseCommand {
 			)
 			{
 				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
 			{
 				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -614,12 +615,12 @@ final class SyncLists extends BaseCommand {
 			if ( ! empty($kitsuItem['data']['notes']))
 			{
 				$update['data']['notes'] = $kitsuItem['data']['notes'];
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else
 			{
 				$update['data']['notes'] = $anilistItem['data']['notes'];
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -629,12 +630,12 @@ final class SyncLists extends BaseCommand {
 			if ($diff['reconsumeCount'] === self::KITSU_GREATER)
 			{
 				$update['data']['reconsumeCount'] = $kitsuItem['data']['reconsumeCount'];
-				$return['updateType'][] = API::ANILIST;
+				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if ($diff['reconsumeCount'] === self::ANILIST_GREATER)
 			{
 				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
-				$return['updateType'][] = API::KITSU;
+				$return['updateType'][] = Enum\API::KITSU;
 			}
 		}
 
@@ -645,8 +646,8 @@ final class SyncLists extends BaseCommand {
 		}
 
 		$return['meta'] = [
-			API::KITSU => $kitsuItem['data'],
-			API::ANILIST => $anilistItem['data'],
+			Enum\API::KITSU => $kitsuItem['data'],
+			Enum\API::ANILIST => $anilistItem['data'],
 			'dateDiff' => $dateDiff,
 			'diff' => $diff,
 		];
@@ -656,7 +657,7 @@ final class SyncLists extends BaseCommand {
 		// Fill in missing data values for update
 		// so I don't have to create a really complex graphql query
 		// to handle each combination of fields
-		if ($return['updateType'][0] === API::ANILIST)
+		if ($return['updateType'][0] === Enum\API::ANILIST)
 		{
 			// Anilist GraphQL expects a rating from 1-100
 			$prevData = [
@@ -673,7 +674,7 @@ final class SyncLists extends BaseCommand {
 
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
 		}
-		else if ($return['updateType'][0] === API::KITSU)
+		else if ($return['updateType'][0] === Enum\API::KITSU)
 		{
 			$prevData = [
 				'notes' => $anilistItem['data']['notes'],
@@ -707,7 +708,7 @@ final class SyncLists extends BaseCommand {
 	 * @param string $type
 	 * @throws Throwable
 	 */
-	private function updateKitsuListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = ListType::ANIME): void
+	private function updateKitsuListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
 	{
 		$requester = new ParallelAPIRequest();
 		foreach($itemsToUpdate as $item)
@@ -776,7 +777,7 @@ final class SyncLists extends BaseCommand {
 	 * @param string $type
 	 * @throws Throwable
 	 */
-	private function updateAnilistListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = ListType::ANIME): void
+	private function updateAnilistListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
 	{
 		$requester = new ParallelAPIRequest();
 

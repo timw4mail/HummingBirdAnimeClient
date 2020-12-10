@@ -18,7 +18,7 @@ namespace Aviat\AnimeClient\API\Anilist;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
-use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\Anilist;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;

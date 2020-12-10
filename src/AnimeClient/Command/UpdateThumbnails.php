@@ -69,11 +69,11 @@ final class UpdateThumbnails extends ClearThumbnails {
 	public function getImageList(): array
 	{
 		$animeIds = array_map(
-			fn ($item) => $item['media']['id'],
+			static fn ($item) => $item['media']['id'],
 			$this->kitsuModel->getThumbList('ANIME')
 		);
 		$mangaIds = array_map(
-			fn ($item) => $item['media']['id'],
+			static fn ($item) => $item['media']['id'],
 			$this->kitsuModel->getThumbList('MANGA')
 		);
 
