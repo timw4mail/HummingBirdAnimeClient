@@ -303,19 +303,16 @@ final class Manga extends Controller {
 	/**
 	 * View details of an manga
 	 *
-	 * @param string $manga_id
+	 * @param string $id
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void
 	 */
-	public function details($manga_id): void
+	public function details(string $id): void
 	{
-		$data = $this->model->getManga($manga_id);
-		$staff = [];
-		$characters = [];
-
+		$data = $this->model->getManga($id);
 		if ($data->isEmpty())
 		{
 			$this->notFound(
@@ -333,9 +330,7 @@ final class Manga extends Controller {
 				'Manga',
 				$data['title']
 			),
-			'characters' => $characters,
 			'data' => $data,
-			'staff' => $staff,
 		]);
 	}
 
@@ -351,9 +346,6 @@ final class Manga extends Controller {
 	public function random(): void
 	{
 		$data = $this->model->getRandomManga();
-		$staff = [];
-		$characters = [];
-
 		if ($data->isEmpty())
 		{
 			$this->notFound(
@@ -371,9 +363,7 @@ final class Manga extends Controller {
 				'Manga',
 				$data['title']
 			),
-			'characters' => $characters,
 			'data' => $data,
-			'staff' => $staff,
 		]);
 	}
 }

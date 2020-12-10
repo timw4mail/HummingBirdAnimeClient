@@ -250,7 +250,7 @@ function getResponse ($request): Response
  * @param bool $webp
  * @return string
  */
-function getLocalImg ($kitsuUrl, $webp = TRUE): string
+function getLocalImg (string $kitsuUrl, $webp = TRUE): string
 {
 	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
@@ -360,7 +360,7 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
 	], NULL);
 
-	$userData = array_filter((array)$userData, fn ($value) => $value !== NULL);
+	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
 	$cleared = $cache->clear();
 
 	$saved = ( ! empty($userData))

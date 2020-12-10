@@ -21,7 +21,7 @@ use function Amp\Promise\wait;
 use InvalidArgumentException;
 
 use Amp\Http\Client\Request;
-use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\Anilist;
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Json;

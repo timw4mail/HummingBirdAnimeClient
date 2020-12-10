@@ -37,7 +37,7 @@ class Friend {
 	 * Reflection class of the object
 	 * @var ReflectionClass
 	 */
-	private $_reflect_;
+	private ReflectionClass $_reflect_;
 
 	/**
 	 * Create a friend object

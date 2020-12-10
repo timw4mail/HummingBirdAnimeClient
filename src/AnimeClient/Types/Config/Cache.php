@@ -22,21 +22,24 @@ class Cache extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $driver;
+	public string $driver = 'null';
 
-	public $host;
+	public ?string $host;
 
+	/**
+	 * @var string|int|null
+	 */
 	public $port;
 
-	public $database;
+	public ?string $database;
 
 	/**
 	 * @var array
 	 */
-	public $connection = [];
+	public array $connection = [];
 
 	/**
 	 * @var array
 	 */
-	public $options = [];
+	public array $options = [];
 }

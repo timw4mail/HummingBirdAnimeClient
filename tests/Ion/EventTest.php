@@ -14,9 +14,16 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient;
+namespace Aviat\Ion\Tests;
 
-class API {
-	public const ANILIST = 'anilist';
-	public const KITSU = 'kitsu';
+use Aviat\Ion\Event;
+use PHPUnit\Framework\TestCase;
+
+class EventTest extends TestCase {
+
+	public function testEmit(): void
+	{
+		Event::on('test-event', fn ($fired) => $this->assertTrue($fired));
+		Event::emit('test-event', [true]);
+	}
 }

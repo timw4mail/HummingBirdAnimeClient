@@ -20,18 +20,9 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an Anime object for a detail page
  */
 final class AnimePage extends Anime {
-	/**
-	 * @var array
-	 */
 	public array $characters = [];
 
-	/**
-	 * @var array
-	 */
 	public array $links = [];
 
-	/**
-	 * @var array
-	 */
 	public array $staff = [];
 }

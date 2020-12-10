@@ -25,19 +25,13 @@ class FormItem extends AbstractType {
 	 */
 	public $id;
 
-	/**
-	 * @var string
-	 */
 	public ?string $anilist_item_id;
 
 	/**
 	 * @var string|int
 	 */
-	public  $mal_id;
+	public $mal_id;
 
-	/**
-	 * @var FormItemData
-	 */
 	public ?FormItemData $data;
 
 	public function setData($value): void

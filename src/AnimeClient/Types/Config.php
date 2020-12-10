@@ -22,28 +22,16 @@ class Config extends AbstractType {
 	// Config files/namespaces
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var Config\Anilist
-	 */
 	public ?Config\Anilist $anilist;
 
-	/**
-	 * @var Config\Cache
-	 */
 	public ?Config\Cache $cache;
 
-	/**
-	 * @var Config\Database
-	 */
 	public ?Config\Database $database;
 
 	// ------------------------------------------------------------------------
 	// Settings in config.toml
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var string
-	 */
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
@@ -60,8 +48,6 @@ class Config extends AbstractType {
 	/**
 	 * Default Anime list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title
-	 *
-	 * @var string
 	 */
 	public ?string $default_anime_list_path;
 
@@ -75,8 +61,6 @@ class Config extends AbstractType {
 	/**
 	 * Default Manga list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title
-	 *
-	 * @var string
 	 */
 	public ?string $default_manga_list_path;
 
@@ -85,25 +69,13 @@ class Config extends AbstractType {
 	 */
 	public ?string $default_view_type;
 
-	/**
-	 * @var string
-	 */
 	public ?string $kitsu_username;
 
-	/**
-	 * @var bool
-	 */
 	public bool $secure_urls = TRUE;
 
-	/**
-	 * @var bool
-	 */
-	public $show_anime_collection = FALSE;
+	public bool $show_anime_collection = FALSE;
 
-	/**
-	 * @var bool
-	 */
-	public $show_manga_collection = FALSE;
+	public bool $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
@@ -112,9 +84,6 @@ class Config extends AbstractType {
 	 */
 	public ?string $theme;
 
-	/**
-	 * @var string
-	 */
 	public ?string $whose_list;
 
 	// ------------------------------------------------------------------------
@@ -135,34 +104,16 @@ class Config extends AbstractType {
 	// Generated config values
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var string
-	 */
 	public ?string $asset_dir; // Path to public folder for local files
 
-	/**
-	 * @var string
-	 */
 	public ?string $base_config_dir;
 
-	/**
-	 * @var string
-	 */
 	public ?string $config_dir;
 
-	/**
-	 * @var string
-	 */
 	public ?string $data_cache_path;
 
-	/**
-	 * @var string
-	 */
 	public ?string $img_cache_path;
 
-	/**
-	 * @var string
-	 */
 	public ?string $view_path;
 
 	public function setAnilist ($data): void

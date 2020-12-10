@@ -17,13 +17,7 @@
 namespace Aviat\AnimeClient\Types;
 
 final class Characters extends AbstractType {
-	/**
-	 * @var array
-	 */
 	public array $main = [];
 
-	/**
-	 * @var array
-	 */
 	public array $supporting = [];
 }

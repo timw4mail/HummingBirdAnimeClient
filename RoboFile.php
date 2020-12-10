@@ -30,7 +30,7 @@ class RoboFile extends Tasks {
 	 *
 	 * @var array
 	 */
-	protected $taskDirs = [
+	protected array $taskDirs = [
 		'build/logs',
 		'build/pdepend',
 		'build/phpdox',
@@ -41,7 +41,7 @@ class RoboFile extends Tasks {
 	 *
 	 * @var array
 	 */
-	protected $cleanDirs = [
+	protected array $cleanDirs = [
 		'coverage',
 		'docs',
 		'phpdoc',

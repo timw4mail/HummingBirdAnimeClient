@@ -20,14 +20,8 @@ namespace Aviat\AnimeClient\Types;
  * Type representing a character for display
  */
 final class Character extends AbstractType {
-	/**
-	 * @var array
-	 */
 	public array $castings = [];
 
-	/**
-	 * @var string
-	 */
 	public ?string $description;
 
 	/**
@@ -35,29 +29,14 @@ final class Character extends AbstractType {
 	 */
 	public $id;
 
-	/**
-	 * @var array
-	 */
 	public array $included = [];
 
-	/**
-	 * @var Media
-	 */
 	public ?Media $media;
 
-	/**
-	 * @var string
-	 */
 	public ?string $name;
 
-	/**
-	 * @var array
-	 */
 	public array $names = [];
 
-	/**
-	 * @var array
-	 */
 	public array $otherNames = [];
 
 	public function setMedia ($media): void

@@ -49,7 +49,7 @@ class Event {
 		// Call each subscriber with the provided arguments
 		if (array_key_exists($eventName, static::$eventMap))
 		{
-			array_walk(static::$eventMap[$eventName], fn ($fn) => $fn(...$args));
+			array_walk(static::$eventMap[$eventName], static fn ($fn) => $fn(...$args));
 		}
 	}
 }

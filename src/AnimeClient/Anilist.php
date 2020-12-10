@@ -14,7 +14,7 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API;
+namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Kitsu as KAWS,

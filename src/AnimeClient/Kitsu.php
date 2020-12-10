@@ -187,14 +187,14 @@ final class Kitsu {
 			$host = parse_url($url, \PHP_URL_HOST);
 
 			$links[] = [
-				'meta' => static::getServiceMetaData($host),
+				'meta' => self::getServiceMetaData($host),
 				'link' => $streamingLink['url'],
 				'subs' => $streamingLink['subs'],
 				'dubs' => $streamingLink['dubs']
 			];
 		}
 
-		usort($links, fn ($a, $b) => $a['meta']['name'] <=> $b['meta']['name']);
+		usort($links, static fn ($a, $b) => $a['meta']['name'] <=> $b['meta']['name']);
 
 		return $links;
 	}
@@ -282,7 +282,7 @@ final class Kitsu {
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
-		$hostname = str_replace('www.', '', $hostname);
+		$hostname = str_replace('www.', '', $hostname ?? '');
 
 		$serviceMap = [
 			'animelab.com' => [
@@ -412,11 +412,11 @@ final class Kitsu {
 	/**
 	 * Determine if an alternate title is unique enough to list
 	 *
-	 * @param string $title
+	 * @param string|null $title
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(string $title = NULL, array $existingTitles = []): bool
+	private static function titleIsUnique(?string $title = NULL, array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
