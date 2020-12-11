@@ -52,15 +52,7 @@ final class FormGenerator {
 	 */
 	public static function new(ContainerInterface $container): self
 	{
-		try
-		{
-			return new self($container);
-		}
-		catch (\Throwable $e)
-		{
-			dump($e);
-			die();
-		}
+		return new self($container);
 	}
 
 	/**

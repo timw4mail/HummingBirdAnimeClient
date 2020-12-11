@@ -45,7 +45,7 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 $baseConfig = require "{$APPCONF_DIR}/base_config.php";
 $di = require "{$APP_DIR}/bootstrap.php";
 
-$config = loadToml($CONF_DIR);
+$config = loadConfig($CONF_DIR);
 
 $overrideFile = "{$CONF_DIR}/admin-override.toml";
 $overrideConfig = file_exists($overrideFile)

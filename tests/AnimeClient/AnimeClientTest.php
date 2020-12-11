@@ -16,13 +16,16 @@
 
 namespace Aviat\AnimeClient\Tests;
 
+use Amp\Http\Client\Response;
+
 use function Aviat\AnimeClient\arrayToToml;
+use function Aviat\AnimeClient\getResponse;
 use function Aviat\AnimeClient\isSequentialArray;
 use function Aviat\AnimeClient\tomlToArray;
 
 class AnimeClientTest extends AnimeClientTestCase
 {
-	public function testArrayToToml ()
+	public function testArrayToToml (): void
 	{
 		$arr = [
 			'cat' => false,
@@ -57,11 +60,33 @@ class AnimeClientTest extends AnimeClientTestCase
 		$this->assertEquals($arr, $parsedArray);
 	}
 
-	public function testIsSequentialArray()
+	public function testArrayToTomlNullValue(): void
+	{
+		$arr = [
+			'cat' => false,
+			'bat' => null,
+			'foo' => 'bar',
+		];
+
+		$toml = arrayToToml($arr);
+		$parsedArray = tomlToArray($toml);
+
+		$this->assertEquals([
+			'cat' => false,
+			'foo' => 'bar',
+		], $parsedArray);
+	}
+
+	public function testIsSequentialArray(): void
 	{
 		$this->assertFalse(isSequentialArray(0));
 		$this->assertFalse(isSequentialArray([50 => 'foo']));
 		$this->assertTrue(isSequentialArray([]));
 		$this->assertTrue(isSequentialArray([1,2,3,4,5]));
+	}
+
+	public function testGetResponse(): void
+	{
+		$this->assertNotEmpty(getResponse('https://example.com'));
 	}
 }
