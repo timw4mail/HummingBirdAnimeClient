@@ -35,7 +35,7 @@ class DispatcherTest extends AnimeClientTestCase {
 	protected function doSetUp($config, $uri, $host): void
 	{
 		// Set up the environment
-		$_SERVER = array_merge($_SERVER, [
+		$GLOBALS['_SERVER'] = array_merge($GLOBALS['_SERVER'], [
 			'REQUEST_METHOD' => 'GET',
 			'REQUEST_URI' => $uri,
 			'PATH_INFO' => $uri,
@@ -44,7 +44,7 @@ class DispatcherTest extends AnimeClientTestCase {
 		]);
 
 		$this->setSuperGlobals([
-			'_SERVER' => $_SERVER
+			'_SERVER' => $GLOBALS['_SERVER']
 		]);
 
 		$logger = new Logger('test_logger');

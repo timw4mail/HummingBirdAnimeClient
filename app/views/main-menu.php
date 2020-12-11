@@ -5,8 +5,8 @@ namespace Aviat\AnimeClient;
 $whose = $config->get('whose_list') . "'s ";
 $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
-$hasAnime = stripos($_SERVER['REQUEST_URI'], 'anime') !== FALSE;
-$hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
+$hasAnime = stripos($GLOBALS['_SERVER']['REQUEST_URI'], 'anime') !== FALSE;
+$hasManga = stripos($GLOBALS['_SERVER']['REQUEST_URI'], 'manga') !== FALSE;
 
 ?>
 <div id="main-nav" class="flex flex-align-end flex-wrap">
@@ -84,7 +84,7 @@ $hasManga = stripos($_SERVER['REQUEST_URI'], 'manga') !== FALSE;
 <?php if ($container->get('util')->isViewPage() && ($hasAnime || $hasManga)): ?>
 <nav>
 		<?= $helper->menu($menu_name) ?>
-		<?php if (stripos($_SERVER['REQUEST_URI'], 'history') === FALSE): ?>
+		<?php if (stripos($GLOBALS['_SERVER']['REQUEST_URI'], 'history') === FALSE): ?>
 		<br />
 		<ul>
 			<?php $currentView = Util::eq('list', $lastSegment) ? 'list' : 'cover' ?>

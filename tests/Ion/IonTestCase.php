@@ -112,7 +112,7 @@ class IonTestCase extends TestCase {
 	public function setSuperGlobals(array $supers = []): void
 	{
 		$default = [
-			'_SERVER' => $_SERVER,
+			'_SERVER' => $GLOBALS['_SERVER'],
 			'_GET' => $_GET,
 			'_POST' => $_POST,
 			'_COOKIE' => $_COOKIE,

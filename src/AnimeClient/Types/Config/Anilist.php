@@ -27,7 +27,10 @@ class Anilist extends AbstractType {
 
 	public ?string $access_token;
 
-	public ?int $access_token_expires;
+	/**
+	 * @var int|string|null
+	 */
+	public $access_token_expires;
 
 	public ?string $refresh_token;
 

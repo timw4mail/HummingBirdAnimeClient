@@ -35,12 +35,12 @@ class ControllerTest extends AnimeClientTestCase {
 		parent::setUp();
 
 		// Create Request/Response Objects
-		$_SERVER['HTTP_REFERER'] = '';
+		$GLOBALS['_SERVER']['HTTP_REFERER'] = '';
 		$this->setSuperGlobals([
 			'_GET' => [],
 			'_POST' => [],
 			'_COOKIE' => [],
-			'_SERVER' => $_SERVER,
+			'_SERVER' => $GLOBALS['_SERVER'],
 			'_FILES' => []
 		]);
 

@@ -246,30 +246,14 @@ const SETTINGS_MAP = [
 
 
 class FormGeneratorTest extends AnimeClientTestCase {
-	protected $generator;
-
-	public function setUp(): void
-	{
-		parent::setUp();
-
-		$this->generator = FormGenerator::new($this->container);
-	}
-
-	public function testSanity(): void
-	{
-		$generator = FormGenerator::new($this->container);
-		$this->assertInstanceOf(FormGenerator::class, $generator);
-	}
-
 	public function testGeneration(): void
 	{
-		// $html = $this->generator->generate('database', SETTINGS_MAP);
-		// $this->assertMatchesHtmlSnapshot($html);
+		$generator = FormGenerator::new($this->container);
 		foreach (SETTINGS_MAP as $section => $fields)
 		{
 			foreach ($fields as $name => $config)
 			{
-				$html = $this->generator->generate($name, $config);
+				$html = $generator->generate($name, $config);
 				$this->assertMatchesSnapshot($html);
 			}
 		}

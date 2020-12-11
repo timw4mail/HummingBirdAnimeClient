@@ -168,7 +168,7 @@ abstract class BaseCommand extends Command {
 
 		// Create Request/Response Objects
 		$container->set('request', fn () => ServerRequestFactory::fromGlobals(
-			$_SERVER,
+			$GLOBALS['_SERVER'],
 			$_GET,
 			$_POST,
 			$_COOKIE,

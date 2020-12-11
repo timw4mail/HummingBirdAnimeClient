@@ -54,7 +54,7 @@ final class FormGenerator {
 	{
 		try
 		{
-			return new static($container);
+			return new self($container);
 		}
 		catch (\Throwable $e)
 		{
@@ -74,7 +74,7 @@ final class FormGenerator {
 	{
 		$type = $form['type'];
 		$display = $form['display'] ?? TRUE;
-		$value = $form['value'] ?? '';
+		$value = $form['value'] ?? $form['default'] ?? '';
 
 		if ($display === FALSE)
 		{
@@ -101,6 +101,7 @@ final class FormGenerator {
 					'1' => 'Yes',
 					'0' => 'No',
 				];
+				$params['strict'] = true;
 				unset($params['attribs']['id']);
 			break;
 

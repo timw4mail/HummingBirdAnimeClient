@@ -1,6 +1,6 @@
 <?php
 
-$verb = strtolower($_SERVER['REQUEST_METHOD']);
+$verb = strtolower($GLOBALS['_SERVER']['REQUEST_METHOD']);
 
 // Send request method if nothing else is specified
 if (empty($_GET))

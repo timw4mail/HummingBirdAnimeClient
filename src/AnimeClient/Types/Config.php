@@ -35,13 +35,7 @@ class Config extends AbstractType {
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
-	 * @deprecated Use 'theme' instead
-	 * @var bool
-	 */
-	public $dark_theme; /* Deprecated */
-
-	/**
-	 * @var string The PHP timezone
+	 * The PHP timezone
 	 */
 	public string $timezone = '';
 
@@ -73,16 +67,22 @@ class Config extends AbstractType {
 
 	public bool $secure_urls = TRUE;
 
-	public bool $show_anime_collection = FALSE;
+	/**
+	 * @var string|bool
+	 */
+	public $show_anime_collection = FALSE;
 
-	public bool $show_manga_collection = FALSE;
+	/**
+	 * @var string|bool
+	 */
+	public $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
 	 *
 	 * @var 'auto' | 'light' | 'dark'
 	 */
-	public ?string $theme;
+	public ?string $theme = 'auto';
 
 	public ?string $whose_list;
 
