@@ -88,13 +88,13 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Show the anime collection page
 	 *
-	 * @param string $view
+	 * @param string|null $view
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
-	public function view(string $view = ''): void
+	public function view(?string $view = ''): void
 	{
 		$viewMap = [
 			'' => 'cover',
