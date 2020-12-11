@@ -7,8 +7,11 @@
   </coverage>
   <testsuites>
     <testsuite name="AnimeClient">
-      <directory>tests</directory>
+      <directory>tests/AnimeClient</directory>
     </testsuite>
+    <testsuite name="Ion">
+	  <directory>tests/Ion</directory>
+	</testsuite>
   </testsuites>
   <php>
     <server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0"/>

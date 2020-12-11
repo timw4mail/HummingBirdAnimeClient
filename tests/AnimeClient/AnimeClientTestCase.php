@@ -116,7 +116,7 @@ class AnimeClientTestCase extends TestCase {
 	public function setSuperGlobals($supers = []): void
 	{
 		$default = [
-			'_SERVER' => $_SERVER,
+			'_SERVER' => $GLOBALS['_SERVER'],
 			'_GET' => $_GET,
 			'_POST' => $_POST,
 			'_COOKIE' => $_COOKIE,
@@ -125,7 +125,7 @@ class AnimeClientTestCase extends TestCase {
 
 		$request = \call_user_func_array(
 			[ServerRequestFactory::class, 'fromGlobals'],
-			array_merge($default, $supers)
+			array_values(array_merge($default, $supers)),
 		);
 		$this->container->setInstance('request', $request);
 		$this->container->set('response', static function() {

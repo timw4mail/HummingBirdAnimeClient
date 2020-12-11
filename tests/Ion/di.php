@@ -22,7 +22,7 @@ return static function(array $config_array = []) {
 
 	$container->set('request', static function() {
 		return ServerRequestFactory::fromGlobals(
-			$_SERVER,
+			$GLOBALS['_SERVER'],
 			$_GET,
 			$_POST,
 			$_COOKIE,
