@@ -13,7 +13,19 @@ pipeline {
 		stage('PHP 7.4') {
 			agent {
 				docker {
-					image 'php:7.4-alpine'
+					image 'php:7.4-cli-alpine'
+					args '-u root --privileged'
+				}
+			}
+			steps {
+				sh 'apk add --no-cache git'
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('PHP 8') {
+			agent {
+				docker {
+					image 'php:8-cli-alpine'
 					args '-u root --privileged'
 				}
 			}
@@ -25,7 +37,7 @@ pipeline {
 		stage('Latest PHP') {
 			agent {
 				docker {
-					image 'php:alpine'
+					image 'php:cli-alpine'
 					args '-u root --privileged'
 				}
 			}
