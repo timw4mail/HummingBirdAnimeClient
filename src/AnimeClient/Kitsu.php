@@ -412,17 +412,12 @@ final class Kitsu {
 	/**
 	 * Determine if an alternate title is unique enough to list
 	 *
-	 * @param string|null $title
+	 * @param string $title
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(?string $title = NULL, array $existingTitles = []): bool
+	private static function titleIsUnique(string $title = '', array $existingTitles = []): bool
 	{
-		if (empty($title))
-		{
-			return FALSE;
-		}
-
 		foreach($existingTitles as $existing)
 		{
 			$isSubset = mb_substr_count($existing, $title) > 0;

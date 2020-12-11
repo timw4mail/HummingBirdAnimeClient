@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\Command;
 
 use Monolog\Formatter\JsonFormatter;
-use function Aviat\AnimeClient\loadToml;
+use function Aviat\AnimeClient\loadConfig;
 use function Aviat\AnimeClient\loadTomlFile;
 
 use Aura\Router\RouterContainer;
@@ -113,7 +113,7 @@ abstract class BaseCommand extends Command {
 		$CONF_DIR = realpath("{$APP_DIR}/config/");
 		$baseConfig = require $APPCONF_DIR . '/base_config.php';
 
-		$config = loadToml($CONF_DIR);
+		$config = loadConfig($CONF_DIR);
 
 		$overrideFile = $CONF_DIR . '/admin-override.toml';
 		$overrideConfig = file_exists($overrideFile)

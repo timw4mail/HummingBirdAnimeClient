@@ -11,8 +11,11 @@
   </coverage>
   <testsuites>
     <testsuite name="AnimeClient">
-      <directory>../tests</directory>
+      <directory>../tests/AnimeClient</directory>
     </testsuite>
+    <testsuite name="Ion">
+	  <directory>../tests/Ion</directory>
+	</testsuite>
   </testsuites>
   <logging/>
   <php>

@@ -38,10 +38,11 @@ use Throwable;
 /**
  * Load configuration options from .toml files
  *
+ * @codeCoverageIgnore
  * @param string $path - Path to load config
  * @return array
  */
-function loadToml(string $path): array
+function loadConfig(string $path): array
 {
 	$output = [];
 	$files = glob("{$path}/*.toml");
@@ -75,12 +76,43 @@ function loadToml(string $path): array
 /**
  * Load config from one specific TOML file
  *
+ * @codeCoverageIgnore
  * @param string $filename
  * @return array
  */
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
+}
+
+function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+{
+	foreach ($data as $key => $value)
+	{
+		// Skip unsupported empty value
+		if ($value === NULL)
+		{
+			continue;
+		}
+
+
+		if (is_scalar($value) || isSequentialArray($value))
+		{
+			$builder->addValue($key, $value);
+			continue;
+		}
+
+		$newKey = ($parentKey !== NULL)
+			? "{$parentKey}.{$key}"
+			: $key;
+
+		if ( ! isSequentialArray($value))
+		{
+			$builder->addTable($newKey);
+		}
+
+		_iterateToml($builder, $value, $newKey);
+	}
 }
 
 /**
@@ -92,35 +124,6 @@ function loadTomlFile(string $filename): array
 function arrayToToml(iterable $data): string
 {
 	$builder = new TomlBuilder();
-	function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
-	{
-		foreach ($data as $key => $value)
-		{
-			if ($value === NULL)
-			{
-				continue;
-			}
-
-
-			if (is_scalar($value) || isSequentialArray($value))
-			{
-				// $builder->addTable('');
-				$builder->addValue($key, $value);
-				continue;
-			}
-
-			$newKey = ($parentKey !== NULL)
-				? "{$parentKey}.{$key}"
-				: $key;
-
-			if ( ! isSequentialArray($value))
-			{
-				$builder->addTable($newKey);
-			}
-
-			_iterateToml($builder, $value, $newKey);
-		}
-	}
 
 	_iterateToml($builder, $data);
 
@@ -339,7 +342,7 @@ function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Imag
  */
 function colNotEmpty(array $search, string $key): bool
 {
-	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
+	$items = array_filter(array_column($search, $key), static fn ($x) => ( ! empty($x)));
 	return count($items) > 0;
 }
 
@@ -358,7 +361,7 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_CACHE_KEY,
 		Kitsu::AUTH_TOKEN_EXP_CACHE_KEY,
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
-	], NULL);
+	]);
 
 	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
 	$cleared = $cache->clear();
@@ -373,6 +376,7 @@ function clearCache(CacheInterface $cache): bool
 /**
  * Render a PHP code template as a string
  *
+ * @codeCoverageIgnore
  * @param string $path
  * @param array $data
  * @return string
