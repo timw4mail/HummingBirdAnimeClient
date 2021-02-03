@@ -27,7 +27,7 @@ use Laminas\Diactoros\ServerRequestFactory;
  */
 class IonTestCase extends TestCase {
 	// Test directory constants
-	public const ROOT_DIR = ROOT_DIR;
+	public const ROOT_DIR = AC_TEST_ROOT_DIR;
 	public const SRC_DIR = SRC_DIR;
 	public const TEST_DATA_DIR = __DIR__ . '/test_data';
 	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
