@@ -19,7 +19,10 @@ namespace Aviat\AnimeClient\Types\Config;
 use Aviat\AnimeClient\Types\AbstractType;
 
 class Anilist extends AbstractType {
-	public bool $enabled = FALSE;
+	/**
+	 * @var bool|string
+	 */
+	public $enabled = FALSE;
 
 	public ?string $client_id;
 
