@@ -19,7 +19,6 @@ namespace Aviat\AnimeClient;
 use Aviat\AnimeClient\Kitsu;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function Amp\Promise\wait;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
@@ -31,6 +30,8 @@ use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use Throwable;
 
+use function Amp\Promise\wait;
+use function Aviat\Ion\_dir;
 // ----------------------------------------------------------------------------
 //! TOML Functions
 // ----------------------------------------------------------------------------
@@ -180,9 +181,11 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$errors = [];
 	$publicDir = $config->get('asset_dir');
 
+	$APP_DIR = _dir(dirname(__DIR__, 2), '/app');
+
 	$pathMap = [
-		'app/config' => realpath(__DIR__ . '/../../app/config'),
-		'app/logs' => realpath(__DIR__ . '/../../app/logs'),
+		'app/config' => "{$APP_DIR}/config",
+		'app/logs' => "{$APP_DIR}/logs",
 		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",
 		'public/images/characters' => "{$publicDir}/images/characters",
@@ -285,11 +288,11 @@ function getLocalImg (string $kitsuUrl, $webp = TRUE): string
  * Create a transparent placeholder image
  *
  * @param string $path
- * @param int $width
- * @param int $height
+ * @param int|null $width
+ * @param int|null $height
  * @param string $text
  */
-function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
+function createPlaceholderImage (string $path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;

@@ -418,6 +418,11 @@ final class Kitsu {
 	 */
 	private static function titleIsUnique(string $title = '', array $existingTitles = []): bool
 	{
+		if (empty($title))
+		{
+			return FALSE;
+		}
+
 		foreach($existingTitles as $existing)
 		{
 			$isSubset = mb_substr_count($existing, $title) > 0;

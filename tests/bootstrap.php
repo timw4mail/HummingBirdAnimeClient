@@ -10,16 +10,17 @@ if ($timezone === '' || $timezone === FALSE)
 	ini_set('date.timezone', 'GMT');
 }
 
-define('ROOT_DIR', realpath(__DIR__ . '/../') . '/');
+define('ROOT_DIR', dirname(__DIR__) . '/');
 define('SRC_DIR', ROOT_DIR . 'src/');
+define('TEST_DIR', __DIR__ . '/');
 
 // -----------------------------------------------------------------------------
 // Autoloading
 // -----------------------------------------------------------------------------
 
-require_once __DIR__ . '/AnimeClient/AnimeClientTestCase.php';
-require_once __DIR__ . '/Ion/IonTestCase.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once TEST_DIR . 'AnimeClient/AnimeClientTestCase.php';
+require_once TEST_DIR . '/Ion/IonTestCase.php';
+require_once ROOT_DIR . 'vendor/autoload.php';
 
 // -----------------------------------------------------------------------------
 // Ini Settings
@@ -27,7 +28,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 ini_set('session.use_cookies', '0');
 ini_set('session.use_only_cookies', '0');
 ini_set('session.use_trans_sid', '1');
-// Start session here to supress error about headers not sent
+// Start session here to suppress error about headers not sent
 session_start();
 
 // -----------------------------------------------------------------------------
@@ -39,7 +40,7 @@ $_SESSION = [];
 $_COOKIE = [];
 
 // Request base test case and mocks
-require_once __DIR__ . '/AnimeClient/mocks.php';
-require_once __DIR__ . '/Ion/mocks.php';
+require_once TEST_DIR . 'AnimeClient/mocks.php';
+require_once TEST_DIR . 'Ion/mocks.php';
 
 // End of bootstrap.php
