@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -206,7 +206,7 @@ final class Settings {
 			return FALSE;
 		}
 
-		$savePath = realpath(_dir(__DIR__, '..', '..', '..', 'app', 'config'));
+		$savePath = _dir(dirname(__DIR__, 3), 'app', 'config');
 		$saveFile = _dir($savePath, 'admin-override.toml');
 
 		$saved = file_put_contents($saveFile, arrayToToml($settings));

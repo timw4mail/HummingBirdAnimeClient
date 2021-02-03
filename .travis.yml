@@ -4,13 +4,12 @@ install:
   - composer install --ignore-platform-reqs
 
 php:
-  - 7.4
   - nightly
 
 script:
   - mkdir -p build/logs
   - php vendor/bin/phpunit -c build
 
-matrix:
-  allow_failures:
-    - php: nightly
+#matrix:
+#  allow_failures:
+#    - php: nightly

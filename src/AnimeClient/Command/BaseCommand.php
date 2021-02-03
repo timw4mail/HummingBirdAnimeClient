@@ -4,20 +4,24 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
 
 use Monolog\Formatter\JsonFormatter;
-use function Aviat\AnimeClient\loadToml;
+
+use function Aviat\Ion\_dir;
+use const Aviat\AnimeClient\SRC_DIR;
+
+use function Aviat\AnimeClient\loadConfig;
 use function Aviat\AnimeClient\loadTomlFile;
 
 use Aura\Router\RouterContainer;
@@ -108,14 +112,14 @@ abstract class BaseCommand extends Command {
 	 */
 	public function setupContainer(): ContainerInterface
 	{
-		$APP_DIR = realpath(__DIR__ . '/../../../app');
-		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
-		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		$baseConfig = require $APPCONF_DIR . '/base_config.php';
+		$APP_DIR = _dir(dirname(SRC_DIR), 'app');
+		$APPCONF_DIR = realpath(_dir($APP_DIR, 'appConf'));
+		$CONF_DIR = realpath(_dir($APP_DIR, 'config'));
+		$baseConfig = require _dir($APPCONF_DIR,  'base_config.php');
 
-		$config = loadToml($CONF_DIR);
+		$config = loadConfig($CONF_DIR);
 
-		$overrideFile = $CONF_DIR . '/admin-override.toml';
+		$overrideFile = _dir($CONF_DIR, 'admin-override.toml');
 		$overrideConfig = file_exists($overrideFile)
 			? loadTomlFile($overrideFile)
 			: [];
@@ -168,7 +172,7 @@ abstract class BaseCommand extends Command {
 
 		// Create Request/Response Objects
 		$container->set('request', fn () => ServerRequestFactory::fromGlobals(
-			$_SERVER,
+			$GLOBALS['_SERVER'],
 			$_GET,
 			$_POST,
 			$_COOKIE,

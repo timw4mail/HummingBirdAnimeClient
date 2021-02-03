@@ -1,1 +1,1 @@
-<input id="file" type="text" name="file" value="" />
+<input id="file" type="text" name="file" value="anime_collection.sqlite" />

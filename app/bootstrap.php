@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -32,10 +32,13 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\SimpleCache\CacheInterface;
 
+use function Aviat\Ion\_dir;
+
 if ( ! defined('APP_DIR'))
 {
 	define('APP_DIR', __DIR__);
-	define('TEMPLATE_DIR', APP_DIR . '/templates');
+	define('ROOT_DIR', dirname(APP_DIR));
+	define('TEMPLATE_DIR', _dir(APP_DIR,  'templates'));
 }
 
 // -----------------------------------------------------------------------------
@@ -47,15 +50,16 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 	// Logging
 	// -------------------------------------------------------------------------
+	$LOG_DIR = _dir(APP_DIR, 'logs');
 
 	$appLogger = new Logger('animeclient');
-	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', 2, Logger::WARNING));
+	$appLogger->pushHandler(new RotatingFileHandler(_dir($LOG_DIR, 'app.log'), 2, Logger::WARNING));
 	$container->setLogger($appLogger);
 
 	foreach (['anilist-request', 'kitsu-request', 'kitsu-graphql'] as $channel)
 	{
 		$logger = new Logger($channel);
-		$handler = new RotatingFileHandler(__DIR__ . "/logs/{$channel}.log", 2, Logger::WARNING);
+		$handler = new RotatingFileHandler(_dir($LOG_DIR, "{$channel}.log"), 2, Logger::WARNING);
 		$handler->setFormatter(new JsonFormatter());
 		$logger->pushHandler($handler);
 
@@ -67,7 +71,7 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 
 	// Create Config Object
-	$container->set('config', fn () => new Config($configArray));
+	$container->set('config', static fn () => new Config($configArray));
 
 	// Create Cache Object
 	$container->set('cache', static function(ContainerInterface $container): CacheInterface {
@@ -77,7 +81,7 @@ return static function (array $configArray = []): Container {
 	});
 
 	// Create Aura Router Object
-	$container->set('aura-router', fn() => new RouterContainer);
+	$container->set('aura-router', static fn() => new RouterContainer);
 
 	// Create Html helpers
 	$container->set('html-helper', static function(ContainerInterface $container) {
@@ -125,8 +129,8 @@ return static function (array $configArray = []): Container {
 	});
 
 	// Create Request Object
-	$container->set('request', fn () => ServerRequestFactory::fromGlobals(
-		$_SERVER,
+	$container->set('request', static fn () => ServerRequestFactory::fromGlobals(
+		$GLOBALS['_SERVER'],
 		$_GET,
 		$_POST,
 		$_COOKIE,
@@ -134,10 +138,10 @@ return static function (array $configArray = []): Container {
 	));
 
 	// Create session Object
-	$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
+	$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
 
 	// Miscellaneous helper methods
-	$container->set('util', fn ($container) => new Util($container));
+	$container->set('util', static fn ($container) => new Util($container));
 
 	// Models
 	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
@@ -170,10 +174,10 @@ return static function (array $configArray = []): Container {
 
 		return $model;
 	});
-	$container->set('anime-model', fn ($container) => new Model\Anime($container));
-	$container->set('manga-model', fn ($container) => new Model\Manga($container));
-	$container->set('anime-collection-model', fn ($container) => new Model\AnimeCollection($container));
-	$container->set('manga-collection-model', fn ($container) => new Model\MangaCollection($container));
+	$container->set('anime-model', static fn ($container) => new Model\Anime($container));
+	$container->set('manga-model', static fn ($container) => new Model\Manga($container));
+	$container->set('anime-collection-model', static fn ($container) => new Model\AnimeCollection($container));
+	$container->set('manga-collection-model', static fn ($container) => new Model\MangaCollection($container));
 	$container->set('settings-model', static function($container) {
 		$model = new Model\Settings($container->get('config'));
 		$model->setContainer($container);
@@ -181,13 +185,13 @@ return static function (array $configArray = []): Container {
 	});
 
 	// Miscellaneous Classes
-	$container->set('auth', fn ($container) => new Kitsu\Auth($container));
-	$container->set('url-generator', fn ($container) => new UrlGenerator($container));
+	$container->set('auth', static fn ($container) => new Kitsu\Auth($container));
+	$container->set('url-generator', static fn ($container) => new UrlGenerator($container));
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
 	// -------------------------------------------------------------------------
-	$container->set('dispatcher', fn ($container) => new Dispatcher($container));
+	$container->set('dispatcher', static fn ($container) => new Dispatcher($container));
 
 	return $container;
 };

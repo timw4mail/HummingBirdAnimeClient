@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -246,30 +246,14 @@ const SETTINGS_MAP = [
 
 
 class FormGeneratorTest extends AnimeClientTestCase {
-	protected $generator;
-
-	public function setUp(): void
-	{
-		parent::setUp();
-
-		$this->generator = FormGenerator::new($this->container);
-	}
-
-	public function testSanity(): void
-	{
-		$generator = FormGenerator::new($this->container);
-		$this->assertInstanceOf(FormGenerator::class, $generator);
-	}
-
 	public function testGeneration(): void
 	{
-		// $html = $this->generator->generate('database', SETTINGS_MAP);
-		// $this->assertMatchesHtmlSnapshot($html);
+		$generator = FormGenerator::new($this->container);
 		foreach (SETTINGS_MAP as $section => $fields)
 		{
 			foreach ($fields as $name => $config)
 			{
-				$html = $this->generator->generate($name, $config);
+				$html = $generator->generate($name, $config);
 				$this->assertMatchesSnapshot($html);
 			}
 		}

@@ -4,17 +4,17 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\API;
+namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Kitsu as KAWS,
@@ -64,28 +64,4 @@ final class Anilist {
 		MangaReadingStatus::DROPPED => KMRS::DROPPED,
 		MangaReadingStatus::PLAN_TO_READ => KMRS::PLAN_TO_READ,
 	];
-
-	public static function getIdToWatchingStatusMap(): array
-	{
-		return [
-			'CURRENT' => AnimeWatchingStatus::WATCHING,
-			'COMPLETED' => AnimeWatchingStatus::COMPLETED,
-			'PAUSED' => AnimeWatchingStatus::ON_HOLD,
-			'DROPPED' => AnimeWatchingStatus::DROPPED,
-			'PLANNING' => AnimeWatchingStatus::PLAN_TO_WATCH,
-			'REPEATING' => AnimeWatchingStatus::WATCHING,
-		];
-	}
-
-	public static function getIdToReadingStatusMap(): array
-	{
-		return [
-			'CURRENT' => MangaReadingStatus::READING,
-			'COMPLETED' => MangaReadingStatus::COMPLETED,
-			'PAUSED' => MangaReadingStatus::ON_HOLD,
-			'DROPPED' => MangaReadingStatus::DROPPED,
-			'PLANNING' => MangaReadingStatus::PLAN_TO_READ,
-			'REPEATING' => MangaReadingStatus::READING,
-		];
-	}
 }

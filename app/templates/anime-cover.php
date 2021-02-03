@@ -18,7 +18,7 @@
 		</a>
 	</div>
 	<div class="table">
-		<?php if ($item['private'] || $item['rewatching']): ?>
+		<?php if (isset($item['private']) || isset($item['rewatching'])): ?>
 			<div class="row">
 				<?php foreach (['private', 'rewatching'] as $attr): ?>
 					<?php if ($item[$attr]): ?>

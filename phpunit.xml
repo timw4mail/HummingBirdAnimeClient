@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-		colors="true"
-		stopOnFailure="false"
-		bootstrap="tests/bootstrap.php"
->
-	<filter>
-		<whitelist>
-			<directory suffix=".php">src</directory>
-		</whitelist>
-	</filter>
-	<testsuites>
-		<testsuite name="AnimeClient">
-			<directory>tests</directory>
-		</testsuite>
-	</testsuites>
-	<php>
-		<server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0" />
-		<server name="HTTP_HOST" value="localhost" />
-		<server name="SERVER_NAME" value="localhost" />
-		<server name="REQUEST_URI" value="/" />
-		<server name="REQUEST_METHOD" value="GET" />
-	</php>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="false" bootstrap="tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="AnimeClient">
+      <directory>tests/AnimeClient</directory>
+    </testsuite>
+    <testsuite name="Ion">
+	  <directory>tests/Ion</directory>
+	</testsuite>
+  </testsuites>
+  <php>
+    <server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0"/>
+    <server name="HTTP_HOST" value="localhost"/>
+    <server name="SERVER_NAME" value="localhost"/>
+    <server name="REQUEST_URI" value="/"/>
+    <server name="REQUEST_METHOD" value="GET"/>
+  </php>
 </phpunit>

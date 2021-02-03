@@ -14,27 +14,11 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Types;
+namespace Aviat\AnimeClient\Enum;
 
-/**
- * Type representing a Kitsu user for display
- */
-final class User extends AbstractType {
-	public ?string $about;
+use Aviat\Ion\Enum;
 
-	public ?string $avatar;
-
-	public ?array $favorites;
-
-	public ?string $location;
-
-	public ?string $name;
-
-	public ?string $slug;
-
-	public ?array $stats;
-
-	public ?array $waifu;
-
-	public ?string $website;
+final class API extends Enum {
+	public const ANILIST = 'anilist';
+	public const KITSU = 'kitsu';
 }

@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -24,7 +24,7 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const NOT_FOUND_METHOD = 'notFound';
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/5.1";
+const USER_AGENT = "Tim's Anime Client/5.2";
 
 // Regex patterns
 const ALPHA_SLUG_PATTERN = '[a-z_]+';

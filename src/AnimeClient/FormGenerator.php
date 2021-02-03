@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -52,15 +52,7 @@ final class FormGenerator {
 	 */
 	public static function new(ContainerInterface $container): self
 	{
-		try
-		{
-			return new static($container);
-		}
-		catch (\Throwable $e)
-		{
-			dump($e);
-			die();
-		}
+		return new self($container);
 	}
 
 	/**
@@ -74,7 +66,7 @@ final class FormGenerator {
 	{
 		$type = $form['type'];
 		$display = $form['display'] ?? TRUE;
-		$value = $form['value'] ?? '';
+		$value = $form['value'] ?? $form['default'] ?? '';
 
 		if ($display === FALSE)
 		{
@@ -101,6 +93,7 @@ final class FormGenerator {
 					'1' => 'Yes',
 					'0' => 'No',
 				];
+				$params['strict'] = true;
 				unset($params['attribs']['id']);
 			break;
 
