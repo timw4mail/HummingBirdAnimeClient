@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,34 +22,16 @@ use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
  * Type representing an anime within a watch list
  */
 class Anime extends AbstractType {
-	/**
-	 * @var string
-	 */
 	public ?string $age_rating;
 
-	/**
-	 * @var string
-	 */
 	public ?string $age_rating_guide;
 
-	/**
-	 * @var string
-	 */
 	public ?string $cover_image;
 
-	/**
-	 * @var string|int
-	 */
 	public ?int $episode_count;
 
-	/**
-	 * @var string|int
-	 */
 	public ?int $episode_length;
 
-	/**
-	 * @var array
-	 */
 	public array $genres = [];
 
 	/**
@@ -57,67 +39,33 @@ class Anime extends AbstractType {
 	 */
 	public $id = '';
 
-	/**
-	 * @var array
-	 */
 	public array $included = [];
 
-	/**
-	 * @var string
-	 */
 	public ?string $show_type;
 
-	/**
-	 * @var string
-	 */
 	public ?string $slug;
 
-	/**
-	 * @var AnimeAiringStatus
-	 */
 	public string $status = AnimeAiringStatus::FINISHED_AIRING;
 
-	/**
-	 * @var array
-	 */
 	public ?array $streaming_links = [];
 
-	/**
-	 * @var string
-	 */
 	public ?string $synopsis;
 
-	/**
-	 * @var string
-	 */
 	public ?string $title;
 
-	/**
-	 * @var array
-	 */
 	public array $titles = [];
 
-	/**
-	 * @var array
-	 */
 	public array $titles_more = [];
 
-	/**
-	 * @var string
-	 */
 	public ?string $trailer_id;
 
 	/**
 	 * Length of the entire series in seconds
-	 *
-	 * @var int|null
 	 */
 	public ?int $total_length;
 
 	/**
 	 * Kitsu detail page url
-	 *
-	 * @var string
 	 */
 	public ?string $url;
 }

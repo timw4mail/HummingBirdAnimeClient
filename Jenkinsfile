@@ -10,10 +10,10 @@ pipeline {
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
-		stage('PHP 7.4') {
+		stage('PHP 8') {
 			agent {
 				docker {
-					image 'php:7.4-alpine'
+					image 'php:8-cli-alpine'
 					args '-u root --privileged'
 				}
 			}
@@ -25,7 +25,7 @@ pipeline {
 		stage('Latest PHP') {
 			agent {
 				docker {
-					image 'php:alpine'
+					image 'php:cli-alpine'
 					args '-u root --privileged'
 				}
 			}

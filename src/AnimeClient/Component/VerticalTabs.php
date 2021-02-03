@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -26,6 +26,7 @@ final class VerticalTabs {
 	 * also used to generate id attributes
 	 * @param array $tabData The data used to create the tab content, indexed by the tab label
 	 * @param callable $cb The function to generate the tab content
+	 * @param string $className
 	 * @return string
 	 */
 	public function __invoke(

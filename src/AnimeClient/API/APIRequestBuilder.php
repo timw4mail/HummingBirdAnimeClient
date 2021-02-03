@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -35,43 +35,36 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Where to look for GraphQL request files
-	 * @var string
 	 */
-	protected string $filePath = __DIR__;
+	protected string $filePath = '';
 
 	/**
 	 * Url prefix for making url requests
-	 * @var string
 	 */
 	protected string $baseUrl = '';
 
 	/**
 	 * Url path of the request
-	 * @var string
 	 */
 	protected string $path = '';
 
 	/**
 	 * Query string for the request
-	 * @var string
 	 */
 	protected string $query = '';
 
 	/**
 	 * Default request headers
-	 * @var array
 	 */
 	protected array $defaultHeaders = [];
 
 	/**
 	 * Valid HTTP request methods
-	 * @var array
 	 */
 	protected array $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
 	/**
 	 * The current request
-	 * @var Request
 	 */
 	protected Request $request;
 
@@ -309,7 +302,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function queryRequest(string $name, array $variables = []): Request
 	{
-		$file = "{$this->filePath}/Queries/{$name}.graphql";
+		$file = realpath("{$this->filePath}/Queries/{$name}.graphql");
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');

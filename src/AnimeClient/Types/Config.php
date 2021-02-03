@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -22,46 +22,26 @@ class Config extends AbstractType {
 	// Config files/namespaces
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var Config\Anilist
-	 */
 	public ?Config\Anilist $anilist;
 
-	/**
-	 * @var Config\Cache
-	 */
 	public ?Config\Cache $cache;
 
-	/**
-	 * @var Config\Database
-	 */
 	public ?Config\Database $database;
 
 	// ------------------------------------------------------------------------
 	// Settings in config.toml
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var string
-	 */
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
-	 * @deprecated Use 'theme' instead
-	 * @var bool
-	 */
-	public $dark_theme; /* Deprecated */
-
-	/**
-	 * @var string The PHP timezone
+	 * The PHP timezone
 	 */
 	public string $timezone = '';
 
 	/**
 	 * Default Anime list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title
-	 *
-	 * @var string
 	 */
 	public ?string $default_anime_list_path;
 
@@ -75,8 +55,6 @@ class Config extends AbstractType {
 	/**
 	 * Default Manga list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title
-	 *
-	 * @var string
 	 */
 	public ?string $default_manga_list_path;
 
@@ -85,23 +63,17 @@ class Config extends AbstractType {
 	 */
 	public ?string $default_view_type;
 
-	/**
-	 * @var string
-	 */
 	public ?string $kitsu_username;
 
-	/**
-	 * @var bool
-	 */
 	public bool $secure_urls = TRUE;
 
 	/**
-	 * @var bool
+	 * @var string|bool
 	 */
 	public $show_anime_collection = FALSE;
 
 	/**
-	 * @var bool
+	 * @var string|bool
 	 */
 	public $show_manga_collection = FALSE;
 
@@ -110,11 +82,8 @@ class Config extends AbstractType {
 	 *
 	 * @var 'auto' | 'light' | 'dark'
 	 */
-	public ?string $theme;
+	public ?string $theme = 'auto';
 
-	/**
-	 * @var string
-	 */
 	public ?string $whose_list;
 
 	// ------------------------------------------------------------------------
@@ -135,34 +104,16 @@ class Config extends AbstractType {
 	// Generated config values
 	// ------------------------------------------------------------------------
 
-	/**
-	 * @var string
-	 */
 	public ?string $asset_dir; // Path to public folder for local files
 
-	/**
-	 * @var string
-	 */
 	public ?string $base_config_dir;
 
-	/**
-	 * @var string
-	 */
 	public ?string $config_dir;
 
-	/**
-	 * @var string
-	 */
 	public ?string $data_cache_path;
 
-	/**
-	 * @var string
-	 */
 	public ?string $img_cache_path;
 
-	/**
-	 * @var string
-	 */
 	public ?string $view_path;
 
 	public function setAnilist ($data): void

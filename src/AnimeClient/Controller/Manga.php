@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -303,19 +303,16 @@ final class Manga extends Controller {
 	/**
 	 * View details of an manga
 	 *
-	 * @param string $manga_id
+	 * @param string $id
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void
 	 */
-	public function details($manga_id): void
+	public function details(string $id): void
 	{
-		$data = $this->model->getManga($manga_id);
-		$staff = [];
-		$characters = [];
-
+		$data = $this->model->getManga($id);
 		if ($data->isEmpty())
 		{
 			$this->notFound(
@@ -333,9 +330,40 @@ final class Manga extends Controller {
 				'Manga',
 				$data['title']
 			),
-			'characters' => $characters,
 			'data' => $data,
-			'staff' => $staff,
+		]);
+	}
+
+	/**
+	 * View details of a random manga
+	 *
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
+	 * @return void
+	 */
+	public function random(): void
+	{
+		$data = $this->model->getRandomManga();
+		if ($data->isEmpty())
+		{
+			$this->notFound(
+				$this->config->get('whose_list') .
+				"'s Manga List &middot; Manga &middot; " .
+				'Manga not found',
+				'Manga Not Found'
+			);
+			return;
+		}
+
+		$this->outputHTML('manga/details', [
+			'title' => $this->formatTitle(
+				$this->config->get('whose_list') . "'s Manga List",
+				'Manga',
+				$data['title']
+			),
+			'data' => $data,
 		]);
 	}
 }

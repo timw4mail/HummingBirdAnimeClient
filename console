@@ -7,7 +7,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Aviat\AnimeClient\Command;
 use ConsoleKit\Console;
 
-$_SERVER['HTTP_HOST'] = 'localhost';
+$GLOBALS['_SERVER']['HTTP_HOST'] = 'localhost';
 
 define('APP_DIR', __DIR__ . '/app');
 define('TEMPLATE_DIR', APP_DIR . '/templates');

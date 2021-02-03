@@ -1,5 +1,5 @@
 <select id="type" name="type">
     <option value="mysql">MySQL</option>
     <option value="pgsql">PostgreSQL</option>
-    <option value="sqlite">SQLite</option>
+    <option value="sqlite" selected>SQLite</option>
 </select>

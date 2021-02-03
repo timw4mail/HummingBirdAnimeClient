@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -33,7 +33,7 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer,
 	MangaTransformer
 };
-use Aviat\AnimeClient\Enum\ListType;
+use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\Anime;
 use Aviat\AnimeClient\Types\MangaPage;
@@ -256,6 +256,21 @@ final class Model {
 		return $this->animeTransformer->transform($baseData);
 	}
 
+	public function getRandomAnime(): Anime
+	{
+		$baseData = $this->requestBuilder->runQuery('RandomMedia', [
+			'type' => 'ANIME'
+		]);
+
+		return $this->animeTransformer->transform($baseData);
+	}
+
+	public function getRandomLibraryAnime(string $status): Anime
+	{
+		// @TODO
+		return Anime::from([]);
+	}
+
 	/**
 	 * Get information about a particular anime
 	 *
@@ -310,7 +325,7 @@ final class Model {
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(ListType::ANIME, $status) ?? [];
+			$data = $this->getList(MediaType::ANIME, $status) ?? [];
 
 			// Bail out on no data
 			if (empty($data))
@@ -343,7 +358,7 @@ final class Model {
 	 */
 	public function getAnimeListCount(string $status = '') : int
 	{
-		return $this->getListCount(ListType::ANIME, $status);
+		return $this->getListCount(MediaType::ANIME, $status);
 	}
 
 	/**
@@ -388,6 +403,15 @@ final class Model {
 		{
 			return MangaPage::from([]);
 		}
+
+		return $this->mangaTransformer->transform($baseData);
+	}
+
+	public function getRandomManga(): MangaPage
+	{
+		$baseData = $this->requestBuilder->runQuery('RandomMedia', [
+			'type' => 'MANGA'
+		]);
 
 		return $this->mangaTransformer->transform($baseData);
 	}
@@ -444,7 +468,7 @@ final class Model {
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(ListType::MANGA, $status) ?? [];
+			$data = $this->getList(MediaType::MANGA, $status) ?? [];
 
 			// Bail out on no data
 			if (empty($data))
@@ -477,7 +501,7 @@ final class Model {
 	 */
 	public function getMangaListCount(string $status = '') : int
 	{
-		return $this->getListCount(ListType::MANGA, $status);
+		return $this->getListCount(MediaType::MANGA, $status);
 	}
 
 	/**

@@ -51,6 +51,10 @@ $routes = [
 		'action' => 'add',
 		'verb' => 'post',
 	],
+	'anime.random' => [
+		'path' => '/anime/details/random',
+		'action' => 'random',
+	],
 	'anime.details' => [
 		'path' => '/anime/details/{id}',
 		'action' => 'details',
@@ -83,6 +87,10 @@ $routes = [
 		'path' => '/manga/delete',
 		'action' => 'delete',
 		'verb' => 'post',
+	],
+	'manga.random' => [
+		'path' => '/manga/details/random',
+		'action' => 'random',
 	],
 	'manga.details' => [
 		'path' => '/manga/details/{id}',
@@ -247,6 +255,13 @@ $routes = [
 		'path' => '/logout',
 		'action' => 'logout',
 	],
+	'history' => [
+		'controller' => 'history',
+		'path' => '/history/{type}',
+		'tokens' => [
+			'type' => SLUG_PATTERN
+		]
+	],
 	'increment' => [
 		'path' => '/{controller}/increment',
 		'action' => 'increment',
@@ -280,18 +295,11 @@ $routes = [
 		],
 	],
 	'list' => [
-		'path' => '/{controller}/{type}{/view}',
+		'path' => '/{controller}/{status}{/view}',
 		'tokens' => [
-			'type' => ALPHA_SLUG_PATTERN,
+			'status' => ALPHA_SLUG_PATTERN,
 			'view' => ALPHA_SLUG_PATTERN,
 		],
-	],
-	'history' => [
-		'controller' => 'history',
-		'path' => '/history/{type}',
-		'tokens' => [
-			'type' => SLUG_PATTERN
-		]
 	],
 	'index_redirect' => [
 		'path' => '/',

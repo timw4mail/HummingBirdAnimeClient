@@ -4,13 +4,13 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4
+ * PHP version 7.4+
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2020  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.1
+ * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
@@ -19,7 +19,6 @@ namespace Aviat\AnimeClient;
 use Aviat\AnimeClient\Kitsu;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function Amp\Promise\wait;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
@@ -31,6 +30,8 @@ use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use Throwable;
 
+use function Amp\Promise\wait;
+use function Aviat\Ion\_dir;
 // ----------------------------------------------------------------------------
 //! TOML Functions
 // ----------------------------------------------------------------------------
@@ -38,10 +39,11 @@ use Throwable;
 /**
  * Load configuration options from .toml files
  *
+ * @codeCoverageIgnore
  * @param string $path - Path to load config
  * @return array
  */
-function loadToml(string $path): array
+function loadConfig(string $path): array
 {
 	$output = [];
 	$files = glob("{$path}/*.toml");
@@ -75,12 +77,43 @@ function loadToml(string $path): array
 /**
  * Load config from one specific TOML file
  *
+ * @codeCoverageIgnore
  * @param string $filename
  * @return array
  */
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
+}
+
+function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+{
+	foreach ($data as $key => $value)
+	{
+		// Skip unsupported empty value
+		if ($value === NULL)
+		{
+			continue;
+		}
+
+
+		if (is_scalar($value) || isSequentialArray($value))
+		{
+			$builder->addValue($key, $value);
+			continue;
+		}
+
+		$newKey = ($parentKey !== NULL)
+			? "{$parentKey}.{$key}"
+			: $key;
+
+		if ( ! isSequentialArray($value))
+		{
+			$builder->addTable($newKey);
+		}
+
+		_iterateToml($builder, $value, $newKey);
+	}
 }
 
 /**
@@ -92,35 +125,6 @@ function loadTomlFile(string $filename): array
 function arrayToToml(iterable $data): string
 {
 	$builder = new TomlBuilder();
-	function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
-	{
-		foreach ($data as $key => $value)
-		{
-			if ($value === NULL)
-			{
-				continue;
-			}
-
-
-			if (is_scalar($value) || isSequentialArray($value))
-			{
-				// $builder->addTable('');
-				$builder->addValue($key, $value);
-				continue;
-			}
-
-			$newKey = ($parentKey !== NULL)
-				? "{$parentKey}.{$key}"
-				: $key;
-
-			if ( ! isSequentialArray($value))
-			{
-				$builder->addTable($newKey);
-			}
-
-			_iterateToml($builder, $value, $newKey);
-		}
-	}
 
 	_iterateToml($builder, $data);
 
@@ -177,9 +181,11 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$errors = [];
 	$publicDir = $config->get('asset_dir');
 
+	$APP_DIR = _dir(dirname(__DIR__, 2), '/app');
+
 	$pathMap = [
-		'app/config' => realpath(__DIR__ . '/../../app/config'),
-		'app/logs' => realpath(__DIR__ . '/../../app/logs'),
+		'app/config' => "{$APP_DIR}/config",
+		'app/logs' => "{$APP_DIR}/logs",
 		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",
 		'public/images/characters' => "{$publicDir}/images/characters",
@@ -231,7 +237,7 @@ function getApiClient (): HttpClient
  * @return Response
  * @throws Throwable
  */
-function getResponse ($request): Response
+function getResponse (Request|string $request): Response
 {
 	$client = getApiClient();
 
@@ -250,7 +256,7 @@ function getResponse ($request): Response
  * @param bool $webp
  * @return string
  */
-function getLocalImg ($kitsuUrl, $webp = TRUE): string
+function getLocalImg (string $kitsuUrl, $webp = TRUE): string
 {
 	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
@@ -282,11 +288,11 @@ function getLocalImg ($kitsuUrl, $webp = TRUE): string
  * Create a transparent placeholder image
  *
  * @param string $path
- * @param int $width
- * @param int $height
+ * @param int|null $width
+ * @param int|null $height
  * @param string $text
  */
-function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
+function createPlaceholderImage (string $path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;
@@ -339,7 +345,7 @@ function createPlaceholderImage ($path, ?int $width, ?int $height, $text = 'Imag
  */
 function colNotEmpty(array $search, string $key): bool
 {
-	$items = array_filter(array_column($search, $key), fn ($x) => ( ! empty($x)));
+	$items = array_filter(array_column($search, $key), static fn ($x) => ( ! empty($x)));
 	return count($items) > 0;
 }
 
@@ -358,9 +364,9 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_CACHE_KEY,
 		Kitsu::AUTH_TOKEN_EXP_CACHE_KEY,
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
-	], NULL);
+	]);
 
-	$userData = array_filter((array)$userData, fn ($value) => $value !== NULL);
+	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
 	$cleared = $cache->clear();
 
 	$saved = ( ! empty($userData))
@@ -373,6 +379,7 @@ function clearCache(CacheInterface $cache): bool
 /**
  * Render a PHP code template as a string
  *
+ * @codeCoverageIgnore
  * @param string $path
  * @param array $data
  * @return string

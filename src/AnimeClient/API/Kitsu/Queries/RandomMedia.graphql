@@ -1,0 +1,134 @@
+query ($type: MediaTypeEnum!) {
+	randomMedia(mediaType: $type, ageRatings: [G,PG,R]) {
+		id
+		ageRating
+		ageRatingGuide
+		posterImage {
+			original {
+				height
+				name
+				url
+				width
+			}
+			views {
+				height
+				name
+				url
+				width
+			}
+		}
+		categories(first: 100) {
+			nodes {
+				title
+			}
+		}
+		characters(first: 100) {
+			nodes {
+				character {
+					id
+					names {
+						alternatives
+						canonical
+						localized
+					}
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
+					}
+					slug
+				}
+				role
+			}
+			pageInfo {
+				endCursor
+				hasNextPage
+				hasPreviousPage
+				startCursor
+			}
+		}
+		description
+		startDate
+		endDate
+		sfw
+		slug
+		mappings(first: 10) {
+			nodes {
+				externalId
+				externalSite
+			}
+		}
+		staff(first: 100) {
+			nodes {
+				person {
+					id
+					birthday
+					image {
+						original {
+							height
+							name
+							url
+							width
+						}
+						views {
+							height
+							name
+							url
+							width
+						}
+					}
+					names {
+						alternatives
+						canonical
+						localized
+					}
+					slug
+				}
+				role
+			}
+			pageInfo {
+				endCursor
+				hasNextPage
+				hasPreviousPage
+				startCursor
+			}
+		}
+		status
+		titles {
+			alternatives
+			canonical
+			canonicalLocale
+			localized
+		}
+		...on Anime {
+			episodeCount
+			episodeLength
+			totalLength
+			season
+			streamingLinks(first: 10) {
+				nodes {
+					dubs
+					subs
+					regions
+					streamer {
+						id
+						siteName
+					}
+					url
+				}
+			}
+			subtype
+			totalLength
+			youtubeTrailerVideoId
+		}
+		...on Manga {
+			chapterCount
+			volumeCount
+			subtype
+		}
+	}
+
+}

@@ -14,7 +14,7 @@
  * @link        https://github.com/timw4mail/HummingBirdAnimeClient
  */
 
-use function Aviat\AnimeClient\loadToml;
+use function Aviat\AnimeClient\loadConfig;
 
 // ----------------------------------------------------------------------------
 // Lower level configuration
@@ -24,7 +24,7 @@ use function Aviat\AnimeClient\loadToml;
 $APP_DIR = realpath(__DIR__ . '/../');
 $ROOT_DIR = realpath("{$APP_DIR}/../");
 
-$tomlConfig = loadToml(__DIR__);
+$tomlConfig = loadConfig(__DIR__);
 
 return array_merge($tomlConfig, [
 	'asset_dir' => "{$ROOT_DIR}/public",
