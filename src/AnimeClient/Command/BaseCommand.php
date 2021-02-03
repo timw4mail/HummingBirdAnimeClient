@@ -17,6 +17,10 @@
 namespace Aviat\AnimeClient\Command;
 
 use Monolog\Formatter\JsonFormatter;
+
+use function Aviat\Ion\_dir;
+use const Aviat\AnimeClient\SRC_DIR;
+
 use function Aviat\AnimeClient\loadConfig;
 use function Aviat\AnimeClient\loadTomlFile;
 
@@ -108,14 +112,14 @@ abstract class BaseCommand extends Command {
 	 */
 	public function setupContainer(): ContainerInterface
 	{
-		$APP_DIR = realpath(__DIR__ . '/../../../app');
-		$APPCONF_DIR = realpath("{$APP_DIR}/appConf/");
-		$CONF_DIR = realpath("{$APP_DIR}/config/");
-		$baseConfig = require $APPCONF_DIR . '/base_config.php';
+		$APP_DIR = _dir(dirname(SRC_DIR), 'app');
+		$APPCONF_DIR = realpath(_dir($APP_DIR, 'appConf'));
+		$CONF_DIR = realpath(_dir($APP_DIR, 'config'));
+		$baseConfig = require _dir($APPCONF_DIR,  'base_config.php');
 
 		$config = loadConfig($CONF_DIR);
 
-		$overrideFile = $CONF_DIR . '/admin-override.toml';
+		$overrideFile = _dir($CONF_DIR, 'admin-override.toml');
 		$overrideConfig = file_exists($overrideFile)
 			? loadTomlFile($overrideFile)
 			: [];

@@ -237,7 +237,7 @@ function getApiClient (): HttpClient
  * @return Response
  * @throws Throwable
  */
-function getResponse ($request): Response
+function getResponse (Request|string $request): Response
 {
 	$client = getApiClient();
 

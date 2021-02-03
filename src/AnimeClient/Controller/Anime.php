@@ -138,8 +138,6 @@ final class Anime extends BaseController {
 	/**
 	 * Add an anime to the list
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws Throwable
 	 * @return void
 	 */
@@ -215,8 +213,6 @@ final class Anime extends BaseController {
 	/**
 	 * Update an anime item via a form submission
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws Throwable
 	 * @return void
 	 */
@@ -338,7 +334,7 @@ final class Anime extends BaseController {
 				'data' => $data,
 			]);
 		}
-		catch (TypeError $e)
+		catch (TypeError)
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .
@@ -376,7 +372,7 @@ final class Anime extends BaseController {
 				'data' => $data,
 			]);
 		}
-		catch (TypeError $e)
+		catch (TypeError)
 		{
 			$this->notFound(
 				$this->config->get('whose_list') .

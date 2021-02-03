@@ -29,7 +29,7 @@ class ClearThumbnails extends BaseCommand {
 
 	private function clearThumbs(): void
 	{
-		$imgDir = realpath(__DIR__ . '/../../public/images');
+		$imgDir = dirname(__DIR__, 3) . '/public/images';
 
 		$paths = [
 			'anime/*.jpg',
