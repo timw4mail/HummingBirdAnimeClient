@@ -35,43 +35,36 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Where to look for GraphQL request files
-	 * @var string
 	 */
-	protected string $filePath = __DIR__;
+	protected string $filePath = '';
 
 	/**
 	 * Url prefix for making url requests
-	 * @var string
 	 */
 	protected string $baseUrl = '';
 
 	/**
 	 * Url path of the request
-	 * @var string
 	 */
 	protected string $path = '';
 
 	/**
 	 * Query string for the request
-	 * @var string
 	 */
 	protected string $query = '';
 
 	/**
 	 * Default request headers
-	 * @var array
 	 */
 	protected array $defaultHeaders = [];
 
 	/**
 	 * Valid HTTP request methods
-	 * @var array
 	 */
 	protected array $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
 	/**
 	 * The current request
-	 * @var Request
 	 */
 	protected Request $request;
 
@@ -309,7 +302,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function queryRequest(string $name, array $variables = []): Request
 	{
-		$file = "{$this->filePath}/Queries/{$name}.graphql";
+		$file = realpath("{$this->filePath}/Queries/{$name}.graphql");
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');

@@ -32,10 +32,13 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Psr\SimpleCache\CacheInterface;
 
+use function Aviat\Ion\_dir;
+
 if ( ! defined('APP_DIR'))
 {
 	define('APP_DIR', __DIR__);
-	define('TEMPLATE_DIR', APP_DIR . '/templates');
+	define('ROOT_DIR', dirname(APP_DIR));
+	define('TEMPLATE_DIR', _dir(APP_DIR,  'templates'));
 }
 
 // -----------------------------------------------------------------------------
@@ -47,15 +50,16 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 	// Logging
 	// -------------------------------------------------------------------------
+	$LOG_DIR = _dir(APP_DIR, 'logs');
 
 	$appLogger = new Logger('animeclient');
-	$appLogger->pushHandler(new RotatingFileHandler(__DIR__ . '/logs/app.log', 2, Logger::WARNING));
+	$appLogger->pushHandler(new RotatingFileHandler(_dir($LOG_DIR, 'app.log'), 2, Logger::WARNING));
 	$container->setLogger($appLogger);
 
 	foreach (['anilist-request', 'kitsu-request', 'kitsu-graphql'] as $channel)
 	{
 		$logger = new Logger($channel);
-		$handler = new RotatingFileHandler(__DIR__ . "/logs/{$channel}.log", 2, Logger::WARNING);
+		$handler = new RotatingFileHandler(_dir($LOG_DIR, "{$channel}.log"), 2, Logger::WARNING);
 		$handler->setFormatter(new JsonFormatter());
 		$logger->pushHandler($handler);
 

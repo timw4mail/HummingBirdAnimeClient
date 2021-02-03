@@ -268,7 +268,7 @@ final class Dispatcher extends RoutingBase {
 	 * @param  array  $params
 	 * @return void
 	 */
-	protected function call($controllerName, $method, array $params): void
+	protected function call(string $controllerName, string $method, array $params): void
 	{
 		$logger = $this->container->getLogger('default');
 
@@ -282,7 +282,7 @@ final class Dispatcher extends RoutingBase {
 				$logger->debug('Dispatcher - controller arguments', $params);
 			}
 
-			call_user_func_array([$controller, $method], $params);
+			call_user_func_array([$controller, $method], array_values($params));
 		}
 		catch (FailedResponseException $e)
 		{
@@ -388,21 +388,21 @@ final class Dispatcher extends RoutingBase {
 			$route['controller'] = $controllerClass;
 
 			// Select the appropriate router method based on the http verb
-			$add = array_key_exists('verb', $route)
+			$verb = array_key_exists('verb', $route)
 				? strtolower($route['verb'])
 				: 'get';
 
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))
 			{
-				$routes[] = $this->router->$add($name, $path)->defaults($route);
+				$routes[] = $this->router->$verb($name, $path)->defaults($route);
 				continue;
 			}
 
 			$tokens = $route['tokens'];
 			unset($route['tokens']);
 
-			$routes[] = $this->router->$add($name, $path)
+			$routes[] = $this->router->$verb($name, $path)
 				->defaults($route)
 				->tokens($tokens);
 		}
