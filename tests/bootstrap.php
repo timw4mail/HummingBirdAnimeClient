@@ -10,8 +10,8 @@ if ($timezone === '' || $timezone === FALSE)
 	ini_set('date.timezone', 'GMT');
 }
 
-define('ROOT_DIR', dirname(__DIR__) . '/');
-define('SRC_DIR', ROOT_DIR . 'src/');
+define('AC_TEST_ROOT_DIR', dirname(__DIR__) . '/');
+define('SRC_DIR', AC_TEST_ROOT_DIR . 'src/');
 define('TEST_DIR', __DIR__ . '/');
 
 // -----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ define('TEST_DIR', __DIR__ . '/');
 
 require_once TEST_DIR . 'AnimeClient/AnimeClientTestCase.php';
 require_once TEST_DIR . '/Ion/IonTestCase.php';
-require_once ROOT_DIR . 'vendor/autoload.php';
+require_once AC_TEST_ROOT_DIR . 'vendor/autoload.php';
 
 // -----------------------------------------------------------------------------
 // Ini Settings
