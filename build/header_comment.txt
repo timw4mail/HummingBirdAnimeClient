@@ -3,7 +3,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4+
+ * PHP version 8
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
