@@ -4,7 +4,7 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7.4+
+ * PHP version 8
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
@@ -33,7 +33,7 @@ class AnimeClientTestCase extends TestCase {
 	use MatchesSnapshots;
 
 	// Test directory constants
-	public const ROOT_DIR = ROOT_DIR;
+	public const ROOT_DIR = AC_TEST_ROOT_DIR;
 	public const SRC_DIR = SRC_DIR;
 	public const TEST_DATA_DIR = __DIR__ . '/test_data';
 	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
@@ -60,7 +60,7 @@ class AnimeClientTestCase extends TestCase {
 
 		$config_array = [
 			'asset_path' => '/assets',
-			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
+			'img_cache_path' => _dir(self::ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
 			'cache' => [
 				'driver' => 'null',
