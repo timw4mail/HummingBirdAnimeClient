@@ -112,9 +112,9 @@ abstract class BaseCommand extends Command {
 	 */
 	public function setupContainer(): ContainerInterface
 	{
-		$APP_DIR = _dir(dirname(SRC_DIR), 'app');
-		$APPCONF_DIR = realpath(_dir($APP_DIR, 'appConf'));
-		$CONF_DIR = realpath(_dir($APP_DIR, 'config'));
+		$APP_DIR = _dir(dirname(dirname(SRC_DIR)), 'app');
+		$APPCONF_DIR = _dir($APP_DIR, 'appConf');
+		$CONF_DIR = _dir($APP_DIR, 'config');
 		$baseConfig = require _dir($APPCONF_DIR,  'base_config.php');
 
 		$config = loadConfig($CONF_DIR);
