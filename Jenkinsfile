@@ -37,13 +37,15 @@ pipeline {
  	}
  	post {
  		success {
-			sh 'php composer.phar run-script coverage'
-			step([
-				$class: 'CloverPublisher',
-				cloverReportDir: '',
-				cloverReportFileName: 'build/logs/clover.xml',
-			])
- 			junit 'build/logs/junit.xml'
+ 			agent any {
+				sh 'php composer.phar run-script coverage'
+				step([
+					$class: 'CloverPublisher',
+					cloverReportDir: '',
+					cloverReportFileName: 'build/logs/clover.xml',
+				])
+				junit 'build/logs/junit.xml'
+ 			}
  		}
  	}
  }
