@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.2
+* Updated PHP requirement to 8
+
 ## Version 5.1
 * Added session check, so when coming back to a page, if the session is expired, the page will refresh.
 * Updated logging config so that much fewer, much smaller files are generated.
