@@ -34,11 +34,9 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
- 	}
- 	post {
- 		success {
- 			agent any
- 			 node {
+		stage('Coverage') {
+			agent any
+			steps {
 				sh 'php composer.phar run-script coverage'
 				step([
 					$class: 'CloverPublisher',
@@ -46,7 +44,7 @@ pipeline {
 					cloverReportFileName: 'build/logs/clover.xml',
 				])
 				junit 'build/logs/junit.xml'
- 			}
- 		}
+			}
+		}
  	}
  }
