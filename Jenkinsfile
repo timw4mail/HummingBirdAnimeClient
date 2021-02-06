@@ -37,7 +37,7 @@ pipeline {
  	}
  	post {
  		success {
- 			agent any {
+ 			 node('Coverage') {
 				sh 'php composer.phar run-script coverage'
 				step([
 					$class: 'CloverPublisher',
