@@ -412,11 +412,11 @@ final class Kitsu {
 	/**
 	 * Determine if an alternate title is unique enough to list
 	 *
-	 * @param string $title
+	 * @param string|null $title
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(string $title = '', array $existingTitles = []): bool
+	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
