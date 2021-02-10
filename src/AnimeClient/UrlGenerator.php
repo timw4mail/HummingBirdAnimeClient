@@ -49,7 +49,7 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param array $args
+	 * @param string ...$args
 	 * @return string
 	 */
 	public function assetUrl(string ...$args): string

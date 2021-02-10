@@ -122,7 +122,6 @@ final class AnimeListTransformer extends AbstractTransformer {
 
 		$untransformed = FormItem::from([
 			'id' => $item['id'],
-			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],

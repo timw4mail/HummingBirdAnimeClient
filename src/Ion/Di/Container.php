@@ -29,21 +29,21 @@ class Container implements ContainerInterface {
 	 *
 	 * @var Callable[]
 	 */
-	protected $container = [];
+	protected array $container = [];
 
 	/**
 	 * Array of object instances
 	 *
 	 * @var array
 	 */
-	protected $instances = [];
+	protected array $instances = [];
 
 	/**
 	 * Map of logger instances
 	 *
 	 * @var array
 	 */
-	protected $loggers = [];
+	protected array $loggers = [];
 
 	/**
 	 * Constructor
@@ -66,7 +66,7 @@ class Container implements ContainerInterface {
 	 *
 	 * @return mixed Entry.
 	 */
-	public function get($id)
+	public function get($id): mixed
 	{
 		if ( ! \is_string($id))
 		{
@@ -99,7 +99,7 @@ class Container implements ContainerInterface {
 	 * @throws ContainerException - Error while retrieving the entry.
 	 * @return mixed
 	 */
-	public function getNew($id, array $args = NULL)
+	public function getNew($id, array $args = NULL): mixed
 	{
 		if ( ! \is_string($id))
 		{
@@ -141,7 +141,7 @@ class Container implements ContainerInterface {
 	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @return ContainerInterface
 	 */
-	public function setInstance(string $id, $value): ContainerInterface
+	public function setInstance(string $id, mixed $value): ContainerInterface
 	{
 		if ( ! $this->has($id))
 		{
@@ -209,15 +209,20 @@ class Container implements ContainerInterface {
 	 * @param mixed $obj
 	 * @return mixed
 	 */
-	private function applyContainer($obj)
+	private function applyContainer(mixed $obj): mixed
 	{
-		$trait_name = ContainerAware::class;
-		$interface_name = ContainerAwareInterface::class;
+		$traitName = ContainerAware::class;
+		$interfaceName = ContainerAwareInterface::class;
 
-		$uses_trait = \in_array($trait_name, class_uses($obj), TRUE);
-		$implements_interface = \in_array($interface_name, class_implements($obj), TRUE);
+		$traits = class_uses($obj);
+		$traitsUsed = (is_array($traits)) ? $traits : [];
+		$usesTrait = in_array($traitName, $traitsUsed, TRUE);
 
-		if ($uses_trait || $implements_interface)
+		$interfaces = class_implements($obj);
+		$implemented = (is_array($interfaces)) ? $interfaces : [];
+		$implementsInterface = in_array($interfaceName, $implemented, TRUE);
+
+		if ($usesTrait || $implementsInterface)
 		{
 			$obj->setContainer($this);
 		}

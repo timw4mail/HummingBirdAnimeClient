@@ -32,11 +32,12 @@ class Json {
 	 * @throws JsonException
 	 * @return string
 	 */
-	public static function encode($data, $options = 0, $depth = 512): string
+	public static function encode(mixed $data, int $options = 0, int $depth = 512): string
 	{
 		$json = json_encode($data, $options, $depth);
 		self::check_json_error();
-		return $json;
+
+		return ($json !== FALSE) ? $json : '';
 	}
 
 	/**
@@ -47,12 +48,14 @@ class Json {
 	 * @param int    $jsonOptions - Options to pass to json_encode
 	 * @param int    $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
-	 * @return int
+	 * @return bool
 	 */
-	public static function encodeFile(string $filename, $data, int $jsonOptions = 0, int $fileOptions = 0): int
+	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): bool
 	{
 		$json = self::encode($data, $jsonOptions);
-		return file_put_contents($filename, $json, $fileOptions);
+
+		$res = file_put_contents($filename, $json, $fileOptions);
+		return $res !== FALSE;
 	}
 
 	/**
@@ -65,7 +68,7 @@ class Json {
 	 * @throws JsonException
 	 * @return mixed
 	 */
-	public static function decode($json, bool $assoc = TRUE, int $depth = 512, int $options = 0)
+	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
 		// Don't try to decode null
 		if ($json === NULL)
@@ -89,9 +92,11 @@ class Json {
 	 * @throws JsonException
 	 * @return mixed
 	 */
-	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0)
+	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
-		$json = file_get_contents($filename);
+		$rawJson = file_get_contents($filename);
+		$json = ($rawJson !== FALSE) ? $rawJson : '';
+
 		return self::decode($json, $assoc, $depth, $options);
 	}
 

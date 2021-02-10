@@ -23,18 +23,16 @@ class FormItem extends AbstractType {
 	/**
 	 * @var string|int
 	 */
-	public $id;
-
-	public ?string $anilist_item_id;
+	public string|int $id;
 
 	/**
-	 * @var string|int
+	 * @var string|int|null
 	 */
-	public $mal_id;
+	public string|int|null $mal_id;
 
 	public ?FormItemData $data;
 
-	public function setData($value): void
+	public function setData(mixed $value): void
 	{
 		$this->data = FormItemData::from($value);
 	}

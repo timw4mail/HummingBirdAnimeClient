@@ -69,7 +69,8 @@ class HtmlView extends HttpView {
 		ob_start();
 		extract($data, EXTR_OVERWRITE);
 		include_once $path;
-		$buffer = ob_get_clean();
+		$rawBuffer = ob_get_clean();
+		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
 
 
 		// Very basic html minify, that won't affect content between html tags

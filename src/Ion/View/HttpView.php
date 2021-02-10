@@ -103,9 +103,9 @@ class HttpView implements ViewInterface{
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @return HttpView
+	 * @return ViewInterface
 	 */
-	public function setOutput($string): self
+	public function setOutput($string): ViewInterface
 	{
 		$this->response->getBody()->write($string);
 
@@ -117,9 +117,9 @@ class HttpView implements ViewInterface{
 	 * Append additional output.
 	 *
 	 * @param string $string
-	 * @return HttpView
+	 * @return ViewInterface
 	 */
-	public function appendOutput(string $string): self
+	public function appendOutput(string $string): ViewInterface
 	{
 		return $this->setOutput($string);
 	}

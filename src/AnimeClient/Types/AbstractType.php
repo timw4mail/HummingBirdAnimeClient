@@ -23,10 +23,10 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * Populate values for un-serializing data
 	 *
-	 * @param $properties
+	 * @param mixed $properties
 	 * @return self
 	 */
-	public static function __set_state($properties): self
+	public static function __set_state(mixed $properties): self
 	{
 		return new static($properties);
 	}
@@ -43,7 +43,8 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 		if (get_parent_class($currentClass) !== FALSE)
 		{
-			return (new $currentClass($data))->toArray();
+			$output = static::class::from($data)->toArray();
+			return (is_array($output)) ? $output : [];
 		}
 
 		return NULL;
@@ -55,7 +56,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param mixed $data
 	 * @return static
 	 */
-	final public static function from($data): self
+	final public static function from(mixed $data): static
 	{
 		return new static($data);
 	}
@@ -65,7 +66,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 *
 	 * @param mixed $data
 	 */
-	final private function __construct($data = [])
+	final private function __construct(mixed $data = [])
 	{
 		$typeKeys = array_keys((array)$this);
 		$dataKeys = array_keys((array)$data);
@@ -87,10 +88,10 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * See if a property is set
 	 *
-	 * @param $name
+	 * @param string $name
 	 * @return bool
 	 */
-	final public function __isset($name): bool
+	final public function __isset(string $name): bool
 	{
 		return property_exists($this, $name) && isset($this->$name);
 	}
@@ -102,7 +103,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param mixed $value
 	 * @return void
 	 */
-	final public function __set($name, $value): void
+	final public function __set(string $name, mixed $value): void
 	{
 		$setterMethod = 'set' . ucfirst($name);
 
@@ -128,7 +129,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param string $name
 	 * @return mixed
 	 */
-	final public function __get($name)
+	final public function __get(string $name): mixed
 	{
 		// Be a bit more lenient here, so that you can easily typecast missing
 		// values to reasonable defaults, and not have to resort to array indexes
@@ -148,46 +149,47 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * Implementing ArrayAccess
 	 *
-	 * @param $offset
+	 * @param mixed $offset
 	 * @return bool
 	 */
-	final public function offsetExists($offset): bool
+	final public function offsetExists(mixed $offset): bool
 	{
-		return $this->__isset($offset);
+		return $this->__isset((string)$offset);
 	}
 
 	/**
 	 * Implementing ArrayAccess
 	 *
-	 * @param $offset
+	 * @param mixed $offset
 	 * @return mixed
 	 */
-	final public function offsetGet($offset)
+	final public function offsetGet(mixed $offset): mixed
 	{
-		return $this->__get($offset);
+		return $this->__get((string)$offset);
 	}
 
 	/**
 	 * Implementing ArrayAccess
 	 *
-	 * @param $offset
-	 * @param $value
+	 * @param mixed $offset
+	 * @param mixed $value
 	 */
-	final public function offsetSet($offset, $value): void
+	final public function offsetSet(mixed $offset, mixed $value): void
 	{
-		$this->__set($offset, $value);
+		$this->__set((string)$offset, $value);
 	}
 
 	/**
 	 * Implementing ArrayAccess
 	 *
-	 * @param $offset
+	 * @param mixed $offset
 	 */
-	final public function offsetUnset($offset): void
+	final public function offsetUnset(mixed $offset): void
 	{
 		if ($this->offsetExists($offset))
 		{
-			unset($this->$offset);
+			$strOffset = (string)$offset;
+			unset($this->$strOffset);
 		}
 	}
 
@@ -198,17 +200,19 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	final public function count(): int
 	{
-		$keys = array_keys($this->toArray());
+		$keys = array_keys((array)$this->toArray());
 		return count($keys);
 	}
 
 	/**
 	 * Recursively cast properties to an array
 	 *
+	 * Returns early on primitive values to work recursively.
+	 *
 	 * @param mixed $parent
-	 * @return mixed
+	 * @return float|bool|null|int|array|string
 	 */
-	final public function toArray($parent = null)
+	final public function toArray(mixed $parent = null): float|null|bool|int|array|string
 	{
 		$object = $parent ?? $this;
 
@@ -236,7 +240,8 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	final public function isEmpty(): bool
 	{
-		foreach ($this as $value)
+		$self = (array)$this->toArray();
+		foreach ($self as $value)
 		{
 			if ( ! empty($value))
 			{
