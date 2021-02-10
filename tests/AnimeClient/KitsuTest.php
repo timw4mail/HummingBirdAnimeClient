@@ -122,4 +122,36 @@ class KitsuTest extends TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function testFilterLocalizedTitles()
+	{
+		$input = [
+			'canonical' => 'foo',
+			'localized' => [
+				'en' => 'Foo the Movie',
+				'fr' => '',
+				'jp' => NULL,
+			],
+			'alternatives' => [],
+		];
+
+		$actual = Kitsu::filterLocalizedTitles($input);
+
+		$this->assertEquals(['Foo the Movie'], $actual);
+	}
+
+	public function testGetFilteredTitles()
+	{
+		$input = [
+			'canonical' => 'foo',
+			'localized' => [
+				'en' => 'Foo the Movie'
+			],
+			'alternatives' => [],
+		];
+
+		$actual = Kitsu::getFilteredTitles($input);
+
+		$this->assertEquals(['Foo the Movie'], $actual);
+	}
 }
