@@ -69,9 +69,7 @@ final class Settings {
 	{
 		$output = [];
 
-		$settings = $this->getSettings();
-
-		foreach($settings as $file => $values)
+		foreach($this->getSettings() as $file => $values)
 		{
 			$values = $values ?? [];
 

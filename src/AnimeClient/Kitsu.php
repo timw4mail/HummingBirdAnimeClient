@@ -166,7 +166,7 @@ final class Kitsu {
 	 */
 	public static function parseStreamingLinks(array $nodes): array
 	{
-		if (count($nodes) === 0)
+		if (empty($nodes))
 		{
 			return [];
 		}
@@ -179,12 +179,16 @@ final class Kitsu {
 
 			// 'Fix' links that start with the hostname,
 			// rather than a protocol
-			if (strpos($url, '//') === FALSE)
+			if ( ! str_contains($url, '//'))
 			{
 				$url = '//' . $url;
 			}
 
 			$host = parse_url($url, \PHP_URL_HOST);
+			if ($host === FALSE)
+			{
+				return [];
+			}
 
 			$links[] = [
 				'meta' => self::getServiceMetaData($host),

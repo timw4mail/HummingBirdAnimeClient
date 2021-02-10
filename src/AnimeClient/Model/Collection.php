@@ -67,10 +67,11 @@ class Collection extends DB {
 		{
 			$dbFileName = $this->dbConfig['file'];
 
-			if ($dbFileName !== ':memory:' && file_exists($dbFileName))
+			if ($dbFileName !== ':memory:')
 			{
-				$dbFile = file_get_contents($dbFileName);
-				$this->validDatabase = (strpos($dbFile, 'SQLite format 3') === 0);
+				$rawFile = file_get_contents($dbFileName);
+				$dbFile = ($rawFile !== FALSE) ? $rawFile : '';
+				$this->validDatabase = str_starts_with($dbFile, 'SQLite format 3');
 			}
 			else
 			{

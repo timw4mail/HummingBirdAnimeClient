@@ -27,7 +27,7 @@ final class Character extends AbstractType {
 	/**
 	 * @var string
 	 */
-	public $id;
+	public string $id;
 
 	public array $included = [];
 
@@ -39,7 +39,7 @@ final class Character extends AbstractType {
 
 	public array $otherNames = [];
 
-	public function setMedia ($media): void
+	public function setMedia (mixed $media): void
 	{
 		$this->media = Media::from($media);
 	}

@@ -45,7 +45,7 @@ final class MenuGenerator extends UrlGenerator {
 
 	/**
 	 * @param ContainerInterface $container
-	 * @return static
+	 * @return self
 	 */
 	public static function new(ContainerInterface $container): self
 	{

@@ -27,7 +27,7 @@ class StringType extends Stringy {
 	 * Alias for `create` static constructor
 	 *
 	 * @param string $str
-	 * @return $this
+	 * @return self
 	 */
 	public static function from(string $str): self
 	{
