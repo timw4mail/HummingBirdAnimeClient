@@ -43,8 +43,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 		if (get_parent_class($currentClass) !== FALSE)
 		{
-			$output = static::class::from($data)->toArray();
-			return (is_array($output)) ? $output : [];
+			return static::class::from($data)->toArray();
 		}
 
 		return NULL;
@@ -210,27 +209,12 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * Returns early on primitive values to work recursively.
 	 *
 	 * @param mixed $parent
-	 * @return float|bool|null|int|array|string
+	 * @return array
 	 */
-	final public function toArray(mixed $parent = null): float|null|bool|int|array|string
+	final public function toArray(mixed $parent = null): array
 	{
-		$object = $parent ?? $this;
-
-		if (is_scalar($object) || $object === NULL)
-		{
-			return $object;
-		}
-
-		$output = [];
-
-		foreach ($object as $key => $value)
-		{
-			$output[$key] = (is_scalar($value) || empty($value))
-				? $value
-				: $this->toArray((array) $value);
-		}
-
-		return $output;
+		$fromObject = $this->fromObject($parent);
+		return (is_array($fromObject)) ? $fromObject : [];
 	}
 
 	/**
@@ -250,5 +234,26 @@ abstract class AbstractType implements ArrayAccess, Countable {
 		}
 
 		return TRUE;
+	}
+
+	final protected function fromObject(mixed $parent = null): float|null|bool|int|array|string
+	{
+		$object = $parent ?? $this;
+
+		if (is_scalar($object) || $object === NULL)
+		{
+			return $object;
+		}
+
+		$output = [];
+
+		foreach ($object as $key => $value)
+		{
+			$output[$key] = (is_scalar($value) || empty($value))
+				? $value
+				: $this->fromObject((array) $value);
+		}
+
+		return $output;
 	}
 }
