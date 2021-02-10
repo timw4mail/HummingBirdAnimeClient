@@ -416,7 +416,7 @@ final class Kitsu {
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
+	protected static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
