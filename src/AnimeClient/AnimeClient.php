@@ -48,6 +48,11 @@ function loadConfig(string $path): array
 	$output = [];
 	$files = glob("{$path}/*.toml");
 
+	if ( ! is_array($files))
+	{
+		return [];
+	}
+
 	foreach ($files as $file)
 	{
 		$key = str_replace('.toml', '', basename($file));
