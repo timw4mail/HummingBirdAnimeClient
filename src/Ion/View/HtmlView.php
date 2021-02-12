@@ -71,7 +71,7 @@ class HtmlView extends HttpView {
 
 
 		// Very basic html minify, that won't affect content between html tags
-		return preg_replace('/>\s+</', '> <', $buffer);
+		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
 	}
 }
 // End of HtmlView.php

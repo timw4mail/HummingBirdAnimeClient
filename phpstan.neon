@@ -2,7 +2,7 @@ parameters:
 	checkGenericClassInNonGenericObjectType: false
 	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
-	level: 7
+	level: 8
 	paths:
 		- src
 		- ./console
