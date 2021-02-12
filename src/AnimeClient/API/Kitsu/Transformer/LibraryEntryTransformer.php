@@ -28,6 +28,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 {
 	public function transform($item)
 	{
+		$item = (array)$item;
 		$type = $item['media']['type'] ?? '';
 
 		$genres = [];
@@ -50,7 +51,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		}
 	}
 
-	private function animeTransform($item, array $genres): AnimeListItem
+	private function animeTransform(array $item, array $genres): AnimeListItem
 	{
 		$animeId = $item['media']['id'];
 		$anime = $item['media'];
@@ -119,7 +120,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		]);
 	}
 
-	private function mangaTransform($item, array $genres): MangaListItem
+	private function mangaTransform(array $item, array $genres): MangaListItem
 	{
 		$mangaId = $item['media']['id'];
 		$manga = $item['media'];

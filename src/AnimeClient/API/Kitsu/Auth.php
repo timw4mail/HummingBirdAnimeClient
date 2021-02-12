@@ -66,7 +66,7 @@ final class Auth {
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 
-		Event::on('::unauthorized::', [$this, 'reAuthenticate'], []);
+		Event::on('::unauthorized::', [$this, 'reAuthenticate']);
 	}
 
 	/**
@@ -76,6 +76,7 @@ final class Auth {
 	 * @param string $password
 	 * @return boolean
 	 * @throws Throwable
+	 * @throws InvalidArgumentException
 	 */
 	public function authenticate(string $password): bool
 	{
@@ -90,9 +91,10 @@ final class Auth {
 	/**
 	 * Make the call to re-authenticate with the existing refresh token
 	 *
-	 * @param string $refreshToken
+	 * @param string|null $refreshToken
 	 * @return boolean
-	 * @throws Throwable|InvalidArgumentException
+	 * @throws InvalidArgumentException
+	 * @throws Throwable
 	 */
 	public function reAuthenticate(?string $refreshToken = NULL): bool
 	{

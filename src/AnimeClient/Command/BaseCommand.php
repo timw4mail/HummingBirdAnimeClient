@@ -52,11 +52,20 @@ abstract class BaseCommand extends Command {
 	 * @param string|int|null $bgColor
 	 * @return void
 	 */
-	public function echoBox($message, $fgColor = NULL, $bgColor = NULL): void
+	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
 	{
 		if (is_array($message))
 		{
 			$message = implode("\n", $message);
+		}
+
+		if ($fgColor !== NULL)
+		{
+			$fgColor = (string)$fgColor;
+		}
+		if ($bgColor !== NULL)
+		{
+			$bgColor = (string)$bgColor;
 		}
 
 		// color message
@@ -129,8 +138,17 @@ abstract class BaseCommand extends Command {
 		return $this->_di($configArray, $APP_DIR);
 	}
 
-	private function _line(string $message, $fgColor = NULL, $bgColor = NULL): void
+	private function _line(string $message, int|string|null $fgColor = NULL, int|string|null $bgColor = NULL): void
 	{
+		if ($fgColor !== NULL)
+		{
+			$fgColor = (string)$fgColor;
+		}
+		if ($bgColor !== NULL)
+		{
+			$bgColor = (string)$bgColor;
+		}
+		
 		$message = Colors::colorize($message, $fgColor, $bgColor);
 		$this->getConsole()->writeln($message);
 	}
