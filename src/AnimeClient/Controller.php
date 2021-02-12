@@ -203,7 +203,7 @@ class Controller {
 	 * @throws NotFoundException
 	 * @return string
 	 */
-	protected function loadPartial($view, string $template, array $data = []): string
+	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
 
@@ -236,7 +236,7 @@ class Controller {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	protected function renderFullPage($view, string $template, array $data): HtmlView
+	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
 		$csp = [
 			"default-src 'self'",
@@ -360,7 +360,7 @@ class Controller {
 	 * @throws NotFoundException
 	 * @return string
 	 */
-	protected function showMessage($view, string $type, string $message): string
+	protected function showMessage(HtmlView $view, string $type, string $message): string
 	{
 		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
@@ -399,7 +399,7 @@ class Controller {
 	 * @throws DoubleRenderException
 	 * @return void
 	 */
-	protected function outputJSON($data, int $code): void
+	protected function outputJSON(mixed $data, int $code): void
 	{
 		(new JsonView())
 			->setOutput($data)
@@ -420,10 +420,7 @@ class Controller {
 		{
 			(new HttpView())->redirect($url, $code)->send();
 		}
-		catch (\Throwable $e)
-		{
-
-		}
+		catch (\Throwable) {}
 	}
 }
 // End of BaseController.php

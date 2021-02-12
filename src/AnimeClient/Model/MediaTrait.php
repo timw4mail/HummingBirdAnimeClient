@@ -85,7 +85,7 @@ trait MediaTrait {
 	 * @param string $itemId
 	 * @return AnimeListItem|MangaListItem
 	 */
-	public function getLibraryItem(string $itemId)
+	public function getLibraryItem(string $itemId): AnimeListItem|MangaListItem
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}

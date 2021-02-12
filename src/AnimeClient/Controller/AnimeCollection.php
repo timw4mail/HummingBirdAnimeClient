@@ -154,7 +154,7 @@ final class AnimeCollection extends BaseController {
 	public function edit(): void
 	{
 		$this->checkAuth();
-		$this->update($this->request->getParsedBody());
+		$this->update((array)$this->request->getParsedBody());
 	}
 
 	/**
@@ -169,7 +169,7 @@ final class AnimeCollection extends BaseController {
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
 			// Check for existing entry
@@ -218,7 +218,7 @@ final class AnimeCollection extends BaseController {
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
 			$this->setFlashMessage("Can't delete item that doesn't exist", 'error');
@@ -238,11 +238,11 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Update a collection item
 	 *
-	 * @param $data
+	 * @param array $data
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	protected function update($data): void
+	protected function update(array $data): void
 	{
 		if (array_key_exists('hummingbird_id', $data))
 		{
