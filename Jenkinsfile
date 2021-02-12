@@ -37,7 +37,7 @@ pipeline {
 		stage('Code Cleanliness') {
 			agent any
 			steps {
-				sh "php ./vendor/bin/phpstan analyse src/ -l max -c phpstan.neon -n --no-ansi --no-progress --error-format=checkstyle \\| awk '{\$1=\$1;print}' > build/logs/checkstyle.xml"
+				sh "php ./vendor/bin/phpstan analyse src/ -c phpstan.neon -n --no-ansi --no-progress --error-format=checkstyle > build/logs/checkstyle.xml"
 				recordIssues(tools: [checkstyle(reportEncoding: 'UTF-8')])
 			}
 		}
