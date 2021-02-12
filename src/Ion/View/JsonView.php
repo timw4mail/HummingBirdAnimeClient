@@ -17,7 +17,7 @@
 namespace Aviat\Ion\View;
 
 use Aviat\Ion\Json;
-use Aviat\Ion\ViewInterface;
+use Aviat\Ion\HttpViewInterface;
 
 /**
  * View class to serialize Json
@@ -35,9 +35,9 @@ class JsonView extends HttpView {
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @return ViewInterface
+	 * @return HttpViewInterface
 	 */
-	public function setOutput($string): ViewInterface
+	public function setOutput(mixed $string): HttpViewInterface
 	{
 		if ( ! is_string($string))
 		{

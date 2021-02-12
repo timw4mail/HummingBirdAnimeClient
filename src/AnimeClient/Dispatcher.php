@@ -16,18 +16,22 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\Enum\EventType;
-use function Aviat\Ion\_dir;
-
-use Aura\Router\{Map, Matcher, Route, Rule};
-
+use Aviat\Ion\Json;
+use Aura\Router\{
+	Map,
+	Matcher,
+	Route,
+	Rule,
+};
 use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Event;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Type\StringType;
+use JetBrains\PhpStorm\ArrayShape;
 use LogicException;
 use ReflectionException;
+
+use function Aviat\Ion\_dir;
 
 /**
  * Basic routing/ dispatch
@@ -78,7 +82,7 @@ final class Dispatcher extends RoutingBase {
 	 *
 	 * @return Route|false
 	 */
-	public function getRoute()
+	public function getRoute(): Route | false
 	{
 		$logger = $this->container->getLogger();
 
@@ -132,7 +136,7 @@ final class Dispatcher extends RoutingBase {
 		{
 			// If not route was matched, return an appropriate http
 			// error message
-			$errorRoute = $this->getErrorParams();
+			$errorRoute = (array)$this->getErrorParams();
 			$controllerName = DEFAULT_CONTROLLER;
 			$actionMethod = $errorRoute['action_method'];
 			$params = $errorRoute['params'];
@@ -152,11 +156,11 @@ final class Dispatcher extends RoutingBase {
 	 * Parse out the arguments for the appropriate controller for
 	 * the current route
 	 *
-	 * @param Route $route
+	 * @param Friend $route
 	 * @throws LogicException
 	 * @return array
 	 */
-	protected function processRoute($route): array
+	protected function processRoute(Friend $route): array
 	{
 		if ( ! array_key_exists('controller', $route->attributes))
 		{
@@ -166,7 +170,7 @@ final class Dispatcher extends RoutingBase {
 		$controllerName = $route->attributes['controller'];
 
 		// Get the full namespace for a controller if a short name is given
-		if (strpos($controllerName, '\\') === FALSE)
+		if ( ! str_contains($controllerName, '\\'))
 		{
 			$map = $this->getControllerList();
 			$controllerName = $map[$controllerName];
@@ -191,7 +195,7 @@ final class Dispatcher extends RoutingBase {
 		$logger = $this->container->getLogger();
 		if ($logger !== NULL)
 		{
-			$logger->info(json_encode($params));
+			$logger->info(Json::encode($params));
 		}
 
 		return [
@@ -244,6 +248,10 @@ final class Dispatcher extends RoutingBase {
 		$path = trim($path, '/');
 		$actualPath = realpath(_dir(SRC_DIR, $path));
 		$classFiles = glob("{$actualPath}/*.php");
+		if ($classFiles === FALSE)
+		{
+			return [];
+		}
 
 		$controllers = [];
 
@@ -282,9 +290,10 @@ final class Dispatcher extends RoutingBase {
 				$logger->debug('Dispatcher - controller arguments', $params);
 			}
 
-			call_user_func_array([$controller, $method], array_values($params));
+			$params = array_values($params);
+			$controller->$method(...$params);
 		}
-		catch (FailedResponseException $e)
+		catch (FailedResponseException)
 		{
 			$controllerName = DEFAULT_CONTROLLER;
 			$controller = new $controllerName($this->container);

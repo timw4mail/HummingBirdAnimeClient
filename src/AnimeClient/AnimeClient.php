@@ -91,7 +91,7 @@ function loadTomlFile(string $filename): array
 	return Toml::parseFile($filename);
 }
 
-function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = NULL): void
 {
 	foreach ($data as $key => $value)
 	{
@@ -359,7 +359,7 @@ function colNotEmpty(array $search, string $key): bool
  *
  * @param CacheInterface $cache
  * @return bool
- * @throws InvalidArgumentException
+ * @throws Throwable
  */
 function clearCache(CacheInterface $cache): bool
 {
