@@ -35,15 +35,10 @@ pipeline {
 			}
 		}
 		stage('Code Cleanliness') {
-			agent {
-				docker {
-					image 'php:8-cli-alpine'
-					args '-u root --privileged'
-				}
-			}
+			agent any
 			steps {
-				sh "php ./vendor/bin/phpstan analyse src/ -c phpstan.neon -n --no-ansi --no-progress --error-format=checkstyle > build/logs/checkstyle.xml"
-				recordIssues(tools: [checkstyle(reportEncoding: 'UTF-8')])
+				sh "php8 ./vendor/bin/phpstan analyse src/ -c phpstan.neon -n --no-ansi --no-progress --error-format=checkstyle | awk '{\$1=\$1;print}' > build/logs/checkstyle.xml"
+				recordIssues(tools: [checkstyle(reportEncoding: 'UTF-8', reportFileName: 'build/logs/checkstyle.xml')])
 			}
 		}
 		stage('Coverage') {
