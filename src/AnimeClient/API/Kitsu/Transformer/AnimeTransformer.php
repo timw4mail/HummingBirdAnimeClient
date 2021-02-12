@@ -29,11 +29,12 @@ final class AnimeTransformer extends AbstractTransformer {
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array  $item API library item
+	 * @param  array|object  $item API library item
 	 * @return AnimePage
 	 */
-	public function transform($item): AnimePage
+	public function transform(array|object $item): AnimePage
 	{
+		$item = (array)$item;
 		$base = $item['data']['findAnimeBySlug'] ?? $item['data']['findAnimeById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];

@@ -27,7 +27,7 @@ use DateTime;
 
 class AnimeListTransformer extends AbstractTransformer {
 
-	public function transform($item): AnimeListItem
+	public function transform(array|object $item): AnimeListItem
 	{
 		return AnimeListItem::from([]);
 	}

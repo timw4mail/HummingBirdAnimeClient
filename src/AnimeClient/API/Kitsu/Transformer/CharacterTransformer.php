@@ -28,12 +28,13 @@ use Locale;
 final class CharacterTransformer extends AbstractTransformer {
 
 	/**
-	 * @param array $characterData
+	 * @param array|object $item
 	 * @return Character
 	 */
-	public function transform($characterData): Character
+	public function transform(array|object $item): Character
 	{
-		$data = $characterData['data']['findCharacterBySlug'] ?? [];
+		$item = (array)$item;
+		$data = $item['data']['findCharacterBySlug'] ?? [];
 		$castings = [];
 		$media = [
 			'anime' => [],

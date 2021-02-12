@@ -31,11 +31,12 @@ final class MangaListTransformer extends AbstractTransformer {
 	/**
 	 * Remap zipped anime data to a more logical form
 	 *
-	 * @param  array  $item manga entry item
+	 * @param  array|object  $item manga entry item
 	 * @return MangaListItem
 	 */
-	public function transform($item): MangaListItem
+	public function transform(array|object $item): MangaListItem
 	{
+		$item = (array)$item;
 		$mangaId = $item['media']['id'];
 		$manga = $item['media'];
 

@@ -29,9 +29,10 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * @return User
  */
 final class UserTransformer extends AbstractTransformer {
-	public function transform($profileData): User
+	public function transform(array|object $item): User
 	{
-		$base = $profileData['data']['findProfileBySlug'] ?? [];
+		$item = (array)$item;
+		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];
 		$waifu = (array_key_exists('waifu', $base)) ? [
@@ -71,7 +72,7 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
-	private function organizeStats(array $stats, $data = []): array
+	private function organizeStats(array $stats, array $data = []): array
 	{
 		$animeStats = [];
 		$mangaStats = [];
