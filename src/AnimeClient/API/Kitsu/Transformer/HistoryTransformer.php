@@ -65,7 +65,7 @@ abstract class HistoryTransformer {
 
 		foreach ($base as $entry)
 		{
-			if ( ! (strtolower($entry['media']['__typename']) === $this->type))
+			if (strtolower($entry['media']['__typename']) !== $this->type)
 			{
 				continue;
 			}
@@ -210,7 +210,7 @@ abstract class HistoryTransformer {
 		]);
 	}
 
-	protected function transformUpdated($entry): HistoryItem
+	protected function transformUpdated(array $entry): HistoryItem
 	{
 		$id = $entry['media']['id'];
 		$data = $entry['media'];
@@ -242,7 +242,7 @@ abstract class HistoryTransformer {
 			]);
 		}
 
-		return $entry;
+		return HistoryItem::from($entry);
 	}
 
 	protected function linkTitle (array $data): string
@@ -257,6 +257,11 @@ abstract class HistoryTransformer {
 			$date
 		);
 
+		if ($dateTime === FALSE)
+		{
+			return new DateTimeImmutable();
+		}
+
 		return $dateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
 	}
 
@@ -265,7 +270,7 @@ abstract class HistoryTransformer {
 		return "/{$this->type}/details/{$data['slug']}";
 	}
 
-	protected function isReconsuming ($entry): bool
+	protected function isReconsuming (array $entry): bool
 	{
 		return $entry['libraryEntry']['reconsuming'];
 	}

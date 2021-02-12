@@ -27,5 +27,5 @@ interface TransformerInterface {
 	 * @param array|object $item
 	 * @return mixed
 	 */
-	public function transform($item);
+	public function transform(array|object $item): mixed;
 }

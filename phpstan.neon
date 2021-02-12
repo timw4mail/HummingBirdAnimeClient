@@ -9,6 +9,7 @@ parameters:
 		- index.php
 	ignoreErrors:
 		- "#Offset 'fields' does not exist on array#"
+		- '#Function imagepalletetotruecolor not found#'
 		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
 		- '#Call to an undefined method Query\\QueryBuilderInterface::[a-zA-Z0-9_]+\(\)#'
 	excludes_analyse:

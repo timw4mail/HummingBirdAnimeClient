@@ -148,7 +148,7 @@ abstract class BaseCommand extends Command {
 		{
 			$bgColor = (string)$bgColor;
 		}
-		
+
 		$message = Colors::colorize($message, $fgColor, $bgColor);
 		$this->getConsole()->writeln($message);
 	}

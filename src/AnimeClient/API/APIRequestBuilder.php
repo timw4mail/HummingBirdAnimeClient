@@ -116,10 +116,9 @@ abstract class APIRequestBuilder {
 	 * Set the request body
 	 *
 	 * @param FormBody|string $body
-	 * @throws \TypeError
 	 * @return self
 	 */
-	public function setBody($body): self
+	public function setBody(FormBody|string $body): self
 	{
 		$this->request->setBody($body);
 		return $this;
@@ -129,7 +128,6 @@ abstract class APIRequestBuilder {
 	 * Set body as form fields
 	 *
 	 * @param array $fields Mapping of field names to values
-	 * @throws \TypeError
 	 * @return self
 	 */
 	public function setFormFields(array $fields): self

@@ -28,7 +28,7 @@ abstract class AbstractTransformer implements TransformerInterface {
 	 * @param array|object $item
 	 * @return mixed
 	 */
-	abstract public function transform($item);
+	abstract public function transform(array|object $item): mixed;
 
 	/**
 	 * Transform a set of structures

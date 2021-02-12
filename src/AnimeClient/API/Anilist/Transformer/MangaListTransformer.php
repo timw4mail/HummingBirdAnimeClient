@@ -28,7 +28,7 @@ use DateTime;
 
 class MangaListTransformer extends AbstractTransformer {
 
-	public function transform($item)
+	public function transform(array|object $item): MangaListItem
 	{
 		return MangaListItem::from([]);
 	}
