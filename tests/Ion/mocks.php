@@ -66,7 +66,7 @@ class FriendTestClass extends FriendParentTestClass {
 
 class TestTransformer extends AbstractTransformer {
 
-	public function transform($item)
+	public function transform(array|object $item): array
 	{
 		$out = [];
 		$genre_list = (array) $item;
