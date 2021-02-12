@@ -37,8 +37,11 @@ pipeline {
 		stage('Code Cleanliness') {
 			agent any
 			steps {
-				sh "php8 ./vendor/bin/phpstan analyse -c phpstan.neon"
-				recordIssues(tools: [phpStan(reportEncoding: 'UTF-8')])
+				sh "php8 ./vendor/bin/phpstan analyse -c phpstan.neon --no-progress --no-ansi "
+				recordIssues(
+					failOnError: false,
+					tools: [phpStan(reportEncoding: 'UTF-8')]
+				)
 			}
 		}
 		stage('Coverage') {
