@@ -413,5 +413,6 @@ function renderTemplate(string $path, array $data): string
 	ob_start();
 	extract($data, EXTR_OVERWRITE);
 	include $path;
-	return ob_get_clean();
+	$rawOutput = ob_get_clean();
+	return (is_string($rawOutput)) ? $rawOutput : '';
 }

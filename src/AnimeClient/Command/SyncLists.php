@@ -218,7 +218,7 @@ final class SyncLists extends BaseCommand {
 	 * @param array $data
 	 * @throws Throwable
 	 */
-	protected function update(string $type, array $data)
+	protected function update(string $type, array $data): void
 	{
 		if ( ! empty($data['addToAnilist']))
 		{
@@ -259,7 +259,7 @@ final class SyncLists extends BaseCommand {
 	// ------------------------------------------------------------------------
 	// Fetch helpers
 	// ------------------------------------------------------------------------
-	private function fetchAnilistCount(string $type)
+	private function fetchAnilistCount(string $type): int
 	{
 		$list = $this->fetchAnilist($type);
 

@@ -8,10 +8,12 @@ parameters:
 		- ./console
 		- index.php
 	ignoreErrors:
-		- '#Access to an undefined property Aviat\\Ion\\Friend#'
 		- "#Offset 'fields' does not exist on array#"
 		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
 		- '#Call to an undefined method Query\\QueryBuilderInterface::[a-zA-Z0-9_]+\(\)#'
 	excludes_analyse:
 		- tests/mocks.php
 		- vendor
+	# These are objects that basically can return anything
+	universalObjectCratesClasses:
+		- Aviat\Ion\Friend
