@@ -32,8 +32,7 @@ trait MutationTrait {
 	 * Create a list item
 	 *
 	 * @param array $data
-	 * @return Request
-	 * @throws InvalidArgumentException
+	 * @return Request|null
 	 */
 	public function createListItem(array $data): ?Request
 	{

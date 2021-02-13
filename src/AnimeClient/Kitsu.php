@@ -405,7 +405,7 @@ final class Kitsu {
 
 		if (empty($parts))
 		{
-			return $last;
+			return ($last !== NULL) ? $last : '';
 		}
 
 		return (count($parts) > 1)

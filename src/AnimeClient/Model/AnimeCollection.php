@@ -50,6 +50,11 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getCollection(): array
 	{
+		if ($this->db === NULL)
+		{
+			return [];
+		}
+
 		$rawCollection = $this->getCollectionFromDatabase();
 
 		$collection = [];
@@ -76,7 +81,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getFlatCollection():  array
 	{
-		if ( ! $this->validDatabase)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -122,7 +127,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getMediaTypeList(): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -174,7 +179,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function add(mixed $data): void
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return;
 		}
@@ -213,7 +218,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function wasAdded(array $data): bool
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return FALSE;
 		}
@@ -231,7 +236,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function update(array $data): void
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return;
 		}
@@ -270,7 +275,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function wasUpdated(array $data): bool
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return FALSE;
 		}
@@ -301,7 +306,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function delete(array $data): void
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return;
 		}
@@ -332,7 +337,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function wasDeleted(array $data): bool
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return FALSE;
 		}
@@ -348,7 +353,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function get(int|string $kitsuId): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -389,7 +394,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function has(int|string $kitsuId): bool
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return FALSE;
 		}
@@ -411,7 +416,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getGenreList(array $filter = []): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -479,7 +484,7 @@ final class AnimeCollection extends Collection {
 	 */
 	public function getMediaList(array $filter = []): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -541,6 +546,11 @@ final class AnimeCollection extends Collection {
 
 	private function updateMediaLink(string $animeId, array $media): void
 	{
+		if ($this->db === NULL)
+		{
+			return;
+		}
+
 		$this->db->beginTransaction();
 
 		// Delete the old entries
@@ -570,7 +580,7 @@ final class AnimeCollection extends Collection {
 	 */
 	private function updateGenres($animeId): void
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return;
 		}
@@ -604,13 +614,13 @@ final class AnimeCollection extends Collection {
 			}
 		}
 
-		if ( ! empty($linksToInsert))
+		if ($this->db !== NULL && ! empty($linksToInsert))
 		{
 			try
 			{
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
 			}
-			catch (PDOException $e) {}
+			catch (PDOException) {}
 		}
 	}
 
@@ -621,7 +631,7 @@ final class AnimeCollection extends Collection {
 	 */
 	private function addNewGenres(array $genres): void
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return;
 		}
@@ -663,7 +673,7 @@ final class AnimeCollection extends Collection {
 
 	private function getExistingGenres(): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -693,7 +703,7 @@ final class AnimeCollection extends Collection {
 
 	private function getExistingGenreLinkEntries(): array
 	{
-		if ($this->validDatabase === FALSE)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
@@ -734,7 +744,7 @@ final class AnimeCollection extends Collection {
 	 */
 	private function getCollectionFromDatabase(): array
 	{
-		if ( ! $this->validDatabase)
+		if ($this->db === NULL)
 		{
 			return [];
 		}
