@@ -101,7 +101,7 @@ class ArrayType {
 	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
-	public function __call(string $method, array $args)
+	public function __call(string $method, array $args): mixed
 	{
 		// Simple mapping for the majority of methods
 		if (array_key_exists($method, $this->nativeMethods))
@@ -128,7 +128,7 @@ class ArrayType {
 	 * @param int|string|array $key
 	 * @return bool
 	 */
-	public function hasKey($key): bool
+	public function hasKey(int|string|array $key): bool
 	{
 		if (\is_array($key))
 		{
@@ -158,7 +158,7 @@ class ArrayType {
 	 * @param mixed $value
 	 * @return array
 	 */
-	public function fill(int $start_index, int $num, $value): array
+	public function fill(int $start_index, int $num, mixed $value): array
 	{
 		return array_fill($start_index, $num, $value);
 	}
@@ -179,9 +179,9 @@ class ArrayType {
 	 *
 	 * @param mixed $value
 	 * @param bool  $strict
-	 * @return false|integer|string
+	 * @return false|integer|string|null
 	 */
-	public function search($value, bool $strict = TRUE)
+	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
 	{
 		return array_search($value, $this->arr, $strict);
 	}
@@ -193,7 +193,7 @@ class ArrayType {
 	 * @param bool  $strict
 	 * @return bool
 	 */
-	public function has($value, bool $strict = TRUE): bool
+	public function has(mixed $value, bool $strict = TRUE): bool
 	{
 		return \in_array($value, $this->arr, $strict);
 	}
@@ -204,7 +204,7 @@ class ArrayType {
 	 * @param string|integer|null $key
 	 * @return mixed
 	 */
-	public function &get($key = NULL)
+	public function &get(string|int|null $key = NULL): mixed
 	{
 		$value = NULL;
 		if ($key === NULL)
@@ -229,7 +229,7 @@ class ArrayType {
 	 * @param mixed $value
 	 * @return ArrayType
 	 */
-	public function set($key, $value): ArrayType
+	public function set(mixed $key, mixed $value): ArrayType
 	{
 		$this->arr[$key] = $value;
 		return $this;
@@ -244,7 +244,7 @@ class ArrayType {
 	 * @param  array $key An array of keys of the array
 	 * @return mixed
 	 */
-	public function &getDeepKey(array $key)
+	public function &getDeepKey(array $key): mixed
 	{
 		$pos =& $this->arr;
 
@@ -273,7 +273,7 @@ class ArrayType {
 	 * @param mixed $value
 	 * @return array
 	 */
-	public function setDeepKey(array $key, $value): array
+	public function setDeepKey(array $key, mixed $value): array
 	{
 		$pos =& $this->arr;
 
