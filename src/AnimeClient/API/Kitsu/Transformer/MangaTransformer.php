@@ -29,11 +29,12 @@ final class MangaTransformer extends AbstractTransformer {
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array  $item API library item
+	 * @param  array|object  $item API library item
 	 * @return MangaPage
 	 */
-	public function transform($item): MangaPage
+	public function transform(array|object $item): MangaPage
 	{
+		$item = (array)$item;
 		$base = $item['data']['findMangaBySlug'] ?? $item['data']['findMangaById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];

@@ -58,10 +58,9 @@ trait CacheTrait {
 	 * @param string $key
 	 * @param callable $primer
 	 * @param array|null $primeArgs
-	 * @return mixed|null
-	 * @throws InvalidArgumentException
+	 * @return mixed
 	 */
-	public function getCached(string $key, callable $primer, ?array $primeArgs = [])
+	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{
 		$value = $this->cache->get($key, NULL);
 

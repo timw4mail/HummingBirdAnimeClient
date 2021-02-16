@@ -26,7 +26,6 @@ use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\AnimeClient\Enum\EventType;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
@@ -157,7 +156,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * @param string $name
 	 * @param array $variables
 	 * @return array
-	 * @throws Throwable
 	 */
 	public function mutate(string $name, array $variables = []): array
 	{
@@ -181,7 +179,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * @param string $url
 	 * @param array $options
 	 * @return Response
-	 * @throws \Throwable
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -201,14 +198,78 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
+	 * Create a GraphQL query and return the Request object
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return Request
+	 */
+	public function queryRequest(string $name, array $variables = []): Request
+	{
+		$file = realpath("{$this->filePath}/Queries/{$name}.graphql");
+		if ($file === FALSE || ! file_exists($file))
+		{
+			throw new LogicException('GraphQL query file does not exist.');
+		}
+
+		$query = file_get_contents($file);
+		$body = [
+			'query' => $query
+		];
+
+		if ( ! empty($variables))
+		{
+			$body['variables'] = [];
+			foreach($variables as $key => $val)
+			{
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->setUpRequest('POST', $this->baseUrl, [
+			'body' => $body,
+		]);
+	}
+
+	/**
+	 * Create a GraphQL mutation request, and return the Request object
+	 *
+	 * @param string $name
+	 * @param array $variables
+	 * @return Request
+	 */
+	public function mutateRequest (string $name, array $variables = []): Request
+	{
+		$file = realpath("{$this->filePath}/Mutations/{$name}.graphql");
+		if ($file === FALSE || ! file_exists($file))
+		{
+			throw new LogicException('GraphQL mutation file does not exist.');
+		}
+
+		$query = file_get_contents($file);
+		$body = [
+			'query' => $query
+		];
+
+		if (!empty($variables)) {
+			$body['variables'] = [];
+			foreach ($variables as $key => $val)
+			{
+				$body['variables'][$key] = $val;
+			}
+		}
+
+		return $this->setUpRequest('POST', $this->baseUrl, [
+			'body' => $body,
+		]);
+	}
+
+	/**
 	 * Make a request
 	 *
 	 * @param string $type
 	 * @param string $url
 	 * @param array $options
-	 * @throws JsonException
-	 * @throws FailedResponseException
-	 * @throws Throwable
 	 * @return array
 	 */
 	private function request(string $type, string $url, array $options = []): array

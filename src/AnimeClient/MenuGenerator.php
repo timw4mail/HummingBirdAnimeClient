@@ -22,7 +22,7 @@ use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\ArrayType;
 use Aviat\Ion\Type\StringType;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Helper object to manage menu creation and selection
@@ -39,13 +39,13 @@ final class MenuGenerator extends UrlGenerator {
 	/**
 	 * Request object
 	 *
-	 * @var RequestInterface
+	 * @var ServerRequestInterface
 	 */
-	protected RequestInterface $request;
+	protected ServerRequestInterface $request;
 
 	/**
 	 * @param ContainerInterface $container
-	 * @return static
+	 * @return self
 	 */
 	public static function new(ContainerInterface $container): self
 	{

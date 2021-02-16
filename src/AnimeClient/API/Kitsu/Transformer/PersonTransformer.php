@@ -26,12 +26,13 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 final class PersonTransformer extends AbstractTransformer {
 
 	/**
-	 * @param array|object $personData
+	 * @param array|object $item
 	 * @return Person
 	 */
-	public function transform($personData): Person
+	public function transform(array|object $item): Person
 	{
-		$data = $personData['data']['findPersonBySlug'] ?? [];
+		$item = (array)$item;
+		$data = $item['data']['findPersonBySlug'] ?? [];
 		$canonicalName = $data['names']['localized'][$data['names']['canonical']]
 			?? array_shift($data['names']['localized']);
 

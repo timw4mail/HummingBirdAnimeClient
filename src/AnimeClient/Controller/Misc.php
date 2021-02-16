@@ -74,7 +74,7 @@ final class Misc extends BaseController {
 	 */
 	public function loginAction(): void
 	{
-		$post = $this->request->getParsedBody();
+		$post = (array)$this->request->getParsedBody();
 
 		if ($this->auth->authenticate($post['password']))
 		{
@@ -83,7 +83,11 @@ final class Misc extends BaseController {
 		}
 
 		$this->setFlashMessage('Invalid username or password.');
-		$this->redirect($this->url->generate('login'), 303);
+
+		$redirectUrl = $this->url->generate('login');
+		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
+
+		$this->redirect($redirectUrl, 303);
 	}
 
 	/**

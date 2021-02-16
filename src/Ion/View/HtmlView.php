@@ -18,8 +18,6 @@ namespace Aviat\Ion\View;
 
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
 use Laminas\Diactoros\Response\HtmlResponse;
 use const EXTR_OVERWRITE;
 
@@ -40,8 +38,6 @@ class HtmlView extends HttpView {
 	 * Create the Html View
 	 *
 	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -57,6 +53,7 @@ class HtmlView extends HttpView {
 	 * @param string $path
 	 * @param array  $data
 	 * @return string
+	 * @throws \Throwable
 	 */
 	public function renderTemplate(string $path, array $data): string
 	{
@@ -69,13 +66,12 @@ class HtmlView extends HttpView {
 		ob_start();
 		extract($data, EXTR_OVERWRITE);
 		include_once $path;
-		$buffer = ob_get_clean();
+		$rawBuffer = ob_get_clean();
+		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
 
 
 		// Very basic html minify, that won't affect content between html tags
-		$buffer = preg_replace('/>\s+</', '> <', $buffer);
-
-		return $buffer;
+		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
 	}
 }
 // End of HtmlView.php

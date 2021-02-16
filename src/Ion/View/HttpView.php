@@ -16,7 +16,7 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\ViewInterface;
+use Aviat\Ion\HttpViewInterface;
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -26,7 +26,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Base view class for Http output
  */
-class HttpView implements ViewInterface{
+class HttpView implements HttpViewInterface{
 
 	/**
 	 * HTTP response Object
@@ -103,9 +103,9 @@ class HttpView implements ViewInterface{
 	 * Set the output string
 	 *
 	 * @param mixed $string
-	 * @return HttpView
+	 * @return HttpViewInterface
 	 */
-	public function setOutput($string): self
+	public function setOutput($string): HttpViewInterface
 	{
 		$this->response->getBody()->write($string);
 
@@ -117,9 +117,9 @@ class HttpView implements ViewInterface{
 	 * Append additional output.
 	 *
 	 * @param string $string
-	 * @return HttpView
+	 * @return HttpViewInterface
 	 */
-	public function appendOutput(string $string): self
+	public function appendOutput(string $string): HttpViewInterface
 	{
 		return $this->setOutput($string);
 	}

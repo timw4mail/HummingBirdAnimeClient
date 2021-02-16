@@ -48,6 +48,11 @@ function loadConfig(string $path): array
 	$output = [];
 	$files = glob("{$path}/*.toml");
 
+	if ( ! is_array($files))
+	{
+		return [];
+	}
+
 	foreach ($files as $file)
 	{
 		$key = str_replace('.toml', '', basename($file));
@@ -86,7 +91,7 @@ function loadTomlFile(string $filename): array
 	return Toml::parseFile($filename);
 }
 
-function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): void
+function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = NULL): void
 {
 	foreach ($data as $key => $value)
 	{
@@ -119,7 +124,7 @@ function _iterateToml(TomlBuilder $builder, iterable $data, $parentKey = NULL): 
 /**
  * Serialize config data into a Toml file
  *
- * @param mixed $data
+ * @param iterable $data
  * @return string
  */
 function arrayToToml(iterable $data): string
@@ -152,7 +157,7 @@ function tomlToArray(string $toml): array
  * @param mixed $array
  * @return bool
  */
-function isSequentialArray($array): bool
+function isSequentialArray(mixed $array): bool
 {
 	if ( ! is_array($array))
 	{
@@ -265,7 +270,7 @@ function getLocalImg (string $kitsuUrl, $webp = TRUE): string
 
 	$parts = parse_url($kitsuUrl);
 
-	if ($parts === FALSE)
+	if ($parts === FALSE || ! array_key_exists('path', $parts))
 	{
 		return 'images/placeholder.webp';
 	}
@@ -291,22 +296,35 @@ function getLocalImg (string $kitsuUrl, $webp = TRUE): string
  * @param int|null $width
  * @param int|null $height
  * @param string $text
+ * @return bool
  */
-function createPlaceholderImage (string $path, ?int $width, ?int $height, $text = 'Image Unavailable'): void
+function createPlaceholderImage (string $path, ?int $width, ?int $height, $text = 'Image Unavailable'): bool
 {
 	$width = $width ?? 200;
 	$height = $height ?? 200;
 
 	$img = imagecreatetruecolor($width, $height);
+	if ($img === FALSE)
+	{
+		return FALSE;
+	}
 	imagealphablending($img, TRUE);
 
 	$path = rtrim($path, '/');
 
 	// Background is the first color by default
 	$fillColor = imagecolorallocatealpha($img, 255, 255, 255, 127);
+	if ($fillColor === FALSE)
+	{
+		return FALSE;
+	}
 	imagefill($img, 0, 0, $fillColor);
 
 	$textColor = imagecolorallocate($img, 64, 64, 64);
+	if ($textColor === FALSE)
+	{
+		return FALSE;
+	}
 
 	imagealphablending($img, TRUE);
 
@@ -328,12 +346,18 @@ function createPlaceholderImage (string $path, ?int $width, ?int $height, $text 
 	imagedestroy($img);
 
 	$pngImage = imagecreatefrompng($path . '/placeholder.png');
+	if ($pngImage === FALSE)
+	{
+		return FALSE;
+	}
 	imagealphablending($pngImage, TRUE);
 	imagesavealpha($pngImage, TRUE);
 
 	imagewebp($pngImage, $path . '/placeholder.webp');
 
 	imagedestroy($pngImage);
+
+	return TRUE;
 }
 
 /**
@@ -354,7 +378,7 @@ function colNotEmpty(array $search, string $key): bool
  *
  * @param CacheInterface $cache
  * @return bool
- * @throws InvalidArgumentException
+ * @throws Throwable
  */
 function clearCache(CacheInterface $cache): bool
 {
@@ -389,5 +413,6 @@ function renderTemplate(string $path, array $data): string
 	ob_start();
 	extract($data, EXTR_OVERWRITE);
 	include $path;
-	return ob_get_clean();
+	$rawOutput = ob_get_clean();
+	return (is_string($rawOutput)) ? $rawOutput : '';
 }

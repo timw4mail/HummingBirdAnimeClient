@@ -14,27 +14,19 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Types;
+namespace Aviat\Ion;
 
 /**
- * Type representing an Anime object for display
+ * View Interface abstracting an HTTP Response
  */
-class FormItem extends AbstractType {
-	/**
-	 * @var string|int
-	 */
-	public string|int $id;
+interface HttpViewInterface extends ViewInterface {
 
 	/**
-	 * @var string|int|null
+	 * Set the status code of the request
+	 *
+	 * @param int $code
+	 * @throws \InvalidArgumentException
+	 * @return self
 	 */
-	public string|int|null $mal_id;
-
-	public ?FormItemData $data;
-
-	public function setData(mixed $value): void
-	{
-		$this->data = FormItemData::from($value);
-	}
+	public function setStatusCode(int $code): self;
 }
-

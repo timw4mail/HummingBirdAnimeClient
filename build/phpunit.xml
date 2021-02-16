@@ -17,7 +17,9 @@
 	  <directory>../tests/Ion</directory>
 	</testsuite>
   </testsuites>
-  <logging/>
+	<logging>
+		<junit outputFile="logs/junit.xml"/>
+	</logging>
   <php>
     <server name="HTTP_USER_AGENT" value="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0) Gecko/20100101 Firefox/38.0"/>
     <server name="HTTP_HOST" value="localhost"/>

@@ -116,10 +116,9 @@ abstract class APIRequestBuilder {
 	 * Set the request body
 	 *
 	 * @param FormBody|string $body
-	 * @throws \TypeError
 	 * @return self
 	 */
-	public function setBody($body): self
+	public function setBody(FormBody|string $body): self
 	{
 		$this->request->setBody($body);
 		return $this;
@@ -129,7 +128,6 @@ abstract class APIRequestBuilder {
 	 * Set body as form fields
 	 *
 	 * @param array $fields Mapping of field names to values
-	 * @throws \TypeError
 	 * @return self
 	 */
 	public function setFormFields(array $fields): self
@@ -291,74 +289,6 @@ abstract class APIRequestBuilder {
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Create a GraphQL query and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
-	 */
-	public function queryRequest(string $name, array $variables = []): Request
-	{
-		$file = realpath("{$this->filePath}/Queries/{$name}.graphql");
-		if ( ! file_exists($file))
-		{
-			throw new LogicException('GraphQL query file does not exist.');
-		}
-
-		$query = file_get_contents($file);
-		$body = [
-			'query' => $query
-		];
-
-		if ( ! empty($variables))
-		{
-			$body['variables'] = [];
-			foreach($variables as $key => $val)
-			{
-				$body['variables'][$key] = $val;
-			}
-		}
-
-		return $this->setUpRequest('POST', $this->baseUrl, [
-			'body' => $body,
-		]);
-	}
-
-	/**
-	 * Create a GraphQL mutation request, and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
-	 * @throws Throwable
-	 */
-	public function mutateRequest (string $name, array $variables = []): Request
-	{
-		$file = "{$this->filePath}/Mutations/{$name}.graphql";
-		if ( ! file_exists($file))
-		{
-			throw new LogicException('GraphQL mutation file does not exist.');
-		}
-
-		$query = file_get_contents($file);
-		$body = [
-			'query' => $query
-		];
-
-		if (!empty($variables)) {
-			$body['variables'] = [];
-			foreach ($variables as $key => $val)
-			{
-				$body['variables'][$key] = $val;
-			}
-		}
-
-		return $this->setUpRequest('POST', $this->baseUrl, [
-			'body' => $body,
-		]);
 	}
 
 	/**

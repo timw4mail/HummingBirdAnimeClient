@@ -26,10 +26,6 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;
 
-use Psr\SimpleCache\InvalidArgumentException;
-
-use Throwable;
-
 /**
  * Kitsu API Authentication
  */
@@ -55,8 +51,6 @@ final class Auth {
 	 * Constructor
 	 *
 	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -66,7 +60,7 @@ final class Auth {
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 
-		Event::on('::unauthorized::', [$this, 'reAuthenticate'], []);
+		Event::on('::unauthorized::', [$this, 'reAuthenticate']);
 	}
 
 	/**
@@ -75,7 +69,6 @@ final class Auth {
 	 *
 	 * @param string $password
 	 * @return boolean
-	 * @throws Throwable
 	 */
 	public function authenticate(string $password): bool
 	{
@@ -90,9 +83,8 @@ final class Auth {
 	/**
 	 * Make the call to re-authenticate with the existing refresh token
 	 *
-	 * @param string $refreshToken
+	 * @param string|null $refreshToken
 	 * @return boolean
-	 * @throws Throwable|InvalidArgumentException
 	 */
 	public function reAuthenticate(?string $refreshToken = NULL): bool
 	{
@@ -112,7 +104,6 @@ final class Auth {
 	 * Check whether the current user is authenticated
 	 *
 	 * @return boolean
-	 * @throws InvalidArgumentException
 	 */
 	public function isAuthenticated(): bool
 	{
@@ -133,7 +124,6 @@ final class Auth {
 	 * Retrieve the authentication token from the session
 	 *
 	 * @return string
-	 * @throws InvalidArgumentException
 	 */
 	public function getAuthToken(): ?string
 	{
@@ -150,7 +140,6 @@ final class Auth {
 	 * Retrieve the refresh token
 	 *
 	 * @return string|null
-	 * @throws InvalidArgumentException
 	 */
 	private function getRefreshToken(): ?string
 	{
@@ -166,11 +155,10 @@ final class Auth {
 	/**
 	 * Save the new authentication information
 	 *
-	 * @param $auth
+	 * @param array|false $auth
 	 * @return bool
-	 * @throws InvalidArgumentException
 	 */
-	private function storeAuth($auth): bool
+	private function storeAuth(array|false $auth): bool
 	{
 		if (FALSE !== $auth)
 		{

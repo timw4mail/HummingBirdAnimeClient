@@ -49,7 +49,7 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Get the base url for css/js/images
 	 *
-	 * @param array $args
+	 * @param string ...$args
 	 * @return string
 	 */
 	public function assetUrl(string ...$args): string
@@ -72,7 +72,7 @@ class UrlGenerator extends RoutingBase {
 	{
 		$path = trim($path, '/');
 
-		$path = preg_replace('`{/.*?}`i', '', $path);
+		$path = preg_replace('`{/.*?}`i', '', $path) ?? "";
 
 		// Remove any optional parameters from the route
 		// and replace them with existing route parameters, if they exist
@@ -87,7 +87,7 @@ class UrlGenerator extends RoutingBase {
 				$segments[$i + 1] = '';
 			}
 
-			$pathSegments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $pathSegments[$i]);
+			$pathSegments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $pathSegments[$i] ?? '');
 		}
 		$path = implode('/', $pathSegments);
 

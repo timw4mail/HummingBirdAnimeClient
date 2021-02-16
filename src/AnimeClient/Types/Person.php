@@ -21,7 +21,7 @@ namespace Aviat\AnimeClient\Types;
  */
 final class Person extends AbstractType {
 
-	public $id;
+	public string $id;
 
 	public ?string $name;
 

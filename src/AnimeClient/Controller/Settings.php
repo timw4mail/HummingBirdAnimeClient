@@ -84,7 +84,7 @@ final class Settings extends BaseController {
 	 */
 	public function update(): void
 	{
-		$post = $this->request->getParsedBody();
+		$post = (array)$this->request->getParsedBody();
 		unset($post['settings-tabs']);
 
 		$saved = $this->settingsModel->saveSettingsFile($post);
@@ -93,7 +93,10 @@ final class Settings extends BaseController {
 			? $this->setFlashMessage('Saved config settings.', 'success')
 			: $this->setFlashMessage('Failed to save config file.', 'error');
 
-		$this->redirect($this->url->generate('settings'), 303);
+		$redirectUrl = $this->url->generate('settings');
+		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
+
+		$this->redirect($redirectUrl, 303);
 	}
 
 	/**
@@ -152,6 +155,9 @@ final class Settings extends BaseController {
 			? $this->setFlashMessage('Linked Anilist Account', 'success')
 			: $this->setFlashMessage('Error Linking Anilist Account', 'error');
 
-		$this->redirect($this->url->generate('settings'), 303);
+		$redirectUrl = $this->url->generate('settings');
+		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
+
+		$this->redirect($redirectUrl, 303);
 	}
 }

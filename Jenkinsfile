@@ -34,6 +34,13 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
+		stage('Code Cleanliness') {
+			agent any
+			steps {
+				sh "php8 ./vendor/bin/phpstan analyse -c phpstan.neon -n --no-ansi --no-progress --error-format=checkstyle | awk '{\$1=\$1;print}' > build/logs/checkstyle-result.xml"
+				recordIssues(tools: [checkStyle(reportEncoding: 'UTF-8')])
+			}
+		}
 		stage('Coverage') {
 			agent any
 			steps {
@@ -43,6 +50,7 @@ pipeline {
 					cloverReportDir: '',
 					cloverReportFileName: 'build/logs/clover.xml',
 				])
+				junit 'build/logs/junit.xml'
 			}
 		}
  	}
