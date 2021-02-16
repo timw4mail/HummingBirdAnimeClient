@@ -43,7 +43,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 		sort($genres);
 
-		$title = $base['titles']['canonical'];
+		$title = $base['titles']['canonical'] ?? '';
 		$titles = Kitsu::getTitles($base['titles']);
 		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
