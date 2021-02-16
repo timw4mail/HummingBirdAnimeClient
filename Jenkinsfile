@@ -41,7 +41,7 @@ pipeline {
 				recordIssues(
 					failOnError: false,
 					tools: [phpStan(reportEncoding: 'UTF-8', pattern: 'build/logs/phpstan.log')]
-				))
+				)
 			}
 		}
 		stage('Coverage') {
