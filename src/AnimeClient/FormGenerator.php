@@ -48,7 +48,7 @@ final class FormGenerator {
 	 * Create a new FormGenerator
 	 *
 	 * @param ContainerInterface $container
-	 * @return $this
+	 * @return self
 	 */
 	public static function new(ContainerInterface $container): self
 	{

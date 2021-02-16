@@ -33,11 +33,12 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array  $item API library item
+	 * @param  array|object  $item API library item
 	 * @return AnimeListItem
 	 */
-	public function transform($item): AnimeListItem
+	public function transform(array|object $item): AnimeListItem
 	{
+		$item = (array)$item;
 		$animeId = $item['media']['id'];
 		$anime = $item['media'];
 
@@ -115,14 +116,13 @@ final class AnimeListTransformer extends AbstractTransformer {
 	 * @param array $item Transformed library item
 	 * @return FormItem API library item
 	 */
-	public function untransform($item): FormItem
+	public function untransform(array $item): FormItem
 	{
 		$privacy = (array_key_exists('private', $item) && $item['private']);
 		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
 
 		$untransformed = FormItem::from([
 			'id' => $item['id'],
-			'anilist_item_id' => $item['anilist_item_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],

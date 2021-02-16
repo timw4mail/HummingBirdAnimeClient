@@ -22,7 +22,7 @@ use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base for routing/url classes
@@ -43,9 +43,9 @@ class RoutingBase {
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var RequestInterface
+	 * @var ServerRequestInterface
 	 */
-	protected RequestInterface $request;
+	protected ServerRequestInterface $request;
 
 	/**
 	 * Constructor
@@ -64,8 +64,7 @@ class RoutingBase {
 
 	/**
 	 * Get the current url path
-	 * @throws ContainerException
-	 * @throws NotFoundException
+	 *
 	 * @return string
 	 */
 	public function path(): string
@@ -82,8 +81,7 @@ class RoutingBase {
 
 	/**
 	 * Get the url segments
-	 * @throws ContainerException
-	 * @throws NotFoundException
+	 *
 	 * @return array
 	 */
 	public function segments(): array
@@ -96,11 +94,10 @@ class RoutingBase {
 	 * Get a segment of the current url
 	 *
 	 * @param int $num
-	 * @throws ContainerException
-	 * @throws NotFoundException
+	 *
 	 * @return string|null
 	 */
-	public function getSegment($num): ?string
+	public function getSegment(int $num): ?string
 	{
 		$segments = $this->segments();
 		return $segments[$num] ?? NULL;
@@ -109,8 +106,6 @@ class RoutingBase {
 	/**
 	 * Retrieve the last url segment
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return string
 	 */
 	public function lastSegment(): string

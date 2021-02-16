@@ -145,7 +145,7 @@ final class Anime extends BaseController {
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 
 		if (empty($data['mal_id']))
 		{
@@ -220,7 +220,7 @@ final class Anime extends BaseController {
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
@@ -257,7 +257,7 @@ final class Anime extends BaseController {
 		}
 		else
 		{
-			$data = $this->request->getParsedBody();
+			$data = (array)$this->request->getParsedBody();
 		}
 
 		if (empty($data))
@@ -282,7 +282,7 @@ final class Anime extends BaseController {
 	{
 		$this->checkAuth();
 
-		$body = $this->request->getParsedBody();
+		$body = (array)$this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
 		if ($response === TRUE)

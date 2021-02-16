@@ -69,9 +69,7 @@ final class Settings {
 	{
 		$output = [];
 
-		$settings = $this->getSettings();
-
-		foreach($settings as $file => $values)
+		foreach($this->getSettings() as $file => $values)
 		{
 			$values = $values ?? [];
 
@@ -126,6 +124,10 @@ final class Settings {
 	public function validateSettings(array $settings): array
 	{
 		$cfg = Config::check($settings);
+		if ( ! is_iterable($cfg))
+		{
+			return [];
+		}
 
 		$looseConfig = [];
 		$keyedConfig = [];

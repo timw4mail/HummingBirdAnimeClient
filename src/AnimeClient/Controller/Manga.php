@@ -135,15 +135,13 @@ final class Manga extends Controller {
 	 * Add an manga to the list
 	 *
 	 * @return void
-	 * @throws NotFoundException
 	 * @throws Throwable
-	 * @throws ContainerException
 	 */
 	public function add(): void
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
 			$this->redirect('manga/add', 303);
@@ -163,7 +161,7 @@ final class Manga extends Controller {
 		}
 		else
 		{
-			$this->setFlashMessage('Failed to add new manga to list' . $result['body'], 'error');
+			$this->setFlashMessage('Failed to add new manga to list:' . print_r($data, TRUE), 'error');
 		}
 
 		$this->sessionRedirect();
@@ -180,7 +178,7 @@ final class Manga extends Controller {
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
-	public function edit($id, $status = 'All'): void
+	public function edit(string $id, string $status = 'All'): void
 	{
 		$this->checkAuth();
 
@@ -218,14 +216,12 @@ final class Manga extends Controller {
 	 *
 	 * @return void
 	 * @throws Throwable
-	 * @throws NotFoundException
-	 * @throws ContainerException
 	 */
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
 
-		$data = $this->request->getParsedBody();
+		$data = (array)$this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
@@ -275,8 +271,6 @@ final class Manga extends Controller {
 	/**
 	 * Remove an manga from the list
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws Throwable
 	 * @return void
 	 */
@@ -284,7 +278,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		$body = $this->request->getParsedBody();
+		$body = (array)$this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
 		if ($response)

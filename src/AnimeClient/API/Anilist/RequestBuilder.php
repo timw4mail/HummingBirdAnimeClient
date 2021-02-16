@@ -31,6 +31,7 @@ use const Aviat\AnimeClient\USER_AGENT;
 use Aviat\AnimeClient\API\APIRequestBuilder;
 
 use LogicException;
+use Throwable;
 
 final class RequestBuilder extends APIRequestBuilder {
 	use ContainerAware;
@@ -117,7 +118,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
-		$file = realpath(__DIR__ . "/Queries/{$name}.graphql");
+		$file = __DIR__ . "/Queries/{$name}.graphql";
 		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');
@@ -150,8 +151,8 @@ final class RequestBuilder extends APIRequestBuilder {
 	 */
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
-		$file = realpath(__DIR__ . "/Mutations/{$name}.graphql");
-		if (!file_exists($file))
+		$file = __DIR__ . "/Mutations/{$name}.graphql";
+		if ( ! file_exists($file))
 		{
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}

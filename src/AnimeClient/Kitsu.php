@@ -166,7 +166,7 @@ final class Kitsu {
 	 */
 	public static function parseStreamingLinks(array $nodes): array
 	{
-		if (count($nodes) === 0)
+		if (empty($nodes))
 		{
 			return [];
 		}
@@ -179,12 +179,16 @@ final class Kitsu {
 
 			// 'Fix' links that start with the hostname,
 			// rather than a protocol
-			if (strpos($url, '//') === FALSE)
+			if ( ! str_contains($url, '//'))
 			{
 				$url = '//' . $url;
 			}
 
 			$host = parse_url($url, \PHP_URL_HOST);
+			if ($host === FALSE)
+			{
+				return [];
+			}
 
 			$links[] = [
 				'meta' => self::getServiceMetaData($host),
@@ -401,7 +405,7 @@ final class Kitsu {
 
 		if (empty($parts))
 		{
-			return $last;
+			return ($last !== NULL) ? $last : '';
 		}
 
 		return (count($parts) > 1)
@@ -412,11 +416,11 @@ final class Kitsu {
 	/**
 	 * Determine if an alternate title is unique enough to list
 	 *
-	 * @param string $title
+	 * @param string|null $title
 	 * @param array $existingTitles
 	 * @return bool
 	 */
-	private static function titleIsUnique(string $title = '', array $existingTitles = []): bool
+	protected static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{

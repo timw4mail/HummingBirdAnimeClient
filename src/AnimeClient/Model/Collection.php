@@ -29,15 +29,9 @@ class Collection extends DB {
 
 	/**
 	 * The query builder object
-	 * @var QueryBuilderInterface
+	 * @var QueryBuilderInterface|null
 	 */
-	protected QueryBuilderInterface $db;
-
-	/**
-	 * Whether the database is valid for querying
-	 * @var boolean
-	 */
-	protected bool $validDatabase = FALSE;
+	protected ?QueryBuilderInterface $db;
 
 	/**
 	 * Create a new collection object
@@ -51,9 +45,8 @@ class Collection extends DB {
 		try
 		{
 			$this->db = Query($this->dbConfig);
-			$this->validDatabase = TRUE;
 		}
-		catch (PDOException $e)
+		catch (PDOException)
 		{
 			$this->db = Query([
 				'type' => 'sqlite',
@@ -67,19 +60,12 @@ class Collection extends DB {
 		{
 			$dbFileName = $this->dbConfig['file'];
 
-			if ($dbFileName !== ':memory:' && file_exists($dbFileName))
+			if ($dbFileName !== ':memory:')
 			{
-				$dbFile = file_get_contents($dbFileName);
-				$this->validDatabase = (strpos($dbFile, 'SQLite format 3') === 0);
+				$rawFile = file_get_contents($dbFileName);
+				$dbFile = ($rawFile !== FALSE) ? $rawFile : '';
+				$this->db = (str_starts_with($dbFile, 'SQLite format 3')) ? $this->db : NULL;
 			}
-			else
-			{
-				$this->validDatabase = FALSE;
-			}
-		}
-		else if ($this->db === NULL)
-		{
-			$this->validDatabase = FALSE;
 		}
 	}
 }

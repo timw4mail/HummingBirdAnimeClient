@@ -35,9 +35,9 @@ class Anime extends AbstractType {
 	public array $genres = [];
 
 	/**
-	 * @var string|int
+	 * @var string
 	 */
-	public $id = '';
+	public string $id = '';
 
 	public array $included = [];
 

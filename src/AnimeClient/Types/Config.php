@@ -47,8 +47,9 @@ class Config extends AbstractType {
 
 	/**
 	 * The list to redirect to from the root url
+	 * 'anime' or 'manga'
 	 *
-	 * @var 'anime' | 'manga'
+	 * @var string|null
 	 */
 	public ?string $default_list;
 
@@ -59,7 +60,10 @@ class Config extends AbstractType {
 	public ?string $default_manga_list_path;
 
 	/**
-	 * @var 'cover_view' | 'list_view'
+	 * Default list view type
+	 * 'cover_view' or 'list_view'
+	 *
+	 * @var string
 	 */
 	public ?string $default_view_type;
 
@@ -70,17 +74,18 @@ class Config extends AbstractType {
 	/**
 	 * @var string|bool
 	 */
-	public $show_anime_collection = FALSE;
+	public string|bool $show_anime_collection = FALSE;
 
 	/**
 	 * @var string|bool
 	 */
-	public $show_manga_collection = FALSE;
+	public string|bool $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
+	 * 'auto', 'light', or 'dark'
 	 *
-	 * @var 'auto' | 'light' | 'dark'
+	 * @var string|null
 	 */
 	public ?string $theme = 'auto';
 
@@ -116,17 +121,17 @@ class Config extends AbstractType {
 
 	public ?string $view_path;
 
-	public function setAnilist ($data): void
+	public function setAnilist (mixed $data): void
 	{
 		$this->anilist = Config\Anilist::from($data);
 	}
 
-	public function setCache ($data): void
+	public function setCache (mixed $data): void
 	{
 		$this->cache = Config\Cache::from($data);
 	}
 
-	public function setDatabase ($data): void
+	public function setDatabase (mixed $data): void
 	{
 		$this->database = Config\Database::from($data);
 	}

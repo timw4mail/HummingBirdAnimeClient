@@ -37,12 +37,11 @@ use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\Anime;
 use Aviat\AnimeClient\Types\MangaPage;
-use Aviat\Banker\Exception\InvalidArgumentException;
 use Aviat\Ion\{
 	Di\ContainerAware,
 	Json
 };
-use Throwable;
+use Generator;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getApiClient;
 
@@ -91,7 +90,6 @@ final class Model {
 	 * @param string $username
 	 * @param string $password
 	 * @return bool|array
-	 * @throws Throwable
 	 */
 	public function authenticate(string $username, string $password)
 	{
@@ -134,7 +132,6 @@ final class Model {
 	 *
 	 * @param string $token
 	 * @return bool|array
-	 * @throws Throwable
 	 */
 	public function reAuthenticate(string $token)
 	{
@@ -174,7 +171,6 @@ final class Model {
 	 *
 	 * @param string|null $username
 	 * @return string
-	 * @throws \Psr\SimpleCache\InvalidArgumentException
 	 */
 	public function getUserIdByUsername(string $username = NULL): string
 	{
@@ -210,7 +206,6 @@ final class Model {
 	 *
 	 * @param string $slug
 	 * @return array
-	 * @throws InvalidArgumentException
 	 */
 	public function getPerson(string $slug): array
 	{
@@ -289,8 +284,6 @@ final class Model {
 	 * Retrieve the data for the anime watch history page
 	 *
 	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
 	public function getAnimeHistory(): array
 	{
@@ -315,7 +308,6 @@ final class Model {
 	 *
 	 * @param string $status - The watching status to filter the list with
 	 * @return array
-	 * @throws InvalidArgumentException
 	 */
 	public function getAnimeList(string $status): array
 	{
@@ -354,7 +346,6 @@ final class Model {
 	 *
 	 * @param string $status - Optional status to filter by
 	 * @return int
-	 * @throws InvalidArgumentException
 	 */
 	public function getAnimeListCount(string $status = '') : int
 	{
@@ -365,8 +356,6 @@ final class Model {
 	 * Get all the anime entries, that are organized for output to html
 	 *
 	 * @return array
-	 * @throws ReflectionException
-	 * @throws InvalidArgumentException
 	 */
 	public function getFullOrganizedAnimeList(): array
 	{
@@ -434,8 +423,6 @@ final class Model {
 	 * Retrieve the data for the manga read history page
 	 *
 	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
 	public function getMangaHistory(): array
 	{
@@ -458,7 +445,6 @@ final class Model {
 	 *
 	 * @param string $status - The reading status by which to filter the list
 	 * @return array
-	 * @throws InvalidArgumentException
 	 */
 	public function getMangaList(string $status): array
 	{
@@ -497,7 +483,6 @@ final class Model {
 	 *
 	 * @param string $status - Optional status to filter by
 	 * @return int
-	 * @throws InvalidArgumentException
 	 */
 	public function getMangaListCount(string $status = '') : int
 	{
@@ -508,8 +493,6 @@ final class Model {
 	 * Get all Manga lists
 	 *
 	 * @return array
-	 * @throws ReflectionException
-	 * @throws InvalidArgumentException
 	 */
 	public function getFullOrganizedMangaList(): array
 	{
@@ -638,8 +621,6 @@ final class Model {
 	 *
 	 * @param string $type
 	 * @return array
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
 	public function getSyncList(string $type): array
 	{
@@ -831,7 +812,7 @@ final class Model {
 		});
 	}
 
-	private function getPages(callable $method, ...$args): ?\Generator
+	private function getPages(callable $method, mixed ...$args): ?Generator
 	{
 		$items = $method(...$args);
 

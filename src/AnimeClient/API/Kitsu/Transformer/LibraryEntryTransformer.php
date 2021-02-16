@@ -26,8 +26,9 @@ use Aviat\Ion\Type\StringType;
  */
 final class LibraryEntryTransformer extends AbstractTransformer
 {
-	public function transform($item)
+	public function transform(array|object $item): AnimeListItem|MangaListItem
 	{
+		$item = (array)$item;
 		$type = $item['media']['type'] ?? '';
 
 		$genres = [];
@@ -37,20 +38,15 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			sort($genres);
 		}
 
-		switch (strtolower($type))
+		return match (strtolower($type))
 		{
-			case 'anime':
-				return $this->animeTransform($item, $genres);
-
-			case 'manga':
-				return $this->mangaTransform($item, $genres);
-
-			default:
-				return [];
-		}
+			'anime' => $this->animeTransform($item, $genres),
+			'manga' => $this->mangaTransform($item, $genres),
+			default => AnimeListItem::from([]),
+		};
 	}
 
-	private function animeTransform($item, array $genres): AnimeListItem
+	private function animeTransform(array $item, array $genres): AnimeListItem
 	{
 		$animeId = $item['media']['id'];
 		$anime = $item['media'];
@@ -119,7 +115,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		]);
 	}
 
-	private function mangaTransform($item, array $genres): MangaListItem
+	private function mangaTransform(array $item, array $genres): MangaListItem
 	{
 		$mangaId = $item['media']['id'];
 		$manga = $item['media'];

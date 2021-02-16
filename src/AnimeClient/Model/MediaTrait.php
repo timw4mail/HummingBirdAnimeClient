@@ -85,7 +85,7 @@ trait MediaTrait {
 	 * @param string $itemId
 	 * @return AnimeListItem|MangaListItem
 	 */
-	public function getLibraryItem(string $itemId)
+	public function getLibraryItem(string $itemId): AnimeListItem|MangaListItem
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}
@@ -100,7 +100,13 @@ trait MediaTrait {
 	public function createLibraryItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
-		$requester->addRequest($this->kitsuModel->createListItem($data), 'kitsu');
+		$kitsuRequest = $this->kitsuModel->createListItem($data);
+		if ($kitsuRequest === NULL)
+		{
+			return FALSE;
+		}
+
+		$requester->addRequest($kitsuRequest, 'kitsu');
 
 		if ($this->anilistEnabled && $data['mal_id'] !== null)
 		{

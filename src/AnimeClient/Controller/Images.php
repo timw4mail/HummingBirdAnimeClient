@@ -37,9 +37,7 @@ final class Images extends BaseController {
 	 * @param string $file The filename to look for
 	 * @param bool $display Whether to output the image to the server
 	 * @return void
-	 * @throws NotFoundException
 	 * @throws Throwable
-	 * @throws ContainerException
 	 */
 	public function cache(string $type, string $file, $display = TRUE): void
 	{
@@ -134,7 +132,16 @@ final class Images extends BaseController {
 
 		[$origWidth] = getimagesizefromstring($data);
 		$gdImg = imagecreatefromstring($data);
+		if ($gdImg === FALSE)
+		{
+			return;
+		}
+
 		$resizedImg = imagescale($gdImg, $width ?? $origWidth);
+		if ($resizedImg === FALSE)
+		{
+			return;
+		}
 
 		if ($ext === 'gif')
 		{
@@ -161,7 +168,7 @@ final class Images extends BaseController {
 				? 'image/webp'
 				: $response->getHeader('content-type')[0];
 
-			$outputFile = (strpos($file, '-original') !== FALSE)
+			$outputFile = (str_contains($file, '-original'))
 				? "{$filePrefix}-original.{$ext}"
 				: "{$filePrefix}.{$ext}";
 

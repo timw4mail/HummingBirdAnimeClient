@@ -57,11 +57,11 @@ class Util {
 	/**
 	 * Absolutely equal?
 	 *
-	 * @param $left
-	 * @param $right
+	 * @param mixed $left
+	 * @param mixed $right
 	 * @return bool
 	 */
-	public static function eq($left, $right): bool
+	public static function eq(mixed $left, mixed $right): bool
 	{
 		return $left === $right;
 	}
