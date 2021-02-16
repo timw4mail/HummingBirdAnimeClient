@@ -166,7 +166,7 @@ final class Images extends BaseController {
 		{
 			$contentType = ($ext === 'webp')
 				? 'image/webp'
-				: $response->getHeader('content-type')[0];
+				: $response->getHeader('content-type')[0] ?? 'image/jpeg';
 
 			$outputFile = (str_contains($file, '-original'))
 				? "{$filePrefix}-original.{$ext}"

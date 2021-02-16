@@ -62,10 +62,11 @@ trait CacheTrait {
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{
-		$value = $this->cache->get($key, NULL);
+		$value = $this->cache->get($key);
 
 		if ($value === NULL)
 		{
+			$primeArgs ??= [];
 			$value = $primer(...$primeArgs);
 			if ($value === NULL)
 			{

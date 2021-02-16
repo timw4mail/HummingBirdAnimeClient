@@ -60,7 +60,7 @@ $checkedConfig = ConfigType::check($configArray);
 // First look in app config, then PHP config, and at last
 // resort, just set to UTC.
 $timezone = ini_get('date.timezone');
-if (array_key_exists('timezone', $checkedConfig) && ! empty($checkedConfig['timezone']))
+if (is_array($checkedConfig) && array_key_exists('timezone', $checkedConfig) && ! empty($checkedConfig['timezone']))
 {
 	date_default_timezone_set($checkedConfig['timezone']);
 }

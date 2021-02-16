@@ -727,7 +727,7 @@ final class SyncLists extends BaseCommand {
 					$this->echoWarning("Skipped creating Kitsu {$type} due to missing id ¯\_(ツ)_/¯");
 					continue;
 				}
-				$requester->addRequest($this->kitsuModel->createListItem($item));
+				$requester->addRequest($maybeRequest);
 			}
 		}
 
@@ -785,9 +785,11 @@ final class SyncLists extends BaseCommand {
 		{
 			if ($action === SyncAction::UPDATE)
 			{
-				$requester->addRequest(
-					$this->anilistModel->updateListItem(FormItem::from($item), $type)
-				);
+				$maybeRequest = $this->anilistModel->updateListItem(FormItem::from($item), $type);
+				if ($maybeRequest !== NULL)
+				{
+					$requester->addRequest($maybeRequest);
+				}
 			}
 			else if ($action === SyncAction::CREATE)
 			{

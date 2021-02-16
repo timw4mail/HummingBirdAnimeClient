@@ -89,9 +89,9 @@ final class Model {
 	 *
 	 * @param string $username
 	 * @param string $password
-	 * @return bool|array
+	 * @return array|false
 	 */
-	public function authenticate(string $username, string $password)
+	public function authenticate(string $username, string $password): array|false
 	{
 		// K::AUTH_URL
 		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
@@ -131,9 +131,9 @@ final class Model {
 	 * Extend the current session with a refresh token
 	 *
 	 * @param string $token
-	 * @return bool|array
+	 * @return array|false
 	 */
-	public function reAuthenticate(string $token)
+	public function reAuthenticate(string $token): array|false
 	{
 		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
@@ -617,6 +617,7 @@ final class Model {
 	}
 
 	/**
+	 *
 	 * Get the data to sync Kitsu anime/manga list with another API
 	 *
 	 * @param string $type
@@ -708,11 +709,9 @@ final class Model {
 				$page = $data['pageInfo'];
 				if (empty($data))
 				{
+					// @TODO Proper Error logging
 					dump($rawData);
 					die();
-
-					// @TODO Error logging
-					break;
 				}
 
 				$cursor = $page['endCursor'];
@@ -812,7 +811,7 @@ final class Model {
 		});
 	}
 
-	private function getPages(callable $method, mixed ...$args): ?Generator
+	private function getPages(callable $method, mixed ...$args): Generator
 	{
 		$items = $method(...$args);
 
