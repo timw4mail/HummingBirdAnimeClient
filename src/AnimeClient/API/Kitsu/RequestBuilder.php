@@ -144,7 +144,10 @@ final class RequestBuilder extends APIRequestBuilder {
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			if ($logger !== NULL)
+			{
+				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			}
 		}
 
 		return Json::decode(wait($response->getBody()->buffer()));
@@ -166,7 +169,10 @@ final class RequestBuilder extends APIRequestBuilder {
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			if ($logger !== NULL)
+			{
+				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			}
 		}
 
 		return Json::decode(wait($response->getBody()->buffer()));
@@ -186,13 +192,16 @@ final class RequestBuilder extends APIRequestBuilder {
 		$request = $this->setUpRequest($type, $url, $options);
 		$response = getResponse($request);
 
-		$logger->debug('Kitsu API Response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			'requestHeaders' => $request->getHeaders(),
-		]);
+		if ($logger !== NULL)
+		{
+			$logger->debug('Kitsu API Response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				'requestHeaders' => $request->getHeaders(),
+			]);
+		}
 
 		return $response;
 	}
@@ -289,7 +298,10 @@ final class RequestBuilder extends APIRequestBuilder {
 		// Any other type of failed request
 		if ($statusCode > 299 || $statusCode < 200)
 		{
-			$logger->warning('Non 2xx response for api call', (array)$response);
+			if ($logger !== NULL)
+			{
+				$logger->warning('Non 2xx response for api call', (array)$response);
+			}
 		}
 
 		try

@@ -329,7 +329,7 @@ final class Anime extends BaseController {
 				'title' => $this->formatTitle(
 					$this->config->get('whose_list') . "'s Anime List",
 					'Anime',
-					$data->title
+					$data->title ?? ''
 				),
 				'data' => $data,
 			]);
@@ -367,7 +367,7 @@ final class Anime extends BaseController {
 				'title' => $this->formatTitle(
 					$this->config->get('whose_list') . "'s Anime List",
 					'Anime',
-					$data->title
+					$data->title ?? ''
 				),
 				'data' => $data,
 			]);

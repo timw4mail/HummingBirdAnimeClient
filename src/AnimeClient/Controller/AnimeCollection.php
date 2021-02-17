@@ -139,7 +139,7 @@ final class AnimeCollection extends BaseController {
 				$action
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === 'Edit') ? $this->animeCollectionModel->get($id) : []
+			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : []
 		]);
 	}
 

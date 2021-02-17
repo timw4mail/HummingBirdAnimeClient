@@ -12,6 +12,7 @@ parameters:
 		- '#Function imagepalletetotruecolor not found#'
 		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
 		- '#Call to an undefined method Query\\QueryBuilderInterface::[a-zA-Z0-9_]+\(\)#'
+		- '#Unable to resolve the template type TValue#'
 	excludes_analyse:
 		- tests/mocks.php
 		- vendor

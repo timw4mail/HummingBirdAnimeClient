@@ -193,12 +193,11 @@ abstract class APIRequestBuilder {
 	 * Set the request body
 	 *
 	 * @param mixed $body
-	 * @throws \TypeError
 	 * @return self
 	 */
-	public function setJsonBody($body): self
+	public function setJsonBody(mixed $body): self
 	{
-		$requestBody = ( ! is_scalar($body))
+		$requestBody = ( ! is_string($body))
 			? Json::encode($body)
 			: $body;
 
