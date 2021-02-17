@@ -190,6 +190,10 @@ final class Model
 	public function getListItem(string $malId, string $type): array
 	{
 		$id = $this->getListIdFromMalId($malId, $type);
+		if ($id === NULL)
+		{
+			return [];
+		}
 
 		$data = $this->listItem->get($id)['data'];
 

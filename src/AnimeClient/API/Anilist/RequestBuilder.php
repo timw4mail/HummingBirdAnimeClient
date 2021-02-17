@@ -205,13 +205,16 @@ final class RequestBuilder extends APIRequestBuilder {
 		$request = $this->setUpRequest($url, $options);
 		$response = getResponse($request);
 
-		$logger->debug('Anilist response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			'requestHeaders' => $request->getHeaders(),
-		]);
+		if ($logger !== NULL)
+		{
+			$logger->debug('Anilist response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				'requestHeaders' => $request->getHeaders(),
+			]);
+		}
 
 		return $response;
 	}
@@ -227,13 +230,16 @@ final class RequestBuilder extends APIRequestBuilder {
 
 		$response = getResponse($request);
 
-		$logger->debug('Anilist response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			'requestHeaders' => $request->getHeaders(),
-		]);
+		if ($logger !== NULL)
+		{
+			$logger->debug('Anilist response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				'requestHeaders' => $request->getHeaders(),
+			]);
+		}
 
 		return $response;
 	}
@@ -251,17 +257,24 @@ final class RequestBuilder extends APIRequestBuilder {
 		$validResponseCodes = [200, 201];
 
 		$logger = $this->container->getLogger('anilist-request');
-		$logger->debug('Anilist response', [
-			'status' => $response->getStatus(),
-			'reason' => $response->getReason(),
-			'body' => $response->getBody(),
-			'headers' => $response->getHeaders(),
-			//'requestHeaders' => $request->getHeaders(),
-		]);
+		if ($logger !== NULL)
+		{
+			$logger->debug('Anilist response', [
+				'status' => $response->getStatus(),
+				'reason' => $response->getReason(),
+				'body' => $response->getBody(),
+				'headers' => $response->getHeaders(),
+				//'requestHeaders' => $request->getHeaders(),
+			]);
+		}
+
 
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
+			if ($logger !== NULL)
+			{
+				$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
+			}
 		}
 
 		$rawBody = wait($response->getBody()->buffer());

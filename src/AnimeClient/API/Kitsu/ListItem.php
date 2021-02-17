@@ -166,11 +166,6 @@ final class ListItem extends AbstractListItem {
 		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', $updateData);
 	}
 
-	/**
-	 * @return bool|string
-	 * @throws ContainerException
-	 * @throws NotFoundException
-	 */
 	private function getAuthHeader(): ?string
 	{
 		$auth = $this->getContainer()->get('auth');
