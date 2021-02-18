@@ -141,7 +141,7 @@ class Controller {
 
 		$util = $this->container->get('util');
 		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
-		$isLoginPage = (bool) strpos($serverParams['HTTP_REFERER'], 'login');
+		$isLoginPage = str_contains($serverParams['HTTP_REFERER'], 'login');
 
 		// Don't attempt to set the redirect url if
 		// the page is one of the form type pages,
@@ -198,9 +198,6 @@ class Controller {
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
-	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return string
 	 */
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
@@ -233,8 +230,6 @@ class Controller {
 	 * @param string $template
 	 * @param array $data
 	 * @return HtmlView
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
