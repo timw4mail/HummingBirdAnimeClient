@@ -62,7 +62,6 @@
 	"yosymfony/toml": "^1.0.4"
   },
   "require-dev": {
-	"consolidation/robo": "^2.0.0",
 	"pdepend/pdepend": "^2.",
 	"phploc/phploc": "^7.0.0",
 	"phpmd/phpmd": "^2.8.2",
