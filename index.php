@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\Types\Config as ConfigType;
-use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler;
 use Whoops\Run;
-
+use Whoops\Util;
 use function Aviat\Ion\_dir;
 
 setlocale(LC_CTYPE, 'en_US');
@@ -30,7 +30,12 @@ require_once __DIR__ . '/vendor/autoload.php';
 if (file_exists('.is-dev'))
 {
 	$whoops = new Run;
-	$whoops->pushHandler(new PrettyPageHandler);
+	$whoops->pushHandler(new Handler\PrettyPageHandler);
+
+	if (Util\Misc::isAjaxRequest()) {
+		$whoops->pushHandler(new Handler\JsonResponseHandler);
+	}
+
 	$whoops->register();
 }
 
