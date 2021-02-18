@@ -259,8 +259,6 @@ class Controller {
 	 * @param string $title
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function notFound(
@@ -283,8 +281,6 @@ class Controller {
 	 * @param string $message
 	 * @param string $longMessage
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
@@ -351,8 +347,6 @@ class Controller {
 	 * @param string $type
 	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return string
 	 */
 	protected function showMessage(HtmlView $view, string $type, string $message): string
@@ -371,8 +365,6 @@ class Controller {
 	 * @param HtmlView|NULL $view
 	 * @param int $code
 	 * @throws InvalidArgumentException
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @return void
 	 */
 	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
