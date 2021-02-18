@@ -236,7 +236,7 @@ class Controller {
 		$csp = [
 			"default-src 'self'",
 			"object-src 'none'",
-			'frame-src *.youtube.com',
+			"child-src 'self' *.youtube.com polyfill.io",
 		];
 
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
