@@ -251,7 +251,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
+		if (str_contains($this->request->getHeader('content-type')[0], 'application/json'))
 		{
 			$data = Json::decode((string)$this->request->getBody());
 		}

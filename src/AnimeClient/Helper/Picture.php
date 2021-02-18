@@ -68,12 +68,12 @@ final class Picture {
 
 		// If it is a placeholder image, make the
 		// fallback a png, not a jpg
-		if (strpos($uri, 'placeholder') !== FALSE)
+		if (str_contains($uri, 'placeholder'))
 		{
 			$fallbackExt = 'png';
 		}
 
-		if (strpos($uri, '//') === FALSE)
+		if ( ! str_contains($uri, '//'))
 		{
 			$uri = $urlGenerator->assetUrl($uri);
 		}
