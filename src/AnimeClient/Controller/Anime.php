@@ -228,7 +228,7 @@ final class Anime extends BaseController {
 		$postData = $transformer->untransform($data);
 		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
 
-		if ($fullResult['statusCode'] === 200)
+		if ($fullResult['statusCode'] === 200 && $fullResult['body']['error'] === NULL)
 		{
 			$this->setFlashMessage('Successfully updated.', 'success');
 			$this->cache->clear();
