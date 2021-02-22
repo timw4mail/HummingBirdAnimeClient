@@ -229,7 +229,7 @@ final class Manga extends Controller {
 		$post_data = $transformer->untransform($data);
 		$full_result = $this->model->updateLibraryItem(FormItem::from($post_data));
 
-		if ($full_result['statusCode'] === 200)
+		if ($full_result['statusCode'] === 200 && $full_result['body']['error'] === NULL)
 		{
 			$this->setFlashMessage('Successfully updated manga.', 'success');
 			$this->cache->clear();

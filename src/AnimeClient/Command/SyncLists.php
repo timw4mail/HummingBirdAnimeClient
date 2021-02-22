@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use Aviat\Ion\JsonException;
 use ConsoleKit\Widgets;
 
 use Aviat\AnimeClient\API\{
@@ -288,7 +289,15 @@ final class SyncLists extends BaseCommand {
 		// This uses a static so I don't have to fetch this list twice for a count
 		if ($list[$type] === NULL)
 		{
-			$list[$type] = $this->anilistModel->getSyncList(strtoupper($type));
+			try
+			{
+				$list[$type] = $this->anilistModel->getSyncList(strtoupper($type));
+			}
+			catch (JsonException)
+			{
+				$this->echoErrorBox('Anlist API exception. Can not sync.');
+				die();
+			}
 		}
 
 		return $list[$type];
@@ -599,7 +608,7 @@ final class SyncLists extends BaseCommand {
 				$kitsuItem['data']['ratingTwenty'] !== 0
 			)
 			{
-				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
+				$update['data']['ratingTwenty'] = $kitsuItem['data']['rating'];
 				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
