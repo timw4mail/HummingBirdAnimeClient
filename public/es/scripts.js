@@ -644,7 +644,7 @@ AnimeClient.on('body.anime.list', 'click', '.plus-one', (e) => {
 		success: (res) => {
 			const resData = JSON.parse(res);
 
-			if (resData.errors) {
+			if (resData.error) {
 				AnimeClient.hide('#loading-shadow');
 				AnimeClient.showMessage('error', `Failed to update ${title}. `);
 				AnimeClient.scrollToTop();
@@ -740,14 +740,22 @@ AnimeClient.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		dataType: 'json',
 		type: 'POST',
 		mimeType: 'application/json',
-		success: () => {
+		success: (res) => {
+			const resData = JSON.parse(res);
+			if (resData.error) {
+				AnimeClient.hide('#loading-shadow');
+				AnimeClient.showMessage('error', `Failed to update ${mangaName}. `);
+				AnimeClient.scrollToTop();
+				return;
+			}
+
 			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				AnimeClient.hide(parentSel);
 			}
 
 			AnimeClient.hide('#loading-shadow');
 
-			AnimeClient.$(`.${type}s_read`, parentSel)[ 0 ].textContent = completed;
+			AnimeClient.$(`.${type}s_read`, parentSel)[ 0 ].textContent = String(completed);
 			AnimeClient.showMessage('success', `Successfully updated ${mangaName}`);
 			AnimeClient.scrollToTop();
 		},
