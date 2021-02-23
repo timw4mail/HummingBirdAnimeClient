@@ -55,6 +55,17 @@ class KitsuTest extends TestCase {
 		$this->assertEquals($expected, Kitsu::parseStreamingLinks($nodes));
 	}
 
+	public function testParseStreamingLinksNoHost(): void
+	{
+		$nodes = [[
+			'url' => '/link-fragment',
+			'dubs' => [],
+			'subs' => [],
+		]];
+
+		$this->assertEquals([], Kitsu::parseStreamingLinks($nodes));
+	}
+
 	public function testGetAiringStatusEmptyArguments(): void
 	{
 		$this->assertEquals(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus());
@@ -123,7 +134,7 @@ class KitsuTest extends TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function testFilterLocalizedTitles()
+	public function testFilterLocalizedTitles(): void
 	{
 		$input = [
 			'canonical' => 'foo',
@@ -140,7 +151,7 @@ class KitsuTest extends TestCase {
 		$this->assertEquals(['Foo the Movie'], $actual);
 	}
 
-	public function testGetFilteredTitles()
+	public function testGetFilteredTitles(): void
 	{
 		$input = [
 			'canonical' => 'foo',
