@@ -25,22 +25,6 @@ final class Picture {
 
 	use ContainerAware;
 
-	private const MIME_MAP = [
-		'apng' => 'image/vnd.mozilla.apng',
-		'bmp' => 'image/bmp',
-		'gif' => 'image/gif',
-		'ico' => 'image/x-icon',
-		'jpeg' => 'image/jpeg',
-		'jpf' => 'image/jpx',
-		'jpg' => 'image/jpeg',
-		'jpx' => 'image/jpx',
-		'png' => 'image/png',
-		'svg' => 'image/svg+xml',
-		'tif' => 'image/tiff',
-		'tiff' => 'image/tiff',
-		'webp' => 'image/webp',
-	];
-
 	private const SIMPLE_IMAGE_TYPES = [
 		'gif',
 		'jpeg',
@@ -82,22 +66,34 @@ final class Picture {
 		$ext = array_pop($urlParts);
 		$path = implode('.', $urlParts);
 
-		$mime = array_key_exists($ext, static::MIME_MAP)
-			? static::MIME_MAP[$ext]
-			: 'image/jpeg';
+		$mime = match ($ext) {
+			'avif' => 'image/avif',
+			'apng' => 'image/vnd.mozilla.apng',
+			'bmp' => 'image/bmp',
+			'gif' => 'image/gif',
+			'ico' => 'image/x-icon',
+			'jpf', 'jpx' => 'image/jpx',
+			'png' => 'image/png',
+			'svg' => 'image/svg+xml',
+			'tif', 'tiff' => 'image/tiff',
+			'webp' => 'image/webp',
+			default => 'image/jpeg',
+		};
 
-		$fallbackMime = array_key_exists($fallbackExt, static::MIME_MAP)
-			? static::MIME_MAP[$fallbackExt]
-			: 'image/jpeg';
+		$fallbackMime = match ($fallbackExt) {
+			'gif' => 'image/gif',
+			'png' => 'image/png',
+			default => 'image/jpeg',
+		};
 
 		// For image types that are well-established, just return a
 		// simple <img /> element instead
 		if (
 			$ext === $fallbackExt ||
-			\in_array($ext, static::SIMPLE_IMAGE_TYPES, TRUE)
+			\in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
 		)
 		{
-			$attrs = ( ! empty($imgAttrs))
+			$attrs = (count($imgAttrs) > 1)
 				? $imgAttrs
 				: $picAttrs;
 

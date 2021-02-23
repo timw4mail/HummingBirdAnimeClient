@@ -22,53 +22,55 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 class PictureHelperTest extends AnimeClientTestCase {
 	/**
 	 * @dataProvider dataPictureCase
+	 * @param array $params
 	 */
-	public function testPictureHelper($params, $expected = NULL)
+	public function testPictureHelper(array $params): void
 	{
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
 		$actual = $helper(...$params);
 
-		if ($expected === NULL)
-		{
-			$this->assertMatchesSnapshot($actual);
-		}
-		else
-		{
-			$this->assertEquals($expected, $actual);
-		}
+		$this->assertMatchesSnapshot($actual);
 	}
 
 	/**
 	 * @dataProvider dataSimpleImageCase
+	 * @param string $ext
+	 * @param bool $isSimple
+	 * @param string $fallbackExt
 	 */
-	public function testSimpleImage(string $ext, bool $isSimple)
+	public function testSimpleImage(string $ext, bool $isSimple, string $fallbackExt = 'jpg'): void
 	{
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
 		$url = "https://example.com/image.{$ext}";
-		$actual = $helper($url);
+		$actual = $helper($url, $fallbackExt);
 
-		$actuallySimple = strpos($actual, '<picture') === FALSE;
+		$actuallySimple = ! str_contains($actual, '<picture');
 
 		$this->assertEquals($isSimple, $actuallySimple);
 	}
 
-	public function testSimpleImageByFallback()
+	public function testSimpleImageByFallback(): void
 	{
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
 		$actual = $helper("foo.svg", 'svg');
 
-		$this->assertTrue(strpos($actual, '<picture') === FALSE);
+		$this->assertTrue(! str_contains($actual, '<picture'));
 	}
 
-	public function dataPictureCase()
+	public function dataPictureCase(): array
 	{
 		return [
+			'Full AVIF URL' => [
+				'params' => [
+					'https://www.example.com/image.avif',
+				],
+			],
 			'Full webp URL' => [
 				'params' => [
 					'https://www.example.com/image.webp',
@@ -112,16 +114,21 @@ class PictureHelperTest extends AnimeClientTestCase {
 				'params' => [
 					'images/foo.jpg',
 					'jpg',
-					[ 'x' => 1, 'y' => 1 ],
+					[],
 					['width' => 200, 'height' => 200, 'alt' => 'should exist'],
 				]
 			]
 		];
 	}
 
-	public function dataSimpleImageCase()
+	public function dataSimpleImageCase(): array
 	{
 		return [
+			'avif' => [
+				'ext' => 'avif',
+				'isSimple' => FALSE,
+				'fallback' => 'jpf'
+			],
 			'apng' => [
 				'ext' => 'apng',
 				'isSimple' => FALSE,
