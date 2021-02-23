@@ -47,7 +47,6 @@
 	"ext-json": "*",
 	"ext-gd": "*",
 	"ext-pdo": "*",
-	"filp/whoops": "^2.1",
 	"laminas/laminas-diactoros": "^2.5.0",
 	"laminas/laminas-httphandlerrunner": "^1.1.0",
 	"maximebf/consolekit": "^1.0.3",
@@ -59,7 +58,7 @@
 	"robmorgan/phinx": "^0.12.4",
 	"symfony/polyfill-mbstring": "^1.0.0",
 	"symfony/polyfill-util": "^1.0.0",
-	"symfony/var-dumper": "^5.0.7",
+	"tracy/tracy": "^2.8.0",
 	"yosymfony/toml": "^1.0.4"
   },
   "require-dev": {

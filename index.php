@@ -17,9 +17,7 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\Types\Config as ConfigType;
-use Whoops\Handler;
-use Whoops\Run;
-use Whoops\Util;
+use Tracy\Debugger;
 use function Aviat\Ion\_dir;
 
 setlocale(LC_CTYPE, 'en_US');
@@ -27,17 +25,8 @@ setlocale(LC_CTYPE, 'en_US');
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (file_exists('.is-dev'))
-{
-	$whoops = new Run;
-	$whoops->pushHandler(new Handler\PrettyPageHandler);
-
-	if (Util\Misc::isAjaxRequest()) {
-		$whoops->pushHandler(new Handler\JsonResponseHandler);
-	}
-
-	$whoops->register();
-}
+Debugger::$strictMode = true;
+Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/app/logs');
 
 // Define base directories
 $APP_DIR = _dir(__DIR__, 'app');
