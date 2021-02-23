@@ -4,11 +4,7 @@
  */
 
 // Work around the silly timezone error
-$timezone = ini_get('date.timezone');
-if ($timezone === '' || $timezone === FALSE)
-{
-	ini_set('date.timezone', 'GMT');
-}
+date_default_timezone_set('UTC');
 
 define('AC_TEST_ROOT_DIR', dirname(__DIR__) . '/');
 define('SRC_DIR', AC_TEST_ROOT_DIR . 'src/');
