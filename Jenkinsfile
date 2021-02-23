@@ -18,7 +18,8 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git'
+				sh 'apk add --no-cache git icu-dev'
+				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
@@ -30,7 +31,8 @@ pipeline {
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git'
+				sh 'apk add --no-cache git icu-dev'
+				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
