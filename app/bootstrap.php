@@ -34,11 +34,11 @@ use Psr\SimpleCache\CacheInterface;
 
 use function Aviat\Ion\_dir;
 
-if ( ! defined('APP_DIR'))
+if ( ! defined('HB_APP_DIR'))
 {
-	define('APP_DIR', __DIR__);
-	define('ROOT_DIR', dirname(APP_DIR));
-	define('TEMPLATE_DIR', _dir(APP_DIR,  'templates'));
+	define('HB_APP_DIR', __DIR__);
+	define('ROOT_DIR', dirname(HB_APP_DIR));
+	define('TEMPLATE_DIR', _dir(HB_APP_DIR,  'templates'));
 }
 
 // -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return static function (array $configArray = []): Container {
 	// -------------------------------------------------------------------------
 	// Logging
 	// -------------------------------------------------------------------------
-	$LOG_DIR = _dir(APP_DIR, 'logs');
+	$LOG_DIR = _dir(HB_APP_DIR, 'logs');
 
 	$appLogger = new Logger('animeclient');
 	$appLogger->pushHandler(new RotatingFileHandler(_dir($LOG_DIR, 'app.log'), 2, Logger::WARNING));

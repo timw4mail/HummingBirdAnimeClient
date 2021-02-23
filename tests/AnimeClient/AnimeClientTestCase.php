@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Tests;
 
+use Aviat\Ion\Di\ContainerInterface;
 use function Aviat\Ion\_dir;
 
 use Aviat\Ion\Json;
@@ -59,6 +60,7 @@ class AnimeClientTestCase extends TestCase {
 		parent::setUp();
 
 		$config_array = [
+			'root' => self::ROOT_DIR,
 			'asset_path' => '/assets',
 			'img_cache_path' => _dir(self::ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
@@ -94,7 +96,7 @@ class AnimeClientTestCase extends TestCase {
 		];
 
 		// Set up DI container
-		$di = require _dir(self::ROOT_DIR, 'app', 'bootstrap.php');
+		$di = require self::ROOT_DIR .  '/app/bootstrap.php';
 		$container = $di($config_array);
 
 		// Use mock session handler
