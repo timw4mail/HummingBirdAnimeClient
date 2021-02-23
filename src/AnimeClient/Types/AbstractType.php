@@ -236,6 +236,9 @@ abstract class AbstractType implements ArrayAccess, Countable {
 		return TRUE;
 	}
 
+	/**
+	 * @codeCoverageIgnore
+	 */
 	final protected function fromObject(mixed $parent = null): float|null|bool|int|array|string
 	{
 		$object = $parent ?? $this;

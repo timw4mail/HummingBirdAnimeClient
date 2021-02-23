@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 $file_patterns = [
+	'app/appConf/*.php',
 	'app/bootstrap.php',
 	'migrations/*.php',
 	'src/**/*.php',
@@ -16,7 +17,7 @@ if ( ! function_exists('glob_recursive'))
 {
 	// Does not support flag GLOB_BRACE
 
-	function glob_recursive($pattern, $flags = 0)
+	function glob_recursive(string $pattern, int $flags = 0): array
 	{
 		$files = glob($pattern, $flags);
 
@@ -57,17 +58,21 @@ function get_text_to_replace(array $tokens): string
 	return $output;
 }
 
-function get_tokens($source): array
+function get_tokens(string $source): array
 {
 	return token_get_all($source);
 }
 
-function replace_files(array $files, $template)
+function replace_files(array $files, string $template): void
 {
 	print_r($files);
 	foreach ($files as $file)
 	{
 		$source = file_get_contents($file);
+		if ($source === FALSE)
+		{
+			continue;
+		}
 
 		if (stripos($source, 'namespace') === FALSE)
 		{

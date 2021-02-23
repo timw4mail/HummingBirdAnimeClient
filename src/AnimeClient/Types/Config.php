@@ -32,6 +32,8 @@ class Config extends AbstractType {
 	// Settings in config.toml
 	// ------------------------------------------------------------------------
 
+	public string $root; // Path to app root
+
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
@@ -62,8 +64,6 @@ class Config extends AbstractType {
 	/**
 	 * Default list view type
 	 * 'cover_view' or 'list_view'
-	 *
-	 * @var string
 	 */
 	public ?string $default_view_type;
 
@@ -71,21 +71,13 @@ class Config extends AbstractType {
 
 	public bool $secure_urls = TRUE;
 
-	/**
-	 * @var string|bool
-	 */
 	public string|bool $show_anime_collection = FALSE;
 
-	/**
-	 * @var string|bool
-	 */
 	public string|bool $show_manga_collection = FALSE;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
 	 * 'auto', 'light', or 'dark'
-	 *
-	 * @var string|null
 	 */
 	public ?string $theme = 'auto';
 
