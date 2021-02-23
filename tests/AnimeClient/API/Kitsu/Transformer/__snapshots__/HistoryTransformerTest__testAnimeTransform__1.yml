@@ -4,7 +4,7 @@
     coverImg: images/anime/43825.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-23T12:24:03-05:00'
+    updated: '2021-02-23T17:24:03+00:00'
     url: /anime/details/shin-chuuka-ichiban-2nd-season
     original: { id: '47211008', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43825', slug: shin-chuuka-ichiban-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43825/tiny.jpg?1609082225' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43825/small.jpg?1609082225' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43825/medium.jpg?1609082225' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43825/large.jpg?1609082225' }] }, titles: { alternatives: ['New Cooking Master Boy!'], canonical: 'Shin Chuuka Ichiban! 2nd Season', localized: { en: 'True Cooking Master Boy Season 2', en_jp: 'Shin Chuuka Ichiban! 2nd Season', ja_jp: 真・中華一番! } } }, updatedAt: '2021-02-23T17:24:03Z' }
 -
@@ -13,7 +13,7 @@
     coverImg: images/anime/43545.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-23T07:45:26-05:00'
+    updated: '2021-02-23T12:45:26+00:00'
     url: /anime/details/horimiya
     original: { id: '47197990', changedData: { progress: [6, 7], time_spent: [5520, 6900] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43545', slug: horimiya, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43545/tiny.jpg?1609224996' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43545/small.jpg?1609224996' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43545/medium.jpg?1609224996' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43545/large.jpg?1609224996' }] }, titles: { alternatives: {  }, canonical: Horimiya, localized: { en_jp: Horimiya, ja_jp: ホリミヤ } } }, updatedAt: '2021-02-23T12:45:26Z' }
 -
@@ -22,7 +22,7 @@
     coverImg: images/anime/43818.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-23T07:20:46-05:00'
+    updated: '2021-02-23T12:20:46+00:00'
     url: /anime/details/kai-byoui-ramune
     original: { id: '47197145', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '43818', slug: kai-byoui-ramune, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43818/tiny.jpg?1608544506' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43818/small.jpg?1608544506' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43818/medium.jpg?1608544506' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43818/large.jpg?1608544506' }] }, titles: { alternatives: {  }, canonical: 'Kai Byoui Ramune', localized: { en: 'Dr. Ramune -Mysterious Disease Specialist-', en_jp: 'Kai Byoui Ramune', ja_jp: 怪病医ラムネ } } }, updatedAt: '2021-02-23T12:20:46Z' }
 -
@@ -31,7 +31,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 23'
     kind: progressed
-    updated: '2021-02-22T15:25:05-05:00'
+    updated: '2021-02-22T20:25:05+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '47150310', changedData: { progress: [24, 23], time_spent: [1992, 1968] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-22T20:25:05Z' }
 -
@@ -40,7 +40,7 @@
     coverImg: images/anime/42635.webp
     action: 'Watched episode 8'
     kind: progressed
-    updated: '2021-02-22T12:50:38-05:00'
+    updated: '2021-02-22T17:50:38+00:00'
     url: /anime/details/tatoeba-last-dungeon-mae-no-mura-no-shounen-ga-joban-no-machi-de-kurasu-youna-monogatari
     original: { id: '47142671', changedData: { progress: [7, 8] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42635', slug: tatoeba-last-dungeon-mae-no-mura-no-shounen-ga-joban-no-machi-de-kurasu-youna-monogatari, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42635/tiny.jpg?1571504181' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42635/small.jpg?1571504181' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42635/medium.jpg?1571504181' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42635/large.jpg?1571504181' }] }, titles: { alternatives: ['Suppose a Kid from the Last Dungeon Boonies Moved to a Starter Town'], canonical: 'Tatoeba Last Dungeon Mae no Mura no Shounen ga Joban no Machi de Kurasu Youna Monogatari', localized: { en_jp: 'Tatoeba Last Dungeon Mae no Mura no Shounen ga Joban no Machi de Kurasu Youna Monogatari', ja_jp: たとえばラストダンジョン前の村の少年が序盤の街で暮らすような物語 } } }, updatedAt: '2021-02-22T17:50:38Z' }
 -
@@ -49,7 +49,7 @@
     coverImg: images/anime/42323.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-22T12:27:39-05:00'
+    updated: '2021-02-22T17:27:39+00:00'
     url: /anime/details/mushoku-tensei-isekai-ittara-honki-dasu
     original: { id: '47141571', changedData: { progress: [6, 7], time_spent: [4320, 5760] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: 'The pervert aspect of this dampens my enjoyment. ' }, media: { __typename: Anime, id: '42323', slug: mushoku-tensei-isekai-ittara-honki-dasu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42323/tiny.jpg?1571408000' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42323/small.jpg?1571408000' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42323/medium.jpg?1571408000' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42323/large.jpg?1571408000' }] }, titles: { alternatives: {  }, canonical: 'Mushoku Tensei: Isekai Ittara Honki Dasu', localized: { en: 'Mushoku Tensei: Jobless Reincarnation', en_jp: 'Mushoku Tensei: Isekai Ittara Honki Dasu', ja_jp: '無職転生 ～異世界行ったら本気だす～' } } }, updatedAt: '2021-02-22T17:27:39Z' }
 -
@@ -58,7 +58,7 @@
     coverImg: images/anime/42650.webp
     action: Completed
     kind: updated
-    updated: '2021-02-21T07:47:27-05:00'
+    updated: '2021-02-21T12:47:27+00:00'
     url: /anime/details/healin-good-precure
     original: { id: '47057900', changedData: { status: [current] }, kind: UPDATED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42650', slug: healin-good-precure, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42650/tiny.jpg?1578070083' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42650/small.jpg?1578070083' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42650/medium.jpg?1578070083' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42650/large.jpg?1578070083' }] }, titles: { alternatives: {  }, canonical: 'Healin'' Good♡Precure', localized: { en: 'Healin'' Good Pretty Cure', en_jp: 'Healin'' Good♡Precure', ja_jp: ヒーリングっど♡プリキュア } } }, updatedAt: '2021-02-21T12:47:27Z' }
 -
@@ -67,7 +67,7 @@
     coverImg: images/anime/42650.webp
     action: 'Watched episode 45'
     kind: progressed
-    updated: '2021-02-21T07:47:27-05:00'
+    updated: '2021-02-21T12:47:27+00:00'
     url: /anime/details/healin-good-precure
     original: { id: '47057899', changedData: { progress: [44, 45], time_spent: [63360, 64800] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42650', slug: healin-good-precure, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42650/tiny.jpg?1578070083' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42650/small.jpg?1578070083' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42650/medium.jpg?1578070083' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42650/large.jpg?1578070083' }] }, titles: { alternatives: {  }, canonical: 'Healin'' Good♡Precure', localized: { en: 'Healin'' Good Pretty Cure', en_jp: 'Healin'' Good♡Precure', ja_jp: ヒーリングっど♡プリキュア } } }, updatedAt: '2021-02-21T12:47:27Z' }
 -
@@ -76,16 +76,16 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episodes 23-24'
     kind: null
-    updated: '2021-02-20T18:39:13-05:00'
+    updated: '2021-02-20T23:39:13+00:00'
     url: /anime/details/yes-precure-5
-    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 24', kind: progressed, updated: '2021-02-20T18:39:13-05:00', url: /anime/details/yes-precure-5, original: { id: '47027732', changedData: { progress: [23, 24], time_spent: [1968, 1992] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-20T23:39:13Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 23', kind: progressed, updated: '2021-02-20T18:14:59-05:00', url: /anime/details/yes-precure-5, original: { id: '47026266', changedData: { progress: [22, 23], time_spent: [1944, 1968] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-20T23:14:59Z' } }]
+    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 24', kind: progressed, updated: '2021-02-20T23:39:13+00:00', url: /anime/details/yes-precure-5, original: { id: '47027732', changedData: { progress: [23, 24], time_spent: [1968, 1992] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-20T23:39:13Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 23', kind: progressed, updated: '2021-02-20T23:14:59+00:00', url: /anime/details/yes-precure-5, original: { id: '47026266', changedData: { progress: [22, 23], time_spent: [1944, 1968] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-20T23:14:59Z' } }]
 -
     empty: false
     title: 'Ore dake Haireru Kakushi Dungeon'
     coverImg: images/anime/43301.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T17:42:45-05:00'
+    updated: '2021-02-20T22:42:45+00:00'
     url: /anime/details/ore-dake-haireru-kakushi-dungeon
     original: { id: '47024295', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43301', slug: ore-dake-haireru-kakushi-dungeon, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43301/tiny.jpg?1607696005' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43301/small.jpg?1607696005' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43301/medium.jpg?1607696005' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43301/large.jpg?1607696005' }] }, titles: { alternatives: ['Special training in the Secret Dungeon', 'Ore Dake Haireru Kakushi Dungeon: Kossori Kitaete Sekai Saikyou'], canonical: 'Ore dake Haireru Kakushi Dungeon', localized: { en: 'The Hidden Dungeon Only I Can Enter', en_jp: 'Ore dake Haireru Kakushi Dungeon', ja_jp: 俺だけ入れる隠しダンジョン } } }, updatedAt: '2021-02-20T22:42:45Z' }
 -
@@ -94,7 +94,7 @@
     coverImg: images/anime/43550.webp
     action: 'Watched episode 19'
     kind: progressed
-    updated: '2021-02-20T17:14:24-05:00'
+    updated: '2021-02-20T22:14:24+00:00'
     url: /anime/details/inu-to-neko-docchi-mo-katteru-to-mainichi-tanoshii
     original: { id: '47022910', changedData: { progress: [18, 19], time_spent: [360, 420] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43550', slug: inu-to-neko-docchi-mo-katteru-to-mainichi-tanoshii, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43550/tiny.jpg?1600679941' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43550/small.jpg?1600679941' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43550/medium.jpg?1600679941' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43550/large.jpg?1600679941' }] }, titles: { alternatives: {  }, canonical: 'Inu to Neko Docchi mo Katteru to Mainichi Tanoshii', localized: { en: 'With a Dog and a Cat, Every Day is Fun', en_jp: 'Inu to Neko Docchi mo Katteru to Mainichi Tanoshii', ja_jp: 犬と猫どっちも飼ってると毎日たのしい } } }, updatedAt: '2021-02-20T22:14:24Z' }
 -
@@ -103,7 +103,7 @@
     coverImg: images/anime/43569.webp
     action: 'Watched episode 8'
     kind: progressed
-    updated: '2021-02-20T17:05:29-05:00'
+    updated: '2021-02-20T22:05:29+00:00'
     url: /anime/details/otona-no-bouguya-san-2nd-season
     original: { id: '47022451', changedData: { progress: [7, 8] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43569', slug: otona-no-bouguya-san-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43569/tiny.jpg?1601057792' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43569/small.jpg?1601057792' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43569/medium.jpg?1601057792' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43569/large.jpg?1601057792' }] }, titles: { alternatives: {  }, canonical: 'Otona no Bouguya-san 2nd Season', localized: { en: 'Armor Shop for Ladies & Gentlemen 2nd Season', en_jp: 'Otona no Bouguya-san 2nd Season', ja_jp: 'おとなの防具屋さん 第2シリーズ' } } }, updatedAt: '2021-02-20T22:05:29Z' }
 -
@@ -112,7 +112,7 @@
     coverImg: images/anime/41463.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T17:00:59-05:00'
+    updated: '2021-02-20T22:00:59+00:00'
     url: /anime/details/kumo-desu-ga-nani-ka
     original: { id: '47022229', changedData: { progress: [6, 7], time_spent: [4320, 5760] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '41463', slug: kumo-desu-ga-nani-ka, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/41463/tiny.jpg?1593607925' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/41463/small.jpg?1593607925' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/41463/medium.jpg?1593607925' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/41463/large.jpg?1593607925' }] }, titles: { alternatives: {  }, canonical: 'Kumo desu ga, Nani ka?', localized: { en: 'So I''m a Spider, So What?', en_jp: 'Kumo desu ga, Nani ka?', ja_jp: 蜘蛛ですが、なにか？ } } }, updatedAt: '2021-02-20T22:00:59Z' }
 -
@@ -121,7 +121,7 @@
     coverImg: images/anime/42324.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T16:32:29-05:00'
+    updated: '2021-02-20T21:32:29+00:00'
     url: /anime/details/5-toubun-no-hanayome-2
     original: { id: '47020824', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42324', slug: 5-toubun-no-hanayome-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42324/tiny.jpg?1597697087' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42324/small.jpg?1597697087' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42324/medium.jpg?1597697087' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42324/large.jpg?1597697087' }] }, titles: { alternatives: ['Gotoubun no Hanayome 2', 'The Five Wedded Brides 2', '5-Toubun no Hanayome 2'], canonical: '5-toubun no Hanayome ∬', localized: { en: 'The Quintessential Quintuplets 2', en_jp: '5-toubun no Hanayome ∬', ja_jp: 五等分の花嫁∬ } } }, updatedAt: '2021-02-20T21:32:29Z' }
 -
@@ -130,7 +130,7 @@
     coverImg: images/anime/43137.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T16:01:31-05:00'
+    updated: '2021-02-20T21:01:31+00:00'
     url: /anime/details/tenchi-souzou-design-bu
     original: { id: '47019073', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43137', slug: tenchi-souzou-design-bu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43137/tiny.jpg?1611330634' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43137/small.jpg?1611330634' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43137/medium.jpg?1611330634' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43137/large.jpg?1611330634' }] }, titles: { alternatives: ['[Ten-De-Bu] What a strange animal!', Tendebu], canonical: 'Tenchi Souzou Design-bu', localized: { en: 'Heaven''s Design Team', en_jp: 'Tenchi Souzou Design-bu', ja_jp: 天地創造デザイン部 } } }, updatedAt: '2021-02-20T21:01:31Z' }
 -
@@ -139,7 +139,7 @@
     coverImg: images/anime/41976.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T15:27:54-05:00'
+    updated: '2021-02-20T20:27:54+00:00'
     url: /anime/details/yuru-camp-2
     original: { id: '47017464', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '41976', slug: yuru-camp-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/41976/tiny.jpg?1611329947' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/41976/small.jpg?1611329947' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/41976/medium.jpg?1611329947' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/41976/large.jpg?1611329947' }] }, titles: { alternatives: {  }, canonical: 'Yuru Camp△ 2', localized: { en: 'Laid-Back Camp 2', en_jp: 'Yuru Camp△ 2', ja_jp: 'ゆるキャン△ 2' } } }, updatedAt: '2021-02-20T20:27:54Z' }
 -
@@ -148,7 +148,7 @@
     coverImg: images/anime/43180.webp
     action: 'Watched episode 20'
     kind: progressed
-    updated: '2021-02-20T14:47:33-05:00'
+    updated: '2021-02-20T19:47:33+00:00'
     url: /anime/details/hanyou-no-yasha-hime
     original: { id: '47015272', changedData: { progress: [19, 20], time_spent: [4320, 5760] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: 'InuYasha universe, mostly a different cast.' }, media: { __typename: Anime, id: '43180', slug: hanyou-no-yasha-hime, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43180/tiny.jpg?1589037137' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43180/small.jpg?1589037137' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43180/medium.jpg?1589037137' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43180/large.jpg?1589037137' }] }, titles: { alternatives: ['Inuyasha: Hanyou no Yasha Hime'], canonical: 'Hanyou no Yashahime: Sengoku Otogizoushi', localized: { en: 'Yashahime: Princess Half-Demon', en_jp: 'Hanyou no Yashahime: Sengoku Otogizoushi', ja_jp: 半妖の夜叉姫 } } }, updatedAt: '2021-02-20T19:47:33Z' }
 -
@@ -157,7 +157,7 @@
     coverImg: images/anime/42621.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T14:23:07-05:00'
+    updated: '2021-02-20T19:23:07+00:00'
     url: /anime/details/jaku-chara-tomozaki-kun
     original: { id: '47013918', changedData: { progress: [6, 7], time_spent: [0, 1380] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '42621', slug: jaku-chara-tomozaki-kun, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42621/tiny.jpg?1611329334' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42621/small.jpg?1611329334' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42621/medium.jpg?1611329334' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42621/large.jpg?1611329334' }] }, titles: { alternatives: ['Bottom-tier Character Tomozaki', 'Jakusha Character Tomozaki-kun'], canonical: 'Jaku-chara Tomozaki-kun', localized: { en: 'The Low Tier Character "Tomozaki-kun"', en_jp: 'Jaku-chara Tomozaki-kun', ja_jp: 弱キャラ友崎くん } } }, updatedAt: '2021-02-20T19:23:07Z' }
 -
@@ -166,7 +166,7 @@
     coverImg: images/anime/43167.webp
     action: 'Watched episode 9'
     kind: progressed
-    updated: '2021-02-20T13:58:33-05:00'
+    updated: '2021-02-20T18:58:33+00:00'
     url: /anime/details/hataraku-saibou-black-tv
     original: { id: '47012582', changedData: { progress: [8, 9] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43167', slug: hataraku-saibou-black-tv, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43167/tiny.jpg?1611330065' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43167/small.jpg?1611330065' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43167/medium.jpg?1611330065' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43167/large.jpg?1611330065' }] }, titles: { alternatives: ['Cells at Work! Code Black'], canonical: 'Hataraku Saibou Black (TV)', localized: { en_jp: 'Hataraku Saibou Black (TV)', ja_jp: はたらく細胞BLACK } } }, updatedAt: '2021-02-20T18:58:33Z' }
 -
@@ -175,7 +175,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 22'
     kind: progressed
-    updated: '2021-02-20T13:35:49-05:00'
+    updated: '2021-02-20T18:35:49+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '47011542', changedData: { progress: [21, 22], time_spent: [1920, 1944] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-20T18:35:49Z' }
 -
@@ -184,7 +184,7 @@
     coverImg: images/anime/42202.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-20T09:02:18-05:00'
+    updated: '2021-02-20T14:02:18+00:00'
     url: /anime/details/hataraku-saibou-2
     original: { id: '46999511', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42202', slug: hataraku-saibou-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42202/tiny.jpg?1611329853' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42202/small.jpg?1611329853' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42202/medium.jpg?1611329853' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42202/large.jpg?1611329853' }] }, titles: { alternatives: ['Hataraku Saibou!!'], canonical: 'Hataraku Saibou!!', localized: { en: 'Cells at Work! 2', en_jp: 'Hataraku Saibou!!', ja_jp: はたらく細胞!! } } }, updatedAt: '2021-02-20T14:02:18Z' }
 -
@@ -193,7 +193,7 @@
     coverImg: images/anime/42867.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2021-02-19T07:55:58-05:00'
+    updated: '2021-02-19T12:55:58+00:00'
     url: /anime/details/dr-stone-two
     original: { id: '46935503', changedData: { progress: [5, 6], time_spent: [120, 144] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '42867', slug: dr-stone-two, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42867/tiny.jpg?1611329475' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42867/small.jpg?1611329475' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42867/medium.jpg?1611329475' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42867/large.jpg?1611329475' }] }, titles: { alternatives: ['Dr. Stone 2nd Season', 'Dr. Stone Second Season'], canonical: 'Dr. Stone: Stone Wars', localized: { en_jp: 'Dr. Stone: Stone Wars', ja_jp: 'ドクターストーン STONE WARS' } } }, updatedAt: '2021-02-19T12:55:58Z' }
 -
@@ -202,25 +202,25 @@
     coverImg: images/anime/1843.webp
     action: 'Watched episodes 12-13'
     kind: null
-    updated: '2021-02-18T12:25:49-05:00'
+    updated: '2021-02-18T17:25:49+00:00'
     url: /anime/details/mahou-no-tenshi-creamy-mami
-    original: [{ empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 13', kind: progressed, updated: '2021-02-18T12:25:49-05:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '46884733', changedData: { progress: [12, 13], time_spent: [17280, 18720] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-02-18T17:25:49Z' } }, { empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 12', kind: progressed, updated: '2021-02-18T08:00:42-05:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '46872813', changedData: { progress: [11, 12], time_spent: [15840, 17280] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-02-18T13:00:42Z' } }]
+    original: [{ empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 13', kind: progressed, updated: '2021-02-18T17:25:49+00:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '46884733', changedData: { progress: [12, 13], time_spent: [17280, 18720] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-02-18T17:25:49Z' } }, { empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 12', kind: progressed, updated: '2021-02-18T13:00:42+00:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '46872813', changedData: { progress: [11, 12], time_spent: [15840, 17280] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-02-18T13:00:42Z' } }]
 -
     empty: false
     title: 'Yes! Precure 5'
     coverImg: images/anime/1742.webp
     action: 'Watched episodes 20-21'
     kind: null
-    updated: '2021-02-17T20:06:18-05:00'
+    updated: '2021-02-18T01:06:18+00:00'
     url: /anime/details/yes-precure-5
-    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 21', kind: progressed, updated: '2021-02-17T20:06:18-05:00', url: /anime/details/yes-precure-5, original: { id: '46846704', changedData: { progress: [20, 21], time_spent: [1896, 1920] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-18T01:06:18Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 20', kind: progressed, updated: '2021-02-17T19:37:32-05:00', url: /anime/details/yes-precure-5, original: { id: '46845383', changedData: { progress: [19, 20], time_spent: [1872, 1896] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-18T00:37:32Z' } }]
+    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 21', kind: progressed, updated: '2021-02-18T01:06:18+00:00', url: /anime/details/yes-precure-5, original: { id: '46846704', changedData: { progress: [20, 21], time_spent: [1896, 1920] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-18T01:06:18Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 20', kind: progressed, updated: '2021-02-18T00:37:32+00:00', url: /anime/details/yes-precure-5, original: { id: '46845383', changedData: { progress: [19, 20], time_spent: [1872, 1896] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-18T00:37:32Z' } }]
 -
     empty: false
     title: 'Urasekai Picnic'
     coverImg: images/anime/43042.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-17T19:03:44-05:00'
+    updated: '2021-02-18T00:03:44+00:00'
     url: /anime/details/urasekai-picnic
     original: { id: '46844029', changedData: { progress: [6, 7], time_spent: [0, 1380] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '43042', slug: urasekai-picnic, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43042/tiny.jpg?1597691180' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43042/small.jpg?1597691180' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43042/medium.jpg?1597691180' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43042/large.jpg?1597691180' }] }, titles: { alternatives: ['Ura Sekai Picnic'], canonical: 'Urasekai Picnic', localized: { en_jp: 'Urasekai Picnic', en_us: 'Otherside Picnic', ja_jp: 裏世界ピクニック } } }, updatedAt: '2021-02-18T00:03:44Z' }
 -
@@ -229,7 +229,7 @@
     coverImg: images/anime/43247.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-02-17T13:08:52-05:00'
+    updated: '2021-02-17T18:08:52+00:00'
     url: /anime/details/rezero-season-2-part-2
     original: { id: '46824973', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43247', slug: rezero-season-2-part-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43247/tiny.jpg?1607955457' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43247/small.jpg?1607955457' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43247/medium.jpg?1607955457' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43247/large.jpg?1607955457' }] }, titles: { alternatives: ['Re:Zero - Starting Life in Another World 2 Part 2', 'Re: Life in a different world from zero 2nd Season Part 2'], canonical: 'Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season Part 2', localized: { en: 'Re:ZERO -Starting Life in Another World- Season 2 Part 2', en_jp: 'Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season Part 2', ja_jp: ゼロから始める異世界生活 } } }, updatedAt: '2021-02-17T18:08:52Z' }
 -
@@ -238,7 +238,7 @@
     coverImg: images/anime/43428.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2021-02-17T12:31:50-05:00'
+    updated: '2021-02-17T17:31:50+00:00'
     url: /anime/details/world-witches-hasshin-shimasu
     original: { id: '46823096', changedData: { progress: [5, 6] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43428', slug: world-witches-hasshin-shimasu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43428/tiny.jpg?1597691212' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43428/small.jpg?1597691212' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43428/medium.jpg?1597691212' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43428/large.jpg?1597691212' }] }, titles: { alternatives: {  }, canonical: 'World Witches Hasshin Shimasu!', localized: { en: 'World Witches Take Off!', en_jp: 'World Witches Hasshin Shimasu!', ja_jp: ワールドウィッチーズ発進しますっ！ } } }, updatedAt: '2021-02-17T17:31:50Z' }
 -
@@ -247,7 +247,7 @@
     coverImg: images/anime/13209.webp
     action: 'Watched episode 164'
     kind: progressed
-    updated: '2021-02-17T08:15:11-05:00'
+    updated: '2021-02-17T13:15:11+00:00'
     url: /anime/details/black-clover-tv
     original: { id: '46811062', changedData: { progress: [163, 164], time_spent: [233040, 234470] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13209', slug: black-clover-tv, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13209/tiny.jpg?1611504643' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13209/small.jpg?1611504643' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13209/medium.jpg?1611504643' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13209/large.jpg?1611504643' }] }, titles: { alternatives: {  }, canonical: 'Black Clover', localized: { en: 'Black Clover', en_jp: 'Black Clover', ja_jp: ブラッククローバー } } }, updatedAt: '2021-02-17T13:15:11Z' }
 -
@@ -256,7 +256,7 @@
     coverImg: images/anime/42196.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2021-02-17T07:49:21-05:00'
+    updated: '2021-02-17T12:49:21+00:00'
     url: /anime/details/tensei-shitara-slime-datta-ken-2
     original: { id: '46809985', changedData: { progress: [5, 6] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '42196', slug: tensei-shitara-slime-datta-ken-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42196/tiny.jpg?1597691848' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42196/small.jpg?1597691848' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42196/medium.jpg?1597691848' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42196/large.jpg?1597691848' }] }, titles: { alternatives: ['TenSura 2', 'Tensei Shitara Slime Datta Ken 2nd Season Part 1'], canonical: 'Tensei shitara Slime Datta Ken 2', localized: { en: 'That Time I Got Reincarnated as a Slime 2', en_jp: 'Tensei shitara Slime Datta Ken 2', ja_jp: 転生したらスライムだった件2 } } }, updatedAt: '2021-02-17T12:49:21Z' }
 -
@@ -265,7 +265,7 @@
     coverImg: images/anime/1843.webp
     action: 'Watched episode 11'
     kind: progressed
-    updated: '2021-02-16T15:40:55-05:00'
+    updated: '2021-02-16T20:40:55+00:00'
     url: /anime/details/mahou-no-tenshi-creamy-mami
     original: { id: '46770266', changedData: { progress: [10, 11], time_spent: [14400, 15840] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-02-16T20:40:55Z' }
 -
@@ -274,7 +274,7 @@
     coverImg: images/anime/43825.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2021-02-16T12:28:40-05:00'
+    updated: '2021-02-16T17:28:40+00:00'
     url: /anime/details/shin-chuuka-ichiban-2nd-season
     original: { id: '46761075', changedData: { progress: [5, 6] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43825', slug: shin-chuuka-ichiban-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43825/tiny.jpg?1609082225' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43825/small.jpg?1609082225' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43825/medium.jpg?1609082225' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43825/large.jpg?1609082225' }] }, titles: { alternatives: ['New Cooking Master Boy!'], canonical: 'Shin Chuuka Ichiban! 2nd Season', localized: { en: 'True Cooking Master Boy Season 2', en_jp: 'Shin Chuuka Ichiban! 2nd Season', ja_jp: 真・中華一番! } } }, updatedAt: '2021-02-16T17:28:40Z' }
 -
@@ -283,7 +283,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 19'
     kind: progressed
-    updated: '2021-02-15T17:49:37-05:00'
+    updated: '2021-02-15T22:49:37+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '46716267', changedData: { progress: [18, 19], time_spent: [1848, 1872] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-02-15T22:49:37Z' }
 -
@@ -292,7 +292,7 @@
     coverImg: images/anime/43167.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2021-01-30T11:09:51-05:00'
+    updated: '2021-01-30T16:09:51+00:00'
     url: /anime/details/hataraku-saibou-black-tv
     original: { id: '45746341', changedData: { progress: [5, 6] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43167', slug: hataraku-saibou-black-tv, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43167/tiny.jpg?1611330065' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43167/small.jpg?1611330065' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43167/medium.jpg?1611330065' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43167/large.jpg?1611330065' }] }, titles: { alternatives: ['Cells at Work! Code Black'], canonical: 'Hataraku Saibou Black (TV)', localized: { en_jp: 'Hataraku Saibou Black (TV)', ja_jp: はたらく細胞BLACK } } }, updatedAt: '2021-01-30T16:09:51Z' }
 -
@@ -301,7 +301,7 @@
     coverImg: images/anime/42202.webp
     action: 'Watched episode 4'
     kind: progressed
-    updated: '2021-01-30T10:40:47-05:00'
+    updated: '2021-01-30T15:40:47+00:00'
     url: /anime/details/hataraku-saibou-2
     original: { id: '45745352', changedData: { progress: [3, 4] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42202', slug: hataraku-saibou-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42202/tiny.jpg?1611329853' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42202/small.jpg?1611329853' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42202/medium.jpg?1611329853' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42202/large.jpg?1611329853' }] }, titles: { alternatives: ['Hataraku Saibou!!'], canonical: 'Hataraku Saibou!!', localized: { en: 'Cells at Work! 2', en_jp: 'Hataraku Saibou!!', ja_jp: はたらく細胞!! } } }, updatedAt: '2021-01-30T15:40:47Z' }
 -
@@ -310,7 +310,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 9'
     kind: progressed
-    updated: '2021-01-29T13:26:49-05:00'
+    updated: '2021-01-29T18:26:49+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '45691191', changedData: { progress: [8, 9], time_spent: [1608, 1632] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-29T18:26:49Z' }
 -
@@ -319,16 +319,16 @@
     coverImg: images/anime/1843.webp
     action: 'Watched episodes 1-2'
     kind: null
-    updated: '2021-01-28T12:57:44-05:00'
+    updated: '2021-01-28T17:57:44+00:00'
     url: /anime/details/mahou-no-tenshi-creamy-mami
-    original: [{ empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 2', kind: progressed, updated: '2021-01-28T12:57:44-05:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '45636802', changedData: { progress: [1, 2], time_spent: [1440, 2880] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-01-28T17:57:44Z' } }, { empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 1', kind: progressed, updated: '2021-01-28T08:19:49-05:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '45626831', changedData: { progress: [0, 1], time_spent: [0, 1440] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-01-28T13:19:49Z' } }]
+    original: [{ empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 2', kind: progressed, updated: '2021-01-28T17:57:44+00:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '45636802', changedData: { progress: [1, 2], time_spent: [1440, 2880] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-01-28T17:57:44Z' } }, { empty: false, title: 'Mahou no Tenshi Creamy Mami', coverImg: images/anime/1843.webp, action: 'Watched episode 1', kind: progressed, updated: '2021-01-28T13:19:49+00:00', url: /anime/details/mahou-no-tenshi-creamy-mami, original: { id: '45626831', changedData: { progress: [0, 1], time_spent: [0, 1440] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '1843', slug: mahou-no-tenshi-creamy-mami, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1843/tiny.jpg?1597698096' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1843/small.jpg?1597698096' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1843/medium.jpg?1597698096' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1843/large.jpg?1597698096' }] }, titles: { alternatives: ['Incantevole Creamy', 'Creamy Mami', 'the Magic Angel'], canonical: 'Mahou no Tenshi Creamy Mami', localized: { en: 'Magical Angel Creamy Mami', en_jp: 'Mahou no Tenshi Creamy Mami', en_us: 'Magical Angel Creamy Mami', ja_jp: '魔法の天使 クリィミーマミ' } } }, updatedAt: '2021-01-28T13:19:49Z' } }]
 -
     empty: false
     title: 'Urasekai Picnic'
     coverImg: images/anime/43042.webp
     action: 'Watched episode 4'
     kind: progressed
-    updated: '2021-01-28T07:49:24-05:00'
+    updated: '2021-01-28T12:49:24+00:00'
     url: /anime/details/urasekai-picnic
     original: { id: '45625945', changedData: { progress: [3, 4] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '43042', slug: urasekai-picnic, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43042/tiny.jpg?1597691180' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43042/small.jpg?1597691180' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43042/medium.jpg?1597691180' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43042/large.jpg?1597691180' }] }, titles: { alternatives: ['Ura Sekai Picnic'], canonical: 'Urasekai Picnic', localized: { en_jp: 'Urasekai Picnic', en_us: 'Otherside Picnic', ja_jp: 裏世界ピクニック } } }, updatedAt: '2021-01-28T12:49:24Z' }
 -
@@ -337,7 +337,7 @@
     coverImg: images/anime/42196.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-27T13:06:29-05:00'
+    updated: '2021-01-27T18:06:29+00:00'
     url: /anime/details/tensei-shitara-slime-datta-ken-2
     original: { id: '45585487', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '42196', slug: tensei-shitara-slime-datta-ken-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42196/tiny.jpg?1597691848' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42196/small.jpg?1597691848' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42196/medium.jpg?1597691848' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42196/large.jpg?1597691848' }] }, titles: { alternatives: ['TenSura 2', 'Tensei Shitara Slime Datta Ken 2nd Season Part 1'], canonical: 'Tensei shitara Slime Datta Ken 2', localized: { en: 'That Time I Got Reincarnated as a Slime 2', en_jp: 'Tensei shitara Slime Datta Ken 2', ja_jp: 転生したらスライムだった件2 } } }, updatedAt: '2021-01-27T18:06:29Z' }
 -
@@ -346,7 +346,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 8'
     kind: progressed
-    updated: '2021-01-27T07:54:31-05:00'
+    updated: '2021-01-27T12:54:31+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '45572019', changedData: { progress: [7, 8], time_spent: [1584, 1608] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-27T12:54:31Z' }
 -
@@ -355,7 +355,7 @@
     coverImg: images/anime/13209.webp
     action: 'Watched episode 161'
     kind: progressed
-    updated: '2021-01-27T07:24:48-05:00'
+    updated: '2021-01-27T12:24:48+00:00'
     url: /anime/details/black-clover-tv
     original: { id: '45571028', changedData: { progress: [160, 161], time_spent: [228750, 230180] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13209', slug: black-clover-tv, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13209/tiny.jpg?1611504643' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13209/small.jpg?1611504643' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13209/medium.jpg?1611504643' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13209/large.jpg?1611504643' }] }, titles: { alternatives: {  }, canonical: 'Black Clover', localized: { en: 'Black Clover', en_jp: 'Black Clover', ja_jp: ブラッククローバー } } }, updatedAt: '2021-01-27T12:24:48Z' }
 -
@@ -364,7 +364,7 @@
     coverImg: images/anime/43428.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-26T13:01:38-05:00'
+    updated: '2021-01-26T18:01:38+00:00'
     url: /anime/details/world-witches-hasshin-shimasu
     original: { id: '45529665', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43428', slug: world-witches-hasshin-shimasu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43428/tiny.jpg?1597691212' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43428/small.jpg?1597691212' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43428/medium.jpg?1597691212' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43428/large.jpg?1597691212' }] }, titles: { alternatives: {  }, canonical: 'World Witches Hasshin Shimasu!', localized: { en: 'World Witches Take Off!', en_jp: 'World Witches Hasshin Shimasu!', ja_jp: ワールドウィッチーズ発進しますっ！ } } }, updatedAt: '2021-01-26T18:01:38Z' }
 -
@@ -373,7 +373,7 @@
     coverImg: images/anime/43825.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-26T12:49:04-05:00'
+    updated: '2021-01-26T17:49:04+00:00'
     url: /anime/details/shin-chuuka-ichiban-2nd-season
     original: { id: '45529168', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43825', slug: shin-chuuka-ichiban-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43825/tiny.jpg?1609082225' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43825/small.jpg?1609082225' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43825/medium.jpg?1609082225' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43825/large.jpg?1609082225' }] }, titles: { alternatives: ['New Cooking Master Boy!'], canonical: 'Shin Chuuka Ichiban! 2nd Season', localized: { en: 'True Cooking Master Boy Season 2', en_jp: 'Shin Chuuka Ichiban! 2nd Season', ja_jp: 真・中華一番! } } }, updatedAt: '2021-01-26T17:49:04Z' }
 -
@@ -382,7 +382,7 @@
     coverImg: images/anime/42635.webp
     action: 'Watched episode 4'
     kind: progressed
-    updated: '2021-01-25T12:56:13-05:00'
+    updated: '2021-01-25T17:56:13+00:00'
     url: /anime/details/tatoeba-last-dungeon-mae-no-mura-no-shounen-ga-joban-no-machi-de-kurasu-youna-monogatari
     original: { id: '45471756', changedData: { progress: [3, 4] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42635', slug: tatoeba-last-dungeon-mae-no-mura-no-shounen-ga-joban-no-machi-de-kurasu-youna-monogatari, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42635/tiny.jpg?1571504181' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42635/small.jpg?1571504181' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42635/medium.jpg?1571504181' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42635/large.jpg?1571504181' }] }, titles: { alternatives: ['Suppose a Kid from the Last Dungeon Boonies Moved to a Starter Town'], canonical: 'Tatoeba Last Dungeon Mae no Mura no Shounen ga Joban no Machi de Kurasu Youna Monogatari', localized: { en_jp: 'Tatoeba Last Dungeon Mae no Mura no Shounen ga Joban no Machi de Kurasu Youna Monogatari', ja_jp: たとえばラストダンジョン前の村の少年が序盤の街で暮らすような物語 } } }, updatedAt: '2021-01-25T17:56:13Z' }
 -
@@ -391,7 +391,7 @@
     coverImg: images/anime/42650.webp
     action: 'Watched episode 41'
     kind: progressed
-    updated: '2021-01-25T12:29:55-05:00'
+    updated: '2021-01-25T17:29:55+00:00'
     url: /anime/details/healin-good-precure
     original: { id: '45470609', changedData: { progress: [40, 41], time_spent: [57600, 59040] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42650', slug: healin-good-precure, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42650/tiny.jpg?1578070083' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42650/small.jpg?1578070083' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42650/medium.jpg?1578070083' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42650/large.jpg?1578070083' }] }, titles: { alternatives: {  }, canonical: 'Healin'' Good♡Precure', localized: { en: 'Healin'' Good Pretty Cure', en_jp: 'Healin'' Good♡Precure', ja_jp: ヒーリングっど♡プリキュア } } }, updatedAt: '2021-01-25T17:29:55Z' }
 -
@@ -400,7 +400,7 @@
     coverImg: images/anime/43818.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-25T12:05:16-05:00'
+    updated: '2021-01-25T17:05:16+00:00'
     url: /anime/details/kai-byoui-ramune
     original: { id: '45469463', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '43818', slug: kai-byoui-ramune, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43818/tiny.jpg?1608544506' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43818/small.jpg?1608544506' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43818/medium.jpg?1608544506' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43818/large.jpg?1608544506' }] }, titles: { alternatives: {  }, canonical: 'Kai Byoui Ramune', localized: { en: 'Dr. Ramune -Mysterious Disease Specialist-', en_jp: 'Kai Byoui Ramune', ja_jp: 怪病医ラムネ } } }, updatedAt: '2021-01-25T17:05:16Z' }
 -
@@ -409,7 +409,7 @@
     coverImg: images/anime/1742.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2021-01-24T20:16:10-05:00'
+    updated: '2021-01-25T01:16:10+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '45433091', changedData: { progress: [6, 7], time_spent: [1560, 1584] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-25T01:16:10Z' }
 -
@@ -418,7 +418,7 @@
     coverImg: images/anime/42323.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-24T19:52:32-05:00'
+    updated: '2021-01-25T00:52:32+00:00'
     url: /anime/details/mushoku-tensei-isekai-ittara-honki-dasu
     original: { id: '45431671', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: 'The pervert aspect of this dampens my enjoyment. ' }, media: { __typename: Anime, id: '42323', slug: mushoku-tensei-isekai-ittara-honki-dasu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42323/tiny.jpg?1571408000' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42323/small.jpg?1571408000' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42323/medium.jpg?1571408000' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42323/large.jpg?1571408000' }] }, titles: { alternatives: {  }, canonical: 'Mushoku Tensei: Isekai Ittara Honki Dasu', localized: { en: 'Mushoku Tensei: Jobless Reincarnation', en_jp: 'Mushoku Tensei: Isekai Ittara Honki Dasu', ja_jp: '無職転生 ～異世界行ったら本気だす～' } } }, updatedAt: '2021-01-25T00:52:32Z' }
 -
@@ -427,7 +427,7 @@
     coverImg: images/anime/43545.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-24T19:26:33-05:00'
+    updated: '2021-01-25T00:26:33+00:00'
     url: /anime/details/horimiya
     original: { id: '45430382', changedData: { progress: [2, 3], time_spent: [0, 1380] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43545', slug: horimiya, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43545/tiny.jpg?1609224996' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43545/small.jpg?1609224996' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43545/medium.jpg?1609224996' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43545/large.jpg?1609224996' }] }, titles: { alternatives: {  }, canonical: Horimiya, localized: { en_jp: Horimiya, ja_jp: ホリミヤ } } }, updatedAt: '2021-01-25T00:26:33Z' }
 -
@@ -436,16 +436,16 @@
     coverImg: images/anime/1742.webp
     action: 'Marathoned episodes 1-6'
     kind: null
-    updated: '2021-01-23T19:18:29-05:00'
+    updated: '2021-01-24T00:18:29+00:00'
     url: /anime/details/yes-precure-5
-    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 6', kind: progressed, updated: '2021-01-23T19:18:29-05:00', url: /anime/details/yes-precure-5, original: { id: '45370466', changedData: { progress: [5, 6], time_spent: [1536, 1560] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-24T00:18:29Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 5', kind: progressed, updated: '2021-01-23T18:53:47-05:00', url: /anime/details/yes-precure-5, original: { id: '45369278', changedData: { progress: [4, 5], time_spent: [1512, 1536] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T23:53:47Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 4', kind: progressed, updated: '2021-01-23T18:29:37-05:00', url: /anime/details/yes-precure-5, original: { id: '45368222', changedData: { progress: [3, 4], time_spent: [1488, 1512] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T23:29:37Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 3', kind: progressed, updated: '2021-01-23T17:48:17-05:00', url: /anime/details/yes-precure-5, original: { id: '45366144', changedData: { progress: [2, 3], time_spent: [1464, 1488] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T22:48:17Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 2', kind: progressed, updated: '2021-01-23T17:25:36-05:00', url: /anime/details/yes-precure-5, original: { id: '45364651', changedData: { progress: [1, 2], time_spent: [1440, 1464] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T22:25:36Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 1', kind: progressed, updated: '2021-01-23T16:56:50-05:00', url: /anime/details/yes-precure-5, original: { id: '45363270', changedData: { progress: [0, 1], time_spent: [0, 1440] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T21:56:50Z' } }]
+    original: [{ empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 6', kind: progressed, updated: '2021-01-24T00:18:29+00:00', url: /anime/details/yes-precure-5, original: { id: '45370466', changedData: { progress: [5, 6], time_spent: [1536, 1560] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-24T00:18:29Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 5', kind: progressed, updated: '2021-01-23T23:53:47+00:00', url: /anime/details/yes-precure-5, original: { id: '45369278', changedData: { progress: [4, 5], time_spent: [1512, 1536] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T23:53:47Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 4', kind: progressed, updated: '2021-01-23T23:29:37+00:00', url: /anime/details/yes-precure-5, original: { id: '45368222', changedData: { progress: [3, 4], time_spent: [1488, 1512] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T23:29:37Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 3', kind: progressed, updated: '2021-01-23T22:48:17+00:00', url: /anime/details/yes-precure-5, original: { id: '45366144', changedData: { progress: [2, 3], time_spent: [1464, 1488] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T22:48:17Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 2', kind: progressed, updated: '2021-01-23T22:25:36+00:00', url: /anime/details/yes-precure-5, original: { id: '45364651', changedData: { progress: [1, 2], time_spent: [1440, 1464] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T22:25:36Z' } }, { empty: false, title: 'Yes! Precure 5', coverImg: images/anime/1742.webp, action: 'Watched episode 1', kind: progressed, updated: '2021-01-23T21:56:50+00:00', url: /anime/details/yes-precure-5, original: { id: '45363270', changedData: { progress: [0, 1], time_spent: [0, 1440] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T21:56:50Z' } }]
 -
     empty: false
     title: 'Yes! Precure 5'
     coverImg: images/anime/1742.webp
     action: 'Currently Watching'
     kind: updated
-    updated: '2021-01-23T16:32:39-05:00'
+    updated: '2021-01-23T21:32:39+00:00'
     url: /anime/details/yes-precure-5
     original: { id: '45361701', changedData: { status: [planned] }, kind: UPDATED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1742', slug: yes-precure-5, posterImage: { views: [{ width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/tiny.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/small.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/medium.jpg?1408444815' }, { width: null, height: null, url: 'https://media.kitsu.io/anime/poster_images/1742/large.jpg?1408444815' }] }, titles: { alternatives: {  }, canonical: 'Yes! Precure 5', localized: { en: 'Yes! Pretty Cure 5', en_jp: 'Yes! Precure 5', en_us: 'Yes! Pretty Cure 5', ja_jp: 'Yes! プリキュア5' } } }, updatedAt: '2021-01-23T21:32:39Z' }
 -
@@ -454,7 +454,7 @@
     coverImg: images/anime/1375.webp
     action: Completed
     kind: updated
-    updated: '2021-01-23T16:20:56-05:00'
+    updated: '2021-01-23T21:20:56+00:00'
     url: /anime/details/futari-wa-precure-splash-star
     original: { id: '45361017', changedData: { status: [current] }, kind: UPDATED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T21:20:56Z' }
 -
@@ -463,16 +463,16 @@
     coverImg: images/anime/1375.webp
     action: 'Marathoned episodes 45-49'
     kind: null
-    updated: '2021-01-23T16:20:56-05:00'
+    updated: '2021-01-23T21:20:56+00:00'
     url: /anime/details/futari-wa-precure-splash-star
-    original: [{ empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 49', kind: progressed, updated: '2021-01-23T16:20:56-05:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45361016', changedData: { progress: [48, 49], time_spent: [2568, 2592] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T21:20:56Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 48', kind: progressed, updated: '2021-01-23T16:00:16-05:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45359950', changedData: { progress: [47, 48], time_spent: [2544, 2568] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T21:00:16Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 47', kind: progressed, updated: '2021-01-23T15:35:56-05:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45358544', changedData: { progress: [46, 47], time_spent: [2520, 2544] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T20:35:56Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 46', kind: progressed, updated: '2021-01-23T13:36:34-05:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45352462', changedData: { progress: [45, 46], time_spent: [2496, 2520] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T18:36:34Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 45', kind: progressed, updated: '2021-01-23T13:10:06-05:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45351234', changedData: { progress: [44, 45], time_spent: [2472, 2496] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T18:10:06Z' } }]
+    original: [{ empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 49', kind: progressed, updated: '2021-01-23T21:20:56+00:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45361016', changedData: { progress: [48, 49], time_spent: [2568, 2592] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T21:20:56Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 48', kind: progressed, updated: '2021-01-23T21:00:16+00:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45359950', changedData: { progress: [47, 48], time_spent: [2544, 2568] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T21:00:16Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 47', kind: progressed, updated: '2021-01-23T20:35:56+00:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45358544', changedData: { progress: [46, 47], time_spent: [2520, 2544] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T20:35:56Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 46', kind: progressed, updated: '2021-01-23T18:36:34+00:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45352462', changedData: { progress: [45, 46], time_spent: [2496, 2520] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T18:36:34Z' } }, { empty: false, title: 'Futari wa Precure: Splash☆Star', coverImg: images/anime/1375.webp, action: 'Watched episode 45', kind: progressed, updated: '2021-01-23T18:10:06+00:00', url: /anime/details/futari-wa-precure-splash-star, original: { id: '45351234', changedData: { progress: [44, 45], time_spent: [2472, 2496] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '1375', slug: futari-wa-precure-splash-star, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/1375/tiny.jpg?1603408165' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/1375/small.jpg?1603408165' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/1375/medium.jpg?1603408165' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/1375/large.jpg?1603408165' }] }, titles: { alternatives: {  }, canonical: 'Futari wa Precure: Splash☆Star', localized: { en: 'Pretty Cure: Splash Star', en_jp: 'Futari wa Precure: Splash☆Star', en_us: 'Pretty Cure: Splash Star', ja_jp: 'ふたりはプリキュア Splash☆Star' } } }, updatedAt: '2021-01-23T18:10:06Z' } }]
 -
     empty: false
     title: 'Hanyou no Yashahime: Sengoku Otogizoushi'
     coverImg: images/anime/43180.webp
     action: 'Watched episode 16'
     kind: progressed
-    updated: '2021-01-23T12:40:53-05:00'
+    updated: '2021-01-23T17:40:53+00:00'
     url: /anime/details/hanyou-no-yasha-hime
     original: { id: '45350120', changedData: { progress: [15, 16] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: 'InuYasha universe, mostly a different cast.' }, media: { __typename: Anime, id: '43180', slug: hanyou-no-yasha-hime, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43180/tiny.jpg?1589037137' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43180/small.jpg?1589037137' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43180/medium.jpg?1589037137' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43180/large.jpg?1589037137' }] }, titles: { alternatives: ['Inuyasha: Hanyou no Yasha Hime'], canonical: 'Hanyou no Yashahime: Sengoku Otogizoushi', localized: { en: 'Yashahime: Princess Half-Demon', en_jp: 'Hanyou no Yashahime: Sengoku Otogizoushi', ja_jp: 半妖の夜叉姫 } } }, updatedAt: '2021-01-23T17:40:53Z' }
 -
@@ -481,7 +481,7 @@
     coverImg: images/anime/43301.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-23T12:07:59-05:00'
+    updated: '2021-01-23T17:07:59+00:00'
     url: /anime/details/ore-dake-haireru-kakushi-dungeon
     original: { id: '45348842', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43301', slug: ore-dake-haireru-kakushi-dungeon, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43301/tiny.jpg?1607696005' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43301/small.jpg?1607696005' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43301/medium.jpg?1607696005' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43301/large.jpg?1607696005' }] }, titles: { alternatives: ['Special training in the Secret Dungeon', 'Ore Dake Haireru Kakushi Dungeon: Kossori Kitaete Sekai Saikyou'], canonical: 'Ore dake Haireru Kakushi Dungeon', localized: { en: 'The Hidden Dungeon Only I Can Enter', en_jp: 'Ore dake Haireru Kakushi Dungeon', ja_jp: 俺だけ入れる隠しダンジョン } } }, updatedAt: '2021-01-23T17:07:59Z' }
 -
@@ -490,7 +490,7 @@
     coverImg: images/anime/43569.webp
     action: 'Watched episode 4'
     kind: progressed
-    updated: '2021-01-23T11:36:34-05:00'
+    updated: '2021-01-23T16:36:34+00:00'
     url: /anime/details/otona-no-bouguya-san-2nd-season
     original: { id: '45347598', changedData: { progress: [3, 4] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43569', slug: otona-no-bouguya-san-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43569/tiny.jpg?1601057792' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43569/small.jpg?1601057792' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43569/medium.jpg?1601057792' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43569/large.jpg?1601057792' }] }, titles: { alternatives: {  }, canonical: 'Otona no Bouguya-san 2nd Season', localized: { en: 'Armor Shop for Ladies & Gentlemen 2nd Season', en_jp: 'Otona no Bouguya-san 2nd Season', ja_jp: 'おとなの防具屋さん 第2シリーズ' } } }, updatedAt: '2021-01-23T16:36:34Z' }
 -
@@ -499,7 +499,7 @@
     coverImg: images/anime/43550.webp
     action: 'Watched episode 15'
     kind: progressed
-    updated: '2021-01-23T11:36:07-05:00'
+    updated: '2021-01-23T16:36:07+00:00'
     url: /anime/details/inu-to-neko-docchi-mo-katteru-to-mainichi-tanoshii
     original: { id: '45347581', changedData: { progress: [14, 15], time_spent: [120, 180] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43550', slug: inu-to-neko-docchi-mo-katteru-to-mainichi-tanoshii, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43550/tiny.jpg?1600679941' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43550/small.jpg?1600679941' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43550/medium.jpg?1600679941' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43550/large.jpg?1600679941' }] }, titles: { alternatives: {  }, canonical: 'Inu to Neko Docchi mo Katteru to Mainichi Tanoshii', localized: { en: 'With a Dog and a Cat, Every Day is Fun', en_jp: 'Inu to Neko Docchi mo Katteru to Mainichi Tanoshii', ja_jp: 犬と猫どっちも飼ってると毎日たのしい } } }, updatedAt: '2021-01-23T16:36:07Z' }
 -
@@ -508,7 +508,7 @@
     coverImg: images/anime/41463.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-23T11:18:43-05:00'
+    updated: '2021-01-23T16:18:43+00:00'
     url: /anime/details/kumo-desu-ga-nani-ka
     original: { id: '45346956', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '41463', slug: kumo-desu-ga-nani-ka, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/41463/tiny.jpg?1593607925' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/41463/small.jpg?1593607925' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/41463/medium.jpg?1593607925' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/41463/large.jpg?1593607925' }] }, titles: { alternatives: {  }, canonical: 'Kumo desu ga, Nani ka?', localized: { en: 'So I''m a Spider, So What?', en_jp: 'Kumo desu ga, Nani ka?', ja_jp: 蜘蛛ですが、なにか？ } } }, updatedAt: '2021-01-23T16:18:43Z' }
 -
@@ -517,7 +517,7 @@
     coverImg: images/anime/42324.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-23T10:57:01-05:00'
+    updated: '2021-01-23T15:57:01+00:00'
     url: /anime/details/5-toubun-no-hanayome-2
     original: { id: '45346222', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '42324', slug: 5-toubun-no-hanayome-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42324/tiny.jpg?1597697087' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42324/small.jpg?1597697087' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42324/medium.jpg?1597697087' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42324/large.jpg?1597697087' }] }, titles: { alternatives: ['Gotoubun no Hanayome 2', 'The Five Wedded Brides 2', '5-Toubun no Hanayome 2'], canonical: '5-toubun no Hanayome ∬', localized: { en: 'The Quintessential Quintuplets 2', en_jp: '5-toubun no Hanayome ∬', ja_jp: 五等分の花嫁∬ } } }, updatedAt: '2021-01-23T15:57:01Z' }
 -
@@ -526,7 +526,7 @@
     coverImg: images/anime/43137.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-23T09:28:05-05:00'
+    updated: '2021-01-23T14:28:05+00:00'
     url: /anime/details/tenchi-souzou-design-bu
     original: { id: '45343004', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '43137', slug: tenchi-souzou-design-bu, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/43137/tiny.jpg?1611330634' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/43137/small.jpg?1611330634' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/43137/medium.jpg?1611330634' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/43137/large.jpg?1611330634' }] }, titles: { alternatives: ['[Ten-De-Bu] What a strange animal!', Tendebu], canonical: 'Tenchi Souzou Design-bu', localized: { en: 'Heaven''s Design Team', en_jp: 'Tenchi Souzou Design-bu', ja_jp: 天地創造デザイン部 } } }, updatedAt: '2021-01-23T14:28:05Z' }
 -
@@ -535,7 +535,7 @@
     coverImg: images/anime/41976.webp
     action: 'Watched episode 3'
     kind: progressed
-    updated: '2021-01-23T09:04:48-05:00'
+    updated: '2021-01-23T14:04:48+00:00'
     url: /anime/details/yuru-camp-2
     original: { id: '45342210', changedData: { progress: [2, 3] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '41976', slug: yuru-camp-2, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/41976/tiny.jpg?1611329947' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/41976/small.jpg?1611329947' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/41976/medium.jpg?1611329947' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/41976/large.jpg?1611329947' }] }, titles: { alternatives: {  }, canonical: 'Yuru Camp△ 2', localized: { en: 'Laid-Back Camp 2', en_jp: 'Yuru Camp△ 2', ja_jp: 'ゆるキャン△ 2' } } }, updatedAt: '2021-01-23T14:04:48Z' }
 -
@@ -544,7 +544,7 @@
     coverImg: images/anime/42867.webp
     action: 'Watched episode 2'
     kind: progressed
-    updated: '2021-01-23T08:27:39-05:00'
+    updated: '2021-01-23T13:27:39+00:00'
     url: /anime/details/dr-stone-two
     original: { id: '45341107', changedData: { progress: [1, 2], time_spent: [24, 48] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: null }, media: { __typename: Anime, id: '42867', slug: dr-stone-two, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/42867/tiny.jpg?1611329475' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/42867/small.jpg?1611329475' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/42867/medium.jpg?1611329475' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/42867/large.jpg?1611329475' }] }, titles: { alternatives: ['Dr. Stone 2nd Season', 'Dr. Stone Second Season'], canonical: 'Dr. Stone: Stone Wars', localized: { en_jp: 'Dr. Stone: Stone Wars', ja_jp: 'ドクターストーン STONE WARS' } } }, updatedAt: '2021-01-23T13:27:39Z' }
 -
@@ -553,7 +553,7 @@
     coverImg: images/anime/13265.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2018-02-24T10:05:35-05:00'
+    updated: '2018-02-24T15:05:35+00:00'
     url: /anime/details/gakuen-babysitters
     original: { id: '5096548', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13265', slug: gakuen-babysitters, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13265/tiny.jpg?1597692098' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13265/small.jpg?1597692098' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13265/medium.jpg?1597692098' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13265/large.jpg?1597692098' }] }, titles: { alternatives: {  }, canonical: 'Gakuen Babysitters', localized: { en: 'School Babysitters', en_jp: 'Gakuen Babysitters', en_us: 'School Babysitters', ja_jp: 学園ベビーシッターズ } } }, updatedAt: '2018-02-24T15:05:35Z' }
 -
@@ -562,7 +562,7 @@
     coverImg: images/anime/13661.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2018-02-24T10:31:29-05:00'
+    updated: '2018-02-24T15:31:29+00:00'
     url: /anime/details/ryuuou-no-oshigoto
     original: { id: '5096816', changedData: { progress: [6, 7] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13661', slug: ryuuou-no-oshigoto, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13661/tiny.jpg?1597698518' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13661/small.jpg?1597698518' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13661/medium.jpg?1597698518' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13661/large.jpg?1597698518' }] }, titles: { alternatives: ['Ryuoh no Oshigoto'], canonical: 'Ryuuou no Oshigoto!', localized: { en: 'The Ryuo’s Work is Never Done!', en_jp: 'Ryuuou no Oshigoto!', en_us: 'The Ryuo''s Work is Never Done!', ja_jp: りゅうおうのおしごと！ } } }, updatedAt: '2018-02-24T15:31:29Z' }
 -
@@ -571,7 +571,7 @@
     coverImg: images/anime/13635.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2018-02-24T10:54:16-05:00'
+    updated: '2018-02-24T15:54:16+00:00'
     url: /anime/details/karakai-jouzu-no-takagi-san
     original: { id: '5096938', changedData: { progress: [6, 7], time_spent: [384, 408] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13635', slug: karakai-jouzu-no-takagi-san, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13635/tiny.jpg?1597691135' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13635/small.jpg?1597691135' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13635/medium.jpg?1597691135' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13635/large.jpg?1597691135' }] }, titles: { alternatives: ['Skilled Teaser Takagi-san'], canonical: 'Karakai Jouzu no Takagi-san', localized: { en: 'Teasing Master Takagi-san', en_jp: 'Karakai Jouzu no Takagi-san', ja_jp: からかい上手の高木さん } } }, updatedAt: '2018-02-24T15:54:16Z' }
 -
@@ -580,7 +580,7 @@
     coverImg: images/anime/14152.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2018-02-24T10:56:09-05:00'
+    updated: '2018-02-24T15:56:09+00:00'
     url: /anime/details/kaijuu-girls-ultra-kaijuu-gijinka-keikaku-2nd-season
     original: { id: '5096963', changedData: { progress: [6, 7], time_spent: [35, 40] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '14152', slug: kaijuu-girls-ultra-kaijuu-gijinka-keikaku-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/14152/tiny.jpg?1597691494' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/14152/small.jpg?1597691494' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/14152/medium.jpg?1597691494' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/14152/large.jpg?1597691494' }] }, titles: { alternatives: {  }, canonical: 'Kaijuu Girls: Ultra Kaijuu Gijinka Keikaku 2nd Season', localized: { en_jp: 'Kaijuu Girls: Ultra Kaijuu Gijinka Keikaku 2nd Season', ja_jp: '怪獣娘～ウルトラ怪獣擬人化計画～ 第2期' } } }, updatedAt: '2018-02-24T15:56:09Z' }
 -
@@ -589,7 +589,7 @@
     coverImg: images/anime/13209.webp
     action: 'Watched episode 20'
     kind: progressed
-    updated: '2018-02-24T11:36:16-05:00'
+    updated: '2018-02-24T16:36:16+00:00'
     url: /anime/details/black-clover-tv
     original: { id: '5097284', changedData: { progress: [19, 20], time_spent: [1344, 1368] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13209', slug: black-clover-tv, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13209/tiny.jpg?1611504643' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13209/small.jpg?1611504643' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13209/medium.jpg?1611504643' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13209/large.jpg?1611504643' }] }, titles: { alternatives: {  }, canonical: 'Black Clover', localized: { en: 'Black Clover', en_jp: 'Black Clover', ja_jp: ブラッククローバー } } }, updatedAt: '2018-02-24T16:36:16Z' }
 -
@@ -598,7 +598,7 @@
     coverImg: images/anime/13615.webp
     action: 'Watched episode 8'
     kind: progressed
-    updated: '2018-02-24T12:02:06-05:00'
+    updated: '2018-02-24T17:02:06+00:00'
     url: /anime/details/a-place-further-than-the-universe
     original: { id: '5097527', changedData: { progress: [7, 8] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13615', slug: a-place-further-than-the-universe, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13615/tiny.jpg?1597696818' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13615/small.jpg?1597696818' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13615/medium.jpg?1597696818' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13615/large.jpg?1597696818' }] }, titles: { alternatives: ['Uchuu yori mo Tooi Basho', 'A Story That Leads to the Antarctica', 'Sora Yorimo Tōi Basho', Yorimoi], canonical: 'A Place Further Than the Universe', localized: { en: 'A Place Further Than the Universe', en_jp: 'Sora yori mo Tooi Basho', en_us: 'A Place Further Than The Universe', ja_jp: 宇宙よりも遠い場所 } } }, updatedAt: '2018-02-24T17:02:06Z' }
 -
@@ -607,7 +607,7 @@
     coverImg: images/anime/13237.webp
     action: 'Watched episode 7'
     kind: progressed
-    updated: '2018-02-24T12:38:38-05:00'
+    updated: '2018-02-24T17:38:38+00:00'
     url: /anime/details/overlord-ii
     original: { id: '5097839', changedData: { progress: [6, 7], time_spent: [432, 456] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13237', slug: overlord-ii, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13237/tiny.jpg?1597694945' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13237/small.jpg?1597694945' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13237/medium.jpg?1597694945' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13237/large.jpg?1597694945' }] }, titles: { alternatives: {  }, canonical: 'Overlord II', localized: { en_jp: 'Overlord II', en_us: 'Overlord II', ja_jp: オーバーロードⅡ } } }, updatedAt: '2018-02-24T17:38:38Z' }
 -
@@ -616,7 +616,7 @@
     coverImg: images/anime/13885.webp
     action: 'Watched episode 6'
     kind: progressed
-    updated: '2018-02-24T13:10:32-05:00'
+    updated: '2018-02-24T18:10:32+00:00'
     url: /anime/details/hitori-no-shita-the-outcast-2nd-season
     original: { id: '5098167', changedData: { progress: [5, 6], time_spent: [96, 120] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13885', slug: hitori-no-shita-the-outcast-2nd-season, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13885/tiny.jpg?1517377133' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13885/small.jpg?1517377133' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13885/medium.jpg?1517377133' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13885/large.jpg?1517377133' }] }, titles: { alternatives: ['hitorinoshita - The Outcast'], canonical: 'Hitori no Shita: The Outcast 2nd Season', localized: { en: 'Hitori no Shita - The Outcast 2', en_jp: 'Hitori no Shita: The Outcast 2nd Season', en_us: 'Hitori no Shita - The Outcast 2', ja_jp: '一人之下 THE OUTCAST 2ndシーズン' } } }, updatedAt: '2018-02-24T18:10:32Z' }
 -
@@ -625,6 +625,6 @@
     coverImg: images/anime/13531.webp
     action: 'Watched episode 8'
     kind: progressed
-    updated: '2018-02-24T13:32:09-05:00'
+    updated: '2018-02-24T18:32:09+00:00'
     url: /anime/details/ramen-daisuki-koizumi-san
     original: { id: '5098364', changedData: { progress: [7, 8] }, kind: PROGRESSED, libraryEntry: { reconsumeCount: 0, reconsuming: false, private: false, notes: '' }, media: { __typename: Anime, id: '13531', slug: ramen-daisuki-koizumi-san, posterImage: { views: [{ width: 110, height: 156, url: 'https://media.kitsu.io/anime/poster_images/13531/tiny.jpg?1597698994' }, { width: 284, height: 402, url: 'https://media.kitsu.io/anime/poster_images/13531/small.jpg?1597698994' }, { width: 390, height: 554, url: 'https://media.kitsu.io/anime/poster_images/13531/medium.jpg?1597698994' }, { width: 550, height: 780, url: 'https://media.kitsu.io/anime/poster_images/13531/large.jpg?1597698994' }] }, titles: { alternatives: {  }, canonical: 'Ramen Daisuki Koizumi-san', localized: { en: 'Ms. Koizumi Loves Ramen Noodles', en_jp: 'Ramen Daisuki Koizumi-san', en_us: 'Ms. Koizumi Loves Ramen Noodles', ja_jp: ラーメン大好き小泉さん } } }, updatedAt: '2018-02-24T18:32:09Z' }
