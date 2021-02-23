@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\Tests\Types;
 
 use Aviat\AnimeClient\Types\Config;
-use Aviat\AnimeClient\Types\UndefinedPropertyException;
 
 class ConfigTest extends ConfigTestCase {
 	public function setUp(): void

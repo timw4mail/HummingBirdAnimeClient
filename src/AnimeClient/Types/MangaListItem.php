@@ -20,60 +20,31 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an Anime object for display
  */
 final class MangaListItem extends AbstractType {
-	/**
-	 * @var string
-	 */
-	public $id;
 
-	/**
-	 * @var string
-	 */
-	public $mal_id;
+	public string $id;
 
-	/**
-	 * @var array
-	 */
-	public $chapters = [
+	public ?string $mal_id;
+
+	public array $chapters = [
 		'read' => 0,
 		'total' => 0,
 	];
 
-	/**
-	 * @var array
-	 */
-	public $volumes = [
+	public array $volumes = [
 		'read' => '-',
 		'total' => 0,
 	];
 
-	/**
-	 * @var object
-	 */
-	public $manga;
+	public object $manga;
 
-	/**
-	 * @var string
-	 */
-	public $reading_status;
+	public string $reading_status;
 
-	/**
-	 * @var string
-	 */
-	public $notes;
+	public ?string $notes;
 
-	/**
-	 * @var bool
-	 */
-	public $rereading;
+	public bool $rereading = false;
 
-	/**
-	 * @var int
-	 */
-	public $reread;
+	public ?int $reread;
 
-	/**
-	 * @var int
-	 */
-	public $user_rating;
+	public string|int|null $user_rating;
 }
 
