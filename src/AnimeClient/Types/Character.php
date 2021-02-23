@@ -24,9 +24,6 @@ final class Character extends AbstractType {
 
 	public ?string $description;
 
-	/**
-	 * @var string
-	 */
 	public string $id;
 
 	public array $included = [];
