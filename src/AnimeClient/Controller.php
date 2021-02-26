@@ -126,6 +126,7 @@ class Controller {
 	/**
 	 * Set the current url in the session as the target of a future redirect
 	 *
+	 * @codeCoverageIgnore
 	 * @param string|NULL $url
 	 * @throws ContainerException
 	 * @throws NotFoundException
@@ -166,6 +167,7 @@ class Controller {
 	 *
 	 * If one is not set, redirect to default url
 	 *
+	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
@@ -179,6 +181,7 @@ class Controller {
 
 	/**
 	 * Check if the current user is authenticated, else error and exit
+	 * @codeCoverageIgnore
 	 */
 	protected function checkAuth(): void
 	{
@@ -195,6 +198,7 @@ class Controller {
 	/**
 	 * Get the string output of a partial template
 	 *
+	 * @codeCoverageIgnore
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
@@ -226,6 +230,7 @@ class Controller {
 	/**
 	 * Render a template with header and footer
 	 *
+	 * @codeCoverageIgnore
 	 * @param HtmlView $view
 	 * @param string $template
 	 * @param array $data
@@ -256,6 +261,7 @@ class Controller {
 	/**
 	 * 404 action
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $title
 	 * @param string $message
 	 * @throws InvalidArgumentException
@@ -276,6 +282,7 @@ class Controller {
 	/**
 	 * Display a generic error page
 	 *
+	 * @codeCoverageIgnore
 	 * @param int $httpCode
 	 * @param string $title
 	 * @param string $message
@@ -295,6 +302,7 @@ class Controller {
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *
+	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
@@ -308,6 +316,7 @@ class Controller {
 	 * Set a session flash variable to display a message on
 	 * next page load
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $message
 	 * @param string $type
 	 * @return void
@@ -343,6 +352,7 @@ class Controller {
 	/**
 	 * Add a message box to the page
 	 *
+	 * @codeCoverageIgnore
 	 * @param HtmlView $view
 	 * @param string $type
 	 * @param string $message
@@ -360,6 +370,7 @@ class Controller {
 	/**
 	 * Output a template to HTML, using the provided data
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $template
 	 * @param array $data
 	 * @param HtmlView|NULL $view
@@ -381,6 +392,7 @@ class Controller {
 	/**
 	 * Output a JSON Response
 	 *
+	 * @codeCoverageIgnore
 	 * @param mixed $data
 	 * @param int $code - the http status code
 	 * @throws DoubleRenderException
@@ -397,6 +409,7 @@ class Controller {
 	/**
 	 * Redirect to the selected page
 	 *
+	 * @codeCoverageIgnore
 	 * @param string $url
 	 * @param int $code
 	 * @return void
