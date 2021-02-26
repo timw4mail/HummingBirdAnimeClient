@@ -66,7 +66,7 @@ class Container implements ContainerInterface {
 	 *
 	 * @return mixed Entry.
 	 */
-	public function get($id): mixed
+	public function get(string $id): mixed
 	{
 		if ( ! \is_string($id))
 		{
@@ -94,12 +94,12 @@ class Container implements ContainerInterface {
 	 * Get a new instance of the specified item
 	 *
 	 * @param string $id   - Identifier of the entry to look for.
-	 * @param array $args - Optional arguments for the factory callable
+	 * @param array|null $args - Optional arguments for the factory callable
 	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @throws ContainerException - Error while retrieving the entry.
 	 * @return mixed
 	 */
-	public function getNew($id, array $args = NULL): mixed
+	public function getNew(string $id, ?array $args = NULL): mixed
 	{
 		if ( ! \is_string($id))
 		{
@@ -159,7 +159,7 @@ class Container implements ContainerInterface {
 	 * @param string $id Identifier of the entry to look for.
 	 * @return boolean
 	 */
-	public function has($id): bool
+	public function has(string $id): bool
 	{
 		return array_key_exists($id, $this->container);
 	}

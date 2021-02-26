@@ -26,6 +26,7 @@ setlocale(LC_CTYPE, 'en_US');
 require_once __DIR__ . '/vendor/autoload.php';
 
 Debugger::$strictMode = true;
+Debugger::$showBar = false;
 Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/app/logs');
 
 // Define base directories

@@ -36,7 +36,7 @@ interface ContainerInterface {
 	 * @throws Exception\ContainerException Error while retrieving the entry.
 	 * @return mixed Entry.
 	 */
-	public function get($id);
+	public function get(string $id): mixed;
 
 	/**
 	 * Returns true if the container can return an entry for the given identifier.
@@ -45,7 +45,7 @@ interface ContainerInterface {
 	 * @param string $id Identifier of the entry to look for.
 	 * @return boolean
 	 */
-	public function has($id): bool;
+	public function has(string $id): bool;
 
 	/**
 	 * Add a factory to the container
@@ -63,7 +63,7 @@ interface ContainerInterface {
 	 * @param mixed $value
 	 * @return ContainerInterface
 	 */
-	public function setInstance(string $id, $value): ContainerInterface;
+	public function setInstance(string $id, mixed $value): ContainerInterface;
 
 	/**
 	 * Get a new instance of the specified item
@@ -71,7 +71,7 @@ interface ContainerInterface {
 	 * @param string $id
 	 * @return mixed
 	 */
-	public function getNew($id);
+	public function getNew(string $id): mixed;
 
 	/**
 	 * Determine whether a logger channel is registered
