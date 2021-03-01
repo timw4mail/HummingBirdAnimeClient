@@ -1559,11 +1559,11 @@ type MediaStaffEdge {
 }
 
 type Mutation {
-	anime: AnimeMutations
-	episode: EpisodeMutations
-	libraryEntry: LibraryEntryMutations
-	mapping: MappingMutations
-	post: PostMutations
+	anime: AnimeMutations!
+	episode: EpisodeMutations!
+	libraryEntry: LibraryEntryMutations!
+	mapping: MappingMutations!
+	post: PostMutations!
 	pro: ProMutations!
 }
 
