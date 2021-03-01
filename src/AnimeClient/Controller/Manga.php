@@ -64,8 +64,6 @@ final class Manga extends Controller {
 	 *
 	 * @param string $status
 	 * @param string $view
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
@@ -229,7 +227,7 @@ final class Manga extends Controller {
 		$post_data = $transformer->untransform($data);
 		$full_result = $this->model->updateLibraryItem(FormItem::from($post_data));
 
-		if ($full_result['statusCode'] === 200 && $full_result['body']['error'] === NULL)
+		if ($full_result['statusCode'] === 200)
 		{
 			$this->setFlashMessage('Successfully updated manga.', 'success');
 			$this->cache->clear();
@@ -298,8 +296,6 @@ final class Manga extends Controller {
 	 * View details of an manga
 	 *
 	 * @param string $id
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void
@@ -331,8 +327,6 @@ final class Manga extends Controller {
 	/**
 	 * View details of a random manga
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void

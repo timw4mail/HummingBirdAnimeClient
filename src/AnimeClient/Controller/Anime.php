@@ -228,7 +228,7 @@ final class Anime extends BaseController {
 		$postData = $transformer->untransform($data);
 		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
 
-		if ($fullResult['statusCode'] === 200 && $fullResult['body']['error'] === NULL)
+		if ($fullResult['statusCode'] === 200)
 		{
 			$this->setFlashMessage('Successfully updated.', 'success');
 			$this->cache->clear();
@@ -302,8 +302,6 @@ final class Anime extends BaseController {
 	 * View details of an anime
 	 *
 	 * @param string $id
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
