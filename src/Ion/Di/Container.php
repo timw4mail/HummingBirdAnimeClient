@@ -68,11 +68,6 @@ class Container implements ContainerInterface {
 	 */
 	public function get(string $id): mixed
 	{
-		if ( ! \is_string($id))
-		{
-			throw new ContainerException('Id must be a string');
-		}
-
 		if ($this->has($id))
 		{
 			// Return an object instance, if it already exists
@@ -101,11 +96,6 @@ class Container implements ContainerInterface {
 	 */
 	public function getNew(string $id, ?array $args = NULL): mixed
 	{
-		if ( ! \is_string($id))
-		{
-			throw new ContainerException('Id must be a string');
-		}
-
 		if ($this->has($id))
 		{
 			// By default, call a factory with the Container
