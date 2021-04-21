@@ -24,7 +24,7 @@ class FormItemData extends AbstractType {
 
 	public ?bool $private = FALSE;
 
-	public ?int $progress;
+	public ?int $progress = NULL;
 
 	public ?int $rating;
 
