@@ -413,7 +413,7 @@ final class SyncLists extends BaseCommand {
 
 		$malIds = array_keys($anilistList);
 		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
-		$missingMalIds = array_filter(array_diff($kitsuMalIds, $malIds), fn ($id) => ! in_array($id, $kitsuMalIds));
+		$missingMalIds = array_filter($malIds, fn ($id) => ! in_array($id, $kitsuMalIds));
 
 		// Add items on Anilist, but not Kitsu to Kitsu
 		foreach($missingMalIds as $mid)
@@ -747,7 +747,7 @@ final class SyncLists extends BaseCommand {
 			$responseData = Json::decode($response);
 
 			$id = $itemsToUpdate[$key]['id'];
-			$mal_id = $itemsToUpdate[$key]['mal_id'];
+			$mal_id = $itemsToUpdate[$key]['mal_id'] ?? NULL;
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === SyncAction::UPDATE) ? 'updated' : 'created';
