@@ -363,7 +363,7 @@ final class SyncLists extends BaseCommand {
 					'progress' => $listItem['progress'],
 					// Comparision is done on 1-10 scale,
 					// Kitsu returns 1-20 scale.
-					'rating' => $listItem['rating'] / 2,
+					'rating' => (int) $listItem['rating'] / 2,
 					'reconsumeCount' => $listItem['reconsumeCount'],
 					'reconsuming' => $listItem['reconsuming'],
 					'status' => strtolower($listItem['status']),
@@ -692,7 +692,7 @@ final class SyncLists extends BaseCommand {
 				// Anilist returns a rating between 1-100
 				// Kitsu expects a rating from 1-20
 				'rating' => (((int)$anilistItem['data']['rating']) > 0)
-					? $anilistItem['data']['rating'] / 5
+					? (int) $anilistItem['data']['rating'] / 5
 					: 0,
 				'reconsumeCount' => $anilistItem['data']['reconsumeCount'],
 				'reconsuming' => $anilistItem['data']['reconsuming'],
