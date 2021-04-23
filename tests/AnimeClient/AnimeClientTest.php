@@ -16,9 +16,11 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-use Amp\Http\Client\Response;
-
 use function Aviat\AnimeClient\arrayToToml;
+use function Aviat\AnimeClient\checkFolderPermissions;
+use function Aviat\AnimeClient\clearCache;
+use function Aviat\AnimeClient\colNotEmpty;
+use function Aviat\AnimeClient\getLocalImg;
 use function Aviat\AnimeClient\getResponse;
 use function Aviat\AnimeClient\isSequentialArray;
 use function Aviat\AnimeClient\tomlToArray;
@@ -88,5 +90,47 @@ class AnimeClientTest extends AnimeClientTestCase
 	public function testGetResponse(): void
 	{
 		$this->assertNotEmpty(getResponse('https://example.com'));
+	}
+
+	public function testCheckFolderPermissions(): void
+	{
+		$config = $this->container->get('config');
+		$actual = checkFolderPermissions($config);
+		$this->assertTrue(is_array($actual));
+	}
+
+	public function testGetLocalImageEmptyUrl(): void
+	{
+		$actual = getLocalImg('');
+		$this->assertEquals('images/placeholder.webp', $actual);
+	}
+
+	public function testGetLocalImageBadUrl(): void
+	{
+		$actual = getLocalImg('//foo.bar');
+		$this->assertEquals('images/placeholder.webp', $actual);
+	}
+
+	public function testColNotEmpty(): void
+	{
+		$hasEmptyCols = [[
+			'foo' => '',
+		], [
+			'foo' => '',
+		]];
+
+		$hasNonEmptyCols = [[
+			'foo' => 'bar',
+		], [
+			'foo' => 'baz',
+		]];
+
+		$this->assertEquals(false, colNotEmpty($hasEmptyCols, 'foo'));
+		$this->assertEquals(true, colNotEmpty($hasNonEmptyCols, 'foo'));
+	}
+
+	public function testClearCache(): void
+	{
+		$this->assertTrue(clearCache($this->container->get('cache')));
 	}
 }

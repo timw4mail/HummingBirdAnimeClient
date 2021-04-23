@@ -1,0 +1,7833 @@
+{
+  "data": {
+	"findPersonBySlug": {
+	  "id": "468",
+	  "description": {
+		"en": "\u003cp\u003e\u003cdiv class=\"people-informantion-more js-people-informantion-more\"\u003eBirth Place: Tokyo, Japan\u003cbr\u003e\r\nBlood Type: B\u003cbr\u003e\r\nHeight: 157cm\u003cbr\u003e\r\nAstrological sign: Aries\u003cbr\u003e\r\nNicknames: Ayachii (あやちー), Ayasumi (あやすみ), Aya-nee (あやねえ)\u003cbr\u003e\r\n\u003cbr\u003e\r\nFavorites: Yakult Swallows (baseball team)\u003cbr\u003e\r\nHobbies: Cooking, Scuba diving, Yoga\u003cbr\u003e\r\nSkills: Playing the Piano\u003c/div\u003e\u003c/p\u003e"
+	  },
+	  "birthday": "1976-03-30",
+	  "image": {
+		"original": {
+		  "height": null,
+		  "name": "original",
+		  "url": "https://media.kitsu.io/people/images/468/original.jpg?1416260918",
+		  "width": null
+		},
+		"views": []
+	  },
+	  "names": {
+		"alternatives": [],
+		"canonical": "en",
+		"localized": {
+		  "en": "Ayako Kawasumi",
+		  "ja_jp": "川澄 綾子"
+		}
+	  },
+	  "mediaStaff": {
+		"nodes": [
+		  {
+			"id": "153",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "252",
+			  "slug": "mahoromatic-2",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 314,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/252/original.jpg?1597691960",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/252/tiny.jpg?1597691960",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/252/small.jpg?1597691960",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/252/medium.jpg?1597691960",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/252/large.jpg?1597691960",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Mahoromatic: Motto Utsukushii Mono"
+				],
+				"canonical": "Mahoromatic 2",
+				"localized": {
+				  "en": "Mahoromatic ~Something More Beautiful~",
+				  "en_jp": "Mahoromatic 2",
+				  "en_us": "Mahoromatic ~Something More Beautiful~",
+				  "ja_jp": "まほろまてぃっく  ~もっと美しいもの~"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "4069",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "839",
+			  "slug": "yume-tsukai",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 795,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/839/original.jpg?1597698821",
+				  "width": 567
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/839/tiny.jpg?1597698821",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/839/small.jpg?1597698821",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/839/medium.jpg?1597698821",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/839/large.jpg?1597698821",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Dream Users"
+				],
+				"canonical": "Yume Tsukai",
+				"localized": {
+				  "en_jp": "Yume Tsukai",
+				  "ja_jp": "夢使い"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "16887",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "607",
+			  "slug": "denshin-mamotte-shugogetten",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 318,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/607/original.jpg?1597691223",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/607/tiny.jpg?1597691223",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/607/small.jpg?1597691223",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/607/medium.jpg?1597691223",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/607/large.jpg?1597691223",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Denshin Mamotte Shugogetten",
+				"localized": {
+				  "en_jp": "Denshin Mamotte Shugogetten",
+				  "ja_jp": "伝心　まもって守護月天！"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "23841",
+			"role": "Theme Song Performance, Theme Song Composition",
+			"media": {
+			  "id": "295",
+			  "slug": "piano",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 318,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/295/original.jpg?1597684113",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/295/tiny.jpg?1597684113",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/295/small.jpg?1597684113",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/295/medium.jpg?1597684113",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/295/large.jpg?1597684113",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Piano",
+				"localized": {
+				  "en": "Piano: The Melody of a Young Girl's Heart",
+				  "en_jp": "Piano",
+				  "en_us": "Piano: The Melody of a Young Girl's Heart",
+				  "ja_jp": "PIANO"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "27033",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "449",
+			  "slug": "ichigo-mashimaro",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 2158,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/449/original.jpg?1597697413",
+				  "width": 1515
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/449/tiny.jpg?1597697413",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/449/small.jpg?1597697413",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/449/medium.jpg?1597697413",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/449/large.jpg?1597697413",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Ichigo Mashimaro",
+				"localized": {
+				  "en": "Strawberry Marshmallow",
+				  "en_jp": "Ichigo Mashimaro",
+				  "ja_jp": "苺ましまろ"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "28548",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "434",
+			  "slug": "to-heart",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 350,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/434/original.jpg?1597698729",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/434/tiny.jpg?1597698729",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/434/small.jpg?1597698729",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/434/medium.jpg?1597698729",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/434/large.jpg?1597698729",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "To Heart",
+				"localized": {
+				  "en": "To Heart",
+				  "en_jp": "To Heart",
+				  "ja_jp": "トゥハート"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "36825",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "221",
+			  "slug": "groove-adventure-rave",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 1152,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/221/original.jpg?1597698304",
+				  "width": 864
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/221/tiny.jpg?1597698304",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/221/small.jpg?1597698304",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/221/medium.jpg?1597698304",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/221/large.jpg?1597698304",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Groove Adventure Rave"
+				],
+				"canonical": "Groove Adventure Rave",
+				"localized": {
+				  "en": "Rave Master",
+				  "en_jp": "Groove Adventure Rave",
+				  "ja_jp": "レイヴ"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "38946",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "2034",
+			  "slug": "seraphim-call",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 350,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/2034/original.jpg?1597691748",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/2034/tiny.jpg?1597691748",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/2034/small.jpg?1597691748",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/2034/medium.jpg?1597691748",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/2034/large.jpg?1597691748",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Seraphim Call",
+				"localized": {
+				  "en_jp": "Seraphim Call",
+				  "ja_jp": "セラフィムコール"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "39512",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "4879",
+			  "slug": "ladies-versus-butlers",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 1000,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/4879/original.jpg?1597698839",
+				  "width": 680
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/4879/tiny.jpg?1597698839",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/4879/small.jpg?1597698839",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/4879/medium.jpg?1597698839",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/4879/large.jpg?1597698839",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Ladies vs. Butlers!",
+				  "Redei x Bato"
+				],
+				"canonical": "Ladies versus Butlers!",
+				"localized": {
+				  "en": "Ladies versus Butlers!",
+				  "en_jp": "Ladies versus Butlers!",
+				  "en_us": "Ladies versus Butlers!",
+				  "ja_jp": "れでぃ×ばと!"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "39650",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "432",
+			  "slug": "okusama-wa-joshikousei-2005",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 295,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/432/original.jpg?1597692181",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/432/tiny.jpg?1597692181",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/432/small.jpg?1597692181",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/432/medium.jpg?1597692181",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/432/large.jpg?1597692181",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Oku-sama wa Joshi Kousei",
+				  "Oku-sama wa Joshikosei"
+				],
+				"canonical": "Okusama wa Joshikousei (TV)",
+				"localized": {
+				  "en": "My Wife is a High School Girl",
+				  "en_jp": "Okusama wa Joshikousei (TV)",
+				  "ja_jp": "おくさまは女子高生"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "42061",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "251",
+			  "slug": "mahoromatic",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 332,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/251/original.jpg?1597698190",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/251/tiny.jpg?1597698190",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/251/small.jpg?1597698190",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/251/medium.jpg?1597698190",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/251/large.jpg?1597698190",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Mahoromatic: Automatic Maiden",
+				"localized": {
+				  "en": "Mahoromatic: Automatic Maiden",
+				  "en_jp": "Mahoromatic: Automatic Maiden",
+				  "en_us": "Mahoromatic: Automatic Maiden",
+				  "ja_jp": "まほろまてぃっく"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "44496",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "1698",
+			  "slug": "ichigo-mashimaro-ova",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 303,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/1698/original.jpg?1597697486",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/1698/tiny.jpg?1597697486",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/1698/small.jpg?1597697486",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/1698/medium.jpg?1597697486",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/1698/large.jpg?1597697486",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Ichigo Mashimaro OVA",
+				"localized": {
+				  "en": "Strawberry Marshmallow OVA",
+				  "en_jp": "Ichigo Mashimaro OVA",
+				  "en_us": "Strawberry Marshmallow OVA",
+				  "ja_jp": "苺ましまろ OVA"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "47703",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "617",
+			  "slug": "one-kagayaku-kisetsu-e",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/617/original.jpg?1408441902",
+				  "width": null
+				},
+				"views": [
+				  {
+					"height": null,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/617/tiny.jpg?1408441902",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/617/small.jpg?1408441902",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/617/medium.jpg?1408441902",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/617/large.jpg?1408441902",
+					"width": null
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "One: To a Shining Season"
+				],
+				"canonical": "One: Kagayaku Kisetsu e",
+				"localized": {
+				  "en_jp": "One: Kagayaku Kisetsu e",
+				  "ja_jp": "ONE ～輝く季節へ～"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "57756",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "294",
+			  "slug": "puchi-puri-yuushi",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/294/original.jpg?1408441147",
+				  "width": null
+				},
+				"views": [
+				  {
+					"height": null,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/294/tiny.jpg?1408441147",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/294/small.jpg?1408441147",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/294/medium.jpg?1408441147",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/294/large.jpg?1408441147",
+					"width": null
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Petite Pri Yuushi",
+				  "Puchi Puri Yuushi"
+				],
+				"canonical": "Puchi Pri*Yucie",
+				"localized": {
+				  "en": "Petite Princess Yucie",
+				  "en_jp": "Puchi Pri*Yucie",
+				  "en_us": "Petite Princess Yucie",
+				  "ja_jp": "ぷちぷり＊ユーシィ"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "59725",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "418",
+			  "slug": "gokujou-seitokai",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 340,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/418/original.jpg?1597692251",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/418/tiny.jpg?1597692251",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/418/small.jpg?1597692251",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/418/medium.jpg?1597692251",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/418/large.jpg?1597692251",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Gokujo Seitokai"
+				],
+				"canonical": "Gokujou Seitokai",
+				"localized": {
+				  "en": "Best Student Council",
+				  "en_jp": "Gokujou Seitokai",
+				  "ja_jp": "極上生徒会"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "60841",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "7762",
+			  "slug": "queen-s-blade-rurou-no-senshi",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/7762/original.jpg?1408462333",
+				  "width": null
+				},
+				"views": [
+				  {
+					"height": null,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/7762/tiny.jpg?1408462333",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/7762/small.jpg?1408462333",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/7762/medium.jpg?1408462333",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/7762/large.jpg?1408462333",
+					"width": null
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Queen's Blade",
+				  "Sentou Kyoukain Alain"
+				],
+				"canonical": "Queen's Blade: Rurou no Senshi",
+				"localized": {
+				  "en": "Queen's Blade: The Exiled Virgin",
+				  "en_jp": "Queen's Blade: Rurou no Senshi",
+				  "en_us": "Queen's Blade: The Exiled Virgin",
+				  "ja_jp": "クイーンズブレイド 流浪の戦士"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "69558",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "364",
+			  "slug": "seikai-no-senki-ii",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 350,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/364/original.jpg?1597697259",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/364/tiny.jpg?1597697259",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/364/small.jpg?1597697259",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/364/medium.jpg?1597697259",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/364/large.jpg?1597697259",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Battle Flag of the Stars II"
+				],
+				"canonical": "Seikai no Senki II",
+				"localized": {
+				  "en": "Banner of the Stars II",
+				  "en_jp": "Seikai no Senki II",
+				  "ja_jp": "星界の戦旗 II"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "80248",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "3029",
+			  "slug": "kemeko-dx",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": null,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/3029/original.jpg?1408448468",
+				  "width": null
+				},
+				"views": [
+				  {
+					"height": null,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/3029/tiny.jpg?1408448468",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/3029/small.jpg?1408448468",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/3029/medium.jpg?1408448468",
+					"width": null
+				  },
+				  {
+					"height": null,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/3029/large.jpg?1408448468",
+					"width": null
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "The Unknown Girlfriend",
+				  "Kemeko DX"
+				],
+				"canonical": "Kemeko Deluxe!",
+				"localized": {
+				  "en_jp": "Kemeko Deluxe!",
+				  "ja_jp": "ケメコデラックス！"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "80826",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "124",
+			  "slug": "kono-minikuku-mo-utsukushii-sekai",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 273,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/124/original.jpg?1597691586",
+				  "width": 225
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/124/tiny.jpg?1597691586",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/124/small.jpg?1597691586",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/124/medium.jpg?1597691586",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/124/large.jpg?1597691586",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [],
+				"canonical": "Kono Minikuku mo Utsukushii Sekai",
+				"localized": {
+				  "en": "This Ugly Yet Beautiful World",
+				  "en_jp": "Kono Minikuku mo Utsukushii Sekai",
+				  "en_us": "This Ugly Yet Beautiful World",
+				  "ja_jp": "この醜くも美しい世界"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "87809",
+			"role": "Theme Song Performance",
+			"media": {
+			  "id": "1236",
+			  "slug": "gaogaigar-final",
+			  "type": "Anime",
+			  "posterImage": {
+				"original": {
+				  "height": 1024,
+				  "name": "original",
+				  "url": "https://media.kitsu.io/anime/poster_images/1236/original.jpg?1597697229",
+				  "width": 750
+				},
+				"views": [
+				  {
+					"height": 156,
+					"name": "tiny",
+					"url": "https://media.kitsu.io/anime/poster_images/1236/tiny.jpg?1597697229",
+					"width": 110
+				  },
+				  {
+					"height": 402,
+					"name": "small",
+					"url": "https://media.kitsu.io/anime/poster_images/1236/small.jpg?1597697229",
+					"width": 284
+				  },
+				  {
+					"height": 554,
+					"name": "medium",
+					"url": "https://media.kitsu.io/anime/poster_images/1236/medium.jpg?1597697229",
+					"width": 390
+				  },
+				  {
+					"height": 780,
+					"name": "large",
+					"url": "https://media.kitsu.io/anime/poster_images/1236/large.jpg?1597697229",
+					"width": 550
+				  }
+				]
+			  },
+			  "titles": {
+				"alternatives": [
+				  "Brave King GaoGaiGar Final",
+				  "King of Braves GaoGaiGar Final",
+				  "Yuusha Ou GaoGaiGar Final",
+				  "Yuusha-Oh GaoGaiGar Final"
+				],
+				"canonical": "GaoGaiGar Final",
+				"localized": {
+				  "en": "GaoGaiGar Final",
+				  "en_jp": "Yuusha-Ou GaoGaiGar Final",
+				  "en_us": "GaoGaiGar Final",
+				  "ja_jp": "勇者王ガオガイガーFINAL"
+				}
+			  }
+			}
+		  }
+		]
+	  },
+	  "voices": {
+		"nodes": [
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "178",
+				"slug": "natsuki-mogi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/178/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Natsuki Mogi"
+				}
+			  },
+			  "media": {
+				"id": "9",
+				"slug": "initial-d-fourth-stage",
+				"posterImage": {
+				  "original": {
+					"height": 306,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/9/original.jpeg?1597604243",
+					"width": 228
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/9/tiny.jpg?1597604243",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/9/small.jpg?1597604243",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/9/medium.jpg?1597604243",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/9/large.jpg?1597604243",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Initial D Fourth Stage",
+				  "localized": {
+					"en_jp": "Initial D Fourth Stage",
+					"ja_jp": "頭文字〈イニシャル〉D FOURTH STAGE"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "5992",
+				"slug": "carnival-phantasm",
+				"posterImage": {
+				  "original": {
+					"height": 693,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/5992/original.jpg?1597697878",
+					"width": 533
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/5992/tiny.jpg?1597697878",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/5992/small.jpg?1597697878",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/5992/medium.jpg?1597697878",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/5992/large.jpg?1597697878",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Carnival Phantasm",
+				  "localized": {
+					"en_jp": "Carnival Phantasm",
+					"ja_jp": "カーニバル・ファンタズム"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "31024",
+				"slug": "yuriko-aoki",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/31024/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Yuriko Aoki"
+				}
+			  },
+			  "media": {
+				"id": "6001",
+				"slug": "bakuman-2",
+				"posterImage": {
+				  "original": {
+					"height": 1090,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6001/original.png?1597696834",
+					"width": 778
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6001/tiny.jpg?1597696834",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6001/small.jpg?1597696834",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6001/medium.jpg?1597696834",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6001/large.jpg?1597696834",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Bakuman. 2nd Season",
+				  "localized": {
+					"en": "Bakuman. 2",
+					"en_jp": "Bakuman. 2nd Season",
+					"en_us": "Bakuman.",
+					"ja_jp": "バクマン。2ndシーズン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "29350",
+				"slug": "miyuri-tsujidou",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/29350/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Miyuri Tsujidou"
+				}
+			  },
+			  "media": {
+				"id": "6020",
+				"slug": "seikon-no-qwaser-ii",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6020/original.jpg?1597692182",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6020/tiny.jpg?1597692182",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6020/small.jpg?1597692182",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6020/medium.jpg?1597692182",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6020/large.jpg?1597692182",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Seikon no Qwaser II",
+				  "localized": {
+					"en": "The Qwaser of Stigmata II",
+					"en_jp": "Seikon no Qwaser II",
+					"en_us": "The Qwaser of Stigmata II",
+					"ja_jp": "聖痕のクェイサー II"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "6028",
+				"slug": "fate-zero",
+				"posterImage": {
+				  "original": {
+					"height": 2000,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6028/original.jpg?1597698769",
+					"width": 1408
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6028/tiny.jpg?1597698769",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6028/small.jpg?1597698769",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6028/medium.jpg?1597698769",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6028/large.jpg?1597698769",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fate/Zero",
+				  "localized": {
+					"en": "Fate/Zero",
+					"en_jp": "Fate/Zero",
+					"en_us": "Fate/Zero",
+					"ja_jp": "フェイト/ゼロ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "31810",
+				"slug": "ayumi-tokita",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/31810/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Ayumi Tokita"
+				}
+			  },
+			  "media": {
+				"id": "6156",
+				"slug": "squid-girl-2",
+				"posterImage": {
+				  "original": {
+					"height": 800,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6156/original.jpg?1597697485",
+					"width": 548
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6156/tiny.jpg?1597697485",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6156/small.jpg?1597697485",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6156/medium.jpg?1597697485",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6156/large.jpg?1597697485",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Squid Girl 2",
+				  "localized": {
+					"en": "Squid Girl 2",
+					"en_jp": "Shinryaku!? Ika Musume",
+					"en_us": "The Squid Girl 2",
+					"ja_jp": "侵略!?イカ娘"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "2358",
+				"slug": "chidori-kuruma",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/2358/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Chidori Kuruma"
+				}
+			  },
+			  "media": {
+				"id": "83",
+				"slug": "ayashi-no-ceres",
+				"posterImage": {
+				  "original": {
+					"height": 960,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/83/original.jpg?1597698295",
+					"width": 640
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/83/tiny.jpg?1597698295",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/83/small.jpg?1597698295",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/83/medium.jpg?1597698295",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/83/large.jpg?1597698295",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ayashi no Ceres",
+				  "localized": {
+					"en": "Ceres",
+					"en_jp": "Ayashi no Ceres",
+					"en_us": "Ceres, Celestial Legend",
+					"ja_jp": "妖しのセレス"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "34746",
+				"slug": "hatsue-nobidome",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/34746/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Hatsue Nobidome"
+				}
+			  },
+			  "media": {
+				"id": "6246",
+				"slug": "ro-kyu-bu",
+				"posterImage": {
+				  "original": {
+					"height": 1024,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6246/original.jpg?1597698662",
+					"width": 736
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6246/tiny.jpg?1597698662",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6246/small.jpg?1597698662",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6246/medium.jpg?1597698662",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6246/large.jpg?1597698662",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ro-Kyu-Bu!",
+				  "localized": {
+					"en": "Ro-Kyu-Bu ~ Fast Break!",
+					"en_jp": "Ro-Kyu-Bu!",
+					"en_us": "Ro-Kyu-Bu ~ Fast Break!",
+					"ja_jp": "ロウきゅーぶ!"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "31855",
+				"slug": "jeanne-d-arc-7536315c-0358-4f26-a136-13431573949f",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/31855/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Jeanne d'Arc"
+				}
+			  },
+			  "media": {
+				"id": "6263",
+				"slug": "hidan-no-aria-special",
+				"posterImage": {
+				  "original": {
+					"height": 315,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6263/original.jpg?1597691553",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6263/tiny.jpg?1597691553",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6263/small.jpg?1597691553",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6263/medium.jpg?1597691553",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6263/large.jpg?1597691553",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Hidan no Aria Special",
+				  "localized": {
+					"en": "Aria the Scarlet Ammo Special",
+					"en_jp": "Hidan no Aria Special",
+					"en_us": "Aria the Scarlet Ammo Special",
+					"ja_jp": "緋弾のアリア"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6524",
+				"slug": "kazumi-yoshida",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6524/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kazumi Yoshida"
+				}
+			  },
+			  "media": {
+				"id": "953",
+				"slug": "shakugan-no-shana-specials",
+				"posterImage": {
+				  "original": {
+					"height": 200,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/953/original.jpg?1597698411",
+					"width": 200
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/953/tiny.jpg?1597698411",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/953/small.jpg?1597698411",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/953/medium.jpg?1597698411",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/953/large.jpg?1597698411",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shakugan no Shana Specials",
+				  "localized": {
+					"en_jp": "Shakugan no Shana Specials",
+					"ja_jp": "灼眼のシャナたん"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "34916",
+				"slug": "akari-fujibayashi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/34916/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Akari Fujibayashi"
+				}
+			  },
+			  "media": {
+				"id": "6316",
+				"slug": "boku-wa-tomodachi-ga-sukunai",
+				"posterImage": {
+				  "original": {
+					"height": 900,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6316/original.jpg?1597694883",
+					"width": 636
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6316/tiny.jpg?1597694883",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6316/small.jpg?1597694883",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6316/medium.jpg?1597694883",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6316/large.jpg?1597694883",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Boku wa Tomodachi ga Sukunai",
+				  "localized": {
+					"en": "Haganai: I don't have many friends",
+					"en_jp": "Boku wa Tomodachi ga Sukunai",
+					"en_us": "Haganai: I don't have many friends",
+					"ja_jp": "僕は友達が少ない"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "5983",
+				"slug": "lafiel-abriel",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/5983/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Lafiel Abriel"
+				}
+			  },
+			  "media": {
+				"id": "1008",
+				"slug": "seikai-no-danshou-tanjou",
+				"posterImage": {
+				  "original": {
+					"height": 230,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1008/original.jpg?1597698123",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1008/tiny.jpg?1597698123",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1008/small.jpg?1597698123",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1008/medium.jpg?1597698123",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1008/large.jpg?1597698123",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Seikai no Danshou: Tanjou",
+				  "localized": {
+					"en": "Crest of the Stars: Birth",
+					"en_jp": "Seikai no Danshou: Tanjou",
+					"en_us": "Crest of the Stars: Birth",
+					"ja_jp": "星界の断章 “誕生”"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "13385",
+				"slug": "henrietta-de-tristain",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/13385/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Henrietta de Tristain"
+				}
+			  },
+			  "media": {
+				"id": "6493",
+				"slug": "zero-no-tsukaima-f",
+				"posterImage": {
+				  "original": {
+					"height": 302,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6493/original.jpg?1597691256",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6493/tiny.jpg?1597691256",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6493/small.jpg?1597691256",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6493/medium.jpg?1597691256",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6493/large.jpg?1597691256",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Zero no Tsukaima F",
+				  "localized": {
+					"en": "The Familiar of Zero F",
+					"en_jp": "Zero no Tsukaima F",
+					"en_us": "The Familiar of Zero F",
+					"ja_jp": "ゼロの使い魔F"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "7658",
+				"slug": "fate-zero-2nd-season",
+				"posterImage": {
+				  "original": {
+					"height": 6650,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7658/original.jpg?1597698796",
+					"width": 4675
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7658/tiny.jpg?1597698796",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7658/small.jpg?1597698796",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7658/medium.jpg?1597698796",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7658/large.jpg?1597698796",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fate/Zero 2nd Season",
+				  "localized": {
+					"en": "Fate/Zero Season 2",
+					"en_jp": "Fate/Zero 2nd Season",
+					"en_us": "Fate/Zero Season 2",
+					"ja_jp": "フェイト/ゼロ 2ndシーズン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "35609",
+				"slug": "susan-b72d260d-5a1e-4738-9613-06761fe0156f",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/35609/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Susan"
+				}
+			  },
+			  "media": {
+				"id": "6550",
+				"slug": "high-school-dxd",
+				"posterImage": {
+				  "original": {
+					"height": 1492,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6550/original.jpg?1597697752",
+					"width": 1054
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6550/tiny.jpg?1597697752",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6550/small.jpg?1597697752",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6550/medium.jpg?1597697752",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6550/large.jpg?1597697752",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "High School DxD",
+				  "localized": {
+					"en": "High School DxD",
+					"en_jp": "High School DxD",
+					"en_us": "High School DxD",
+					"ja_jp": "ハイスクールD×D"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "26432",
+				"slug": "laura-stuart",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/26432/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Laura Stuart"
+				}
+			  },
+			  "media": {
+				"id": "6583",
+				"slug": "toaru-majutsu-no-index-endymion-no-kiseki",
+				"posterImage": {
+				  "original": {
+					"height": 1500,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6583/original.jpg?1597697614",
+					"width": 1041
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6583/tiny.jpg?1597697614",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6583/small.jpg?1597697614",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6583/medium.jpg?1597697614",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6583/large.jpg?1597697614",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Toaru Majutsu no Index Movie: Endymion no Kiseki",
+				  "localized": {
+					"en": "A Certain Magical Index the Movie: The Miracle of Endymion",
+					"en_jp": "Toaru Majutsu no Index Movie: Endymion no Kiseki",
+					"ja_jp": "劇場版 とある魔術の禁書目録 エンデュミオーンの奇蹟"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "35783",
+				"slug": "blood-leopard",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/35783/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Mihaya Kakei"
+				}
+			  },
+			  "media": {
+				"id": "6590",
+				"slug": "accel-world",
+				"posterImage": {
+				  "original": {
+					"height": 985,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6590/original.png?1597694895",
+					"width": 680
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6590/tiny.jpg?1597694895",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6590/small.jpg?1597694895",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6590/medium.jpg?1597694895",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6590/large.jpg?1597694895",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Accel World",
+				  "localized": {
+					"en": "Accel World",
+					"en_jp": "Accel World",
+					"en_us": "Accel World",
+					"ja_jp": "アクセル・ワールド"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "29560",
+				"slug": "reina-vance",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/29560/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Leina Vance"
+				}
+			  },
+			  "media": {
+				"id": "6620",
+				"slug": "queen-s-blade-rebellion",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6620/original.jpg?1408458922",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6620/tiny.jpg?1408458922",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6620/small.jpg?1408458922",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6620/medium.jpg?1408458922",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6620/large.jpg?1408458922",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Queen's Blade: Rebellion",
+				  "localized": {
+					"en_jp": "Queen's Blade: Rebellion",
+					"ja_jp": "クイーンズブレイド リベリオン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "13385",
+				"slug": "henrietta-de-tristain",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/13385/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Henrietta de Tristain"
+				}
+			  },
+			  "media": {
+				"id": "1075",
+				"slug": "zero-no-tsukaima",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1075/original.jpg?1408443044",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1075/tiny.jpg?1408443044",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1075/small.jpg?1408443044",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1075/medium.jpg?1408443044",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1075/large.jpg?1408443044",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Zero no Tsukaima",
+				  "localized": {
+					"en": "The Familiar of Zero",
+					"en_jp": "Zero no Tsukaima",
+					"en_us": "The Familiar of Zero",
+					"ja_jp": "ゼロの使い魔"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "36114",
+				"slug": "akira-igarashi-bbec632e-9df3-4317-943b-1c6f9265a1a8",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/36114/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Akira Igarashi"
+				}
+			  },
+			  "media": {
+				"id": "6678",
+				"slug": "akb0048-first-stage",
+				"posterImage": {
+				  "original": {
+					"height": 5096,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6678/original.jpg?1597697961",
+					"width": 3550
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6678/tiny.jpg?1597697961",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6678/small.jpg?1597697961",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6678/medium.jpg?1597697961",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6678/large.jpg?1597697961",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "AKB0048",
+				  "localized": {
+					"en": "AKB0048",
+					"en_jp": "AKB0048",
+					"en_us": "AKB0048",
+					"ja_jp": "AKB0048"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "6695",
+				"slug": "carnival-phantasm-illya-s-castle",
+				"posterImage": {
+				  "original": {
+					"height": 338,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6695/original.jpg?1597698397",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6695/tiny.jpg?1597698397",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6695/small.jpg?1597698397",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6695/medium.jpg?1597698397",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6695/large.jpg?1597698397",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Carnival Phantasm: Illya-jou",
+				  "localized": {
+					"en_jp": "Carnival Phantasm: Illya-jou",
+					"ja_jp": "カーニバル・ファンタズム: イリヤ城"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "6685",
+				"slug": "carnival-phantasm-ex-season",
+				"posterImage": {
+				  "original": {
+					"height": 500,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6685/original.jpg?1597697725",
+					"width": 351
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6685/tiny.jpg?1597697725",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6685/small.jpg?1597697725",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6685/medium.jpg?1597697725",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6685/large.jpg?1597697725",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Carnival Phantasm EX Season",
+				  "localized": {
+					"en_jp": "Carnival Phantasm EX Season",
+					"ja_jp": "カーニバル・ファンタズム　EX Season"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "31024",
+				"slug": "yuriko-aoki",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/31024/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Yuriko Aoki"
+				}
+			  },
+			  "media": {
+				"id": "6714",
+				"slug": "bakuman-3",
+				"posterImage": {
+				  "original": {
+					"height": 707,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6714/original.jpg?1597696817",
+					"width": 500
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6714/tiny.jpg?1597696817",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6714/small.jpg?1597696817",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6714/medium.jpg?1597696817",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6714/large.jpg?1597696817",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Bakuman. 3rd Season",
+				  "localized": {
+					"en": "Bakuman. 3",
+					"en_jp": "Bakuman. 3rd Season",
+					"en_us": "Bakuman.",
+					"ja_jp": "バクマン。"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "2674",
+				"slug": "ruriko-ikusawa",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/2674/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Ruriko Ikusawa"
+				}
+			  },
+			  "media": {
+				"id": "106",
+				"slug": "gate-keepers",
+				"posterImage": {
+				  "original": {
+					"height": 325,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/106/original.jpg?1597692194",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/106/tiny.jpg?1597692194",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/106/small.jpg?1597692194",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/106/medium.jpg?1597692194",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/106/large.jpg?1597692194",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Gate Keepers",
+				  "localized": {
+					"en_jp": "Gate Keepers",
+					"ja_jp": "ゲートキーパーズ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "14040",
+				"slug": "hanako-e8b5973b-be52-4990-b28d-a624ee08c30d",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/14040/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Hanako"
+				}
+			  },
+			  "media": {
+				"id": "1156",
+				"slug": "ghost-stories",
+				"posterImage": {
+				  "original": {
+					"height": 500,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1156/original.jpg?1597697543",
+					"width": 352
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1156/tiny.jpg?1597697543",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1156/small.jpg?1597697543",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1156/medium.jpg?1597697543",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1156/large.jpg?1597697543",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ghost Stories",
+				  "localized": {
+					"en": "Ghost Stories",
+					"en_jp": "Gakkou no Kaidan",
+					"en_us": "Ghost Stories",
+					"ja_jp": "学校の怪談"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "6906",
+				"slug": "fate-zero-remix",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6906/original.jpg?1597698293",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6906/tiny.jpg?1597698293",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6906/small.jpg?1597698293",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6906/medium.jpg?1597698293",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6906/large.jpg?1597698293",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fate/Zero Remix",
+				  "localized": {
+					"en_jp": "Fate/Zero Remix",
+					"ja_jp": "フェイト/ゼロ Remix"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "65952",
+				"slug": "fear",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/65952/original.jpg?1485074995",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Fear"
+				}
+			  },
+			  "media": {
+				"id": "1179",
+				"slug": "dt-eightron",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1179/original.jpg?1408443370",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1179/tiny.jpg?1408443370",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1179/small.jpg?1408443370",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1179/medium.jpg?1408443370",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1179/large.jpg?1408443370",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "DT Eightron",
+				  "localized": {
+					"en": "DT Eightron",
+					"en_jp": "DT Eightron",
+					"en_us": "DT Eightron",
+					"ja_jp": "ＤＴエイトロン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "31810",
+				"slug": "ayumi-tokita",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/31810/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Ayumi Tokita"
+				}
+			  },
+			  "media": {
+				"id": "6929",
+				"slug": "shinryaku-ika-musume",
+				"posterImage": {
+				  "original": {
+					"height": 500,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6929/original.jpg?1597697471",
+					"width": 347
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6929/tiny.jpg?1597697471",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6929/small.jpg?1597697471",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6929/medium.jpg?1597697471",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6929/large.jpg?1597697471",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shinryaku!! Ika Musume",
+				  "localized": {
+					"en_jp": "Shinryaku!! Ika Musume",
+					"ja_jp": "侵略!!イカ娘"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "37181",
+				"slug": "risa-seri",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/37181/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Risa Seri"
+				}
+			  },
+			  "media": {
+				"id": "6947",
+				"slug": "kono-naka-ni-hitori-imouto-ga-iru",
+				"posterImage": {
+				  "original": {
+					"height": 1280,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6947/original.jpg?1597698864",
+					"width": 849
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6947/tiny.jpg?1597698864",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6947/small.jpg?1597698864",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6947/medium.jpg?1597698864",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6947/large.jpg?1597698864",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kono Naka ni Hitori, Imouto ga Iru!",
+				  "localized": {
+					"en": "NAKAIMO - My Little Sister Is Among Them!",
+					"en_jp": "Kono Naka ni Hitori, Imouto ga Iru!",
+					"en_us": "NAKAIMO - My Little Sister Is Among Them!",
+					"ja_jp": "この中に1人、妹がいる！"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "37138",
+				"slug": "haruka-tanaka",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/37138/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Haruka Tanaka"
+				}
+			  },
+			  "media": {
+				"id": "6941",
+				"slug": "tari-tari",
+				"posterImage": {
+				  "original": {
+					"height": 1280,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/6941/original.jpg?1597697912",
+					"width": 909
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/6941/tiny.jpg?1597697912",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/6941/small.jpg?1597697912",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/6941/medium.jpg?1597697912",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/6941/large.jpg?1597697912",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Tari Tari",
+				  "localized": {
+					"en": "Tari Tari",
+					"en_jp": "Tari Tari",
+					"en_us": "Tari Tari",
+					"ja_jp": "TARI TARI"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "90743",
+				"slug": "kyouko-miyano",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/90743/original.jpg?1485086523",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kyouko Miyano"
+				}
+			  },
+			  "media": {
+				"id": "1204",
+				"slug": "a-d-police",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1204/original.jpg?1408443433",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1204/tiny.jpg?1408443433",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1204/small.jpg?1408443433",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1204/medium.jpg?1408443433",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1204/large.jpg?1408443433",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "A.D. Police (TV)",
+				  "localized": {
+					"en": "A.D. Police: To Protect and Serve",
+					"en_jp": "A.D. Police (TV)",
+					"en_us": "A.D. Police: To Protect and Serve",
+					"ja_jp": "アドバンスドポリス"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "24036",
+				"slug": "saki-tenjouin",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/24036/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saki Tenjouin"
+				}
+			  },
+			  "media": {
+				"id": "7007",
+				"slug": "to-love-ru-darkness",
+				"posterImage": {
+				  "original": {
+					"height": 4102,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7007/original.jpg?1597697553",
+					"width": 2832
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7007/tiny.jpg?1597697553",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7007/small.jpg?1597697553",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7007/medium.jpg?1597697553",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7007/large.jpg?1597697553",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "To LOVE-Ru Darkness",
+				  "localized": {
+					"en": "To LOVE Ru Darkness",
+					"en_jp": "To LOVE-Ru Darkness",
+					"ja_jp": "To LOVEる -とらぶる- ダークネス"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "37314",
+				"slug": "rita-ainsworth",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/37314/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Rita Ainsworth"
+				}
+			  },
+			  "media": {
+				"id": "7023",
+				"slug": "sakurasou-no-pet-na-kanojo",
+				"posterImage": {
+				  "original": {
+					"height": 1212,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7023/original.jpg?1597696828",
+					"width": 890
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7023/tiny.jpg?1597696828",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7023/small.jpg?1597696828",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7023/medium.jpg?1597696828",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7023/large.jpg?1597696828",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sakurasou no Pet na Kanojo",
+				  "localized": {
+					"en": "The Pet Girl of Sakurasou",
+					"en_jp": "Sakurasou no Pet na Kanojo",
+					"en_us": "The Pet Girl of Sakurasou",
+					"ja_jp": "さくら荘のペットな彼女"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "5983",
+				"slug": "lafiel-abriel",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/5983/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Lafiel Abriel"
+				}
+			  },
+			  "media": {
+				"id": "1235",
+				"slug": "seikai-no-monshou-special",
+				"posterImage": {
+				  "original": {
+					"height": 283,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1235/original.jpg?1597698100",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1235/tiny.jpg?1597698100",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1235/small.jpg?1597698100",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1235/medium.jpg?1597698100",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1235/large.jpg?1597698100",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Seikai no Monshou Special",
+				  "localized": {
+					"en_jp": "Seikai no Monshou Special",
+					"ja_jp": "星界の紋章 総集編"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "35783",
+				"slug": "blood-leopard",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/35783/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Mihaya Kakei"
+				}
+			  },
+			  "media": {
+				"id": "7050",
+				"slug": "accel-world-specials",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7050/original.jpg?1408460144",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7050/tiny.jpg?1408460144",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7050/small.jpg?1408460144",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7050/medium.jpg?1408460144",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7050/large.jpg?1408460144",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Accel World: Acchel World.",
+				  "localized": {
+					"en_jp": "Accel World: Acchel World.",
+					"ja_jp": "あくちぇる・わーるど。"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "2931",
+				"slug": "chikane-himemiya",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/2931/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Chikane Himemiya"
+				}
+			  },
+			  "media": {
+				"id": "121",
+				"slug": "kannazuki-no-miko",
+				"posterImage": {
+				  "original": {
+					"height": 2516,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/121/original.png?1597698738",
+					"width": 1737
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/121/tiny.jpg?1597698738",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/121/small.jpg?1597698738",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/121/medium.jpg?1597698738",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/121/large.jpg?1597698738",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kannazuki no Miko",
+				  "localized": {
+					"en": "Destiny of the Shrine Maiden",
+					"en_jp": "Kannazuki no Miko",
+					"en_us": "Destiny of the Shrine Maiden",
+					"ja_jp": "神無月の巫女"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "37404",
+				"slug": "kay",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/37404/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kei"
+				}
+			  },
+			  "media": {
+				"id": "7087",
+				"slug": "girls-und-panzer",
+				"posterImage": {
+				  "original": {
+					"height": 646,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7087/original.jpg?1597695082",
+					"width": 472
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7087/tiny.jpg?1597695082",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7087/small.jpg?1597695082",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7087/medium.jpg?1597695082",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7087/large.jpg?1597695082",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Girls \u0026 Panzer",
+				  "localized": {
+					"en": "Girls \u0026 Panzer",
+					"en_jp": "Girls \u0026 Panzer",
+					"en_us": "Girls \u0026 Panzer",
+					"ja_jp": "ガールズ\u0026パンツァー"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "35783",
+				"slug": "blood-leopard",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/35783/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Mihaya Kakei"
+				}
+			  },
+			  "media": {
+				"id": "7057",
+				"slug": "accel-world-ex",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7057/original.jpg?1597690745",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7057/tiny.jpg?1597690745",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7057/small.jpg?1597690745",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7057/medium.jpg?1597690745",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7057/large.jpg?1597690745",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Accel World EX",
+				  "localized": {
+					"en_jp": "Accel World EX",
+					"ja_jp": "アクセル・ワールド EX"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "9681",
+				"slug": "kaori-misaka",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/9681/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kaori Misaka"
+				}
+			  },
+			  "media": {
+				"id": "7659",
+				"slug": "kanon",
+				"posterImage": {
+				  "original": {
+					"height": 1504,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7659/original.jpg?1597698568",
+					"width": 1132
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7659/tiny.jpg?1597698568",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7659/small.jpg?1597698568",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7659/medium.jpg?1597698568",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7659/large.jpg?1597698568",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kanon",
+				  "localized": {
+					"en_jp": "Kanon",
+					"ja_jp": "カノン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "2964",
+				"slug": "hikari-hoshino",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/2964/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Hikari Hoshino"
+				}
+			  },
+			  "media": {
+				"id": "124",
+				"slug": "kono-minikuku-mo-utsukushii-sekai",
+				"posterImage": {
+				  "original": {
+					"height": 273,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/124/original.jpg?1597691586",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/124/tiny.jpg?1597691586",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/124/small.jpg?1597691586",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/124/medium.jpg?1597691586",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/124/large.jpg?1597691586",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kono Minikuku mo Utsukushii Sekai",
+				  "localized": {
+					"en": "This Ugly Yet Beautiful World",
+					"en_jp": "Kono Minikuku mo Utsukushii Sekai",
+					"en_us": "This Ugly Yet Beautiful World",
+					"ja_jp": "この醜くも美しい世界"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "24528",
+				"slug": "erina-pendleton",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/24528/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Erina Pendleton"
+				}
+			  },
+			  "media": {
+				"id": "7158",
+				"slug": "jojo-s-bizarre-adventure-2012",
+				"posterImage": {
+				  "original": {
+					"height": 512,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7158/original.png?1597694869",
+					"width": 358
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7158/tiny.jpg?1597694869",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7158/small.jpg?1597694869",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7158/medium.jpg?1597694869",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7158/large.jpg?1597694869",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "JoJo no Kimyou na Bouken (TV)",
+				  "localized": {
+					"en": "JoJo's Bizarre Adventure (2012)",
+					"en_jp": "JoJo no Kimyou na Bouken (TV)",
+					"en_us": "JoJo's Bizarre Adventure",
+					"ja_jp": "ジョジョの奇妙な冒険"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "15253",
+				"slug": "otoha-sakurano",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/15253/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Otoha Sakurano"
+				}
+			  },
+			  "media": {
+				"id": "1326",
+				"slug": "sky-girls-ova",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1326/original.jpg?1408443732",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1326/tiny.jpg?1408443732",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1326/small.jpg?1408443732",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1326/medium.jpg?1408443732",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1326/large.jpg?1408443732",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sky Girls OVA",
+				  "localized": {
+					"en_jp": "Sky Girls OVA",
+					"ja_jp": "スカイガールズ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "7173",
+				"slug": "fate-kaleid-liner-prisma-illya",
+				"posterImage": {
+				  "original": {
+					"height": 943,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7173/original.jpg?1597695114",
+					"width": 700
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7173/tiny.jpg?1597695114",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7173/small.jpg?1597695114",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7173/medium.jpg?1597695114",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7173/large.jpg?1597695114",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fate/kaleid liner Prisma☆Illya",
+				  "localized": {
+					"en": "Fate/Kaleid Liner Prisma Illya",
+					"en_jp": "Fate/kaleid liner Prisma☆Illya",
+					"en_us": "Fate/Kaleid Liner Prisma Illya",
+					"ja_jp": "Fate/kaleid liner プリズマ☆イリヤ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "36114",
+				"slug": "akira-igarashi-bbec632e-9df3-4317-943b-1c6f9265a1a8",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/36114/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Akira Igarashi"
+				}
+			  },
+			  "media": {
+				"id": "7184",
+				"slug": "akb0048-next-stage",
+				"posterImage": {
+				  "original": {
+					"height": 316,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7184/original.jpg?1597691825",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7184/tiny.jpg?1597691825",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7184/small.jpg?1597691825",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7184/medium.jpg?1597691825",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7184/large.jpg?1597691825",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "AKB0048: Next Stage",
+				  "localized": {
+					"en": "AKB0048: Next Stage",
+					"en_jp": "AKB0048: Next Stage",
+					"en_us": "AKB0048: Next Stage",
+					"ja_jp": "AKB0048 next stage"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "6524",
+				"slug": "kazumi-yoshida",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6524/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kazumi Yoshida"
+				}
+			  },
+			  "media": {
+				"id": "1372",
+				"slug": "shakugan-no-shana-special-koi-to-onsen-no-kougai-gakushuu",
+				"posterImage": {
+				  "original": {
+					"height": 326,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1372/original.jpg?1597698095",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1372/tiny.jpg?1597698095",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1372/small.jpg?1597698095",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1372/medium.jpg?1597698095",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1372/large.jpg?1597698095",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shakugan no Shana SP: Koi to Onsen no Kougai Gakushuu!",
+				  "localized": {
+					"en_jp": "Shakugan no Shana SP: Koi to Onsen no Kougai Gakushuu!",
+					"ja_jp": "灼眼のシャナSP　恋と温泉の校外学習！"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "9681",
+				"slug": "kaori-misaka",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/9681/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kaori Misaka"
+				}
+			  },
+			  "media": {
+				"id": "122",
+				"slug": "kanon-2006",
+				"posterImage": {
+				  "original": {
+					"height": 1000,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/122/original.jpg?1597690611",
+					"width": 702
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/122/tiny.jpg?1597690611",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/122/small.jpg?1597690611",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/122/medium.jpg?1597690611",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/122/large.jpg?1597690611",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kanon (2006)",
+				  "localized": {
+					"en": "Kanon (2006)",
+					"en_jp": "Kanon (2006)",
+					"en_us": "Kanon",
+					"ja_jp": "カノン (2006)"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "16321",
+				"slug": "urara-9d087f16-782c-4e17-8aaf-839bd5f3a795",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/16321/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Urara "
+				}
+			  },
+			  "media": {
+				"id": "1405",
+				"slug": "pokemon-diamond-pearl",
+				"posterImage": {
+				  "original": {
+					"height": 600,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1405/original.jpg?1597698435",
+					"width": 425
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1405/tiny.jpg?1597698435",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1405/small.jpg?1597698435",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1405/medium.jpg?1597698435",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1405/large.jpg?1597698435",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Pokemon Diamond \u0026 Pearl",
+				  "localized": {
+					"en_jp": "Pokemon Diamond \u0026 Pearl",
+					"ja_jp": "ポケットモンスター ダイヤモンド\u0026パール"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6553",
+				"slug": "saber",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Saber"
+				}
+			  },
+			  "media": {
+				"id": "7342",
+				"slug": "carnival-phantasm-hibichika-special",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7342/original.jpg?1408461040",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7342/tiny.jpg?1408461040",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7342/small.jpg?1408461040",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7342/medium.jpg?1408461040",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7342/large.jpg?1408461040",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Carnival Phantasm: HibiChika Special",
+				  "localized": {
+					"en_jp": "Carnival Phantasm: HibiChika Special",
+					"ja_jp": "カーニバル・ファンタズム ひびちかスペシャル"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "1556",
+				"slug": "ayumu-kasuga",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/1556/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Ayumu Kasuga"
+				}
+			  },
+			  "media": {
+				"id": "1433",
+				"slug": "azumanga-web-daioh",
+				"posterImage": {
+				  "original": {
+					"height": 150,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1433/original.jpg?1597698916",
+					"width": 200
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1433/tiny.jpg?1597698916",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1433/small.jpg?1597698916",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1433/medium.jpg?1597698916",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1433/large.jpg?1597698916",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Azumanga Web Daioh",
+				  "localized": {
+					"en": "Azumanga Web Daioh",
+					"en_jp": "Azumanga Web Daioh",
+					"en_us": "Azumanga Web Daioh",
+					"ja_jp": "あずまんがWEB大王"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "16621",
+				"slug": "nanoca-flanka",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/16621/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Nanoca Flanka"
+				}
+			  },
+			  "media": {
+				"id": "1426",
+				"slug": "aoi-umi-no-tristia",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1426/original.jpg?1408443997",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1426/tiny.jpg?1408443997",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1426/small.jpg?1408443997",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1426/medium.jpg?1408443997",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1426/large.jpg?1408443997",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Aoi Umi no Tristia",
+				  "localized": {
+					"en_jp": "Aoi Umi no Tristia",
+					"ja_jp": "蒼い海のトリスティア"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "16753",
+				"slug": "sara-werec",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/16753/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Sara Werec"
+				}
+			  },
+			  "media": {
+				"id": "1442",
+				"slug": "soukou-no-strain",
+				"posterImage": {
+				  "original": {
+					"height": 313,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1442/original.jpg?1597697932",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1442/tiny.jpg?1597697932",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1442/small.jpg?1597697932",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1442/medium.jpg?1597697932",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1442/large.jpg?1597697932",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Soukou no Strain",
+				  "localized": {
+					"en": "Strain: Strategic Armored Infantry",
+					"en_jp": "Soukou no Strain",
+					"en_us": "Strain: Strategic Armored Infantry",
+					"ja_jp": "奏光のストレイン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "34746",
+				"slug": "hatsue-nobidome",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/34746/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Hatsue Nobidome"
+				}
+			  },
+			  "media": {
+				"id": "7367",
+				"slug": "ro-kyu-bu-ss",
+				"posterImage": {
+				  "original": {
+					"height": 988,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7367/original.jpg?1597698347",
+					"width": 710
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7367/tiny.jpg?1597698347",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7367/small.jpg?1597698347",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7367/medium.jpg?1597698347",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7367/large.jpg?1597698347",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ro-Kyu-Bu! SS",
+				  "localized": {
+					"en_jp": "Ro-Kyu-Bu! SS",
+					"ja_jp": "ロウきゅーぶ! SS"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "29560",
+				"slug": "reina-vance",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/29560/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Leina Vance"
+				}
+			  },
+			  "media": {
+				"id": "7412",
+				"slug": "vanquished-queens",
+				"posterImage": {
+				  "original": {
+					"height": 578,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7412/original.jpg?1597699110",
+					"width": 400
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7412/tiny.jpg?1597699110",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7412/small.jpg?1597699110",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7412/medium.jpg?1597699110",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7412/large.jpg?1597699110",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Vanquished Queens",
+				  "localized": {
+					"en_jp": "Vanquished Queens",
+					"ja_jp": "ヴァンキッシュド・クイーンズ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "38549",
+				"slug": "erika-kuramoto",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/38549/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Erika Kuramoto"
+				}
+			  },
+			  "media": {
+				"id": "7484",
+				"slug": "zettai-junpaku-mahou-shoujo",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7484/original.jpg?1409924062",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7484/tiny.jpg?1409924062",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7484/small.jpg?1409924062",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7484/medium.jpg?1409924062",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7484/large.jpg?1409924062",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Zettai Junpaku♡Mahou Shoujo",
+				  "localized": {
+					"en_jp": "Zettai Junpaku♡Mahou Shoujo",
+					"ja_jp": "絶対純白♡魔法少女"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "3331",
+				"slug": "megumi-shitow",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/3331/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Megumi Shitow"
+				}
+			  },
+			  "media": {
+				"id": "143",
+				"slug": "rahxephon",
+				"posterImage": {
+				  "original": {
+					"height": 719,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/143/original.jpg?1597696695",
+					"width": 550
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/143/tiny.jpg?1597696695",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/143/small.jpg?1597696695",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/143/medium.jpg?1597696695",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/143/large.jpg?1597696695",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "RahXephon",
+				  "localized": {
+					"en": "RahXephon",
+					"en_jp": "RahXephon",
+					"en_us": "RahXephon",
+					"ja_jp": "ラーゼフォン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "3379",
+				"slug": "winia-chester",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/3379/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Winia Chester"
+				}
+			  },
+			  "media": {
+				"id": "145",
+				"slug": "scrapped-princess",
+				"posterImage": {
+				  "original": {
+					"height": 325,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/145/original.jpg?1597690986",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/145/tiny.jpg?1597690986",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/145/small.jpg?1597690986",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/145/medium.jpg?1597690986",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/145/large.jpg?1597690986",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Scrapped Princess",
+				  "localized": {
+					"en": "Scrapped Princess",
+					"en_jp": "Scrapped Princess",
+					"en_us": "Scrapped Princess",
+					"ja_jp": "スクラップド・プリンセス"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "54624",
+				"slug": "minato-shirakawa",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/54624/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Minato Shirakawa"
+				}
+			  },
+			  "media": {
+				"id": "7501",
+				"slug": "kiniro-mosaic",
+				"posterImage": {
+				  "original": {
+					"height": 824,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7501/original.jpg?1597697358",
+					"width": 580
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7501/tiny.jpg?1597697358",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7501/small.jpg?1597697358",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7501/medium.jpg?1597697358",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7501/large.jpg?1597697358",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kiniro Mosaic",
+				  "localized": {
+					"en": "KINMOZA!",
+					"en_jp": "Kiniro Mosaic",
+					"en_us": "KINMOZA!",
+					"ja_jp": "きんいろモザイク"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "17254",
+				"slug": "mysterious-girl-fc00287e-cca6-4f1f-8dcd-4d947f83cf47",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/17254/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Mysterious Girl"
+				}
+			  },
+			  "media": {
+				"id": "1510",
+				"slug": "brave-story",
+				"posterImage": {
+				  "original": {
+					"height": 300,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1510/original.jpg?1597691890",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1510/tiny.jpg?1597691890",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1510/small.jpg?1597691890",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1510/medium.jpg?1597691890",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1510/large.jpg?1597691890",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Brave Story",
+				  "localized": {
+					"en": "Brave Story",
+					"en_jp": "Brave Story",
+					"en_us": "Brave Story",
+					"ja_jp": "ブレイブ・ストーリー"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "17441",
+				"slug": "megumi-noda",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/17441/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Megumi Noda"
+				}
+			  },
+			  "media": {
+				"id": "1525",
+				"slug": "nodame-cantabile",
+				"posterImage": {
+				  "original": {
+					"height": 710,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1525/original.jpg?1597696906",
+					"width": 490
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1525/tiny.jpg?1597696906",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1525/small.jpg?1597696906",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1525/medium.jpg?1597696906",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1525/large.jpg?1597696906",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Nodame Cantabile",
+				  "localized": {
+					"en": "Nodame Cantabile",
+					"en_jp": "Nodame Cantabile",
+					"en_us": "Nodame Cantabile",
+					"ja_jp": "のだめカンタービレ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "17472",
+				"slug": "emilia",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/17472/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Emilia"
+				}
+			  },
+			  "media": {
+				"id": "1526",
+				"slug": "romeo-x-juliet",
+				"posterImage": {
+				  "original": {
+					"height": 1337,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1526/original.png?1597697598",
+					"width": 923
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1526/tiny.jpg?1597697598",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1526/small.jpg?1597697598",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1526/medium.jpg?1597697598",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1526/large.jpg?1597697598",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Romeo x Juliet",
+				  "localized": {
+					"en": "Romeo x Juliet",
+					"en_jp": "Romeo x Juliet",
+					"en_us": "Romeo x Juliet",
+					"ja_jp": "ロミオ×ジュリエット"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "25903",
+				"slug": "athena-tennos",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/25903/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Athena Tennousu"
+				}
+			  },
+			  "media": {
+				"id": "7561",
+				"slug": "hayate-the-combat-butler-cuties",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7561/original.jpg?1597697982",
+					"width": 250
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7561/tiny.jpg?1597697982",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7561/small.jpg?1597697982",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7561/medium.jpg?1597697982",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7561/large.jpg?1597697982",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Hayate no Gotoku! Cuties",
+				  "localized": {
+					"en": "Hayate the Combat Butler! Cuties",
+					"en_jp": "Hayate no Gotoku! Cuties",
+					"en_us": "Hayate the Combat Butler! Cuties",
+					"ja_jp": "ハヤテのごとく！ Cuties"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "17608",
+				"slug": "nono-ichinose",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/17608/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Nono Ichinose"
+				}
+			  },
+			  "media": {
+				"id": "1542",
+				"slug": "hitohira",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1542/original.jpg?1408444291",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1542/tiny.jpg?1408444291",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1542/small.jpg?1408444291",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1542/medium.jpg?1408444291",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1542/large.jpg?1408444291",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Hitohira",
+				  "localized": {
+					"en_jp": "Hitohira",
+					"ja_jp": "ひとひら"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "17692",
+				"slug": "eufinley-tsuge",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/17692/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Eufinley Tsuge"
+				}
+			  },
+			  "media": {
+				"id": "1548",
+				"slug": "shinkyoku-soukai-polyphonica",
+				"posterImage": {
+				  "original": {
+					"height": 315,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1548/original.jpg?1597691951",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1548/tiny.jpg?1597691951",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1548/small.jpg?1597691951",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1548/medium.jpg?1597691951",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1548/large.jpg?1597691951",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shinkyoku Soukai Polyphonica",
+				  "localized": {
+					"en": "Polyphonica",
+					"en_jp": "Shinkyoku Soukai Polyphonica",
+					"en_us": "Polyphonica",
+					"ja_jp": "神曲奏界ポリフォニカ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "4882",
+				"slug": "kanako-ohno",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/4882/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kanako Oono"
+				}
+			  },
+			  "media": {
+				"id": "1631",
+				"slug": "genshiken-ova",
+				"posterImage": {
+				  "original": {
+					"height": 319,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1631/original.jpg?1597697383",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1631/tiny.jpg?1597697383",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1631/small.jpg?1597697383",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1631/medium.jpg?1597697383",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1631/large.jpg?1597697383",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Genshiken OVA",
+				  "localized": {
+					"en_jp": "Genshiken OVA",
+					"ja_jp": "げんしけん OVA"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "18247",
+				"slug": "kaon",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/18247/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kaon"
+				}
+			  },
+			  "media": {
+				"id": "1628",
+				"slug": "kyoshiro-to-towa-no-sora",
+				"posterImage": {
+				  "original": {
+					"height": 316,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1628/original.jpg?1597691895",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1628/tiny.jpg?1597691895",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1628/small.jpg?1597691895",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1628/medium.jpg?1597691895",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1628/large.jpg?1597691895",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kyoushirou to Towa no Sora",
+				  "localized": {
+					"en": "Shattered Angels",
+					"en_jp": "Kyoushirou to Towa no Sora",
+					"en_us": "Shattered Angels",
+					"ja_jp": "京四郎と永遠（とわ）の空"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "29560",
+				"slug": "reina-vance",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/29560/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Leina Vance"
+				}
+			  },
+			  "media": {
+				"id": "7847",
+				"slug": "vanquished-queens-specials",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7847/original.jpg?1408462617",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7847/tiny.jpg?1408462617",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7847/small.jpg?1408462617",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7847/medium.jpg?1408462617",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7847/large.jpg?1408462617",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Vanquished Queens Specials",
+				  "localized": {
+					"en_jp": "Vanquished Queens Specials",
+					"ja_jp": "ヴァンキッシュド・クイーンズ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "18333",
+				"slug": "elena-014dc0ac-f4bf-41de-89bb-5b2dd07dea90",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/18333/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Elena"
+				}
+			  },
+			  "media": {
+				"id": "1635",
+				"slug": "claymore",
+				"posterImage": {
+				  "original": {
+					"height": 710,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1635/original.jpg?1597697346",
+					"width": 490
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1635/tiny.jpg?1597697346",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1635/small.jpg?1597697346",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1635/medium.jpg?1597697346",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1635/large.jpg?1597697346",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Claymore",
+				  "localized": {
+					"en": "Claymore",
+					"en_jp": "Claymore",
+					"en_us": "Claymore",
+					"ja_jp": "クレイモア"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6524",
+				"slug": "kazumi-yoshida",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6524/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kazumi Yoshida"
+				}
+			  },
+			  "media": {
+				"id": "1632",
+				"slug": "shakugan-no-shana-movie",
+				"posterImage": {
+				  "original": {
+					"height": 301,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1632/original.jpg?1597698014",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1632/tiny.jpg?1597698014",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1632/small.jpg?1597698014",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1632/medium.jpg?1597698014",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1632/large.jpg?1597698014",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shakugan no Shana Movie",
+				  "localized": {
+					"en": "Shakugan no Shana: The Movie",
+					"en_jp": "Shakugan no Shana Movie",
+					"en_us": "Shakugan no Shana: The Movie",
+					"ja_jp": "劇場版 灼眼のシャナ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "40291",
+				"slug": "izumi-nase",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/40291/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Izumi Nase"
+				}
+			  },
+			  "media": {
+				"id": "7714",
+				"slug": "kyoukai-no-kanata",
+				"posterImage": {
+				  "original": {
+					"height": 1402,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7714/original.jpg?1597697326",
+					"width": 1000
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7714/tiny.jpg?1597697326",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7714/small.jpg?1597697326",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7714/medium.jpg?1597697326",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7714/large.jpg?1597697326",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kyoukai no Kanata",
+				  "localized": {
+					"en": "Beyond the Boundary",
+					"en_jp": "Kyoukai no Kanata",
+					"en_us": "Beyond the Boundary",
+					"ja_jp": "境界の彼方"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "58849",
+				"slug": "rira-mochizuki",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "/images/original/missing.png?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Rira Mochizuki"
+				}
+			  },
+			  "media": {
+				"id": "9689",
+				"slug": "visitor",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/9689/original.jpg?1412325332",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/9689/tiny.jpg?1412325332",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/9689/small.jpg?1412325332",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/9689/medium.jpg?1412325332",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/9689/large.jpg?1412325332",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Visitor",
+				  "localized": {
+					"en_jp": "Visitor",
+					"ja_jp": "（ビジター"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "13385",
+				"slug": "henrietta-de-tristain",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/13385/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Henrietta de Tristain"
+				}
+			  },
+			  "media": {
+				"id": "1657",
+				"slug": "zero-no-tsukaima-futatsuki-no-kishi",
+				"posterImage": {
+				  "original": {
+					"height": 584,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1657/original.jpg?1597697773",
+					"width": 432
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1657/tiny.jpg?1597697773",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1657/small.jpg?1597697773",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1657/medium.jpg?1597697773",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1657/large.jpg?1597697773",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Zero no Tsukaima: Futatsuki no Kishi",
+				  "localized": {
+					"en": "The Familiar of Zero: Knight of the Twin Moons",
+					"en_jp": "Zero no Tsukaima: Futatsuki no Kishi",
+					"en_us": "The Familiar of Zero: Knight of the Twin Moons",
+					"ja_jp": "ゼロの使い魔 ～双月の騎士～"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "5059",
+				"slug": "elie",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/5059/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Elie"
+				}
+			  },
+			  "media": {
+				"id": "7692",
+				"slug": "fairy-tail-x-rave",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7692/original.jpg?1408462118",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7692/tiny.jpg?1408462118",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7692/small.jpg?1408462118",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7692/medium.jpg?1408462118",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7692/large.jpg?1408462118",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fairy Tail x Rave",
+				  "localized": {
+					"en_jp": "Fairy Tail x Rave",
+					"ja_jp": "FAIRYTAIL×RAVE"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "178",
+				"slug": "natsuki-mogi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/178/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Natsuki Mogi"
+				}
+			  },
+			  "media": {
+				"id": "162",
+				"slug": "initial-d-first-stage",
+				"posterImage": {
+				  "original": {
+					"height": 443,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/162/original.png?1597696621",
+					"width": 355
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/162/tiny.jpg?1597696621",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/162/small.jpg?1597696621",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/162/medium.jpg?1597696621",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/162/large.jpg?1597696621",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Initial D First Stage",
+				  "localized": {
+					"en": "Initial D First Stage",
+					"en_jp": "Initial D First Stage",
+					"en_us": "Initial D First Stage",
+					"ja_jp": "頭文字〈イニシャル〉D"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "18533",
+				"slug": "yuki-azuma",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/18533/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Yuki Azuma"
+				}
+			  },
+			  "media": {
+				"id": "1663",
+				"slug": "princess-nine",
+				"posterImage": {
+				  "original": {
+					"height": 318,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1663/original.jpg?1597698062",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1663/tiny.jpg?1597698062",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1663/small.jpg?1597698062",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1663/medium.jpg?1597698062",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1663/large.jpg?1597698062",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Princess Nine: Kisaragi Joshikou Yakyuubu",
+				  "localized": {
+					"en": "Princess Nine",
+					"en_jp": "Princess Nine: Kisaragi Joshikou Yakyuubu",
+					"en_us": "Princess Nine",
+					"ja_jp": "プリンセスナイン 如月女子高野球部"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "178",
+				"slug": "natsuki-mogi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/178/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Natsuki Mogi"
+				}
+			  },
+			  "media": {
+				"id": "163",
+				"slug": "initial-d-second-stage",
+				"posterImage": {
+				  "original": {
+					"height": 327,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/163/original.jpg?1597697044",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/163/tiny.jpg?1597697044",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/163/small.jpg?1597697044",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/163/medium.jpg?1597697044",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/163/large.jpg?1597697044",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Initial D Second Stage",
+				  "localized": {
+					"en": "Initial D Second Stage",
+					"en_jp": "Initial D Second Stage",
+					"en_us": "Initial D Second Stage",
+					"ja_jp": "頭文字〈イニシャル〉D SECOND STAGE"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "18650",
+				"slug": "sumire-nishiwa",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/18650/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Sumire Nishiwa"
+				}
+			  },
+			  "media": {
+				"id": "1682",
+				"slug": "getsumen-to-heiki-mina",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1682/original.jpg?1494816697",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1682/tiny.jpg?1494816697",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1682/small.jpg?1494816697",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1682/medium.jpg?1494816697",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1682/large.jpg?1494816697",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Getsumen To Heiki Mina",
+				  "localized": {
+					"en_jp": "Getsumen To Heiki Mina",
+					"ja_jp": "月面兎兵器ミーナ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "37404",
+				"slug": "kay",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/37404/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kei"
+				}
+			  },
+			  "media": {
+				"id": "7904",
+				"slug": "girls-und-panzer-der-film",
+				"posterImage": {
+				  "original": {
+					"height": 1694,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7904/original.jpg?1597696625",
+					"width": 1200
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7904/tiny.jpg?1597696625",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7904/small.jpg?1597696625",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7904/medium.jpg?1597696625",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7904/large.jpg?1597696625",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Girls \u0026 Panzer Movie",
+				  "localized": {
+					"en": "Girls und Panzer der Film",
+					"en_jp": "Girls \u0026 Panzer Movie",
+					"en_us": "Girls und Panzer der Film",
+					"ja_jp": "ガールズ\u0026パンツァー 劇場版"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "18730",
+				"slug": "elsa-ff4fe679-fd15-40fa-8add-93fdd412acd6",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/18730/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Elsa"
+				}
+			  },
+			  "media": {
+				"id": "464",
+				"slug": "fushigiboshi-no-futagohime-gyu",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/464/original.jpg?1408441533",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/464/tiny.jpg?1408441533",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/464/small.jpg?1408441533",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/464/medium.jpg?1408441533",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/464/large.jpg?1408441533",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Fushigiboshi no☆Futagohime Gyu!",
+				  "localized": {
+					"en_jp": "Fushigiboshi no☆Futagohime Gyu!",
+					"ja_jp": "ふしぎ星の☆ふたご姫"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "7886",
+				"slug": "matsuri-sakuragi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/7886/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Matsuri Sakuragi"
+				}
+			  },
+			  "media": {
+				"id": "1698",
+				"slug": "ichigo-mashimaro-ova",
+				"posterImage": {
+				  "original": {
+					"height": 303,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1698/original.jpg?1597697486",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1698/tiny.jpg?1597697486",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1698/small.jpg?1597697486",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1698/medium.jpg?1597697486",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1698/large.jpg?1597697486",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ichigo Mashimaro OVA",
+				  "localized": {
+					"en": "Strawberry Marshmallow OVA",
+					"en_jp": "Ichigo Mashimaro OVA",
+					"en_us": "Strawberry Marshmallow OVA",
+					"ja_jp": "苺ましまろ OVA"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "178",
+				"slug": "natsuki-mogi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/178/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Natsuki Mogi"
+				}
+			  },
+			  "media": {
+				"id": "164",
+				"slug": "initial-d-third-stage",
+				"posterImage": {
+				  "original": {
+					"height": 320,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/164/original.jpg?1597697173",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/164/tiny.jpg?1597697173",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/164/small.jpg?1597697173",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/164/medium.jpg?1597697173",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/164/large.jpg?1597697173",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Initial D Third Stage",
+				  "localized": {
+					"en_jp": "Initial D Third Stage",
+					"ja_jp": "頭文字〈イニシャル〉D THIRD STAGE"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "19043",
+				"slug": "manari",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/19043/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Manari"
+				}
+			  },
+			  "media": {
+				"id": "1746",
+				"slug": "nakoruru-ano-hito-kara-no-okurimono",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1746/original.jpg?1408444825",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1746/tiny.jpg?1408444825",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1746/small.jpg?1408444825",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1746/medium.jpg?1408444825",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1746/large.jpg?1408444825",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Nakoruru: Ano Hito kara no Okurimono",
+				  "localized": {
+					"en_jp": "Nakoruru: Ano Hito kara no Okurimono",
+					"ja_jp": "ナコルル ~あのひとからのおくりもの~"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "3747",
+				"slug": "koishi-herikawa",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/3747/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Koishi Herikawa"
+				}
+			  },
+			  "media": {
+				"id": "172",
+				"slug": "onegai-teacher",
+				"posterImage": {
+				  "original": {
+					"height": 710,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/172/original.jpg?1597698311",
+					"width": 490
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/172/tiny.jpg?1597698311",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/172/small.jpg?1597698311",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/172/medium.jpg?1597698311",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/172/large.jpg?1597698311",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Onegai☆Teacher",
+				  "localized": {
+					"en": "Please Teacher!",
+					"en_jp": "Onegai☆Teacher",
+					"ja_jp": "おねがい☆ティーチャー"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "81076",
+				"slug": "cacao-kun",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/81076/original.jpg?1485082691",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Cacao-kun"
+				}
+			  },
+			  "media": {
+				"id": "1766",
+				"slug": "sore-ike-anpanman",
+				"posterImage": {
+				  "original": {
+					"height": 225,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1766/original.jpg?1597691563",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/tiny.jpg?1597691563",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/small.jpg?1597691563",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/medium.jpg?1597691563",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/large.jpg?1597691563",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sore Ike! Anpanman",
+				  "localized": {
+					"en_jp": "Sore Ike! Anpanman",
+					"ja_jp": "それいけ!アンパンマン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "3747",
+				"slug": "koishi-herikawa",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/3747/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Koishi Herikawa"
+				}
+			  },
+			  "media": {
+				"id": "173",
+				"slug": "onegai-twins",
+				"posterImage": {
+				  "original": {
+					"height": 316,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/173/original.jpg?1597691475",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/173/tiny.jpg?1597691475",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/173/small.jpg?1597691475",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/173/medium.jpg?1597691475",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/173/large.jpg?1597691475",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Onegai☆Twins",
+				  "localized": {
+					"en": "Please Twins",
+					"en_jp": "Onegai☆Twins",
+					"ja_jp": "おねがい☆ツインズ"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6051",
+				"slug": "hotaru",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6051/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Hotaru"
+				}
+			  },
+			  "media": {
+				"id": "1795",
+				"slug": "hack-legend-of-the-twilight-offline-meeting-special",
+				"posterImage": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1795/original.jpg?1486236324",
+					"width": null
+				  },
+				  "views": [
+					{
+					  "height": null,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1795/tiny.jpg?1486236324",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1795/small.jpg?1486236324",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1795/medium.jpg?1486236324",
+					  "width": null
+					},
+					{
+					  "height": null,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1795/large.jpg?1486236324",
+					  "width": null
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": ".hack//Tasogare no Udewa Densetsu: Offline de Aimashou",
+				  "localized": {
+					"en": ".hack//Legend of the Twilight Offline Meeting Special",
+					"en_jp": ".hack//Tasogare no Udewa Densetsu: Offline de Aimashou",
+					"en_us": ".hack//Legend of the Twilight Offline Meeting Special",
+					"ja_jp": ".hack//黄昏の腕輪伝説 オフラインで会いましょう"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "26432",
+				"slug": "laura-stuart",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/26432/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Laura Stuart"
+				}
+			  },
+			  "media": {
+				"id": "8120",
+				"slug": "toaru-majutsu-no-index-endymion-no-kiseki-special",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8120/original.jpg?1597698273",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8120/tiny.jpg?1597698273",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8120/small.jpg?1597698273",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8120/medium.jpg?1597698273",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8120/large.jpg?1597698273",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Toaru Majutsu no Index Movie: Endymion no Kiseki Special",
+				  "localized": {
+					"en_jp": "Toaru Majutsu no Index Movie: Endymion no Kiseki Special",
+					"ja_jp": "劇場版とある魔術の禁書目録たん-エンデュミオンの奇蹟-があったりなかったり"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "67421",
+				"slug": "kirara-chan",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/67421/original.jpg?1485077808",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kirara-chan"
+				}
+			  },
+			  "media": {
+				"id": "1766",
+				"slug": "sore-ike-anpanman",
+				"posterImage": {
+				  "original": {
+					"height": 225,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1766/original.jpg?1597691563",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/tiny.jpg?1597691563",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/small.jpg?1597691563",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/medium.jpg?1597691563",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/large.jpg?1597691563",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sore Ike! Anpanman",
+				  "localized": {
+					"en_jp": "Sore Ike! Anpanman",
+					"ja_jp": "それいけ!アンパンマン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "70385",
+				"slug": "loco-chan",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/70385/original.jpg?1485078849",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Loco-chan"
+				}
+			  },
+			  "media": {
+				"id": "1766",
+				"slug": "sore-ike-anpanman",
+				"posterImage": {
+				  "original": {
+					"height": 225,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1766/original.jpg?1597691563",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/tiny.jpg?1597691563",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/small.jpg?1597691563",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/medium.jpg?1597691563",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/large.jpg?1597691563",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sore Ike! Anpanman",
+				  "localized": {
+					"en_jp": "Sore Ike! Anpanman",
+					"ja_jp": "それいけ!アンパンマン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "71640",
+				"slug": "pajaman",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/71640/original.jpg?1485079270",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Pajaman"
+				}
+			  },
+			  "media": {
+				"id": "1766",
+				"slug": "sore-ike-anpanman",
+				"posterImage": {
+				  "original": {
+					"height": 225,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1766/original.jpg?1597691563",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/tiny.jpg?1597691563",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/small.jpg?1597691563",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/medium.jpg?1597691563",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1766/large.jpg?1597691563",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Sore Ike! Anpanman",
+				  "localized": {
+					"en_jp": "Sore Ike! Anpanman",
+					"ja_jp": "それいけ!アンパンマン"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "19507",
+				"slug": "blanc-neige",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/19507/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Blanc Neige"
+				}
+			  },
+			  "media": {
+				"id": "1830",
+				"slug": "shining-tears-x-wind",
+				"posterImage": {
+				  "original": {
+					"height": 1600,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1830/original.jpg?1597692026",
+					"width": 1082
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/tiny.jpg?1597692026",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/small.jpg?1597692026",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/medium.jpg?1597692026",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/large.jpg?1597692026",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shining Tears X Wind",
+				  "localized": {
+					"en": "Shining Tears X Wind",
+					"en_jp": "Shining Tears X Wind",
+					"en_us": "Shining Tears X Wind",
+					"ja_jp": "シャイニング・ティアーズ・クロス・ウィンド"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "19518",
+				"slug": "clalaclan-philias",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/19518/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Clalaclan Philias"
+				}
+			  },
+			  "media": {
+				"id": "1830",
+				"slug": "shining-tears-x-wind",
+				"posterImage": {
+				  "original": {
+					"height": 1600,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1830/original.jpg?1597692026",
+					"width": 1082
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/tiny.jpg?1597692026",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/small.jpg?1597692026",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/medium.jpg?1597692026",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1830/large.jpg?1597692026",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Shining Tears X Wind",
+				  "localized": {
+					"en": "Shining Tears X Wind",
+					"en_jp": "Shining Tears X Wind",
+					"en_us": "Shining Tears X Wind",
+					"ja_jp": "シャイニング・ティアーズ・クロス・ウィンド"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "3879",
+				"slug": "fuu-kasumi",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/3879/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Fuu Kasumi"
+				}
+			  },
+			  "media": {
+				"id": "181",
+				"slug": "samurai-champloo",
+				"posterImage": {
+				  "original": {
+					"height": 710,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/181/original.jpg?1597697712",
+					"width": 490
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/181/tiny.jpg?1597697712",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/181/small.jpg?1597697712",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/181/medium.jpg?1597697712",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/181/large.jpg?1597697712",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Samurai Champloo",
+				  "localized": {
+					"en": "Samurai Champloo",
+					"en_jp": "Samurai Champloo",
+					"ja_jp": "サムライチャンプルー"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "94247",
+				"slug": "rikotto",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/94247/original.jpg?1485088023",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Rikotto"
+				}
+			  },
+			  "media": {
+				"id": "8108",
+				"slug": "parol-no-mirai-shima",
+				"posterImage": {
+				  "original": {
+					"height": 313,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8108/original.jpg?1597690877",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8108/tiny.jpg?1597690877",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8108/small.jpg?1597690877",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8108/medium.jpg?1597690877",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8108/large.jpg?1597690877",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Parol no Miraijima",
+				  "localized": {
+					"en": "Paroru's Future Island",
+					"en_jp": "Parol no Miraijima",
+					"en_us": "Paroru's Future Island",
+					"ja_jp": "パロルのみらい島"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "40291",
+				"slug": "izumi-nase",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/40291/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Izumi Nase"
+				}
+			  },
+			  "media": {
+				"id": "8088",
+				"slug": "kyoukai-no-kanata-mini-theater",
+				"posterImage": {
+				  "original": {
+					"height": 710,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8088/original.jpg?1597698735",
+					"width": 490
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8088/tiny.jpg?1597698735",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8088/small.jpg?1597698735",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8088/medium.jpg?1597698735",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8088/large.jpg?1597698735",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kyoukai no Kanata: Mini Theater",
+				  "localized": {
+					"en_jp": "Kyoukai no Kanata: Mini Theater",
+					"ja_jp": "境界の彼方 ミニ劇場"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "40432",
+				"slug": "komachi-takamiya",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/40432/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Komachi Takamiya"
+				}
+			  },
+			  "media": {
+				"id": "8017",
+				"slug": "witch-craft-works",
+				"posterImage": {
+				  "original": {
+					"height": 600,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8017/original.jpg?1597698188",
+					"width": 424
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8017/tiny.jpg?1597698188",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8017/small.jpg?1597698188",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8017/medium.jpg?1597698188",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8017/large.jpg?1597698188",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Witch Craft Works",
+				  "localized": {
+					"en_jp": "Witch Craft Works",
+					"ja_jp": "ウィッチクラフトワークス"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "40291",
+				"slug": "izumi-nase",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/40291/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Izumi Nase"
+				}
+			  },
+			  "media": {
+				"id": "8086",
+				"slug": "kyoukai-no-kanata-idol-saiban-mayoi-nagara-mo-kimi-wo-sabaku-tami",
+				"posterImage": {
+				  "original": {
+					"height": 305,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8086/original.jpg?1597698983",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8086/tiny.jpg?1597698983",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8086/small.jpg?1597698983",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8086/medium.jpg?1597698983",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8086/large.jpg?1597698983",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kyoukai no Kanata: Idol Saiban! Mayoi Nagara mo Kimi wo Sabaku Tami",
+				  "localized": {
+					"en": "Beyond the Boundary: Idol Trial!",
+					"en_jp": "Kyoukai no Kanata: Idol Saiban! Mayoi Nagara mo Kimi wo Sabaku Tami",
+					"en_us": "Beyond the Boundary: Idol Trial!",
+					"ja_jp": "きょうかいのかなた アイドル裁判！～迷いながらも君を裁く民～"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "6580",
+				"slug": "shizuki-minagami",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/6580/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Shizuki Minagami"
+				}
+			  },
+			  "media": {
+				"id": "1928",
+				"slug": "bokusatsu-tenshi-dokuro-chan-2",
+				"posterImage": {
+				  "original": {
+					"height": 350,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/1928/original.jpg?1597698866",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/1928/tiny.jpg?1597698866",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/1928/small.jpg?1597698866",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/1928/medium.jpg?1597698866",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/1928/large.jpg?1597698866",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Bokusatsu Tenshi Dokuro-chan 2",
+				  "localized": {
+					"en": "Bludgeoning Angel Dokuro-chan 2",
+					"en_jp": "Bokusatsu Tenshi Dokuro-chan 2",
+					"en_us": "Bludgeoning Angel Dokuro-chan 2",
+					"ja_jp": "撲殺天使ドクロちゃん2[セカンド]"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "MAIN",
+			  "character": {
+				"id": "25628",
+				"slug": "liliane",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/25628/original.jpg?1483096805",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Liliane"
+				}
+			  },
+			  "media": {
+				"id": "7783",
+				"slug": "princess-resurrection",
+				"posterImage": {
+				  "original": {
+					"height": 310,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/7783/original.jpg?1597698472",
+					"width": 225
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/7783/tiny.jpg?1597698472",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/7783/small.jpg?1597698472",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/7783/medium.jpg?1597698472",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/7783/large.jpg?1597698472",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kaibutsu Oujo",
+				  "localized": {
+					"en": "Princess Resurrection",
+					"en_jp": "Kaibutsu Oujo",
+					"en_us": "Princess Resurrection",
+					"ja_jp": "怪物王女"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "76050",
+				"slug": "ooyodo",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/76050/original.jpg?1485080864",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Ooyodo"
+				}
+			  },
+			  "media": {
+				"id": "8039",
+				"slug": "kantai-collection",
+				"posterImage": {
+				  "original": {
+					"height": 850,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8039/original.jpg?1597698611",
+					"width": 591
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8039/tiny.jpg?1597698611",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8039/small.jpg?1597698611",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8039/medium.jpg?1597698611",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8039/large.jpg?1597698611",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Kantai Collection: KanColle",
+				  "localized": {
+					"en": "KanColle",
+					"en_jp": "Kantai Collection: KanColle",
+					"en_us": "KanColle: Kantai Collection",
+					"ja_jp": "艦隊これくしょん -艦これ-"
+				  }
+				}
+			  }
+			}
+		  },
+		  {
+			"locale": "ja_jp",
+			"mediaCharacter": {
+			  "role": "BACKGROUND",
+			  "character": {
+				"id": "72415",
+				"slug": "kasumi-konjou",
+				"image": {
+				  "original": {
+					"height": null,
+					"name": "original",
+					"url": "https://media.kitsu.io/characters/images/72415/original.jpg?1485079568",
+					"width": null
+				  }
+				},
+				"names": {
+				  "canonical": "Kasumi Konjou"
+				}
+			  },
+			  "media": {
+				"id": "8162",
+				"slug": "ryuugajou-nanana-no-maizoukin-tv",
+				"posterImage": {
+				  "original": {
+					"height": 1200,
+					"name": "original",
+					"url": "https://media.kitsu.io/anime/poster_images/8162/original.jpg?1597698212",
+					"width": 930
+				  },
+				  "views": [
+					{
+					  "height": 156,
+					  "name": "tiny",
+					  "url": "https://media.kitsu.io/anime/poster_images/8162/tiny.jpg?1597698212",
+					  "width": 110
+					},
+					{
+					  "height": 402,
+					  "name": "small",
+					  "url": "https://media.kitsu.io/anime/poster_images/8162/small.jpg?1597698212",
+					  "width": 284
+					},
+					{
+					  "height": 554,
+					  "name": "medium",
+					  "url": "https://media.kitsu.io/anime/poster_images/8162/medium.jpg?1597698212",
+					  "width": 390
+					},
+					{
+					  "height": 780,
+					  "name": "large",
+					  "url": "https://media.kitsu.io/anime/poster_images/8162/large.jpg?1597698212",
+					  "width": 550
+					}
+				  ]
+				},
+				"titles": {
+				  "canonical": "Ryuugajou Nanana no Maizoukin (TV)",
+				  "localized": {
+					"en": "Nanana's Buried Treasure",
+					"en_jp": "Ryuugajou Nanana no Maizoukin (TV)",
+					"en_us": "Nanana's Buried Treasure",
+					"ja_jp": "龍ヶ嬢七々々の埋蔵金"
+				  }
+				}
+			  }
+			}
+		  }
+		]
+	  }
+	}
+  }
+}

@@ -8,12 +8,10 @@ _.on('main', 'change', '.big-check', (e) => {
 });
 
 export function renderAnimeSearchResults (data) {
-	const results = [];
-
-	data.forEach(item => {
+	return data.map(item => {
 		const titles = item.titles.join('<br />');
 
-		results.push(`
+		return `
 			<article class="media search">
 				<div class="name">
 					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
@@ -38,19 +36,14 @@ export function renderAnimeSearchResults (data) {
 					</div>
 				</div>
 			</article>
-		`);
-	});
-
-	return results.join('');
+		`;
+	}).join('');
 }
 
 export function renderMangaSearchResults (data) {
-	const results = [];
-
-	data.forEach(item => {
+	return data.map(item => {
 		const titles = item.titles.join('<br />');
-
-		results.push(`
+		return `
 			<article class="media search">
 				<div class="name">
 					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
@@ -75,8 +68,6 @@ export function renderMangaSearchResults (data) {
 					</div>
 				</div>
 			</article>
-		`);
-	});
-
-	return results.join('');
+		`;
+	}).join('');
 }

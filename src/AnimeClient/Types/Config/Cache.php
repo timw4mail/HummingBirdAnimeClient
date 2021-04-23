@@ -23,10 +23,7 @@ class Cache extends AbstractType {
 
 	public ?string $host;
 
-	/**
-	 * @var string|int|null
-	 */
-	public $port;
+	public string|int|null $port;
 
 	public ?string $database;
 

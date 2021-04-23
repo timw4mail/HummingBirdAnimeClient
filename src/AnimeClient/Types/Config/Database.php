@@ -19,38 +19,18 @@ namespace Aviat\AnimeClient\Types\Config;
 use Aviat\AnimeClient\Types\AbstractType;
 
 class Database extends AbstractType {
-	/**
-	 * @var string
-	 */
+
 	public string $type = 'sqlite';
 
-	/**
-	 * @var string|null
-	 */
 	public ?string $host;
 
-	/**
-	 * @var string|null
-	 */
 	public ?string $user;
 
-	/**
-	 * @var string|null
-	 */
 	public ?string $pass;
 
-	/**
-	 * @var string|int|null
-	 */
-	public $port;
+	public string|int|null $port;
 
-	/**
-	 * @var string|null
-	 */
 	public ?string $database;
 
-	/**
-	 * @var string|null
-	 */
 	public ?string $file;
 }

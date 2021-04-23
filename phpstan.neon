@@ -4,6 +4,7 @@ parameters:
 	inferPrivatePropertyTypeFromConstructor: true
 	level: 8
 	paths:
+		- app/appConf
 		- src
 		- ./console
 		- index.php

@@ -2,16 +2,16 @@
 /**
  * Hummingbird Anime List Client
  *
- * An API client for Kitsu and MyAnimeList to manage anime and manga watch lists
+ * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 7
+ * PHP version 8
  *
  * @package     HummingbirdAnimeClient
  * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2017  Timothy J. Warren
+ * @copyright   2015 - 2021  Timothy J. Warren
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     4.0
- * @link        https://github.com/timw4mail/HummingBirdAnimeClient
+ * @version     5.2
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 use function Aviat\AnimeClient\loadConfig;
@@ -21,12 +21,13 @@ use function Aviat\AnimeClient\loadConfig;
 //
 // You shouldn't generally need to change anything below this line
 // ----------------------------------------------------------------------------
-$APP_DIR = realpath(__DIR__ . '/../');
-$ROOT_DIR = realpath("{$APP_DIR}/../");
+$APP_DIR = dirname(__DIR__);
+$ROOT_DIR = dirname($APP_DIR);
 
 $tomlConfig = loadConfig(__DIR__);
 
 return array_merge($tomlConfig, [
+	'root' => $ROOT_DIR,
 	'asset_dir' => "{$ROOT_DIR}/public",
 	'base_config_dir' => __DIR__,
 	'config_dir' => "{$APP_DIR}/config",

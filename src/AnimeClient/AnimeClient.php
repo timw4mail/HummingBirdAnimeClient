@@ -186,7 +186,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$errors = [];
 	$publicDir = $config->get('asset_dir');
 
-	$APP_DIR = _dir(dirname(__DIR__, 2), '/app');
+	$APP_DIR = _dir($config->get('root'), 'app');
 
 	$pathMap = [
 		'app/config' => "{$APP_DIR}/config",
@@ -211,7 +211,9 @@ function checkFolderPermissions(ConfigInterface $config): array
 
 		if ( ! $writable)
 		{
+			// @codeCoverageIgnoreStart
 			$errors['writable'][] = $pretty;
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -292,6 +294,7 @@ function getLocalImg (string $kitsuUrl, $webp = TRUE): string
 /**
  * Create a transparent placeholder image
  *
+ * @codeCoverageIgnore
  * @param string $path
  * @param int|null $width
  * @param int|null $height
@@ -378,7 +381,6 @@ function colNotEmpty(array $search, string $key): bool
  *
  * @param CacheInterface $cache
  * @return bool
- * @throws Throwable
  */
 function clearCache(CacheInterface $cache): bool
 {
@@ -393,9 +395,7 @@ function clearCache(CacheInterface $cache): bool
 	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
 	$cleared = $cache->clear();
 
-	$saved = ( ! empty($userData))
-		? $cache->setMultiple($userData)
-		: TRUE;
+	$saved = ( ! empty($userData)) ? $cache->setMultiple($userData) : TRUE;
 
 	return $cleared && $saved;
 }

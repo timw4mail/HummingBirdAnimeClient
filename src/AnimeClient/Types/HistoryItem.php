@@ -42,7 +42,7 @@ class HistoryItem extends AbstractType {
 	/**
 	 * The kind of history event
 	 */
-	public string $kind = '';
+	public ?string $kind = '';
 
 	/**
 	 * When the item was last updated

@@ -1,9 +1,8 @@
 import _ from './anime-client.js';
 
 (() => {
-	// Var is intentional
-	var hidden = null;
-	var visibilityChange = null;
+	let hidden = null;
+	let visibilityChange = null;
 
 	if (typeof document.hidden !== "undefined") {
 		hidden = "hidden";

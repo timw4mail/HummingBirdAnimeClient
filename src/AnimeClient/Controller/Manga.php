@@ -64,8 +64,6 @@ final class Manga extends Controller {
 	 *
 	 * @param string $status
 	 * @param string $view
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @return void
 	 */
@@ -251,7 +249,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		if (stripos($this->request->getHeader('content-type')[0], 'application/json') !== FALSE)
+		if (str_contains($this->request->getHeader('content-type')[0], 'application/json'))
 		{
 			$data = Json::decode((string)$this->request->getBody());
 		}
@@ -298,8 +296,6 @@ final class Manga extends Controller {
 	 * View details of an manga
 	 *
 	 * @param string $id
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void
@@ -331,8 +327,6 @@ final class Manga extends Controller {
 	/**
 	 * View details of a random manga
 	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 * @return void

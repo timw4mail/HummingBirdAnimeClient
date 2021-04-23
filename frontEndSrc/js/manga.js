@@ -72,14 +72,22 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		dataType: 'json',
 		type: 'POST',
 		mimeType: 'application/json',
-		success: () => {
+		success: (res) => {
+			const resData = JSON.parse(res)
+			if (resData.error) {
+				_.hide('#loading-shadow');
+				_.showMessage('error', `Failed to update ${mangaName}. `);
+				_.scrollToTop();
+				return;
+			}
+
 			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				_.hide(parentSel);
 			}
 
 			_.hide('#loading-shadow');
 
-			_.$(`.${type}s_read`, parentSel)[ 0 ].textContent = completed;
+			_.$(`.${type}s_read`, parentSel)[ 0 ].textContent = String(completed);
 			_.showMessage('success', `Successfully updated ${mangaName}`);
 			_.scrollToTop();
 		},

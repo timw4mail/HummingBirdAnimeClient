@@ -17,7 +17,7 @@ use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 // -----------------------------------------------------------------------------
 
 class MockErrorHandler {
-	public function addDataTable($name, array $values=[]) {}
+	public function addDataTable(string $name, array $values=[]): void {}
 }
 
 // -----------------------------------------------------------------------------
@@ -128,12 +128,12 @@ class TestJsonView extends JsonView {
 // -----------------------------------------------------------------------------
 
 trait MockInjectionTrait {
-	public function __get($key)
+	public function __get(string $key): mixed
 	{
 		return $this->$key;
 	}
 
-	public function __set($key, $value)
+	public function __set(string $key, mixed $value)
 	{
 		$this->$key = $value;
 		return $this;

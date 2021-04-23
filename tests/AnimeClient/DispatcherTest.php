@@ -21,13 +21,14 @@ use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Dispatcher;
 use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Config;
+use Aviat\Ion\Di\ContainerInterface;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 
 
 class DispatcherTest extends AnimeClientTestCase {
 
-	protected $container;
+	protected ContainerInterface $container;
 	protected $router;
 	protected $config;
 	protected $urlGenerator;

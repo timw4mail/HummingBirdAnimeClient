@@ -71,7 +71,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 		success: (res) => {
 			const resData = JSON.parse(res);
 
-			if (resData.errors) {
+			if (resData.error) {
 				_.hide('#loading-shadow');
 				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();

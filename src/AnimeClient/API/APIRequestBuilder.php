@@ -272,7 +272,7 @@ abstract class APIRequestBuilder {
 			throw new InvalidArgumentException('Invalid HTTP method');
 		}
 
-		$realUrl = (strpos($uri, '//') !== FALSE)
+		$realUrl = (str_contains($uri, '//'))
 			? $uri
 			: $this->baseUrl . $uri;
 
@@ -297,7 +297,7 @@ abstract class APIRequestBuilder {
 	 */
 	private function buildUri(): Request
 	{
-		$url = (strpos($this->path, '//') !== FALSE)
+		$url = (str_contains($this->path, '//'))
 			? $this->path
 			: $this->baseUrl . $this->path;
 
@@ -314,11 +314,11 @@ abstract class APIRequestBuilder {
 	/**
 	 * Reset the class state for a new request
 	 *
-	 * @param string $url
+	 * @param string|null $url
 	 * @param string $type
 	 * @return void
 	 */
-	private function resetState($url, $type = 'GET'): void
+	private function resetState(?string $url, $type = 'GET'): void
 	{
 		$requestUrl = $url ?: $this->baseUrl;
 
