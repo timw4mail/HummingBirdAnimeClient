@@ -3,19 +3,19 @@
 	"scripts": {
 		"build": "npm run build:css && npm run build:js",
 		"build:css": "node ./css.js",
-		"build:js": "rollup -c ./build-js.js",
+		"build:js": "spack",
 		"watch:css": "watch 'npm run build:css' --filter=./cssfilter.js",
 		"watch:js": "watch 'npm run build:js' ./js",
 		"watch": "concurrently \"npm:watch:css\" \"npm:watch:js\" --kill-others"
 	},
 	"devDependencies": {
-		"@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
-		"concurrently": "^5.1.0",
-		"cssnano": "^4.1.10",
+		"@swc/cli": "^0.1.39",
+		"@swc/core": "^1.2.54",
+		"concurrently": "^6.0.2",
+		"cssnano": "^5.0.1",
 		"postcss": "^8.2.6",
 		"postcss-import": "^14.0.0",
 		"postcss-preset-env": "^6.7.0",
-		"rollup": "^2.4.0",
 		"watch": "^1.0.2"
 	}
 }

@@ -9,7 +9,7 @@ const matches = (elm, selector) => {
 	return i > -1;
 }
 
-export const AnimeClient = {
+const AnimeClient = {
 	/**
 	 * Placeholder function
 	 */
@@ -18,8 +18,8 @@ export const AnimeClient = {
 	 * DOM selector
 	 *
 	 * @param {string} selector - The dom selector string
-	 * @param {object} [context]
-	 * @return {[HTMLElement]} - array of dom elements
+	 * @param {Element} [context]
+	 * @return array of dom elements
 	 */
 	$(selector, context = null) {
 		if (typeof selector !== 'string') {
@@ -60,7 +60,7 @@ export const AnimeClient = {
 	/**
 	 * Hide the selected element
 	 *
-	 * @param  {string|Element} sel - the selector of the element to hide
+	 * @param  {string|Element|Element[]} sel - the selector of the element to hide
 	 * @return {void}
 	 */
 	hide (sel) {
@@ -77,7 +77,7 @@ export const AnimeClient = {
 	/**
 	 * UnHide the selected element
 	 *
-	 * @param  {string|Element} sel - the selector of the element to hide
+	 * @param  {string|Element|Element[]} sel - the selector of the element to hide
 	 * @return {void}
 	 */
 	show (sel) {
@@ -116,9 +116,9 @@ export const AnimeClient = {
 	/**
 	 * Finds the closest parent element matching the passed selector
 	 *
-	 * @param  {HTMLElement} current - the current HTMLElement
+	 * @param  {Element} current - the current Element
 	 * @param  {string} parentSelector - selector for the parent element
-	 * @return {HTMLElement|null} - the parent element
+	 * @return {Element|null} - the parent element
 	 */
 	closestParent (current, parentSelector) {
 		if (Element.prototype.closest !== undefined) {
@@ -204,9 +204,9 @@ function delegateEvent(sel, target, event, listener) {
 /**
  * Add an event listener
  *
- * @param  {string|HTMLElement} sel - the parent selector to bind to
+ * @param  {string|Element} sel - the parent selector to bind to
  * @param  {string} event - event name(s) to bind
- * @param  {string|HTMLElement|function} target - the element to directly bind the event to
+ * @param  {string|Element|function} target - the element to directly bind the event to
  * @param  {function} [listener] - event listener callback
  * @return {void}
  */

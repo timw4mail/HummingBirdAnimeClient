@@ -11,12 +11,6 @@
 	</div>
 </section>
 <script nomodule="nomodule" src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CObject.assign"></script>
-<?php if ($auth->isAuthenticated()): ?>
-<script nomodule='nomodule' async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
-<script type="module" src="<?= $urlGenerator->assetUrl('es/scripts.js') ?>"></script>
-<?php else: ?>
-<script nomodule="nomodule" async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/anon.min.js') ?>"></script>
-<script type="module" src="<?= $urlGenerator->assetUrl('es/anon.js') ?>"></script>
-<?php endif ?>
+<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
 </body>
 </html>
