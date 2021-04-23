@@ -149,3 +149,5 @@ public/mal_mappings.json
 .phpunit.result.cache
 
 .is-dev
+
+tmp
