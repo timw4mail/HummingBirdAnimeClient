@@ -117,6 +117,8 @@ interface Media {
 	): MappingConnection!
 	"The time of the next release of this media"
 	nextRelease: ISO8601DateTime
+	"The country in which the media was primarily produced"
+	originalLocale: String
 	"The poster image of this media"
 	posterImage: Image!
 	"The companies which helped to produce this media"
@@ -318,6 +320,8 @@ type Anime implements Episodic & Media & WithTimestamps {
 	): MappingConnection!
 	"The time of the next release of this media"
 	nextRelease: ISO8601DateTime
+	"The country in which the media was primarily produced"
+	originalLocale: String
 	"The poster image of this media"
 	posterImage: Image!
 	"The companies which helped to produce this media"
@@ -648,7 +652,7 @@ type Comment implements WithTimestamps {
 	contentFormatted: String!
 	createdAt: ISO8601DateTime!
 	id: ID!
-	"Users who liked this comment."
+	"Users who liked this comment"
 	likes(
 		"Returns the elements in the list that come after the specified cursor."
 		after: String,
@@ -657,13 +661,14 @@ type Comment implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [CommentLikeSortOption]
 	): ProfileConnection!
 	"The parent comment if this comment was a reply to another."
 	parent: Comment
 	"The post that this comment is attached to."
 	post: Post!
-	"All replies to a specific comment."
+	"Replies to this comment"
 	replies(
 		"Returns the elements in the list that come after the specified cursor."
 		after: String,
@@ -672,7 +677,8 @@ type Comment implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [CommentSortOption]
 	): CommentConnection!
 	updatedAt: ISO8601DateTime!
 }
@@ -1197,6 +1203,8 @@ type Manga implements Media & WithTimestamps {
 	): MappingConnection!
 	"The time of the next release of this media"
 	nextRelease: ISO8601DateTime
+	"The country in which the media was primarily produced"
+	originalLocale: String
 	"The poster image of this media"
 	posterImage: Image!
 	"The companies which helped to produce this media"
@@ -1624,7 +1632,7 @@ type Person implements WithTimestamps {
 type Post implements WithTimestamps {
 	"The user who created this post."
 	author: Profile!
-	"All comments related to this post."
+	"All comments on this post"
 	comments(
 		"Returns the elements in the list that come after the specified cursor."
 		after: String,
@@ -1633,7 +1641,8 @@ type Post implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [CommentSortOption]
 	): CommentConnection!
 	"Unmodified content."
 	content: String!
@@ -1656,7 +1665,7 @@ type Post implements WithTimestamps {
 	isNsfw: Boolean!
 	"If this post spoils the tagged media."
 	isSpoiler: Boolean!
-	"Users that have liked this post."
+	"Users that have liked this post"
 	likes(
 		"Returns the elements in the list that come after the specified cursor."
 		after: String,
@@ -1665,7 +1674,8 @@ type Post implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [PostLikeSortOption]
 	): ProfileConnection!
 	"When this post was locked."
 	lockedAt: ISO8601DateTime
@@ -1816,7 +1826,8 @@ type Profile implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [FollowSortOption]
 	): ProfileConnection!
 	"People the user is following"
 	following(
@@ -1827,7 +1838,8 @@ type Profile implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [FollowSortOption]
 	): ProfileConnection!
 	"What the user identifies as"
 	gender: String
@@ -1872,7 +1884,8 @@ type Profile implements WithTimestamps {
 		"Returns the first _n_ elements from the list."
 		first: Int,
 		"Returns the last _n_ elements from the list."
-		last: Int
+		last: Int,
+		sort: [PostSortOption]
 	): PostConnection!
 	"The message this user has submitted to the Hall of Fame"
 	proMessage: String
@@ -2438,6 +2451,23 @@ enum CharacterRoleEnum {
 	RECURRING
 }
 
+enum CommentLikeSortEnum {
+	CREATED_AT
+	FOLLOWING
+}
+
+enum CommentSortEnum {
+	CREATED_AT
+	FOLLOWING
+	LIKES_COUNT
+}
+
+enum FollowSortEnum {
+	CREATED_AT
+	FOLLOWING_FOLLOWED
+	FOLLOWING_FOLLOWER
+}
+
 enum LibraryEntryStatusEnum {
 	"The user completed this media."
 	COMPLETED
@@ -2528,6 +2558,15 @@ enum MediaTypeEnum {
 	MANGA
 }
 
+enum PostLikeSortEnum {
+	CREATED_AT
+	FOLLOWING
+}
+
+enum PostSortEnum {
+	CREATED_AT
+}
+
 enum ProTierEnum {
 	"Aozora Pro (only hides ads)"
 	AO_PRO @deprecated(reason : "No longer for sale")
@@ -2592,6 +2631,11 @@ enum SitePermissionEnum {
 	DATABASE_MOD
 }
 
+enum SortDirection {
+	ASCENDING
+	DESCENDING
+}
+
 enum TitleLanguagePreferenceEnum {
 	"Prefer the most commonly-used title for media"
 	CANONICAL
@@ -2632,6 +2676,16 @@ input AnimeUpdateInput {
 	youtubeTrailerVideoId: String
 }
 
+input CommentLikeSortOption {
+	direction: SortDirection!
+	on: CommentLikeSortEnum!
+}
+
+input CommentSortOption {
+	direction: SortDirection!
+	on: CommentSortEnum!
+}
+
 input EpisodeCreateInput {
 	description: Map
 	length: Int
@@ -2651,6 +2705,11 @@ input EpisodeUpdateInput {
 	releasedAt: Date
 	thumbnailImage: Upload
 	titles: TitlesListInput
+}
+
+input FollowSortOption {
+	direction: SortDirection!
+	on: FollowSortEnum!
 }
 
 input GenericDeleteInput {
@@ -2740,6 +2799,16 @@ input MappingUpdateInput {
 	id: ID!
 	itemId: ID
 	itemType: MappingItemEnum
+}
+
+input PostLikeSortOption {
+	direction: SortDirection!
+	on: PostLikeSortEnum!
+}
+
+input PostSortOption {
+	direction: SortDirection!
+	on: PostSortEnum!
 }
 
 input TitlesListInput {
