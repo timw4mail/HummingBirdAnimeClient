@@ -16,7 +16,7 @@ _.on('.media-filter', 'input', filterMedia);
 /**
  * Hide the html element attached to the event
  *
- * @param event
+ * @param {MouseEvent} event
  * @return void
  */
 function hide (event) {
@@ -26,7 +26,7 @@ function hide (event) {
 /**
  * Confirm deletion of an item
  *
- * @param event
+ * @param {MouseEvent} event
  * @return void
  */
 function confirmDelete (event) {
@@ -52,7 +52,7 @@ function clearAPICache () {
 /**
  * Scroll to the accordion/vertical tab section just opened
  *
- * @param event
+ * @param {InputEvent} event
  * @return void
  */
 function scrollToSection (event) {
@@ -70,7 +70,7 @@ function scrollToSection (event) {
 /**
  * Filter an anime or manga list
  *
- * @param event
+ * @param {InputEvent} event
  * @return void
  */
 function filterMedia (event) {
