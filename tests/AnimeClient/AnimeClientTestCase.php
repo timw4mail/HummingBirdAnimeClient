@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient\Tests;
 
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
 use function Aviat\Ion\_dir;
 
 use Aviat\Ion\Json;
@@ -26,10 +28,16 @@ use Laminas\Diactoros\{
 	ServerRequestFactory
 };
 
+use const Aviat\AnimeClient\{
+	SLUG_PATTERN,
+	DEFAULT_CONTROLLER,
+};
+
 /**
  * Base class for TestCases
  */
 class AnimeClientTestCase extends TestCase {
+	use ContainerAware;
 	use MatchesSnapshots;
 
 	// Test directory constants
@@ -38,17 +46,10 @@ class AnimeClientTestCase extends TestCase {
 	public const TEST_DATA_DIR = __DIR__ . '/test_data';
 	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
-	protected $container;
-	protected static $staticContainer;
-	protected static $session_handler;
+	protected ContainerInterface $container;
 
 	public static function setUpBeforeClass(): void
 	{
-		// Use mock session handler
-		//$session_handler = new TestSessionHandler();
-		//session_set_save_handler($session_handler, TRUE);
-		//self::$session_handler = $session_handler;
-
 		// Remove test cache files
 		$files = glob(_dir(self::TEST_DATA_DIR, 'cache', '*.json'));
 		array_map('unlink', $files);
@@ -59,6 +60,7 @@ class AnimeClientTestCase extends TestCase {
 		parent::setUp();
 
 		$config_array = [
+			'root' => self::ROOT_DIR,
 			'asset_path' => '/assets',
 			'img_cache_path' => _dir(self::ROOT_DIR, 'public/images'),
 			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
@@ -88,13 +90,11 @@ class AnimeClientTestCase extends TestCase {
 					'file' => ':memory:',
 				]
 			],
-			'routes' => [
-
-			],
+			'routes' => [ ],
 		];
 
 		// Set up DI container
-		$di = require _dir(self::ROOT_DIR, 'app', 'bootstrap.php');
+		$di = require self::ROOT_DIR .  '/app/bootstrap.php';
 		$container = $di($config_array);
 
 		// Use mock session handler
@@ -157,7 +157,7 @@ class AnimeClientTestCase extends TestCase {
 	 * @param array $args
 	 * @return mixed - the decoded data
 	 */
-	public function getMockFileData(...$args)
+	public function getMockFileData(mixed ...$args): mixed
 	{
 		$rawData = $this->getMockFile(...$args);
 

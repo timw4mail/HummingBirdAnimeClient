@@ -24,32 +24,17 @@ class FormItemData extends AbstractType {
 
 	public ?bool $private = FALSE;
 
-	/**
-	 * @var int
-	 */
-	public $progress;
+	public ?int $progress = NULL;
 
-	/**
-	 * @var int
-	 */
-	public $rating;
+	public ?int $rating;
 
-	/**
-	 * @var int
-	 */
-	public $ratingTwenty;
+	public ?int $ratingTwenty = NULL;
 
-	/**
-	 * @var string|int
-	 */
-	public $reconsumeCount;
+	public string|int $reconsumeCount;
 
 	public bool $reconsuming = FALSE;
 
-	/**
-	 * @var string
-	 */
-	public $status;
+	public string $status;
 
 	/**
 	 * W3C Format Date string

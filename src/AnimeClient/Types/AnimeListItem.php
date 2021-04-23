@@ -46,9 +46,6 @@ final class AnimeListItem extends AbstractType {
 
 	public int $rewatched = 0;
 
-	/**
-	 * @var string|int
-	 */
 	public string|int $user_rating = '';
 
 	/**

@@ -21,10 +21,9 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
 class AnimeListTransformerTest extends AnimeClientTestCase {
-	protected $dir;
-	protected $beforeTransform;
-	protected $afterTransform;
-	protected $transformer;
+	protected string $dir;
+	protected array $beforeTransform;
+	protected AnimeListTransformer $transformer;
 
 	public function setUp(): void	{
 		parent::setUp();
@@ -36,13 +35,13 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 		$this->transformer = new AnimeListTransformer();
 	}
 
-	public function testTransform()
+	public function testTransform(): void
 	{
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}
 
-	public function dataUntransform()
+	public function dataUntransform(): array
 	{
 		return [[
 			'input' => [
@@ -85,8 +84,9 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 
 	/**
 	 * @dataProvider dataUntransform
+	 * @param array $input
 	 */
-	public function testUntransform($input)
+	public function testUntransform(array $input): void
 	{
 		$actual = $this->transformer->untransform($input);
 		$this->assertMatchesSnapshot($actual);

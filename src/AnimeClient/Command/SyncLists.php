@@ -16,6 +16,7 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use Aviat\Ion\JsonException;
 use ConsoleKit\Widgets;
 
 use Aviat\AnimeClient\API\{
@@ -288,7 +289,15 @@ final class SyncLists extends BaseCommand {
 		// This uses a static so I don't have to fetch this list twice for a count
 		if ($list[$type] === NULL)
 		{
-			$list[$type] = $this->anilistModel->getSyncList(strtoupper($type));
+			try
+			{
+				$list[$type] = $this->anilistModel->getSyncList(strtoupper($type));
+			}
+			catch (JsonException)
+			{
+				$this->echoErrorBox('Anlist API exception. Can not sync.');
+				die();
+			}
 		}
 
 		return $list[$type];
@@ -354,7 +363,7 @@ final class SyncLists extends BaseCommand {
 					'progress' => $listItem['progress'],
 					// Comparision is done on 1-10 scale,
 					// Kitsu returns 1-20 scale.
-					'rating' => $listItem['rating'] / 2,
+					'rating' => (int) $listItem['rating'] / 2,
 					'reconsumeCount' => $listItem['reconsumeCount'],
 					'reconsuming' => $listItem['reconsuming'],
 					'status' => strtolower($listItem['status']),
@@ -404,7 +413,7 @@ final class SyncLists extends BaseCommand {
 
 		$malIds = array_keys($anilistList);
 		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
-		$missingMalIds = array_filter(array_diff($kitsuMalIds, $malIds), fn ($id) => ! in_array($id, $kitsuMalIds));
+		$missingMalIds = array_filter($malIds, fn ($id) => ! in_array($id, $kitsuMalIds));
 
 		// Add items on Anilist, but not Kitsu to Kitsu
 		foreach($missingMalIds as $mid)
@@ -599,7 +608,7 @@ final class SyncLists extends BaseCommand {
 				$kitsuItem['data']['ratingTwenty'] !== 0
 			)
 			{
-				$update['data']['ratingTwenty'] = $kitsuItem['data']['ratingTwenty'];
+				$update['data']['ratingTwenty'] = $kitsuItem['data']['rating'];
 				$return['updateType'][] = Enum\API::ANILIST;
 			}
 			else if($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
@@ -683,7 +692,7 @@ final class SyncLists extends BaseCommand {
 				// Anilist returns a rating between 1-100
 				// Kitsu expects a rating from 1-20
 				'rating' => (((int)$anilistItem['data']['rating']) > 0)
-					? $anilistItem['data']['rating'] / 5
+					? (int) $anilistItem['data']['rating'] / 5
 					: 0,
 				'reconsumeCount' => $anilistItem['data']['reconsumeCount'],
 				'reconsuming' => $anilistItem['data']['reconsuming'],
@@ -738,7 +747,7 @@ final class SyncLists extends BaseCommand {
 			$responseData = Json::decode($response);
 
 			$id = $itemsToUpdate[$key]['id'];
-			$mal_id = $itemsToUpdate[$key]['mal_id'];
+			$mal_id = $itemsToUpdate[$key]['mal_id'] ?? NULL;
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === SyncAction::UPDATE) ? 'updated' : 'created';

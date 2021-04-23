@@ -1,0 +1,3 @@
+Aviat\AnimeClient\Types\Config Object
+(
+)

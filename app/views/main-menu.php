@@ -5,13 +5,13 @@ namespace Aviat\AnimeClient;
 $whose = $config->get('whose_list') . "'s ";
 $lastSegment = $urlGenerator->lastSegment();
 $extraSegment = $lastSegment === 'list' ? '/list' : '';
-$hasAnime = stripos($GLOBALS['_SERVER']['REQUEST_URI'], 'anime') !== FALSE;
-$hasManga = stripos($GLOBALS['_SERVER']['REQUEST_URI'], 'manga') !== FALSE;
+$hasAnime = str_contains($GLOBALS['_SERVER']['REQUEST_URI'], 'anime');
+$hasManga = str_contains($GLOBALS['_SERVER']['REQUEST_URI'], 'manga');
 
 ?>
 <div id="main-nav" class="flex flex-align-end flex-wrap">
 	<span class="flex-no-wrap grow-1">
-		<?php if(strpos($route_path, 'collection') === FALSE): ?>
+		<?php if( ! str_contains($route_path, 'collection')): ?>
 			<?= $helper->a(
 				$urlGenerator->defaultUrl($url_type),
 				$whose . ucfirst($url_type) . ' List',

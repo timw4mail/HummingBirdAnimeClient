@@ -27,8 +27,8 @@ class Command extends BaseCommand {
 }
 
 class BaseCommandTest extends AnimeClientTestCase {
-	protected $base;
-	protected $friend;
+	protected Command $base;
+	protected Friend $friend;
 
 	public function setUp(): void	{
 		$this->base = new Command(new Console());

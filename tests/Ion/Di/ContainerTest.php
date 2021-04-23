@@ -23,6 +23,8 @@ use Monolog\Logger;
 use Monolog\Handler\{TestHandler, NullHandler};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\NotFoundException;
+use Throwable;
+use TypeError;
 
 class FooTest {
 
@@ -49,13 +51,11 @@ class ContainerTest extends IonTestCase {
 		return [
 			'Bad index type: number' => [
 				'id' => 42,
-				'exception' => ContainerException::class,
-				'message' => 'Id must be a string'
+				'exception' => TypeError::class,
 			],
 			'Bad index type: array' => [
 				'id' => [],
-				'exception' => ContainerException::class,
-				'message' => 'Id must be a string'
+				'exception' => TypeError::class,
 			],
 			'Non-existent id' => [
 				'id' => 'foo',
@@ -68,7 +68,7 @@ class ContainerTest extends IonTestCase {
 	/**
 	 * @dataProvider dataGetWithException
 	 */
-	public function testGetWithException($id, $exception, $message): void
+	public function testGetWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
 		try
 		{
@@ -79,15 +79,23 @@ class ContainerTest extends IonTestCase {
 			$this->assertInstanceOf($exception, $e);
 			$this->assertEquals($message, $e->getMessage());
 		}
+		catch(Throwable $e)
+		{
+			$this->assertInstanceOf($exception, $e);
+		}
 	}
 
 	/**
 	 * @dataProvider dataGetWithException
 	 */
-	public function testGetNewWithException($id, $exception, $message): void
+	public function testGetNewWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
 		$this->expectException($exception);
-		$this->expectExceptionMessage($message);
+		if ($message !== NULL)
+		{
+			$this->expectExceptionMessage($message);
+		}
+
 		$this->container->getNew($id);
 	}
 

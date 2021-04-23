@@ -104,7 +104,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 			'notes' => $item['notes'],
 			'rewatching' => (bool) $item['reconsuming'],
 			'rewatched' => (int) $item['reconsumeCount'],
-			'user_rating' => $rating,
+			'user_rating' => (is_string($rating)) ? $rating : (int) $rating,
 			'private' => $item['private'] ?? FALSE,
 		]);
 	}

@@ -314,10 +314,8 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Get the appropriate params for the error page
 	 * passed on the failed route
-	 *
-	 * @return array|false
 	 */
-	protected function getErrorParams()
+	protected function getErrorParams(): array
 	{
 		$logger = $this->container->getLogger();
 		$failure = $this->matcher->getFailedRoute();

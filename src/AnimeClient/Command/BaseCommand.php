@@ -61,14 +61,16 @@ abstract class BaseCommand extends Command {
 
 		if ($fgColor !== NULL)
 		{
-			$fgColor = (string)$fgColor;
+			$fgColor = (int)$fgColor;
 		}
 		if ($bgColor !== NULL)
 		{
-			$bgColor = (string)$bgColor;
+			$bgColor = (int)$bgColor;
 		}
 
-		// color message
+		// Colorize the CLI output
+		// the documented type for the function is wrong
+		// @phpstan-ignore-next-line
 		$message = Colors::colorize($message, $fgColor, $bgColor);
 
 		// create the box
@@ -142,13 +144,16 @@ abstract class BaseCommand extends Command {
 	{
 		if ($fgColor !== NULL)
 		{
-			$fgColor = (string)$fgColor;
+			$fgColor = (int)$fgColor;
 		}
 		if ($bgColor !== NULL)
 		{
-			$bgColor = (string)$bgColor;
+			$bgColor = (int)$bgColor;
 		}
 
+		// Colorize the CLI output
+		// the documented type for the function is wrong
+		// @phpstan-ignore-next-line
 		$message = Colors::colorize($message, $fgColor, $bgColor);
 		$this->getConsole()->writeln($message);
 	}
