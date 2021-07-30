@@ -1,6 +1,9 @@
 query ($slug: String!) {
 	findProfileBySlug(slug: $slug) {
-		libraryEvents(first: 100, kind: [PROGRESSED, UPDATED]) {
+		libraryEvents(first: 100, kind: [PROGRESSED, UPDATED], sort: [{
+			direction: DESCENDING,
+			on: UPDATED_AT,
+		}]) {
 			nodes {
 				id
 				changedData
