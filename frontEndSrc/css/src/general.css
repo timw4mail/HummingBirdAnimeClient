@@ -628,6 +628,14 @@ picture.cover {
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+/* There are two .name elements, just darken them both in this case! */
+.media.search.disabled .name {
+	background-color: #000;
+	background-color: rgba(0, 0, 0, 0.75);
+	background-size: cover;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
 
 .media.search > .row {
 	z-index: 6;

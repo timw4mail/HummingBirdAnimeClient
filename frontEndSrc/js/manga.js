@@ -1,12 +1,12 @@
 import _ from './anime-client.js'
-import { renderMangaSearchResults } from './template-helpers.js'
+import { renderSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	_.show('.cssload-loader');
 	return _.get(_.url('/manga/search'), { query }, (searchResults, status) => {
 		searchResults = JSON.parse(searchResults);
 		_.hide('.cssload-loader');
-		_.$('#series-list')[ 0 ].innerHTML = renderMangaSearchResults(searchResults);
+		_.$('#series-list')[ 0 ].innerHTML = renderSearchResults('manga', searchResults);
 	});
 };
 
