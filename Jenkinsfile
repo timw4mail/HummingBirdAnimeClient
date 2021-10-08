@@ -36,16 +36,6 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
-		stage('Code Cleanliness') {
-			agent any
-			steps {
-				sh "php ./vendor/bin/phpstan analyse -c phpstan.neon -n --no-progress --no-ansi --error-format=checkstyle | awk '{\$1=\$1;print}' > build/logs/phpstan.log"
-				recordIssues(
-					failOnError: false,
-					tools: [phpStan(reportEncoding: 'UTF-8', pattern: 'build/logs/phpstan.log')]
-				)
-			}
-		}
 		stage('Coverage') {
 			agent any
 			steps {
