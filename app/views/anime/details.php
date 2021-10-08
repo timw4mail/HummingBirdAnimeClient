@@ -17,6 +17,13 @@ use function Aviat\AnimeClient\getLocalImg;
 					<td><?= $data['status'] ?></td>
 				</tr>
 
+				<?php if ( ! empty($data['airDate'])): ?>
+				<tr>
+					<td>Original Airing</td>
+					<td><?= $data['airDate'] ?></td>
+				</tr>
+				<?php endif ?>
+
 				<tr>
 					<td>Show Type</td>
 					<td><?= (strlen($data['show_type']) > 3) ? ucfirst(strtolower($data['show_type'])) : $data['show_type'] ?></td>

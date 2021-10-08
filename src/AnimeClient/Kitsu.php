@@ -68,6 +68,57 @@ final class Kitsu {
 		return AnimeAiringStatus::NOT_YET_AIRED;
 	}
 
+	/**
+	 * Reformat the airing date range for an Anime
+	 *
+	 * @param string|null $startDate
+	 * @param string|null $endDate
+	 * @return string
+	 */
+	public static function formatAirDates(string $startDate = NULL, string $endDate = NULL): string
+	{
+		if (empty($startDate))
+		{
+			return '';
+		}
+
+		$monthMap = [
+			'01' => 'Jan',
+			'02' => 'Feb',
+			'03' => 'Mar',
+			'04' => 'Apr',
+			'05' => 'May',
+			'06' => 'Jun',
+			'07' => 'Jul',
+			'08' => 'Aug',
+			'09' => 'Sep',
+			'10' => 'Oct',
+			'11' => 'Nov',
+			'12' => 'Dec',
+		];
+
+		[$startYear, $startMonth, $startDay] = explode('-', $startDate);
+
+		if ($startDate === $endDate)
+		{
+			return "{$monthMap[$startMonth]} $startDay, $startYear";
+		}
+
+		if (empty($endDate))
+		{
+			return "{$monthMap[$startMonth]} {$startYear} - ";
+		}
+
+		[$endYear, $endMonth] = explode('-', $endDate);
+
+		if ($startYear === $endYear)
+		{
+			return "{$monthMap[$startMonth]} - {$monthMap[$endMonth]} $startYear";
+		}
+
+		return "{$monthMap[$startMonth]} {$startYear} - {$monthMap[$endMonth]} {$endYear}";
+	}
+
 	public static function getPublishingStatus(string $kitsuStatus, string $startDate = NULL, string $endDate = NULL): string
 	{
 		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');

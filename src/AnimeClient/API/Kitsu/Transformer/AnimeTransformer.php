@@ -121,6 +121,7 @@ final class AnimeTransformer extends AbstractTransformer {
 		}
 
 		return AnimePage::from([
+			'airDate' => Kitsu::formatAirDates($base['startDate'], $base['endDate']),
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
