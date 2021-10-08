@@ -535,6 +535,7 @@ final class Model {
 				'slug' => $item['slug'],
 				'canonicalTitle' => $item['titles']['canonical'],
 				'titles' => array_values(K::getTitles($item['titles'])),
+				'libraryEntry' => $item['myLibraryEntry'],
 			];
 
 			// Search for MAL mapping
