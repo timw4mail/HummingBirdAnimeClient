@@ -88,6 +88,13 @@ final class AnimeTransformer extends AbstractTransformer {
 				$role = $staffing['role'];
 				$name = $person['names']['localized'][$person['names']['canonical']];
 
+				// If this person object is so broken as to not have a proper image object,
+				// just skip it. No point in showing a role with nothing in it.
+				if ($person === null || $person['id'] === null || $person['image'] === null || $person['image']['original'] === null)
+				{
+					continue;
+				}
+
 				if ( ! array_key_exists($role, $staff))
 				{
 					$staff[$role] = [];
