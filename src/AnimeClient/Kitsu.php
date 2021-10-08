@@ -263,8 +263,15 @@ final class Kitsu {
 
 		if (array_key_exists('localized', $titles) && is_array($titles['localized']))
 		{
-			foreach($titles['localized'] as $alternateTitle)
+			foreach($titles['localized'] as $locale => $alternateTitle)
 			{
+				// Really don't care about languages that aren't english
+				// or Japanese for titles
+				if ( ! in_array($locale, ['en', 'en_us', 'en_jp', 'ja_jp']))
+				{
+					continue;
+				}
+
 				if (self::titleIsUnique($alternateTitle, $valid))
 				{
 					$valid[] = $alternateTitle;
