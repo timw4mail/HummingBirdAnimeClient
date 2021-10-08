@@ -129,8 +129,8 @@ use function Aviat\AnimeClient\getLocalImg;
 									&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 								<?php endif ?>
 							</td>
-							<td><?= implode(', ', $link['subs']) ?></td>
-							<td><?= implode(', ', $link['dubs']) ?></td>
+							<td><?= implode(', ', array_map(fn ($sub) => Locale::getDisplayLanguage($sub, 'en'), $link['subs'])) ?></td>
+							<td><?= implode(', ', array_map(fn ($dub) => Locale::getDisplayLanguage($dub, 'en'), $link['dubs'])) ?></td>
 						</tr>
 					<?php endforeach ?>
 					</tbody>
