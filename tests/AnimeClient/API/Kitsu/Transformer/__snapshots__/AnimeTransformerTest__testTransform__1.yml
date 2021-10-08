@@ -43,6 +43,7 @@ staff:
     'Theme Song Lyrics, Inserted Song Performance': [{ id: '17751', name: mpi, image: { original: 'https://media.kitsu.io/people/images/17751/original.jpg?1533270888' }, slug: mpi }]
     'Theme Song Lyrics, Theme Song Composition, Theme Song Arrangement': [{ id: '17299', name: Revo, image: { original: 'https://media.kitsu.io/people/images/17299/original.jpg?1533270886' }, slug: revo }]
     'Theme Song Performance': [{ id: '18196', name: 'Cinema Staff', image: { original: 'https://media.kitsu.io/people/images/18196/original.jpg?1533273064' }, slug: cinema-staff }, { id: '8718', name: 'Linked Horizon', image: { original: 'https://media.kitsu.io/people/images/8718/original.jpg?1416270072' }, slug: linked-horizon }, { id: '6847', name: 'Yoko Hikasa', image: { original: 'https://media.kitsu.io/people/images/6847/original.jpg?1416268029' }, slug: yoko-hikasa }]
+airDate: 'Apr - Sep 2013'
 age_rating: R
 age_rating_guide: 'Violence, Profanity'
 cover_image: 'https://media.kitsu.io/anime/poster_images/7442/small.jpg?1597698856'
