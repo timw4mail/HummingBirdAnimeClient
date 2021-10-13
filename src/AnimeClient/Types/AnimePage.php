@@ -25,4 +25,6 @@ final class AnimePage extends Anime {
 	public array $links = [];
 
 	public array $staff = [];
+
+	public ?string $airDate = '';
 }

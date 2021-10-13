@@ -17,6 +17,13 @@ use function Aviat\AnimeClient\getLocalImg;
 					<td><?= $data['status'] ?></td>
 				</tr>
 
+				<?php if ( ! empty($data['airDate'])): ?>
+				<tr>
+					<td>Original Airing</td>
+					<td><?= $data['airDate'] ?></td>
+				</tr>
+				<?php endif ?>
+
 				<tr>
 					<td>Show Type</td>
 					<td><?= (strlen($data['show_type']) > 3) ? ucfirst(strtolower($data['show_type'])) : $data['show_type'] ?></td>
@@ -122,8 +129,8 @@ use function Aviat\AnimeClient\getLocalImg;
 									&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 								<?php endif ?>
 							</td>
-							<td><?= implode(', ', $link['subs']) ?></td>
-							<td><?= implode(', ', $link['dubs']) ?></td>
+							<td><?= implode(', ', array_map(fn ($sub) => Locale::getDisplayLanguage($sub, 'en'), $link['subs'])) ?></td>
+							<td><?= implode(', ', array_map(fn ($dub) => Locale::getDisplayLanguage($dub, 'en'), $link['dubs'])) ?></td>
 						</tr>
 					<?php endforeach ?>
 					</tbody>

@@ -1,5 +1,5 @@
 import _ from './anime-client.js'
-import { renderAnimeSearchResults } from './template-helpers.js'
+import { renderSearchResults } from './template-helpers.js'
 
 const search = (query) => {
 	// Show the loader
@@ -13,7 +13,7 @@ const search = (query) => {
 		_.hide('.cssload-loader');
 
 		// Show the results
-		_.$('#series-list')[ 0 ].innerHTML = renderAnimeSearchResults(searchResults);
+		_.$('#series-list')[ 0 ].innerHTML = renderSearchResults('anime', searchResults);
 	});
 };
 

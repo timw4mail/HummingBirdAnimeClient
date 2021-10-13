@@ -65,6 +65,7 @@ abstract class HistoryTransformer {
 
 		foreach ($base as $entry)
 		{
+			// Filter out other media types
 			if (strtolower($entry['media']['__typename']) !== $this->type)
 			{
 				continue;
@@ -193,6 +194,19 @@ abstract class HistoryTransformer {
 		if (((int)$item) === 0)
 		{
 			return NULL;
+		}
+
+		// Hide the last episode update (Anime)
+		foreach (['episodeCount', 'chapterCount'] as $count)
+		{
+			if ( ! empty($entry['media'][$count]))
+			{
+				$update = $entry['changedData']['progress'][1] ?? 0;
+				if ($update === $entry['media'][$count])
+				{
+					return NULL;
+				}
+			}
 		}
 
 		$action = ($this->isReconsuming($entry))

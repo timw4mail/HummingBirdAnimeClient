@@ -30,6 +30,12 @@ query ($slug: String!) {
 						canonical
 						localized
 					}
+					...on Anime {
+						episodeCount
+					}
+					...on Manga {
+						chapterCount
+					}
 				}
 				updatedAt
 			}
