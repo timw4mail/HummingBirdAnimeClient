@@ -2,14 +2,12 @@
 # This is the more common use case, when adding an anime or manga to
 # the user's library.
 mutation (
-	$userId: ID!
 	$id: ID!,
 	$type: MediaTypeEnum!,
 	$status: LibraryEntryStatusEnum!,
 ) {
 	libraryEntry {
 		create(input: {
-			userId: $userId
 			mediaId: $id
 			mediaType: $type
 			status: $status

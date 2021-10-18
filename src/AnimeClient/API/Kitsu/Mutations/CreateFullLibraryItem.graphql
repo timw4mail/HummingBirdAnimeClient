@@ -2,7 +2,6 @@
 # Flesh out a library item with data - most commonly used for syncing lists
 # between APIs
 mutation (
-	$userId: ID!
 	$id: ID!,
 	$mediaType: MediaTypeEnum!,
 	$status: LibraryEntryStatusEnum!,
@@ -15,7 +14,6 @@ mutation (
 ) {
 	libraryEntry {
 		create(input: {
-			userId: $userId
 			mediaId: $id
 			mediaType: $mediaType
 			status: $status
