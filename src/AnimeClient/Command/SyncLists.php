@@ -75,7 +75,7 @@ final class SyncLists extends BaseCommand {
 	{
 		$this->init();
 
-		foreach ([MediaType::ANIME, MediaType::MANGA] as $type)
+		foreach ([MediaType::MANGA, MediaType::ANIME] as $type)
 		{
 			// Main Sync flow
 			$this->fetchCount($type);
