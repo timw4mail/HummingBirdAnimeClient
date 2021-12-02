@@ -6,6 +6,7 @@ data:
     notes: ''
     private: true
     progress: 12
+    ratingTwenty: null
     reconsumeCount: 0
     reconsuming: true
     status: current
