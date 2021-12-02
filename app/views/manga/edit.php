@@ -47,13 +47,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td><label for="volumes_read">Volumes Read</label></td>
-					<td>
-						<?php /*<input type="number" disabled="disabled" min="0" name="volumes_read" id="volumes_read" value="" /> */ ?>
-						- / <?= $item['volumes']['total'] ?>
-					</td>
-				</tr>
-				<tr>
 					<td><label for="rereading_flag">Rereading?</label></td>
 					<td>
 						<input type="checkbox" name="rereading" id="rereading_flag"
