@@ -335,7 +335,7 @@ function createPlaceholderImage (string $path, ?int $width, ?int $height, $text 
 	$fontSize = 10;
 	$fontWidth = imagefontwidth($fontSize);
 	$fontHeight = imagefontheight($fontSize);
-	$length = \strlen($text);
+	$length = strlen($text);
 	$textWidth = $length * $fontWidth;
 	$fxPos = (int) ceil((imagesx($img) - $textWidth) / 2);
 	$fyPos = (int) ceil((imagesy($img) - $fontHeight) / 2);

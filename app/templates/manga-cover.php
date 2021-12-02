@@ -2,7 +2,6 @@
 	<?php if ($auth->isAuthenticated()): ?>
 		<div class="edit-buttons" hidden>
 			<button class="plus-one-chapter">+1 Chapter</button>
-			<?php /* <button class="plus-one-volume">+1 Volume</button> */ ?>
 		</div>
 	<?php endif ?>
 	<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
@@ -63,11 +62,6 @@
 			<div class="chapter_completion">
 				Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /
 				<span class="chapter_count"><?= $item['chapters']['total'] ?></span>
-			</div>
-			<?php /* </div>
-						<div class="row"> */ ?>
-			<div class="volume_completion">
-				Volumes: <span class="volume_count"><?= $item['volumes']['total'] ?></span>
 			</div>
 		</div>
 	</div>

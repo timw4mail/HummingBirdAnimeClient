@@ -26,8 +26,6 @@ final class Character extends AbstractType {
 
 	public string $id;
 
-	public array $included = [];
-
 	public ?Media $media;
 
 	public ?string $name;

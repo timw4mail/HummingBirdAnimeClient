@@ -39,10 +39,10 @@ final class ParallelAPIRequest {
 	 * Add a request
 	 *
 	 * @param string|Request $request
-	 * @param string|number $key
+	 * @param string|int|null $key
 	 * @return self
 	 */
-	public function addRequest($request, $key = NULL): self
+	public function addRequest(string|Request $request, string|int|null $key = NULL): self
 	{
 		if ($key !== NULL)
 		{

@@ -33,7 +33,7 @@ trait CacheTrait {
 	 * Inject the cache object
 	 *
 	 * @param CacheInterface $cache
-	 * @return $this
+	 * @return self
 	 */
 	public function setCache(CacheInterface $cache): self
 	{

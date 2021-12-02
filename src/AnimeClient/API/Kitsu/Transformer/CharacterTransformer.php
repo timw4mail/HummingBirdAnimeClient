@@ -105,7 +105,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, fn($item) => count((array)$item['voices']['nodes']) > 0);
+		$rawVoices = array_filter($data, fn($item) => (! empty($item['voices'])) && count((array)$item['voices']['nodes']) > 0);
 
 		if (empty($rawVoices))
 		{

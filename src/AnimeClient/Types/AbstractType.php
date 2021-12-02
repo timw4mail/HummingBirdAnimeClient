@@ -37,7 +37,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * @param array $data
 	 * @return array|null
 	 */
-	final public static function check($data = []): ?array
+	final public static function check(array $data = []): ?array
 	{
 		$currentClass = static::class;
 
@@ -199,7 +199,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	final public function count(): int
 	{
-		$keys = array_keys((array)$this->toArray());
+		$keys = array_keys($this->toArray());
 		return count($keys);
 	}
 
@@ -224,7 +224,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 */
 	final public function isEmpty(): bool
 	{
-		$self = (array)$this->toArray();
+		$self = $this->toArray();
 		foreach ($self as $value)
 		{
 			if ( ! empty($value))
