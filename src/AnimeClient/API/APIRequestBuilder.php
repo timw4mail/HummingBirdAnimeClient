@@ -318,7 +318,7 @@ abstract class APIRequestBuilder {
 	 * @param string $type
 	 * @return void
 	 */
-	private function resetState(?string $url, $type = 'GET'): void
+	private function resetState(?string $url, string $type = 'GET'): void
 	{
 		$requestUrl = $url ?: $this->baseUrl;
 

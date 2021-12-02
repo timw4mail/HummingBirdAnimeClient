@@ -69,6 +69,11 @@ final class PersonTransformer extends AbstractTransformer {
 
 			foreach ($data['mediaStaff']['nodes'] as $staffing)
 			{
+				if (empty($staffing['media']))
+				{
+					continue;
+				}
+
 				$media = $staffing['media'];
 				$role = $staffing['role'];
 				$title = $media['titles']['canonical'];
@@ -79,7 +84,7 @@ final class PersonTransformer extends AbstractTransformer {
 					'title' => $title,
 					'titles' => array_merge([$title], Kitsu::getFilteredTitles($media['titles'])),
 					'image' => [
-						'original' => $media['posterImage']['views'][1]['url'],
+						'original' => $media['posterImage']['views'][1]['url'] ?? '',
 					],
 					'slug' => $media['slug'],
 				];
@@ -120,7 +125,7 @@ final class PersonTransformer extends AbstractTransformer {
 							'id' => $character['id'],
 							'slug' => $character['slug'],
 							'image' => [
-								'original' => $character['image']['original']['url'],
+								'original' => $character['image']['original']['url'] ?? '',
 							],
 							'canonicalName' => $character['names']['canonical'],
 						],

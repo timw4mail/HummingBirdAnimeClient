@@ -21,7 +21,7 @@ use Aviat\AnimeClient\Types\MangaPage;
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
- * Transformer for anime description page
+ * Transformer for manga description page
  */
 final class MangaTransformer extends AbstractTransformer {
 
@@ -87,6 +87,13 @@ final class MangaTransformer extends AbstractTransformer {
 				$role = $staffing['role'];
 				$name = $person['names']['localized'][$person['names']['canonical']];
 
+				// If this person object is so broken as to not have a proper image object,
+				// just skip it. No point in showing a role with nothing in it.
+				if ($person === null || $person['id'] === null || $person['image'] === null)
+				{
+					continue;
+				}
+
 				if ( ! array_key_exists($role, $staff))
 				{
 					$staff[$role] = [];
@@ -97,7 +104,7 @@ final class MangaTransformer extends AbstractTransformer {
 					'slug' => $person['slug'],
 					'name' => $name,
 					'image' => [
-						'original' => $person['image']['original']['url'],
+						'original' => $person['image']['original']['url'] ?? '',
 					],
 				];
 

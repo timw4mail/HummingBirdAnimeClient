@@ -90,7 +90,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 				// If this person object is so broken as to not have a proper image object,
 				// just skip it. No point in showing a role with nothing in it.
-				if ($person === null || $person['id'] === null || $person['image'] === null || $person['image']['original'] === null)
+				if ($person === null || $person['id'] === null || $person['image'] === null)
 				{
 					continue;
 				}
@@ -104,7 +104,7 @@ final class AnimeTransformer extends AbstractTransformer {
 					'id' => $person['id'],
 					'name' => $name,
 					'image' => [
-						'original' => $person['image']['original']['url'],
+						'original' => $person['image']['original']['url'] ?? '',
 					],
 					'slug' => $person['slug'],
 				];

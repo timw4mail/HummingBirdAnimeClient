@@ -22,7 +22,6 @@
 					<th>Title</th>
 					<th>Rating</th>
 					<th>Completed Chapters</th>
-					<th># of Volumes</th>
 					<th>Attributes</th>
 					<th>Type</th>
 				</tr>
@@ -49,7 +48,6 @@
 					</td>
 					<td><?= $item['user_rating'] ?> / 10</td>
 					<td><?= $item['chapters']['read'] ?> / <?= $item['chapters']['total'] ?></td>
-					<td><?= $item['volumes']['total'] ?></td>
 					<td>
 	                    <ul>
 						<?php if ($item['reread'] == 1): ?>

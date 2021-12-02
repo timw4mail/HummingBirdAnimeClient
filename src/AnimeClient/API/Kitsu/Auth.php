@@ -123,7 +123,7 @@ final class Auth {
 	/**
 	 * Retrieve the authentication token from the session
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getAuthToken(): ?string
 	{
