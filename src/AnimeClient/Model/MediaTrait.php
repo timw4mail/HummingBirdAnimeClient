@@ -71,11 +71,19 @@ trait MediaTrait {
 	 * Search for anime by name
 	 *
 	 * @param string $name
+	 * @param bool $inCollection
 	 * @return array
 	 */
-	public function search(string $name): array
+	public function search(string $name, bool $inCollection = false): array
 	{
-		return $this->kitsuModel->search($this->type, urldecode($name));
+		$data = $this->kitsuModel->search($this->type, urldecode($name));
+
+		if ($inCollection)
+		{
+			// @TODO: allow filtering collection search by existing items
+		}
+
+		return $data;
 	}
 
 	/**
