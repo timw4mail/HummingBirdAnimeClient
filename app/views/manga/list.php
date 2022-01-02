@@ -20,7 +20,7 @@
 					<td>&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
-					<th>Rating</th>
+					<th>Score</th>
 					<th>Completed Chapters</th>
 					<th>Attributes</th>
 					<th>Type</th>
