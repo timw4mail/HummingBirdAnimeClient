@@ -28,7 +28,7 @@
 					<th>Score</th>
 					<th>Type</th>
 					<th>Progress</th>
-					<th>Rated</th>
+					<th>TV Rating</th>
 					<th>Attributes</th>
 					<?php if($hasNotes): ?><th>Notes</th><?php endif ?>
 				</tr>

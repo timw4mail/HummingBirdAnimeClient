@@ -41,7 +41,7 @@
 							<th>Episode Count</th>
 							<th>Episode Length</th>
 							<th>Show Type</th>
-							<th>Age Rating</th>
+							<th>TV Rating</th>
 							{$noteTh}
 							<th>Genres</th>
 						</tr>
