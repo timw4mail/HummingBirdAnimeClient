@@ -44,6 +44,7 @@ use Aviat\Ion\{
 use Generator;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getApiClient;
+use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 /**
  * Kitsu API Model
@@ -707,9 +708,14 @@ final class Model {
 
 				$rawData = Json::decode($json);
 				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
-				$page = $data['pageInfo'];
+				$page = $data['pageInfo'] ?? [];
 				if (empty($data))
 				{
+					// Clear session, in case the error is an invalid token.
+					$segment = $this->container->get('session')
+						->getSegment(SESSION_SEGMENT);
+					$segment->clear();
+
 					// @TODO Proper Error logging
 					dump($rawData);
 					die();
@@ -719,7 +725,7 @@ final class Model {
 
 				yield $emit($data['nodes']);
 
-				if ($page['hasNextPage'] === FALSE)
+				if ($page['hasNextPage'] !== TRUE)
 				{
 					break;
 				}
