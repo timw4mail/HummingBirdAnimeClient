@@ -78,8 +78,6 @@ final class History extends BaseController {
 			'url_type' => 'anime',
 		]);
 
-		// $this->outputJSON($this->animeModel->getHistory());
-		// return;
 		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
@@ -98,8 +96,6 @@ final class History extends BaseController {
 			'url_type' => 'manga',
 		]);
 
-		// $this->outputJSON($this->mangaModel->getHistory());
-		// return;
 		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",

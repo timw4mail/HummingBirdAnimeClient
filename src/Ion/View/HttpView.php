@@ -93,7 +93,7 @@ class HttpView implements HttpViewInterface{
 	 * @param string|string[] $value
 	 * @return HttpView
 	 */
-	public function addHeader(string $name, $value): self
+	public function addHeader(string $name, array|string $value): self
 	{
 		$this->response = $this->response->withHeader($name, $value);
 		return $this;
@@ -105,7 +105,7 @@ class HttpView implements HttpViewInterface{
 	 * @param mixed $string
 	 * @return HttpViewInterface
 	 */
-	public function setOutput($string): HttpViewInterface
+	public function setOutput(mixed $string): HttpViewInterface
 	{
 		$this->response->getBody()->write($string);
 

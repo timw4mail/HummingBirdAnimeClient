@@ -239,8 +239,6 @@ final class AnimeCollection extends BaseController {
 	 * Update a collection item
 	 *
 	 * @param array $data
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	protected function update(array $data): void
 	{

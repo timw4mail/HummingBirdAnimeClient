@@ -207,7 +207,7 @@ final class Model
 	 *
 	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request
+	 * @return Request|null
 	 */
 	public function incrementListItem(FormItem $data, string $type): ?Request
 	{
@@ -225,7 +225,7 @@ final class Model
 	 *
 	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request
+	 * @return Request|null
 	 */
 	public function updateListItem(FormItem $data, string $type): ?Request
 	{
@@ -244,7 +244,7 @@ final class Model
 	 *
 	 * @param string $malId - The id of the list item to remove
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request
+	 * @return Request|null
 	 */
 	public function deleteListItem(string $malId, string $type): ?Request
 	{
@@ -262,7 +262,7 @@ final class Model
 	 *
 	 * @param string $malId
 	 * @param string $type - The media type (anime/manga)
-	 * @return string
+	 * @return string|null
 	 */
 	public function getListIdFromMalId(string $malId, string $type): ?string
 	{
@@ -306,7 +306,7 @@ final class Model
 	 *
 	 * @param string $malId
 	 * @param string $type
-	 * @return string
+	 * @return string|null
 	 */
 	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
 	{

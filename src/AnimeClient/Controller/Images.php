@@ -16,8 +16,6 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
-
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 use function Aviat\AnimeClient\createPlaceholderImage;
@@ -39,7 +37,7 @@ final class Images extends BaseController {
 	 * @return void
 	 * @throws Throwable
 	 */
-	public function cache(string $type, string $file, $display = TRUE): void
+	public function cache(string $type, string $file, bool $display = TRUE): void
 	{
 		$currentUrl = (string)$this->request->getUri();
 

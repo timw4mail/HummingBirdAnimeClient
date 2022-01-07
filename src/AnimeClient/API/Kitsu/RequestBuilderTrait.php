@@ -27,7 +27,7 @@ trait RequestBuilderTrait {
 	 * Set the request builder object
 	 *
 	 * @param RequestBuilder $requestBuilder
-	 * @return $this
+	 * @return RequestBuilderTrait|ListItem|Model
 	 */
 	public function setRequestBuilder(RequestBuilder $requestBuilder): self
 	{
