@@ -23,7 +23,6 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;
 
 /**
@@ -129,11 +128,11 @@ final class Auth {
 	{
 		if (PHP_SAPI === 'cli')
 		{
-			return $this->segment->get('auth_token', NULL)
-				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY, NULL);
+			return $this->segment->get('auth_token')
+				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY);
 		}
 
-		return $this->segment->get('auth_token', NULL);
+		return $this->segment->get('auth_token');
 	}
 
 	/**
@@ -146,7 +145,7 @@ final class Auth {
 		if (PHP_SAPI === 'cli')
 		{
 			return $this->segment->get('refresh_token')
-				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
+				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
 		}
 
 		return $this->segment->get('refresh_token');

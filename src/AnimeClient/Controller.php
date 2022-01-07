@@ -375,10 +375,10 @@ class Controller {
 	 * @param array $data
 	 * @param HtmlView|NULL $view
 	 * @param int $code
-	 * @throws InvalidArgumentException
 	 * @return void
+	 *@throws InvalidArgumentException
 	 */
-	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
+	protected function outputHTML(string $template, array $data = [], HtmlView $view = NULL, int $code = 200): void
 	{
 		if (NULL === $view)
 		{

@@ -16,7 +16,6 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\Kitsu;
 use Aviat\Ion\Di\Exception\ContainerException;
 use Aviat\Ion\Di\Exception\NotFoundException;
 use function Aviat\AnimeClient\clearCache;

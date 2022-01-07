@@ -16,17 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
-use Aviat\AnimeClient\Types\{
-	Anime as AnimeType,
-	FormItem,
-	AnimeListItem
-};
-use Aviat\Ion\Json;
-
-use Throwable;
-use function is_array;
+use Aviat\AnimeClient\Types\Anime as AnimeType;
 
 /**
  * Model for handling requests dealing with the anime list
@@ -64,7 +55,7 @@ class Anime extends API {
 	{
 		$data =  $this->kitsuModel->getFullOrganizedAnimeList();
 
-		foreach($data as $section => &$list)
+		foreach($data as &$list)
 		{
 			$this->sortByName($list, 'anime');
 		}

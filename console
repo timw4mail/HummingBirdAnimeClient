@@ -9,8 +9,8 @@ use ConsoleKit\Console;
 
 $GLOBALS['_SERVER']['HTTP_HOST'] = 'localhost';
 
-define('APP_DIR', __DIR__ . '/app');
-define('TEMPLATE_DIR', APP_DIR . '/templates');
+const APP_DIR = __DIR__ . '/app';
+const TEMPLATE_DIR = APP_DIR . '/templates';
 
 // -----------------------------------------------------------------------------
 // Start console script

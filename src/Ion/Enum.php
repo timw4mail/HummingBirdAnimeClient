@@ -51,7 +51,7 @@ abstract class Enum {
 	 * @return boolean
 	 * @throws ReflectionException
 	 */
-	public static function isValid($key): bool
+	public static function isValid(mixed $key): bool
 	{
 		$values = array_values(static::getConstList());
 		return in_array($key, $values, TRUE);

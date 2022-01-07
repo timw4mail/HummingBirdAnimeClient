@@ -578,7 +578,7 @@ final class AnimeCollection extends Collection {
 	 * @param string $animeId The current anime
 	 * @return void
 	 */
-	private function updateGenres($animeId): void
+	private function updateGenres(string $animeId): void
 	{
 		if ($this->db === NULL)
 		{

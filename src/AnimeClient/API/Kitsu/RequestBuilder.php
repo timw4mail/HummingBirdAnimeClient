@@ -192,16 +192,13 @@ final class RequestBuilder extends APIRequestBuilder {
 		$request = $this->setUpRequest($type, $url, $options);
 		$response = getResponse($request);
 
-		if ($logger !== NULL)
-		{
-			$logger->debug('Kitsu API Response', [
-				'status' => $response->getStatus(),
-				'reason' => $response->getReason(),
-				'body' => $response->getBody(),
-				'headers' => $response->getHeaders(),
-				'requestHeaders' => $request->getHeaders(),
-			]);
-		}
+		$logger?->debug('Kitsu API Response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+			'requestHeaders' => $request->getHeaders(),
+		]);
 
 		return $response;
 	}
