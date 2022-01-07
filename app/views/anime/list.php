@@ -25,10 +25,10 @@
 					<?php endif ?>
 					<th>Title</th>
 					<th>Airing Status</th>
-					<th>Score</th>
+					<th class='numeric'>Score</th>
 					<th>Type</th>
-					<th>Progress</th>
-					<th>Rated</th>
+					<th class='numeric'>Progress</th>
+					<th class='rating'>Age Rating</th>
 					<th>Attributes</th>
 					<?php if($hasNotes): ?><th>Notes</th><?php endif ?>
 				</tr>
