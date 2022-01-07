@@ -9,15 +9,15 @@ const LightTableSorter = (() => {
 		console.log("Comparing " + textA + " and " + textB)
 		
 		if(th.classList.contains("numeric")){
-			arrayA = textA.replace('\n\t\t\t\t\t\tepisodes:  ','').replace('-',0).split("/")
-			arrayB = textB.replace('\n\t\t\t\t\t\tepisodes:  ','').replace('-',0).split("/")
+			arrayA = textA.replace('episodes:  ','').replace('-',0).split("/");
+			arrayB = textB.replace('episodes:  ','').replace('-',0).split("/");
 			if(arrayA.length > 1) {
-				textA = parseInt(arrayA[0],10) / parseInt(arrayA[1],10)
-				textB = parseInt(arrayB[0],10) / parseInt(arrayB[1],10)
+				textA = parseInt(arrayA[0],10) / parseInt(arrayA[1],10);
+				textB = parseInt(arrayB[0],10) / parseInt(arrayB[1],10);
 			}
 			else{
-				textA = parseInt(arrayA[0],10)
-				textB = parseInt(arrayB[0],10)
+				textA = parseInt(arrayA[0],10);
+				textB = parseInt(arrayB[0],10);
 			}
 		}
 		else if (parseInt(textA, 10)) {
