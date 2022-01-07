@@ -38,10 +38,10 @@
 							{$firstTh}
 							<th>Title</th>
 							{$mediaTh}
-							<th>Episode Count</th>
-							<th>Episode Length</th>
+							<th class='numeric'>Episode Count</th>
+							<th class='numeric'>Episode Length</th>
 							<th>Show Type</th>
-							<th>Age Rating</th>
+							<th class='rating'>Age Rating</th>
 							{$noteTh}
 							<th>Genres</th>
 						</tr>
