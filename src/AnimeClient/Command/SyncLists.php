@@ -203,7 +203,7 @@ final class SyncLists extends BaseCommand {
 	 *
 	 * @param string $type
 	 * @param array $data
-	 * @return array|array[]
+	 * @return array
 	 */
 	protected function compare(string $type, array $data): array
 	{

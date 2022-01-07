@@ -16,6 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
+use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\Event;
 use Aviat\Ion\Json;
 use Aura\Router\{
 	Map,
@@ -27,7 +29,6 @@ use Aviat\AnimeClient\API\FailedResponseException;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Friend;
 use Aviat\Ion\Type\StringType;
-use JetBrains\PhpStorm\ArrayShape;
 use LogicException;
 use ReflectionException;
 
@@ -117,7 +118,7 @@ final class Dispatcher extends RoutingBase {
 	 * @return void
 	 * @throws ReflectionException
 	 */
-	public function __invoke($route = NULL): void
+	public function __invoke(object $route = NULL): void
 	{
 		$logger = $this->container->getLogger();
 
@@ -136,7 +137,7 @@ final class Dispatcher extends RoutingBase {
 		{
 			// If not route was matched, return an appropriate http
 			// error message
-			$errorRoute = (array)$this->getErrorParams();
+			$errorRoute = $this->getErrorParams();
 			$controllerName = DEFAULT_CONTROLLER;
 			$actionMethod = $errorRoute['action_method'];
 			$params = $errorRoute['params'];
@@ -278,17 +279,14 @@ final class Dispatcher extends RoutingBase {
 	 */
 	protected function call(string $controllerName, string $method, array $params): void
 	{
-		$logger = $this->container->getLogger('default');
+		$logger = $this->container->getLogger();
 
 		try
 		{
 			$controller = new $controllerName($this->container);
 
 			// Run the appropriate controller method
-			if ($logger !== NULL)
-			{
-				$logger->debug('Dispatcher - controller arguments', $params);
-			}
+			$logger?->debug('Dispatcher - controller arguments', $params);
 
 			$params = array_values($params);
 			$controller->$method(...$params);
@@ -360,7 +358,7 @@ final class Dispatcher extends RoutingBase {
 	}
 
 	/**
-	 * Select controller based on the current url, and apply its relevent routes
+	 * Select controller based on the current url, and apply its relevant routes
 	 *
 	 * @return array
 	 */

@@ -23,10 +23,10 @@ interface ConfigInterface {
 	/**
 	 * Does the config item exist?
 	 *
-	 * @param string|int|array $key
+	 * @param array|int|string $key
 	 * @return bool
 	 */
-	public function has($key): bool;
+	public function has(array|int|string $key): bool;
 
 	/**
 	 * Get a config value
@@ -34,23 +34,23 @@ interface ConfigInterface {
 	 * @param array|string|null $key
 	 * @return mixed
 	 */
-	public function get($key = NULL);
+	public function get(array|string $key = NULL): mixed;
 
 	/**
 	 * Set a config value
 	 *
-	 * @param integer|string|array $key
+	 * @param array|integer|string $key
 	 * @param mixed                $value
-	 * @throws \InvalidArgumentException
 	 * @return ConfigInterface
+	 * @throws \InvalidArgumentException
 	 */
-	public function set($key, $value): self;
+	public function set(array|int|string $key, mixed $value): self;
 
 	/**
 	 * Remove a config value
 	 *
-	 * @param  string|array $key
+	 * @param array|string $key
 	 * @return void
 	 */
-	public function delete($key): void;
+	public function delete(array|string $key): void;
 }

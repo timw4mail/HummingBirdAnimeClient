@@ -66,15 +66,13 @@ final class Anime extends BaseController {
 	/**
 	 * Show a portion, or all of the anime list
 	 *
-	 * @param string|int $status - The section of the list
+	 * @param int|string $status - The section of the list
 	 * @param string|null $view - List or cover view
-	 * @throws ContainerException
-	 * @throws NotFoundException
+	 * @return void
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
-	 * @return void
 	 */
-	public function index($status = KitsuWatchingStatus::WATCHING, ?string $view = NULL): void
+	public function index(int|string $status = KitsuWatchingStatus::WATCHING, ?string $view = NULL): void
 	{
 		if ( ! in_array($status, [
 			'all',
@@ -178,7 +176,7 @@ final class Anime extends BaseController {
 	 * @param string $id
 	 * @param string $status
 	 */
-	public function edit(string $id, $status = 'all'): void
+	public function edit(string $id, string $status = 'all'): void
 	{
 		$this->checkAuth();
 
