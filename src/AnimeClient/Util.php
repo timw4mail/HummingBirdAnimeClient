@@ -46,8 +46,6 @@ class Util {
 	 * Set up the Util class
 	 *
 	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{

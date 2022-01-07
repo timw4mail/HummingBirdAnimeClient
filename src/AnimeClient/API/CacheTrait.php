@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\API;
 
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 
 /**
  * Helper methods for dealing with the Cache

@@ -52,8 +52,6 @@ final class People extends BaseController {
 	 *
 	 * @param string $slug
 	 * @return void
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function index(string $slug): void
 	{

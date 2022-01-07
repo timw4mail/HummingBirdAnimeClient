@@ -154,7 +154,7 @@ abstract class APIRequestBuilder {
 	 * Set a request header
 	 *
 	 * @param string $name
-	 * @param string $value
+	 * @param string|null $value
 	 * @return self
 	 */
 	public function setHeader(string $name, string $value = NULL): self

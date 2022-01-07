@@ -31,7 +31,7 @@ class Friend {
 	 * Object to create a friend of
 	 * @var mixed
 	 */
-	private $_friend_;
+	private mixed $_friend_;
 
 	/**
 	 * Reflection class of the object
@@ -46,7 +46,7 @@ class Friend {
 	 * @throws InvalidArgumentException
 	 * @throws \ReflectionException
 	 */
-	public function __construct($obj)
+	public function __construct(mixed $obj)
 	{
 		if ( ! \is_object($obj))
 		{
@@ -63,7 +63,7 @@ class Friend {
 	 * @param  string $key
 	 * @return mixed
 	 */
-	public function __get(string $key)
+	public function __get(string $key): mixed
 	{
 		if ($this->__isset($key))
 		{
@@ -96,7 +96,7 @@ class Friend {
 	 * @param mixed  $value
 	 * @return void
 	 */
-	public function __set(string $key, $value)
+	public function __set(string $key, mixed $value)
 	{
 		if ($this->__isset($key))
 		{

@@ -70,7 +70,7 @@ abstract class AbstractListItem {
 	 * Delete a list item
 	 *
 	 * @param string $id - The id of the list item to delete
-	 * @return Request
+	 * @return Request|null
 	 */
 	abstract public function delete(string $id):?Request;
 }

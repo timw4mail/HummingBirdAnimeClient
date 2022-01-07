@@ -45,10 +45,10 @@ class Config implements ConfigInterface {
 	/**
 	 * Does the config item exist?
 	 *
-	 * @param string|int|array $key
+	 * @param array|int|string $key
 	 * @return bool
 	 */
-	public function has($key): bool
+	public function has(array|int|string $key): bool
 	{
 		return $this->map->hasKey($key);
 	}
@@ -60,7 +60,7 @@ class Config implements ConfigInterface {
 	 * @return mixed
 	 * @throws ConfigException
 	 */
-	public function get($key = NULL)
+	public function get(array|string $key = NULL): mixed
 	{
 		if (\is_array($key))
 		{
@@ -73,10 +73,10 @@ class Config implements ConfigInterface {
 	/**
 	 * Remove a config value
 	 *
-	 * @param  string|array $key
+	 * @param array|string $key
 	 * @return void
 	 */
-	public function delete($key): void
+	public function delete(array|string $key): void
 	{
 		if (\is_array($key))
 		{
@@ -92,12 +92,12 @@ class Config implements ConfigInterface {
 	/**
 	 * Set a config value
 	 *
-	 * @param integer|string|array $key
-	 * @param mixed                $value
-	 * @throws InvalidArgumentException
+	 * @param array|integer|string $key
+	 * @param mixed $value
 	 * @return ConfigInterface
+	 *@throws InvalidArgumentException
 	 */
-	public function set($key, $value): ConfigInterface
+	public function set(array|int|string $key, mixed $value): ConfigInterface
 	{
 		if (\is_array($key))
 		{
