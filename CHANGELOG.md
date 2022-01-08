@@ -1,10 +1,8 @@
 # Changelog
 
-## Version 5.3
-* Updated to support PHP 8.1
-
 ## Version 5.2
 * Updated PHP requirement to 8
+* Updated to support PHP 8.1
 
 ## Version 5.1
 * Added session check, so when coming back to a page, if the session is expired, the page will refresh.

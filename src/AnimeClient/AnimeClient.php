@@ -16,9 +16,8 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\Kitsu;
+use Aviat\Ion\ImageBuilder;
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 
 use Amp\Http\Client\Request;
 use Amp\Http\Client\Response;
@@ -151,6 +150,21 @@ function tomlToArray(string $toml): array
 //! Misc Functions
 // ----------------------------------------------------------------------------
 
+if ( ! function_exists('array_is_list'))
+{
+	/**
+	 * Polyfill for PHP 8
+	 *
+	 * @see https://www.php.net/manual/en/function.array-is-list
+	 * @param array $a
+	 * @return bool
+	 */
+	function array_is_list(array $a): bool
+	{
+		return $a === [] || (array_keys($a) === range(0, count($a) - 1));
+	}
+}
+
 /**
  * Is the array sequential, not associative?
  *
@@ -164,15 +178,7 @@ function isSequentialArray(mixed $array): bool
 		return FALSE;
 	}
 
-	$i = 0;
-	foreach ($array as $k => $v)
-	{
-		if ($k !== $i++)
-		{
-			return FALSE;
-		}
-	}
-	return TRUE;
+	return array_is_list($array);
 }
 
 /**
@@ -263,7 +269,7 @@ function getResponse (Request|string $request): Response
  * @param bool $webp
  * @return string
  */
-function getLocalImg (string $kitsuUrl, $webp = TRUE): string
+function getLocalImg (string $kitsuUrl, bool $webp = TRUE): string
 {
 	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
@@ -296,71 +302,26 @@ function getLocalImg (string $kitsuUrl, $webp = TRUE): string
  *
  * @codeCoverageIgnore
  * @param string $path
- * @param int|null $width
- * @param int|null $height
+ * @param int $width
+ * @param int $height
  * @param string $text
  * @return bool
  */
-function createPlaceholderImage (string $path, ?int $width, ?int $height, $text = 'Image Unavailable'): bool
+function createPlaceholderImage (string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
 {
-	$width = $width ?? 200;
-	$height = $height ?? 200;
-
-	$img = imagecreatetruecolor($width, $height);
-	if ($img === FALSE)
-	{
-		return FALSE;
-	}
-	imagealphablending($img, TRUE);
+	$img = ImageBuilder::new($width, $height)
+		->enableAlphaBlending(TRUE)
+		->addBackgroundColor(255, 255, 255, 127)
+		->addCenteredText($text, 64, 64, 64, 1);
 
 	$path = rtrim($path, '/');
 
-	// Background is the first color by default
-	$fillColor = imagecolorallocatealpha($img, 255, 255, 255, 127);
-	if ($fillColor === FALSE)
-	{
-		return FALSE;
-	}
-	imagefill($img, 0, 0, $fillColor);
+	$savedPng = $img->savePng($path . '/placeholder.png');
+	$savedWebp = $img->saveWebp($path . '/placeholder.webp');
 
-	$textColor = imagecolorallocate($img, 64, 64, 64);
-	if ($textColor === FALSE)
-	{
-		return FALSE;
-	}
+	$img->cleanup();
 
-	imagealphablending($img, TRUE);
-
-	// Generate placeholder text
-	$fontSize = 10;
-	$fontWidth = imagefontwidth($fontSize);
-	$fontHeight = imagefontheight($fontSize);
-	$length = strlen($text);
-	$textWidth = $length * $fontWidth;
-	$fxPos = (int) ceil((imagesx($img) - $textWidth) / 2);
-	$fyPos = (int) ceil((imagesy($img) - $fontHeight) / 2);
-
-	// Add the image text
-	imagestring($img, $fontSize, $fxPos, $fyPos, $text, $textColor);
-
-	// Save the images
-	imagesavealpha($img, TRUE);
-	imagepng($img, $path . '/placeholder.png', 9);
-	imagedestroy($img);
-
-	$pngImage = imagecreatefrompng($path . '/placeholder.png');
-	if ($pngImage === FALSE)
-	{
-		return FALSE;
-	}
-	imagealphablending($pngImage, TRUE);
-	imagesavealpha($pngImage, TRUE);
-
-	imagewebp($pngImage, $path . '/placeholder.webp');
-
-	imagedestroy($pngImage);
-
-	return TRUE;
+	return $savedPng && $savedWebp;
 }
 
 /**
