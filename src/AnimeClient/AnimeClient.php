@@ -311,8 +311,8 @@ function createPlaceholderImage (string $path, int $width = 200, int $height = 2
 {
 	$img = ImageBuilder::new($width, $height)
 		->enableAlphaBlending(TRUE)
-		->addBackgroundColor(255, 255, 255, 127)
-		->addCenteredText($text, 64, 64, 64, 1);
+		->addBackgroundColor(255, 255, 255)
+		->addCenteredText($text, 64, 64, 64);
 
 	$path = rtrim($path, '/');
 
