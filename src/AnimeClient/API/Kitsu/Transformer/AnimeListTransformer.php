@@ -96,7 +96,9 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'titles' => $titles,
 				'slug' => $anime['slug'],
 				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
-				'cover_image' => $anime['posterImage']['views'][1]['url'] ?? '/public/images/placeholder.png',
+				'cover_image' => $anime['posterImage']['views'][1]['url']
+					?? $anime['posterImage']['original']['url']
+					?? '/public/images/placeholder.png',
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
 			],
