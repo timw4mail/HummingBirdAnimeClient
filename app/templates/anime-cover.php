@@ -6,7 +6,7 @@
 	<?php if ($auth->isAuthenticated()): ?>
 		<button title="Increment episode count" class="plus-one" hidden>+1 Episode</button>
 	<?php endif ?>
-	<?= $helper->picture("images/anime/{$item['anime']['id']}.webp") ?>
+	<?= $helper->picture($item['anime']['cover_image'], '.jpg') ?>
 
 	<div class="name">
 		<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
