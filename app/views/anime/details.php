@@ -7,7 +7,7 @@ use function Aviat\AnimeClient\getLocalImg;
 <main class="details fixed">
 	<section class="flex" unselectable>
 		<aside class="info">
-			<?= $helper->picture("images/anime/{$data['id']}-original.webp") ?>
+			<?= $helper->picture($data['cover_image'], '.jpg', ['width' => '390'], ['width' => '390']) ?>
 
 			<br />
 

@@ -125,7 +125,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'cover_image' => $base['posterImage']['original']['url'] ?? '/public/images/placeholder.png',
 			'episode_count' => $base['episodeCount'],
 			'episode_length' => $base['episodeLength'],
 			'genres' => $genres,
