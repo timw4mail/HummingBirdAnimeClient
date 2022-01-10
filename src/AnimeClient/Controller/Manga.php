@@ -67,7 +67,7 @@ final class Manga extends Controller {
 	 * @return void
 	 *@throws InvalidArgumentException
 	 */
-	public function index(string $status = 'all', string $view = ''): void
+	public function index(string $status = 'all', ?string $view = ''): void
 	{
 		if ( ! in_array($status, [
 			'all',

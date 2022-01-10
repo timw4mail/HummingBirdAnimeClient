@@ -239,7 +239,7 @@ class Controller {
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
 		$csp = [
-			"default-src 'self' media.kitsu.io",
+			"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
 			"object-src 'none'",
 			"child-src 'self' *.youtube.com polyfill.io",
 		];
