@@ -16,7 +16,7 @@
 				<tbody>
 					<tr>
 						<td rowspan="9">
-							<?= $helper->picture("images/anime/{$item['anime']['id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
+							<?= $helper->picture($item['anime']['cover_image'], "jpg", [], ["width" => "390"]) ?>
 						</td>
 					</tr>
 					<tr>
