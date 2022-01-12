@@ -534,6 +534,7 @@ final class Model {
 			$searchItem = [
 				'id' => $item['id'],
 				'slug' => $item['slug'],
+				'coverImage' => K::getPosterImage($item),
 				'canonicalTitle' => $item['titles']['canonical'],
 				'titles' => array_values(K::getTitles($item['titles'])),
 				'libraryEntry' => $item['myLibraryEntry'],

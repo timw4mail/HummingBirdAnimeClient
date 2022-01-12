@@ -84,7 +84,7 @@ final class PersonTransformer extends AbstractTransformer {
 					'title' => $title,
 					'titles' => array_merge([$title], Kitsu::getFilteredTitles($media['titles'])),
 					'image' => [
-						'original' => $media['posterImage']['views'][1]['url'] ?? '',
+						'original' => Kitsu::getPosterImage($media)
 					],
 					'slug' => $media['slug'],
 				];

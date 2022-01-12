@@ -125,7 +125,7 @@ final class MangaTransformer extends AbstractTransformer {
 			'characters' => $characters,
 			'chapter_count' => $base['chapterCount'],
 			'volume_count' => $base['volumeCount'],
-			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'cover_image' => Kitsu::getPosterImage($base),
 			'genres' => $genres,
 			'links' => $links,
 			'manga_type' => $base['subtype'],

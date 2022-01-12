@@ -125,9 +125,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'cover_image' => $base['posterImage']['views'][1]['url']
-				?? $base['posterImage']['original']['url']
-				?? '/public/images/placeholder.png',
+			'cover_image' => Kitsu::getPosterImage($base),
 			'episode_count' => $base['episodeCount'],
 			'episode_length' => $base['episodeLength'],
 			'genres' => $genres,

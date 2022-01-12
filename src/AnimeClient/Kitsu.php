@@ -337,6 +337,20 @@ final class Kitsu {
 	}
 
 	/**
+	 * Get the url of the posterImage from Kitsu, with fallbacks
+	 *
+	 * @param array $base
+	 * @param int $size
+	 * @return string
+	 */
+	public static function getPosterImage(array $base, int $size = 1): string
+	{
+		return $base['posterImage']['views'][$size]['url']
+			?? $base['posterImage']['original']['url']
+			?? '/public/images/placeholder.png';
+	}
+
+	/**
 	 * Get the name and logo for the streaming service of the current link
 	 *
 	 * @param string|null $hostname

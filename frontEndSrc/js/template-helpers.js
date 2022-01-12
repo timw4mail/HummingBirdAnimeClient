@@ -59,9 +59,7 @@ export function renderSearchResults (type, data, isCollection = false) {
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" ${disabled} />
 					<label for="${item.slug}">
 						<picture width="220">
-							<source srcset="/public/images/${type}/${item.id}.webp" type="image/webp" />
-							<source srcset="/public/images/${type}/${item.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/${type}/${item.id}.jpg" alt="" width="220" />
+							<img src="${item.coverImage}" alt="" width="220" />
 						</picture>
 						<span class="name">
 							${item.canonicalTitle}<br />
