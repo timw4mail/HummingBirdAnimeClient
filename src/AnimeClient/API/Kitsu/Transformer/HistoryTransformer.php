@@ -184,10 +184,9 @@ abstract class HistoryTransformer {
 
 	protected function transformProgress (array $entry): ?HistoryItem
 	{
-		$id = $entry['media']['id'];
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = "images/{$this->type}/{$id}.webp";
+		$imgUrl = $data['posterImage']['views'][0]['url'] ?? $data['posterImage']['original']['url'];
 		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
@@ -226,10 +225,9 @@ abstract class HistoryTransformer {
 
 	protected function transformUpdated(array $entry): HistoryItem
 	{
-		$id = $entry['media']['id'];
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = "images/{$this->type}/{$id}.webp";
+		$imgUrl = $data['posterImage']['views'][0]['url'] ?? $data['posterImage']['original']['url'];
 
 		$kind = array_key_first($entry['changedData']);
 
