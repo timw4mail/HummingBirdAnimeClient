@@ -17,6 +17,7 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Types\HistoryItem;
+use Aviat\AnimeClient\Kitsu;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
@@ -186,7 +187,6 @@ abstract class HistoryTransformer {
 	{
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = $data['posterImage']['views'][0]['url'] ?? $data['posterImage']['original']['url'];
 		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
@@ -214,7 +214,7 @@ abstract class HistoryTransformer {
 
 		return HistoryItem::from([
 			'action' => $action,
-			'coverImg' => $imgUrl,
+			'coverImg' => Kitsu::getPosterImage($data, 0),
 			'kind' => 'progressed',
 			'original' => $entry,
 			'title' => $title,
@@ -227,7 +227,6 @@ abstract class HistoryTransformer {
 	{
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = $data['posterImage']['views'][0]['url'] ?? $data['posterImage']['original']['url'];
 
 		$kind = array_key_first($entry['changedData']);
 
@@ -245,7 +244,7 @@ abstract class HistoryTransformer {
 
 			return HistoryItem::from([
 				'action' => $statusName,
-				'coverImg' => $imgUrl,
+				'coverImg' => Kitsu::getPosterImage($data, 0),
 				'kind' => 'updated',
 				'original' => $entry,
 				'title' => $title,
