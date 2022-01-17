@@ -16,7 +16,7 @@ use Aviat\AnimeClient\Kitsu;
 	<section class="flex flex-no-wrap">
 		<aside class="info">
 			<center>
-				<?= $helper->img($urlGenerator->assetUrl($data['avatar']), ['alt' => '']); ?>
+				<?= $helper->img($data['avatar'], ['alt' => '']); ?>
 			</center>
 			<br />
 			<table class="media-details">
@@ -75,7 +75,7 @@ use Aviat\AnimeClient\Kitsu;
 						$rendered[] = $component->character(
 								$item['names']['canonical'],
 								$url->generate('character', ['slug' => $item['slug']]),
-								$helper->picture("images/characters/{$item['id']}.webp")
+								$helper->img($item['image']['original']['url'])
 						);
 					}
 					else
@@ -86,7 +86,7 @@ use Aviat\AnimeClient\Kitsu;
 										Kitsu::getFilteredTitles($item['titles']),
 								),
 								$url->generate("{$type}.details", ['id' => $item['slug']]),
-								$helper->picture("images/{$type}/{$item['id']}.webp"),
+								$helper->img(Kitsu::getPosterImage($item), ['width' => 220]),
 						);
 					}
 				}

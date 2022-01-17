@@ -257,24 +257,18 @@ final class RequestBuilder extends APIRequestBuilder {
 		$validResponseCodes = [200, 201];
 
 		$logger = $this->container->getLogger('anilist-request');
-		if ($logger !== NULL)
-		{
-			$logger->debug('Anilist response', [
-				'status' => $response->getStatus(),
-				'reason' => $response->getReason(),
-				'body' => $response->getBody(),
-				'headers' => $response->getHeaders(),
-				//'requestHeaders' => $request->getHeaders(),
-			]);
-		}
+		$logger?->debug('Anilist response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+			//'requestHeaders' => $request->getHeaders(),
+		]);
 
 
 		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			if ($logger !== NULL)
-			{
-				$logger->warning('Non 200 response for POST api call', (array)$response->getBody());
-			}
+			$logger?->warning('Non 200 response for POST api call', (array)$response->getBody());
 		}
 
 		$rawBody = wait($response->getBody()->buffer());

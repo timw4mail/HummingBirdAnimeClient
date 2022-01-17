@@ -14,24 +14,13 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Types;
+namespace Aviat\Ion\Exception;
+
+use RuntimeException;
 
 /**
- * Type representing a person for display
+ * Exception for bad configuration
  */
-final class Person extends AbstractType {
+class ImageCreationException extends RuntimeException {
 
-	public string $id;
-
-	public ?string $name;
-
-	public string $image;
-
-	public array $names = [];
-
-	public ?string $description;
-
-	public array $characters = [];
-
-	public array $staff = [];
 }

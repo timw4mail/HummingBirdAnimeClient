@@ -2,6 +2,14 @@ query ($query: String!) {
 	searchMangaByTitle(title: $query, first: 20) {
 		nodes {
 			id
+			posterImage {
+				original {
+					url
+				}
+				views {
+					url
+				}
+			}
 			mappings(first: 10) {
 				nodes {
 					externalId

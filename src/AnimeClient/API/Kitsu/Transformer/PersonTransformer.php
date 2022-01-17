@@ -41,6 +41,7 @@ final class PersonTransformer extends AbstractTransformer {
 		return Person::from([
 			'id' => $data['id'],
 			'name' => $canonicalName,
+			'image' => $data['image']['original']['url'],
 			'names' => array_diff($data['names']['localized'], [$canonicalName]),
 			'description' => $data['description']['en'] ?? '',
 			'characters' => $orgData['characters'],
@@ -83,9 +84,7 @@ final class PersonTransformer extends AbstractTransformer {
 					'id' => $media['id'],
 					'title' => $title,
 					'titles' => array_merge([$title], Kitsu::getFilteredTitles($media['titles'])),
-					'image' => [
-						'original' => $media['posterImage']['views'][1]['url'] ?? '',
-					],
+					'image' => Kitsu::getPosterImage($media),
 					'slug' => $media['slug'],
 				];
 
@@ -107,6 +106,7 @@ final class PersonTransformer extends AbstractTransformer {
 				$media = [
 					'id' => $rawMedia['id'],
 					'slug' => $rawMedia['slug'],
+					'image' => Kitsu::getPosterImage($rawMedia),
 					'titles' => array_merge(
 						[$rawMedia['titles']['canonical']],
 						Kitsu::getFilteredTitles($rawMedia['titles']),
@@ -124,9 +124,7 @@ final class PersonTransformer extends AbstractTransformer {
 						'character' => [
 							'id' => $character['id'],
 							'slug' => $character['slug'],
-							'image' => [
-								'original' => $character['image']['original']['url'] ?? '',
-							],
+							'image' => $character['image']['original']['url'],
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [

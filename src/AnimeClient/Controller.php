@@ -239,7 +239,7 @@ class Controller {
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
 		$csp = [
-			"default-src 'self'",
+			"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
 			"object-src 'none'",
 			"child-src 'self' *.youtube.com polyfill.io",
 		];
@@ -375,10 +375,10 @@ class Controller {
 	 * @param array $data
 	 * @param HtmlView|NULL $view
 	 * @param int $code
-	 * @throws InvalidArgumentException
 	 * @return void
+	 *@throws InvalidArgumentException
 	 */
-	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
+	protected function outputHTML(string $template, array $data = [], HtmlView $view = NULL, int $code = 200): void
 	{
 		if (NULL === $view)
 		{

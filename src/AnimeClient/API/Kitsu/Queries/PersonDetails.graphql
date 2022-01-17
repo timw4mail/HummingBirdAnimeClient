@@ -52,7 +52,7 @@ query ($slug: String!) {
 				}
 			}
 		}
-		voices(first: 100) {
+		voices(first: 500) {
 			nodes {
 				locale
 				mediaCharacter {

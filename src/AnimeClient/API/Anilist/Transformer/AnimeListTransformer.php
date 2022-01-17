@@ -24,6 +24,7 @@ use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 use DateTime;
+use DateTimeInterface;
 
 class AnimeListTransformer extends AbstractTransformer {
 
@@ -57,7 +58,7 @@ class AnimeListTransformer extends AbstractTransformer {
 					: AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
 				'updatedAt' => (new DateTime())
 					->setTimestamp($item['updatedAt'])
-					->format(DateTime::W3C)
+					->format(DateTimeInterface::W3C)
 			],
 		]);
 	}

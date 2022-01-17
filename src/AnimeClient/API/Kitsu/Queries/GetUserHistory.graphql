@@ -19,6 +19,11 @@ query ($slug: String!) {
 					id
 					slug
 					posterImage {
+						original {
+							width
+							height
+							url
+						}
 						views {
 							width
 							height

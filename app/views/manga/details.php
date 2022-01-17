@@ -1,7 +1,7 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<aside class="info">
-			<?= $helper->picture("images/manga/{$data['id']}-original.webp", 'jpg', ['class' => 'cover']) ?>
+			<?= $helper->img($data['cover_image'], ['class' => 'cover', 'width' => '350']) ?>
 
 			<br />
 
@@ -79,7 +79,7 @@
 				$rendered[] = $component->character(
 					$char['name'],
 					$url->generate('character', ['slug' => $char['slug']]),
-					$helper->picture("images/characters/{$id}.webp"),
+					$helper->img($char['image'], ['loading' => 'lazy']),
 					($role !== 'main') ? 'small-character' : 'character'
 				);
 			}
@@ -96,7 +96,7 @@
 						fn ($person) => $component->character(
 							$person['name'],
 							$url->generate('person', ['slug' => $person['slug']]),
-							$helper->picture("images/people/{$person['id']}.webp")
+							$helper->img($person['image']),
 						),
 						$people
 				))

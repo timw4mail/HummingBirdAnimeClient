@@ -16,17 +16,10 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
-
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-
 use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Json;
 
 use Throwable;
 

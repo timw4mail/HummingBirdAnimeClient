@@ -18,7 +18,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Http\Client\Request;
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Banker\Exception\InvalidArgumentException;
 
 /**
  * Kitsu API calls that mutate data, C/U/D parts of CRUD

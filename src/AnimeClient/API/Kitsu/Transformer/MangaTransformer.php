@@ -58,7 +58,7 @@ final class MangaTransformer extends AbstractTransformer {
 
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
-					'image' => $details['image'],
+					'image' => $details['image']['original']['url'],
 					'name' => $details['names']['canonical'],
 					'slug' => $details['slug'],
 				];
@@ -103,9 +103,7 @@ final class MangaTransformer extends AbstractTransformer {
 					'id' => $person['id'],
 					'slug' => $person['slug'],
 					'name' => $name,
-					'image' => [
-						'original' => $person['image']['original']['url'] ?? '',
-					],
+					'image' => $person['image']['original']['url'],
 				];
 
 				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
@@ -125,7 +123,7 @@ final class MangaTransformer extends AbstractTransformer {
 			'characters' => $characters,
 			'chapter_count' => $base['chapterCount'],
 			'volume_count' => $base['volumeCount'],
-			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'cover_image' => Kitsu::getPosterImage($base),
 			'genres' => $genres,
 			'links' => $links,
 			'manga_type' => $base['subtype'],

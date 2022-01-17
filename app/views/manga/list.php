@@ -20,8 +20,8 @@
 					<td>&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
-					<th>Rating</th>
-					<th>Completed Chapters</th>
+					<th class='numeric'>Score</th>
+					<th class='numeric'>Completed Chapters</th>
 					<th>Attributes</th>
 					<th>Type</th>
 				</tr>

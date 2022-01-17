@@ -19,10 +19,8 @@ namespace Aviat\AnimeClient\API\Anilist\Types;
 use Aviat\AnimeClient\Types\AbstractType;
 
 class MediaListEntry extends AbstractType {
-	/**
-	 * @var int|string
-	 */
-	public $id;
+
+	public int|string $id;
 
 	public ?string $notes;
 

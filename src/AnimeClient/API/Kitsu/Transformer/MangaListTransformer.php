@@ -91,7 +91,7 @@ final class MangaListTransformer extends AbstractTransformer {
 			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
 				'id' => $mangaId,
-				'image' => $manga['posterImage']['views'][1]['url'],
+				'image' => Kitsu::getPosterImage($manga),
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,

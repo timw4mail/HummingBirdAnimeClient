@@ -59,7 +59,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
-					'image' => $details['image'],
+					'image' => $details['image']['original']['url'] ?? '',
 					'name' => $details['names']['canonical'],
 					'slug' => $details['slug'],
 				];
@@ -103,9 +103,7 @@ final class AnimeTransformer extends AbstractTransformer {
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
 					'name' => $name,
-					'image' => [
-						'original' => $person['image']['original']['url'] ?? '',
-					],
+					'image' =>  $person['image']['original']['url'],
 					'slug' => $person['slug'],
 				];
 
@@ -125,7 +123,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'cover_image' => Kitsu::getPosterImage($base),
 			'episode_count' => $base['episodeCount'],
 			'episode_length' => $base['episodeLength'],
 			'genres' => $genres,
@@ -136,7 +134,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'show_type' => $base['subtype'],
 			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
 			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes'] ?? []),
-			'synopsis' => $base['description']['en'],
+			'synopsis' => $base['description']['en'] ?? '',
 			'title' => $title,
 			'titles' => $titles,
 			'titles_more' => $titles_more,

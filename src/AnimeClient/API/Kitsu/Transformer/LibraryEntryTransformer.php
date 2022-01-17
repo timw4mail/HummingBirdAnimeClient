@@ -102,7 +102,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				'titles' => $titles,
 				'slug' => $anime['slug'],
 				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
-				'cover_image' => $anime['posterImage']['views'][1]['url'],
+				'cover_image' => Kitsu::getPosterImage($anime),
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
 			],
@@ -167,7 +167,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
 				'id' => $mangaId,
-				'image' => $manga['posterImage']['views'][1]['url'],
+				'image' => Kitsu::getPosterImage($manga),
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,

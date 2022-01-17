@@ -102,6 +102,11 @@ query ($slug: String!) {
 							original {
 								url
 							}
+							views {
+								url
+								height
+								width
+							}
 						}
 						names {
 							alternatives

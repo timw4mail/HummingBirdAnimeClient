@@ -4,7 +4,7 @@
 			<button class="plus-one-chapter">+1 Chapter</button>
 		</div>
 	<?php endif ?>
-	<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
+	<?= $helper->img($item['manga']['image'], ['width' => 220, 'loading' => 'lazy']) ?>
 	<div class="name">
 		<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
 			<?= $escape->html($item['manga']['title']) ?>

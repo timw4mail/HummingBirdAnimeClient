@@ -1,10 +1,7 @@
-<?php
-use function Aviat\AnimeClient\getLocalImg;
-?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<?= $helper->picture("images/people/{$data['id']}-original.webp", 'jpg', ['class' => 'cover' ]) ?>
+			<?= $helper->img($data['image'], ['class' => 'cover' ]) ?>
 		</div>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
@@ -40,7 +37,7 @@ use function Aviat\AnimeClient\getLocalImg;
 									<?= $component->media(
 											$series['titles'],
 											$url->generate("{$mediaType}.details", ['id' => $series['slug']]),
-											$helper->picture("images/{$type}/{$sid}.webp")
+											$helper->img($series['image'], ['width' => 220, 'loading' => 'lazy'])
 									) ?>
 								<?php endforeach; ?>
 							</section>
@@ -61,7 +58,7 @@ use function Aviat\AnimeClient\getLocalImg;
 					$character = $component->character(
 						$item['character']['canonicalName'],
 						$url->generate('character', ['slug' => $item['character']['slug']]),
-						$helper->picture(getLocalImg($item['character']['image']['original'] ?? null))
+						$helper->img($item['character']['image'], ['loading' => 'lazy']),
 					);
 					$medias = [];
 					foreach ($item['media'] as $sid => $series)
@@ -69,7 +66,7 @@ use function Aviat\AnimeClient\getLocalImg;
 						$medias[] = $component->media(
 							$series['titles'],
 							$url->generate('anime.details', ['id' => $series['slug']]),
-							$helper->picture("images/anime/{$sid}.webp")
+							$helper->img($series['image'], ['width' => 220, 'loading' => 'lazy'])
 						);
 					}
 					$media = implode('', array_map('mb_trim', $medias));

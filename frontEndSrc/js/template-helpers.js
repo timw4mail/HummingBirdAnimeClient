@@ -13,10 +13,11 @@ _.on('main', 'change', '.big-check', (e) => {
  *
  * @param {'anime'|'manga'} type
  * @param {Object} item
+ * @param isCollection
  * @returns {String}
  */
-function renderEditLink (type, item) {
-	if (item.libraryEntry === null) {
+function renderEditLink (type, item, isCollection = false) {
+	if (isCollection || item.libraryEntry === null) {
 		return '';
 	}
 
@@ -38,13 +39,18 @@ function renderEditLink (type, item) {
  *
  * @param {'anime'|'manga'} type
  * @param {Object} data
+ * @param {boolean} isCollection
  * @returns {String}
  */
-export function renderSearchResults (type, data) {
+export function renderSearchResults (type, data, isCollection = false) {
 	return data.map(item => {
 		const titles = item.titles.join('<br />');
-		const disabled = item.libraryEntry !== null ? 'disabled' : '';
-		const editLink = renderEditLink(type, item);
+		let disabled = item.libraryEntry !== null ? 'disabled' : '';
+		const editLink = renderEditLink(type, item, isCollection);
+
+		if (isCollection) {
+			disabled = '';
+		}
 
 		return `
 			<article class="media search ${disabled}">
@@ -52,11 +58,7 @@ export function renderSearchResults (type, data) {
 					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" ${disabled} />
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" ${disabled} />
 					<label for="${item.slug}">
-						<picture width="220">
-							<source srcset="/public/images/${type}/${item.id}.webp" type="image/webp" />
-							<source srcset="/public/images/${type}/${item.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/${type}/${item.id}.jpg" alt="" width="220" />
-						</picture>
+						<img src="${item.coverImage}" alt="" width="220" />
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>

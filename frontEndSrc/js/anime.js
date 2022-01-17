@@ -1,7 +1,7 @@
 import _ from './anime-client.js'
 import { renderSearchResults } from './template-helpers.js'
 
-const search = (query) => {
+const search = (query, isCollection = false) => {
 	// Show the loader
 	_.show('.cssload-loader');
 
@@ -13,10 +13,11 @@ const search = (query) => {
 		_.hide('.cssload-loader');
 
 		// Show the results
-		_.$('#series-list')[ 0 ].innerHTML = renderSearchResults('anime', searchResults);
+		_.$('#series-list')[ 0 ].innerHTML = renderSearchResults('anime', searchResults, isCollection);
 	});
 };
 
+// Anime list search
 if (_.hasElement('.anime #search')) {
 	let prevRequest = null;
 
@@ -31,6 +32,24 @@ if (_.hasElement('.anime #search')) {
 		}
 
 		prevRequest = search(query);
+	}));
+}
+
+// Anime collection search
+if (_.hasElement('#search-anime-collection')) {
+	let prevRequest = null;
+
+	_.on('#search-anime-collection', 'input', _.throttle(250, (e) => {
+		const query = encodeURIComponent(e.target.value);
+		if (query === '') {
+			return;
+		}
+
+		if (prevRequest !== null) {
+			prevRequest.abort();
+		}
+
+		prevRequest = search(query, true);
 	}));
 }
 
