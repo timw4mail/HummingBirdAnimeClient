@@ -148,7 +148,7 @@ final class CharacterTransformer extends AbstractTransformer {
 					'slug' => $voiceMap['media']['slug'],
 					'title' => $voiceMap['media']['titles']['canonical'],
 					'titles' => Kitsu::getFilteredTitles($voiceMap['media']['titles']),
-					'posterImage' => $voiceMap['media']['posterImage']['views'][1]['url'],
+					'posterImage' => Kitsu::getPosterImage($voiceMap['media']),
 				];
 
 				uasort($castings['Voice Actor'][$lang][$id]['series'], $titleSort);

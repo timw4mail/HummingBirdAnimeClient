@@ -343,7 +343,7 @@ final class Kitsu {
 	 * @param int $size
 	 * @return string
 	 */
-	public static function getPosterImage(array $base, int $size = 2): string
+	public static function getPosterImage(array $base, int $size = 1): string
 	{
 		$rawUrl =  $base['posterImage']['views'][$size]['url']
 			?? $base['posterImage']['original']['url']
