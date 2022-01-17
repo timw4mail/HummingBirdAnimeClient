@@ -58,6 +58,7 @@ final class CharacterTransformer extends AbstractTransformer {
 			'castings' => $castings,
 			'description' => $data['description']['en'],
 			'id' => $data['id'],
+			'image' => $data['image']['original']['url'] ?? 'images/placeholder.png',
 			'media' => $media,
 			'name' => $name,
 			'names' => $names,

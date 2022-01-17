@@ -345,9 +345,13 @@ final class Kitsu {
 	 */
 	public static function getPosterImage(array $base, int $size = 1): string
 	{
-		return $base['posterImage']['views'][$size]['url']
+		$rawUrl =  $base['posterImage']['views'][$size]['url']
 			?? $base['posterImage']['original']['url']
 			?? '/public/images/placeholder.png';
+
+		$parts = explode('?', $rawUrl);
+
+		return ( ! empty($parts)) ? $parts[0] : $rawUrl;
 	}
 
 	/**

@@ -7,7 +7,7 @@ use Aviat\AnimeClient\Kitsu;
 <main class="character-page details fixed">
 	<section class="flex flex-no-wrap">
 		<aside>
-			<?= $helper->picture("images/characters/{$data['id']}-original.webp") ?>
+			<?= $helper->img($data['image']) ?>
 		</aside>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>

@@ -28,6 +28,8 @@ final class Character extends AbstractType {
 
 	public ?Media $media;
 
+	public string $image;
+
 	public ?string $name;
 
 	public array $names = [];

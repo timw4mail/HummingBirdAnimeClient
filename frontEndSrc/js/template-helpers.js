@@ -58,9 +58,7 @@ export function renderSearchResults (type, data, isCollection = false) {
 					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" ${disabled} />
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" ${disabled} />
 					<label for="${item.slug}">
-						<picture width="220">
-							<img src="${item.coverImage}" alt="" width="220" />
-						</picture>
+						<img src="${item.coverImage}" alt="" width="220" />
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>
