@@ -18,7 +18,7 @@
 				<tbody>
 				<tr>
 					<td rowspan="9">
-						<?= $helper->image($item['manga']['image'], ["width" => "390"]) ?>
+						<?= $helper->img($item['manga']['image']) ?>
 					</td>
 				</tr>
 				<tr>

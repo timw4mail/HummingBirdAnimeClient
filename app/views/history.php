@@ -7,11 +7,9 @@
 			<article class="flex flex-no-wrap flex-justify-start">
 				<section class="flex-self-center history-img">
 					<a href="<?= $item['url'] ?>">
-					<?= $helper->picture(
+					<?= $helper->img(
 						$item['coverImg'],
-						'jpg',
 						['width' => '110px', 'height' => '156px'],
-						['width' => '110px', 'height' => '156px']
 					) ?>
 					</a>
 				</section>

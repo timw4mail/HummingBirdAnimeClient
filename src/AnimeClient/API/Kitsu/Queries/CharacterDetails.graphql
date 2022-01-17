@@ -40,12 +40,10 @@ query ($slug: String!) {
 					}
 					type
 				}
-				voices(first: 100) {
+				role
+				voices(first: 10) {
 					nodes {
 						id
-						licensor {
-							name
-						}
 						locale
 						person {
 							id

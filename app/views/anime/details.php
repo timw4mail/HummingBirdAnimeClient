@@ -1,7 +1,6 @@
 <?php
 
 use Aviat\AnimeClient\Kitsu;
-use function Aviat\AnimeClient\getLocalImg;
 
 ?>
 <main class="details fixed">
@@ -162,14 +161,14 @@ use function Aviat\AnimeClient\getLocalImg;
 			use ($component, $url, $helper) {
 				$rendered = [];
 				foreach ($characterList as $id => $character):
-					if (empty($character['image']['original']))
+					if (empty($character['image']))
 					{
 						continue;
 					}
 					$rendered[] = $component->character(
 						$character['name'],
 						$url->generate('character', ['slug' => $character['slug']]),
-						$helper->picture("images/characters/{$id}.webp"),
+						$helper->img($character['image']),
 						(strtolower($role) !== 'main') ? 'small-character' : 'character'
 					);
 				endforeach;
@@ -187,14 +186,14 @@ use function Aviat\AnimeClient\getLocalImg;
 			use ($component, $url, $helper) {
 				$rendered = [];
 				foreach ($staffList as $id => $person):
-					if (empty($person['image']['original']))
+					if (empty($person['image']))
 					{
 						continue;
 					}
 					$rendered[] = $component->character(
 						$person['name'],
 						$url->generate('person', ['slug' => $person['slug']]),
-						$helper->picture(getLocalImg($person['image']['original'] ?? NULL)),
+						$helper->img($person['image']),
 						'character small-person',
 					);
 				endforeach;

@@ -59,7 +59,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
-					'image' => $details['image'],
+					'image' => $details['image']['original']['url'] ?? '',
 					'name' => $details['names']['canonical'],
 					'slug' => $details['slug'],
 				];
@@ -103,9 +103,7 @@ final class AnimeTransformer extends AbstractTransformer {
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
 					'name' => $name,
-					'image' => [
-						'original' => $person['image']['original']['url'] ?? '',
-					],
+					'image' =>  $person['image']['original']['url'],
 					'slug' => $person['slug'],
 				];
 

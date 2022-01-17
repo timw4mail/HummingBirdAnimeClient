@@ -41,7 +41,7 @@ use Aviat\AnimeClient\Kitsu;
 				$rendered[] = $component->media(
 					array_merge([$item['title']], $item['titles']),
 					$url->generate("{$mediaType}.details", ['id' => $item['slug']]),
-					$helper->picture("images/{$mediaType}/{$item['id']}.webp")
+					$helper->img(Kitsu::getPosterImage($item), ['width' => 220, 'loading' => 'lazy']),
 				);
 			}
 
@@ -75,7 +75,7 @@ use Aviat\AnimeClient\Kitsu;
 										$link = $url->generate('person', ['id' => $c['person']['id']]);
 										?>
 										<a href="<?= $link ?>">
-											<?= $helper->picture(getLocalImg($c['person']['image'], TRUE)) ?>
+											<?= $helper->img($c['person']['image']) ?>
 											<div class="name">
 												<?= $c['person']['name'] ?>
 											</div>
@@ -91,7 +91,7 @@ use Aviat\AnimeClient\Kitsu;
 												$titles = Kitsu::filterTitles($series['attributes']);
 												?>
 												<a href="<?= $link ?>">
-													<?= $helper->picture(getLocalImg($series['attributes']['posterImage']['small'], TRUE)) ?>
+													<?= $helper->img(Kitsu::getPosterImage($series['attributes'])) ?>
 												</a>
 												<div class="name">
 													<a href="<?= $link ?>">
@@ -121,12 +121,12 @@ use Aviat\AnimeClient\Kitsu;
 						$person = $component->character(
 							$c['person']['name'],
 							$url->generate('person', ['slug' => $c['person']['slug']]),
-							$helper->picture(getLocalImg($c['person']['image']))
+							$helper->img($c['person']['image']['original']['url']),
 						);
 						$medias = array_map(fn ($series) => $component->media(
 							array_merge([$series['title']], $series['titles']),
 							$url->generate('anime.details', ['id' => $series['slug']]),
-							$helper->picture(getLocalImg($series['posterImage'], TRUE))
+							$helper->img(Kitsu::getPosterImage($series)),
 						), $c['series']);
 						$media = implode('', array_map('mb_trim', $medias));
 
