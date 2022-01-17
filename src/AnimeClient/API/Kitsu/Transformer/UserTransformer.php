@@ -42,7 +42,7 @@ final class UserTransformer extends AbstractTransformer {
 
 		return User::from([
 			'about' => $base['about'],
-			'avatar' => getLocalImg($base['avatarImage']['original']['url'], FALSE),
+			'avatar' => $base['avatarImage']['original']['url'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
 			'name' => $base['name'],
