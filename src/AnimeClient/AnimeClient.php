@@ -197,11 +197,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 	$pathMap = [
 		'app/config' => "{$APP_DIR}/config",
 		'app/logs' => "{$APP_DIR}/logs",
-		'public/images/avatars' => "{$publicDir}/images/avatars",
 		'public/images/anime' => "{$publicDir}/images/anime",
-		'public/images/characters' => "{$publicDir}/images/characters",
-		'public/images/manga' => "{$publicDir}/images/manga",
-		'public/images/people' => "{$publicDir}/images/people",
 	];
 
 	foreach ($pathMap as $pretty => $actual)
