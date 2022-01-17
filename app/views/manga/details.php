@@ -1,7 +1,7 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<aside class="info">
-			<?= $helper->picture("images/manga/{$data['id']}-original.webp", 'jpg', ['class' => 'cover']) ?>
+			<?= $helper->img($data['cover_image'], ['class' => 'cover', 'width' => '350']) ?>
 
 			<br />
 

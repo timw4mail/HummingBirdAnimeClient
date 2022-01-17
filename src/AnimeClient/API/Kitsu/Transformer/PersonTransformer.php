@@ -41,6 +41,7 @@ final class PersonTransformer extends AbstractTransformer {
 		return Person::from([
 			'id' => $data['id'],
 			'name' => $canonicalName,
+			'image' => $data['image']['original']['url'],
 			'names' => array_diff($data['names']['localized'], [$canonicalName]),
 			'description' => $data['description']['en'] ?? '',
 			'characters' => $orgData['characters'],
@@ -83,9 +84,7 @@ final class PersonTransformer extends AbstractTransformer {
 					'id' => $media['id'],
 					'title' => $title,
 					'titles' => array_merge([$title], Kitsu::getFilteredTitles($media['titles'])),
-					'image' => [
-						'original' => Kitsu::getPosterImage($media)
-					],
+					'image' => Kitsu::getPosterImage($media),
 					'slug' => $media['slug'],
 				];
 
@@ -124,9 +123,7 @@ final class PersonTransformer extends AbstractTransformer {
 						'character' => [
 							'id' => $character['id'],
 							'slug' => $character['slug'],
-							'image' => [
-								'original' => $character['image']['original']['url'] ?? '',
-							],
+							'image' => Kitsu::getPosterImage($character),
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [
