@@ -30,17 +30,11 @@ final class ParallelAPIRequest {
 
 	/**
 	 * Set of requests to make in parallel
-	 *
-	 * @var array
 	 */
 	private array $requests = [];
 
 	/**
 	 * Add a request
-	 *
-	 * @param string|Request $request
-	 * @param string|int|null $key
-	 * @return self
 	 */
 	public function addRequest(string|Request $request, string|int|null $key = NULL): self
 	{
@@ -58,7 +52,6 @@ final class ParallelAPIRequest {
 	 * Add multiple requests
 	 *
 	 * @param string[]|Request[] $requests
-	 * @return self
 	 */
 	public function addRequests(array $requests): self
 	{
@@ -69,8 +62,8 @@ final class ParallelAPIRequest {
 	/**
 	 * Make the requests, and return the body for each
 	 *
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function makeRequests(): array
 	{
@@ -80,7 +73,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(static function () use ($client, $url) {
+			$promises[$key] = call(static function () use ($client, $url): \Generator {
 				$response = yield $client->request($url);
 				return yield $response->getBody()->buffer();
 			});
@@ -92,8 +85,8 @@ final class ParallelAPIRequest {
 	/**
 	 * Make the requests and return the response objects
 	 *
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function getResponses(): array
 	{

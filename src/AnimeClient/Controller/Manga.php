@@ -36,14 +36,12 @@ final class Manga extends Controller {
 
 	/**
 	 * The manga model
-	 * @var MangaModel $model
 	 */
 	protected MangaModel $model;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -62,9 +60,7 @@ final class Manga extends Controller {
 	/**
 	 * Get a section of the manga list
 	 *
-	 * @param string $status
 	 * @param string $view
-	 * @return void
 	 *@throws InvalidArgumentException
 	 */
 	public function index(string $status = 'all', ?string $view = ''): void
@@ -110,7 +106,6 @@ final class Manga extends Controller {
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function addForm(): void
 	{
@@ -132,7 +127,6 @@ final class Manga extends Controller {
 	/**
 	 * Add an manga to the list
 	 *
-	 * @return void
 	 * @throws Throwable
 	 */
 	public function add(): void
@@ -168,13 +162,10 @@ final class Manga extends Controller {
 	/**
 	 * Show the manga edit form
 	 *
-	 * @param string $id
-	 * @param string $status
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function edit(string $id, string $status = 'All'): void
 	{
@@ -199,8 +190,6 @@ final class Manga extends Controller {
 
 	/**
 	 * Search for a manga to add to the list
-	 *
-	 * @return void
 	 */
 	public function search(): void
 	{
@@ -212,7 +201,6 @@ final class Manga extends Controller {
 	/**
 	 * Update an manga item via a form submission
 	 *
-	 * @return void
 	 * @throws Throwable
 	 */
 	public function formUpdate(): void
@@ -270,7 +258,6 @@ final class Manga extends Controller {
 	 * Remove an manga from the list
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function delete(): void
 	{
@@ -295,10 +282,8 @@ final class Manga extends Controller {
 	/**
 	 * View details of an manga
 	 *
-	 * @param string $id
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function details(string $id): void
 	{
@@ -329,7 +314,6 @@ final class Manga extends Controller {
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function random(): void
 	{
@@ -355,4 +339,5 @@ final class Manga extends Controller {
 		]);
 	}
 }
+
 // End of MangaController.php

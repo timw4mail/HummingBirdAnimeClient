@@ -28,15 +28,11 @@ abstract class AbstractListItem {
 	 * Create a list item
 	 *
 	 * @param array $data -
-	 * @return Request
 	 */
 	abstract public function create(array $data): Request;
 
 	/**
 	 * Create a full list item for syncing
-	 *
-	 * @param array $data
-	 * @return Request
 	 */
 	abstract public function createFull(array $data): Request;
 
@@ -44,16 +40,12 @@ abstract class AbstractListItem {
 	 * Retrieve a list item
 	 *
 	 * @param string $id - The id of the list item
-	 * @return array
+	 * @return mixed[]
 	 */
 	abstract public function get(string $id): array;
 
 	/**
 	 * Increase progress on a list item
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	abstract public function increment(string $id, FormItemData $data): Request;
 
@@ -62,7 +54,6 @@ abstract class AbstractListItem {
 	 *
 	 * @param string $id - The id of the list item to update
 	 * @param FormItemData $data - The data with which to update the list item
-	 * @return Request
 	 */
 	abstract public function update(string $id, FormItemData $data): Request;
 
@@ -70,7 +61,6 @@ abstract class AbstractListItem {
 	 * Delete a list item
 	 *
 	 * @param string $id - The id of the list item to delete
-	 * @return Request|null
 	 */
 	abstract public function delete(string $id):?Request;
 }

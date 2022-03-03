@@ -33,13 +33,13 @@ use Aviat\Ion\Di\ContainerAware;
 final class Settings {
 	use ContainerAware;
 
-	private ConfigInterface $config;
-
-	public function __construct(ConfigInterface $config)
+	public function __construct(private ConfigInterface $config)
 	{
-		$this->config = $config;
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function getSettings(): array
 	{
 		$settings = [
@@ -65,13 +65,16 @@ final class Settings {
 		return $settings;
 	}
 
+	/**
+	 * @return array<mixed, array<string, array<string[]|array<string, mixed>[]|class-string<\memcached>[]|class-string<\redis>[]|bool|float|int|string|null>>>
+	 */
 	public function getSettingsForm(): array
 	{
 		$output = [];
 
 		foreach($this->getSettings() as $file => $values)
 		{
-			$values = $values ?? [];
+			$values ??= [];
 
 			foreach(SETTINGS_MAP[$file] as $key => $value)
 			{
@@ -121,6 +124,9 @@ final class Settings {
 		return $output;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function validateSettings(array $settings): array
 	{
 		$cfg = Config::check($settings);

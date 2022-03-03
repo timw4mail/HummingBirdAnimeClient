@@ -21,4 +21,5 @@ namespace Aviat\Ion;
  */
 class Model {
 }
+
 // End of Model.php

@@ -30,8 +30,7 @@ class Anime extends API {
 	/**
 	 * Get a category out of the full list
 	 *
-	 * @param string $status
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function getList(string $status): array
 	{
@@ -49,7 +48,7 @@ class Anime extends API {
 	/**
 	 * Get data for the 'all' anime page
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getAllLists(): array
 	{
@@ -65,9 +64,6 @@ class Anime extends API {
 
 	/**
 	 * Get information about an anime from its slug
-	 *
-	 * @param string $slug
-	 * @return AnimeType
 	 */
 	public function getAnime(string $slug): AnimeType
 	{
@@ -76,8 +72,6 @@ class Anime extends API {
 
 	/**
 	 * Get information about a random anime
-	 *
-	 * @return AnimeType
 	 */
 	public function getRandomAnime(): AnimeType
 	{
@@ -86,9 +80,6 @@ class Anime extends API {
 
 	/**
 	 * Get anime by its kitsu id
-	 *
-	 * @param string $animeId
-	 * @return AnimeType
 	 */
 	public function getAnimeById(string $animeId): AnimeType
 	{
@@ -98,7 +89,7 @@ class Anime extends API {
 	/**
 	 * Get recent watch history
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getHistory(): array
 	{

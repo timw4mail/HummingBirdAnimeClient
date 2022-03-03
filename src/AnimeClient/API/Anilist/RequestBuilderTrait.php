@@ -28,9 +28,6 @@ trait RequestBuilderTrait {
 
 	/**
 	 * Set the request builder object
-	 *
-	 * @param RequestBuilder $requestBuilder
-	 * @return self
 	 */
 	public function setRequestBuilder(RequestBuilder $requestBuilder): self
 	{

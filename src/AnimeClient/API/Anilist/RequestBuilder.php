@@ -38,20 +38,16 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests
-	 * @var string $base_url
 	 */
 	protected string $baseUrl = Anilist::BASE_URL;
 
 	/**
 	 * Valid HTTP request methods
-	 * @var array
 	 */
 	protected array $validMethods = ['POST'];
 
 	/**
 	 * HTTP headers to send with every request
-	 *
-	 * @var array
 	 */
 	protected array $defaultHeaders = [
 		'Accept' => 'application/json',
@@ -67,9 +63,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a request object
-	 * @param string $url
-	 * @param array $options
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function setUpRequest(string $url, array $options = []): Request
@@ -111,10 +104,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Run a GraphQL API query
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
@@ -144,9 +133,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function mutateRequest (string $name, array $variables = []): Request
@@ -177,10 +163,8 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function mutate (string $name, array $variables = []): array
 	{
@@ -193,9 +177,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Make a request
 	 *
-	 * @param string $url
-	 * @param array $options
-	 * @return Response
 	 * @throws Throwable
 	 */
 	private function getResponse(string $url, array $options = []): Response
@@ -220,8 +201,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param Request $request
-	 * @return Response
 	 * @throws Throwable
 	 */
 	public function getResponseFromRequest(Request $request): Response
@@ -247,8 +226,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Remove some boilerplate for post requests
 	 *
-	 * @param array $options
-	 * @return array
 	 * @throws Throwable
 	 */
 	protected function postRequest(array $options = []): array

@@ -29,15 +29,11 @@ use Aviat\Ion\Di\Exception\NotFoundException;
  */
 final class Character extends BaseController {
 
-	/**
-	 * @var Model
-	 */
 	private Model $model;
 
 	/**
 	 * Character constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -49,9 +45,6 @@ final class Character extends BaseController {
 
 	/**
 	 * Show information about a character
-	 *
-	 * @param string $slug
-	 * @return void
 	 */
 	public function index(string $slug): void
 	{

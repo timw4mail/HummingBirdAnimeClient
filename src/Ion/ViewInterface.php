@@ -27,40 +27,29 @@ interface ViewInterface {
 	 * and any attempts to call again will result in a DoubleRenderException
 	 *
 	 * @throws DoubleRenderException
-	 * @return string
 	 */
 	public function __toString(): string;
 
 	/**
 	 * Set the output string
-	 *
-	 * @param mixed $string
-	 * @return ViewInterface
 	 */
 	public function setOutput(mixed $string): self;
 
 	/**
 	 * Append additional output.
-	 *
-	 * @param string $string
-	 * @return ViewInterface
 	 */
 	public function appendOutput(string $string): self;
 
 	/**
 	 * Add an http header
 	 *
-	 * @param string $name
 	 * @param string|string[] $value
-	 * @return ViewInterface
 	 */
 	public function addHeader(string $name, array|string $value): self;
 
 	/**
 	 * Get the current output as a string. Does not
 	 * render view or send headers.
-	 *
-	 * @return string
 	 */
 	public function getOutput(): string;
 
@@ -69,7 +58,6 @@ interface ViewInterface {
 	 * any attempt to call again will result in a DoubleRenderException.
 	 *
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
 	public function send(): void;
 }

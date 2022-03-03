@@ -140,4 +140,5 @@ final class MangaListTransformer extends AbstractTransformer {
 		return $map;
 	}
 }
+
 // End of MangaListTransformer.php

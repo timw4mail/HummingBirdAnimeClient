@@ -22,10 +22,6 @@ namespace Aviat\AnimeClient\Model;
 abstract class API {
 	/**
 	 * Sort the list entries by their title
-	 *
-	 * @param array $array
-	 * @param string $sortKey
-	 * @return void
 	 */
 	protected function sortByName(array &$array, string $sortKey): void
 	{

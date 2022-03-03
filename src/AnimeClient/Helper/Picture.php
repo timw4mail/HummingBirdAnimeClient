@@ -35,12 +35,6 @@ final class Picture {
 	/**
 	 * Create the html for an html picture element.
 	 * Uses .webp images with fallback
-	 *
-	 * @param string $uri
-	 * @param string $fallbackExt
-	 * @param array $picAttrs
-	 * @param array $imgAttrs
-	 * @return string
 	 */
 	public function __invoke(string $uri, string $fallbackExt = 'jpg', array $picAttrs = [], array $imgAttrs = []): string
 	{
@@ -119,4 +113,5 @@ final class Picture {
 		return $helper->elementRaw('picture', $sources, $picAttrs);
 	}
 }
+
 // End of Picture.php

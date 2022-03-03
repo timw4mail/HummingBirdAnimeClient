@@ -31,22 +31,14 @@ final class MenuGenerator extends UrlGenerator {
 
 	/**
 	 * Html generation helper
-	 *
-	 * @var HelperLocator
 	 */
 	protected HelperLocator $helper;
 
 	/**
 	 * Request object
-	 *
-	 * @var ServerRequestInterface
 	 */
 	protected ServerRequestInterface $request;
 
-	/**
-	 * @param ContainerInterface $container
-	 * @return self
-	 */
 	public static function new(ContainerInterface $container): self
 	{
 		return new self($container);
@@ -55,9 +47,7 @@ final class MenuGenerator extends UrlGenerator {
 	/**
 	 * Generate the html structure of the menu selected
 	 *
-	 * @param string $menu
 	 * @throws ConfigException
-	 * @return string
 	 */
 	public function generate(string $menu) : string
 	{
@@ -96,7 +86,6 @@ final class MenuGenerator extends UrlGenerator {
 	/**
 	 * MenuGenerator constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -110,8 +99,7 @@ final class MenuGenerator extends UrlGenerator {
 	/**
 	 * Generate the full menu structure from the config files
 	 *
-	 * @param array $menus
-	 * @return array
+	 * @return array<mixed, array<string, string>>
 	 */
 	private function parseConfig(array $menus) : array
 	{
@@ -130,4 +118,5 @@ final class MenuGenerator extends UrlGenerator {
 		return $parsed;
 	}
 }
+
 // End of MenuGenerator.php

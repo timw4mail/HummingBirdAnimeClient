@@ -36,32 +36,24 @@ use Throwable;
 final class Model
 {
 	use RequestBuilderTrait;
-	/**
-	 * @var ListItem
-	 */
-	private ListItem $listItem;
 
 	/**
 	 * Constructor
-	 *
-	 * @param ListItem $listItem
 	 */
-	public function __construct(ListItem $listItem)
+	public function __construct(private ListItem $listItem)
 	{
-		$this->listItem = $listItem;
 	}
 
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Attempt to get an auth token
 	 *
 	 * @param string $code - The request token
 	 * @param string $redirectUri - The oauth callback url
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function authenticate(string $code, string $redirectUri): array
 	{
@@ -84,8 +76,6 @@ final class Model
 
 	/**
 	 * Check auth status with simple API call
-	 *
-	 * @return array
 	 */
 	public function checkAuth(): array
 	{
@@ -95,8 +85,6 @@ final class Model
 	/**
 	 * Get user list data for syncing with Kitsu
 	 *
-	 * @param string $type
-	 * @return array
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -119,8 +107,6 @@ final class Model
 	/**
 	 * Create a list item
 	 *
-	 * @param array $data
-	 * @param string $type
 	 * @return Request
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
@@ -159,10 +145,6 @@ final class Model
 
 	/**
 	 * Create a list item with all the relevant data
-	 *
-	 * @param array $data
-	 * @param string $type
-	 * @return Request
 	 */
 	public function createFullListItem(array $data, string $type): Request
 	{
@@ -185,7 +167,7 @@ final class Model
 	 * @param string $malId - The unique identifier of that list item
 	 * @param string $type - Them media type (anime/manga)
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getListItem(string $malId, string $type): array
 	{
@@ -205,9 +187,7 @@ final class Model
 	/**
 	 * Increase the watch count for the current list item
 	 *
-	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
 	 */
 	public function incrementListItem(FormItem $data, string $type): ?Request
 	{
@@ -223,9 +203,7 @@ final class Model
 	/**
 	 * Modify a list item
 	 *
-	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
 	 */
 	public function updateListItem(FormItem $data, string $type): ?Request
 	{
@@ -244,7 +222,6 @@ final class Model
 	 *
 	 * @param string $malId - The id of the list item to remove
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
 	 */
 	public function deleteListItem(string $malId, string $type): ?Request
 	{
@@ -260,9 +237,7 @@ final class Model
 	/**
 	 * Get the id of the specific list entry from the malId
 	 *
-	 * @param string $malId
 	 * @param string $type - The media type (anime/manga)
-	 * @return string|null
 	 */
 	public function getListIdFromMalId(string $malId, string $type): ?string
 	{
@@ -279,9 +254,6 @@ final class Model
 	 * Get the Anilist list item id from the media id from its MAL id
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
-	 *
-	 * @param string $mediaId
-	 * @return string|null
 	 */
 	private function getListIdFromMediaId(string $mediaId): ?string
 	{
@@ -303,10 +275,6 @@ final class Model
 
 	/**
 	 * Get the Anilist media id from the malId
-	 *
-	 * @param string $malId
-	 * @param string $type
-	 * @return string|null
 	 */
 	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
 	{

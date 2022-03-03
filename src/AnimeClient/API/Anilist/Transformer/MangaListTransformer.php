@@ -36,9 +36,6 @@ class MangaListTransformer extends AbstractTransformer {
 
 	/**
 	 * Transform Anilist list item to Kitsu form update format
-	 *
-	 * @param array $item
-	 * @return FormItem
 	 */
 	public function untransform(array $item): FormItem
 	{

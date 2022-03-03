@@ -27,7 +27,6 @@ abstract class Enum {
 	/**
 	 * Return the list of constant values for the Enum
 	 *
-	 * @return array
 	 * @throws ReflectionException
 	 */
 	public static function getConstList(): array
@@ -47,8 +46,6 @@ abstract class Enum {
 	/**
 	 * Verify that a constant value is valid
 	 *
-	 * @param  mixed $key
-	 * @return boolean
 	 * @throws ReflectionException
 	 */
 	public static function isValid(mixed $key): bool
@@ -57,4 +54,5 @@ abstract class Enum {
 		return in_array($key, $values, TRUE);
 	}
 }
+
 // End of Enum.php

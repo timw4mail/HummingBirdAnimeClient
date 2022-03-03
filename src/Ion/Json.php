@@ -26,11 +26,7 @@ class Json {
 	/**
 	 * Encode data in json format
 	 *
-	 * @param mixed $data
-	 * @param int   $options
-	 * @param int   $depth
 	 * @throws JsonException
-	 * @return string
 	 */
 	public static function encode(mixed $data, int $options = 0, int $depth = 512): string
 	{
@@ -43,12 +39,9 @@ class Json {
 	/**
 	 * Encode data in json format and save to a file
 	 *
-	 * @param string $filename
-	 * @param mixed  $data
 	 * @param int    $jsonOptions - Options to pass to json_encode
 	 * @param int    $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
-	 * @return bool
 	 */
 	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): bool
 	{
@@ -61,12 +54,7 @@ class Json {
 	/**
 	 * Decode data from json
 	 *
-	 * @param string|null $json
-	 * @param bool   $assoc
-	 * @param int    $depth
-	 * @param int    $options
 	 * @throws JsonException
-	 * @return mixed
 	 */
 	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -85,12 +73,7 @@ class Json {
 	/**
 	 * Decode json data loaded from the passed filename
 	 *
-	 * @param string $filename
-	 * @param bool   $assoc
- 	 * @param int    $depth
- 	 * @param int    $options
 	 * @throws JsonException
-	 * @return mixed
 	 */
 	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -103,9 +86,7 @@ class Json {
 	/**
 	 * Determines whether a string is valid json
 	 *
-	 * @param  string $string
 	 * @throws \InvalidArgumentException
-	 * @return boolean
 	 */
 	public static function isJson(string $string): bool
 	{
@@ -116,7 +97,6 @@ class Json {
 	 * Call the json error functions to check for errors encoding/decoding
 	 *
 	 * @throws JsonException
-	 * @return void
 	 */
 	protected static function check_json_error(): void
 	{
@@ -141,4 +121,5 @@ class Json {
 		}
 	}
 }
+
 // End of JSON.php

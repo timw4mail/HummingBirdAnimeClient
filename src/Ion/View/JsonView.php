@@ -26,16 +26,11 @@ class JsonView extends HttpView {
 
 	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = 'application/json';
 
 	/**
 	 * Set the output string
-	 *
-	 * @param mixed $string
-	 * @return HttpViewInterface
 	 */
 	public function setOutput(mixed $string): HttpViewInterface
 	{
@@ -47,4 +42,5 @@ class JsonView extends HttpView {
 		return parent::setOutput($string);
 	}
 }
+
 // End of JsonView.php

@@ -28,14 +28,12 @@ class UrlGenerator extends RoutingBase {
 
 	/**
 	 * The current HTTP host
-	 * @var string
 	 */
 	protected string $host;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -48,9 +46,6 @@ class UrlGenerator extends RoutingBase {
 
 	/**
 	 * Get the base url for css/js/images
-	 *
-	 * @param string ...$args
-	 * @return string
 	 */
 	public function assetUrl(string ...$args): string
 	{
@@ -64,9 +59,6 @@ class UrlGenerator extends RoutingBase {
 
 	/**
 	 * Generate a proper url from the path
-	 *
-	 * @param string $path
-	 * @return string
 	 */
 	public function url(string $path): string
 	{
@@ -89,6 +81,7 @@ class UrlGenerator extends RoutingBase {
 
 			$pathSegments[$i] = preg_replace('`{.*?}`', $segments[$i + 1], $pathSegments[$i] ?? '');
 		}
+
 		$path = implode('/', $pathSegments);
 
 		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
@@ -99,9 +92,7 @@ class UrlGenerator extends RoutingBase {
 	/**
 	 * Full default path for the list pages
 	 *
-	 * @param string $type
 	 * @throws InvalidArgumentException
-	 * @return string
 	 */
 	public function defaultUrl(string $type): string
 	{
@@ -118,4 +109,5 @@ class UrlGenerator extends RoutingBase {
 		throw new InvalidArgumentException("Invalid default type: '{$type}'");
 	}
 }
+
 // End of UrlGenerator.php

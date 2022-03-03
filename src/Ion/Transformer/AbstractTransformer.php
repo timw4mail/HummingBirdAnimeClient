@@ -24,17 +24,11 @@ use BadMethodCallException;
 abstract class AbstractTransformer implements TransformerInterface {
 	/**
 	 * Mutate the data structure
-	 *
-	 * @param array|object $item
-	 * @return mixed
 	 */
 	abstract public function transform(array|object $item): mixed;
 
 	/**
 	 * Transform a set of structures
-	 *
-	 * @param  iterable $collection
-	 * @return array
 	 */
 	public function transformCollection(iterable $collection): array
 	{
@@ -48,7 +42,6 @@ abstract class AbstractTransformer implements TransformerInterface {
 	 * Requires an 'untransform' method in the extending class
 	 *
 	 * @param iterable $collection
-	 * @return array
 	 */
 	public function untransformCollection(iterable $collection): array
 	{
@@ -61,4 +54,5 @@ abstract class AbstractTransformer implements TransformerInterface {
 		return array_map([$this, 'untransform'], $list);
 	}
 }
+
 // End of AbstractTransformer.php

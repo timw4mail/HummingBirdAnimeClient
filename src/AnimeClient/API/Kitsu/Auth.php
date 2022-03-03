@@ -34,15 +34,11 @@ final class Auth {
 
 	/**
 	 * Anime API Model
-	 *
-	 * @var Model
 	 */
 	private Model $model;
 
 	/**
 	 * Session object
-	 *
-	 * @var Segment
 	 */
 	private Segment $segment;
 
@@ -65,9 +61,6 @@ final class Auth {
 	/**
 	 * Make the appropriate authentication call,
 	 * and save the resulting auth token if successful
-	 *
-	 * @param string $password
-	 * @return boolean
 	 */
 	public function authenticate(string $password): bool
 	{
@@ -81,9 +74,6 @@ final class Auth {
 
 	/**
 	 * Make the call to re-authenticate with the existing refresh token
-	 *
-	 * @param string|null $refreshToken
-	 * @return boolean
 	 */
 	public function reAuthenticate(?string $refreshToken = NULL): bool
 	{
@@ -101,8 +91,6 @@ final class Auth {
 
 	/**
 	 * Check whether the current user is authenticated
-	 *
-	 * @return boolean
 	 */
 	public function isAuthenticated(): bool
 	{
@@ -111,8 +99,6 @@ final class Auth {
 
 	/**
 	 * Clear authentication values
-	 *
-	 * @return void
 	 */
 	public function logout(): void
 	{
@@ -121,8 +107,6 @@ final class Auth {
 
 	/**
 	 * Retrieve the authentication token from the session
-	 *
-	 * @return string|null
 	 */
 	public function getAuthToken(): ?string
 	{
@@ -137,8 +121,6 @@ final class Auth {
 
 	/**
 	 * Retrieve the refresh token
-	 *
-	 * @return string|null
 	 */
 	private function getRefreshToken(): ?string
 	{
@@ -153,9 +135,6 @@ final class Auth {
 
 	/**
 	 * Save the new authentication information
-	 *
-	 * @param array|false $auth
-	 * @return bool
 	 */
 	private function storeAuth(array|false $auth): bool
 	{
@@ -185,4 +164,5 @@ final class Auth {
 		return FALSE;
 	}
 }
+
 // End of KitsuAuth.php

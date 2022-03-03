@@ -27,15 +27,11 @@ class Config implements ConfigInterface {
 
 	/**
 	 * Config object
-	 *
-	 * @var ArrayType
 	 */
 	protected ArrayType $map;
 
 	/**
 	 * Constructor
-	 *
-	 * @param array $configArray
 	 */
 	public function __construct(array $configArray = [])
 	{
@@ -44,9 +40,6 @@ class Config implements ConfigInterface {
 
 	/**
 	 * Does the config item exist?
-	 *
-	 * @param array|int|string $key
-	 * @return bool
 	 */
 	public function has(array|int|string $key): bool
 	{
@@ -57,7 +50,6 @@ class Config implements ConfigInterface {
 	 * Get a config value
 	 *
 	 * @param array|string|null $key
-	 * @return mixed
 	 * @throws ConfigException
 	 */
 	public function get(array|string $key = NULL): mixed
@@ -72,9 +64,6 @@ class Config implements ConfigInterface {
 
 	/**
 	 * Remove a config value
-	 *
-	 * @param array|string $key
-	 * @return void
 	 */
 	public function delete(array|string $key): void
 	{
@@ -92,9 +81,6 @@ class Config implements ConfigInterface {
 	/**
 	 * Set a config value
 	 *
-	 * @param array|integer|string $key
-	 * @param mixed $value
-	 * @return ConfigInterface
 	 *@throws InvalidArgumentException
 	 */
 	public function set(array|int|string $key, mixed $value): ConfigInterface
@@ -115,4 +101,5 @@ class Config implements ConfigInterface {
 		return $this;
 	}
 }
+
 // End of config.php

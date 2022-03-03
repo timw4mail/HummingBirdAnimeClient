@@ -45,29 +45,27 @@ class Config extends AbstractType {
 	 * Default Anime list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title
 	 */
-	public ?string $default_anime_list_path;
+	public ?string $default_anime_list_path = null;
 
 	/**
 	 * The list to redirect to from the root url
 	 * 'anime' or 'manga'
-	 *
-	 * @var string|null
 	 */
-	public ?string $default_list;
+	public ?string $default_list = null;
 
 	/**
 	 * Default Manga list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title
 	 */
-	public ?string $default_manga_list_path;
+	public ?string $default_manga_list_path = null;
 
 	/**
 	 * Default list view type
 	 * 'cover_view' or 'list_view'
 	 */
-	public ?string $default_view_type;
+	public ?string $default_view_type = null;
 
-	public ?string $kitsu_username;
+	public ?string $kitsu_username = null;
 
 	public bool $secure_urls = TRUE;
 

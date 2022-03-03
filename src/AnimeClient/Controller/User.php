@@ -29,15 +29,11 @@ use Aviat\Ion\Di\Exception\NotFoundException;
  */
 final class User extends BaseController {
 
-	/**
-	 * @var Model
-	 */
 	private Model $kitsuModel;
 
 	/**
 	 * User constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -58,9 +54,6 @@ final class User extends BaseController {
 
 	/**
 	 * Show the user profile page
-	 *
-	 * @param string $username
-	 * @return void
 	 */
 	public function about(string $username): void
 	{

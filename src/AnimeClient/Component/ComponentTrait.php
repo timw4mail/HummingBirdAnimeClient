@@ -28,10 +28,6 @@ trait ComponentTrait {
 
 	/**
 	 * Render a template with common container values
-	 *
-	 * @param string $path
-	 * @param array $data
-	 * @return string
 	 */
 	public function render(string $path, array $data): string
 	{

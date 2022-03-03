@@ -23,16 +23,10 @@ use Psr\SimpleCache\CacheInterface;
  */
 trait CacheTrait {
 
-	/**
-	 * @var CacheInterface
-	 */
 	protected CacheInterface $cache;
 
 	/**
 	 * Inject the cache object
-	 *
-	 * @param CacheInterface $cache
-	 * @return self
 	 */
 	public function setCache(CacheInterface $cache): self
 	{
@@ -42,8 +36,6 @@ trait CacheTrait {
 
 	/**
 	 * Get the cache object if it exists
-	 *
-	 * @return CacheInterface
 	 */
 	public function getCache(): CacheInterface
 	{
@@ -53,11 +45,6 @@ trait CacheTrait {
 	/**
 	 * Get the cached value if it exists, otherwise set the cache value
 	 * and return it.
-	 *
-	 * @param string $key
-	 * @param callable $primer
-	 * @param array|null $primeArgs
-	 * @return mixed
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{

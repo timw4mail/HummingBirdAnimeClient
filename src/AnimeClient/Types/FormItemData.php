@@ -20,13 +20,13 @@ namespace Aviat\AnimeClient\Types;
  * Type representing a Media object for editing/syncing
  */
 class FormItemData extends AbstractType {
-	public ?string $notes;
+	public ?string $notes = null;
 
 	public ?bool $private = FALSE;
 
 	public ?int $progress = NULL;
 
-	public ?int $rating;
+	public ?int $rating = null;
 
 	public ?int $ratingTwenty = NULL;
 
@@ -39,5 +39,5 @@ class FormItemData extends AbstractType {
 	/**
 	 * W3C Format Date string
 	 */
-	public ?string $updatedAt;
+	public ?string $updatedAt = null;
 }

@@ -23,9 +23,6 @@ interface TransformerInterface {
 
 	/**
 	 * Mutate the data structure
-	 *
-	 * @param array|object $item
-	 * @return mixed
 	 */
 	public function transform(array|object $item): mixed;
 }

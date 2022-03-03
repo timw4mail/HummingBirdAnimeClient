@@ -30,7 +30,6 @@ final class MangaTransformer extends AbstractTransformer {
 	 * logical and workable structure
 	 *
 	 * @param  array|object  $item API library item
-	 * @return MangaPage
 	 */
 	public function transform(array|object $item): MangaPage
 	{
@@ -46,7 +45,7 @@ final class MangaTransformer extends AbstractTransformer {
 		$titles = Kitsu::getTitles($base['titles']);
 		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
-		if (count($base['characters']['nodes']) > 0)
+		if ((is_countable($base['characters']['nodes']) ? count($base['characters']['nodes']) : 0) > 0)
 		{
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
@@ -79,7 +78,7 @@ final class MangaTransformer extends AbstractTransformer {
 			krsort($characters);
 		}
 
-		if (count($base['staff']['nodes']) > 0)
+		if ((is_countable($base['staff']['nodes']) ? count($base['staff']['nodes']) : 0) > 0)
 		{
 			foreach ($base['staff']['nodes'] as $staffing)
 			{
@@ -112,7 +111,7 @@ final class MangaTransformer extends AbstractTransformer {
 			ksort($staff);
 		}
 
-		if (count($base['mappings']['nodes']) > 0)
+		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
 			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/manga/{$base['slug']}");
 		}

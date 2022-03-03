@@ -29,15 +29,11 @@ class HtmlView extends HttpView {
 
 	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = 'text/html';
 
 	/**
 	 * Create the Html View
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -50,9 +46,6 @@ class HtmlView extends HttpView {
 	/**
 	 * Render a basic html Template
 	 *
-	 * @param string $path
-	 * @param array  $data
-	 * @return string
 	 * @throws \Throwable
 	 */
 	public function renderTemplate(string $path, array $data): string
@@ -74,4 +67,5 @@ class HtmlView extends HttpView {
 		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
 	}
 }
+
 // End of HtmlView.php

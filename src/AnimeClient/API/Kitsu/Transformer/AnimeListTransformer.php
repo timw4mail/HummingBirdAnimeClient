@@ -146,4 +146,5 @@ final class AnimeListTransformer extends AbstractTransformer {
 		return $untransformed;
 	}
 }
+
 // End of AnimeListTransformer.php

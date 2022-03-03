@@ -56,8 +56,7 @@ final class UserTransformer extends AbstractTransformer {
 	/**
 	 * Reorganize favorites data to be more useful
 	 *
-	 * @param array $rawFavorites
-	 * @return array
+	 * @return array<string, array<int|string, mixed>>
 	 */
 	private function organizeFavorites(array $rawFavorites): array
 	{
@@ -72,6 +71,9 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	private function organizeStats(array $stats, array $data = []): array
 	{
 		$animeStats = [];

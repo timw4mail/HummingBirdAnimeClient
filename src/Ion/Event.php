@@ -24,9 +24,6 @@ class Event {
 
 	/**
 	 * Subscribe to an event
-	 *
-	 * @param string $eventName
-	 * @param callable $handler
 	 */
 	public static function on(string $eventName, callable $handler): void
 	{
@@ -40,9 +37,6 @@ class Event {
 
 	/**
 	 * Fire off an event
-	 *
-	 * @param string $eventName
-	 * @param array $args
 	 */
 	public static function emit(string $eventName, array $args = []): void
 	{

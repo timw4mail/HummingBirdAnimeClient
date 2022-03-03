@@ -27,15 +27,12 @@ use Aviat\Ion\Di\Exception\NotFoundException;
 final class FormGenerator {
 	/**
 	 * Html generation helper
-	 *
-	 * @var HelperLocator
 	 */
 	private HelperLocator $helper;
 
 	/**
 	 * FormGenerator constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -46,9 +43,6 @@ final class FormGenerator {
 
 	/**
 	 * Create a new FormGenerator
-	 *
-	 * @param ContainerInterface $container
-	 * @return self
 	 */
 	public static function new(ContainerInterface $container): self
 	{
@@ -57,10 +51,6 @@ final class FormGenerator {
 
 	/**
 	 * Generate the html structure of the form
-	 *
-	 * @param string $name
-	 * @param array $form
-	 * @return string
 	 */
 	public function generate(string $name, array $form): string
 	{

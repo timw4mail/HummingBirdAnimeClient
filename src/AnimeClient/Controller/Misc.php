@@ -27,8 +27,6 @@ use Aviat\Ion\View\HtmlView;
 final class Misc extends BaseController {
 	/**
 	 * Purges the API cache
-	 *
-	 * @return void
 	 */
 	public function clearCache(): void
 	{
@@ -43,9 +41,6 @@ final class Misc extends BaseController {
 
 	/**
 	 * Show the login form
-	 *
-	 * @param string $status
-	 * @return void
 	 */
 	public function login(string $status = ''): void
 	{
@@ -69,8 +64,6 @@ final class Misc extends BaseController {
 
 	/**
 	 * Attempt login authentication
-	 *
-	 * @return void
 	 */
 	public function loginAction(): void
 	{
@@ -92,8 +85,6 @@ final class Misc extends BaseController {
 
 	/**
 	 * Deauthorize the current user
-	 *
-	 * @return void
 	 */
 	public function logout(): void
 	{

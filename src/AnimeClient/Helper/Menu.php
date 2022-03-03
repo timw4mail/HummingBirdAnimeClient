@@ -29,13 +29,13 @@ final class Menu {
 	/**
 	 * Create the html for the selected menu
 	 *
-	 * @param  string $menuName
 	 * @return string
 	 */
-	public function __invoke($menuName)
+	public function __invoke(string $menuName)
 	{
 		return MenuGenerator::new($this->container)->generate($menuName);
 	}
 
 }
+
 // End of Menu.php

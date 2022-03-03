@@ -26,7 +26,6 @@ use Aviat\AnimeClient\Controller\Images;
 final class UpdateThumbnails extends ClearThumbnails {
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var KitsuModel
 	 */
 	protected KitsuModel $kitsuModel;
 
