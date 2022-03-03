@@ -2,7 +2,8 @@
 
 use Phinx\Migration\AbstractMigration;
 
-class FirstMigration extends AbstractMigration {
+class FirstMigration extends AbstractMigration
+{
 	/**
 	 * Migrate up
 	 */
@@ -16,7 +17,7 @@ class FirstMigration extends AbstractMigration {
 		// Add items to media table
 		if ($this->hasTable('media'))
 		{
-			foreach(['DVD & Blu-ray', 'Blu-ray', 'DVD', 'Bootleg DVD'] as $type)
+			foreach (['DVD & Blu-ray', 'Blu-ray', 'DVD', 'Bootleg DVD'] as $type)
 			{
 				$this->execute('INSERT INTO "media" ("type") VALUES (\'' . $type . '\')');
 			}
@@ -25,11 +26,11 @@ class FirstMigration extends AbstractMigration {
 		// Create anime_set table
 		$anime_set = $this->table('anime_set', ['id' => FALSE, 'primary_key' => ['hummingbird_id']]);
 		$anime_set->addColumn('hummingbird_id', 'biginteger')
-			->addColumn('slug', 'string', ['comment' => "URL slug used for image caching and generating links"])
+			->addColumn('slug', 'string', ['comment' => 'URL slug used for image caching and generating links'])
 			->addColumn('title', 'string')
 			->addColumn('alternate_title', 'string', ['null' => TRUE])
 			->addColumn('media_id', 'integer', ['default' => 3, 'null' => TRUE])
-			->addColumn('show_type', 'string', ['default' => 'TV', 'null' => TRUE, 'comment' => "TV Series/OVA/etc"])
+			->addColumn('show_type', 'string', ['default' => 'TV', 'null' => TRUE, 'comment' => 'TV Series/OVA/etc'])
 			->addColumn('age_rating', 'string', ['default' => 'PG13', 'null' => TRUE])
 			->addColumn('cover_image', 'string', ['null' => TRUE])
 			->addColumn('episode_count', 'integer', ['null' => TRUE])
