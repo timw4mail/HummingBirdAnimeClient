@@ -21,13 +21,13 @@ use Aviat\AnimeClient\Types\AbstractType;
 class Cache extends AbstractType {
 	public string $driver = 'null';
 
-	public ?string $host = null;
+	public ?string $host;
 
 	public string|int|null $port;
 
-	public ?string $database = null;
+	public ?string $database;
 
 	public array $connection = [];
 
-	public ?array $options = null;
+	public ?array $options;
 }

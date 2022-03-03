@@ -22,15 +22,15 @@ namespace Aviat\AnimeClient\Types;
 final class Character extends AbstractType {
 	public array $castings = [];
 
-	public ?string $description = null;
+	public ?string $description;
 
 	public string $id;
 
-	public ?Media $media = null;
+	public ?Media $media;
 
 	public string $image;
 
-	public ?string $name = null;
+	public ?string $name;
 
 	public array $names = [];
 

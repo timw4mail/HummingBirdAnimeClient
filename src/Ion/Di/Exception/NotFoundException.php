@@ -16,13 +16,11 @@
 
 namespace Aviat\Ion\Di\Exception;
 
-use Psr\Container\NotFoundExceptionInterface;
-
 /**
  * Exception for Di Container when trying to access a
  * key that doesn't exist in the container
  */
-class NotFoundException extends ContainerException implements NotFoundExceptionInterface {
+class NotFoundException extends ContainerException {
 
 }
 

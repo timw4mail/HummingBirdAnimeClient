@@ -32,7 +32,7 @@ final class MangaListItemDetail extends AbstractType {
 
 	public array $titles;
 
-	public ?string $type = null;
+	public ?string $type;
 
 	public string $url;
 }
