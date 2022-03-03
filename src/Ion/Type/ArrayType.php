@@ -29,15 +29,11 @@ class ArrayType {
 
 	/**
 	 * The current array
-	 *
-	 * @var array
 	 */
-	protected array $arr;
+	protected array $arr = [];
 
 	/**
 	 * Map generated methods to their native implementations
-	 *
-	 * @var array
 	 */
 	protected array $nativeMethods = [
 		'chunk' => 'array_chunk',
@@ -61,8 +57,6 @@ class ArrayType {
 
 	/**
 	 * Native methods that modify the passed in array
-	 *
-	 * @var array
 	 */
 	protected array $nativeInPlaceMethods = [
 		'shuffle' => 'shuffle',
@@ -74,9 +68,6 @@ class ArrayType {
 
 	/**
 	 * Create an ArrayType wrapper class from an array
-	 *
-	 * @param array $arr
-	 * @return ArrayType
 	 */
 	public static function from(array $arr): ArrayType
 	{
@@ -85,8 +76,6 @@ class ArrayType {
 
 	/**
 	 * Create an ArrayType wrapper class
-	 *
-	 * @param array $arr
 	 */
 	private function __construct(array &$arr)
 	{
@@ -96,9 +85,6 @@ class ArrayType {
 	/**
 	 * Call one of the dynamically created methods
 	 *
-	 * @param string $method
-	 * @param array  $args
-	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
 	public function __call(string $method, array $args): mixed
@@ -124,9 +110,6 @@ class ArrayType {
 
 	/**
 	 * Does the passed key exist in the current array?
-	 *
-	 * @param int|string|array $key
-	 * @return bool
 	 */
 	public function hasKey(int|string|array $key): bool
 	{
@@ -153,10 +136,7 @@ class ArrayType {
 	/**
 	 * Fill an array with the specified value
 	 *
-	 * @param int   $start_index
-	 * @param int   $num
-	 * @param mixed $value
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function fill(int $start_index, int $num, mixed $value): array
 	{
@@ -166,8 +146,7 @@ class ArrayType {
 	/**
 	 * Call a callback on each item of the array
 	 *
-	 * @param callable $callback
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function map(callable $callback): array
 	{
@@ -176,10 +155,6 @@ class ArrayType {
 
 	/**
 	 * Find an array key by its associated value
-	 *
-	 * @param mixed $value
-	 * @param bool  $strict
-	 * @return false|integer|string|null
 	 */
 	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
 	{
@@ -188,10 +163,6 @@ class ArrayType {
 
 	/**
 	 * Determine if the array has the passed value
-	 *
-	 * @param mixed $value
-	 * @param bool  $strict
-	 * @return bool
 	 */
 	public function has(mixed $value, bool $strict = TRUE): bool
 	{
@@ -200,9 +171,6 @@ class ArrayType {
 
 	/**
 	 * Return the array, or a key
-	 *
-	 * @param string|integer|null $key
-	 * @return mixed
 	 */
 	public function &get(string|int|null $key = NULL): mixed
 	{
@@ -224,10 +192,6 @@ class ArrayType {
 
 	/**
 	 * Set a key on the array
-	 *
-	 * @param mixed $key
-	 * @param mixed $value
-	 * @return ArrayType
 	 */
 	public function set(mixed $key, mixed $value): ArrayType
 	{
@@ -242,7 +206,6 @@ class ArrayType {
 	 * $val = $arr->getDeepKey([0, 'data', 'foo']);
 	 * // returns 'bar'
 	 * @param  array $key An array of keys of the array
-	 * @return mixed
 	 */
 	public function &getDeepKey(array $key): mixed
 	{
@@ -259,6 +222,7 @@ class ArrayType {
 				$pos = NULL;
 				return $pos;
 			}
+
 			$pos =& $pos[$level];
 		}
 
@@ -269,9 +233,7 @@ class ArrayType {
 	 * Sets the value of an arbitrarily deep key in the array
 	 * and returns the modified array
 	 *
-	 * @param array $key
-	 * @param mixed $value
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function setDeepKey(array $key, mixed $value): array
 	{
@@ -286,6 +248,7 @@ class ArrayType {
 				$pos = [];
 				$pos[$level] = [];
 			}
+
 			$pos =& $pos[$level];
 		}
 
@@ -294,4 +257,5 @@ class ArrayType {
 		return $this->arr;
 	}
 }
+
 // End of ArrayType.php

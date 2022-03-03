@@ -27,11 +27,8 @@ final class CacheClear extends BaseCommand {
 	/**
 	 * Clear the API cache
 	 *
-	 * @param array $args
-	 * @param array $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return void
 	 */
 	public function execute(array $args, array $options = []): void
 	{

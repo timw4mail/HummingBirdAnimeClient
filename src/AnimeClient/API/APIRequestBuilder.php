@@ -70,9 +70,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Do a basic minimal GET request
-	 *
-	 * @param string $uri
-	 * @return Request
 	 */
 	public static function simpleRequest(string $uri): Request
 	{
@@ -89,7 +86,6 @@ abstract class APIRequestBuilder {
 	 *
 	 * @param string $type The type of authorization, eg, basic, bearer, etc.
 	 * @param string $value The authorization value
-	 * @return self
 	 */
 	public function setAuth(string $type, string $value): self
 	{
@@ -101,10 +97,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Set a basic authentication header
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return self
 	 */
 	public function setBasicAuth(string $username, string $password): self
 	{
@@ -114,9 +106,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Set the request body
-	 *
-	 * @param FormBody|string $body
-	 * @return self
 	 */
 	public function setBody(FormBody|string $body): self
 	{
@@ -128,7 +117,6 @@ abstract class APIRequestBuilder {
 	 * Set body as form fields
 	 *
 	 * @param array $fields Mapping of field names to values
-	 * @return self
 	 */
 	public function setFormFields(array $fields): self
 	{
@@ -140,9 +128,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Unset a request header
-	 *
-	 * @param string $name
-	 * @return self
 	 */
 	public function unsetHeader(string $name): self
 	{
@@ -153,9 +138,7 @@ abstract class APIRequestBuilder {
 	/**
 	 * Set a request header
 	 *
-	 * @param string $name
 	 * @param string|null $value
-	 * @return self
 	 */
 	public function setHeader(string $name, string $value = NULL): self
 	{
@@ -177,7 +160,6 @@ abstract class APIRequestBuilder {
 	 * name => value
 	 *
 	 * @param array $headers
-	 * @return self
 	 */
 	public function setHeaders(array $headers): self
 	{
@@ -191,24 +173,18 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Set the request body
-	 *
-	 * @param mixed $body
-	 * @return self
 	 */
 	public function setJsonBody(mixed $body): self
 	{
-		$requestBody = ( ! is_string($body))
-			? Json::encode($body)
-			: $body;
+		$requestBody = ( is_string($body))
+			? $body
+			: Json::encode($body);
 
 		return $this->setBody($requestBody);
 	}
 
 	/**
 	 * Append a query string in array format
-	 *
-	 * @param array $params
-	 * @return self
 	 */
 	public function setQuery(array $params): self
 	{
@@ -219,7 +195,6 @@ abstract class APIRequestBuilder {
 	/**
 	 * Return the promise for the current request
 	 *
-	 * @return Request
 	 * @throws \Throwable
 	 */
 	public function getFullRequest(): Request
@@ -245,7 +220,6 @@ abstract class APIRequestBuilder {
 	/**
 	 * Get the data from the response of the passed request
 	 *
-	 * @param Request $request
 	 * @return mixed
 	 * @throws \Error
 	 * @throws \Throwable
@@ -260,10 +234,7 @@ abstract class APIRequestBuilder {
 	/**
 	 * Create a new http request
 	 *
-	 * @param string $type
-	 * @param string $uri
 	 * @throws InvalidArgumentException
-	 * @return self
 	 */
 	public function newRequest(string $type, string $uri): self
 	{
@@ -292,8 +263,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Create the full request url
-	 *
-	 * @return Request
 	 */
 	private function buildUri(): Request
 	{
@@ -313,10 +282,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Reset the class state for a new request
-	 *
-	 * @param string|null $url
-	 * @param string $type
-	 * @return void
 	 */
 	private function resetState(?string $url, string $type = 'GET'): void
 	{

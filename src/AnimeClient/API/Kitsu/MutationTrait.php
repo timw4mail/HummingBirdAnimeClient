@@ -26,12 +26,8 @@ trait MutationTrait {
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Create a list item
-	 *
-	 * @param array $data
-	 * @return Request|null
 	 */
 	public function createListItem(array $data): ?Request
 	{
@@ -46,9 +42,6 @@ trait MutationTrait {
 
 	/**
 	 * Increase the progress count for a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
 	 */
 	public function incrementListItem(FormItem $data): Request
 	{
@@ -57,9 +50,6 @@ trait MutationTrait {
 
 	/**
 	 * Modify a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
 	 */
 	public function updateListItem(FormItem $data): Request
 	{
@@ -70,7 +60,6 @@ trait MutationTrait {
 	 * Remove a list item
 	 *
 	 * @param string $id - The id of the list item to remove
-	 * @return Request
 	 */
 	public function deleteListItem(string $id): Request
 	{

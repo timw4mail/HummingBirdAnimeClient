@@ -29,8 +29,6 @@ final class Form {
 	/**
 	 * Create the html for the specified form
 	 *
-	 * @param string $name
-	 * @param array $form
 	 * @return string
 	 */
 	public function __invoke(string $name, array $form)

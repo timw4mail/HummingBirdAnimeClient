@@ -22,15 +22,15 @@ use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
  * Type representing an Anime object for display
  */
 final class MangaPage extends AbstractType {
-	public ?string $age_rating;
+	public ?string $age_rating = null;
 
-	public ?string $age_rating_guide;
+	public ?string $age_rating_guide = null;
 
 	public array $characters;
 
-	public ?int $chapter_count;
+	public ?int $chapter_count = null;
 
-	public ?string  $cover_image;
+	public ?string  $cover_image = null;
 
 	public array $genres;
 
@@ -57,5 +57,5 @@ final class MangaPage extends AbstractType {
 
 	public string $url;
 
-	public ?int $volume_count;
+	public ?int $volume_count = null;
 }

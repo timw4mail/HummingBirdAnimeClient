@@ -49,7 +49,6 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -76,7 +75,6 @@ final class AnimeCollection extends BaseController {
 	 * Search for anime
 	 *
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
 	public function search(): void
 	{
@@ -88,11 +86,9 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Show the anime collection page
 	 *
-	 * @param string|null $view
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function view(?string $view = ''): void
 	{
@@ -120,7 +116,6 @@ final class AnimeCollection extends BaseController {
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function form($id = NULL): void
 	{
@@ -149,7 +144,6 @@ final class AnimeCollection extends BaseController {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function edit(): void
 	{
@@ -163,7 +157,6 @@ final class AnimeCollection extends BaseController {
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function add(): void
 	{
@@ -211,8 +204,6 @@ final class AnimeCollection extends BaseController {
 
 	/**
 	 * Remove a collection item
-	 *
-	 * @return void
 	 */
 	public function delete(): void
 	{
@@ -237,8 +228,6 @@ final class AnimeCollection extends BaseController {
 
 	/**
 	 * Update a collection item
-	 *
-	 * @param array $data
 	 */
 	protected function update(array $data): void
 	{
@@ -259,4 +248,5 @@ final class AnimeCollection extends BaseController {
 		$this->sessionRedirect();
 	}
 }
+
 // End of AnimeCollection.php

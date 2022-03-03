@@ -31,9 +31,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Create a minimal list item
-	 *
-	 * @param array $data
-	 * @return Request
 	 */
 	public function create(array $data): Request
 	{
@@ -43,9 +40,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Create a fleshed-out list item
-	 *
-	 * @param array $data
-	 * @return Request
 	 */
 	public function createFull(array $data): Request
 	{
@@ -55,10 +49,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Delete a list item
-	 *
-	 * @param string $id
-	 * @param string $type
-	 * @return Request
 	 */
 	public function delete(string $id, string $type = 'anime'): Request
 	{
@@ -67,9 +57,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Get the data for a list item
-	 *
-	 * @param string $id
-	 * @return array
 	 */
 	public function get(string $id): array
 	{
@@ -78,10 +65,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Increase the progress on the medium by 1
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
@@ -95,10 +78,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Update a list item
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{

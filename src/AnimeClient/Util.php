@@ -28,7 +28,6 @@ class Util {
 
 	/**
 	 * Routes that don't require a second navigation level
-	 * @var array
 	 */
 	private static array $formPages = [
 		'edit',
@@ -54,10 +53,6 @@ class Util {
 
 	/**
 	 * Absolutely equal?
-	 *
-	 * @param mixed $left
-	 * @param mixed $right
-	 * @return bool
 	 */
 	public static function eq(mixed $left, mixed $right): bool
 	{
@@ -66,9 +61,6 @@ class Util {
 
 	/**
 	 * Set aria-current attribute based on a condition check
-	 *
-	 * @param bool $condition
-	 * @return string
 	 */
 	public static function ariaCurrent(bool $condition): string
 	{
@@ -80,7 +72,6 @@ class Util {
 	 *
 	 * @param string $left - First item to compare
 	 * @param string $right - Second item to compare
-	 * @return string
 	 */
 	public static function isSelected(string $left, string $right): string
 	{
@@ -92,7 +83,6 @@ class Util {
 	 *
 	 * @param string $left - First item to compare
 	 * @param string $right - Second item to compare
-	 * @return string
 	 */
 	public static function isNotSelected(string $left, string $right): string
 	{
@@ -104,7 +94,6 @@ class Util {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return bool
 	 */
 	public function isViewPage(): bool
 	{
@@ -122,7 +111,6 @@ class Util {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return bool
 	 */
 	public function isFormPage(): bool
 	{

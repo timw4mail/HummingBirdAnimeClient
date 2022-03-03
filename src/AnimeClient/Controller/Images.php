@@ -34,7 +34,6 @@ final class Images extends BaseController {
 	 * @param string $type The category of image
 	 * @param string $file The filename to look for
 	 * @param bool $display Whether to output the image to the server
-	 * @return void
 	 * @throws Throwable
 	 */
 	public function cache(string $type, string $file, bool $display = TRUE): void
@@ -123,6 +122,7 @@ final class Images extends BaseController {
 			{
 				createPlaceholderImage("{$baseSavePath}/{$type}", $width, $height);
 			}
+
 			return;
 		}
 
@@ -177,14 +177,10 @@ final class Images extends BaseController {
 
 	/**
 	 * Get a placeholder for a missing image
-	 *
-	 * @param string $path
-	 * @param int|null $width
-	 * @param int|null $height
 	 */
 	private function getPlaceholder (string $path, ?int $width = 200, ?int $height = NULL): void
 	{
-		$height = $height ?? $width;
+		$height ??= $width;
 
 		$filename = $path . '/placeholder.png';
 

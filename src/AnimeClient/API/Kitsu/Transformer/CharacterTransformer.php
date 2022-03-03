@@ -27,10 +27,6 @@ use Locale;
  */
 final class CharacterTransformer extends AbstractTransformer {
 
-	/**
-	 * @param array|object $item
-	 * @return Character
-	 */
 	public function transform(array|object $item): Character
 	{
 		$item = (array)$item;
@@ -42,10 +38,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		$names = array_unique(
-			array_merge(
-				[$data['names']['canonical']],
-				array_values($data['names']['localized'])
-			)
+			[...[$data['names']['canonical']], ...array_values($data['names']['localized'])]
 		);
 		$name = array_shift($names);
 
@@ -66,6 +59,9 @@ final class CharacterTransformer extends AbstractTransformer {
 		]);
 	}
 
+	/**
+	 * @return array<int, mixed[]>
+	 */
 	protected function organizeMediaAndVoices (array $data): array
 	{
 		if (empty($data))
@@ -106,7 +102,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, fn($item) => (! empty($item['voices'])) && count((array)$item['voices']['nodes']) > 0);
+		$rawVoices = array_filter($data, fn($item) => (! empty($item['voices'])) && (array)$item['voices']['nodes'] !== []);
 
 		if (empty($rawVoices))
 		{

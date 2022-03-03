@@ -29,14 +29,11 @@ class Collection extends DB {
 
 	/**
 	 * The query builder object
-	 * @var QueryBuilderInterface|null
 	 */
 	protected ?QueryBuilderInterface $db;
 
 	/**
 	 * Create a new collection object
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -69,4 +66,5 @@ class Collection extends DB {
 		}
 	}
 }
+
 // End of Collection.php

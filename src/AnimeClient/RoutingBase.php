@@ -30,42 +30,30 @@ use Psr\Http\Message\ServerRequestInterface;
 class RoutingBase {
 
 	/**
-	 * Injection Container
-	 * @var ContainerInterface $container
-	 */
-	protected ContainerInterface $container;
-
-	/**
 	 * Config Object
-	 * @var ConfigInterface
 	 */
 	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
 	 */
 	protected ServerRequestInterface $request;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws ConfigException
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(protected ContainerInterface $container)
 	{
-		$this->container = $container;
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 	}
 
 	/**
 	 * Get the current url path
-	 *
-	 * @return string
 	 */
 	public function path(): string
 	{
@@ -81,8 +69,6 @@ class RoutingBase {
 
 	/**
 	 * Get the url segments
-	 *
-	 * @return array
 	 */
 	public function segments(): array
 	{
@@ -93,9 +79,7 @@ class RoutingBase {
 	/**
 	 * Get a segment of the current url
 	 *
-	 * @param int $num
 	 *
-	 * @return string|null
 	 */
 	public function getSegment(int $num): ?string
 	{
@@ -105,8 +89,6 @@ class RoutingBase {
 
 	/**
 	 * Retrieve the last url segment
-	 *
-	 * @return string
 	 */
 	public function lastSegment(): string
 	{

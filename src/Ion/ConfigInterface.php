@@ -22,9 +22,6 @@ namespace Aviat\Ion;
 interface ConfigInterface {
 	/**
 	 * Does the config item exist?
-	 *
-	 * @param array|int|string $key
-	 * @return bool
 	 */
 	public function has(array|int|string $key): bool;
 
@@ -32,25 +29,18 @@ interface ConfigInterface {
 	 * Get a config value
 	 *
 	 * @param array|string|null $key
-	 * @return mixed
 	 */
 	public function get(array|string $key = NULL): mixed;
 
 	/**
 	 * Set a config value
 	 *
-	 * @param array|integer|string $key
-	 * @param mixed                $value
-	 * @return ConfigInterface
 	 * @throws \InvalidArgumentException
 	 */
 	public function set(array|int|string $key, mixed $value): self;
 
 	/**
 	 * Remove a config value
-	 *
-	 * @param array|string $key
-	 * @return void
 	 */
 	public function delete(array|string $key): void;
 }

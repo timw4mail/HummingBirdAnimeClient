@@ -23,16 +23,11 @@ trait ContainerAware {
 
 	/**
 	 * Di Container
-	 *
-	 * @var ContainerInterface
 	 */
 	protected ContainerInterface $container;
 
 	/**
 	 * Set the container for the current object
-	 *
-	 * @param ContainerInterface $container
-	 * @return self
 	 */
 	public function setContainer(ContainerInterface $container): self
 	{
@@ -42,12 +37,11 @@ trait ContainerAware {
 
 	/**
 	 * Get the container object
-	 *
-	 * @return ContainerInterface
 	 */
 	public function getContainer(): ContainerInterface
 	{
 		return $this->container;
 	}
 }
+
 // End of ContainerAware.php

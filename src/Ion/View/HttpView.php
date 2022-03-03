@@ -74,7 +74,6 @@ class HttpView implements HttpViewInterface{
 	 * and any attempts to call again will result in a DoubleRenderException
 	 *
 	 * @throws DoubleRenderException
-	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -82,6 +81,7 @@ class HttpView implements HttpViewInterface{
 		{
 			throw new DoubleRenderException();
 		}
+
 		$this->hasRendered = TRUE;
 		return $this->getOutput();
 	}
@@ -89,9 +89,7 @@ class HttpView implements HttpViewInterface{
 	/**
 	 * Add an http header
 	 *
-	 * @param string $name
 	 * @param string|string[] $value
-	 * @return HttpView
 	 */
 	public function addHeader(string $name, array|string $value): self
 	{
@@ -101,9 +99,6 @@ class HttpView implements HttpViewInterface{
 
 	/**
 	 * Set the output string
-	 *
-	 * @param mixed $string
-	 * @return HttpViewInterface
 	 */
 	public function setOutput(mixed $string): HttpViewInterface
 	{
@@ -115,9 +110,6 @@ class HttpView implements HttpViewInterface{
 
 	/**
 	 * Append additional output.
-	 *
-	 * @param string $string
-	 * @return HttpViewInterface
 	 */
 	public function appendOutput(string $string): HttpViewInterface
 	{
@@ -127,8 +119,6 @@ class HttpView implements HttpViewInterface{
 	/**
 	 * Get the current output as a string. Does not
 	 * render view or send headers.
-	 *
-	 * @return string
 	 */
 	public function getOutput(): string
 	{
@@ -138,11 +128,7 @@ class HttpView implements HttpViewInterface{
 	/**
 	 * Do a redirect
 	 *
-	 * @param string $url
-	 * @param int    $code
-	 * @param array $headers
 	 * @throws \InvalidArgumentException
-	 * @return self
 	 */
 	public function redirect(string $url, int $code = 302, array $headers = []): self
 	{
@@ -153,9 +139,7 @@ class HttpView implements HttpViewInterface{
 	/**
 	 * Set the status code of the request
 	 *
-	 * @param int $code
 	 * @throws \InvalidArgumentException
-	 * @return HttpView
 	 */
 	public function setStatusCode(int $code): self
 	{
@@ -170,7 +154,6 @@ class HttpView implements HttpViewInterface{
 	 *
 	 * @throws DoubleRenderException
 	 * @throws \InvalidArgumentException
-	 * @return void
 	 */
 	public function send(): void
 	{
@@ -183,7 +166,6 @@ class HttpView implements HttpViewInterface{
 	 * @codeCoverageIgnore
 	 * @throws DoubleRenderException
 	 * @throws \InvalidArgumentException
-	 * @return void
 	 */
 	protected function output(): void
 	{

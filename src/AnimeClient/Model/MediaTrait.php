@@ -34,29 +34,21 @@ trait MediaTrait {
 
 	/**
 	 * Is the Anilist API enabled?
-	 *
-	 * @var boolean
 	 */
 	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to Anilist API
-	 *
-	 * @var Anilist\Model
 	 */
 	protected Anilist\Model $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 *
-	 * @var Kitsu\Model
 	 */
 	protected Kitsu\Model $kitsuModel;
 
 	/**
 	 * Anime constructor.
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -70,9 +62,7 @@ trait MediaTrait {
 	/**
 	 * Search for anime by name
 	 *
-	 * @param string $name
-	 * @param bool $inCollection
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function search(string $name, bool $inCollection = false): array
 	{
@@ -89,9 +79,6 @@ trait MediaTrait {
 	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
-	 *
-	 * @param string $itemId
-	 * @return AnimeListItem|MangaListItem
 	 */
 	public function getLibraryItem(string $itemId): AnimeListItem|MangaListItem
 	{
@@ -101,8 +88,6 @@ trait MediaTrait {
 	/**
 	 * Add an anime to your list
 	 *
-	 * @param array $data
-	 * @return bool
 	 * @throws Throwable
 	 */
 	public function createLibraryItem(array $data): bool
@@ -128,15 +113,14 @@ trait MediaTrait {
 
 		$results = $requester->makeRequests();
 
-		return count($results) > 0;
+		return $results !== [];
 	}
 
 	/**
 	 * Increment progress for the specified anime
 	 *
-	 * @param FormItem $data
-	 * @return array
 	 * @throws Throwable
+	 * @return array<string, mixed>
 	 */
 	public function incrementLibraryItem(FormItem $data): array
 	{
@@ -167,9 +151,8 @@ trait MediaTrait {
 	/**
 	 * Update a list entry
 	 *
-	 * @param FormItem $data
-	 * @return array
 	 * @throws Throwable
+	 * @return array<string, mixed>
 	 */
 	public function updateLibraryItem(FormItem $data): array
 	{
@@ -200,9 +183,7 @@ trait MediaTrait {
 	/**
 	 * Delete a list entry
 	 *
-	 * @param string $id
 	 * @param string|null $malId
-	 * @return bool
 	 * @throws Throwable
 	 */
 	public function deleteLibraryItem(string $id, string $malId = NULL): bool
@@ -222,6 +203,6 @@ trait MediaTrait {
 
 		$results = $requester->makeRequests();
 
-		return count($results) > 0;
+		return $results !== [];
 	}
 }

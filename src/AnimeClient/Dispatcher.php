@@ -53,26 +53,23 @@ final class Dispatcher extends RoutingBase {
 
 	/**
 	 * Routing array
-	 * @var array
 	 */
-	protected array $routes;
+	protected array $routes = [];
 
 	/**
 	 * Routes added to router
-	 * @var array $outputRoutes
 	 */
-	protected array $outputRoutes;
+	protected array $outputRoutes = [];
 
 	/**
 	 * Constructor
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
 		$router = $this->container->get('aura-router');
 		$this->router = $router->getMap();
+
 		$this->matcher = $router->getMatcher();
 		$this->routes = $this->config->get('routes');
 		$this->outputRoutes = $this->setupRoutes();
@@ -104,7 +101,7 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Get list of routes applied
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getOutputRoutes(): array
 	{
@@ -115,7 +112,6 @@ final class Dispatcher extends RoutingBase {
 	 * Handle the current route
 	 *
 	 * @param object|null $route
-	 * @return void
 	 * @throws ReflectionException
 	 */
 	public function __invoke(object $route = NULL): void
@@ -157,9 +153,8 @@ final class Dispatcher extends RoutingBase {
 	 * Parse out the arguments for the appropriate controller for
 	 * the current route
 	 *
-	 * @param Friend $route
 	 * @throws LogicException
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	protected function processRoute(Friend $route): array
 	{
@@ -193,6 +188,7 @@ final class Dispatcher extends RoutingBase {
 				}
 			}
 		}
+
 		$logger = $this->container->getLogger();
 		if ($logger !== NULL)
 		{
@@ -208,8 +204,6 @@ final class Dispatcher extends RoutingBase {
 
 	/**
 	 * Get the type of route, to select the current controller
-	 *
-	 * @return string
 	 */
 	public function getController(): string
 	{
@@ -237,7 +231,7 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Get the list of controllers in the default namespace
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getControllerList(): array
 	{
@@ -247,6 +241,7 @@ final class Dispatcher extends RoutingBase {
 
 		$path = str_replace($find, $replace, $defaultNamespace);
 		$path = trim($path, '/');
+
 		$actualPath = realpath(_dir(SRC_DIR, $path));
 		$classFiles = glob("{$actualPath}/*.php");
 		if ($classFiles === FALSE)
@@ -273,9 +268,6 @@ final class Dispatcher extends RoutingBase {
 	 * method
 	 *
 	 * @param  string $controllerName - The full namespace of the controller class
-	 * @param  string $method
-	 * @param  array  $params
-	 * @return void
 	 */
 	protected function call(string $controllerName, string $method, array $params): void
 	{
@@ -299,6 +291,7 @@ final class Dispatcher extends RoutingBase {
 				'API request timed out',
 				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻');
 		}
+
 		/* finally
 		{
 			// Log out on session/api token expiration
@@ -312,6 +305,7 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Get the appropriate params for the error page
 	 * passed on the failed route
+	 * @return mixed[][]
 	 */
 	protected function getErrorParams(): array
 	{
@@ -360,7 +354,7 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Select controller based on the current url, and apply its relevant routes
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	protected function setupRoutes(): array
 	{
@@ -415,4 +409,5 @@ final class Dispatcher extends RoutingBase {
 		return $routes;
 	}
 }
+
 // End of Dispatcher.php

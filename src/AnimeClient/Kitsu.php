@@ -44,7 +44,6 @@ final class Kitsu {
 	 *
 	 * @param string|null $startDate
 	 * @param string|null $endDate
-	 * @return string
 	 */
 	public static function getAiringStatus(string $startDate = NULL, string $endDate = NULL): string
 	{
@@ -73,7 +72,6 @@ final class Kitsu {
 	 *
 	 * @param string|null $startDate
 	 * @param string|null $endDate
-	 * @return string
 	 */
 	public static function formatAirDates(string $startDate = NULL, string $endDate = NULL): string
 	{
@@ -101,7 +99,7 @@ final class Kitsu {
 
 		if ($startDate === $endDate)
 		{
-			return "{$monthMap[$startMonth]} $startDay, $startYear";
+			return "{$monthMap[$startMonth]} {$startDay}, {$startYear}";
 		}
 
 		if (empty($endDate))
@@ -113,7 +111,7 @@ final class Kitsu {
 
 		if ($startYear === $endYear)
 		{
-			return "{$monthMap[$startMonth]} - {$monthMap[$endMonth]} $startYear";
+			return "{$monthMap[$startMonth]} - {$monthMap[$endMonth]} {$startYear}";
 		}
 
 		return "{$monthMap[$startMonth]} {$startYear} - {$monthMap[$endMonth]} {$endYear}";
@@ -141,6 +139,9 @@ final class Kitsu {
 		return MangaPublishingStatus::NOT_YET_PUBLISHED;
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	public static function mappingsToUrls(array $mappings, string $kitsuLink = ''): array
 	{
 		$output = [];
@@ -212,8 +213,7 @@ final class Kitsu {
 	/**
 	 * Reorganize streaming links
 	 *
-	 * @param array $nodes
-	 * @return array
+	 * @return mixed[]
 	 */
 	public static function parseStreamingLinks(array $nodes): array
 	{
@@ -257,8 +257,7 @@ final class Kitsu {
 	/**
 	 * Get the list of titles
 	 *
-	 * @param array $titles
-	 * @return array
+	 * @return mixed[]
 	 */
 	public static function getTitles(array $titles): array
 	{
@@ -273,8 +272,7 @@ final class Kitsu {
 	/**
 	 * Filter out duplicate and very similar titles from a GraphQL response
 	 *
-	 * @param array $titles
-	 * @return array
+	 * @return mixed[]
 	 */
 	public static function filterLocalizedTitles(array $titles): array
 	{
@@ -304,8 +302,7 @@ final class Kitsu {
 	/**
 	 * Filter out duplicate and very similar titles from a GraphQL response
 	 *
-	 * @param array $titles
-	 * @return array
+	 * @return mixed[]
 	 */
 	public static function getFilteredTitles(array $titles): array
 	{
@@ -338,10 +335,6 @@ final class Kitsu {
 
 	/**
 	 * Get the url of the posterImage from Kitsu, with fallbacks
-	 *
-	 * @param array $base
-	 * @param int $size
-	 * @return string
 	 */
 	public static function getPosterImage(array $base, int $size = 1): string
 	{
@@ -351,14 +344,14 @@ final class Kitsu {
 
 		$parts = explode('?', $rawUrl);
 
-		return ( ! empty($parts)) ? $parts[0] : $rawUrl;
+		return ( empty($parts)) ? $rawUrl : $parts[0];
 	}
 
 	/**
 	 * Get the name and logo for the streaming service of the current link
 	 *
 	 * @param string|null $hostname
-	 * @return array
+	 * @return string[]|bool[]
 	 */
 	protected static function getServiceMetaData(string $hostname = NULL): array
 	{
@@ -433,9 +426,6 @@ final class Kitsu {
 
 	/**
 	 * Convert a time in seconds to a more human-readable format
-	 *
-	 * @param int $seconds
-	 * @return string
 	 */
 	public static function friendlyTime(int $seconds): string
 	{
@@ -481,7 +471,7 @@ final class Kitsu {
 
 		if (empty($parts))
 		{
-			return ($last !== NULL) ? $last : '';
+			return $last ?? '';
 		}
 
 		return (count($parts) > 1)
@@ -491,10 +481,6 @@ final class Kitsu {
 
 	/**
 	 * Determine if an alternate title is unique enough to list
-	 *
-	 * @param string|null $title
-	 * @param array $existingTitles
-	 * @return bool
 	 */
 	protected static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{

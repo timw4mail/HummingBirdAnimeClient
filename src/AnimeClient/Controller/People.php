@@ -29,15 +29,11 @@ use Aviat\Ion\Di\Exception\NotFoundException;
  */
 final class People extends BaseController {
 
-	/**
-	 * @var Model
-	 */
 	private Model $model;
 
 	/**
 	 * People constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -49,9 +45,6 @@ final class People extends BaseController {
 
 	/**
 	 * Show information about a person
-	 *
-	 * @param string $slug
-	 * @return void
 	 */
 	public function index(string $slug): void
 	{

@@ -25,10 +25,6 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  */
 final class PersonTransformer extends AbstractTransformer {
 
-	/**
-	 * @param array|object $item
-	 * @return Person
-	 */
 	public function transform(array|object $item): Person
 	{
 		$item = (array)$item;
@@ -49,6 +45,9 @@ final class PersonTransformer extends AbstractTransformer {
 		]);
 	}
 
+	/**
+	 * @return array<string, array<int|string, array<int|string, array<int|string, array<int|string, mixed>>>>>
+	 */
 	protected function organizeData(array $data): array
 	{
 		$output = [
@@ -59,13 +58,14 @@ final class PersonTransformer extends AbstractTransformer {
 		$characters = [];
 		$staff = [];
 
-		if (count($data['mediaStaff']['nodes']) > 0)
+		if ((is_countable($data['mediaStaff']['nodes']) ? count($data['mediaStaff']['nodes']) : 0) > 0)
 		{
 			$roles = array_unique(array_column($data['mediaStaff']['nodes'], 'role'));
 			foreach ($roles as $role)
 			{
 				$staff[$role] = [];
 			}
+
 			ksort($staff);
 
 			foreach ($data['mediaStaff']['nodes'] as $staffing)
@@ -94,7 +94,7 @@ final class PersonTransformer extends AbstractTransformer {
 			$output['staff'] = $staff;
 		}
 
-		if (count($data['voices']['nodes']) > 0)
+		if ((is_countable($data['voices']['nodes']) ? count($data['voices']['nodes']) : 0) > 0)
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{

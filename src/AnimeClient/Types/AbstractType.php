@@ -19,12 +19,9 @@ namespace Aviat\AnimeClient\Types;
 use ArrayAccess;
 use Countable;
 
-abstract class AbstractType implements ArrayAccess, Countable {
+abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	/**
 	 * Populate values for un-serializing data
-	 *
-	 * @param mixed $properties
-	 * @return self
 	 */
 	public static function __set_state(mixed $properties): self
 	{
@@ -33,9 +30,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Check the shape of the object, and return the array equivalent
-	 *
-	 * @param array $data
-	 * @return array|null
 	 */
 	final public static function check(array $data = []): ?array
 	{
@@ -51,9 +45,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Static constructor
-	 *
-	 * @param mixed $data
-	 * @return static
 	 */
 	final public static function from(mixed $data): static
 	{
@@ -62,8 +53,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Sets the properties by using the constructor
-	 *
-	 * @param mixed $data
 	 */
 	final private function __construct(mixed $data = [])
 	{
@@ -86,9 +75,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * See if a property is set
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
 	final public function __isset(string $name): bool
 	{
@@ -97,10 +83,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Set a property on the type object
-	 *
-	 * @param string $name
-	 * @param mixed $value
-	 * @return void
 	 */
 	final public function __set(string $name, mixed $value): void
 	{
@@ -114,9 +96,9 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 		if ( ! property_exists($this, $name))
 		{
-			$existing = json_encode($this);
+			$existing = json_encode($this, JSON_THROW_ON_ERROR);
 
-			throw new UndefinedPropertyException("Trying to set undefined property: '$name'. Existing properties: $existing");
+			throw new UndefinedPropertyException("Trying to set undefined property: '{$name}'. Existing properties: {$existing}");
 		}
 
 		$this->$name = $value;
@@ -124,9 +106,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Get a property from the type object
-	 *
-	 * @param string $name
-	 * @return mixed
 	 */
 	final public function __get(string $name): mixed
 	{
@@ -137,8 +116,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Create a string representation of the object for debugging
-	 *
-	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -147,9 +124,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @return bool
 	 */
 	final public function offsetExists(mixed $offset): bool
 	{
@@ -158,9 +132,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @return mixed
 	 */
 	final public function offsetGet(mixed $offset): mixed
 	{
@@ -169,9 +140,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @param mixed $value
 	 */
 	final public function offsetSet(mixed $offset, mixed $value): void
 	{
@@ -180,8 +148,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
 	 */
 	final public function offsetUnset(mixed $offset): void
 	{
@@ -194,8 +160,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing Countable
-	 *
-	 * @return int
 	 */
 	final public function count(): int
 	{
@@ -209,7 +173,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * Returns early on primitive values to work recursively.
 	 *
 	 * @param mixed $parent
-	 * @return array
 	 */
 	final public function toArray(mixed $parent = null): array
 	{
@@ -219,8 +182,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Determine whether the type has any properties set
-	 *
-	 * @return bool
 	 */
 	final public function isEmpty(): bool
 	{

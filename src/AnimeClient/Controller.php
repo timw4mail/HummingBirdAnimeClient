@@ -169,7 +169,6 @@ class Controller {
 	 *
 	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function sessionRedirect(): void
 	{
@@ -200,9 +199,6 @@ class Controller {
 	 *
 	 * @codeCoverageIgnore
 	 * @param HtmlView $view
-	 * @param string $template
-	 * @param array $data
-	 * @return string
 	 */
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
@@ -232,8 +228,6 @@ class Controller {
 	 *
 	 * @codeCoverageIgnore
 	 * @param HtmlView $view
-	 * @param string $template
-	 * @param array $data
 	 * @return HtmlView
 	 */
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
@@ -262,10 +256,7 @@ class Controller {
 	 * 404 action
 	 *
 	 * @codeCoverageIgnore
-	 * @param string $title
-	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function notFound(
 		string $title = 'Sorry, page not found',
@@ -283,12 +274,7 @@ class Controller {
 	 * Display a generic error page
 	 *
 	 * @codeCoverageIgnore
-	 * @param int $httpCode
-	 * @param string $title
-	 * @param string $message
-	 * @param string $longMessage
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
 	{
@@ -304,7 +290,6 @@ class Controller {
 	 *
 	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function redirectToDefaultRoute(): void
 	{
@@ -317,9 +302,6 @@ class Controller {
 	 * next page load
 	 *
 	 * @codeCoverageIgnore
-	 * @param string $message
-	 * @param string $type
-	 * @return void
 	 */
 	public function setFlashMessage(string $message, string $type = 'info'): void
 	{
@@ -342,7 +324,6 @@ class Controller {
 	 * Helper for consistent page titles
 	 *
 	 * @param string ...$parts Title segments
-	 * @return string
 	 */
 	public function formatTitle(string ...$parts) : string
 	{
@@ -354,10 +335,7 @@ class Controller {
 	 *
 	 * @codeCoverageIgnore
 	 * @param HtmlView $view
-	 * @param string $type
-	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @return string
 	 */
 	protected function showMessage(HtmlView $view, string $type, string $message): string
 	{
@@ -371,11 +349,7 @@ class Controller {
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @codeCoverageIgnore
-	 * @param string $template
-	 * @param array $data
 	 * @param HtmlView|NULL $view
-	 * @param int $code
-	 * @return void
 	 *@throws InvalidArgumentException
 	 */
 	protected function outputHTML(string $template, array $data = [], HtmlView $view = NULL, int $code = 200): void
@@ -393,10 +367,8 @@ class Controller {
 	 * Output a JSON Response
 	 *
 	 * @codeCoverageIgnore
-	 * @param mixed $data
 	 * @param int $code - the http status code
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
 	protected function outputJSON(mixed $data, int $code): void
 	{
@@ -410,9 +382,6 @@ class Controller {
 	 * Redirect to the selected page
 	 *
 	 * @codeCoverageIgnore
-	 * @param string $url
-	 * @param int $code
-	 * @return void
 	 */
 	protected function redirect(string $url, int $code): void
 	{
@@ -423,4 +392,5 @@ class Controller {
 		catch (\Throwable) {}
 	}
 }
+
 // End of BaseController.php

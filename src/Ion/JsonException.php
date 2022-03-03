@@ -24,4 +24,5 @@ use InvalidArgumentException;
 class JsonException extends InvalidArgumentException {
 
 }
+
 // End of JsonException.php

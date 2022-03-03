@@ -31,8 +31,6 @@ final class ListItem extends AbstractListItem {
 	use RequestBuilderTrait;
 
 	/**
-	 * @param array $data
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function create(array $data): Request
@@ -90,8 +88,6 @@ final class ListItem extends AbstractListItem {
 	}
 
 	/**
-	 * @param string $id
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function delete(string $id): Request
@@ -102,9 +98,8 @@ final class ListItem extends AbstractListItem {
 	}
 
 	/**
-	 * @param string $id
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function get(string $id): array
 	{
@@ -115,10 +110,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Increase the progress on the medium by 1
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
@@ -129,9 +120,6 @@ final class ListItem extends AbstractListItem {
 	}
 
 	/**
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function update(string $id, FormItemData $data): Request
@@ -151,6 +139,7 @@ final class ListItem extends AbstractListItem {
 		{
 			$updateData['progress'] = (int)$data['progress'];
 		}
+
 		if ($data['ratingTwenty'] !== NULL)
 		{
 			$updateData['ratingTwenty'] = (int)$data['ratingTwenty'];

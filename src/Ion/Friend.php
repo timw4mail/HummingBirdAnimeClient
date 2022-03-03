@@ -29,20 +29,17 @@ class Friend {
 
 	/**
 	 * Object to create a friend of
-	 * @var mixed
 	 */
 	private mixed $_friend_;
 
 	/**
 	 * Reflection class of the object
-	 * @var ReflectionClass
 	 */
 	private ReflectionClass $_reflect_;
 
 	/**
 	 * Create a friend object
 	 *
-	 * @param mixed $obj
 	 * @throws InvalidArgumentException
 	 * @throws \ReflectionException
 	 */
@@ -59,9 +56,6 @@ class Friend {
 
 	/**
 	 * Retrieve a friend's property
-	 *
-	 * @param  string $key
-	 * @return mixed
 	 */
 	public function __get(string $key): mixed
 	{
@@ -80,9 +74,6 @@ class Friend {
 
 	/**
 	 * See if a property exists on the friend
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
 	public function __isset(string $name): bool
 	{
@@ -92,8 +83,6 @@ class Friend {
 	/**
 	 * Set a friend's property
 	 *
-	 * @param string $key
-	 * @param mixed  $value
 	 * @return void
 	 */
 	public function __set(string $key, mixed $value)
@@ -112,8 +101,6 @@ class Friend {
 	/**
 	 * Calls a protected or private method on the friend
 	 *
-	 * @param  string $method
-	 * @param  array  $args
 	 * @return mixed
 	 * @throws BadMethodCallException
 	 * @throws \ReflectionException
@@ -132,9 +119,6 @@ class Friend {
 
 	/**
 	 * Iterates over parent classes to get a ReflectionProperty
-	 *
-	 * @param  string $name
-	 * @return ReflectionProperty|null
 	 */
 	private function _get_property(string $name): ?ReflectionProperty
 	{
@@ -147,11 +131,13 @@ class Friend {
 		// Return NULL on any exception, so no further logic needed
 		// in the catch block
 		// @codeCoverageIgnoreStart
-		catch (\Exception $e)
+		catch (\Exception)
 		{
 			return NULL;
 		}
+
 		// @codeCoverageIgnoreEnd
 	}
 }
+
 // End of Friend.php

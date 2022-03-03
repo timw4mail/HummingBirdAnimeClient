@@ -29,20 +29,17 @@ use Aviat\Ion\Di\Exception\NotFoundException;
 final class History extends BaseController {
 	/**
 	 * The anime list model
-	 * @var AnimeModel
 	 */
 	protected AnimeModel $animeModel;
 
 	/**
 	 * The manga list model
-	 * @var MangaModel
 	 */
 	protected MangaModel $mangaModel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */

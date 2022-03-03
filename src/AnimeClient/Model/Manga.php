@@ -35,8 +35,7 @@ class Manga extends API {
 	/**
 	 * Get a category out of the full list
 	 *
-	 * @param string $status
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getList(string $status): array
 	{
@@ -60,7 +59,6 @@ class Manga extends API {
 	/**
 	 * Get the details of a manga
 	 *
-	 * @param string $manga_id
 	 * @return MangaPage
 	 */
 	public function getManga(string $manga_id): MangaPage
@@ -81,7 +79,6 @@ class Manga extends API {
 	/**
 	 * Get anime by its kitsu id
 	 *
-	 * @param string $animeId
 	 * @return MangaPage
 	 */
 	public function getMangaById(string $animeId): MangaPage
@@ -92,7 +89,7 @@ class Manga extends API {
 	/**
 	 * Get recent reading history
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getHistory(): array
 	{
@@ -102,8 +99,7 @@ class Manga extends API {
 	/**
 	 * Map transformed anime data to be organized by reading status
 	 *
-	 * @param array $data
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	private function mapByStatus(array $data): array
 	{
@@ -126,4 +122,5 @@ class Manga extends API {
 		return $output;
 	}
 }
+
 // End of MangaModel.php

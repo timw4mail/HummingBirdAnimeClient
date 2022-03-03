@@ -51,13 +51,10 @@ abstract class HistoryTransformer {
 	/**
 	 * @var array The mapping of api status to display status
 	 */
-	protected array $statusMap;
+	protected array $statusMap = [];
 
 	/**
 	 * Convert raw history
-	 *
-	 * @param array $data
-	 * @return array
 	 */
 	public function transform(array $data): array
 	{
@@ -99,9 +96,6 @@ abstract class HistoryTransformer {
 
 	/**
 	 * Combine consecutive 'progressed' events
-	 *
-	 * @param array $singles
-	 * @return array
 	 */
 	protected function aggregate (array $singles): array
 	{
@@ -143,6 +137,7 @@ abstract class HistoryTransformer {
 					$items[] = array_pop($progressItem);
 					$updated[] = $e['updated'];
 				}
+
 				$firstItem = min($items);
 				$lastItem = max($items);
 				$firstUpdate = min($updated);

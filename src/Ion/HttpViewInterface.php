@@ -24,9 +24,7 @@ interface HttpViewInterface extends ViewInterface {
 	/**
 	 * Set the status code of the request
 	 *
-	 * @param int $code
 	 * @throws \InvalidArgumentException
-	 * @return self
 	 */
 	public function setStatusCode(int $code): self;
 }

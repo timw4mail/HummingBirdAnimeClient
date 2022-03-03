@@ -28,14 +28,11 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Anime API Model
-	 * @var Anime $animeModel
 	 */
 	protected Anime $animeModel;
 
 	/**
 	 * Create the collection model
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -46,7 +43,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get collection from the database, and organize by media type
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getCollection(): array
 	{
@@ -77,7 +74,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get the collection from the database
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getFlatCollection():  array
 	{
@@ -123,7 +120,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get list of media types
 	 *
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	public function getMediaTypeList(): array
 	{
@@ -173,9 +170,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Add an item to the anime collection
-	 *
-	 * @param mixed $data
-	 * @return void
 	 */
 	public function add(mixed $data): void
 	{
@@ -212,9 +206,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Verify that an item was added
-	 *
-	 * @param array $data
-	 * @return bool
 	 */
 	public function wasAdded(array $data): bool
 	{
@@ -230,9 +221,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Update a collection item
-	 *
-	 * @param array $data
-	 * @return void
 	 */
 	public function update(array $data): void
 	{
@@ -269,9 +257,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Verify that the collection item was updated
 	 *
-	 * @param array $data
 	 *
-	 * @return bool
 	 */
 	public function wasUpdated(array $data): bool
 	{
@@ -300,9 +286,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Remove a collection item
-	 *
-	 * @param  array $data
-	 * @return void
 	 */
 	public function delete(array $data): void
 	{
@@ -331,10 +314,6 @@ final class AnimeCollection extends Collection {
 		$this->db->commit();
 	}
 
-	/**
-	 * @param array $data
-	 * @return bool
-	 */
 	public function wasDeleted(array $data): bool
 	{
 		if ($this->db === NULL)
@@ -348,8 +327,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int|string $kitsuId
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function get(int|string $kitsuId): array
 	{
@@ -388,9 +366,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Does this anime already exist in the collection?
-	 *
-	 * @param int|string $kitsuId
-	 * @return bool
 	 */
 	public function has(int|string $kitsuId): bool
 	{
@@ -411,8 +386,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get genres for anime collection items
 	 *
-	 * @param array $filter
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getGenreList(array $filter = []): array
 	{
@@ -479,8 +453,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get media for anime collection items
 	 *
-	 * @param array $filter
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getMediaList(array $filter = []): array
 	{
@@ -537,7 +510,7 @@ final class AnimeCollection extends Collection {
 				}
 			}
 		}
-		catch (PDOException $e) {}
+		catch (PDOException) {}
 
 		$this->db->resetQuery();
 
@@ -576,7 +549,6 @@ final class AnimeCollection extends Collection {
 	 * Update genre information for selected anime
 	 *
 	 * @param string $animeId The current anime
-	 * @return void
 	 */
 	private function updateGenres(string $animeId): void
 	{
@@ -626,8 +598,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Add genres to the database
-	 *
-	 * @param array $genres
 	 */
 	private function addNewGenres(array $genres): void
 	{
@@ -661,7 +631,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get list of existing genres
 	 *
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	private function getGenreData(): array
 	{
@@ -671,6 +641,9 @@ final class AnimeCollection extends Collection {
 		];
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function getExistingGenres(): array
 	{
 		if ($this->db === NULL)
@@ -701,6 +674,9 @@ final class AnimeCollection extends Collection {
 		return $genres;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function getExistingGenreLinkEntries(): array
 	{
 		if ($this->db === NULL)
@@ -740,7 +716,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get full collection from the database
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	private function getCollectionFromDatabase(): array
 	{
@@ -782,4 +758,5 @@ final class AnimeCollection extends Collection {
 		return $rows;
 	}
 }
+
 // End of AnimeCollectionModel.php

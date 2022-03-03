@@ -26,7 +26,6 @@ abstract class DB {
 
 	/**
 	 * The database connection information array
-	 * @var array $dbConfig
 	 */
 	protected array $dbConfig = [];
 
@@ -41,4 +40,5 @@ abstract class DB {
 		$this->setContainer($container);
 	}
 }
+
 // End of DB.php

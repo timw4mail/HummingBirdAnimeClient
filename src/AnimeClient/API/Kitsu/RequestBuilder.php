@@ -40,20 +40,16 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * The base url for api requests
-	 * @var string $base_url
 	 */
 	protected string $baseUrl = K::GRAPHQL_ENDPOINT;
 
 	/**
 	 * Where to look for GraphQL request files
-	 * @var string
 	 */
 	protected string $filePath = __DIR__;
 
 	/**
 	 * HTTP headers to send with every request
-	 *
-	 * @var array
 	 */
 	protected array $defaultHeaders = [
 		'User-Agent' =>  USER_AGENT,
@@ -70,11 +66,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a request object
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return Request
 	 */
 	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
@@ -131,9 +122,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Run a GraphQL API query
 	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
@@ -156,9 +145,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Run a GraphQL mutation
 	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function mutate(string $name, array $variables = []): array
 	{
@@ -180,11 +167,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Make a request
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return Response
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -205,10 +187,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a GraphQL query and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 */
 	public function queryRequest(string $name, array $variables = []): Request
 	{
@@ -239,10 +217,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a GraphQL mutation request, and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 */
 	public function mutateRequest (string $name, array $variables = []): Request
 	{
@@ -272,11 +246,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Make a request
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return array
 	 */
 	private function request(string $type, string $url, array $options = []): array
 	{
@@ -305,7 +274,7 @@ final class RequestBuilder extends APIRequestBuilder {
 		{
 			return Json::decode($rawBody);
 		}
-		catch (JsonException $e)
+		catch (JsonException)
 		{
 			// dump($e);
 			dump($rawBody);

@@ -46,11 +46,6 @@ abstract class BaseCommand extends Command {
 
 	/**
 	 * Echo text in a box
-	 *
-	 * @param string|array $message
-	 * @param string|int|null $fgColor
-	 * @param string|int|null $bgColor
-	 * @return void
 	 */
 	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
 	{
@@ -63,6 +58,7 @@ abstract class BaseCommand extends Command {
 		{
 			$fgColor = (int)$fgColor;
 		}
+
 		if ($bgColor !== NULL)
 		{
 			$bgColor = (int)$bgColor;
@@ -123,7 +119,7 @@ abstract class BaseCommand extends Command {
 	 */
 	public function setupContainer(): ContainerInterface
 	{
-		$APP_DIR = _dir(dirname(dirname(SRC_DIR)), 'app');
+		$APP_DIR = _dir(dirname(SRC_DIR, 2), 'app');
 		$APPCONF_DIR = _dir($APP_DIR, 'appConf');
 		$CONF_DIR = _dir($APP_DIR, 'config');
 		$baseConfig = require _dir($APPCONF_DIR,  'base_config.php');
@@ -146,6 +142,7 @@ abstract class BaseCommand extends Command {
 		{
 			$fgColor = (int)$fgColor;
 		}
+
 		if ($bgColor !== NULL)
 		{
 			$bgColor = (int)$bgColor;
@@ -168,6 +165,7 @@ abstract class BaseCommand extends Command {
 
 		$appLogger = new Logger('animeclient');
 		$appLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', 2, Logger::WARNING));
+
 		$container->setLogger($appLogger);
 
 		foreach (['kitsu-request', 'anilist-request', 'anilist-request-cli', 'kitsu-request-cli'] as $channel)
@@ -184,7 +182,7 @@ abstract class BaseCommand extends Command {
 		$container->set('config', fn () => new Config($configArray));
 
 		// Create Cache Object
-		$container->set('cache', static function($container) {
+		$container->set('cache', static function($container): \Aviat\Banker\Teller {
 			$logger = $container->getLogger();
 			$config = $container->get('config')->get('cache');
 			return new Teller($config, $logger);

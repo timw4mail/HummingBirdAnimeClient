@@ -29,20 +29,13 @@ use Aviat\Ion\Di\Exception\NotFoundException;
  */
 final class Settings extends BaseController {
 
-	/**
-	 * @var AnilistModel
-	 */
 	private AnilistModel $anilistModel;
 
-	/**
-	 * @var SettingsModel
-	 */
 	private SettingsModel $settingsModel;
 
 	/**
 	 * Settings constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -147,6 +140,7 @@ final class Settings extends BaseController {
 		{
 			$newSettings[$key] = $value;
 		}
+
 		unset($newSettings['config']);
 
 		$saved = $this->settingsModel->saveSettingsFile($newSettings);

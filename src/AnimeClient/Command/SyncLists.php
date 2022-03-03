@@ -124,8 +124,6 @@ final class SyncLists extends BaseCommand {
 
 	/**
 	 * Get and display the count of items for each API
-	 *
-	 * @param string $type
 	 */
 	protected function fetchCount(string $type): void
 	{
@@ -150,8 +148,7 @@ final class SyncLists extends BaseCommand {
 	/**
 	 * Get the list data
 	 *
-	 * @param string $type
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	protected function fetch(string $type): array
 	{
@@ -175,9 +172,7 @@ final class SyncLists extends BaseCommand {
 	/**
 	 * Normalize the list data for comparison
 	 *
-	 * @param string $type
-	 * @param array $data
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	protected function transform(string $type, array $data): array
 	{
@@ -201,9 +196,7 @@ final class SyncLists extends BaseCommand {
 	/**
 	 * Compare the lists data
 	 *
-	 * @param string $type
-	 * @param array $data
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	protected function compare(string $type, array $data): array
 	{
@@ -215,22 +208,20 @@ final class SyncLists extends BaseCommand {
 	/**
 	 * Updated outdated list items
 	 *
-	 * @param string $type
-	 * @param array $data
 	 * @throws Throwable
 	 */
 	protected function update(string $type, array $data): void
 	{
 		if ( ! empty($data['addToAnilist']))
 		{
-			$count = count($data['addToAnilist']);
+			$count = is_countable($data['addToAnilist']) ? count($data['addToAnilist']) : 0;
 			$this->echoBox("Adding {$count} missing {$type} list items to Anilist");
 			$this->updateAnilistListItems($data['addToAnilist'], SyncAction::CREATE, $type);
 		}
 
 		if ( ! empty($data['updateAnilist']))
 		{
-			$count = count($data['updateAnilist']);
+			$count = is_countable($data['updateAnilist']) ? count($data['updateAnilist']) : 0;
 			$this->echoBox("Updating {$count} outdated Anilist {$type} list items");
 			$this->updateAnilistListItems($data['updateAnilist'], SyncAction::UPDATE, $type);
 		}
@@ -239,14 +230,14 @@ final class SyncLists extends BaseCommand {
 		{
 			if ( ! empty($data['addToKitsu']))
 			{
-				$count = count($data['addToKitsu']);
+				$count = is_countable($data['addToKitsu']) ? count($data['addToKitsu']) : 0;
 				$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
 				$this->updateKitsuListItems($data['addToKitsu'], SyncAction::CREATE, $type);
 			}
 
 			if ( ! empty($data['updateKitsu']))
 			{
-				$count = count($data['updateKitsu']);
+				$count = is_countable($data['updateKitsu']) ? count($data['updateKitsu']) : 0;
 				$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
 				$this->updateKitsuListItems($data['updateKitsu'], SyncAction::UPDATE, $type);
 			}
@@ -279,6 +270,9 @@ final class SyncLists extends BaseCommand {
 		return $count;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function fetchAnilist(string $type): array
 	{
 		static $list = [
@@ -310,6 +304,9 @@ final class SyncLists extends BaseCommand {
 		return $this->kitsuModel->{"get{$uType}ListCount"}() ?? 0;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function fetchKitsu(string $type): array
 	{
 		return $this->kitsuModel->getSyncList($type);
@@ -318,7 +315,9 @@ final class SyncLists extends BaseCommand {
 	// ------------------------------------------------------------------------
 	// Transform Helpers
 	// ------------------------------------------------------------------------
-
+	/**
+	 * @return mixed[]
+	 */
 	private function transformKitsu(string $type, array $data): array
 	{
 		if (empty($data))
@@ -335,6 +334,7 @@ final class SyncLists extends BaseCommand {
 			{
 				continue;
 			}
+
 			$malId = NULL;
 
 			foreach ($listItem['media']['mappings']['nodes'] as $mapping)
@@ -375,6 +375,9 @@ final class SyncLists extends BaseCommand {
 		return $output;
 	}
 
+	/**
+	 * @return array<int|string, mixed>
+	 */
 	private function transformAnilist(string $type, array $data): array
 	{
 		$uType = ucfirst($type);
@@ -403,7 +406,9 @@ final class SyncLists extends BaseCommand {
 	// ------------------------------------------------------------------------
 	// Compare Helpers
 	// ------------------------------------------------------------------------
-
+	/**
+	 * @return array<string, mixed[]>
+	 */
 	private function compareLists(string $type, array $anilistList, array $kitsuList): array
 	{
 		$itemsToAddToAnilist = [];
@@ -486,10 +491,6 @@ final class SyncLists extends BaseCommand {
 
 	/**
 	 * Compare two list items, and return the out of date one, if one exists
-	 *
-	 * @param array $kitsuItem
-	 * @param array $anilistItem
-	 * @return array|null
 	 */
 	private function compareListItems(array $kitsuItem, array $anilistItem): ?array
 	{
@@ -708,13 +709,9 @@ final class SyncLists extends BaseCommand {
 	// ------------------------------------------------------------------------
 	// Update Helpers
 	// ------------------------------------------------------------------------
-
 	/**
 	 * Create/Update list items on Kitsu
 	 *
-	 * @param array $itemsToUpdate
-	 * @param string $action
-	 * @param string $type
 	 * @throws Throwable
 	 */
 	private function updateKitsuListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
@@ -736,6 +733,7 @@ final class SyncLists extends BaseCommand {
 					$this->echoWarning("Skipped creating Kitsu {$type} due to missing id ¯\_(ツ)_/¯");
 					continue;
 				}
+
 				$requester->addRequest($maybeRequest);
 			}
 		}
@@ -781,9 +779,6 @@ final class SyncLists extends BaseCommand {
 	/**
 	 * Create/Update list items on Anilist
 	 *
-	 * @param array $itemsToUpdate
-	 * @param string $action
-	 * @param string $type
 	 * @throws Throwable
 	 */
 	private function updateAnilistListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
@@ -806,11 +801,11 @@ final class SyncLists extends BaseCommand {
 				{
 					$requester->addRequest($this->anilistModel->createFullListItem($item, $type));
 				}
-				catch (MissingIdException $e)
+				catch (MissingIdException)
 				{
 					// Case where there's a MAL mapping from Kitsu, but no equivalent Anlist item
 					$id = $item['mal_id'];
-					$this->echoWarning("Skipping Anilist ${type} with MAL id: {$id} due to missing mapping");
+					$this->echoWarning("Skipping Anilist {$type} with MAL id: {$id} due to missing mapping");
 				}
 			}
 		}

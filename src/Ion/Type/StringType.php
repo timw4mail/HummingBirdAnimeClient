@@ -25,9 +25,6 @@ class StringType extends Stringy {
 
 	/**
 	 * Alias for `create` static constructor
-	 *
-	 * @param string $str
-	 * @return self
 	 */
 	public static function from(string $str): self
 	{
@@ -38,9 +35,7 @@ class StringType extends Stringy {
 	 * See if two strings match, despite being delimited differently,
 	 * such as camelCase, PascalCase, kebab-case, or snake_case.
 	 *
-	 * @param string $strToMatch
 	 * @throws \InvalidArgumentException
-	 * @return boolean
 	 */
 	public function fuzzyCaseMatch(string $strToMatch): bool
 	{
@@ -50,4 +45,5 @@ class StringType extends Stringy {
 		return $firstStr === $secondStr;
 	}
 }
+
 // End of StringType.php

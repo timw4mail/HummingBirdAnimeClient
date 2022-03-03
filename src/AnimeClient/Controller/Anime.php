@@ -39,14 +39,12 @@ final class Anime extends BaseController {
 
 	/**
 	 * The anime list model
-	 * @var AnimeModel $model
 	 */
 	protected AnimeModel $model;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -68,7 +66,6 @@ final class Anime extends BaseController {
 	 *
 	 * @param int|string $status - The section of the list
 	 * @param string|null $view - List or cover view
-	 * @return void
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 */
@@ -116,7 +113,6 @@ final class Anime extends BaseController {
 	 * @throws RouteNotFound
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function addForm(): void
 	{
@@ -137,7 +133,6 @@ final class Anime extends BaseController {
 	 * Add an anime to the list
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function add(): void
 	{
@@ -172,9 +167,6 @@ final class Anime extends BaseController {
 
 	/**
 	 * Form to edit details about a series
-	 *
-	 * @param string $id
-	 * @param string $status
 	 */
 	public function edit(string $id, string $status = 'all'): void
 	{
@@ -198,8 +190,6 @@ final class Anime extends BaseController {
 
 	/**
 	 * Search for anime
-	 *
-	 * @return void
 	 */
 	public function search(): void
 	{
@@ -212,7 +202,6 @@ final class Anime extends BaseController {
 	 * Update an anime item via a form submission
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function formUpdate(): void
 	{
@@ -243,7 +232,6 @@ final class Anime extends BaseController {
 	 * Increase the watched count for an anime item
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function increment(): void
 	{
@@ -274,7 +262,6 @@ final class Anime extends BaseController {
 	 * Remove an anime from the list
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
 	public function delete(): void
 	{
@@ -299,9 +286,7 @@ final class Anime extends BaseController {
 	/**
 	 * View details of an anime
 	 *
-	 * @param string $id
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function details(string $id): void
 	{
@@ -379,4 +364,5 @@ final class Anime extends BaseController {
 		}
 	}
 }
+
 // End of AnimeController.php
