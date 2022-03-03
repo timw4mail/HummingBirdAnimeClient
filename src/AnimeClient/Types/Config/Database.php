@@ -22,15 +22,15 @@ class Database extends AbstractType {
 
 	public string $type = 'sqlite';
 
-	public ?string $host = null;
+	public ?string $host;
 
-	public ?string $user = null;
+	public ?string $user;
 
-	public ?string $pass = null;
+	public ?string $pass;
 
 	public string|int|null $port;
 
-	public ?string $database = null;
+	public ?string $database;
 
-	public ?string $file = null;
+	public ?string $file;
 }

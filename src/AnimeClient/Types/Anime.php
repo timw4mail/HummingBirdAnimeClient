@@ -22,45 +22,45 @@ use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
  * Type representing an anime within a watch list
  */
 class Anime extends AbstractType {
-	public ?string $age_rating = null;
+	public ?string $age_rating;
 
-	public ?string $age_rating_guide = null;
+	public ?string $age_rating_guide;
 
-	public ?string $cover_image = null;
+	public ?string $cover_image;
 
-	public ?int $episode_count = null;
+	public ?int $episode_count;
 
-	public ?int $episode_length = null;
+	public ?int $episode_length;
 
 	public array $genres = [];
 
 	public string $id = '';
 
-	public ?string $show_type = null;
+	public ?string $show_type;
 
-	public ?string $slug = null;
+	public ?string $slug;
 
 	public string $status = AnimeAiringStatus::FINISHED_AIRING;
 
 	public ?array $streaming_links = [];
 
-	public ?string $synopsis = null;
+	public ?string $synopsis;
 
-	public ?string $title = null;
+	public ?string $title;
 
 	public array $titles = [];
 
 	public array $titles_more = [];
 
-	public ?string $trailer_id = null;
+	public ?string $trailer_id;
 
 	/**
 	 * Length of the entire series in seconds
 	 */
-	public ?int $total_length = null;
+	public ?int $total_length;
 
 	/**
 	 * Kitsu detail page url
 	 */
-	public ?string $url = null;
+	public ?string $url;
 }

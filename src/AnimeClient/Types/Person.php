@@ -23,13 +23,13 @@ final class Person extends AbstractType {
 
 	public string $id;
 
-	public ?string $name = null;
+	public ?string $name;
 
 	public string $image;
 
 	public array $names = [];
 
-	public ?string $description = null;
+	public ?string $description;
 
 	public array $characters = [];
 

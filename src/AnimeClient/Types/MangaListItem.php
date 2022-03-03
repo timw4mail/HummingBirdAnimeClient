@@ -23,7 +23,9 @@ final class MangaListItem extends AbstractType {
 
 	public string $id;
 
-	public ?string $mal_id = null;
+	public ?string $anilist_id;
+
+	public ?string $mal_id;
 
 	public array $chapters = [
 		'read' => 0,
@@ -39,11 +41,11 @@ final class MangaListItem extends AbstractType {
 
 	public string $reading_status;
 
-	public ?string $notes = null;
+	public ?string $notes;
 
 	public bool $rereading = false;
 
-	public ?int $reread = null;
+	public ?int $reread;
 
 	public string|int|null $user_rating;
 }

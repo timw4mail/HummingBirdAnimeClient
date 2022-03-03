@@ -22,15 +22,15 @@ class MediaListEntry extends AbstractType {
 
 	public int|string $id;
 
-	public ?string $notes = null;
+	public ?string $notes;
 
-	public ?bool $private = null;
+	public ?bool $private;
 
 	public int $progress;
 
-	public ?int $repeat = null;
+	public ?int $repeat;
 
 	public string $status;
 
-	public ?int $score = null;
+	public ?int $score;
 }

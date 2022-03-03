@@ -20,9 +20,11 @@ namespace Aviat\AnimeClient\Types;
  * Type representing an anime watch list item
  */
 final class AnimeListItem extends AbstractType {
-	public ?string $id = null;
+	public ?string $id;
 
-	public ?string $mal_id = null;
+	public ?string $anilist_id;
+
+	public ?string $mal_id;
 
 	public array $episodes = [
 		'length' => 0,
@@ -36,9 +38,9 @@ final class AnimeListItem extends AbstractType {
 		'ended' => '',
 	];
 
-	public ?Anime $anime = null;
+	public ?Anime $anime;
 
-	public ?string $notes = null;
+	public ?string $notes;
 
 	public bool $private = FALSE;
 

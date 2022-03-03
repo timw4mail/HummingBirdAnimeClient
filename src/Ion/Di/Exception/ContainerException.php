@@ -17,12 +17,11 @@
 namespace Aviat\Ion\Di\Exception;
 
 use Exception;
-use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Generic exception for Di Container
  */
-class ContainerException extends Exception implements ContainerExceptionInterface {
+class ContainerException extends Exception {
 
 }
 
