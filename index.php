@@ -26,7 +26,7 @@ setlocale(LC_CTYPE, 'en_US');
 require_once __DIR__ . '/vendor/autoload.php';
 
 Debugger::$strictMode = E_ALL & ~E_DEPRECATED; // all errors except deprecated notices
-Debugger::$showBar = false;
+Debugger::$showBar = FALSE;
 Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/app/logs');
 
 // Define base directories
@@ -59,7 +59,7 @@ if (is_array($checkedConfig) && array_key_exists('timezone', $checkedConfig) && 
 {
 	date_default_timezone_set($checkedConfig['timezone']);
 }
-else if (is_string($timezone) && $timezone !== '')
+elseif (is_string($timezone) && $timezone !== '')
 {
 	date_default_timezone_set($timezone);
 }
