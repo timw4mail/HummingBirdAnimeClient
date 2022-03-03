@@ -18,8 +18,7 @@ namespace Aviat\AnimeClient;
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,8 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Base for routing/url classes
  */
-class RoutingBase {
-
+class RoutingBase
+{
 	/**
 	 * Config Object
 	 */
@@ -42,9 +41,9 @@ class RoutingBase {
 	/**
 	 * Constructor
 	 *
+	 * @throws ConfigException
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws ConfigException
 	 */
 	public function __construct(protected ContainerInterface $container)
 	{
@@ -64,7 +63,7 @@ class RoutingBase {
 			->trimRight('/')
 			->ensureLeft('/');
 
-		return (string)$cleanedPath;
+		return (string) $cleanedPath;
 	}
 
 	/**
@@ -73,17 +72,17 @@ class RoutingBase {
 	public function segments(): array
 	{
 		$path = $this->path();
+
 		return explode('/', $path);
 	}
 
 	/**
 	 * Get a segment of the current url
-	 *
-	 *
 	 */
 	public function getSegment(int $num): ?string
 	{
 		$segments = $this->segments();
+
 		return $segments[$num] ?? NULL;
 	}
 
@@ -93,6 +92,7 @@ class RoutingBase {
 	public function lastSegment(): string
 	{
 		$segments = $this->segments();
+
 		return end($segments);
 	}
 }

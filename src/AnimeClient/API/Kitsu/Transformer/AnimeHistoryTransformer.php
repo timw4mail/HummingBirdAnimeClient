@@ -18,16 +18,12 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 
-class AnimeHistoryTransformer extends HistoryTransformer {
+class AnimeHistoryTransformer extends HistoryTransformer
+{
 	protected string $type = 'anime';
-
 	protected string $progressAction = 'Watched episode';
-
 	protected string $reconsumeAction = 'Rewatched episode';
-
 	protected string $largeAggregateAction = 'Marathoned episodes';
-
 	protected string $reconsumingStatus = 'Rewatching';
-
 	protected array $statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
 }

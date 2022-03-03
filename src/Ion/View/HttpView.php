@@ -16,18 +16,20 @@
 
 namespace Aviat\Ion\View;
 
+use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\HttpViewInterface;
+use InvalidArgumentException;
+
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-
-use Aviat\Ion\Exception\DoubleRenderException;
 use Psr\Http\Message\ResponseInterface;
+use Stringable;
 
 /**
  * Base view class for Http output
  */
-class HttpView implements HttpViewInterface, \Stringable{
-
+class HttpView implements HttpViewInterface, Stringable
+{
 	/**
 	 * HTTP response Object
 	 */
@@ -77,6 +79,7 @@ class HttpView implements HttpViewInterface, \Stringable{
 		}
 
 		$this->hasRendered = TRUE;
+
 		return $this->getOutput();
 	}
 
@@ -88,6 +91,7 @@ class HttpView implements HttpViewInterface, \Stringable{
 	public function addHeader(string $name, array|string $value): self
 	{
 		$this->response = $this->response->withHeader($name, $value);
+
 		return $this;
 	}
 
@@ -97,7 +101,6 @@ class HttpView implements HttpViewInterface, \Stringable{
 	public function setOutput(mixed $string): HttpViewInterface
 	{
 		$this->response->getBody()->write($string);
-
 
 		return $this;
 	}
@@ -116,29 +119,31 @@ class HttpView implements HttpViewInterface, \Stringable{
 	 */
 	public function getOutput(): string
 	{
-		return (string)$this->response->getBody();
+		return (string) $this->response->getBody();
 	}
 
 	/**
 	 * Do a redirect
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function redirect(string $url, int $code = 302, array $headers = []): self
 	{
 		$this->response = new Response\RedirectResponse($url, $code, $headers);
+
 		return $this;
 	}
 
 	/**
 	 * Set the status code of the request
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function setStatusCode(int $code): self
 	{
 		$this->response = $this->response->withStatus($code)
 			->withProtocolVersion('1.1');
+
 		return $this;
 	}
 
@@ -147,7 +152,7 @@ class HttpView implements HttpViewInterface, \Stringable{
 	 * any attempt to call again will result in a DoubleRenderException.
 	 *
 	 * @throws DoubleRenderException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function send(): void
 	{
@@ -159,7 +164,7 @@ class HttpView implements HttpViewInterface, \Stringable{
 	 *
 	 * @codeCoverageIgnore
 	 * @throws DoubleRenderException
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	protected function output(): void
 	{

@@ -19,8 +19,8 @@ namespace Aviat\Ion\Di;
 /**
  * Interface for a class that is aware of the Di Container
  */
-interface ContainerAwareInterface {
-
+interface ContainerAwareInterface
+{
 	/**
 	 * Set the container for the current object
 	 *
@@ -32,7 +32,6 @@ interface ContainerAwareInterface {
 	 * Get the container object
 	 */
 	public function getContainer(): ContainerInterface;
-
 }
 
 // End of ContainerAwareInterface.php

@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\Types;
 
 use DateTimeImmutable;
 
-class HistoryItem extends AbstractType {
+class HistoryItem extends AbstractType
+{
 	/**
 	 * Title of the anime/manga
 	 */

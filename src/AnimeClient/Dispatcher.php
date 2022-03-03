@@ -16,9 +16,6 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\Enum\EventType;
-use Aviat\Ion\Event;
-use Aviat\Ion\Json;
 use Aura\Router\{
 	Map,
 	Matcher,
@@ -26,9 +23,10 @@ use Aura\Router\{
 	Rule,
 };
 use Aviat\AnimeClient\API\FailedResponseException;
+use Aviat\AnimeClient\Enum\EventType;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Friend;
 use Aviat\Ion\Type\StringType;
+use Aviat\Ion\{Event, Friend, Json};
 use LogicException;
 use ReflectionException;
 
@@ -37,17 +35,15 @@ use function Aviat\Ion\_dir;
 /**
  * Basic routing/ dispatch
  */
-final class Dispatcher extends RoutingBase {
-
+final class Dispatcher extends RoutingBase
+{
 	/**
 	 * The route-matching object
-	 * @var Map $router
 	 */
 	protected Map $router;
 
 	/**
 	 * The route matcher
-	 * @var Matcher $matcher
 	 */
 	protected Matcher $matcher;
 
@@ -77,10 +73,8 @@ final class Dispatcher extends RoutingBase {
 
 	/**
 	 * Get the current route object, if one matches
-	 *
-	 * @return Route|false
 	 */
-	public function getRoute(): Route | false
+	public function getRoute(): Route|false
 	{
 		$logger = $this->container->getLogger();
 
@@ -91,7 +85,7 @@ final class Dispatcher extends RoutingBase {
 		{
 			$logger->info('Dispatcher - Routing data from get_route method');
 			$logger->info(print_r([
-				'route_path' => $routePath
+				'route_path' => $routePath,
 			], TRUE));
 		}
 
@@ -111,10 +105,9 @@ final class Dispatcher extends RoutingBase {
 	/**
 	 * Handle the current route
 	 *
-	 * @param object|null $route
 	 * @throws ReflectionException
 	 */
-	public function __invoke(object $route = NULL): void
+	public function __invoke(?object $route = NULL): void
 	{
 		$logger = $this->container->getLogger();
 
@@ -138,6 +131,7 @@ final class Dispatcher extends RoutingBase {
 			$actionMethod = $errorRoute['action_method'];
 			$params = $errorRoute['params'];
 			$this->call($controllerName, $actionMethod, $params);
+
 			return;
 		}
 
@@ -180,6 +174,7 @@ final class Dispatcher extends RoutingBase {
 		if ( ! empty($route->__get('tokens')))
 		{
 			$tokens = array_keys($route->__get('tokens'));
+
 			foreach ($tokens as $param)
 			{
 				if (array_key_exists($param, $route->attributes))
@@ -198,7 +193,7 @@ final class Dispatcher extends RoutingBase {
 		return [
 			'controller_name' => $controllerName,
 			'action_method' => $actionMethod,
-			'params' => $params
+			'params' => $params,
 		];
 	}
 
@@ -254,7 +249,7 @@ final class Dispatcher extends RoutingBase {
 		foreach ($classFiles as $file)
 		{
 			$rawClassName = basename(str_replace('.php', '', $file));
-			$path = (string)StringType::from($rawClassName)->dasherize();
+			$path = (string) StringType::from($rawClassName)->dasherize();
 			$className = trim($defaultNamespace . '\\' . $rawClassName, '\\');
 
 			$controllers[$path] = $className;
@@ -267,7 +262,7 @@ final class Dispatcher extends RoutingBase {
 	 * Create the controller object and call the appropriate
 	 * method
 	 *
-	 * @param  string $controllerName - The full namespace of the controller class
+	 * @param string $controllerName - The full namespace of the controller class
 	 */
 	protected function call(string $controllerName, string $method, array $params): void
 	{
@@ -281,15 +276,17 @@ final class Dispatcher extends RoutingBase {
 			$logger?->debug('Dispatcher - controller arguments', $params);
 
 			$params = array_values($params);
-			$controller->$method(...$params);
+			$controller->{$method}(...$params);
 		}
 		catch (FailedResponseException)
 		{
 			$controllerName = DEFAULT_CONTROLLER;
 			$controller = new $controllerName($this->container);
-			$controller->errorPage(500,
+			$controller->errorPage(
+				500,
 				'API request timed out',
-				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻');
+				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻'
+			);
 		}
 
 		/* finally
@@ -322,12 +319,12 @@ final class Dispatcher extends RoutingBase {
 
 		$params = [];
 
-		switch($failure->failedRule) {
+		switch ($failure->failedRule) {
 			case Rule\Allows::class:
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
-					'message' => 'Invalid HTTP Verb'
+					'message' => 'Invalid HTTP Verb',
 				];
 			break;
 
@@ -335,7 +332,7 @@ final class Dispatcher extends RoutingBase {
 				$params = [
 					'http_code' => 406,
 					'title' => '406 Not Acceptable',
-					'message' => 'Unacceptable content type'
+					'message' => 'Unacceptable content type',
 				];
 			break;
 
@@ -347,7 +344,7 @@ final class Dispatcher extends RoutingBase {
 
 		return [
 			'params' => $params,
-			'action_method' => $actionMethod
+			'action_method' => $actionMethod,
 		];
 	}
 
@@ -362,6 +359,7 @@ final class Dispatcher extends RoutingBase {
 
 		// Add routes
 		$routes = [];
+
 		foreach ($this->routes as $name => &$route)
 		{
 			$path = $route['path'];
@@ -394,14 +392,15 @@ final class Dispatcher extends RoutingBase {
 			// Add the route to the router object
 			if ( ! array_key_exists('tokens', $route))
 			{
-				$routes[] = $this->router->$verb($name, $path)->defaults($route);
+				$routes[] = $this->router->{$verb}($name, $path)->defaults($route);
+
 				continue;
 			}
 
 			$tokens = $route['tokens'];
 			unset($route['tokens']);
 
-			$routes[] = $this->router->$verb($name, $path)
+			$routes[] = $this->router->{$verb}($name, $path)
 				->defaults($route)
 				->tokens($tokens);
 		}

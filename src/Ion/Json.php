@@ -17,12 +17,13 @@
 namespace Aviat\Ion;
 
 use Aviat\Ion\Type\StringType;
+use InvalidArgumentException;
 
 /**
  * Helper class for json convenience methods
  */
-class Json {
-
+class Json
+{
 	/**
 	 * Encode data in json format
 	 *
@@ -39,8 +40,8 @@ class Json {
 	/**
 	 * Encode data in json format and save to a file
 	 *
-	 * @param int    $jsonOptions - Options to pass to json_encode
-	 * @param int    $fileOptions - Options to pass to file_get_contents
+	 * @param int $jsonOptions - Options to pass to json_encode
+	 * @param int $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
 	 */
 	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): bool
@@ -48,6 +49,7 @@ class Json {
 		$json = self::encode($data, $jsonOptions);
 
 		$res = file_put_contents($filename, $json, $fileOptions);
+
 		return $res !== FALSE;
 	}
 
@@ -67,6 +69,7 @@ class Json {
 		$data = json_decode($json, $assoc, $depth, $options);
 
 		self::check_json_error();
+
 		return $data;
 	}
 
@@ -86,7 +89,7 @@ class Json {
 	/**
 	 * Determines whether a string is valid json
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public static function isJson(string $string): bool
 	{
@@ -109,7 +112,7 @@ class Json {
 			JSON_ERROR_UTF8 => 'JSON_ERROR_UTF8',
 			JSON_ERROR_RECURSION => 'JSON_ERROR_RECURSION',
 			JSON_ERROR_INF_OR_NAN => 'JSON_ERROR_INF_OR_NAN',
-			JSON_ERROR_UNSUPPORTED_TYPE => 'JSON_ERROR_UNSUPPORTED_TYPE'
+			JSON_ERROR_UNSUPPORTED_TYPE => 'JSON_ERROR_UNSUPPORTED_TYPE',
 		];
 
 		$error = json_last_error();

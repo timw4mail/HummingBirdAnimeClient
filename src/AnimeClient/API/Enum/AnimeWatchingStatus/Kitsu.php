@@ -21,7 +21,8 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for watching status for the current anime
  */
-final class Kitsu extends Enum {
+final class Kitsu extends Enum
+{
 	public const WATCHING = 'current';
 	public const PLAN_TO_WATCH = 'planned';
 	public const ON_HOLD = 'on_hold';

@@ -17,13 +17,13 @@
 namespace Aviat\AnimeClient\Component;
 
 use Aviat\Ion\Di\ContainerAware;
-use const TEMPLATE_DIR;
 use function Aviat\AnimeClient\renderTemplate;
 
 /**
  * Shared logic for component-based functionality, like Tabs
  */
-trait ComponentTrait {
+trait ComponentTrait
+{
 	use ContainerAware;
 
 	/**

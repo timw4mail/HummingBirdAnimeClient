@@ -28,6 +28,7 @@ use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector;
 use Rector\EarlyReturn\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector;
 use Rector\EarlyReturn\Rector\If_\RemoveAlwaysElseRector;
+use Rector\Php74\Rector\Property\RestoreDefaultNullToNullableTypePropertyRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\Restoration\Rector\Property\MakeTypedPropertyNullableIfCheckedRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -56,6 +57,7 @@ return static function (ContainerConfigurator $config): void {
 	$parameters->set(Option::IMPORT_SHORT_CLASSES, false);
 	$parameters->set(Option::SKIP, [
 		ReadOnlyPropertyRector::class,
+		RestoreDefaultNullToNullableTypePropertyRector::class,
 	]);
 
 	walk_array([$config, 'import'], [
@@ -79,7 +81,7 @@ return static function (ContainerConfigurator $config): void {
 		ForRepeatedCountToOwnVariableRector::class,
 		ForToForeachRector::class,
 		// MakeTypedPropertyNullableIfCheckedRector::class,
-		NewlineAfterStatementRector::class,
+		// NewlineAfterStatementRector::class,
 		NewlineBeforeNewAssignSetRector::class,
 		ParamTypeByMethodCallTypeRector::class,
 		ParamTypeByParentCallTypeRector::class,

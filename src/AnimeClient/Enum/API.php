@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\Enum;
 
 use Aviat\Ion\Enum;
 
-final class API extends Enum {
+final class API extends Enum
+{
 	public const ANILIST = 'anilist';
 	public const KITSU = 'kitsu';
 }

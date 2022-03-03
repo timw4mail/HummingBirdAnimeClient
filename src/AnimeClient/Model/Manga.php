@@ -27,7 +27,8 @@ use Aviat\AnimeClient\Types\{
 /**
  * Model for handling requests dealing with the manga list
  */
-class Manga extends API {
+class Manga extends API
+{
 	use MediaTrait;
 
 	protected string $type = 'manga';
@@ -42,7 +43,8 @@ class Manga extends API {
 		if ($status === 'All')
 		{
 			$data = $this->kitsuModel->getFullOrganizedMangaList();
-			foreach($data as &$section)
+
+			foreach ($data as &$section)
 			{
 				$this->sortByName($section, 'manga');
 			}
@@ -53,13 +55,12 @@ class Manga extends API {
 		$APIstatus = MangaReadingStatus::TITLE_TO_KITSU[$status];
 		$data = $this->mapByStatus($this->kitsuModel->getMangaList($APIstatus));
 		$this->sortByName($data[$status], 'manga');
+
 		return $data[$status];
 	}
 
 	/**
 	 * Get the details of a manga
-	 *
-	 * @return MangaPage
 	 */
 	public function getManga(string $manga_id): MangaPage
 	{
@@ -68,8 +69,6 @@ class Manga extends API {
 
 	/**
 	 * Get the details of a random manga
-	 *
-	 * @return MangaPage
 	 */
 	public function getRandomManga(): MangaPage
 	{
@@ -78,8 +77,6 @@ class Manga extends API {
 
 	/**
 	 * Get anime by its kitsu id
-	 *
-	 * @return MangaPage
 	 */
 	public function getMangaById(string $animeId): MangaPage
 	{
@@ -111,7 +108,8 @@ class Manga extends API {
 			Title::COMPLETED => [],
 		];
 
-		foreach ($data as $entry) {
+		foreach ($data as $entry)
+		{
 			$statusMap = MangaReadingStatus::KITSU_TO_TITLE;
 			$key = $statusMap[$entry['reading_status']];
 			$output[$key][] = $entry;

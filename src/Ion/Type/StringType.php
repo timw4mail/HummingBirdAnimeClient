@@ -16,13 +16,14 @@
 
 namespace Aviat\Ion\Type;
 
+use InvalidArgumentException;
 use Stringy\Stringy;
 
 /**
  * Wrapper around Stringy
  */
-class StringType extends Stringy {
-
+class StringType extends Stringy
+{
 	/**
 	 * Alias for `create` static constructor
 	 */
@@ -35,12 +36,12 @@ class StringType extends Stringy {
 	 * See if two strings match, despite being delimited differently,
 	 * such as camelCase, PascalCase, kebab-case, or snake_case.
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function fuzzyCaseMatch(string $strToMatch): bool
 	{
-		$firstStr = (string)self::create($this->str)->dasherize();
-		$secondStr = (string)self::create($strToMatch)->dasherize();
+		$firstStr = (string) self::create($this->str)->dasherize();
+		$secondStr = (string) self::create($strToMatch)->dasherize();
 
 		return $firstStr === $secondStr;
 	}

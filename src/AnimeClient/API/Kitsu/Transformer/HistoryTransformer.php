@@ -16,13 +16,14 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\Types\HistoryItem;
 use Aviat\AnimeClient\Kitsu;
+use Aviat\AnimeClient\Types\HistoryItem;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
-abstract class HistoryTransformer {
+abstract class HistoryTransformer
+{
 	/**
 	 * @var string The media type
 	 */
@@ -70,7 +71,7 @@ abstract class HistoryTransformer {
 			}
 
 			// Hide private library entries
-			if ($entry['libraryEntry']['private'] === true)
+			if ($entry['libraryEntry']['private'] === TRUE)
 			{
 				continue;
 			}
@@ -85,7 +86,7 @@ abstract class HistoryTransformer {
 					$output[] = $transformed;
 				}
 			}
-			else if ($kind === 'updated')
+			elseif ($kind === 'updated')
 			{
 				$output[] = $this->transformUpdated($entry);
 			}
@@ -97,11 +98,12 @@ abstract class HistoryTransformer {
 	/**
 	 * Combine consecutive 'progressed' events
 	 */
-	protected function aggregate (array $singles): array
+	protected function aggregate(array $singles): array
 	{
 		$output = [];
 
 		$count = count($singles);
+
 		for ($i = 0; $i < $count; $i++)
 		{
 			$entries = [];
@@ -109,9 +111,10 @@ abstract class HistoryTransformer {
 			$prevTitle = $entry['title'];
 			$nextId = $i;
 			$next = $singles[$nextId];
+
 			while (
-				$next['kind'] === 'progressed' &&
-				$next['title'] === $prevTitle
+				$next['kind'] === 'progressed'
+				&& $next['title'] === $prevTitle
 			) {
 				$entries[] = $next;
 				$prevTitle = $next['title'];
@@ -120,6 +123,7 @@ abstract class HistoryTransformer {
 				{
 					$nextId++;
 					$next = $singles[$nextId];
+
 					continue;
 				}
 
@@ -160,7 +164,7 @@ abstract class HistoryTransformer {
 					'action' => $action,
 					'coverImg' => $entries[0]['coverImg'],
 					'dateRange' => [$firstUpdate, $lastUpdate],
-					'isAggregate' => true,
+					'isAggregate' => TRUE,
 					'original' => $entries,
 					'title' => $title,
 					'updated' => $entries[0]['updated'],
@@ -169,6 +173,7 @@ abstract class HistoryTransformer {
 
 				// Skip the rest of the aggregate in the main loop
 				$i += count($entries) - 1;
+
 				continue;
 			}
 
@@ -178,14 +183,14 @@ abstract class HistoryTransformer {
 		return $output;
 	}
 
-	protected function transformProgress (array $entry): ?HistoryItem
+	protected function transformProgress(array $entry): ?HistoryItem
 	{
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
 		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
-		if (((int)$item) === 0)
+		if (((int) $item) === 0)
 		{
 			return NULL;
 		}
@@ -251,12 +256,12 @@ abstract class HistoryTransformer {
 		return HistoryItem::from($entry);
 	}
 
-	protected function linkTitle (array $data): string
+	protected function linkTitle(array $data): string
 	{
 		return $data['titles']['canonical'];
 	}
 
-	protected function parseDate (string $date): DateTimeImmutable
+	protected function parseDate(string $date): DateTimeImmutable
 	{
 		$dateTime = DateTimeImmutable::createFromFormat(
 			DateTimeInterface::RFC3339,
@@ -271,12 +276,12 @@ abstract class HistoryTransformer {
 		return $dateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
 	}
 
-	protected function getUrl (array $data): string
+	protected function getUrl(array $data): string
 	{
 		return "/{$this->type}/details/{$data['slug']}";
 	}
 
-	protected function isReconsuming (array $entry): bool
+	protected function isReconsuming(array $entry): bool
 	{
 		return $entry['libraryEntry']['reconsuming'];
 	}

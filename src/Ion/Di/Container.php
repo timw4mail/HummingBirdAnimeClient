@@ -22,8 +22,8 @@ use Psr\Log\LoggerInterface;
 /**
  * Dependency container
  */
-class Container implements ContainerInterface {
-
+class Container implements ContainerInterface
+{
 	/**
 	 * Array of object instances
 	 */
@@ -42,8 +42,8 @@ class Container implements ContainerInterface {
 	public function __construct(/**
 	 * Array of container Generator functions
 	 */
-	protected array $container = [])
-	{
+	protected array $container = []
+	) {
 		$this->loggers = [];
 	}
 
@@ -52,8 +52,8 @@ class Container implements ContainerInterface {
 	 *
 	 * @param string $id - Identifier of the entry to look for.
 	 *
-	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @throws ContainerException - Error while retrieving the entry.
+	 * @throws NotFoundException - No entry was found for this identifier.
 	 *
 	 * @return mixed Entry.
 	 */
@@ -70,6 +70,7 @@ class Container implements ContainerInterface {
 			// If there isn't already an instance, create one
 			$obj = $this->getNew($id);
 			$this->instances[$id] = $obj;
+
 			return $obj;
 		}
 
@@ -79,10 +80,10 @@ class Container implements ContainerInterface {
 	/**
 	 * Get a new instance of the specified item
 	 *
-	 * @param string $id   - Identifier of the entry to look for.
+	 * @param string $id - Identifier of the entry to look for.
 	 * @param array|null $args - Optional arguments for the factory callable
-	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @throws ContainerException - Error while retrieving the entry.
+	 * @throws NotFoundException - No entry was found for this identifier.
 	 */
 	public function getNew(string $id, ?array $args = NULL): mixed
 	{
@@ -90,7 +91,7 @@ class Container implements ContainerInterface {
 		{
 			// By default, call a factory with the Container
 			$args = \is_array($args) ? $args : [$this];
-			$obj = \call_user_func_array($this->container[$id], $args);
+			$obj = ($this->container[$id])(...$args);
 
 			// Check for container interface, and apply the container to the object
 			// if applicable
@@ -103,11 +104,12 @@ class Container implements ContainerInterface {
 	/**
 	 * Add a factory to the container
 	 *
-	 * @param Callable  $value - a factory callable for the item
+	 * @param callable $value - a factory callable for the item
 	 */
-	public function set(string $id, Callable $value): ContainerInterface
+	public function set(string $id, callable $value): ContainerInterface
 	{
 		$this->container[$id] = $value;
+
 		return $this;
 	}
 
@@ -124,6 +126,7 @@ class Container implements ContainerInterface {
 		}
 
 		$this->instances[$id] = $value;
+
 		return $this;
 	}
 
@@ -141,7 +144,7 @@ class Container implements ContainerInterface {
 	/**
 	 * Determine whether a logger channel is registered
 	 *
-	 * @param  string $id The logger channel
+	 * @param string $id The logger channel
 	 */
 	public function hasLogger(string $id = 'default'): bool
 	{
@@ -151,18 +154,19 @@ class Container implements ContainerInterface {
 	/**
 	 * Add a logger to the Container
 	 *
-	 * @param string          $id     The logger 'channel'
+	 * @param string $id The logger 'channel'
 	 */
 	public function setLogger(LoggerInterface $logger, string $id = 'default'): ContainerInterface
 	{
 		$this->loggers[$id] = $logger;
+
 		return $this;
 	}
 
 	/**
 	 * Retrieve a logger for the selected channel
 	 *
-	 * @param  string $id The logger to retrieve
+	 * @param string $id The logger to retrieve
 	 */
 	public function getLogger(string $id = 'default'): ?LoggerInterface
 	{

@@ -21,6 +21,6 @@ use UnexpectedValueException;
 /**
  * Exception for an API Request that fails validation
  */
-class FailedResponseException extends UnexpectedValueException {
-
+class FailedResponseException extends UnexpectedValueException
+{
 }

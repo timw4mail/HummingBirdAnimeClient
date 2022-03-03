@@ -23,8 +23,7 @@ use Aviat\AnimeClient\Model\{
 	AnimeCollection as AnimeCollectionModel
 };
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Exception\DoubleRenderException;
 
 use InvalidArgumentException;
@@ -32,17 +31,15 @@ use InvalidArgumentException;
 /**
  * Controller for Anime collection pages
  */
-final class AnimeCollection extends BaseController {
-
+final class AnimeCollection extends BaseController
+{
 	/**
 	 * The anime collection model
-	 * @var AnimeCollectionModel $animeCollectionModel
 	 */
 	private AnimeCollectionModel $animeCollectionModel;
 
 	/**
 	 * The anime API model
-	 * @var AnimeModel $animeModel
 	 */
 	private AnimeModel $animeModel;
 
@@ -87,14 +84,14 @@ final class AnimeCollection extends BaseController {
 	 * Show the anime collection page
 	 *
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
+	 * @throws NotFoundException
 	 */
 	public function view(?string $view = ''): void
 	{
 		$viewMap = [
 			'' => 'cover',
-			'list' => 'list'
+			'list' => 'list',
 		];
 
 		$sections = array_merge(
@@ -111,11 +108,11 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Show the anime collection add/edit form
 	 *
-	 * @param integer|null $id
+	 * @param int|null $id
 	 * @throws ContainerException
+	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws InvalidArgumentException
 	 */
 	public function form($id = NULL): void
 	{
@@ -134,7 +131,7 @@ final class AnimeCollection extends BaseController {
 				$action
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : []
+			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : [],
 		]);
 	}
 
@@ -142,27 +139,27 @@ final class AnimeCollection extends BaseController {
 	 * Update a collection item
 	 *
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
+	 * @throws NotFoundException
 	 */
 	public function edit(): void
 	{
 		$this->checkAuth();
-		$this->update((array)$this->request->getParsedBody());
+		$this->update((array) $this->request->getParsedBody());
 	}
 
 	/**
 	 * Add a collection item
 	 *
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
+	 * @throws NotFoundException
 	 */
 	public function add(): void
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
 			// Check for existing entry
@@ -184,6 +181,7 @@ final class AnimeCollection extends BaseController {
 				}
 
 				$this->update($data);
+
 				return;
 			}
 
@@ -194,6 +192,7 @@ final class AnimeCollection extends BaseController {
 			{
 				$this->setFlashMessage('Successfully added collection item', 'success');
 				$this->sessionRedirect();
+
 				return;
 			}
 		}
@@ -209,7 +208,7 @@ final class AnimeCollection extends BaseController {
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
 			$this->setFlashMessage("Can't delete item that doesn't exist", 'error');

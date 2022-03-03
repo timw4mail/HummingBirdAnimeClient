@@ -21,7 +21,8 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for current watching status of anime
  */
-final class Route extends Enum {
+final class Route extends Enum
+{
 	public const ALL = 'all';
 	public const WATCHING = 'watching';
 	public const PLAN_TO_WATCH = 'plan_to_watch';

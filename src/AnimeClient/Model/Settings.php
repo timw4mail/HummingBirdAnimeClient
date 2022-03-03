@@ -16,21 +16,21 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use function is_array;
-use const Aviat\AnimeClient\SETTINGS_MAP;
-
-use function Aviat\AnimeClient\arrayToToml;
-use function Aviat\Ion\_dir;
-
 use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
 
+use function Aviat\AnimeClient\arrayToToml;
+
+use function Aviat\Ion\_dir;
+use const Aviat\AnimeClient\SETTINGS_MAP;
+
 /**
  * Model for handling settings control panel
  */
-final class Settings {
+final class Settings
+{
 	use ContainerAware;
 
 	public function __construct(private ConfigInterface $config)
@@ -46,12 +46,13 @@ final class Settings {
 			'config' => [],
 		];
 
-		foreach(SETTINGS_MAP as $file => $values)
+		foreach (SETTINGS_MAP as $file => $values)
 		{
 			if ($file === 'config')
 			{
 				$keys = array_keys($values);
-				foreach($keys as $key)
+
+				foreach ($keys as $key)
 				{
 					$settings['config'][$key] = $this->config->get($key);
 				}
@@ -72,19 +73,20 @@ final class Settings {
 	{
 		$output = [];
 
-		foreach($this->getSettings() as $file => $values)
+		foreach ($this->getSettings() as $file => $values)
 		{
 			$values ??= [];
 
-			foreach(SETTINGS_MAP[$file] as $key => $value)
+			foreach (SETTINGS_MAP[$file] as $key => $value)
 			{
 				if ($value['type'] === 'subfield')
 				{
-					foreach($value['fields'] as $k => $field)
+					foreach ($value['fields'] as $k => $field)
 					{
 						if (empty($values[$key][$k]))
 						{
 							unset($value['fields'][$k]);
+
 							continue;
 						}
 
@@ -159,13 +161,13 @@ final class Settings {
 			}
 			elseif (is_array($val) && ! empty($val))
 			{
-				foreach($val as $k => $v)
+				foreach ($val as $k => $v)
 				{
 					if ($v === '1')
 					{
 						$keyedConfig[$key][$k] = TRUE;
 					}
-					elseif($v === '0')
+					elseif ($v === '0')
 					{
 						$keyedConfig[$key][$k] = FALSE;
 					}
@@ -182,12 +184,12 @@ final class Settings {
 
 		$output = [];
 
-		foreach($looseConfig as $k => $v)
+		foreach ($looseConfig as $k => $v)
 		{
 			$output[$k] = $v;
 		}
 
-		foreach($keyedConfig as $k => $v)
+		foreach ($keyedConfig as $k => $v)
 		{
 			$output[$k] = $v;
 		}
@@ -211,6 +213,7 @@ final class Settings {
 		{
 			dump($e);
 			dump($settings);
+
 			return FALSE;
 		}
 

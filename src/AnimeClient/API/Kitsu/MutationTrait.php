@@ -22,7 +22,8 @@ use Aviat\AnimeClient\Types\FormItem;
 /**
  * Kitsu API calls that mutate data, C/U/D parts of CRUD
  */
-trait MutationTrait {
+trait MutationTrait
+{
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------

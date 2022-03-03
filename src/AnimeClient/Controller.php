@@ -16,32 +16,32 @@
 
 namespace Aviat\AnimeClient;
 
-use function Aviat\Ion\_dir;
-
-use Aviat\AnimeClient\Enum\EventType;
 use Aura\Router\Generator;
+
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
-use Aviat\Ion\ConfigInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\SimpleCache\CacheInterface;
-
+use Aviat\AnimeClient\Enum\EventType;
 use Aviat\Ion\Di\{
 	ContainerAware,
 	ContainerInterface,
 	Exception\ContainerException,
 	Exception\NotFoundException
 };
-use Aviat\Ion\Event;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+
+use Aviat\Ion\{ConfigInterface, Event};
 use InvalidArgumentException;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\SimpleCache\CacheInterface;
+use function Aviat\Ion\_dir;
+use function is_array;
 
 /**
  * Controller base, defines output methods
  */
-class Controller {
-
+class Controller
+{
 	use ContainerAware;
 
 	/**
@@ -87,7 +87,6 @@ class Controller {
 	/**
 	 * Controller constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -100,7 +99,7 @@ class Controller {
 		$urlGenerator = $container->get('url-generator');
 
 		$this->auth = $container->get('auth');
-		$this->cache =  $container->get('cache');
+		$this->cache = $container->get('cache');
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
@@ -127,11 +126,10 @@ class Controller {
 	 * Set the current url in the session as the target of a future redirect
 	 *
 	 * @codeCoverageIgnore
-	 * @param string|NULL $url
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function setSessionRedirect(string $url = NULL): void
+	public function setSessionRedirect(?string $url = NULL): void
 	{
 		$serverParams = $this->request->getServerParams();
 
@@ -198,7 +196,6 @@ class Controller {
 	 * Get the string output of a partial template
 	 *
 	 * @codeCoverageIgnore
-	 * @param HtmlView $view
 	 */
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
@@ -211,7 +208,6 @@ class Controller {
 
 		$route = $router->getRoute();
 		$data['route_path'] = $route !== FALSE ? $route->path : '';
-
 
 		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
@@ -227,8 +223,6 @@ class Controller {
 	 * Render a template with header and footer
 	 *
 	 * @codeCoverageIgnore
-	 * @param HtmlView $view
-	 * @return HtmlView
 	 */
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
@@ -241,7 +235,7 @@ class Controller {
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
-		if (array_key_exists('message', $data) && \is_array($data['message']))
+		if (array_key_exists('message', $data) && is_array($data['message']))
 		{
 			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
 		}
@@ -261,12 +255,12 @@ class Controller {
 	public function notFound(
 		string $title = 'Sorry, page not found',
 		string $message = 'Page Not Found'
-	): void
-	{
+	): void {
 		$this->outputHTML('404', [
 			'title' => $title,
 			'message' => $message,
 		], NULL, 404);
+
 		exit();
 	}
 
@@ -281,7 +275,7 @@ class Controller {
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
-			'long_message' => $longMessage
+			'long_message' => $longMessage,
 		], NULL, $httpCode);
 	}
 
@@ -314,7 +308,7 @@ class Controller {
 
 		$messages[] = [
 			'message_type' => $type,
-			'message' => $message
+			'message' => $message,
 		];
 
 		$this->session->setFlash('message', $messages);
@@ -325,7 +319,7 @@ class Controller {
 	 *
 	 * @param string ...$parts Title segments
 	 */
-	public function formatTitle(string ...$parts) : string
+	public function formatTitle(string ...$parts): string
 	{
 		return implode(' &middot; ', $parts);
 	}
@@ -334,14 +328,13 @@ class Controller {
 	 * Add a message box to the page
 	 *
 	 * @codeCoverageIgnore
-	 * @param HtmlView $view
 	 * @throws InvalidArgumentException
 	 */
 	protected function showMessage(HtmlView $view, string $type, string $message): string
 	{
 		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
-			'message'  => $message
+			'message' => $message,
 		]);
 	}
 
@@ -349,10 +342,9 @@ class Controller {
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @codeCoverageIgnore
-	 * @param HtmlView|NULL $view
 	 *@throws InvalidArgumentException
 	 */
-	protected function outputHTML(string $template, array $data = [], HtmlView $view = NULL, int $code = 200): void
+	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
 	{
 		if (NULL === $view)
 		{
@@ -389,7 +381,9 @@ class Controller {
 		{
 			(new HttpView())->redirect($url, $code)->send();
 		}
-		catch (\Throwable) {}
+		catch (\Throwable)
+		{
+		}
 	}
 }
 

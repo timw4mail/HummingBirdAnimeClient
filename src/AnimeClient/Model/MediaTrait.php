@@ -16,12 +16,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Kitsu;
-use Aviat\AnimeClient\API\ParallelAPIRequest;
-use Aviat\AnimeClient\Types\AnimeListItem;
-use Aviat\AnimeClient\Types\FormItem;
-use Aviat\AnimeClient\Types\MangaListItem;
+use Aviat\AnimeClient\API\{Anilist, Kitsu, ParallelAPIRequest};
+use Aviat\AnimeClient\Types\{AnimeListItem, FormItem, MangaListItem};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -30,8 +26,8 @@ use Throwable;
 /**
  * Common functionality for Anime/Manga Models
  */
-trait MediaTrait {
-
+trait MediaTrait
+{
 	/**
 	 * Is the Anilist API enabled?
 	 */
@@ -64,7 +60,7 @@ trait MediaTrait {
 	 *
 	 * @return mixed[]
 	 */
-	public function search(string $name, bool $inCollection = false): array
+	public function search(string $name, bool $inCollection = FALSE): array
 	{
 		$data = $this->kitsuModel->search($this->type, urldecode($name));
 
@@ -101,7 +97,7 @@ trait MediaTrait {
 
 		$requester->addRequest($kitsuRequest, 'kitsu');
 
-		if ($this->anilistEnabled && $data['mal_id'] !== null)
+		if ($this->anilistEnabled && $data['mal_id'] !== NULL)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->createListItem($data, strtoupper($this->type));
@@ -144,7 +140,7 @@ trait MediaTrait {
 
 		return [
 			'body' => Json::decode($results['kitsu']),
-			'statusCode' => $statusCode
+			'statusCode' => $statusCode,
 		];
 	}
 
@@ -172,26 +168,25 @@ trait MediaTrait {
 		$results = $requester->makeRequests();
 
 		$body = Json::decode($results['kitsu']);
-		$statusCode = array_key_exists('errors', $body) ? 400: 200;
+		$statusCode = array_key_exists('errors', $body) ? 400 : 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
-			'statusCode' => $statusCode
+			'statusCode' => $statusCode,
 		];
 	}
 
 	/**
 	 * Delete a list entry
 	 *
-	 * @param string|null $malId
 	 * @throws Throwable
 	 */
-	public function deleteLibraryItem(string $id, string $malId = NULL): bool
+	public function deleteLibraryItem(string $id, ?string $malId = NULL): bool
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
 
-		if ($this->anilistEnabled && $malId !== null)
+		if ($this->anilistEnabled && $malId !== NULL)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->deleteListItem($malId, strtoupper($this->type));

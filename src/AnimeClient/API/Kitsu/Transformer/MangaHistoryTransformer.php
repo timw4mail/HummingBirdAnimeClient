@@ -18,16 +18,12 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 
-class MangaHistoryTransformer extends HistoryTransformer {
+class MangaHistoryTransformer extends HistoryTransformer
+{
 	protected string $type = 'manga';
-
 	protected string $progressAction = 'Read chapter';
-
 	protected string $reconsumeAction = 'Reread chapter';
-
 	protected string $largeAggregateAction = 'Blew through chapters';
-
 	protected string $reconsumingStatus = 'Rereading';
-
 	protected array $statusMap = MangaReadingStatus::KITSU_TO_TITLE;
 }

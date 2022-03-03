@@ -19,12 +19,13 @@ namespace Aviat\Ion;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\ArrayType;
 use InvalidArgumentException;
+use function is_array;
 
 /**
  * Wrapper for configuration values
  */
-class Config implements ConfigInterface {
-
+class Config implements ConfigInterface
+{
 	/**
 	 * Config object
 	 */
@@ -49,12 +50,11 @@ class Config implements ConfigInterface {
 	/**
 	 * Get a config value
 	 *
-	 * @param array|string|null $key
 	 * @throws ConfigException
 	 */
 	public function get(array|string $key = NULL): mixed
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			return $this->map->getDeepKey($key);
 		}
@@ -67,7 +67,7 @@ class Config implements ConfigInterface {
 	 */
 	public function delete(array|string $key): void
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, NULL);
 		}
@@ -85,11 +85,11 @@ class Config implements ConfigInterface {
 	 */
 	public function set(array|int|string $key, mixed $value): ConfigInterface
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, $value);
 		}
-		else if (is_scalar($key) && ! empty($key))
+		elseif (is_scalar($key) && ! empty($key))
 		{
 			$this->map->set($key, $value);
 		}

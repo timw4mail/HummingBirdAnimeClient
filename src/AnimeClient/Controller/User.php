@@ -21,14 +21,13 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class User extends BaseController {
-
+final class User extends BaseController
+{
 	private Model $kitsuModel;
 
 	/**

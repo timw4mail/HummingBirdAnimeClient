@@ -19,14 +19,16 @@ namespace Aviat\Ion;
 use BadMethodCallException;
 use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
+use function is_object;
 
 /**
  * Friend class for testing
  */
-class Friend {
-
+class Friend
+{
 	/**
 	 * Object to create a friend of
 	 */
@@ -41,11 +43,11 @@ class Friend {
 	 * Create a friend object
 	 *
 	 * @throws InvalidArgumentException
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
 	 */
 	public function __construct(mixed $obj)
 	{
-		if ( ! \is_object($obj))
+		if ( ! is_object($obj))
 		{
 			throw new InvalidArgumentException('Friend must be an object');
 		}
@@ -101,9 +103,9 @@ class Friend {
 	/**
 	 * Calls a protected or private method on the friend
 	 *
-	 * @return mixed
 	 * @throws BadMethodCallException
-	 * @throws \ReflectionException
+	 * @throws ReflectionException
+	 * @return mixed
 	 */
 	public function __call(string $method, array $args)
 	{
@@ -114,6 +116,7 @@ class Friend {
 
 		$friendMethod = new ReflectionMethod($this->_friend_, $method);
 		$friendMethod->setAccessible(TRUE);
+
 		return $friendMethod->invokeArgs($this->_friend_, $args);
 	}
 
@@ -126,6 +129,7 @@ class Friend {
 		{
 			$property = $this->_reflect_->getProperty($name);
 			$property->setAccessible(TRUE);
+
 			return $property;
 		}
 		// Return NULL on any exception, so no further logic needed

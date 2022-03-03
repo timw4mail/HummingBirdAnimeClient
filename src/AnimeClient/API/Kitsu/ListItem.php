@@ -26,7 +26,8 @@ use Throwable;
 /**
  * CRUD operations for Kitsu list items
  */
-final class ListItem extends AbstractListItem {
+final class ListItem extends AbstractListItem
+{
 	use ContainerAware;
 	use RequestBuilderTrait;
 
@@ -50,23 +51,23 @@ final class ListItem extends AbstractListItem {
 				'type' => 'libraryEntries',
 				'attributes' => [
 					'status' => $data['status'],
-					'progress' => $data['progress'] ?? 0
+					'progress' => $data['progress'] ?? 0,
 				],
 				'relationships' => [
 					'user' => [
 						'data' => [
 							'id' => $data['user_id'],
-							'type' => 'users'
-						]
+							'type' => 'users',
+						],
 					],
 					'media' => [
 						'data' => [
 							'id' => $data['id'],
-							'type' => $data['type']
-						]
-					]
-				]
-			]
+							'type' => $data['type'],
+						],
+					],
+				],
+			],
 		];
 
 		if (array_key_exists('notes', $data))
@@ -93,7 +94,7 @@ final class ListItem extends AbstractListItem {
 	public function delete(string $id): Request
 	{
 		return $this->requestBuilder->mutateRequest('DeleteLibraryItem', [
-			'id' => $id
+			'id' => $id,
 		]);
 	}
 
@@ -115,7 +116,7 @@ final class ListItem extends AbstractListItem {
 	{
 		return $this->requestBuilder->mutateRequest('IncrementLibraryItem', [
 			'id' => $id,
-			'progress' => $data->progress
+			'progress' => $data->progress,
 		]);
 	}
 
@@ -128,21 +129,21 @@ final class ListItem extends AbstractListItem {
 		$updateData = [
 			'id' => $id,
 			'notes' => $data['notes'],
-			'private' => (bool)$data['private'],
-			'reconsumeCount' => (int)$data['reconsumeCount'],
-			'reconsuming' => (bool)$data['reconsuming'],
+			'private' => (bool) $data['private'],
+			'reconsumeCount' => (int) $data['reconsumeCount'],
+			'reconsuming' => (bool) $data['reconsuming'],
 			'status' => strtoupper($data['status']),
 		];
 
 		// Only send these variables if they have a value
 		if ($data['progress'] !== NULL)
 		{
-			$updateData['progress'] = (int)$data['progress'];
+			$updateData['progress'] = (int) $data['progress'];
 		}
 
 		if ($data['ratingTwenty'] !== NULL)
 		{
-			$updateData['ratingTwenty'] = (int)$data['ratingTwenty'];
+			$updateData['ratingTwenty'] = (int) $data['ratingTwenty'];
 		}
 
 		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', $updateData);
@@ -153,7 +154,8 @@ final class ListItem extends AbstractListItem {
 		$auth = $this->getContainer()->get('auth');
 		$token = $auth->getAuthToken();
 
-		if ( ! empty($token)) {
+		if ( ! empty($token))
+		{
 			return "bearer {$token}";
 		}
 

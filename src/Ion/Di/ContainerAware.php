@@ -19,8 +19,8 @@ namespace Aviat\Ion\Di;
 /**
  * Trait implementation of ContainerAwareInterface
  */
-trait ContainerAware {
-
+trait ContainerAware
+{
 	/**
 	 * Di Container
 	 */
@@ -32,6 +32,7 @@ trait ContainerAware {
 	public function setContainer(ContainerInterface $container): self
 	{
 		$this->container = $container;
+
 		return $this;
 	}
 

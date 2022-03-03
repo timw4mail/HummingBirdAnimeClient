@@ -17,9 +17,9 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
-use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
+use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Di\ContainerInterface;
@@ -32,8 +32,8 @@ use Throwable;
 /**
  * Controller for manga list
  */
-final class Manga extends Controller {
-
+final class Manga extends Controller
+{
 	/**
 	 * The manga model
 	 */
@@ -86,11 +86,11 @@ final class Manga extends Controller {
 
 		$view_map = [
 			'' => 'cover',
-			'list' => 'list'
+			'list' => 'list',
 		];
 
 		$data = ($status !== 'all')
-			? [ $statusTitle => $this->model->getList($statusTitle) ]
+			? [$statusTitle => $this->model->getList($statusTitle)]
 			: $this->model->getList('All');
 
 		$this->outputHTML('manga/' . $view_map[$view], [
@@ -103,9 +103,9 @@ final class Manga extends Controller {
 	 * Form to add an manga
 	 *
 	 * @throws ContainerException
+	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws InvalidArgumentException
 	 */
 	public function addForm(): void
 	{
@@ -120,7 +120,7 @@ final class Manga extends Controller {
 				'Add'
 			),
 			'action_url' => $this->url->generate('manga.add.post'),
-			'status_list' => $statuses
+			'status_list' => $statuses,
 		]);
 	}
 
@@ -133,7 +133,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 		if ( ! array_key_exists('id', $data))
 		{
 			$this->redirect('manga/add', 303);
@@ -163,9 +163,9 @@ final class Manga extends Controller {
 	 * Show the manga edit form
 	 *
 	 * @throws ContainerException
+	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws InvalidArgumentException
 	 */
 	public function edit(string $id, string $status = 'All'): void
 	{
@@ -183,7 +183,7 @@ final class Manga extends Controller {
 			'status_list' => MangaReadingStatus::KITSU_TO_TITLE,
 			'item' => $item,
 			'action' => $this->url->generate('update.post', [
-				'controller' => 'manga'
+				'controller' => 'manga',
 			]),
 		]);
 	}
@@ -207,7 +207,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
@@ -223,7 +223,6 @@ final class Manga extends Controller {
 		else
 		{
 			$this->setFlashMessage('Failed to update manga.', 'error');
-
 		}
 
 		$this->sessionRedirect();
@@ -239,7 +238,7 @@ final class Manga extends Controller {
 
 		if (str_contains($this->request->getHeader('content-type')[0], 'application/json'))
 		{
-			$data = Json::decode((string)$this->request->getBody());
+			$data = Json::decode((string) $this->request->getBody());
 		}
 		else
 		{
@@ -263,7 +262,7 @@ final class Manga extends Controller {
 	{
 		$this->checkAuth();
 
-		$body = (array)$this->request->getParsedBody();
+		$body = (array) $this->request->getParsedBody();
 		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
 
 		if ($response)
@@ -296,6 +295,7 @@ final class Manga extends Controller {
 					'Manga not found',
 				'Manga Not Found'
 			);
+
 			return;
 		}
 
@@ -326,6 +326,7 @@ final class Manga extends Controller {
 				'Manga not found',
 				'Manga Not Found'
 			);
+
 			return;
 		}
 

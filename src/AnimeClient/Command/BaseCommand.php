@@ -16,38 +16,37 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Monolog\Formatter\JsonFormatter;
-
-use function Aviat\Ion\_dir;
-use const Aviat\AnimeClient\SRC_DIR;
-
-use function Aviat\AnimeClient\loadConfig;
-use function Aviat\AnimeClient\loadTomlFile;
-
 use Aura\Router\RouterContainer;
+
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
+
+use Aviat\AnimeClient\{Model, UrlGenerator, Util};
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
-use Aviat\Ion\Di\{Container, ContainerInterface, ContainerAware};
-use ConsoleKit\{Colors, Command, ConsoleException};
+use Aviat\Ion\Di\{Container, ContainerAware, ContainerInterface};
 use ConsoleKit\Widgets\Box;
+use ConsoleKit\{Colors, Command, ConsoleException};
 use Laminas\Diactoros\{Response, ServerRequestFactory};
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
+use function Aviat\AnimeClient\{loadConfig, loadTomlFile};
+use function Aviat\Ion\_dir;
+use const Aviat\AnimeClient\SRC_DIR;
 
 /**
  * Base class for console command setup
  */
-abstract class BaseCommand extends Command {
+abstract class BaseCommand extends Command
+{
 	use CacheTrait;
 	use ContainerAware;
 
 	/**
 	 * Echo text in a box
 	 */
-	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
+	public function echoBox(string|array $message, string|int|NULL $fgColor = NULL, string|int|NULL $bgColor = NULL): void
 	{
 		if (is_array($message))
 		{
@@ -56,12 +55,12 @@ abstract class BaseCommand extends Command {
 
 		if ($fgColor !== NULL)
 		{
-			$fgColor = (int)$fgColor;
+			$fgColor = (int) $fgColor;
 		}
 
 		if ($bgColor !== NULL)
 		{
-			$bgColor = (int)$bgColor;
+			$bgColor = (int) $bgColor;
 		}
 
 		// Colorize the CLI output
@@ -114,15 +113,13 @@ abstract class BaseCommand extends Command {
 
 	/**
 	 * Setup the Di container
-	 *
-	 * @return Containerinterface
 	 */
 	public function setupContainer(): ContainerInterface
 	{
 		$APP_DIR = _dir(dirname(SRC_DIR, 2), 'app');
 		$APPCONF_DIR = _dir($APP_DIR, 'appConf');
 		$CONF_DIR = _dir($APP_DIR, 'config');
-		$baseConfig = require _dir($APPCONF_DIR,  'base_config.php');
+		$baseConfig = require _dir($APPCONF_DIR, 'base_config.php');
 
 		$config = loadConfig($CONF_DIR);
 
@@ -136,16 +133,16 @@ abstract class BaseCommand extends Command {
 		return $this->_di($configArray, $APP_DIR);
 	}
 
-	private function _line(string $message, int|string|null $fgColor = NULL, int|string|null $bgColor = NULL): void
+	private function _line(string $message, int|string|NULL $fgColor = NULL, int|string|NULL $bgColor = NULL): void
 	{
 		if ($fgColor !== NULL)
 		{
-			$fgColor = (int)$fgColor;
+			$fgColor = (int) $fgColor;
 		}
 
 		if ($bgColor !== NULL)
 		{
-			$bgColor = (int)$bgColor;
+			$bgColor = (int) $bgColor;
 		}
 
 		// Colorize the CLI output
@@ -171,7 +168,7 @@ abstract class BaseCommand extends Command {
 		foreach (['kitsu-request', 'anilist-request', 'anilist-request-cli', 'kitsu-request-cli'] as $channel)
 		{
 			$logger = new Logger($channel);
-			$handler = new RotatingFileHandler( "{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
+			$handler = new RotatingFileHandler("{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
 			$handler->setFormatter(new JsonFormatter());
 			$logger->pushHandler($handler);
 
@@ -179,33 +176,34 @@ abstract class BaseCommand extends Command {
 		}
 
 		// Create Config Object
-		$container->set('config', fn () => new Config($configArray));
+		$container->set('config', static fn () => new Config($configArray));
 
 		// Create Cache Object
-		$container->set('cache', static function($container): \Aviat\Banker\Teller {
+		$container->set('cache', static function ($container): Teller {
 			$logger = $container->getLogger();
 			$config = $container->get('config')->get('cache');
+
 			return new Teller($config, $logger);
 		});
 
 		// Create Aura Router Object
-		$container->set('aura-router', fn () => new RouterContainer);
+		$container->set('aura-router', static fn () => new RouterContainer());
 
 		// Create Request/Response Objects
-		$container->set('request', fn () => ServerRequestFactory::fromGlobals(
+		$container->set('request', static fn () => ServerRequestFactory::fromGlobals(
 			$GLOBALS['_SERVER'],
 			$_GET,
 			$_POST,
 			$_COOKIE,
 			$_FILES
 		));
-		$container->set('response', fn () => new Response);
+		$container->set('response', static fn () => new Response());
 
 		// Create session Object
-		$container->set('session', fn () => (new SessionFactory())->newInstance($_COOKIE));
+		$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
 
 		// Models
-		$container->set('kitsu-model', static function($container): Kitsu\Model {
+		$container->set('kitsu-model', static function ($container): Kitsu\Model {
 			$requestBuilder = new Kitsu\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -219,6 +217,7 @@ abstract class BaseCommand extends Command {
 
 			$cache = $container->get('cache');
 			$model->setCache($cache);
+
 			return $model;
 		});
 		$container->set('anilist-model', static function ($container): Anilist\Model {
@@ -235,17 +234,18 @@ abstract class BaseCommand extends Command {
 
 			return $model;
 		});
-		$container->set('settings-model', static function($container): Model\Settings {
-			$model =  new Model\Settings($container->get('config'));
+		$container->set('settings-model', static function ($container): Model\Settings {
+			$model = new Model\Settings($container->get('config'));
 			$model->setContainer($container);
+
 			return $model;
 		});
 
-		$container->set('auth', fn ($container) => new Kitsu\Auth($container));
+		$container->set('auth', static fn ($container) => new Kitsu\Auth($container));
 
-		$container->set('url-generator', fn ($container) => new UrlGenerator($container));
+		$container->set('url-generator', static fn ($container) => new UrlGenerator($container));
 
-		$container->set('util', fn ($container) => new Util($container));
+		$container->set('util', static fn ($container) => new Util($container));
 
 		return $container;
 	}

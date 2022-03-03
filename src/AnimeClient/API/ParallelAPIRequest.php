@@ -17,17 +17,18 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp\Http\Client\Request;
+use Generator;
+use Throwable;
 use function Amp\call;
+
 use function Amp\Promise\{all, wait};
 use function Aviat\AnimeClient\getApiClient;
-
-use Throwable;
 
 /**
  * Class to simplify making and validating simultaneous requests
  */
-final class ParallelAPIRequest {
-
+final class ParallelAPIRequest
+{
 	/**
 	 * Set of requests to make in parallel
 	 */
@@ -36,26 +37,29 @@ final class ParallelAPIRequest {
 	/**
 	 * Add a request
 	 */
-	public function addRequest(string|Request $request, string|int|null $key = NULL): self
+	public function addRequest(string|Request $request, string|int|NULL $key = NULL): self
 	{
 		if ($key !== NULL)
 		{
 			$this->requests[$key] = $request;
+
 			return $this;
 		}
 
 		$this->requests[] = $request;
+
 		return $this;
 	}
 
 	/**
 	 * Add multiple requests
 	 *
-	 * @param string[]|Request[] $requests
+	 * @param Request[]|string[] $requests
 	 */
 	public function addRequests(array $requests): self
 	{
 		array_walk($requests, [$this, 'addRequest']);
+
 		return $this;
 	}
 
@@ -73,7 +77,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(static function () use ($client, $url): \Generator {
+			$promises[$key] = call(static function () use ($client, $url): Generator {
 				$response = yield $client->request($url);
 				return yield $response->getBody()->buffer();
 			});
@@ -96,7 +100,7 @@ final class ParallelAPIRequest {
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(fn () => yield $client->request($url));
+			$promises[$key] = call(static fn () => yield $client->request($url));
 		}
 
 		return wait(all($promises));

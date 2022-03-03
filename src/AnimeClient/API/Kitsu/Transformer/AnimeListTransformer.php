@@ -18,8 +18,8 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\{
-	FormItem,
-	AnimeListItem
+	AnimeListItem,
+	FormItem
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
@@ -27,25 +27,24 @@ use Aviat\Ion\Type\StringType;
 /**
  * Transformer for anime list
  */
-final class AnimeListTransformer extends AbstractTransformer {
-
+final class AnimeListTransformer extends AbstractTransformer
+{
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array|object  $item API library item
-	 * @return AnimeListItem
+	 * @param array|object $item API library item
 	 */
 	public function transform(array|object $item): AnimeListItem
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$animeId = $item['media']['id'];
 		$anime = $item['media'];
 
 		$genres = [];
 
 		$rating = (int) $item['rating'] !== 0
-			? (int)$item['rating'] / 2
+			? (int) $item['rating'] / 2
 			: '-';
 
 		$total_episodes = (int) $anime['episodeCount'] !== 0
@@ -87,7 +86,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 			'airing' => [
 				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']),
 				'started' => $anime['startDate'],
-				'ended' => $anime['endDate']
+				'ended' => $anime['endDate'],
 			],
 			'anime' => [
 				'id' => $animeId,
@@ -95,7 +94,7 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
+				'show_type' => (string) StringType::from($anime['subtype'])->upperCaseFirst(),
 				'cover_image' => Kitsu::getPosterImage($anime),
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
@@ -129,8 +128,8 @@ final class AnimeListTransformer extends AbstractTransformer {
 				'reconsuming' => $rewatching,
 				'reconsumeCount' => $item['rewatched'],
 				'notes' => $item['notes'],
-				'private' => $privacy
-			]
+				'private' => $privacy,
+			],
 		]);
 
 		if (is_numeric($item['episodes_watched']) && $item['episodes_watched'] > 0)

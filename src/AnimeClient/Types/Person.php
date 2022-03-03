@@ -19,19 +19,13 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing a person for display
  */
-final class Person extends AbstractType {
-
+final class Person extends AbstractType
+{
 	public string $id;
-
 	public ?string $name;
-
 	public string $image;
-
 	public array $names = [];
-
 	public ?string $description;
-
 	public array $characters = [];
-
 	public array $staff = [];
 }

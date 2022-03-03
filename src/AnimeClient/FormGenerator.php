@@ -18,13 +18,13 @@ namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Helper object to manage form generation, especially for config editing
  */
-final class FormGenerator {
+final class FormGenerator
+{
 	/**
 	 * Html generation helper
 	 */
@@ -60,7 +60,7 @@ final class FormGenerator {
 
 		if ($display === FALSE)
 		{
-			return (string)$this->helper->input([
+			return (string) $this->helper->input([
 				'type' => 'hidden',
 				'name' => $name,
 				'value' => $value,
@@ -75,7 +75,7 @@ final class FormGenerator {
 			],
 		];
 
-		switch($type)
+		switch ($type)
 		{
 			case 'boolean':
 				$params['type'] = 'radio';
@@ -83,7 +83,7 @@ final class FormGenerator {
 					'1' => 'Yes',
 					'0' => 'No',
 				];
-				$params['strict'] = true;
+				$params['strict'] = TRUE;
 				unset($params['attribs']['id']);
 			break;
 
@@ -108,6 +108,6 @@ final class FormGenerator {
 			}
 		}
 
-		return (string)$this->helper->input($params);
+		return (string) $this->helper->input($params);
 	}
 }

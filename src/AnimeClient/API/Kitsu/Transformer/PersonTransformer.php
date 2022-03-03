@@ -23,11 +23,11 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Data transformation class for people pages
  */
-final class PersonTransformer extends AbstractTransformer {
-
+final class PersonTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): Person
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$data = $item['data']['findPersonBySlug'] ?? [];
 		$canonicalName = $data['names']['localized'][$data['names']['canonical']]
 			?? array_shift($data['names']['localized']);
@@ -61,6 +61,7 @@ final class PersonTransformer extends AbstractTransformer {
 		if ((is_countable($data['mediaStaff']['nodes']) ? count($data['mediaStaff']['nodes']) : 0) > 0)
 		{
 			$roles = array_unique(array_column($data['mediaStaff']['nodes'], 'role'));
+
 			foreach ($roles as $role)
 			{
 				$staff[$role] = [];
@@ -88,7 +89,7 @@ final class PersonTransformer extends AbstractTransformer {
 					'slug' => $media['slug'],
 				];
 
-				uasort($staff[$role][$type], fn ($a, $b) => $a['title'] <=> $b['title']);
+				uasort($staff[$role][$type], static fn ($a, $b) => $a['title'] <=> $b['title']);
 			}
 
 			$output['staff'] = $staff;
@@ -128,7 +129,7 @@ final class PersonTransformer extends AbstractTransformer {
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [
-							$media['id'] => $media
+							$media['id'] => $media,
 						],
 					];
 				}
@@ -143,7 +144,7 @@ final class PersonTransformer extends AbstractTransformer {
 				// Sort the characters by name
 				uasort(
 					$characters[$role],
-					fn($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
+					static fn ($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
 				);
 
 				// Sort the media for the character
@@ -151,7 +152,7 @@ final class PersonTransformer extends AbstractTransformer {
 				{
 					uasort(
 						$characters[$role][$charId]['media'],
-						fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
+						static fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
 					);
 				}
 			}

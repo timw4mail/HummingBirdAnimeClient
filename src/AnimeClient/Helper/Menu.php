@@ -22,8 +22,8 @@ use Aviat\Ion\Di\ContainerAware;
 /**
  * MenuGenerator helper wrapper
  */
-final class Menu {
-
+final class Menu
+{
 	use ContainerAware;
 
 	/**
@@ -35,7 +35,6 @@ final class Menu {
 	{
 		return MenuGenerator::new($this->container)->generate($menuName);
 	}
-
 }
 
 // End of Menu.php

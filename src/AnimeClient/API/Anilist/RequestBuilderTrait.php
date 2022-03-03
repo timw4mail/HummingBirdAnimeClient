@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\API\Anilist;
 
 use Aviat\Ion\Di\ContainerAware;
 
-trait RequestBuilderTrait {
+trait RequestBuilderTrait
+{
 	use ContainerAware;
 
 	/**
@@ -32,6 +33,7 @@ trait RequestBuilderTrait {
 	public function setRequestBuilder(RequestBuilder $requestBuilder): self
 	{
 		$this->requestBuilder = $requestBuilder;
+
 		return $this;
 	}
 }

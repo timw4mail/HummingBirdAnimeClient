@@ -21,7 +21,8 @@ use BadMethodCallException;
 /**
  * Base class for data transformation
  */
-abstract class AbstractTransformer implements TransformerInterface {
+abstract class AbstractTransformer implements TransformerInterface
+{
 	/**
 	 * Mutate the data structure
 	 */
@@ -32,7 +33,8 @@ abstract class AbstractTransformer implements TransformerInterface {
 	 */
 	public function transformCollection(iterable $collection): array
 	{
-		$list = (array)$collection;
+		$list = (array) $collection;
+
 		return array_map([$this, 'transform'], $list);
 	}
 
@@ -40,8 +42,6 @@ abstract class AbstractTransformer implements TransformerInterface {
 	 * Untransform a set of structures
 	 *
 	 * Requires an 'untransform' method in the extending class
-	 *
-	 * @param iterable $collection
 	 */
 	public function untransformCollection(iterable $collection): array
 	{
@@ -50,7 +50,8 @@ abstract class AbstractTransformer implements TransformerInterface {
 			throw new BadMethodCallException('untransform() method does not exist.');
 		}
 
-		$list = (array)$collection;
+		$list = (array) $collection;
+
 		return array_map([$this, 'untransform'], $list);
 	}
 }

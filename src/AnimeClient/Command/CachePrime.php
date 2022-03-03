@@ -16,14 +16,14 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use function Aviat\AnimeClient\clearCache;
 
 /**
  * Clears the API Cache
  */
-final class CachePrime extends BaseCommand {
+final class CachePrime extends BaseCommand
+{
 	/**
 	 * Clear, then prime the API cache
 	 *
@@ -39,6 +39,7 @@ final class CachePrime extends BaseCommand {
 		if ( ! $cleared)
 		{
 			$this->echoErrorBox('Failed to clear cache.');
+
 			return;
 		}
 

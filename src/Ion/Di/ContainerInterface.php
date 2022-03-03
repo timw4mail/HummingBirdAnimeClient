@@ -26,13 +26,13 @@ use Psr\Log\LoggerInterface;
  *
  * @see https://github.com/container-interop/container-interop
  */
-interface ContainerInterface {
-
+interface ContainerInterface
+{
 	/**
 	 * Finds an entry of the container by its identifier and returns it.
 	 *
 	 * @param string $id Identifier of the entry to look for.
-	 * @throws Exception\NotFoundException  No entry was found for this identifier.
+	 * @throws Exception\NotFoundException No entry was found for this identifier.
 	 * @throws Exception\ContainerException Error while retrieving the entry.
 	 * @return mixed Entry.
 	 */
@@ -49,9 +49,9 @@ interface ContainerInterface {
 	/**
 	 * Add a factory to the container
 	 *
-	 * @param Callable  $value - a factory callable for the item
+	 * @param callable $value - a factory callable for the item
 	 */
-	public function set(string $id, Callable $value): ContainerInterface;
+	public function set(string $id, callable $value): ContainerInterface;
 
 	/**
 	 * Set a specific instance in the container for an existing factory
@@ -66,21 +66,21 @@ interface ContainerInterface {
 	/**
 	 * Determine whether a logger channel is registered
 	 *
-	 * @param  string $id The logger channel
+	 * @param string $id The logger channel
 	 */
 	public function hasLogger(string $id = 'default'): bool;
 
 	/**
 	 * Add a logger to the Container
 	 *
-	 * @param string          $id     The logger 'channel'
+	 * @param string $id The logger 'channel'
 	 */
 	public function setLogger(LoggerInterface $logger, string $id = 'default'): ContainerInterface;
 
 	/**
 	 * Retrieve a logger for the selected channel
 	 *
-	 * @param  string $id The logger to retrieve
+	 * @param string $id The logger to retrieve
 	 */
 	public function getLogger(string $id = 'default'): ?LoggerInterface;
 }

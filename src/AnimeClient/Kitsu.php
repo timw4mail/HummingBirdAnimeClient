@@ -16,14 +16,15 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
-use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\{AnimeAiringStatus, MangaPublishingStatus};
 use DateTimeImmutable;
+use const PHP_URL_HOST;
 
 /**
  * Data massaging helpers for the Kitsu API
  */
-final class Kitsu {
+final class Kitsu
+{
 	public const AUTH_URL = 'https://kitsu.io/api/oauth/token';
 	public const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	public const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
@@ -31,9 +32,7 @@ final class Kitsu {
 	public const AUTH_TOKEN_REFRESH_CACHE_KEY = 'kitsu-auth-token-refresh';
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
-
 	public const GRAPHQL_ENDPOINT = 'https://kitsu.io/api/graphql';
-
 	public const SECONDS_IN_MINUTE = 60;
 	public const MINUTES_IN_HOUR = 60;
 	public const MINUTES_IN_DAY = 1440;
@@ -41,11 +40,8 @@ final class Kitsu {
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
-	 *
-	 * @param string|null $startDate
-	 * @param string|null $endDate
 	 */
-	public static function getAiringStatus(string $startDate = NULL, string $endDate = NULL): string
+	public static function getAiringStatus(?string $startDate = NULL, ?string $endDate = NULL): string
 	{
 		$startAirDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endAirDate = new DateTimeImmutable($endDate ?? 'next year');
@@ -69,11 +65,8 @@ final class Kitsu {
 
 	/**
 	 * Reformat the airing date range for an Anime
-	 *
-	 * @param string|null $startDate
-	 * @param string|null $endDate
 	 */
-	public static function formatAirDates(string $startDate = NULL, string $endDate = NULL): string
+	public static function formatAirDates(?string $startDate = NULL, ?string $endDate = NULL): string
 	{
 		if (empty($startDate))
 		{
@@ -117,7 +110,7 @@ final class Kitsu {
 		return "{$monthMap[$startMonth]} {$startYear} - {$monthMap[$endMonth]} {$endYear}";
 	}
 
-	public static function getPublishingStatus(string $kitsuStatus, string $startDate = NULL, string $endDate = NULL): string
+	public static function getPublishingStatus(string $kitsuStatus, ?string $startDate = NULL, ?string $endDate = NULL): string
 	{
 		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endPubDate = new DateTimeImmutable($endDate ?? 'next year');
@@ -196,7 +189,6 @@ final class Kitsu {
 			$key = $uMap['key'];
 			$url = str_replace('{}', $mapping['externalId'], $uMap['url']);
 
-
 			$output[$key] = $url;
 		}
 
@@ -235,7 +227,7 @@ final class Kitsu {
 				$url = '//' . $url;
 			}
 
-			$host = parse_url($url, \PHP_URL_HOST);
+			$host = parse_url($url, PHP_URL_HOST);
 			if ($host === FALSE)
 			{
 				return [];
@@ -245,7 +237,7 @@ final class Kitsu {
 				'meta' => self::getServiceMetaData($host),
 				'link' => $streamingLink['url'],
 				'subs' => $streamingLink['subs'],
-				'dubs' => $streamingLink['dubs']
+				'dubs' => $streamingLink['dubs'],
 			];
 		}
 
@@ -266,7 +258,7 @@ final class Kitsu {
 			...array_values($titles['localized']),
 		]);
 
-		return array_diff($raw,[$titles['canonical']]);
+		return array_diff($raw, [$titles['canonical']]);
 	}
 
 	/**
@@ -283,7 +275,7 @@ final class Kitsu {
 		{
 			if (array_key_exists($search, $titles) && is_array($titles[$search]))
 			{
-				foreach($titles[$search] as $alternateTitle)
+				foreach ($titles[$search] as $alternateTitle)
 				{
 					if (self::titleIsUnique($alternateTitle, $valid))
 					{
@@ -311,11 +303,11 @@ final class Kitsu {
 
 		if (array_key_exists('localized', $titles) && is_array($titles['localized']))
 		{
-			foreach($titles['localized'] as $locale => $alternateTitle)
+			foreach ($titles['localized'] as $locale => $alternateTitle)
 			{
 				// Really don't care about languages that aren't english
 				// or Japanese for titles
-				if ( ! in_array($locale, ['en', 'en_us', 'en_jp', 'ja_jp']))
+				if ( ! in_array($locale, ['en', 'en_us', 'en_jp', 'ja_jp'], TRUE))
 				{
 					continue;
 				}
@@ -338,22 +330,21 @@ final class Kitsu {
 	 */
 	public static function getPosterImage(array $base, int $size = 1): string
 	{
-		$rawUrl =  $base['posterImage']['views'][$size]['url']
+		$rawUrl = $base['posterImage']['views'][$size]['url']
 			?? $base['posterImage']['original']['url']
 			?? '/public/images/placeholder.png';
 
 		$parts = explode('?', $rawUrl);
 
-		return ( empty($parts)) ? $rawUrl : $parts[0];
+		return (empty($parts)) ? $rawUrl : $parts[0];
 	}
 
 	/**
 	 * Get the name and logo for the streaming service of the current link
 	 *
-	 * @param string|null $hostname
-	 * @return string[]|bool[]
+	 * @return bool[]|string[]
 	 */
-	protected static function getServiceMetaData(string $hostname = NULL): array
+	private static function getServiceMetaData(?string $hostname = NULL): array
 	{
 		$hostname = str_replace('www.', '', $hostname ?? '');
 
@@ -376,7 +367,7 @@ final class Kitsu {
 			'daisuki.net' => [
 				'name' => 'Daisuki',
 				'link' => TRUE,
-				'image' => 'streaming-logos/daisuki.svg'
+				'image' => 'streaming-logos/daisuki.svg',
 			],
 			'funimation.com' => [
 				'name' => 'Funimation',
@@ -401,13 +392,13 @@ final class Kitsu {
 			'viewster.com' => [
 				'name' => 'Viewster',
 				'link' => TRUE,
-				'image' => 'streaming-logos/viewster.svg'
+				'image' => 'streaming-logos/viewster.svg',
 			],
 			'vrv.co' => [
 				'name' => 'VRV',
 				'link' => TRUE,
 				'image' => 'streaming-logos/vrv.svg',
-			]
+			],
 		];
 
 		if (array_key_exists($hostname, $serviceMap))
@@ -434,7 +425,7 @@ final class Kitsu {
 		$minutes = ($seconds - $remSeconds) / self::SECONDS_IN_MINUTE;
 
 		// Minutes short of a year
-		$years = (int)floor($minutes / self::MINUTES_IN_YEAR);
+		$years = (int) floor($minutes / self::MINUTES_IN_YEAR);
 		$minutes %= self::MINUTES_IN_YEAR;
 
 		// Minutes short of a day
@@ -446,13 +437,14 @@ final class Kitsu {
 		$hours = ($extraMinutes - $remMinutes) / self::MINUTES_IN_HOUR;
 
 		$parts = [];
+
 		foreach ([
 			'year' => $years,
 			'day' => $days,
 			'hour' => $hours,
 			'minute' => $remMinutes,
-			'second' => $remSeconds
-	 	] as $label => $value)
+			'second' => $remSeconds,
+		] as $label => $value)
 		{
 			if ($value === 0)
 			{
@@ -482,14 +474,14 @@ final class Kitsu {
 	/**
 	 * Determine if an alternate title is unique enough to list
 	 */
-	protected static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
+	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
 			return FALSE;
 		}
 
-		foreach($existingTitles as $existing)
+		foreach ($existingTitles as $existing)
 		{
 			$isSubset = mb_substr_count($existing, $title) > 0;
 			$diff = levenshtein(mb_strtolower($existing), mb_strtolower($title));

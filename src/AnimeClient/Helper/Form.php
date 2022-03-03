@@ -22,8 +22,8 @@ use Aviat\Ion\Di\ContainerAware;
 /**
  * FormGenerator helper wrapper
  */
-final class Form {
-
+final class Form
+{
 	use ContainerAware;
 
 	/**

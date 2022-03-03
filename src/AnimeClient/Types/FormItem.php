@@ -19,11 +19,10 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing an Anime object for display
  */
-class FormItem extends AbstractType {
+class FormItem extends AbstractType
+{
 	public string|int $id;
-
-	public string|int|null $mal_id;
-
+	public string|int|NULL $mal_id;
 	public ?FormItemData $data;
 
 	public function setData(mixed $value): void
@@ -31,4 +30,3 @@ class FormItem extends AbstractType {
 		$this->data = FormItemData::from($value);
 	}
 }
-

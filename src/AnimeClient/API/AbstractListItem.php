@@ -22,8 +22,8 @@ use Aviat\AnimeClient\Types\FormItemData;
 /**
  * Common interface for anime and manga list item CRUD
  */
-abstract class AbstractListItem {
-
+abstract class AbstractListItem
+{
 	/**
 	 * Create a list item
 	 *
@@ -62,5 +62,5 @@ abstract class AbstractListItem {
 	 *
 	 * @param string $id - The id of the list item to delete
 	 */
-	abstract public function delete(string $id):?Request;
+	abstract public function delete(string $id): ?Request;
 }
