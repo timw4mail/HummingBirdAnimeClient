@@ -25,34 +25,25 @@ use Psr\Log\LoggerInterface;
 class Container implements ContainerInterface {
 
 	/**
-	 * Array of container Generator functions
-	 *
-	 * @var Callable[]
-	 */
-	protected array $container = [];
-
-	/**
 	 * Array of object instances
-	 *
-	 * @var array
 	 */
 	protected array $instances = [];
 
 	/**
 	 * Map of logger instances
-	 *
-	 * @var array
 	 */
 	protected array $loggers = [];
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $values (optional)
+	 * @param (callable)[] $container (optional)
 	 */
-	public function __construct(array $values = [])
+	public function __construct(/**
+	 * Array of container Generator functions
+	 */
+	protected array $container = [])
 	{
-		$this->container = $values;
 		$this->loggers = [];
 	}
 

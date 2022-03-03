@@ -46,27 +46,22 @@ final class SyncLists extends BaseCommand {
 
 	/**
 	 * Model for making requests to Anilist API
-	 * @var Anilist\Model
 	 */
 	private Anilist\Model $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var API\Kitsu\Model
 	 */
 	private API\Kitsu\Model $kitsuModel;
 
 	/**
 	 * Does the Kitsu API have valid authentication?
-	 * @var bool
 	 */
 	private bool $isKitsuAuthenticated = FALSE;
 
 	/**
 	 * Sync Kitsu <=> Anilist
 	 *
-	 * @param array $args
-	 * @param array $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws Throwable

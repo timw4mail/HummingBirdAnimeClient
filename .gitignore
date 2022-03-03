@@ -151,3 +151,5 @@ public/mal_mappings.json
 .is-dev
 
 tmp
+tools/vendor/
+tools/phinx/vendor/

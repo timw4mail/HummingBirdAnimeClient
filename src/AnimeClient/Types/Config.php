@@ -81,19 +81,9 @@ class Config extends AbstractType {
 
 	public ?string $whose_list;
 
-	// ------------------------------------------------------------------------
-	// Application config
-	// ------------------------------------------------------------------------
+	public array $menus = [];
 
-	/**
-	 * @var array
-	 */
-	public array $menus;
-
-	/**
-	 * @var array
-	 */
-	public array $routes;
+	public array $routes = [];
 
 	// ------------------------------------------------------------------------
 	// Generated config values
