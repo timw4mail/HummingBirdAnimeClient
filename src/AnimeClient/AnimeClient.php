@@ -16,21 +16,17 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\ImageBuilder;
+use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
+
+use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use Psr\SimpleCache\CacheInterface;
-
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
-use Amp\Http\Client\HttpClient;
-use Amp\Http\Client\HttpClientBuilder;
-
-use Aviat\Ion\ConfigInterface;
-use Yosymfony\Toml\{Toml, TomlBuilder};
-
 use Throwable;
+
+use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use function Amp\Promise\wait;
 use function Aviat\Ion\_dir;
+
 // ----------------------------------------------------------------------------
 //! TOML Functions
 // ----------------------------------------------------------------------------
@@ -62,7 +58,7 @@ function loadConfig(string $path): array
 
 		if ($key === 'config')
 		{
-			foreach($config as $name => $value)
+			foreach ($config as $name => $value)
 			{
 				$output[$name] = $value;
 			}
@@ -96,10 +92,10 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			continue;
 		}
 
-
 		if (is_scalar($value) || isSequentialArray($value))
 		{
 			$builder->addValue($key, $value);
+
 			continue;
 		}
 
@@ -188,6 +184,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 		if ( ! is_dir($actual))
 		{
 			$errors['missing'][] = $pretty;
+
 			continue;
 		}
 
@@ -207,7 +204,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 /**
  * Get an API Client, with better defaults
  */
-function getApiClient (): HttpClient
+function getApiClient(): HttpClient
 {
 	static $client;
 
@@ -224,7 +221,7 @@ function getApiClient (): HttpClient
  *
  * @throws Throwable
  */
-function getResponse (Request|string $request): Response
+function getResponse(Request|string $request): Response
 {
 	$client = getApiClient();
 
@@ -239,7 +236,7 @@ function getResponse (Request|string $request): Response
 /**
  * Generate the path for the cached image from the original image
  */
-function getLocalImg (string $kitsuUrl, bool $webp = TRUE): string
+function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 {
 	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
@@ -272,7 +269,7 @@ function getLocalImg (string $kitsuUrl, bool $webp = TRUE): string
  *
  * @codeCoverageIgnore
  */
-function createPlaceholderImage (string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
+function createPlaceholderImage(string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
 {
 	$img = ImageBuilder::new($width, $height)
 		->enableAlphaBlending(TRUE)
@@ -295,6 +292,7 @@ function createPlaceholderImage (string $path, int $width = 200, int $height = 2
 function colNotEmpty(array $search, string $key): bool
 {
 	$items = array_filter(array_column($search, $key), static fn ($x) => ( ! empty($x)));
+
 	return $items !== [];
 }
 
@@ -311,11 +309,11 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
 	]);
 
-	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
+	$userData = array_filter((array) $userData, static fn ($value) => $value !== NULL);
 
 	$cleared = $cache->clear();
 
-	$saved = ( empty($userData)) ? TRUE : $cache->setMultiple($userData);
+	$saved = (empty($userData)) ? TRUE : $cache->setMultiple($userData);
 
 	return $cleared && $saved;
 }
@@ -331,5 +329,6 @@ function renderTemplate(string $path, array $data): string
 	extract($data, EXTR_OVERWRITE);
 	include $path;
 	$rawOutput = ob_get_clean();
+
 	return (is_string($rawOutput)) ? $rawOutput : '';
 }

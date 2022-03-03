@@ -16,19 +16,17 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-use function Amp\Promise\wait;
-
-use InvalidArgumentException;
-
 use Amp\Http\Client\Request;
+
 use Aviat\AnimeClient\Anilist;
+
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
-
+use InvalidArgumentException;
 use Throwable;
+use function Amp\Promise\wait;
 
 /**
  * Anilist API Model
@@ -179,7 +177,7 @@ final class Model
 
 		$data = $this->listItem->get($id)['data'];
 
-		return ($data !== null)
+		return ($data !== NULL)
 			? $data['MediaList']
 			: [];
 	}
@@ -270,7 +268,7 @@ final class Model
 			return NULL;
 		}
 
-		return (string)$info['data']['MediaList']['id'];
+		return (string) $info['data']['MediaList']['id'];
 	}
 
 	/**
@@ -293,6 +291,6 @@ final class Model
 			return NULL;
 		}
 
-		return (string)$info['data']['Media']['id'];
+		return (string) $info['data']['Media']['id'];
 	}
 }

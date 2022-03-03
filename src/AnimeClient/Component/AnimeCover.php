@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\Component;
 
 use Aviat\AnimeClient\Types\AnimeListItem;
 
-final class AnimeCover {
+final class AnimeCover
+{
 	use ComponentTrait;
 
 	public function __invoke(AnimeListItem $item): string

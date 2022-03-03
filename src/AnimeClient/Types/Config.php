@@ -16,16 +16,14 @@
 
 namespace Aviat\AnimeClient\Types;
 
-class Config extends AbstractType {
-
+class Config extends AbstractType
+{
 	// ------------------------------------------------------------------------
 	// Config files/namespaces
 	// ------------------------------------------------------------------------
 
 	public ?Config\Anilist $anilist;
-
 	public ?Config\Cache $cache;
-
 	public ?Config\Database $database;
 
 	// ------------------------------------------------------------------------
@@ -33,7 +31,6 @@ class Config extends AbstractType {
 	// ------------------------------------------------------------------------
 
 	public string $root; // Path to app root
-
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
@@ -66,11 +63,8 @@ class Config extends AbstractType {
 	public ?string $default_view_type;
 
 	public ?string $kitsu_username;
-
 	public bool $secure_urls = TRUE;
-
 	public string|bool $show_anime_collection = FALSE;
-
 	public string|bool $show_manga_collection = FALSE;
 
 	/**
@@ -80,9 +74,7 @@ class Config extends AbstractType {
 	public ?string $theme = 'auto';
 
 	public ?string $whose_list;
-
 	public array $menus = [];
-
 	public array $routes = [];
 
 	// ------------------------------------------------------------------------
@@ -90,28 +82,23 @@ class Config extends AbstractType {
 	// ------------------------------------------------------------------------
 
 	public ?string $asset_dir; // Path to public folder for local files
-
 	public ?string $base_config_dir;
-
 	public ?string $config_dir;
-
 	public ?string $data_cache_path;
-
 	public ?string $img_cache_path;
-
 	public ?string $view_path;
 
-	public function setAnilist (mixed $data): void
+	public function setAnilist(mixed $data): void
 	{
 		$this->anilist = Config\Anilist::from($data);
 	}
 
-	public function setCache (mixed $data): void
+	public function setCache(mixed $data): void
 	{
 		$this->cache = Config\Cache::from($data);
 	}
 
-	public function setDatabase (mixed $data): void
+	public function setDatabase(mixed $data): void
 	{
 		$this->database = Config\Database::from($data);
 	}

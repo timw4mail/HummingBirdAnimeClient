@@ -19,7 +19,8 @@ namespace Aviat\Ion;
 /**
  * A basic event handler
  */
-class Event {
+class Event
+{
 	private static array $eventMap = [];
 
 	/**

@@ -26,7 +26,8 @@ use Aviat\AnimeClient\Types\FormItemData;
 /**
  * CRUD operations for MAL list items
  */
-final class ListItem extends AbstractListItem {
+final class ListItem extends AbstractListItem
+{
 	use RequestBuilderTrait;
 
 	/**
@@ -35,6 +36,7 @@ final class ListItem extends AbstractListItem {
 	public function create(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
+
 		return $this->requestBuilder->mutateRequest('CreateMediaListEntry', $checkedData ?? []);
 	}
 
@@ -44,6 +46,7 @@ final class ListItem extends AbstractListItem {
 	public function createFull(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
+
 		return $this->requestBuilder->mutateRequest('CreateFullMediaListEntry', $checkedData ?? []);
 	}
 
@@ -82,19 +85,19 @@ final class ListItem extends AbstractListItem {
 	public function update(string $id, FormItemData $data): Request
 	{
 		$notes = $data->notes ?? '';
-		$progress = (int)$data->progress;
-		$private = (bool)$data->private;
+		$progress = (int) $data->progress;
+		$private = (bool) $data->private;
 		$rating = $data->ratingTwenty;
 		$status = ($data->reconsuming === TRUE)
 			? AnilistStatus::REPEATING
 			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 
 		$updateData = Types\MediaListEntry::check([
-			'id' => (int)$id,
+			'id' => (int) $id,
 			'status' => $status,
 			'score' => $rating * 5,
 			'progress' => $progress,
-			'repeat' => (int)$data['reconsumeCount'],
+			'repeat' => (int) $data['reconsumeCount'],
 			'private' => $private,
 			'notes' => $notes,
 		]);

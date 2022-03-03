@@ -16,14 +16,15 @@
 
 namespace Aviat\AnimeClient\Component;
 
-final class Tabs {
+final class Tabs
+{
 	use ComponentTrait;
 
 	/**
 	 * Creates a tabbed content view
 	 *
 	 * @param string $name the name attribute for the input[type-option] form elements
-	 * also used to generate id attributes
+	 *                     also used to generate id attributes
 	 * @param array $tabData The data used to create the tab content, indexed by the tab label
 	 * @param callable $cb The function to generate the tab content
 	 */
@@ -32,9 +33,8 @@ final class Tabs {
 		array $tabData,
 		callable $cb,
 		string $className = 'content media-wrap flex flex-wrap flex-justify-start',
-		bool $hasSectionWrapper = false
-	): string
-	{
+		bool $hasSectionWrapper = FALSE
+	): string {
 		if (count($tabData) < 2)
 		{
 			return $this->render('single-tab.php', [

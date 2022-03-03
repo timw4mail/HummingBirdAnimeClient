@@ -19,22 +19,15 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing a Kitsu user for display
  */
-final class User extends AbstractType {
+final class User extends AbstractType
+{
 	public ?string $about;
-
 	public ?string $avatar;
-
 	public ?array $favorites;
-
 	public ?string $location;
-
 	public ?string $name;
-
 	public ?string $slug;
-
 	public ?array $stats;
-
 	public ?array $waifu;
-
 	public ?string $website;
 }

@@ -21,33 +21,21 @@ use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
 /**
  * Type representing an Anime object for display
  */
-final class MangaPage extends AbstractType {
+final class MangaPage extends AbstractType
+{
 	public ?string $age_rating;
-
 	public ?string $age_rating_guide;
-
 	public array $characters;
-
 	public ?int $chapter_count;
-
 	public ?string $cover_image;
-
 	public array $genres;
-
 	public array $links;
-
 	public string $id;
-
 	public string $manga_type;
-
 	public string $status = MangaPublishingStatus::FINISHED;
-
 	public array $staff;
-
 	public string $synopsis;
-
 	public string $title;
-
 	public array $titles;
 
 	/**
@@ -56,6 +44,5 @@ final class MangaPage extends AbstractType {
 	public array $titles_more;
 
 	public string $url;
-
 	public ?int $volume_count;
 }

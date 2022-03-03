@@ -21,16 +21,14 @@ use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Settings as SettingsModel;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for user settings
  */
-final class Settings extends BaseController {
-
+final class Settings extends BaseController
+{
 	private AnilistModel $anilistModel;
-
 	private SettingsModel $settingsModel;
 
 	/**
@@ -77,7 +75,7 @@ final class Settings extends BaseController {
 	 */
 	public function update(): void
 	{
-		$post = (array)$this->request->getParsedBody();
+		$post = (array) $this->request->getParsedBody();
 		unset($post['settings-tabs']);
 
 		$saved = $this->settingsModel->saveSettingsFile($post);
@@ -123,6 +121,7 @@ final class Settings extends BaseController {
 		if (array_key_exists('error', $authData))
 		{
 			$this->errorPage(400, 'Error Linking Account', $authData['hint']);
+
 			return;
 		}
 

@@ -17,18 +17,17 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
-use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
+use Aviat\AnimeClient\Controller as BaseController;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for People pages
  */
-final class People extends BaseController {
-
+final class People extends BaseController
+{
 	private Model $model;
 
 	/**

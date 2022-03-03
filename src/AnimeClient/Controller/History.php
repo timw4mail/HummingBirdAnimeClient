@@ -16,26 +16,24 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\AnimeClient\{Controller as BaseController, Model};
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for Anime-related pages
  */
-final class History extends BaseController {
+final class History extends BaseController
+{
 	/**
 	 * The anime list model
 	 */
-	protected AnimeModel $animeModel;
+	protected Model\Anime $animeModel;
 
 	/**
 	 * The manga list model
 	 */
-	protected MangaModel $mangaModel;
+	protected Model\Manga $mangaModel;
 
 	/**
 	 * Constructor
@@ -55,7 +53,8 @@ final class History extends BaseController {
 	{
 		if (method_exists($this, $type))
 		{
-			$this->$type();
+			$this->{$type}();
+
 			return;
 		}
 

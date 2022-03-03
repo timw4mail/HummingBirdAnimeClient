@@ -16,15 +16,16 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Laminas\Diactoros\Response\HtmlResponse;
+use Throwable;
 use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
  */
-class HtmlView extends HttpView {
+class HtmlView extends HttpView
+{
 	use ContainerAware;
 
 	/**
@@ -46,7 +47,7 @@ class HtmlView extends HttpView {
 	/**
 	 * Render a basic html Template
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function renderTemplate(string $path, array $data): string
 	{
@@ -61,7 +62,6 @@ class HtmlView extends HttpView {
 		include_once $path;
 		$rawBuffer = ob_get_clean();
 		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
-
 
 		// Very basic html minify, that won't affect content between html tags
 		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;

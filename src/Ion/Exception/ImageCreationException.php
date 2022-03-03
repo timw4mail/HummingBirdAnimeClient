@@ -21,6 +21,6 @@ use RuntimeException;
 /**
  * Exception for bad configuration
  */
-class ImageCreationException extends RuntimeException {
-
+class ImageCreationException extends RuntimeException
+{
 }

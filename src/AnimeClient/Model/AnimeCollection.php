@@ -19,13 +19,12 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDO;
 use PDOException;
-use function in_array;
 
 /**
  * Model for getting anime collection data
  */
-final class AnimeCollection extends Collection {
-
+final class AnimeCollection extends Collection
+{
 	/**
 	 * Anime API Model
 	 */
@@ -76,7 +75,7 @@ final class AnimeCollection extends Collection {
 	 *
 	 * @return mixed[]
 	 */
-	public function getFlatCollection():  array
+	public function getFlatCollection(): array
 	{
 		if ($this->db === NULL)
 		{
@@ -99,7 +98,7 @@ final class AnimeCollection extends Collection {
 			return [];
 		}
 
-		foreach($rows as &$row)
+		foreach ($rows as &$row)
 		{
 			$id = $row['hummingbird_id'];
 
@@ -164,7 +163,7 @@ final class AnimeCollection extends Collection {
 			'Other' => [
 				10 => $flatList[10], // UMD
 				11 => $flatList[11], // Other
-			]
+			],
 		];
 	}
 
@@ -185,7 +184,7 @@ final class AnimeCollection extends Collection {
 		}
 
 		$id = $data['id'];
-		$anime = (object)$this->animeModel->getAnimeById($id);
+		$anime = (object) $this->animeModel->getAnimeById($id);
 
 		$this->db->set([
 			'hummingbird_id' => $id,
@@ -197,7 +196,7 @@ final class AnimeCollection extends Collection {
 			'cover_image' => $anime->cover_image,
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
-			'notes' => $data['notes']
+			'notes' => $data['notes'],
 		])->insert('anime_set');
 
 		$this->updateMediaLink($id, $data['media_id']);
@@ -216,7 +215,7 @@ final class AnimeCollection extends Collection {
 
 		$row = $this->get($data['id']);
 
-		return  ! empty($row);
+		return ! empty($row);
 	}
 
 	/**
@@ -256,8 +255,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Verify that the collection item was updated
-	 *
-	 *
 	 */
 	public function wasUpdated(array $data): bool
 	{
@@ -275,7 +272,7 @@ final class AnimeCollection extends Collection {
 				continue;
 			}
 
-			if ((string)$row[$key] !== (string)$value)
+			if ((string) $row[$key] !== (string) $value)
 			{
 				return FALSE;
 			}
@@ -406,7 +403,6 @@ final class AnimeCollection extends Collection {
 				->from('anime_set_genre_link gl')
 				->join('genres g', 'g.id=gl.genre_id', 'left');
 
-
 			if ( ! empty($filter))
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
@@ -443,7 +439,9 @@ final class AnimeCollection extends Collection {
 				}
 			}
 		}
-		catch (PDOException) {}
+		catch (PDOException)
+		{
+		}
 
 		$this->db->resetQuery();
 
@@ -472,7 +470,6 @@ final class AnimeCollection extends Collection {
 			$this->db->select('m.type as media, hummingbird_id')
 				->from('anime_set_media_link ml')
 				->join('media m', 'm.id=ml.media_id', 'left');
-
 
 			if ( ! empty($filter))
 			{
@@ -510,7 +507,9 @@ final class AnimeCollection extends Collection {
 				}
 			}
 		}
-		catch (PDOException) {}
+		catch (PDOException)
+		{
+		}
 
 		$this->db->resetQuery();
 
@@ -532,6 +531,7 @@ final class AnimeCollection extends Collection {
 
 		// Add the new entries
 		$entries = [];
+
 		foreach ($media as $id)
 		{
 			$entries[] = [
@@ -592,7 +592,9 @@ final class AnimeCollection extends Collection {
 			{
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
 			}
-			catch (PDOException) {}
+			catch (PDOException)
+			{
+			}
 		}
 	}
 
@@ -744,7 +746,7 @@ final class AnimeCollection extends Collection {
 
 		$genres = $this->getGenreList();
 
-		foreach($rows as &$row)
+		foreach ($rows as &$row)
 		{
 			$id = $row['hummingbird_id'];
 

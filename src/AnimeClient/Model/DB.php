@@ -21,7 +21,8 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 /**
  * Base model for database interaction
  */
-abstract class DB {
+abstract class DB
+{
 	use ContainerAware;
 
 	/**
@@ -31,8 +32,6 @@ abstract class DB {
 
 	/**
 	 * Constructor
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{

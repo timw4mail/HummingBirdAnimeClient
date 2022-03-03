@@ -18,17 +18,18 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aura\Session\Segment;
 
-use const Aviat\AnimeClient\SESSION_SEGMENT;
+use Aviat\AnimeClient\API\CacheTrait;
 
 use Aviat\AnimeClient\Kitsu as K;
-use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Event;
+use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 /**
  * Kitsu API Authentication
  */
-final class Auth {
+final class Auth
+{
 	use CacheTrait;
 	use ContainerAware;
 
@@ -44,8 +45,6 @@ final class Auth {
 
 	/**
 	 * Constructor
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -94,7 +93,7 @@ final class Auth {
 	 */
 	public function isAuthenticated(): bool
 	{
-		return ($this->getAuthToken() !== NULL);
+		return $this->getAuthToken() !== NULL;
 	}
 
 	/**
@@ -136,7 +135,7 @@ final class Auth {
 	/**
 	 * Save the new authentication information
 	 */
-	private function storeAuth(array|false $auth): bool
+	private function storeAuth(array|FALSE $auth): bool
 	{
 		if (FALSE !== $auth)
 		{
@@ -157,6 +156,7 @@ final class Auth {
 				$this->segment->set('auth_token', $auth['access_token']);
 				$this->segment->set('auth_token_expires', $expire_time);
 				$this->segment->set('refresh_token', $auth['refresh_token']);
+
 				return TRUE;
 			}
 		}

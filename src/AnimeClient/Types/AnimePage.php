@@ -19,12 +19,10 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing an Anime object for a detail page
  */
-final class AnimePage extends Anime {
+final class AnimePage extends Anime
+{
 	public array $characters = [];
-
 	public array $links = [];
-
 	public array $staff = [];
-
 	public ?string $airDate = '';
 }

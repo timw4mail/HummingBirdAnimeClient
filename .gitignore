@@ -153,3 +153,5 @@ public/mal_mappings.json
 tmp
 tools/vendor/
 tools/phinx/vendor/
+/.php-cs-fixer.php
+/.php-cs-fixer.cache

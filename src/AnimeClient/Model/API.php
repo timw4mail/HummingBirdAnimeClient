@@ -19,7 +19,8 @@ namespace Aviat\AnimeClient\Model;
 /**
  * Base model for api interaction
  */
-abstract class API {
+abstract class API
+{
 	/**
 	 * Sort the list entries by their title
 	 */
@@ -40,11 +41,11 @@ abstract class API {
 		array_multisort($sort, SORT_ASC, $array);
 
 		// Re-key array items by their ids
-		if (array_key_exists('id', (array)$array[0]))
+		if (array_key_exists('id', (array) $array[0]))
 		{
 			$keyed = [];
 
-			foreach($array as $item)
+			foreach ($array as $item)
 			{
 				$keyed[$item['id']] = $item;
 			}

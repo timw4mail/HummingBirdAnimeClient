@@ -23,7 +23,8 @@ use Aviat\AnimeClient\Controller\Images;
  * Clears out image cache directories, then re-creates the image cache
  * for manga and anime
  */
-final class UpdateThumbnails extends ClearThumbnails {
+final class UpdateThumbnails extends ClearThumbnails
+{
 	/**
 	 * Model for making requests to Kitsu API
 	 */
@@ -48,7 +49,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$ids = $this->getImageList();
 
 		// Resave the images
-		foreach($ids as $type => $typeIds)
+		foreach ($ids as $type => $typeIds)
 		{
 			foreach ($typeIds as $id)
 			{

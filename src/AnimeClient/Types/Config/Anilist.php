@@ -18,18 +18,13 @@ namespace Aviat\AnimeClient\Types\Config;
 
 use Aviat\AnimeClient\Types\AbstractType;
 
-class Anilist extends AbstractType {
+class Anilist extends AbstractType
+{
 	public bool|string $enabled = FALSE;
-
 	public ?string $client_id;
-
 	public ?string $client_secret;
-
 	public ?string $access_token;
-
-	public int|string|null $access_token_expires;
-
+	public int|string|NULL $access_token_expires;
 	public ?string $refresh_token;
-
 	public ?string $username;
 }

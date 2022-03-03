@@ -24,7 +24,8 @@ use Aviat\Ion\View\HtmlView;
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class Misc extends BaseController {
+final class Misc extends BaseController
+{
 	/**
 	 * Purges the API cache
 	 */
@@ -35,7 +36,7 @@ final class Misc extends BaseController {
 		Event::emit(EventType::CLEAR_CACHE);
 
 		$this->outputHTML('blank', [
-			'title' => 'Cache cleared'
+			'title' => 'Cache cleared',
 		]);
 	}
 
@@ -58,7 +59,7 @@ final class Misc extends BaseController {
 
 		$this->outputHTML('login', [
 			'title' => 'Api login',
-			'message' => $message
+			'message' => $message,
 		], $view);
 	}
 
@@ -67,11 +68,12 @@ final class Misc extends BaseController {
 	 */
 	public function loginAction(): void
 	{
-		$post = (array)$this->request->getParsedBody();
+		$post = (array) $this->request->getParsedBody();
 
 		if ($this->auth->authenticate($post['password']))
 		{
 			$this->sessionRedirect();
+
 			return;
 		}
 

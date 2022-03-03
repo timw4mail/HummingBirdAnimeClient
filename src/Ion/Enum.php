@@ -22,8 +22,8 @@ use ReflectionException;
 /**
  * Class emulating an enumeration type
  */
-abstract class Enum {
-
+abstract class Enum
+{
 	/**
 	 * Return the list of constant values for the Enum
 	 *
@@ -36,10 +36,11 @@ abstract class Enum {
 		if ($self === NULL)
 		{
 			$class = static::class;
-			$self = new $class;
+			$self = new $class();
 		}
 
 		$reflect = new ReflectionClass($self);
+
 		return $reflect->getConstants();
 	}
 
@@ -51,6 +52,7 @@ abstract class Enum {
 	public static function isValid(mixed $key): bool
 	{
 		$values = array_values(static::getConstList());
+
 		return in_array($key, $values, TRUE);
 	}
 }

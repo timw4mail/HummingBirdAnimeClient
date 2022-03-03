@@ -16,14 +16,14 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use function Aviat\AnimeClient\clearCache;
 
 /**
  * Clears the API Cache
  */
-final class CacheClear extends BaseCommand {
+final class CacheClear extends BaseCommand
+{
 	/**
 	 * Clear the API cache
 	 *

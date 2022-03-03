@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\Enum;
 
 use Aviat\Ion\Enum as BaseEnum;
 
-final class EventType extends BaseEnum {
+final class EventType extends BaseEnum
+{
 	public const CLEAR_CACHE = '::clear-cache::';
 	public const RESET_CACHE_KEY = '::reset-cache-key::';
 	public const UNAUTHORIZED = '::unauthorized::';

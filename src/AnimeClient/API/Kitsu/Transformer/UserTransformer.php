@@ -17,7 +17,6 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use function Aviat\AnimeClient\getLocalImg;
 
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -28,10 +27,11 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * @param array|object $profileData
  * @return User
  */
-final class UserTransformer extends AbstractTransformer {
+final class UserTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): User
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];

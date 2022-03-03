@@ -21,7 +21,8 @@ use Aviat\Ion\Enum as BaseEnum;
 /**
  * Types of actions when syncing lists from different APIs
  */
-final class SyncAction extends BaseEnum {
+final class SyncAction extends BaseEnum
+{
 	public const CREATE = 'create';
 	public const UPDATE = 'update';
 	public const DELETE = 'delete';

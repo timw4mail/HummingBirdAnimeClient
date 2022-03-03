@@ -17,15 +17,14 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use InvalidArgumentException;
 
 /**
  * UrlGenerator class.
  */
-class UrlGenerator extends RoutingBase {
-
+class UrlGenerator extends RoutingBase
+{
 	/**
 	 * The current HTTP host
 	 */
@@ -64,7 +63,7 @@ class UrlGenerator extends RoutingBase {
 	{
 		$path = trim($path, '/');
 
-		$path = preg_replace('`{/.*?}`i', '', $path) ?? "";
+		$path = preg_replace('`{/.*?}`i', '', $path) ?? '';
 
 		// Remove any optional parameters from the route
 		// and replace them with existing route parameters, if they exist

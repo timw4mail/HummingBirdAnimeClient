@@ -21,7 +21,8 @@ use Aviat\Ion\Exception\DoubleRenderException;
 /**
  * View Interface abstracting a Response
  */
-interface ViewInterface {
+interface ViewInterface
+{
 	/**
 	 * Return rendered output as string. Renders the view,
 	 * and any attempts to call again will result in a DoubleRenderException

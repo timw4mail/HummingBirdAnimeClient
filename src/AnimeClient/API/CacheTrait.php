@@ -21,8 +21,8 @@ use Psr\SimpleCache\CacheInterface;
 /**
  * Helper methods for dealing with the Cache
  */
-trait CacheTrait {
-
+trait CacheTrait
+{
 	protected CacheInterface $cache;
 
 	/**
@@ -31,6 +31,7 @@ trait CacheTrait {
 	public function setCache(CacheInterface $cache): self
 	{
 		$this->cache = $cache;
+
 		return $this;
 	}
 

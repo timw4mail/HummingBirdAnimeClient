@@ -21,7 +21,8 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for watching status for the current anime
  */
-final class Anilist extends Enum {
+final class Anilist extends Enum
+{
 	public const WATCHING = 'CURRENT';
 	public const COMPLETED = 'COMPLETED';
 	public const ON_HOLD = 'PAUSED';

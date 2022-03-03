@@ -16,14 +16,13 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\Json;
-use Aviat\Ion\HttpViewInterface;
+use Aviat\Ion\{HttpViewInterface, Json};
 
 /**
  * View class to serialize Json
  */
-class JsonView extends HttpView {
-
+class JsonView extends HttpView
+{
 	/**
 	 * Response mime type
 	 */

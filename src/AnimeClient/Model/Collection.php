@@ -25,8 +25,8 @@ use function Query;
 /**
  * Base model for anime and manga collections
  */
-class Collection extends DB {
-
+class Collection extends DB
+{
 	/**
 	 * The query builder object
 	 */

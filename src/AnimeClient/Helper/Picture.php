@@ -17,12 +17,13 @@
 namespace Aviat\AnimeClient\Helper;
 
 use Aviat\Ion\Di\ContainerAware;
+use function in_array;
 
 /**
  * Simplify picture elements
  */
-final class Picture {
-
+final class Picture
+{
 	use ContainerAware;
 
 	private const SIMPLE_IMAGE_TYPES = [
@@ -60,7 +61,8 @@ final class Picture {
 		$ext = array_pop($urlParts);
 		$path = implode('.', $urlParts);
 
-		$mime = match ($ext) {
+		$mime = match ($ext)
+		{
 			'avif' => 'image/avif',
 			'apng' => 'image/vnd.mozilla.apng',
 			'bmp' => 'image/bmp',
@@ -74,7 +76,8 @@ final class Picture {
 			default => 'image/jpeg',
 		};
 
-		$fallbackMime = match ($fallbackExt) {
+		$fallbackMime = match ($fallbackExt)
+		{
 			'gif' => 'image/gif',
 			'png' => 'image/png',
 			default => 'image/jpeg',
@@ -83,10 +86,9 @@ final class Picture {
 		// For image types that are well-established, just return a
 		// simple <img /> element instead
 		if (
-			$ext === $fallbackExt ||
-			\in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
-		)
-		{
+			$ext === $fallbackExt
+			|| in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
+		) {
 			$attrs = (count($imgAttrs) > 1)
 				? $imgAttrs
 				: $picAttrs;
@@ -103,7 +105,7 @@ final class Picture {
 			]),
 			$helper->void('source', [
 				'srcset' => $fallbackImg,
-				'type' => $fallbackMime
+				'type' => $fallbackMime,
 			]),
 			$helper->img($fallbackImg, array_merge(['alt' => ''], $imgAttrs)),
 		];

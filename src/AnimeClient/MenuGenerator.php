@@ -16,19 +16,18 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Exception\ConfigException;
-use Aviat\Ion\Type\ArrayType;
-use Aviat\Ion\Type\StringType;
+use Aviat\Ion\Type\{ArrayType, StringType};
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Helper object to manage menu creation and selection
  */
-final class MenuGenerator extends UrlGenerator {
-
+final class MenuGenerator extends UrlGenerator
+{
 	/**
 	 * Html generation helper
 	 */
@@ -49,7 +48,7 @@ final class MenuGenerator extends UrlGenerator {
 	 *
 	 * @throws ConfigException
 	 */
-	public function generate(string $menu) : string
+	public function generate(string $menu): string
 	{
 		$menus = $this->config->get('menus');
 		$parsedConfig = $this->parseConfig($menus);
@@ -101,17 +100,18 @@ final class MenuGenerator extends UrlGenerator {
 	 *
 	 * @return array<mixed, array<string, string>>
 	 */
-	private function parseConfig(array $menus) : array
+	private function parseConfig(array $menus): array
 	{
 		$parsed = [];
 
 		foreach ($menus as $name => $menu)
 		{
 			$parsed[$name] = [];
+
 			foreach ($menu['items'] as $pathName => $partialPath)
 			{
-				$title = (string)StringType::from($pathName)->humanize()->titleize();
-				$parsed[$name][$title] = (string)StringType::from($menu['route_prefix'])->append($partialPath);
+				$title = (string) StringType::from($pathName)->humanize()->titleize();
+				$parsed[$name][$title] = (string) StringType::from($menu['route_prefix'])->append($partialPath);
 			}
 		}
 

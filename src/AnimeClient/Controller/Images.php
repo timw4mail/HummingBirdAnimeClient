@@ -16,18 +16,19 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-use function Aviat\AnimeClient\createPlaceholderImage;
-
 use Aviat\AnimeClient\Controller as BaseController;
-
 use Throwable;
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};
+use function imagepalletetotruecolor;
+
+use function in_array;
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class Images extends BaseController {
+final class Images extends BaseController
+{
 	/**
 	 * Get image covers from kitsu
 	 *
@@ -38,7 +39,7 @@ final class Images extends BaseController {
 	 */
 	public function cache(string $type, string $file, bool $display = TRUE): void
 	{
-		$currentUrl = (string)$this->request->getUri();
+		$currentUrl = (string) $this->request->getUri();
 
 		$kitsuUrl = 'https://media.kitsu.io/';
 		$fileName = str_replace('-original', '', $file);
@@ -48,8 +49,8 @@ final class Images extends BaseController {
 
 		// Kitsu doesn't serve webp, but for most use cases,
 		// jpg is a safe assumption
-		$tryJpg = ['anime','characters','manga','people'];
-		if ($ext === 'webp' && \in_array($type, $tryJpg, TRUE))
+		$tryJpg = ['anime', 'characters', 'manga', 'people'];
+		if ($ext === 'webp' && in_array($type, $tryJpg, TRUE))
 		{
 			$ext = 'jpg';
 			$currentUrl = str_replace('webp', 'jpg', $currentUrl);
@@ -63,8 +64,8 @@ final class Images extends BaseController {
 			],
 			'avatars' => [
 				'kitsuUrl' => "users/avatars/{$id}/original.{$ext}",
-				'width' => null,
-				'height' => null,
+				'width' => NULL,
+				'height' => NULL,
 			],
 			'characters' => [
 				'kitsuUrl' => "characters/images/{$id}/original.{$ext}",
@@ -78,8 +79,8 @@ final class Images extends BaseController {
 			],
 			'people' => [
 				'kitsuUrl' => "people/images/{$id}/original.{$ext}",
-				'width' => null,
-				'height' => null,
+				'width' => NULL,
+				'height' => NULL,
 			],
 		];
 
@@ -88,6 +89,7 @@ final class Images extends BaseController {
 		if (NULL === $imageType)
 		{
 			$this->getPlaceholder($baseSavePath, 200, 200);
+
 			return;
 		}
 
@@ -111,6 +113,7 @@ final class Images extends BaseController {
 			{
 				$newUrl = str_replace($ext, $nextType[$ext], $currentUrl);
 				$this->redirect($newUrl, 303);
+
 				return;
 			}
 
@@ -144,7 +147,7 @@ final class Images extends BaseController {
 		if ($ext === 'gif')
 		{
 			file_put_contents("{$filePrefix}.gif", $data);
-			\imagepalletetotruecolor($gdImg);
+			imagepalletetotruecolor($gdImg);
 		}
 
 		// save the webp versions
@@ -178,7 +181,7 @@ final class Images extends BaseController {
 	/**
 	 * Get a placeholder for a missing image
 	 */
-	private function getPlaceholder (string $path, ?int $width = 200, ?int $height = NULL): void
+	private function getPlaceholder(string $path, ?int $width = 200, ?int $height = NULL): void
 	{
 		$height ??= $width;
 

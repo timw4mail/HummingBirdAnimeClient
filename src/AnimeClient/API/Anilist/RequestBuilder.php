@@ -16,24 +16,22 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
+use Amp\Http\Client\{Request, Response};
 use Aviat\AnimeClient\Anilist;
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
-
-use Aviat\Ion\JsonException;
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-use const Aviat\AnimeClient\USER_AGENT;
-
 use Aviat\AnimeClient\API\APIRequestBuilder;
-
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\{Json, JsonException};
 use LogicException;
 use Throwable;
 
-final class RequestBuilder extends APIRequestBuilder {
+use function Amp\Promise\wait;
+
+use function Aviat\AnimeClient\getResponse;
+use function in_array;
+use const Aviat\AnimeClient\USER_AGENT;
+
+final class RequestBuilder extends APIRequestBuilder
+{
 	use ContainerAware;
 
 	/**
@@ -115,27 +113,28 @@ final class RequestBuilder extends APIRequestBuilder {
 
 		$query = file_get_contents($file);
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
 		if ( ! empty($variables))
 		{
 			$body['variables'] = [];
-			foreach($variables as $key => $val)
+
+			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
 			}
 		}
 
 		return $this->postRequest([
-			'body' => $body
+			'body' => $body,
 		]);
 	}
 
 	/**
 	 * @throws Throwable
 	 */
-	public function mutateRequest (string $name, array $variables = []): Request
+	public function mutateRequest(string $name, array $variables = []): Request
 	{
 		$file = __DIR__ . "/Mutations/{$name}.graphql";
 		if ( ! file_exists($file))
@@ -146,11 +145,13 @@ final class RequestBuilder extends APIRequestBuilder {
 		$query = file_get_contents($file);
 
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
-		if (!empty($variables)) {
+		if ( ! empty($variables))
+		{
 			$body['variables'] = [];
+
 			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
@@ -166,7 +167,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	 * @throws Throwable
 	 * @return mixed[]
 	 */
-	public function mutate (string $name, array $variables = []): array
+	public function mutate(string $name, array $variables = []): array
 	{
 		$request = $this->mutateRequest($name, $variables);
 		$response = $this->getResponseFromRequest($request);
@@ -242,13 +243,13 @@ final class RequestBuilder extends APIRequestBuilder {
 			//'requestHeaders' => $request->getHeaders(),
 		]);
 
-
-		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			$logger?->warning('Non 200 response for POST api call', (array)$response->getBody());
+			$logger?->warning('Non 200 response for POST api call', (array) $response->getBody());
 		}
 
 		$rawBody = wait($response->getBody()->buffer());
+
 		try
 		{
 			return Json::decode($rawBody);
@@ -257,7 +258,8 @@ final class RequestBuilder extends APIRequestBuilder {
 		{
 			dump($e);
 			dump($rawBody);
-			die();
+
+			exit();
 		}
 	}
 }

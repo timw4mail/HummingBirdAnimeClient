@@ -19,8 +19,8 @@ namespace Aviat\AnimeClient\Command;
 /**
  * Clears out image cache directories
  */
-class ClearThumbnails extends BaseCommand {
-
+class ClearThumbnails extends BaseCommand
+{
 	public function execute(array $args, array $options = []): void
 	{
 		$this->clearThumbs();
@@ -50,7 +50,7 @@ class ClearThumbnails extends BaseCommand {
 			'people/*.webp',
 		];
 
-		foreach($paths as $path)
+		foreach ($paths as $path)
 		{
 			$cmd = "find {$imgDir} -path \"*/{$path}\" | xargs rm -f";
 			exec($cmd);

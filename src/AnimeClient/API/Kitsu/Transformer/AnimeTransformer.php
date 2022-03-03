@@ -23,22 +23,22 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for anime description page
  */
-final class AnimeTransformer extends AbstractTransformer {
-
+final class AnimeTransformer extends AbstractTransformer
+{
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array|object  $item API library item
+	 * @param array|object $item API library item
 	 */
 	public function transform(array|object $item): AnimePage
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findAnimeBySlug'] ?? $item['data']['findAnimeById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 
 		sort($genres);
 
@@ -72,7 +72,7 @@ final class AnimeTransformer extends AbstractTransformer {
 				}
 				else
 				{
-					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
+					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}
 			}
 
@@ -89,7 +89,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 				// If this person object is so broken as to not have a proper image object,
 				// just skip it. No point in showing a role with nothing in it.
-				if ($person === null || $person['id'] === null || $person['image'] === null)
+				if ($person === NULL || $person['id'] === NULL || $person['image'] === NULL)
 				{
 					continue;
 				}
@@ -102,11 +102,11 @@ final class AnimeTransformer extends AbstractTransformer {
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
 					'name' => $name,
-					'image' =>  $person['image']['original']['url'],
+					'image' => $person['image']['original']['url'],
 					'slug' => $person['slug'],
 				];
 
-				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
+				usort($staff[$role], static fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
 
 			ksort($staff);

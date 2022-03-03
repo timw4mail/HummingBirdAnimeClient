@@ -22,14 +22,12 @@ use LogicException;
 /**
  * Exception called when a view is attempted to be sent twice
  */
-class DoubleRenderException extends LogicException {
-
+class DoubleRenderException extends LogicException
+{
 	/**
 	 * DoubleRenderException constructor.
-	 *
-	 * @param Exception|null   $previous
 	 */
-	public function __construct(string $message = 'A view can only be rendered once, because headers can only be sent once.', int $code = 0, Exception $previous = NULL)
+	public function __construct(string $message = 'A view can only be rendered once, because headers can only be sent once.', int $code = 0, ?Exception $previous = NULL)
 	{
 		parent::__construct($message, $code, $previous);
 	}

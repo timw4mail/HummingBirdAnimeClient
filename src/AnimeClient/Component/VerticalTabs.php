@@ -16,14 +16,15 @@
 
 namespace Aviat\AnimeClient\Component;
 
-final class VerticalTabs {
+final class VerticalTabs
+{
 	use ComponentTrait;
 
 	/**
 	 * Creates a vertical tab content view
 	 *
 	 * @param string $name the name attribute for the input[type-option] form elements
-	 * also used to generate id attributes
+	 *                     also used to generate id attributes
 	 * @param array $tabData The data used to create the tab content, indexed by the tab label
 	 * @param callable $cb The function to generate the tab content
 	 */
@@ -31,9 +32,8 @@ final class VerticalTabs {
 		string $name,
 		array $tabData,
 		callable $cb,
-		string $className='content media-wrap flex flex-wrap flex-justify-start'
-	): string
-	{
+		string $className = 'content media-wrap flex flex-wrap flex-justify-start'
+	): string {
 		return $this->render('vertical-tabs.php', [
 			'name' => $name,
 			'data' => $tabData,

@@ -17,16 +17,17 @@
 namespace Aviat\Ion\Type;
 
 use InvalidArgumentException;
+use function in_array;
 
 /**
  * Wrapper class for native array methods for convenience
  *
  * @method array chunk(int $size, bool $preserve_keys = FALSE)
- * @method array pluck(mixed $column_key, mixed $index_key = NULL)
  * @method array filter(callable $callback = NULL, int $flag = 0)
+ * @method array pluck(mixed $column_key, mixed $index_key = NULL)
  */
-class ArrayType {
-
+class ArrayType
+{
 	/**
 	 * The current array
 	 */
@@ -102,6 +103,7 @@ class ArrayType {
 		{
 			$func = $this->nativeInPlaceMethods[$method];
 			$func($this->arr);
+
 			return $this->arr;
 		}
 
@@ -117,7 +119,7 @@ class ArrayType {
 		{
 			$pos =& $this->arr;
 
-			foreach($key as $level)
+			foreach ($key as $level)
 			{
 				if ( ! array_key_exists($level, $pos))
 				{
@@ -156,7 +158,7 @@ class ArrayType {
 	/**
 	 * Find an array key by its associated value
 	 */
-	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
+	public function search(mixed $value, bool $strict = TRUE): int|string|FALSE|null
 	{
 		return array_search($value, $this->arr, $strict);
 	}
@@ -166,13 +168,13 @@ class ArrayType {
 	 */
 	public function has(mixed $value, bool $strict = TRUE): bool
 	{
-		return \in_array($value, $this->arr, $strict);
+		return in_array($value, $this->arr, $strict);
 	}
 
 	/**
 	 * Return the array, or a key
 	 */
-	public function &get(string|int|null $key = NULL): mixed
+	public function &get(string|int|NULL $key = NULL): mixed
 	{
 		$value = NULL;
 		if ($key === NULL)
@@ -196,6 +198,7 @@ class ArrayType {
 	public function set(mixed $key, mixed $value): ArrayType
 	{
 		$this->arr[$key] = $value;
+
 		return $this;
 	}
 
@@ -205,7 +208,7 @@ class ArrayType {
 	 * @example $arr = ArrayType::from([0 => ['data' => ['foo' => 'bar']]]);
 	 * $val = $arr->getDeepKey([0, 'data', 'foo']);
 	 * // returns 'bar'
-	 * @param  array $key An array of keys of the array
+	 * @param array $key An array of keys of the array
 	 */
 	public function &getDeepKey(array $key): mixed
 	{
@@ -220,6 +223,7 @@ class ArrayType {
 				// excess code, just what's required for this
 				// unique situation.
 				$pos = NULL;
+
 				return $pos;
 			}
 

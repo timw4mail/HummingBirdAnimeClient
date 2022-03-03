@@ -18,7 +18,8 @@ namespace Aviat\AnimeClient\Component;
 
 use Aviat\AnimeClient\Types\MangaListItem;
 
-final class MangaCover {
+final class MangaCover
+{
 	use ComponentTrait;
 
 	public function __invoke(MangaListItem $item, string $name): string

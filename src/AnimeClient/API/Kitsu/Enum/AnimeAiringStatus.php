@@ -21,7 +21,8 @@ use Aviat\Ion\Enum as BaseEnum;
 /**
  * Status of when anime is being/was/will be aired
  */
-final class AnimeAiringStatus extends BaseEnum {
+final class AnimeAiringStatus extends BaseEnum
+{
 	public const NOT_YET_AIRED = 'Not Yet Aired';
 	public const AIRING = 'Currently Airing';
 	public const FINISHED_AIRING = 'Finished Airing';

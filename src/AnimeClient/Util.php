@@ -16,14 +16,14 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
 
 /**
  * Utility method class
  */
-class Util {
-
+class Util
+{
 	use ContainerAware;
 
 	/**
@@ -38,13 +38,11 @@ class Util {
 		'logout',
 		'details',
 		'character',
-		'me'
+		'me',
 	];
 
 	/**
 	 * Set up the Util class
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -117,4 +115,3 @@ class Util {
 		return ! $this->isViewPage();
 	}
 }
-

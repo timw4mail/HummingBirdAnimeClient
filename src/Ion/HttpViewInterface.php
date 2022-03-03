@@ -16,15 +16,17 @@
 
 namespace Aviat\Ion;
 
+use InvalidArgumentException;
+
 /**
  * View Interface abstracting an HTTP Response
  */
-interface HttpViewInterface extends ViewInterface {
-
+interface HttpViewInterface extends ViewInterface
+{
 	/**
 	 * Set the status code of the request
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function setStatusCode(int $code): self;
 }

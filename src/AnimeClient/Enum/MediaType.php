@@ -21,7 +21,8 @@ use Aviat\Ion\Enum as BaseEnum;
 /**
  * Types of media
  */
-final class MediaType extends BaseEnum {
+final class MediaType extends BaseEnum
+{
 	public const ANIME = 'anime';
 	public const DRAMA = 'drama';
 	public const MANGA = 'manga';

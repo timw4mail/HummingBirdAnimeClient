@@ -23,22 +23,22 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for manga description page
  */
-final class MangaTransformer extends AbstractTransformer {
-
+final class MangaTransformer extends AbstractTransformer
+{
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array|object  $item API library item
+	 * @param array|object $item API library item
 	 */
 	public function transform(array|object $item): MangaPage
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findMangaBySlug'] ?? $item['data']['findMangaById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 		sort($genres);
 
 		$title = $base['titles']['canonical'];
@@ -71,7 +71,7 @@ final class MangaTransformer extends AbstractTransformer {
 				}
 				else
 				{
-					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
+					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}
 			}
 
@@ -88,7 +88,7 @@ final class MangaTransformer extends AbstractTransformer {
 
 				// If this person object is so broken as to not have a proper image object,
 				// just skip it. No point in showing a role with nothing in it.
-				if ($person === null || $person['id'] === null || $person['image'] === null)
+				if ($person === NULL || $person['id'] === NULL || $person['image'] === NULL)
 				{
 					continue;
 				}
@@ -105,7 +105,7 @@ final class MangaTransformer extends AbstractTransformer {
 					'image' => $person['image']['original']['url'],
 				];
 
-				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
+				usort($staff[$role], static fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
 
 			ksort($staff);

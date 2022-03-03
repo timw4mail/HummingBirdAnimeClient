@@ -16,7 +16,8 @@
 
 namespace Aviat\AnimeClient\Component;
 
-final class Media {
+final class Media
+{
 	use ComponentTrait;
 
 	public function __invoke(array $titles, string $link, string $picture, string $className = 'media'): string

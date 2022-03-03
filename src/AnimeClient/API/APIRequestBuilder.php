@@ -16,21 +16,25 @@
 
 namespace Aviat\AnimeClient\API;
 
-use const Aviat\AnimeClient\USER_AGENT;
-
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
+use Amp\Http\Client\Body\FormBody;
 
 use Amp\Http\Client\Request;
-use Amp\Http\Client\Body\FormBody;
 use Aviat\Ion\Json;
+
+use Error;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
+use Throwable;
+use TypeError;
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
+use const Aviat\AnimeClient\USER_AGENT;
 
 /**
  * Wrapper around Http\Client to make it easier to build API requests
  */
-abstract class APIRequestBuilder {
+abstract class APIRequestBuilder
+{
 	use LoggerAwareTrait;
 
 	/**
@@ -101,6 +105,7 @@ abstract class APIRequestBuilder {
 	public function setBasicAuth(string $username, string $password): self
 	{
 		$this->setAuth('basic', base64_encode($username . ':' . $password));
+
 		return $this;
 	}
 
@@ -110,6 +115,7 @@ abstract class APIRequestBuilder {
 	public function setBody(FormBody|string $body): self
 	{
 		$this->request->setBody($body);
+
 		return $this;
 	}
 
@@ -132,15 +138,14 @@ abstract class APIRequestBuilder {
 	public function unsetHeader(string $name): self
 	{
 		$this->request->removeHeader($name);
+
 		return $this;
 	}
 
 	/**
 	 * Set a request header
-	 *
-	 * @param string|null $value
 	 */
-	public function setHeader(string $name, string $value = NULL): self
+	public function setHeader(string $name, ?string $value = NULL): self
 	{
 		if (NULL === $value)
 		{
@@ -158,8 +163,6 @@ abstract class APIRequestBuilder {
 	 * Set multiple request headers
 	 *
 	 * name => value
-	 *
-	 * @param array $headers
 	 */
 	public function setHeaders(array $headers): self
 	{
@@ -176,7 +179,7 @@ abstract class APIRequestBuilder {
 	 */
 	public function setJsonBody(mixed $body): self
 	{
-		$requestBody = ( is_string($body))
+		$requestBody = (is_string($body))
 			? $body
 			: Json::encode($body);
 
@@ -189,13 +192,14 @@ abstract class APIRequestBuilder {
 	public function setQuery(array $params): self
 	{
 		$this->query = http_build_query($params);
+
 		return $this;
 	}
 
 	/**
 	 * Return the promise for the current request
 	 *
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function getFullRequest(): Request
 	{
@@ -210,7 +214,7 @@ abstract class APIRequestBuilder {
 					$this->request->getBody()
 						->createBodyStream()
 						->read()
-				)
+				),
 			]);
 		}
 
@@ -220,14 +224,15 @@ abstract class APIRequestBuilder {
 	/**
 	 * Get the data from the response of the passed request
 	 *
+	 * @throws Error
+	 * @throws Throwable
+	 * @throws TypeError
 	 * @return mixed
-	 * @throws \Error
-	 * @throws \Throwable
-	 * @throws \TypeError
 	 */
 	public function getResponseData(Request $request)
 	{
 		$response = getResponse($request);
+
 		return wait($response->getBody()->buffer());
 	}
 

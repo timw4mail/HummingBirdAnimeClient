@@ -21,7 +21,8 @@ use Aviat\Ion\Enum;
 /**
  * Possible values for current reading status of manga
  */
-final class Route extends Enum {
+final class Route extends Enum
+{
 	public const ALL = 'all';
 	public const READING = 'reading';
 	public const PLAN_TO_READ = 'plan_to_read';

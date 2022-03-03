@@ -22,7 +22,8 @@ use Aviat\AnimeClient\Types\Anime as AnimeType;
 /**
  * Model for handling requests dealing with the anime list
  */
-class Anime extends API {
+class Anime extends API
+{
 	use MediaTrait;
 
 	protected string $type = 'anime';
@@ -52,9 +53,9 @@ class Anime extends API {
 	 */
 	public function getAllLists(): array
 	{
-		$data =  $this->kitsuModel->getFullOrganizedAnimeList();
+		$data = $this->kitsuModel->getFullOrganizedAnimeList();
 
-		foreach($data as &$list)
+		foreach ($data as &$list)
 		{
 			$this->sortByName($list, 'anime');
 		}
@@ -95,6 +96,4 @@ class Anime extends API {
 	{
 		return $this->kitsuModel->getAnimeHistory();
 	}
-
-
 }

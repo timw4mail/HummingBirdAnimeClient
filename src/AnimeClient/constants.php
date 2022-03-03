@@ -94,7 +94,7 @@ const SETTINGS_MAP = [
 			'options' => [
 				'Memcached' => 'memcached',
 				'Redis' => 'redis',
-				'No Cache' => 'null'
+				'No Cache' => 'null',
 			],
 		],
 		'connection' => [
@@ -150,7 +150,7 @@ const SETTINGS_MAP = [
 			'type' => 'string',
 			'title' => 'Timezone',
 			'default' => 'America/Detroit',
-			'description' => 'See https://www.php.net/manual/en/timezones.php for options'
+			'description' => 'See https://www.php.net/manual/en/timezones.php for options',
 		],
 		'theme' => [
 			'type' => 'select',
@@ -161,7 +161,7 @@ const SETTINGS_MAP = [
 				'Automatically match OS theme' => 'auto',
 				'Original Light Theme' => 'light',
 				'Dark Theme' => 'dark',
-			]
+			],
 		],
 		'show_anime_collection' => [
 			'type' => 'boolean',
@@ -195,7 +195,7 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
+			],
 		],
 		'default_manga_list_path' => [ //reading|plan_to_read|on_hold|dropped|completed|all
 			'type' => 'select',
@@ -208,8 +208,8 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
-		]
+			],
+		],
 	],
 	'database' => [
 		'type' => [
@@ -236,7 +236,7 @@ const SETTINGS_MAP = [
 		'pass' => [
 			'type' => 'string',
 			'title' => 'Password',
-			'description' => 'Database connection password'
+			'description' => 'Database connection password',
 		],
 		'port' => [
 			'type' => 'string',

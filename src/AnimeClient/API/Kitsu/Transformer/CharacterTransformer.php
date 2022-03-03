@@ -25,11 +25,11 @@ use Locale;
 /**
  * Data transformation class for character pages
  */
-final class CharacterTransformer extends AbstractTransformer {
-
+final class CharacterTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): Character
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$data = $item['data']['findCharacterBySlug'] ?? [];
 		$castings = [];
 		$media = [
@@ -62,19 +62,19 @@ final class CharacterTransformer extends AbstractTransformer {
 	/**
 	 * @return array<int, mixed[]>
 	 */
-	protected function organizeMediaAndVoices (array $data): array
+	protected function organizeMediaAndVoices(array $data): array
 	{
 		if (empty($data))
 		{
 			return [[], []];
 		}
 
-		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
+		$titleSort = static fn ($a, $b) => $a['title'] <=> $b['title'];
 
 		// First, let's deal with related media
 		$rawMedia = array_column($data, 'media');
-		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
-		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
+		$rawAnime = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Anime');
+		$rawManga = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Manga');
 
 		$anime = array_map(static function ($item) {
 			$output = $item;
@@ -102,7 +102,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, fn($item) => (! empty($item['voices'])) && (array)$item['voices']['nodes'] !== []);
+		$rawVoices = array_filter($data, static fn ($item) => ( ! empty($item['voices'])) && (array) $item['voices']['nodes'] !== []);
 
 		if (empty($rawVoices))
 		{
@@ -135,7 +135,7 @@ final class CharacterTransformer extends AbstractTransformer {
 							'image' => $voice['person']['image']['original']['url'],
 							'name' => $voice['person']['name'],
 						],
-						'series' => []
+						'series' => [],
 					];
 				}
 

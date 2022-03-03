@@ -16,10 +16,13 @@
 
 namespace Aviat\Ion;
 
+use InvalidArgumentException;
+
 /**
  * Standard interface for retrieving/setting configuration values
  */
-interface ConfigInterface {
+interface ConfigInterface
+{
 	/**
 	 * Does the config item exist?
 	 */
@@ -27,15 +30,13 @@ interface ConfigInterface {
 
 	/**
 	 * Get a config value
-	 *
-	 * @param array|string|null $key
 	 */
 	public function get(array|string $key = NULL): mixed;
 
 	/**
 	 * Set a config value
 	 *
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function set(array|int|string $key, mixed $value): self;
 

@@ -17,7 +17,7 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{FormItem, AnimeListItem, MangaListItem, MangaListItemDetail};
+use Aviat\AnimeClient\Types\{AnimeListItem, FormItem, MangaListItem, MangaListItemDetail};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 
@@ -28,7 +28,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 {
 	public function transform(array|object $item): AnimeListItem|MangaListItem
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$type = $item['media']['type'] ?? '';
 
 		$genres = [];
@@ -93,7 +93,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			'airing' => [
 				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']),
 				'started' => $anime['startDate'],
-				'ended' => $anime['endDate']
+				'ended' => $anime['endDate'],
 			],
 			'anime' => [
 				'id' => $animeId,
@@ -101,7 +101,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				'title' => $title,
 				'titles' => $titles,
 				'slug' => $anime['slug'],
-				'show_type' => (string)StringType::from($anime['subtype'])->upperCaseFirst(),
+				'show_type' => (string) StringType::from($anime['subtype'])->upperCaseFirst(),
 				'cover_image' => Kitsu::getPosterImage($anime),
 				'genres' => $genres,
 				'streaming_links' => $streamingLinks,
@@ -158,11 +158,11 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			'mal_id' => $MALid,
 			'chapters' => [
 				'read' => $readChapters,
-				'total' => $totalChapters
+				'total' => $totalChapters,
 			],
 			'volumes' => [
 				'read' => '-', //$item['attributes']['volumes_read'],
-				'total' => $totalVolumes
+				'total' => $totalVolumes,
 			],
 			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
@@ -171,12 +171,12 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => (string)StringType::from($manga['subtype'])->upperCaseFirst(),
+				'type' => (string) StringType::from($manga['subtype'])->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => strtolower($item['status']),
 			'notes' => $item['notes'],
-			'rereading' => (bool)$item['reconsuming'],
+			'rereading' => (bool) $item['reconsuming'],
 			'reread' => $item['reconsumeCount'],
 			'user_rating' => $rating,
 		]);

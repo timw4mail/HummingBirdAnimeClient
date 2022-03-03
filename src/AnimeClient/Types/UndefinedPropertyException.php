@@ -18,4 +18,6 @@ namespace Aviat\AnimeClient\Types;
 
 use LogicException;
 
-class UndefinedPropertyException extends LogicException {}
+class UndefinedPropertyException extends LogicException
+{
+}

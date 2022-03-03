@@ -18,8 +18,10 @@ namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
 use Countable;
+use Stringable;
 
-abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
+abstract class AbstractType implements ArrayAccess, Countable, Stringable
+{
 	/**
 	 * Populate values for un-serializing data
 	 */
@@ -56,8 +58,8 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 */
 	final private function __construct(mixed $data = [])
 	{
-		$typeKeys = array_keys((array)$this);
-		$dataKeys = array_keys((array)$data);
+		$typeKeys = array_keys((array) $this);
+		$dataKeys = array_keys((array) $data);
 
 		$unsetKeys = array_diff($typeKeys, $dataKeys);
 
@@ -69,7 +71,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 		// Remove unset keys so that they aren't serialized
 		foreach ($unsetKeys as $k)
 		{
-			unset($this->$k);
+			unset($this->{$k});
 		}
 	}
 
@@ -78,7 +80,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 */
 	final public function __isset(string $name): bool
 	{
-		return property_exists($this, $name) && isset($this->$name);
+		return property_exists($this, $name) && isset($this->{$name});
 	}
 
 	/**
@@ -90,7 +92,8 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 
 		if (method_exists($this, $setterMethod))
 		{
-			$this->$setterMethod($value);
+			$this->{$setterMethod}($value);
+
 			return;
 		}
 
@@ -101,7 +104,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 			throw new UndefinedPropertyException("Trying to set undefined property: '{$name}'. Existing properties: {$existing}");
 		}
 
-		$this->$name = $value;
+		$this->{$name} = $value;
 	}
 
 	/**
@@ -111,7 +114,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	{
 		// Be a bit more lenient here, so that you can easily typecast missing
 		// values to reasonable defaults, and not have to resort to array indexes
-		return ($this->__isset($name)) ? $this->$name : NULL;
+		return ($this->__isset($name)) ? $this->{$name} : NULL;
 	}
 
 	/**
@@ -127,7 +130,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 */
 	final public function offsetExists(mixed $offset): bool
 	{
-		return $this->__isset((string)$offset);
+		return $this->__isset((string) $offset);
 	}
 
 	/**
@@ -135,7 +138,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 */
 	final public function offsetGet(mixed $offset): mixed
 	{
-		return $this->__get((string)$offset);
+		return $this->__get((string) $offset);
 	}
 
 	/**
@@ -143,7 +146,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 */
 	final public function offsetSet(mixed $offset, mixed $value): void
 	{
-		$this->__set((string)$offset, $value);
+		$this->__set((string) $offset, $value);
 	}
 
 	/**
@@ -153,8 +156,8 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	{
 		if ($this->offsetExists($offset))
 		{
-			$strOffset = (string)$offset;
-			unset($this->$strOffset);
+			$strOffset = (string) $offset;
+			unset($this->{$strOffset});
 		}
 	}
 
@@ -164,6 +167,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	final public function count(): int
 	{
 		$keys = array_keys($this->toArray());
+
 		return count($keys);
 	}
 
@@ -174,9 +178,10 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	 *
 	 * @param mixed $parent
 	 */
-	final public function toArray(mixed $parent = null): array
+	final public function toArray(mixed $parent = NULL): array
 	{
 		$fromObject = $this->fromObject($parent);
+
 		return (is_array($fromObject)) ? $fromObject : [];
 	}
 
@@ -186,6 +191,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	final public function isEmpty(): bool
 	{
 		$self = $this->toArray();
+
 		foreach ($self as $value)
 		{
 			if ( ! empty($value))
@@ -200,7 +206,7 @@ abstract class AbstractType implements ArrayAccess, Countable, \Stringable {
 	/**
 	 * @codeCoverageIgnore
 	 */
-	final protected function fromObject(mixed $parent = null): float|null|bool|int|array|string
+	final protected function fromObject(mixed $parent = NULL): float|NULL|bool|int|array|string
 	{
 		$object = $parent ?? $this;
 
