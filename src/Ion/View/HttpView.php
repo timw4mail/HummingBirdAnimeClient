@@ -26,27 +26,21 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Base view class for Http output
  */
-class HttpView implements HttpViewInterface{
+class HttpView implements HttpViewInterface, \Stringable{
 
 	/**
 	 * HTTP response Object
-	 *
-	 * @var ResponseInterface
 	 */
 	public ResponseInterface $response;
 
 	/**
 	 * If the view has sent output via
 	 * __toString or send method
-	 *
-	 * @var boolean
 	 */
 	protected bool $hasRendered = FALSE;
 
 	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = '';
 
