@@ -24,7 +24,7 @@ use JetBrains\PhpStorm\ArrayShape;
  */
 final class RoutingBaseTest extends AnimeClientTestCase
 {
-	#[ArrayShape(['empty_segment' => "array", 'three_segments' => "array"])]
+	#[ArrayShape(['empty_segment' => 'array', 'three_segments' => 'array'])]
 	public function dataSegments()
 	{
 		return [

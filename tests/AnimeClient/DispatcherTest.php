@@ -210,7 +210,7 @@ final class DispatcherTest extends AnimeClientTestCase
 		$this->urlGenerator->defaultUrl('foo');
 	}
 
-	#[ArrayShape(['controller_list_sanity_check' => "array", 'empty_controller_list' => "array"])]
+	#[ArrayShape(['controller_list_sanity_check' => 'array', 'empty_controller_list' => 'array'])]
 	public function dataGetControllerList(): array
 	{
 		$expectedList = [
