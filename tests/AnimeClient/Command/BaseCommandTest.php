@@ -18,19 +18,24 @@ namespace Aviat\AnimeClient\Tests\Command;
 
 use Aviat\AnimeClient\Command\BaseCommand;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use Aviat\Ion\Di\Container;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
-use Aviat\Ion\Di\Container;
 
-class Command extends BaseCommand {
-
+class Command extends BaseCommand
+{
 }
 
-class BaseCommandTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class BaseCommandTest extends AnimeClientTestCase
+{
 	protected Command $base;
 	protected Friend $friend;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		$this->base = new Command(new Console());
 		$this->friend = new Friend($this->base);
 	}

@@ -16,60 +16,60 @@
 
 namespace Aviat\Ion\Tests\View;
 
-use Aviat\Ion\Friend;
 use Aviat\Ion\Exception\DoubleRenderException;
-use Aviat\Ion\Tests\IonTestCase;
-use Aviat\Ion\Tests\TestHttpView;
+use Aviat\Ion\Friend;
+use Aviat\Ion\Tests\{IonTestCase, TestHttpView};
 
-class HttpViewTest extends IonTestCase {
-
+class HttpViewTest extends IonTestCase
+{
 	protected $view;
 	protected $friend;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->view = new TestHttpView();
 		$this->friend = new Friend($this->view);
 	}
 
-	public function testGetOutput():void
+	public function testGetOutput(): void
 	{
 		$this->friend->setOutput('foo');
-		$this->assertEquals('foo', $this->friend->getOutput());
+		$this->assertSame('foo', $this->friend->getOutput());
 		$this->assertFalse($this->friend->hasRendered);
 
-		$this->assertEquals($this->friend->getOutput(), $this->friend->__toString());
+		$this->assertSame($this->friend->getOutput(), $this->friend->__toString());
 		$this->assertTrue($this->friend->hasRendered);
 	}
 
-	public function testSetOutput():void
+	public function testSetOutput(): void
 	{
 		$same = $this->view->setOutput('<h1></h1>');
-		$this->assertEquals($same, $this->view);
-		$this->assertEquals('<h1></h1>', $this->view->getOutput());
+		$this->assertSame($same, $this->view);
+		$this->assertSame('<h1></h1>', $this->view->getOutput());
 	}
 
-	public function testAppendOutput():void
+	public function testAppendOutput(): void
 	{
 		$this->view->setOutput('<h1>');
 		$this->view->appendOutput('</h1>');
-		$this->assertEquals('<h1></h1>', $this->view->getOutput());
+		$this->assertSame('<h1></h1>', $this->view->getOutput());
 	}
 
-	public function testSetStatusCode():void
+	public function testSetStatusCode(): void
 	{
 		$view = $this->view->setStatusCode(404);
-		$this->assertEquals(404, $view->response->getStatusCode());
+		$this->assertSame(404, $view->response->getStatusCode());
 	}
 
-	public function testAddHeader():void
+	public function testAddHeader(): void
 	{
 		$view = $this->view->addHeader('foo', 'bar');
 		$this->assertTrue($view->response->hasHeader('foo'));
-		$this->assertEquals(['bar'], $view->response->getHeader('foo'));
+		$this->assertSame(['bar'], $view->response->getHeader('foo'));
 	}
 
-	public function testSendDoubleRenderException():void
+	public function testSendDoubleRenderException(): void
 	{
 		$this->expectException(DoubleRenderException::class);
 		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');
@@ -81,7 +81,7 @@ class HttpViewTest extends IonTestCase {
 		$this->view->send();
 	}
 
-	public function test__toStringDoubleRenderException():void
+	public function testToStringDoubleRenderException(): void
 	{
 		$this->expectException(DoubleRenderException::class);
 		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');

@@ -17,9 +17,14 @@
 namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\RoutingBase;
+use JetBrains\PhpStorm\ArrayShape;
 
-class RoutingBaseTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class RoutingBaseTest extends AnimeClientTestCase
+{
+	#[ArrayShape(['empty_segment' => "array", 'three_segments' => "array"])]
 	public function dataSegments()
 	{
 		return [
@@ -27,35 +32,35 @@ class RoutingBaseTest extends AnimeClientTestCase {
 				'requestUri' => '  //      ',
 				'path' => '/',
 				'segments' => ['', ''],
-				'lastSegment' => NULL
+				'lastSegment' => NULL,
 			],
 			'three_segments' => [
 				'requestUri' => '/anime/watching/list  ',
 				'path' => '/anime/watching/list',
 				'segments' => ['', 'anime', 'watching', 'list'],
-				'lastSegment' => 'list'
-			]
+				'lastSegment' => 'list',
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSegments
 	 */
-	public function testSegments(string $requestUri, string $path, array $segments, $lastSegment): void
+	public function testSegments(string $requestUri, string $path, array $segments, ?string $lastSegment): void
 	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
-				'REQUEST_URI' => $requestUri
-			]
+				'REQUEST_URI' => $requestUri,
+			],
 		]);
 
 		$routingBase = new RoutingBase($this->container);
 
-		$this->assertEquals($path, $routingBase->path(), "Path is invalid");
-		$this->assertEquals($segments, $routingBase->segments(), "Segments array is invalid");
-		$this->assertEquals($lastSegment, $routingBase->lastSegment(), "Last segment is invalid");
+		$this->assertSame($path, $routingBase->path(), 'Path is invalid');
+		$this->assertSame($segments, $routingBase->segments(), 'Segments array is invalid');
+		$this->assertEquals($lastSegment, $routingBase->lastSegment(), 'Last segment is invalid');
 
-		foreach($segments as $i => $value)
+		foreach ($segments as $i => $value)
 		{
 			$this->assertEquals($value, $routingBase->getSegment($i), "Segment {$i} is invalid");
 		}

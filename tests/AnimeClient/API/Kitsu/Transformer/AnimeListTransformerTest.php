@@ -20,12 +20,17 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
-class AnimeListTransformerTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class AnimeListTransformerTest extends AnimeClientTestCase
+{
 	protected string $dir;
 	protected array $beforeTransform;
 	protected AnimeListTransformer $transformer;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
@@ -37,7 +42,7 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 
 	public function testTransform(): void
 	{
-		$this->markTestSkipped("Old test data");
+		$this->markTestSkipped('Old test data');
 
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
@@ -53,8 +58,8 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'episodes_watched' => 38,
 				'rewatched' => 0,
 				'notes' => 'Very formulaic.',
-				'edit' => true
-			]
+				'edit' => TRUE,
+			],
 		], [
 			'input' => [
 				'id' => 14047981,
@@ -66,8 +71,8 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'notes' => 'Very formulaic.',
 				'edit' => 'true',
 				'private' => 'On',
-				'rewatching' => 'On'
-			]
+				'rewatching' => 'On',
+			],
 		], [
 			'input' => [
 				'id' => 14047983,
@@ -79,14 +84,13 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'notes' => '',
 				'edit' => 'true',
 				'private' => 'On',
-				'rewatching' => 'On'
-			]
+				'rewatching' => 'On',
+			],
 		]];
 	}
 
 	/**
 	 * @dataProvider dataUntransform
-	 * @param array $input
 	 */
 	public function testUntransform(array $input): void
 	{

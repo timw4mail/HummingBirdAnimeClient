@@ -20,8 +20,11 @@ use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\Ion\Friend;
 use PHPUnit\Framework\TestCase;
 
-class ParallelAPIRequestTest extends TestCase {
-
+/**
+ * @internal
+ */
+final class ParallelAPIRequestTest extends TestCase
+{
 	public function testAddStringUrlRequest()
 	{
 		$requester = new ParallelAPIRequest();
@@ -29,14 +32,14 @@ class ParallelAPIRequestTest extends TestCase {
 
 		$friend = new Friend($requester);
 
-		$this->assertEquals($friend->requests, ['https://httpbin.org']);
+		$this->assertSame($friend->requests, ['https://httpbin.org']);
 	}
 
 	public function testAddStringUrlRequests()
 	{
 		$requests = [
 			'foo' => 'http://example.com',
-			'bar' => 'https://example.com'
+			'bar' => 'https://example.com',
 		];
 
 		$requester = new ParallelAPIRequest();
@@ -44,6 +47,6 @@ class ParallelAPIRequestTest extends TestCase {
 
 		$friend = new Friend($requester);
 
-		$this->assertEquals($friend->requests, $requests);
+		$this->assertSame($friend->requests, $requests);
 	}
 }

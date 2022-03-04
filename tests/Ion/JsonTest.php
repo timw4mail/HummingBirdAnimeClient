@@ -16,40 +16,43 @@
 
 namespace Aviat\Ion\Tests;
 
-use function Aviat\Ion\_dir;
-
 use Aviat\Ion\{Json, JsonException};
 
-class JsonTest extends IonTestCase {
+use function Aviat\Ion\_dir;
 
+/**
+ * @internal
+ */
+final class JsonTest extends IonTestCase
+{
 	public function testEncode()
 	{
 		$data = (object) [
-			'foo' => [1, 2, 3, 4]
+			'foo' => [1, 2, 3, 4],
 		];
 		$expected = '{"foo":[1,2,3,4]}';
-		$this->assertEquals($expected, Json::encode($data));
+		$this->assertSame($expected, Json::encode($data));
 	}
 
-	public function dataEncodeDecode()
+	public function dataEncodeDecode(): array
 	{
 		return [
 			'set1' => [
 				'data' => [
 					'apple' => [
-						'sauce' => ['foo','bar','baz']
-					]
+						'sauce' => ['foo', 'bar', 'baz'],
+					],
 				],
 				'expected_size' => 39,
-				'expected_json' => '{"apple":{"sauce":["foo","bar","baz"]}}'
-			]
+				'expected_json' => '{"apple":{"sauce":["foo","bar","baz"]}}',
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider dataEncodeDecode
 	 */
-	public function testEncodeDecodeFile($data, $expected_size, $expected_json)
+	public function testEncodeDecodeFile(array $data, int $expected_size, string $expected_json): void
 	{
 		$target_file = _dir(self::TEST_DATA_DIR, 'json_write.json');
 
@@ -57,8 +60,8 @@ class JsonTest extends IonTestCase {
 		$actual_json = file_get_contents($target_file);
 
 		$this->assertTrue(Json::isJson($actual_json));
-		$this->assertEquals($expected_size, $actual_size);
-		$this->assertEquals($expected_json, $actual_json);
+		$this->assertSame($expected_size, $actual_size);
+		$this->assertSame($expected_json, $actual_json);
 
 		$this->assertEquals($data, Json::decodeFile($target_file));
 
@@ -69,10 +72,10 @@ class JsonTest extends IonTestCase {
 	{
 		$json = '{"foo":[1,2,3,4]}';
 		$expected = [
-			'foo' => [1, 2, 3, 4]
+			'foo' => [1, 2, 3, 4],
 		];
-		$this->assertEquals($expected, Json::decode($json));
-		$this->assertEquals((object)$expected, Json::decode($json, false));
+		$this->assertSame($expected, Json::decode($json));
+		$this->assertEquals((object) $expected, Json::decode($json, FALSE));
 
 		$badJson = '{foo:{1|2}}';
 		$this->expectException('Aviat\Ion\JsonException');

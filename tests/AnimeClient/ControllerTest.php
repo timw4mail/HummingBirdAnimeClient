@@ -16,22 +16,23 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-use Aura\Router\RouterFactory;
-use Aura\Web\WebFactory;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Controller\{
 	Anime as AnimeController,
-	Character as CharacterController,
 	AnimeCollection as AnimeCollectionController,
-	// MangaCollection as MangaCollectionController,
-	Manga as MangaController
+	Character as CharacterController,
+	Manga as MangaController // MangaCollection as MangaCollectionController,
 };
 
-class ControllerTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class ControllerTest extends AnimeClientTestCase
+{
 	protected $BaseController;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		// Create Request/Response Objects
@@ -41,7 +42,7 @@ class ControllerTest extends AnimeClientTestCase {
 			'_POST' => [],
 			'_COOKIE' => [],
 			'_SERVER' => $GLOBALS['_SERVER'],
-			'_FILES' => []
+			'_FILES' => [],
 		]);
 
 		$this->BaseController = new Controller($this->container);
@@ -53,7 +54,7 @@ class ControllerTest extends AnimeClientTestCase {
 		$config->set('database', [
 			'type' => 'sqlite',
 			'database' => '',
-			'file' => ":memory:"
+			'file' => ':memory:',
 		]);
 		$this->container->setInstance('config', $config);
 
@@ -81,15 +82,14 @@ class ControllerTest extends AnimeClientTestCase {
 
 	public function testBaseControllerSanity()
 	{
-		$this->assertTrue(\is_object($this->BaseController));
+		$this->assertIsObject($this->BaseController);
 	}
 
 	public function testFormatTitle()
 	{
-		$this->assertEquals(
+		$this->assertSame(
 			$this->BaseController->formatTitle('foo', 'bar', 'baz'),
 			'foo &middot; bar &middot; baz'
 		);
 	}
-
 }

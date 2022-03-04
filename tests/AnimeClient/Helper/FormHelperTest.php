@@ -19,7 +19,11 @@ namespace Aviat\AnimeClient\Tests\Helper;
 use Aviat\AnimeClient\Helper\Form as FormHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class FormHelperTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class FormHelperTest extends AnimeClientTestCase
+{
 	public function testFormHelper(): void
 	{
 		$helper = new FormHelper();
@@ -29,7 +33,7 @@ class FormHelperTest extends AnimeClientTestCase {
 			'type' => 'text',
 			'value' => 'foo',
 			'placeholder' => 'field',
-			'name' => 'test'
+			'name' => 'test',
 		]);
 
 		$this->assertMatchesSnapshot($actual);

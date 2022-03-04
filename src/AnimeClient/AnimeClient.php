@@ -103,10 +103,8 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			? "{$parentKey}.{$key}"
 			: $key;
 
-		if ( ! isSequentialArray($value))
-		{
-			$builder->addTable($newKey);
-		}
+
+		$builder->addTable($newKey);
 
 		_iterateToml($builder, $value, $newKey);
 	}
@@ -154,12 +152,7 @@ if ( ! function_exists('array_is_list'))
  */
 function isSequentialArray(mixed $array): bool
 {
-	if ( ! is_array($array))
-	{
-		return FALSE;
-	}
-
-	return array_is_list($array);
+	return is_array($array) && array_is_list($array);
 }
 
 /**

@@ -16,21 +16,24 @@
 
 namespace Aviat\AnimeClient\Tests\API;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\{AnimeAiringStatus, MangaPublishingStatus};
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
 use PHPUnit\Framework\TestCase;
 
-class KitsuTest extends TestCase {
+/**
+ * @internal
+ */
+final class KitsuTest extends TestCase
+{
 	public function testGetAiringStatus(): void
 	{
 		$actual = Kitsu::getAiringStatus('next week', 'next year');
-		$this->assertEquals(AnimeAiringStatus::NOT_YET_AIRED, $actual);
+		$this->assertSame(AnimeAiringStatus::NOT_YET_AIRED, $actual);
 	}
 
 	public function testParseStreamingLinksEmpty(): void
 	{
-		$this->assertEquals([], Kitsu::parseStreamingLinks([]));
+		$this->assertSame([], Kitsu::parseStreamingLinks([]));
 	}
 
 	public function testParseStreamingLinks(): void
@@ -38,7 +41,7 @@ class KitsuTest extends TestCase {
 		$nodes = [[
 			'url' => 'www.hulu.com/chobits',
 			'dubs' => ['ja'],
-			'subs' => ['en']
+			'subs' => ['en'],
 		]];
 
 		$expected = [[
@@ -63,17 +66,17 @@ class KitsuTest extends TestCase {
 			'subs' => [],
 		]];
 
-		$this->assertEquals([], Kitsu::parseStreamingLinks($nodes));
+		$this->assertSame([], Kitsu::parseStreamingLinks($nodes));
 	}
 
 	public function testGetAiringStatusEmptyArguments(): void
 	{
-		$this->assertEquals(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus());
+		$this->assertSame(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus());
 	}
 
 	public function testGetAiringStatusIsAiring(): void
 	{
-		$this->assertEquals(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('yesterday'));
+		$this->assertSame(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('yesterday'));
 	}
 
 	public function getPublishingStatus(): array
@@ -86,19 +89,17 @@ class KitsuTest extends TestCase {
 			'future' => [
 				'kitsuStatus' => 'foo',
 				'expected' => MangaPublishingStatus::NOT_YET_PUBLISHED,
-			]
+			],
 		];
 	}
 
 	/**
-	 * @param string $kitsuStatus
-	 * @param string $expected
 	 * @dataProvider getPublishingStatus
 	 */
 	public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
 	{
 		$actual = Kitsu::getPublishingStatus($kitsuStatus);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	public function getFriendlyTime(): array
@@ -115,23 +116,21 @@ class KitsuTest extends TestCase {
 			'expected' => '1 hour',
 		], [
 			'seconds' => (2 * $SECONDS_IN_YEAR) + 30,
-			'expected' => '2 years, 30 seconds'
+			'expected' => '2 years, 30 seconds',
 		], [
 			'seconds' => (5 * $SECONDS_IN_YEAR) + (3 * $SECONDS_IN_DAY) + (17 * Kitsu::SECONDS_IN_MINUTE),
-			'expected' => '5 years, 3 days, and 17 minutes'
+			'expected' => '5 years, 3 days, and 17 minutes',
 		]];
 	}
 
 	/**
-	 * @param int $seconds
-	 * @param string $expected
 	 * @dataProvider getFriendlyTime
 	 */
 	public function testGetFriendlyTime(int $seconds, string $expected): void
 	{
 		$actual = Kitsu::friendlyTime($seconds);
 
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	public function testFilterLocalizedTitles(): void
@@ -148,7 +147,7 @@ class KitsuTest extends TestCase {
 
 		$actual = Kitsu::filterLocalizedTitles($input);
 
-		$this->assertEquals(['Foo the Movie'], $actual);
+		$this->assertSame(['Foo the Movie'], $actual);
 	}
 
 	public function testGetFilteredTitles(): void
@@ -156,13 +155,13 @@ class KitsuTest extends TestCase {
 		$input = [
 			'canonical' => 'foo',
 			'localized' => [
-				'en' => 'Foo the Movie'
+				'en' => 'Foo the Movie',
 			],
 			'alternatives' => [],
 		];
 
 		$actual = Kitsu::getFilteredTitles($input);
 
-		$this->assertEquals(['Foo the Movie'], $actual);
+		$this->assertSame(['Foo the Movie'], $actual);
 	}
 }

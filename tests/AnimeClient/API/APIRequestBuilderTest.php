@@ -16,26 +16,30 @@
 
 namespace Aviat\AnimeClient\Tests\API;
 
+use Aviat\AnimeClient\API\APIRequestBuilder;
+use Aviat\Ion\Json;
+
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\NullLogger;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
-use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\Ion\Json;
-use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
-
-class APIRequestBuilderTest extends TestCase {
-
+/**
+ * @internal
+ */
+final class APIRequestBuilderTest extends TestCase
+{
 	protected $builder;
 
-	public function setUp(): void	{
-		$this->builder = new class extends APIRequestBuilder {
+	protected function setUp(): void
+	{
+		$this->builder = new class () extends APIRequestBuilder {
 			protected string $baseUrl = 'https://httpbin.org/';
-
 			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
 
-		$this->builder->setLogger(new NullLogger);
+		$this->builder->setLogger(new NullLogger());
 	}
 
 	public function testGzipRequest(): void
@@ -44,12 +48,12 @@ class APIRequestBuilderTest extends TestCase {
 			->getFullRequest();
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
-		$this->assertEquals(1, $body['gzipped']);
+		$this->assertTrue($body['gzipped']);
 	}
 
 	public function testInvalidRequestMethod(): void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
 	}
@@ -63,7 +67,7 @@ class APIRequestBuilderTest extends TestCase {
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
 
-		$this->assertEquals('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
+		$this->assertSame('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
 
 	public function testRequestWithQueryString(): void
@@ -71,17 +75,17 @@ class APIRequestBuilderTest extends TestCase {
 		$query = [
 			'foo' => 'bar',
 			'bar' => [
-				'foo' => 'bar'
+				'foo' => 'bar',
 			],
 			'baz' => [
-				'bar' => 'foo'
-			]
+				'bar' => 'foo',
+			],
 		];
 
 		$expected = [
-			'foo' => 'bar',
 			'bar[foo]' => 'bar',
-			'baz[bar]' => 'foo'
+			'baz[bar]' => 'foo',
+			'foo' => 'bar',
 		];
 
 		$request = $this->builder->newRequest('GET', 'get')
@@ -91,14 +95,14 @@ class APIRequestBuilderTest extends TestCase {
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
 
-		$this->assertEquals($expected, $body['args']);
+		$this->assertSame($expected, $body['args']);
 	}
 
 	public function testFormValueRequest(): void
 	{
 		$formValues = [
+			'bar' => 'foo',
 			'foo' => 'bar',
-			'bar' => 'foo'
 		];
 
 		$request = $this->builder->newRequest('POST', 'post')
@@ -108,7 +112,7 @@ class APIRequestBuilderTest extends TestCase {
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
 
-		$this->assertEquals($formValues, $body['form']);
+		$this->assertSame($formValues, $body['form']);
 	}
 
 	public function testFullUrlRequest(): void
@@ -119,9 +123,9 @@ class APIRequestBuilderTest extends TestCase {
 				'baz' => [2, 3, 4],
 				'bazbar' => [
 					'a' => 1,
-					'b' => 2
-				]
-			]
+					'b' => 2,
+				],
+			],
 		];
 
 		$request = $this->builder->newRequest('PUT', 'https://httpbin.org/put')
@@ -132,6 +136,6 @@ class APIRequestBuilderTest extends TestCase {
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
 
-		$this->assertEquals($data, $body['json']);
+		$this->assertSame($data, $body['json']);
 	}
 }

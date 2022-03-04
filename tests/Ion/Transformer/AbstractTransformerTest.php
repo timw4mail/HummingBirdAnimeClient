@@ -18,14 +18,18 @@ namespace Aviat\Ion\Tests\Transformer;
 
 use Aviat\Ion\Tests\IonTestCase;
 use Aviat\Ion\Tests\{TestTransformer, TestTransformerUntransform};
+use BadMethodCallException;
 
-class AbstractTransformerTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class AbstractTransformerTest extends IonTestCase
+{
 	protected $transformer;
 	protected $untransformer;
 
-
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		$this->transformer = new TestTransformer();
 		$this->untransformer = new TestTransformerUntransform();
 	}
@@ -35,29 +39,29 @@ class AbstractTransformerTest extends IonTestCase {
 		return [
 			'object' => [
 				'original' => [
-					(object)[
+					(object) [
 						['name' => 'Comedy'],
 						['name' => 'Romance'],
 						['name' => 'School'],
-						['name' => 'Harem']
+						['name' => 'Harem'],
 					],
-					(object)[
+					(object) [
 						['name' => 'Action'],
 						['name' => 'Comedy'],
 						['name' => 'Magic'],
 						['name' => 'Fantasy'],
-						['name' => 'Mahou Shoujo']
+						['name' => 'Mahou Shoujo'],
 					],
-					(object)[
+					(object) [
 						['name' => 'Comedy'],
-						['name' => 'Sci-Fi']
-					]
+						['name' => 'Sci-Fi'],
+					],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 			'array' => [
 				'original' => [
@@ -65,25 +69,25 @@ class AbstractTransformerTest extends IonTestCase {
 						['name' => 'Comedy'],
 						['name' => 'Romance'],
 						['name' => 'School'],
-						['name' => 'Harem']
+						['name' => 'Harem'],
 					],
 					[
 						['name' => 'Action'],
 						['name' => 'Comedy'],
 						['name' => 'Magic'],
 						['name' => 'Fantasy'],
-						['name' => 'Mahou Shoujo']
+						['name' => 'Mahou Shoujo'],
 					],
 					[
 						['name' => 'Comedy'],
-						['name' => 'Sci-Fi']
-					]
+						['name' => 'Sci-Fi'],
+					],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 		];
 	}
@@ -93,28 +97,28 @@ class AbstractTransformerTest extends IonTestCase {
 		return [
 			'object' => [
 				'original' => [
-					(object)['Comedy', 'Romance', 'School', 'Harem'],
-					(object)['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					(object)['Comedy', 'Sci-Fi']
+					(object) ['Comedy', 'Romance', 'School', 'Harem'],
+					(object) ['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
+					(object) ['Comedy', 'Sci-Fi'],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 			'array' => [
 				'original' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
+					['Comedy', 'Sci-Fi'],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
-			]
+					['Comedy', 'Sci-Fi'],
+				],
+			],
 		];
 	}
 
@@ -125,33 +129,39 @@ class AbstractTransformerTest extends IonTestCase {
 		$expected = $data['object']['expected'][0];
 
 		$actual = $this->transformer->transform($original);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	/**
 	 * @dataProvider dataTransformCollection
+	 * @param mixed $original
+	 * @param mixed $expected
 	 */
 	public function testTransformCollection($original, $expected)
 	{
 		$actual = $this->transformer->transformCollection($original);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	/**
 	 * @dataProvider dataUnTransformCollection
+	 * @param mixed $original
+	 * @param mixed $expected
 	 */
 	public function testUntransformCollection($original, $expected)
 	{
 		$actual = $this->untransformer->untransformCollection($original);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	/**
 	 * @dataProvider dataUnTransformCollection
+	 * @param mixed $original
+	 * @param mixed $expected
 	 */
 	public function testUntransformCollectionWithException($original, $expected)
 	{
-		$this->expectException(\BadMethodCallException::class);
+		$this->expectException(BadMethodCallException::class);
 		$this->transformer->untransformCollection($original);
 	}
 }

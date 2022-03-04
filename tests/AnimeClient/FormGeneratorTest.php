@@ -74,7 +74,7 @@ const SETTINGS_MAP = [
 			'display' => FALSE,
 			'description' => '',
 			'value' => 'foo_bar',
-		]
+		],
 	],
 
 	'cache' => [
@@ -86,7 +86,7 @@ const SETTINGS_MAP = [
 				'APCu' => 'apcu',
 				'Memcached' => 'memcached',
 				'Redis' => 'redis',
-				'No Cache' => 'null'
+				'No Cache' => 'null',
 			],
 		],
 		'connection' => [
@@ -147,7 +147,7 @@ const SETTINGS_MAP = [
 				'Automatically match OS theme' => 'auto',
 				'Original Light Theme' => 'light',
 				'Dark Theme' => 'dark',
-			]
+			],
 		],
 		'show_anime_collection' => [
 			'type' => 'boolean',
@@ -181,7 +181,7 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
+			],
 		],
 		'default_manga_list_path' => [ //reading|plan_to_read|on_hold|dropped|completed|all
 			'type' => 'select',
@@ -194,8 +194,8 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
-		]
+			],
+		],
 	],
 	'database' => [
 		'type' => [
@@ -222,7 +222,7 @@ const SETTINGS_MAP = [
 		'pass' => [
 			'type' => 'string',
 			'title' => 'Password',
-			'description' => 'Database connection password'
+			'description' => 'Database connection password',
 		],
 		'port' => [
 			'type' => 'string',
@@ -244,11 +244,15 @@ const SETTINGS_MAP = [
 	],
 ];
 
-
-class FormGeneratorTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class FormGeneratorTest extends AnimeClientTestCase
+{
 	public function testGeneration(): void
 	{
 		$generator = FormGenerator::new($this->container);
+
 		foreach (SETTINGS_MAP as $section => $fields)
 		{
 			foreach ($fields as $name => $config)

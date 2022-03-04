@@ -1,4 +1,6 @@
-<?php return '<select id="default_anime_list_path" name="default_anime_list_path">
+<?php declare(strict_types=1);
+
+return '<select id="default_anime_list_path" name="default_anime_list_path">
     <option value="watching">Watching</option>
     <option value="plan_to_watch">Plan to Watch</option>
     <option value="on_hold">On Hold</option>

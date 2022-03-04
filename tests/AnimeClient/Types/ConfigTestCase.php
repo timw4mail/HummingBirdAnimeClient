@@ -19,13 +19,14 @@ namespace Aviat\AnimeClient\Tests\Types;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\UndefinedPropertyException;
 
-abstract class ConfigTestCase extends AnimeClientTestCase {
+abstract class ConfigTestCase extends AnimeClientTestCase
+{
 	public string $testClass;
 
 	public function testCheck(): void
 	{
 		$result = $this->testClass::check([]);
-		$this->assertEquals([], $result);
+		$this->assertSame([], $result);
 	}
 
 	public function testSetUndefinedProperty(): void
@@ -67,6 +68,6 @@ abstract class ConfigTestCase extends AnimeClientTestCase {
 	public function testCount(): void
 	{
 		$type = $this->testClass::from([]);
-		$this->assertEquals(0, $type->count());
+		$this->assertSame(0, $type->count());
 	}
 }
