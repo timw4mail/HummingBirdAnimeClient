@@ -26,6 +26,10 @@ test:
 test-update:
 	composer run-script test-update
 
+# Update the per-file header comments
+update-headers:
+	php build/update_header_comments.php
+
 # Run unit tests and generate test-coverage report
 coverage:
 	composer run-script coverage
