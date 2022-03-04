@@ -28,7 +28,7 @@ test-update:
 
 # Update the per-file header comments
 update-headers:
-	php build/update_header_comments.php
+	php tools/update_header_comments.php
 
 # Run unit tests and generate test-coverage report
 coverage:
