@@ -6,8 +6,8 @@ use PhpCsFixer\{Config, Finder};
 $finder = Finder::create()
 	->in([
 		__DIR__,
+		__DIR__ . '/app',
 		__DIR__ . '/tools',
-		// __DIR__ . '/app'
 	])
 	->exclude([
 		'apidocs',
@@ -18,14 +18,14 @@ $finder = Finder::create()
 		'public',
 		'tools',
 		'tmp',
-		'vendor'
+		'vendor',
+		'views',
+		'templates',
 	]);
-
-$srcFinder = Finder::create()->in(__DIR__ . '/src');
 
 return (new Config())
 	->setRiskyAllowed(TRUE)
-	->setFinder($srcFinder)
+	->setFinder($finder)
 	->setIndent('	')
 	->setRules([
 		'align_multiline_comment'                  => false,
@@ -122,7 +122,6 @@ return (new Config())
 		'empty_loop_body'      => ['style' => 'braces'],
 		'empty_loop_condition' => ['style' => 'while'],
 		'encoding'             => true,
-		'ereg_to_preg'         => true,
 		'error_suppression'    => [
 			'mute_deprecation_error'         => true,
 			'noise_remaining_usages'         => false,
@@ -221,7 +220,6 @@ return (new Config())
 		'no_mixed_echo_print'                         => ['use' => 'echo'],
 		'no_multiline_whitespace_around_double_arrow' => true,
 		'no_null_property_initialization'             => true,
-		// 'no_php4_constructor'                         => true,
 		'no_short_bool_cast'                          => true,
 		'no_singleline_whitespace_before_semicolons'  => true,
 		'no_space_around_double_colon'                => true,
@@ -268,7 +266,6 @@ return (new Config())
 		'not_operator_with_successor_space'                => true,
 		'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
 		'object_operator_without_whitespace'               => true,
-		// 'octal_notation'                                   => false, // requires 8.1+
 		'operator_linebreak'                               => ['only_booleans' => true, 'position' => 'beginning'],
 		'ordered_class_elements'                           => [
 			'order' => [
@@ -297,7 +294,7 @@ return (new Config())
 		'php_unit_dedicate_assert_internal_type' => ['target' => 'newest'],
 		'php_unit_expectation'                   => ['target' => 'newest'],
 		'php_unit_fqcn_annotation'               => true,
-		'php_unit_internal_class'                => ['types' => ['normal', 'final']],
+		'php_unit_internal_class'                => ['types' => ['final']],
 		'php_unit_method_casing'                 => ['case' => 'camel_case'],
 		'php_unit_mock'                          => ['target' => 'newest'],
 		'php_unit_mock_short_will_return'        => true,
@@ -308,14 +305,14 @@ return (new Config())
 		],
 		'php_unit_set_up_tear_down_visibility' => true,
 		'php_unit_size_class'                  => false,
-		'php_unit_strict'                      => [
-			'assertions' => [
-				'assertAttributeEquals',
-				'assertAttributeNotEquals',
-				'assertEquals',
-				'assertNotEquals',
-			],
-		],
+//		'php_unit_strict'                      => [
+//			'assertions' => [
+//				'assertAttributeEquals',
+//				'assertAttributeNotEquals',
+//				'assertEquals',
+//				'assertNotEquals',
+//			],
+//		],
 		'php_unit_test_annotation'               => ['style' => 'prefix'],
 		'php_unit_test_case_static_method_calls' => [
 			'call_type' => 'this',
@@ -326,18 +323,6 @@ return (new Config())
 		'phpdoc_align' => [
 			'align' => 'left'
 		],
-//		'phpdoc_align'                        => [
-//			'align' => 'vertical',
-//			'tags'  => [
-//				'method',
-//				'param',
-//				'property',
-//				'return',
-//				'throws',
-//				'type',
-//				'var',
-//			],
-//		],
 		'phpdoc_annotation_without_dot' => false,
 		'phpdoc_indent'                 => true,
 		'phpdoc_inline_tag_normalizer'  => [
@@ -359,14 +344,6 @@ return (new Config())
 			'property' => 'multi',
 		],
 		'phpdoc_no_access'    => true,
-//		'phpdoc_no_alias_tag' => [
-//			'replacements' => [
-//				'property-read'  => 'property',
-//				'property-write' => 'property',
-//				'type'           => 'var',
-//				'link'           => 'see',
-//			],
-//		],
 		'phpdoc_no_empty_return'       => false,
 		'phpdoc_no_package'            => false,
 		'phpdoc_no_useless_inheritdoc' => true,
