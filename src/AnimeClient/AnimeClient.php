@@ -103,7 +103,6 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			? "{$parentKey}.{$key}"
 			: $key;
 
-
 		$builder->addTable($newKey);
 
 		_iterateToml($builder, $value, $newKey);
