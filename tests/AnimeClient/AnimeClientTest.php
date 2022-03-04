@@ -16,23 +16,20 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-use function Aviat\AnimeClient\arrayToToml;
-use function Aviat\AnimeClient\checkFolderPermissions;
-use function Aviat\AnimeClient\clearCache;
-use function Aviat\AnimeClient\colNotEmpty;
-use function Aviat\AnimeClient\getLocalImg;
-use function Aviat\AnimeClient\getResponse;
-use function Aviat\AnimeClient\isSequentialArray;
-use function Aviat\AnimeClient\tomlToArray;
+use DateTime;
+use function Aviat\AnimeClient\{arrayToToml, checkFolderPermissions, clearCache, colNotEmpty, getLocalImg, getResponse, isSequentialArray, tomlToArray};
 
-class AnimeClientTest extends AnimeClientTestCase
+/**
+ * @internal
+ */
+final class AnimeClientTest extends AnimeClientTestCase
 {
-	public function testArrayToToml (): void
+	public function testArrayToToml(): void
 	{
 		$arr = [
-			'cat' => false,
+			'cat' => FALSE,
 			'foo' => 'bar',
-			'dateTime' => (array) new \DateTime(),
+			'dateTime' => (array) new DateTime(),
 			'bar' => [
 				'a' => 1,
 				'b' => 2,
@@ -44,7 +41,7 @@ class AnimeClientTest extends AnimeClientTestCase
 				'z' => [3, 6, 9],
 			],
 			'foobar' => [
-				'z' => 22/7,
+				'z' => 22 / 7,
 				'a' => [
 					'aa' => -8,
 					'b' => [
@@ -65,16 +62,16 @@ class AnimeClientTest extends AnimeClientTestCase
 	public function testArrayToTomlNullValue(): void
 	{
 		$arr = [
-			'cat' => false,
-			'bat' => null,
+			'cat' => FALSE,
+			'bat' => NULL,
 			'foo' => 'bar',
 		];
 
 		$toml = arrayToToml($arr);
 		$parsedArray = tomlToArray($toml);
 
-		$this->assertEquals([
-			'cat' => false,
+		$this->assertSame([
+			'cat' => FALSE,
 			'foo' => 'bar',
 		], $parsedArray);
 	}
@@ -84,7 +81,7 @@ class AnimeClientTest extends AnimeClientTestCase
 		$this->assertFalse(isSequentialArray(0));
 		$this->assertFalse(isSequentialArray([50 => 'foo']));
 		$this->assertTrue(isSequentialArray([]));
-		$this->assertTrue(isSequentialArray([1,2,3,4,5]));
+		$this->assertTrue(isSequentialArray([1, 2, 3, 4, 5]));
 	}
 
 	public function testGetResponse(): void
@@ -96,19 +93,19 @@ class AnimeClientTest extends AnimeClientTestCase
 	{
 		$config = $this->container->get('config');
 		$actual = checkFolderPermissions($config);
-		$this->assertTrue(is_array($actual));
+		$this->assertIsArray($actual);
 	}
 
 	public function testGetLocalImageEmptyUrl(): void
 	{
 		$actual = getLocalImg('');
-		$this->assertEquals('images/placeholder.webp', $actual);
+		$this->assertSame('images/placeholder.webp', $actual);
 	}
 
 	public function testGetLocalImageBadUrl(): void
 	{
 		$actual = getLocalImg('//foo.bar');
-		$this->assertEquals('images/placeholder.webp', $actual);
+		$this->assertSame('images/placeholder.webp', $actual);
 	}
 
 	public function testColNotEmpty(): void
@@ -125,8 +122,8 @@ class AnimeClientTest extends AnimeClientTestCase
 			'foo' => 'baz',
 		]];
 
-		$this->assertEquals(false, colNotEmpty($hasEmptyCols, 'foo'));
-		$this->assertEquals(true, colNotEmpty($hasNonEmptyCols, 'foo'));
+		$this->assertFalse(colNotEmpty($hasEmptyCols, 'foo'));
+		$this->assertTrue(colNotEmpty($hasNonEmptyCols, 'foo'));
 	}
 
 	public function testClearCache(): void

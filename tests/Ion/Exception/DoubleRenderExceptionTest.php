@@ -19,8 +19,11 @@ namespace Aviat\Ion\Tests\Exception;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Tests\IonTestCase;
 
-class DoubleRenderExceptionTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class DoubleRenderExceptionTest extends IonTestCase
+{
 	public function testDefaultMessage()
 	{
 		$this->expectException(DoubleRenderException::class);

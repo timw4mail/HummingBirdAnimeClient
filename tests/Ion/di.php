@@ -2,25 +2,21 @@
 
 use Aura\Html\HelperLocatorFactory;
 use Aura\Session\SessionFactory;
-use Laminas\Diactoros\ServerRequestFactory;
-use Laminas\Diactoros\Response;
-
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\Container;
+use Laminas\Diactoros\{Response, ServerRequestFactory};
 
 // -----------------------------------------------------------------------------
 // Setup DI container
 // -----------------------------------------------------------------------------
-return static function(array $config_array = []) {
+return static function (array $config_array = []) {
 	$container = new Container();
 
-	$container->set('config', static function() {
-		return new Config([]);
-	});
+	$container->set('config', static fn () => new Config([]));
 
 	$container->setInstance('config', new Config($config_array));
 
-	$container->set('request', static function() {
+	$container->set('request', static function () {
 		return ServerRequestFactory::fromGlobals(
 			$GLOBALS['_SERVER'],
 			$_GET,
@@ -30,18 +26,14 @@ return static function(array $config_array = []) {
 		);
 	});
 
-	$container->set('response', static function() {
-		return new Response();
-	});
+	$container->set('response', static fn () => new Response());
 
 	// Create session Object
-	$container->set('session', static function() {
-		return (new SessionFactory())->newInstance($_COOKIE);
-	});
+	$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
 
 	// Create Html helper Object
-	$container->set('html-helper', fn() => (new HelperLocatorFactory)->newInstance());
-	$container->set('component-helper', fn() => (new HelperLocatorFactory)->newInstance());
+	$container->set('html-helper', static fn () => (new HelperLocatorFactory())->newInstance());
+	$container->set('component-helper', static fn () => (new HelperLocatorFactory())->newInstance());
 
 	return $container;
 };

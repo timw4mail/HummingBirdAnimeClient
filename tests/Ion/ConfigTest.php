@@ -18,11 +18,14 @@ namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Config;
 
-class ConfigTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class ConfigTest extends IonTestCase
+{
 	protected Config $config;
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		$this->config = new Config([
 			'foo' => 'bar',
@@ -47,8 +50,8 @@ class ConfigTest extends IonTestCase {
 
 	public function testConfigGet(): void
 	{
-		$this->assertEquals('bar', $this->config->get('foo'));
-		$this->assertEquals('baz', $this->config->get('bar'));
+		$this->assertSame('bar', $this->config->get('foo'));
+		$this->assertSame('baz', $this->config->get('bar'));
 		$this->assertNull($this->config->get('baz'));
 		$this->assertNull($this->config->get(['apple', 'sauce', 'is']));
 	}
@@ -57,13 +60,13 @@ class ConfigTest extends IonTestCase {
 	{
 		$ret = $this->config->set('foo', 'foobar');
 		$this->assertInstanceOf(Config::class, $ret);
-		$this->assertEquals('foobar', $this->config->get('foo'));
+		$this->assertSame('foobar', $this->config->get('foo'));
 
 		$this->config->set(['apple', 'sauce', 'is'], 'great');
 		$apple = $this->config->get('apple');
-		$this->assertEquals('great', $apple['sauce']['is'], 'Config value not set correctly');
+		$this->assertSame('great', $apple['sauce']['is'], 'Config value not set correctly');
 
-		$this->assertEquals('great', $this->config->get(['apple', 'sauce', 'is']), "Array argument get for config failed.");
+		$this->assertSame('great', $this->config->get(['apple', 'sauce', 'is']), 'Array argument get for config failed.');
 	}
 
 	public function dataConfigDelete(): array
@@ -74,57 +77,58 @@ class ConfigTest extends IonTestCase {
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL
+						'expected' => NULL,
 					],
 					[
 						'path' => ['apple', 'sauce'],
-						'expected' => NULL
+						'expected' => NULL,
 					],
 					[
 						'path' => 'apple',
-						'expected' => NULL
-					]
-				]
+						'expected' => NULL,
+					],
+				],
 			],
 			'mid level delete' => [
 				'key' => ['apple', 'sauce'],
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL
+						'expected' => NULL,
 					],
 					[
 						'path' => ['apple', 'sauce'],
-						'expected' => NULL
+						'expected' => NULL,
 					],
 					[
 						'path' => 'apple',
 						'expected' => [
-							'sauce' => NULL
-						]
-					]
-				]
+							'sauce' => NULL,
+						],
+					],
+				],
 			],
 			'deep delete' => [
 				'key' => ['apple', 'sauce', 'is'],
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL
+						'expected' => NULL,
 					],
 					[
 						'path' => ['apple', 'sauce'],
 						'expected' => [
-							'is' => NULL
-						]
-					]
-				]
-			]
+							'is' => NULL,
+						],
+					],
+				],
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider dataConfigDelete
+	 * @param mixed $key
 	 */
 	public function testConfigDelete($key, array $assertKeys): void
 	{
@@ -132,9 +136,9 @@ class ConfigTest extends IonTestCase {
 		$config->set(['apple', 'sauce', 'is'], 'great');
 		$config->delete($key);
 
-		foreach($assertKeys as $pair)
+		foreach ($assertKeys as $pair)
 		{
-			$this->assertEquals($pair['expected'], $config->get($pair['path']));
+			$this->assertSame($pair['expected'], $config->get($pair['path']));
 		}
 	}
 

@@ -17,47 +17,50 @@
 namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\UrlGenerator;
-use Aviat\Ion\Config;
-use Aviat\Ion\Exception\DoubleRenderException;
+use InvalidArgumentException;
 
-class UrlGeneratorTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class UrlGeneratorTest extends AnimeClientTestCase
+{
 	public function assetUrlProvider()
 	{
 		return [
 			'single argument' => [
 				'args' => [
-					'images'
+					'images',
 				],
 				'expected' => 'https://localhost/assets/images',
 			],
 			'multiple arguments' => [
 				'args' => [
-					'images', 'anime', 'foo.png'
+					'images', 'anime', 'foo.png',
 				],
-				'expected' => 'https://localhost/assets/images/anime/foo.png'
-			]
+				'expected' => 'https://localhost/assets/images/anime/foo.png',
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider assetUrlProvider
+	 * @param mixed $args
+	 * @param mixed $expected
 	 */
 	public function testAssetUrl($args, $expected)
 	{
 		$urlGenerator = new UrlGenerator($this->container);
 
 		$result = $urlGenerator->assetUrl(...$args);
-		$this->assertEquals($expected, $result);
+		$this->assertSame($expected, $result);
 	}
 
 	public function testDefaultUrlInvalidType(): void
 	{
-		$this->expectException(\InvalidArgumentException::class);
+		$this->expectException(InvalidArgumentException::class);
 		$this->expectExceptionMessage("Invalid default type: 'foo'");
 
 		$urlGenerator = new UrlGenerator($this->container);
 		$url = $urlGenerator->defaultUrl('foo');
-
 	}
 }

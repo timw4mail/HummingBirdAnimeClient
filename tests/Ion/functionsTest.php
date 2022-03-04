@@ -16,18 +16,21 @@
 
 namespace Aviat\Ion\Tests;
 
-use function Aviat\Ion\_dir;
-
 use PHPUnit\Framework\TestCase;
 
-class functionsTest extends TestCase {
+use function Aviat\Ion\_dir;
+use const DIRECTORY_SEPARATOR;
 
-
-	public function test_dir()
+/**
+ * @internal
+ */
+final class functionsTest extends TestCase
+{
+	public function testDir()
 	{
 		$args = ['foo', 'bar', 'baz'];
-		$expected = implode(\DIRECTORY_SEPARATOR, $args);
+		$expected = implode(DIRECTORY_SEPARATOR, $args);
 
-		$this->assertEquals(_dir(...$args), $expected);
+		$this->assertSame(_dir(...$args), $expected);
 	}
 }

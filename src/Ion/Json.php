@@ -44,13 +44,13 @@ class Json
 	 * @param int $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
 	 */
-	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): bool
+	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): int
 	{
 		$json = self::encode($data, $jsonOptions);
 
 		$res = file_put_contents($filename, $json, $fileOptions);
 
-		return $res !== FALSE;
+		return ($res !== FALSE) ? $res : 0;
 	}
 
 	/**

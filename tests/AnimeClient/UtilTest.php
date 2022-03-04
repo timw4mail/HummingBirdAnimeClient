@@ -18,11 +18,15 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Util;
 
-class UtilTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class UtilTest extends AnimeClientTestCase
+{
 	protected $util;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->util = new Util($this->container);
 	}
@@ -30,19 +34,19 @@ class UtilTest extends AnimeClientTestCase {
 	public function testIsSelected()
 	{
 		// Failure to match
-		$this->assertEquals('', Util::isSelected('foo', 'bar'));
+		$this->assertSame('', Util::isSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('selected', Util::isSelected('foo', 'foo'));
+		$this->assertSame('selected', Util::isSelected('foo', 'foo'));
 	}
 
 	public function testIsNotSelected()
 	{
 		// Failure to match
-		$this->assertEquals('selected', Util::isNotSelected('foo', 'bar'));
+		$this->assertSame('selected', Util::isNotSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('', Util::isNotSelected('foo', 'foo'));
+		$this->assertSame('', Util::isNotSelected('foo', 'foo'));
 	}
 
 	public function dataIsViewPage()
@@ -50,52 +54,56 @@ class UtilTest extends AnimeClientTestCase {
 		return [
 			[
 				'uri' => '/anime/update',
-				'expected' => FALSE
+				'expected' => FALSE,
 			],
 			[
 				'uri' => '/anime/watching',
-				'expected' => TRUE
+				'expected' => TRUE,
 			],
 			[
 				'uri' => '/manga/reading',
-				'expected' => TRUE
+				'expected' => TRUE,
 			],
 			[
 				'uri' => '/manga/update',
-				'expected' => FALSE
-			]
+				'expected' => FALSE,
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider dataIsViewPage
+	 * @param mixed $uri
+	 * @param mixed $expected
 	 */
 	public function testIsViewPage($uri, $expected)
 	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
-				'REQUEST_URI' => $uri
-			]
+				'REQUEST_URI' => $uri,
+			],
 		]);
-		$this->assertEquals($expected, $this->util->isViewPage());
+		$this->assertSame($expected, $this->util->isViewPage());
 	}
 
 	/**
 	 * @dataProvider dataIsViewPage
+	 * @param mixed $uri
+	 * @param mixed $expected
 	 */
 	public function testIsFormPage($uri, $expected)
 	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
-				'REQUEST_URI' => $uri
-			]
+				'REQUEST_URI' => $uri,
+			],
 		]);
-		$this->assertEquals(!$expected, $this->util->isFormPage());
+		$this->assertSame( ! $expected, $this->util->isFormPage());
 	}
 
 	public function testAriaCurrent(): void
 	{
-		$this->assertEquals('true', Util::ariaCurrent(true));
-		$this->assertEquals('false', Util::ariaCurrent(false));
+		$this->assertSame('true', Util::ariaCurrent(TRUE));
+		$this->assertSame('false', Util::ariaCurrent(FALSE));
 	}
 }

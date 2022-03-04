@@ -18,8 +18,12 @@ namespace Aviat\AnimeClient\Tests\Types;
 
 use Aviat\AnimeClient\Types\Config;
 
-class ConfigTest extends ConfigTestCase {
-	public function setUp(): void
+/**
+ * @internal
+ */
+final class ConfigTest extends ConfigTestCase
+{
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -34,7 +38,7 @@ class ConfigTest extends ConfigTestCase {
 			'database' => [],
 		]);
 
-		$this->assertEquals(3, $type->count());
+		$this->assertSame(3, $type->count());
 	}
 
 	public function testOffsetUnset(): void

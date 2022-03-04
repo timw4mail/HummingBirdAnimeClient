@@ -16,15 +16,19 @@
 
 namespace Aviat\Ion\Tests\View;
 
-use function Aviat\Ion\_dir;
-
 use Aviat\Ion\Tests\TestHtmlView;
 
-class HtmlViewTest extends HttpViewTest {
+use function Aviat\Ion\_dir;
 
+/**
+ * @internal
+ */
+final class HtmlViewTest extends HttpViewTest
+{
 	protected $template_path;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->view = new TestHtmlView($this->container);
 	}
@@ -34,9 +38,8 @@ class HtmlViewTest extends HttpViewTest {
 		$path = _dir(self::TEST_VIEW_DIR, 'test_view.php');
 		$expected = '<tag>foo</tag>';
 		$actual = $this->view->renderTemplate($path, [
-			'var' => 'foo'
+			'var' => 'foo',
 		]);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
-
 }

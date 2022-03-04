@@ -16,40 +16,46 @@
 
 namespace Aviat\Ion\Tests;
 
-use Aviat\Ion\Enum;
 use Aviat\Ion\Exception\DoubleRenderException;
-use Aviat\Ion\Friend;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\{Enum, Friend};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
 // -----------------------------------------------------------------------------
 
-class MockErrorHandler {
-	public function addDataTable($name, array $values=[]) {}
+class MockErrorHandler
+{
+	public function addDataTable($name, array $values=[])
+	{
+	}
 }
 
 // -----------------------------------------------------------------------------
 // Ion Mocks
 // -----------------------------------------------------------------------------
 
-class TestEnum extends Enum {
-	const FOO = 'bar';
-	const BAR = 'foo';
-	const FOOBAR = 'baz';
+class TestEnum extends Enum
+{
+	public const FOO = 'bar';
+	public const BAR = 'foo';
+	public const FOOBAR = 'baz';
 }
 
-class FriendGrandParentTestClass {
+class FriendGrandParentTestClass
+{
 	protected $grandParentProtected = 84;
 }
 
-class FriendParentTestClass extends FriendGrandParentTestClass {
+class FriendParentTestClass extends FriendGrandParentTestClass
+{
 	protected $parentProtected = 47;
 	private $parentPrivate = 654;
 }
 
-class FriendTestClass extends FriendParentTestClass {
+class FriendTestClass extends FriendParentTestClass
+{
 	protected $protected = 356;
 	private $private = 486;
 
@@ -64,14 +70,14 @@ class FriendTestClass extends FriendParentTestClass {
 	}
 }
 
-class TestTransformer extends AbstractTransformer {
-
+class TestTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): array
 	{
 		$out = [];
 		$genre_list = (array) $item;
 
-		foreach($genre_list as $genre)
+		foreach ($genre_list as $genre)
 		{
 			$out[] = $genre['name'];
 		}
@@ -80,14 +86,16 @@ class TestTransformer extends AbstractTransformer {
 	}
 }
 
-class TestTransformerUntransform extends TestTransformer {
+class TestTransformerUntransform extends TestTransformer
+{
 	public function untransform($item)
 	{
-		return (array)$item;
+		return (array) $item;
 	}
 }
 
-trait MockViewOutputTrait {
+trait MockViewOutputTrait
+{
 	/*protected function output() {
 		$reflect = new ReflectionClass($this);
 		$properties = $reflect->getProperties();
@@ -120,7 +128,8 @@ trait MockViewOutputTrait {
 	}
 }
 
-class TestHtmlView extends HtmlView {
+class TestHtmlView extends HtmlView
+{
 	protected function output(): void
 	{
 		if ($this->hasRendered)
@@ -132,7 +141,8 @@ class TestHtmlView extends HtmlView {
 	}
 }
 
-class TestHttpView extends HttpView {
+class TestHttpView extends HttpView
+{
 	protected function output(): void
 	{
 		if ($this->hasRendered)
@@ -144,8 +154,11 @@ class TestHttpView extends HttpView {
 	}
 }
 
-class TestJsonView extends JsonView {
-	public function __destruct() {}
+class TestJsonView extends JsonView
+{
+	public function __destruct()
+	{
+	}
 
 	protected function output(): void
 	{
@@ -162,15 +175,17 @@ class TestJsonView extends JsonView {
 // AnimeClient Mocks
 // -----------------------------------------------------------------------------
 
-trait MockInjectionTrait {
+trait MockInjectionTrait
+{
 	public function __get($key)
 	{
-		return $this->$key;
+		return $this->{$key};
 	}
 
 	public function __set($key, $value)
 	{
-		$this->$key = $value;
+		$this->{$key} = $value;
+
 		return $this;
 	}
 }

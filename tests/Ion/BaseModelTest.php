@@ -18,11 +18,14 @@ namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Model as BaseModel;
 
-class BaseModelTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class BaseModelTest extends IonTestCase
+{
 	public function testBaseModelSanity()
 	{
 		$baseModel = new BaseModel();
-		$this->assertTrue(is_object($baseModel));
+		$this->assertIsObject($baseModel);
 	}
 }

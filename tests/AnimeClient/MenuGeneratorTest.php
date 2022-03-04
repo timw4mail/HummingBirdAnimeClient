@@ -19,12 +19,16 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\MenuGenerator;
 use Aviat\Ion\Friend;
 
-class MenuGeneratorTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class MenuGeneratorTest extends AnimeClientTestCase
+{
 	protected $generator;
 	protected $friend;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->generator = MenuGenerator::new($this->container);
 	}
@@ -47,8 +51,8 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 					'on_hold' => '/on_hold',
 					'dropped' => '/dropped',
 					'completed' => '/completed',
-					'all' => '/all'
-				]
+					'all' => '/all',
+				],
 			],
 		];
 		$expected = [
@@ -58,10 +62,10 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 				'On Hold' => '/anime/on_hold',
 				'Dropped' => '/anime/dropped',
 				'Completed' => '/anime/completed',
-				'All' => '/anime/all'
-			]
+				'All' => '/anime/all',
+			],
 		];
-		$this->assertEquals($expected, $friend->parseConfig($menus));
+		$this->assertSame($expected, $friend->parseConfig($menus));
 	}
 
 	public function testBadConfig()
@@ -75,8 +79,8 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 					'on_hold' => '/on_hold',
 					'dropped' => '/dropped',
 					'completed' => '/completed',
-					'all' => '/all'
-				]
+					'all' => '/all',
+				],
 			],
 		];
 		$config = $this->container->get('config');
@@ -84,6 +88,6 @@ class MenuGeneratorTest extends AnimeClientTestCase {
 		$this->container->setInstance('config', $config);
 		$expected = '';
 
-		$this->assertEquals($expected, $this->generator->generate('manga_list'));
+		$this->assertSame($expected, $this->generator->generate('manga_list'));
 	}
 }

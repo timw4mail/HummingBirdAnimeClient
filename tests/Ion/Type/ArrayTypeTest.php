@@ -16,10 +16,14 @@
 
 namespace Aviat\Ion\Tests\Type;
 
-use Aviat\Ion\Type\ArrayType;
 use Aviat\Ion\Tests\IonTestCase;
+use Aviat\Ion\Type\ArrayType;
 
-class ArrayTypeTest extends IonTestCase {
+/**
+ * @internal
+ */
+final class ArrayTypeTest extends IonTestCase
+{
 	public function dataCall()
 	{
 		$method_map = [
@@ -43,38 +47,38 @@ class ArrayTypeTest extends IonTestCase {
 				'method' => 'merge',
 				'array' => [1, 3, 5, 7],
 				'args' => [[2, 4, 6, 8]],
-				'expected' => [1, 3, 5, 7, 2, 4, 6, 8]
+				'expected' => [1, 3, 5, 7, 2, 4, 6, 8],
 			],
 			'array_product' => [
 				'method' => 'product',
 				'array' => [1, 2, 3],
 				'args' => [],
-				'expected' => 6
+				'expected' => 6,
 			],
 			'array_reverse' => [
 				'method' => 'reverse',
 				'array' => [1, 2, 3, 4, 5],
 				'args' => [],
-				'expected' => [5, 4, 3, 2, 1]
+				'expected' => [5, 4, 3, 2, 1],
 			],
 			'array_sum' => [
 				'method' => 'sum',
 				'array' => [1, 2, 3, 4, 5, 6],
 				'args' => [],
-				'expected' => 21
+				'expected' => 21,
 			],
 			'array_unique' => [
 				'method' => 'unique',
 				'array' => [1, 1, 3, 2, 2, 2, 3, 3, 5],
 				'args' => [SORT_REGULAR],
-				'expected' => [0 => 1, 2 => 3, 3 => 2, 8 => 5]
+				'expected' => [0 => 1, 2 => 3, 3 => 2, 8 => 5],
 			],
 			'array_values' => [
 				'method' => 'values',
 				'array' => ['foo' => 'bar', 'baz' => 'foobar'],
 				'args' => [],
-				'expected' => ['bar', 'foobar']
-			]
+				'expected' => ['bar', 'foobar'],
+			],
 		];
 	}
 
@@ -82,16 +86,13 @@ class ArrayTypeTest extends IonTestCase {
 	 * Test the array methods defined for the __Call method
 	 *
 	 * @dataProvider dataCall
-	 * @param string $method
-	 * @param array $array
-	 * @param array $args
 	 * @param $expected
 	 */
 	public function testCall(string $method, array $array, array $args, $expected): void
 	{
 		$obj = ArrayType::from($array);
 		$actual = $obj->__call($method, $args);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
 	public function testSet(): void
@@ -100,16 +101,16 @@ class ArrayTypeTest extends IonTestCase {
 		$arraytype = $obj->set('foo', 'bar');
 
 		$this->assertInstanceOf(ArrayType::class, $arraytype);
-		$this->assertEquals('bar', $obj->get('foo'));
+		$this->assertSame('bar', $obj->get('foo'));
 	}
 
 	public function testGet(): void
 	{
 		$array = [1, 2, 3, 4, 5];
 		$obj = ArrayType::from($array);
-		$this->assertEquals($array, $obj->get());
-		$this->assertEquals(1, $obj->get(0));
-		$this->assertEquals(5, $obj->get(4));
+		$this->assertSame($array, $obj->get());
+		$this->assertSame(1, $obj->get(0));
+		$this->assertSame(5, $obj->get(4));
 	}
 
 	public function testGetDeepKey(): void
@@ -117,22 +118,20 @@ class ArrayTypeTest extends IonTestCase {
 		$arr = [
 			'foo' => 'bar',
 			'baz' => [
-				'bar' => 'foobar'
-			]
+				'bar' => 'foobar',
+			],
 		];
 		$obj = ArrayType::from($arr);
-		$this->assertEquals('foobar', $obj->getDeepKey(['baz', 'bar']));
+		$this->assertSame('foobar', $obj->getDeepKey(['baz', 'bar']));
 		$this->assertNull($obj->getDeepKey(['foo', 'bar', 'baz']));
 	}
 
 	public function testMap(): void
 	{
 		$obj = ArrayType::from([1, 2, 3]);
-		$actual = $obj->map(function($item) {
-			return $item * 2;
-		});
+		$actual = $obj->map(static fn ($item) => $item * 2);
 
-		$this->assertEquals([2, 4, 6], $actual);
+		$this->assertSame([2, 4, 6], $actual);
 	}
 
 	public function testBadCall(): void
@@ -153,14 +152,14 @@ class ArrayTypeTest extends IonTestCase {
 		$actual = $obj->shuffle();
 
 		//$this->assertNotEquals($actual, $original);
-		$this->assertTrue(is_array($actual));
+		$this->assertIsArray($actual);
 	}
 
 	public function testHasKey(): void
 	{
 		$obj = ArrayType::from([
 			'a' => 'b',
-			'z' => 'y'
+			'z' => 'y',
 		]);
 		$this->assertTrue($obj->hasKey('a'));
 		$this->assertFalse($obj->hasKey('b'));
@@ -200,7 +199,7 @@ class ArrayTypeTest extends IonTestCase {
 	{
 		$obj = ArrayType::from([1, 2, 5, 7, 47]);
 		$actual = $obj->search(47);
-		$this->assertEquals(4, $actual);
+		$this->assertSame(4, $actual);
 	}
 
 	public function testFill(): void
@@ -208,6 +207,6 @@ class ArrayTypeTest extends IonTestCase {
 		$obj = ArrayType::from([]);
 		$expected = ['?', '?', '?'];
 		$actual = $obj->fill(0, 3, '?');
-		$this->assertEquals($actual, $expected);
+		$this->assertSame($actual, $expected);
 	}
 }

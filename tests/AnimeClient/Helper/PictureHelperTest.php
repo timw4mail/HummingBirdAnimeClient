@@ -19,10 +19,13 @@ namespace Aviat\AnimeClient\Tests\Helper;
 use Aviat\AnimeClient\Helper\Picture as PictureHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class PictureHelperTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class PictureHelperTest extends AnimeClientTestCase
+{
 	/**
 	 * @dataProvider dataPictureCase
-	 * @param array $params
 	 */
 	public function testPictureHelper(array $params): void
 	{
@@ -36,9 +39,6 @@ class PictureHelperTest extends AnimeClientTestCase {
 
 	/**
 	 * @dataProvider dataSimpleImageCase
-	 * @param string $ext
-	 * @param bool $isSimple
-	 * @param string $fallbackExt
 	 */
 	public function testSimpleImage(string $ext, bool $isSimple, string $fallbackExt = 'jpg'): void
 	{
@@ -50,7 +50,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 
 		$actuallySimple = ! str_contains($actual, '<picture');
 
-		$this->assertEquals($isSimple, $actuallySimple);
+		$this->assertSame($isSimple, $actuallySimple);
 	}
 
 	public function testSimpleImageByFallback(): void
@@ -58,9 +58,9 @@ class PictureHelperTest extends AnimeClientTestCase {
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
-		$actual = $helper("foo.svg", 'svg');
+		$actual = $helper('foo.svg', 'svg');
 
-		$this->assertTrue(! str_contains($actual, '<picture'));
+		$this->assertTrue( ! str_contains($actual, '<picture'));
 	}
 
 	public function dataPictureCase(): array
@@ -78,7 +78,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 			],
 			'Partial webp URL' => [
 				'params' => [
-					'images/anime/15424.webp'
+					'images/anime/15424.webp',
 				],
 			],
 			'bmp with gif fallback' => [
@@ -90,25 +90,25 @@ class PictureHelperTest extends AnimeClientTestCase {
 			'webp placeholder image' => [
 				'params' => [
 					'images/placeholder.webp',
-				]
+				],
 			],
 			'png placeholder image' => [
 				'params' => [
 					'images/placeholder.png',
-				]
+				],
 			],
 			'jpeg2000' => [
 				'params' => [
 					'images/foo.jpf',
-				]
+				],
 			],
 			'svg with png fallback and lots of attributes' => [
 				'params' => [
 					'images/example.svg',
 					'png',
-					[ 'width' => 200, 'height' => 300 ],
-					[ 'alt' => 'Example text' ]
-				]
+					['width' => 200, 'height' => 300],
+					['alt' => 'Example text'],
+				],
 			],
 			'simple image with attributes' => [
 				'params' => [
@@ -116,8 +116,8 @@ class PictureHelperTest extends AnimeClientTestCase {
 					'jpg',
 					[],
 					['width' => 200, 'height' => 200, 'alt' => 'should exist'],
-				]
-			]
+				],
+			],
 		];
 	}
 
@@ -127,7 +127,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 			'avif' => [
 				'ext' => 'avif',
 				'isSimple' => FALSE,
-				'fallback' => 'jpf'
+				'fallback' => 'jpf',
 			],
 			'apng' => [
 				'ext' => 'apng',

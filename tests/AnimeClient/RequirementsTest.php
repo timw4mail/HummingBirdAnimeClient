@@ -18,11 +18,14 @@ namespace Aviat\AnimeClient\Tests;
 
 use PDO;
 
-class RequirementsTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class RequirementsTest extends AnimeClientTestCase
+{
 	public function testPHPVersion(): void
 	{
-		$this->assertTrue(version_compare(PHP_VERSION, "8", "ge"));
+		$this->assertTrue(version_compare(PHP_VERSION, '8', 'ge'));
 	}
 
 	public function testHasPDO(): void
@@ -33,6 +36,6 @@ class RequirementsTest extends AnimeClientTestCase {
 	public function testHasPDOSqlite(): void
 	{
 		$drivers = PDO::getAvailableDrivers();
-		$this->assertTrue(in_array('sqlite', $drivers));
+		$this->assertTrue(in_array('sqlite', $drivers, TRUE));
 	}
 }

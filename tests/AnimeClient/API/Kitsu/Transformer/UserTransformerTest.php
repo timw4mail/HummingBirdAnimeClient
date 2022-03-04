@@ -20,11 +20,16 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
-class UserTransformerTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class UserTransformerTest extends AnimeClientTestCase
+{
 	protected array $beforeTransform;
 	protected string $dir;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
