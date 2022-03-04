@@ -1,17 +1,18 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+/**
+ * Hummingbird Anime List Client
+ *
+ * An API client for Kitsu to manage anime and manga watch lists
+ *
+ * PHP version 8
+ *
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @version     5.2
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ */
 
-$file_patterns = [
-	'app/appConf/*.php',
-	'app/bootstrap.php',
-	'migrations/*.php',
-	'src/**/*.php',
-	'src/*.php',
-	'tests/**/*.php',
-	'tests/*.php',
-	'index.php',
-	'Robofile.php'
-];
+namespace Aviat\Ion\Etc;
 
 if ( ! function_exists('glob_recursive'))
 {
@@ -58,42 +59,31 @@ function get_text_to_replace(array $tokens): string
 	return $output;
 }
 
-function get_tokens(string $source): array
+function replace_file(string $file, string $template): void
 {
-	return token_get_all($source);
-}
-
-function replace_files(array $files, string $template): void
-{
-	print_r($files);
-	foreach ($files as $file)
+	$source = file_get_contents($file);
+	if ($source === FALSE || stripos($source, 'namespace') === FALSE)
 	{
-		$source = file_get_contents($file);
-		if ($source === FALSE)
-		{
-			continue;
-		}
-
-		if (stripos($source, 'namespace') === FALSE)
-		{
-			continue;
-		}
-
-		$tokens = get_tokens($source);
-		$text_to_replace = get_text_to_replace($tokens);
-
-		$header = file_get_contents(__DIR__ . $template);
-		$new_text = "<?php declare(strict_types=1);\n{$header}";
-
-		$new_source = str_replace($text_to_replace, $new_text, $source);
-		file_put_contents($file, $new_source);
+		return;
 	}
+
+	$tokens = token_get_all($source);
+	$text_to_replace = get_text_to_replace($tokens);
+
+	$header = file_get_contents(__DIR__ . $template);
+	$new_text = "<?php declare(strict_types=1);\n{$header}";
+
+	$new_source = str_replace($text_to_replace, $new_text, $source);
+	file_put_contents($file, $new_source);
 }
 
-foreach ($file_patterns as $glob)
-{
-	$files = glob_recursive($glob);
-	replace_files($files, '/header_comment.txt');
-}
+// ----------------------------------------------------------------------------
 
-echo "Successfully updated headers \n";
+$files = array_filter(
+	glob_recursive('*.php'),
+	fn (string $file) => ! (str_contains($file, '/vendor/') || str_contains($file, '/tmp/'))
+);
+array_walk($files, fn (string $file) => replace_file($file, '/header_comment.txt'));
+
+echo json_encode(array_values($files), JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR) . "\n";
+printf("Successfully updated header comments in %d files\n", count($files));
