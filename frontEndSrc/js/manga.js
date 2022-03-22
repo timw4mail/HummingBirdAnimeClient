@@ -83,6 +83,11 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 
 			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
 				_.hide(parentSel);
+				_.hide('#loading-shadow');
+				_.showMessage('success', `Successfully completed ${mangaName}`);
+				_.scrollToTop();
+
+				return;
 			}
 
 			_.hide('#loading-shadow');
