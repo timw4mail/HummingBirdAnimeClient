@@ -54,11 +54,14 @@ final class MangaTransformer extends AbstractTransformer
 				}
 
 				$details = $rawCharacter['character'];
-				$characters[$type][$details['id']] = [
-					'image' => $details['image']['original']['url'],
-					'name' => $details['names']['canonical'],
-					'slug' => $details['slug'],
-				];
+				if (array_key_exists($details['id'], $characters[$type]))
+				{
+					$characters[$type][$details['id']] = [
+						'image' => $details['image']['original']['url'],
+						'name' => $details['names']['canonical'],
+						'slug' => $details['slug'],
+					];
+				}
 			}
 
 			foreach (array_keys($characters) as $type)
