@@ -49,6 +49,7 @@ final class AnimeListTransformer extends AbstractTransformer
 			? (int) $anime['episodeCount']
 			: '-';
 
+		$AnilistId = NULL;
 		$MALid = NULL;
 
 		$mappings = $anime['mappings']['nodes'] ?? [];
@@ -59,7 +60,11 @@ final class AnimeListTransformer extends AbstractTransformer
 				if ($mapping['externalSite'] === 'MYANIMELIST_ANIME')
 				{
 					$MALid = $mapping['externalId'];
-					break;
+				}
+
+				if ($mapping['externalSite'] === 'ANILIST_ANIME')
+				{
+					$AnilistId = $mapping['externalId'];
 				}
 			}
 		}
@@ -73,6 +78,7 @@ final class AnimeListTransformer extends AbstractTransformer
 
 		return AnimeListItem::from([
 			'id' => $item['id'],
+			'anilist_id' => $AnilistId,
 			'mal_id' => $MALid,
 			'episodes' => [
 				'watched' => (int) $item['progress'] !== 0
@@ -120,6 +126,7 @@ final class AnimeListTransformer extends AbstractTransformer
 
 		$untransformed = FormItem::from([
 			'id' => $item['id'],
+			'anilist_id' => $item['anilist_id'] ?? NULL,
 			'mal_id' => $item['mal_id'] ?? NULL,
 			'data' => [
 				'status' => $item['watching_status'],

@@ -63,6 +63,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// Setup the update data
 	let data = {
 		id: parentSel.dataset.kitsuId,
+		anilist_id: parentSel.dataset.anilistId,
 		mal_id: parentSel.dataset.malId,
 		data: {
 			progress: watchedCount + 1

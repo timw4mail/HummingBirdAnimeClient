@@ -5,6 +5,7 @@ import _ from './anime-client.js';
 _.on('main', 'change', '.big-check', (e) => {
 	const id = e.target.id;
 	document.getElementById(`mal_${id}`).checked = true;
+	document.getElementById(`anilist_${id}`).checked = true;
 });
 
 /**
@@ -55,6 +56,7 @@ export function renderSearchResults (type, data, isCollection = false) {
 		return `
 			<article class="media search ${disabled}">
 				<div class="name">
+					<input type="radio" class="mal-check" id="anilist_${item.slug}" name="anilist_id" value="${item.anilist_id}" ${disabled} />
 					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" ${disabled} />
 					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" ${disabled} />
 					<label for="${item.slug}">

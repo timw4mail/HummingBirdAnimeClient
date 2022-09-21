@@ -107,13 +107,7 @@ final class Model
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
-		if ($data['mal_id'] === NULL)
-		{
-			return NULL;
-		}
-
-		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
-
+		$mediaId = $this->getMediaId($data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
@@ -145,7 +139,7 @@ final class Model
 	public function createFullListItem(array $data, string $type): Request
 	{
 		$createData = $data['data'];
-		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], strtoupper($type));
+		$mediaId = $this->getMediaId($data, $type);
 
 		if (empty($mediaId))
 		{
@@ -230,6 +224,13 @@ final class Model
 		return $this->listItem->delete($id);
 	}
 
+	public function deleteItem(FormItem $data, string $type): ?Request
+	{
+		$mediaId = $this->getMediaId((array)$data, $type);
+
+		return $this->listItem->delete($mediaId);
+	}
+
 	/**
 	 * Get the id of the specific list entry from the malId
 	 *
@@ -267,6 +268,28 @@ final class Model
 		}
 
 		return (string) $info['data']['MediaList']['id'];
+	}
+
+	/**
+	 * Find the id to update by
+	 *
+	 * @param array $data
+	 * @param string $type
+	 * @return string|null
+	 */
+	private function getMediaId (array $data, string $type = 'ANIME'): ?string
+	{
+		if ($data['anilist_id'] !== NULL)
+		{
+			return $data['anilist_id'];
+		}
+
+		if ($data['mal_id'] !== NULL)
+		{
+			return $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
+		}
+
+		return NULL;
 	}
 
 	/**

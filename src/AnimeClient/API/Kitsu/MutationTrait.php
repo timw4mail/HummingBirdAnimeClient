@@ -64,4 +64,15 @@ trait MutationTrait
 	{
 		return $this->listItem->delete($id);
 	}
+
+	/**
+	 * Remove a list item
+	 *
+	 * @param FormItem $data
+	 * @return Request
+	 */
+	public function deleteItem(FormItem $data): Request
+	{
+		return $this->listItem->delete($data['id']);
+	}
 }

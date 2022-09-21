@@ -266,7 +266,7 @@ final class Anime extends BaseController
 		$this->checkAuth();
 
 		$body = (array) $this->request->getParsedBody();
-		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
+		$response = $this->model->deleteItem(FormItem::from($body));
 
 		if ($response === TRUE)
 		{
