@@ -142,7 +142,7 @@ final class Manga extends Controller
 			unset($data['mal_id']);
 		}
 
-		$result = $this->model->createLibraryItem($data);
+		$result = $this->model->createItem($data);
 
 		if ($result)
 		{
@@ -170,7 +170,7 @@ final class Manga extends Controller
 		$this->checkAuth();
 
 		$this->setSessionRedirect();
-		$item = $this->model->getLibraryItem($id);
+		$item = $this->model->getItem($id);
 		$title = $this->formatTitle(
 			$this->config->get('whose_list') . "'s Manga List",
 			'Edit'
@@ -211,7 +211,7 @@ final class Manga extends Controller
 		// large form-based updates
 		$transformer = new MangaListTransformer();
 		$post_data = $transformer->untransform($data);
-		$full_result = $this->model->updateLibraryItem(FormItem::from($post_data));
+		$full_result = $this->model->updateItem(FormItem::from($post_data));
 
 		if ($full_result['statusCode'] === 200)
 		{
@@ -243,7 +243,7 @@ final class Manga extends Controller
 			$data = $this->request->getParsedBody();
 		}
 
-		$res = $this->model->incrementLibraryItem(FormItem::from($data));
+		$res = $this->model->incrementItem(FormItem::from($data));
 		$body = $res['body'];
 		$statusCode = $res['statusCode'];
 
@@ -261,7 +261,7 @@ final class Manga extends Controller
 		$this->checkAuth();
 
 		$body = (array) $this->request->getParsedBody();
-		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
+		$response = $this->model->deleteItem(FormItem::from($body));
 
 		if ($response)
 		{

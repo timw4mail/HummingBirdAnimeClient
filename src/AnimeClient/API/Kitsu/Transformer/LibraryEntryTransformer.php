@@ -58,6 +58,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			: '-';
 
 		$MALid = NULL;
+		$AnilistId = NULL;
 
 		if (isset($anime['mappings']['nodes']))
 		{
@@ -66,7 +67,11 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				if ($mapping['externalSite'] === 'MYANIMELIST_ANIME')
 				{
 					$MALid = $mapping['externalId'];
-					break;
+				}
+
+				if ($mapping['externalSite'] === 'ANILIST_ANIME')
+				{
+					$AnilistId = $mapping['externalId'];
 				}
 			}
 		}
@@ -80,6 +85,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 
 		return AnimeListItem::from([
 			'id' => $item['id'],
+			'anilist_id' => $AnilistId,
 			'mal_id' => $MALid,
 			'episodes' => [
 				'watched' => (int) $item['progress'] !== 0
@@ -135,6 +141,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			: '-';
 
 		$MALid = NULL;
+		$AnilistId = NULL;
 
 		if (isset($manga['mappings']['nodes']))
 		{
@@ -143,7 +150,11 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				if ($mapping['externalSite'] === 'MYANIMELIST_MANGA')
 				{
 					$MALid = $mapping['externalId'];
-					break;
+				}
+
+				if ($mapping['externalSite'] === 'ANILIST_MANGA')
+				{
+					$AnilistId = $mapping['externalId'];
 				}
 			}
 		}
@@ -153,6 +164,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 
 		return MangaListItem::from([
 			'id' => $item['id'],
+			'anilist_id' => $AnilistId,
 			'mal_id' => $MALid,
 			'chapters' => [
 				'read' => $readChapters,

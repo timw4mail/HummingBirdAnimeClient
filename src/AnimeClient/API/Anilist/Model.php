@@ -181,7 +181,7 @@ final class Model
 	 */
 	public function incrementListItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($data['mal_id'], $type);
+		$id = $this->getListIdFromData($data, $type);
 		if ($id === NULL)
 		{
 			return NULL;
@@ -197,8 +197,7 @@ final class Model
 	 */
 	public function updateListItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($data['mal_id'], mb_strtoupper($type));
-
+		$id = $this->getListIdFromData($data, $type);
 		if ($id === NULL)
 		{
 			return NULL;
@@ -213,32 +212,46 @@ final class Model
 	 * @param string $malId - The id of the list item to remove
 	 * @param string $type - Them media type (anime/manga)
 	 */
-	public function deleteListItem(string $malId, string $type): ?Request
+//	public function deleteListItem(string $malId, string $type): ?Request
+//	{
+//		$id = $this->getListIdFromMalId($malId, $type);
+//		if ($id === NULL)
+//		{
+//			return NULL;
+//		}
+//
+//		return $this->listItem->delete($id);
+//	}
+
+	/**
+	 * Remove a list item
+	 *
+	 * @param FormItem $data - The entry to remove
+	 * @param string $type - The media type (anime/manga)
+	 */
+	public function deleteItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($malId, $type);
-		if ($id === NULL)
+		$mediaId = $this->getMediaId((array)$data, $type);
+		if ($mediaId === NULL)
 		{
 			return NULL;
 		}
 
-		return $this->listItem->delete($id);
-	}
+		$id = $this->getListIdFromMediaId($mediaId);
+		if (is_string($id))
+		{
+			return $this->listItem->delete($id);
+		}
 
-	public function deleteItem(FormItem $data, string $type): ?Request
-	{
-		$mediaId = $this->getMediaId((array)$data, $type);
-
-		return $this->listItem->delete($mediaId);
+		return NULL;
 	}
 
 	/**
-	 * Get the id of the specific list entry from the malId
-	 *
-	 * @param string $type - The media type (anime/manga)
+	 * Get the id of the specific list entry from the data
 	 */
-	public function getListIdFromMalId(string $malId, string $type): ?string
+	public function getListIdFromData(FormItem $data, string $type = 'ANIME'): ?string
 	{
-		$mediaId = $this->getMediaIdFromMalId($malId, $type);
+		$mediaId = $this->getMediaId((array)$data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
