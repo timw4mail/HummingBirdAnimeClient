@@ -39,7 +39,7 @@ final class AnimeClientTest extends AnimeClientTestCase
 				'z' => [3, 6, 9],
 			],
 			'foobar' => [
-				'z' => 22 / 7,
+				'z' => 3.1415926539,
 				'a' => [
 					'aa' => -8,
 					'b' => [
