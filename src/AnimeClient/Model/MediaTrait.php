@@ -74,7 +74,7 @@ trait MediaTrait
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 */
-	public function getLibraryItem(string $itemId): AnimeListItem|MangaListItem
+	public function getItem(string $itemId): AnimeListItem|MangaListItem
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}
@@ -84,7 +84,7 @@ trait MediaTrait
 	 *
 	 * @throws Throwable
 	 */
-	public function createLibraryItem(array $data): bool
+	public function createItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
 		$kitsuRequest = $this->kitsuModel->createListItem($data);
@@ -116,7 +116,7 @@ trait MediaTrait
 	 * @throws Throwable
 	 * @return array<string, mixed>
 	 */
-	public function incrementLibraryItem(FormItem $data): array
+	public function incrementItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
@@ -148,7 +148,7 @@ trait MediaTrait
 	 * @throws Throwable
 	 * @return array<string, mixed>
 	 */
-	public function updateLibraryItem(FormItem $data): array
+	public function updateItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
@@ -174,6 +174,11 @@ trait MediaTrait
 		];
 	}
 
+	/**
+	 * Delete a list entry
+	 *
+	 * @throws Throwable
+	 */
 	public function deleteItem(FormItem $data): bool
 	{
 		$requester = new ParallelAPIRequest();
@@ -183,31 +188,6 @@ trait MediaTrait
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->deleteItem($data, strtoupper($this->type));
-			if ($maybeRequest !== NULL)
-			{
-				$requester->addRequest($maybeRequest, 'anilist');
-			}
-		}
-
-		$results = $requester->makeRequests();
-
-		return $results !== [];
-	}
-
-	/**
-	 * Delete a list entry
-	 *
-	 * @throws Throwable
-	 */
-	public function deleteLibraryItem(string $id, ?string $malId = NULL): bool
-	{
-		$requester = new ParallelAPIRequest();
-		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
-
-		if ($this->anilistEnabled && $malId !== NULL)
-		{
-			// If can't map MAL id, this will be null
-			$maybeRequest = $this->anilistModel->deleteListItem($malId, strtoupper($this->type));
 			if ($maybeRequest !== NULL)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');

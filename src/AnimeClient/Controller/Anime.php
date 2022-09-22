@@ -147,7 +147,7 @@ final class Anime extends BaseController
 			$this->redirect('anime/add', 303);
 		}
 
-		$result = $this->model->createLibraryItem($data);
+		$result = $this->model->createItem($data);
 
 		if ($result)
 		{
@@ -169,7 +169,7 @@ final class Anime extends BaseController
 	{
 		$this->checkAuth();
 
-		$item = $this->model->getLibraryItem($id);
+		$item = $this->model->getItem($id);
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
@@ -210,7 +210,7 @@ final class Anime extends BaseController
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
+		$fullResult = $this->model->updateItem(FormItem::from($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -250,7 +250,7 @@ final class Anime extends BaseController
 			exit();
 		}
 
-		$response = $this->model->incrementLibraryItem(FormItem::from($data));
+		$response = $this->model->incrementItem(FormItem::from($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
