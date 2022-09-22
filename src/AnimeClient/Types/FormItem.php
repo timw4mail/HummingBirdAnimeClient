@@ -21,6 +21,7 @@ class FormItem extends AbstractType
 {
 	public string|int $id;
 	public string|int|NULL $mal_id;
+	public string|int|NULL $anilist_id;
 	public ?FormItemData $data;
 
 	public function setData(mixed $value): void
