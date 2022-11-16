@@ -382,6 +382,11 @@ final class Kitsu
 				'link' => TRUE,
 				'image' => 'streaming-logos/hulu.svg',
 			],
+			'netflix.com' => [
+				'name' => 'Netflix',
+				'link' => FALSE,
+				'image' => 'streaming-logos/netflix.svg',
+			],
 			'tubitv.com' => [
 				'name' => 'TubiTV',
 				'link' => TRUE,

@@ -95,7 +95,7 @@ trait MediaTrait
 
 		$requester->addRequest($kitsuRequest, 'kitsu');
 
-		if ($this->anilistEnabled && (isset($data['anilist_id']) || isset($data['mal_id'])))
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->createListItem($data, strtoupper($this->type));
@@ -121,7 +121,7 @@ trait MediaTrait
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && (isset($data['anilist_id']) || isset($data['mal_id'])))
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->incrementListItem($data, strtoupper($this->type));
@@ -153,7 +153,7 @@ trait MediaTrait
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && (isset($data['anilist_id']) || isset($data['mal_id'])))
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->updateListItem($data, strtoupper($this->type));
@@ -184,7 +184,7 @@ trait MediaTrait
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->deleteItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && (isset($data['anilist_id']) || isset($data['mal_id'])))
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->deleteItem($data, strtoupper($this->type));
