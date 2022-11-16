@@ -50,11 +50,6 @@ final class SyncLists extends BaseCommand
 	private API\Kitsu\Model $kitsuModel;
 
 	/**
-	 * Does the Kitsu API have valid authentication?
-	 */
-	private bool $isKitsuAuthenticated = FALSE;
-
-	/**
 	 * Sync Kitsu <=> Anilist
 	 *
 	 * @throws ContainerException
@@ -63,7 +58,12 @@ final class SyncLists extends BaseCommand
 	 */
 	public function execute(array $args, array $options = []): void
 	{
-		$this->init();
+		$canRun = $this->init();
+
+		if ( ! $canRun)
+		{
+			return;
+		}
 
 		foreach ([MediaType::MANGA, MediaType::ANIME] as $type)
 		{
@@ -86,7 +86,7 @@ final class SyncLists extends BaseCommand
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	protected function init(): void
+	protected function init(): bool
 	{
 		$this->setContainer($this->setupContainer());
 		$this->setCache($this->container->get('cache'));
@@ -98,19 +98,21 @@ final class SyncLists extends BaseCommand
 		if ( ! $anilistEnabled)
 		{
 			$this->echoErrorBox('Anlist API is not enabled. Can not sync.');
-
-			exit();
+			return false;
 		}
 
 		// Authentication is required to update Kitsu
-		$this->isKitsuAuthenticated = $this->container->get('auth')->isAuthenticated();
-		if ( ! $this->isKitsuAuthenticated)
+		$isKitsuAuthenticated = $this->container->get('auth')->isAuthenticated();
+		if ( !$isKitsuAuthenticated)
 		{
-			$this->echoWarningBox('Kitsu is not authenticated. Kitsu list can not be updated.');
+			$this->echoErrorBox('Kitsu is not authenticated. Kitsu list can not be updated.');
+			return false;
 		}
 
 		$this->anilistModel = $this->container->get('anilist-model');
 		$this->kitsuModel = $this->container->get('kitsu-model');
+
+		return true;
 	}
 
 	/**
@@ -118,7 +120,10 @@ final class SyncLists extends BaseCommand
 	 */
 	protected function fetchCount(string $type): void
 	{
-		$this->echo('Fetching List Counts');
+		// This pulls too much data from Anilist, so skipping this step should result
+		// in fewer instances of API throttling
+
+		/* $this->echo('Fetching List Counts');
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
 		$displayLines = [];
@@ -133,7 +138,7 @@ final class SyncLists extends BaseCommand
 
 		$this->clearLine();
 
-		$this->echoBox($displayLines);
+		$this->echoBox($displayLines); */
 	}
 
 	/**
@@ -143,7 +148,7 @@ final class SyncLists extends BaseCommand
 	 */
 	protected function fetch(string $type): array
 	{
-		$this->echo('Fetching List Data');
+		$this->echo("Fetching $type List Data");
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
 		$anilist = $this->fetchAnilist($type);
@@ -217,25 +222,18 @@ final class SyncLists extends BaseCommand
 			$this->updateAnilistListItems($data['updateAnilist'], SyncAction::UPDATE, $type);
 		}
 
-		if ($this->isKitsuAuthenticated)
+		if ( ! empty($data['addToKitsu']))
 		{
-			if ( ! empty($data['addToKitsu']))
-			{
-				$count = is_countable($data['addToKitsu']) ? count($data['addToKitsu']) : 0;
-				$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
-				$this->updateKitsuListItems($data['addToKitsu'], SyncAction::CREATE, $type);
-			}
-
-			if ( ! empty($data['updateKitsu']))
-			{
-				$count = is_countable($data['updateKitsu']) ? count($data['updateKitsu']) : 0;
-				$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
-				$this->updateKitsuListItems($data['updateKitsu'], SyncAction::UPDATE, $type);
-			}
+			$count = is_countable($data['addToKitsu']) ? count($data['addToKitsu']) : 0;
+			$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
+			$this->updateKitsuListItems($data['addToKitsu'], SyncAction::CREATE, $type);
 		}
-		else
+
+		if ( ! empty($data['updateKitsu']))
 		{
-			$this->echoErrorBox('Kitsu is not authenticated, so lists can not be updated');
+			$count = is_countable($data['updateKitsu']) ? count($data['updateKitsu']) : 0;
+			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
+			$this->updateKitsuListItems($data['updateKitsu'], SyncAction::UPDATE, $type);
 		}
 	}
 

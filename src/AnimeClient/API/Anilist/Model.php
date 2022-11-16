@@ -102,8 +102,6 @@ final class Model
 
 	/**
 	 * Create a list item
-	 *
-	 * @return Request
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
@@ -152,29 +150,6 @@ final class Model
 	}
 
 	/**
-	 * Get the data for a specific list item, generally for editing
-	 *
-	 * @param string $malId - The unique identifier of that list item
-	 * @param string $type - Them media type (anime/manga)
-	 *
-	 * @return mixed[]
-	 */
-	public function getListItem(string $malId, string $type): array
-	{
-		$id = $this->getListIdFromMalId($malId, $type);
-		if ($id === NULL)
-		{
-			return [];
-		}
-
-		$data = $this->listItem->get($id)['data'];
-
-		return ($data !== NULL)
-			? $data['MediaList']
-			: [];
-	}
-
-	/**
 	 * Increase the watch count for the current list item
 	 *
 	 * @param string $type - Them media type (anime/manga)
@@ -205,23 +180,6 @@ final class Model
 
 		return $this->listItem->update($id, $data['data']);
 	}
-
-	/**
-	 * Remove a list item
-	 *
-	 * @param string $malId - The id of the list item to remove
-	 * @param string $type - Them media type (anime/manga)
-	 */
-//	public function deleteListItem(string $malId, string $type): ?Request
-//	{
-//		$id = $this->getListIdFromMalId($malId, $type);
-//		if ($id === NULL)
-//		{
-//			return NULL;
-//		}
-//
-//		return $this->listItem->delete($id);
-//	}
 
 	/**
 	 * Remove a list item
@@ -285,10 +243,6 @@ final class Model
 
 	/**
 	 * Find the id to update by
-	 *
-	 * @param array $data
-	 * @param string $type
-	 * @return string|null
 	 */
 	private function getMediaId (array $data, string $type = 'ANIME'): ?string
 	{
@@ -297,12 +251,9 @@ final class Model
 			return $data['anilist_id'];
 		}
 
-		if (isset($data['mal_id']))
-		{
-			return $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
-		}
-
-		return NULL;
+		return (isset($data['mal_id']))
+			? $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type))
+			: NULL;
 	}
 
 	/**
