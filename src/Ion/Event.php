@@ -19,7 +19,7 @@ namespace Aviat\Ion;
  */
 class Event
 {
-	private static array $eventMap = [];
+	protected static array $eventMap = [];
 
 	/**
 	 * Subscribe to an event

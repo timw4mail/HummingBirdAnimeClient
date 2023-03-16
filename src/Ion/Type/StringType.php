@@ -15,12 +15,11 @@
 namespace Aviat\Ion\Type;
 
 use InvalidArgumentException;
-use Stringy\Stringy;
 
 /**
- * Wrapper around Stringy
+ * Slightly extended Stringy library
  */
-class StringType extends Stringy
+final class StringType extends Stringy
 {
 	/**
 	 * Alias for `create` static constructor
