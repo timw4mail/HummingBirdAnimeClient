@@ -17,9 +17,11 @@ namespace Aviat\AnimeClient\Controller;
 use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
-use Aviat\AnimeClient\Controller;
+use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
@@ -30,7 +32,8 @@ use Throwable;
 /**
  * Controller for manga list
  */
-final class Manga extends Controller
+#[Controller('manga')]
+final class Manga extends BaseController
 {
 	/**
 	 * The manga model
@@ -57,10 +60,8 @@ final class Manga extends Controller
 
 	/**
 	 * Get a section of the manga list
-	 *
-	 * @param string $view
-	 *@throws InvalidArgumentException
 	 */
+	#[Route('manga.list', '/list/{status}{/view}')]
 	public function index(string $status = 'all', ?string $view = ''): void
 	{
 		if ( ! in_array($status, [
@@ -98,13 +99,9 @@ final class Manga extends Controller
 	}
 
 	/**
-	 * Form to add an manga
-	 *
-	 * @throws ContainerException
-	 * @throws InvalidArgumentException
-	 * @throws NotFoundException
-	 * @throws RouteNotFound
+	 * Form to add a manga
 	 */
+	#[Route('manga.add.get', '/manga/add')]
 	public function addForm(): void
 	{
 		$this->checkAuth();
@@ -123,10 +120,9 @@ final class Manga extends Controller
 	}
 
 	/**
-	 * Add an manga to the list
-	 *
-	 * @throws Throwable
+	 * Add a manga to the list
 	 */
+	#[Route('manage.add.post', '/manga/add', Route::POST)]
 	public function add(): void
 	{
 		$this->checkAuth();
@@ -159,12 +155,8 @@ final class Manga extends Controller
 
 	/**
 	 * Show the manga edit form
-	 *
-	 * @throws ContainerException
-	 * @throws InvalidArgumentException
-	 * @throws NotFoundException
-	 * @throws RouteNotFound
 	 */
+	#[Route('manga.edit', '/manga/edit/{id}/{status}')]
 	public function edit(string $id, string $status = 'All'): void
 	{
 		$this->checkAuth();
@@ -189,6 +181,7 @@ final class Manga extends Controller
 	/**
 	 * Search for a manga to add to the list
 	 */
+	#[Route('manga.search', '/manga/search')]
 	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
@@ -198,9 +191,8 @@ final class Manga extends Controller
 
 	/**
 	 * Update an manga item via a form submission
-	 *
-	 * @throws Throwable
 	 */
+	#[Route('manga.update.post', '/manga/update', Route::POST)]
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
@@ -228,8 +220,8 @@ final class Manga extends Controller
 
 	/**
 	 * Increment the progress of a manga item
-	 * @throws Throwable
 	 */
+	#[Route('manga.increment', '/manga/increment', Route::POST)]
 	public function increment(): void
 	{
 		$this->checkAuth();
@@ -253,9 +245,8 @@ final class Manga extends Controller
 
 	/**
 	 * Remove an manga from the list
-	 *
-	 * @throws Throwable
 	 */
+	#[Route('manga.delete', '/manga/delete', Route::POST)]
 	public function delete(): void
 	{
 		$this->checkAuth();
@@ -278,10 +269,8 @@ final class Manga extends Controller
 
 	/**
 	 * View details of an manga
-	 *
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
+	#[Route('manga.details', '/manga/details/{id}')]
 	public function details(string $id): void
 	{
 		$data = $this->model->getManga($id);
@@ -309,10 +298,8 @@ final class Manga extends Controller
 
 	/**
 	 * View details of a random manga
-	 *
-	 * @throws InvalidArgumentException
-	 * @throws Throwable
 	 */
+	#[Route('manga.random', '/manga/details/random')]
 	public function random(): void
 	{
 		$data = $this->model->getRandomManga();

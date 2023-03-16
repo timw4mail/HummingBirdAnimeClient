@@ -21,6 +21,8 @@ use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
@@ -32,6 +34,7 @@ use TypeError;
 /**
  * Controller for Anime-related pages
  */
+#[Controller('anime')]
 final class Anime extends BaseController
 {
 	/**
@@ -66,6 +69,7 @@ final class Anime extends BaseController
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 */
+	#[Route('anime.list', '/anime/{status}{/view}')]
 	public function index(int|string $status = KitsuWatchingStatus::WATCHING, ?string $view = NULL): void
 	{
 		if ( ! in_array($status, [
@@ -111,6 +115,7 @@ final class Anime extends BaseController
 	 * @throws RouteNotFound
 	 * @throws Throwable
 	 */
+	#[Route('anime.add.get', '/anime/add')]
 	public function addForm(): void
 	{
 		$this->checkAuth();
@@ -131,6 +136,7 @@ final class Anime extends BaseController
 	 *
 	 * @throws Throwable
 	 */
+	#[Route('anime.add.post', '/anime/add', Route::POST)]
 	public function add(): void
 	{
 		$this->checkAuth();
@@ -165,6 +171,7 @@ final class Anime extends BaseController
 	/**
 	 * Form to edit details about a series
 	 */
+	#[Route('anime.edit', '/anime/edit/{id}/{status}')]
 	public function edit(string $id, string $status = 'all'): void
 	{
 		$this->checkAuth();
@@ -188,6 +195,7 @@ final class Anime extends BaseController
 	/**
 	 * Search for anime
 	 */
+	#[Route('anime.search', '/anime/search')]
 	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
@@ -200,6 +208,7 @@ final class Anime extends BaseController
 	 *
 	 * @throws Throwable
 	 */
+	#[Route('anime.update.post', '/anime/update_form', Route::POST)]
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
@@ -230,18 +239,14 @@ final class Anime extends BaseController
 	 *
 	 * @throws Throwable
 	 */
+	#[Route('anime.increment', '/anime/increment', Route::POST)]
 	public function increment(): void
 	{
 		$this->checkAuth();
 
-		if (str_contains($this->request->getHeader('content-type')[0], 'application/json'))
-		{
-			$data = Json::decode((string) $this->request->getBody());
-		}
-		else
-		{
-			$data = (array) $this->request->getParsedBody();
-		}
+		$data = str_contains($this->request->getHeader('content-type')[0], 'application/json')
+			? Json::decode((string) $this->request->getBody())
+			: (array) $this->request->getParsedBody();
 
 		if (empty($data))
 		{
@@ -261,6 +266,7 @@ final class Anime extends BaseController
 	 *
 	 * @throws Throwable
 	 */
+	#[Route('anime.delete', '/anime/delete', Route::POST)]
 	public function delete(): void
 	{
 		$this->checkAuth();
@@ -286,6 +292,7 @@ final class Anime extends BaseController
 	 *
 	 * @throws InvalidArgumentException
 	 */
+	#[Route('anime.details', '/anime/details/{id}')]
 	public function details(string $id): void
 	{
 		try
@@ -324,6 +331,7 @@ final class Anime extends BaseController
 		}
 	}
 
+	#[Route('anime.random', '/anime/details/random')]
 	public function random(): void
 	{
 		try

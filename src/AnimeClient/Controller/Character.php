@@ -18,12 +18,15 @@ use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for character description pages
  */
+#[Controller]
 final class Character extends BaseController
 {
 	private Model $model;
@@ -43,6 +46,7 @@ final class Character extends BaseController
 	/**
 	 * Show information about a character
 	 */
+	#[Route('character', '/character/{slug}')]
 	public function index(string $slug): void
 	{
 		$rawData = $this->model->getCharacter($slug);

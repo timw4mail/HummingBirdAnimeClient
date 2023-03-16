@@ -14,6 +14,8 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\AnimeClient\{Controller as BaseController, Model};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
@@ -21,6 +23,7 @@ use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 /**
  * Controller for Anime-related pages
  */
+#[Controller]
 final class History extends BaseController
 {
 	/**
@@ -47,6 +50,7 @@ final class History extends BaseController
 		$this->mangaModel = $container->get('manga-model');
 	}
 
+	#[Route('history', '/history/{type}')]
 	public function index(string $type = 'anime'): void
 	{
 		if (method_exists($this, $type))
