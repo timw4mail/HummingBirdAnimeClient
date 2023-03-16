@@ -37,10 +37,11 @@ class Container implements ContainerInterface
 	 *
 	 * @param (callable)[] $container (optional)
 	 */
-	public function __construct(/**
-	 * Array of container Generator functions
-	 */
-	protected array $container = []
+	public function __construct(
+		/**
+	 	* Array of container Generator functions
+	 	*/
+		protected array $container = []
 	) {
 		$this->loggers = [];
 	}

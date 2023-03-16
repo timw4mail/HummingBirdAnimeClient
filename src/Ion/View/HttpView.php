@@ -82,6 +82,14 @@ class HttpView implements HttpViewInterface, Stringable
 	}
 
 	/**
+	 * Alternate static constructor
+	 */
+	public static function new(): static
+	{
+		return new static();
+	}
+
+	/**
 	 * Add an http header
 	 *
 	 * @param string|string[] $value
