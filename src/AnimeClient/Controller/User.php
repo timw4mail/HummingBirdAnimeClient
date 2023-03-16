@@ -18,12 +18,15 @@ use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
+#[Controller]
 final class User extends BaseController
 {
 	private Model $kitsuModel;
@@ -44,6 +47,7 @@ final class User extends BaseController
 	/**
 	 * Show the user profile page for the configured user
 	 */
+	#[Route('default_user_info', '/me')]
 	public function me(): void
 	{
 		$this->about('me');
@@ -52,6 +56,7 @@ final class User extends BaseController
 	/**
 	 * Show the user profile page
 	 */
+	#[Route('user_info', '/user/{username}')]
 	public function about(string $username): void
 	{
 		$isMainUser = $username === 'me';

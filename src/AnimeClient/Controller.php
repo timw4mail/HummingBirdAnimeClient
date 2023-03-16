@@ -340,7 +340,7 @@ class Controller
 	 * Output a template to HTML, using the provided data
 	 *
 	 * @codeCoverageIgnore
-	 *@throws InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
 	{
@@ -362,7 +362,7 @@ class Controller
 	 */
 	protected function outputJSON(mixed $data, int $code): void
 	{
-		(new JsonView())
+		JsonView::new()
 			->setOutput($data)
 			->setStatusCode($code)
 			->send();
@@ -375,13 +375,9 @@ class Controller
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		try
-		{
-			(new HttpView())->redirect($url, $code)->send();
-		}
-		catch (\Throwable)
-		{
-		}
+		HttpView::new()
+			->redirect($url, $code)
+			->send();
 	}
 }
 

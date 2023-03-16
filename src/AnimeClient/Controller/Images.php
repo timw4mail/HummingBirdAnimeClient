@@ -15,6 +15,8 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Throwable;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};
@@ -25,6 +27,7 @@ use function in_array;
 /**
  * Controller for handling routes that don't fit elsewhere
  */
+#[Controller]
 final class Images extends BaseController
 {
 	/**
@@ -35,6 +38,7 @@ final class Images extends BaseController
 	 * @param bool $display Whether to output the image to the server
 	 * @throws Throwable
 	 */
+	#[Route('image_proxy', '/public/images/{type}/{file}')]
 	public function cache(string $type, string $file, bool $display = TRUE): void
 	{
 		$currentUrl = (string) $this->request->getUri();

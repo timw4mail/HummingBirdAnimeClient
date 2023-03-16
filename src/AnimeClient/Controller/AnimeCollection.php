@@ -20,8 +20,11 @@ use Aviat\AnimeClient\Model\{
 	Anime as AnimeModel,
 	AnimeCollection as AnimeCollectionModel
 };
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Json;
 use Aviat\Ion\Exception\DoubleRenderException;
 
 use InvalidArgumentException;
@@ -29,6 +32,7 @@ use InvalidArgumentException;
 /**
  * Controller for Anime collection pages
  */
+#[Controller('anime.collection')]
 final class AnimeCollection extends BaseController
 {
 	/**
@@ -61,6 +65,8 @@ final class AnimeCollection extends BaseController
 		]);
 	}
 
+	#[Route('anime.collection.redirect', '/anime-collection')]
+	#[Route('anime.collection.redirect2', '/anime-collection/')]
 	public function index(): void
 	{
 		$this->redirect('/anime-collection/view', 303);
@@ -71,6 +77,7 @@ final class AnimeCollection extends BaseController
 	 *
 	 * @throws DoubleRenderException
 	 */
+	#[Route('anime.collection.search', '/anime-collection/search')]
 	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
@@ -85,6 +92,7 @@ final class AnimeCollection extends BaseController
 	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.view', '/anime-collection/view{/view}')]
 	public function view(?string $view = ''): void
 	{
 		$viewMap = [
@@ -112,7 +120,9 @@ final class AnimeCollection extends BaseController
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
 	 */
-	public function form($id = NULL): void
+	#[Route('anime.collection.add.get', '/anime-collection/add')]
+	#[Route('anime.collection.edit.get', '/anime-collection/edit/{id}')]
+	public function form(?int $id = NULL): void
 	{
 		$this->checkAuth();
 
@@ -140,6 +150,7 @@ final class AnimeCollection extends BaseController
 	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.edit.post', '/anime-collection/edit', Route::POST)]
 	public function edit(): void
 	{
 		$this->checkAuth();
@@ -153,6 +164,7 @@ final class AnimeCollection extends BaseController
 	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.add.post', '/anime-collection/add', Route::POST)]
 	public function add(): void
 	{
 		$this->checkAuth();
@@ -202,6 +214,7 @@ final class AnimeCollection extends BaseController
 	/**
 	 * Remove a collection item
 	 */
+	#[Route('anime.collection.delete', '/anime-collection/delete', Route::POST)]
 	public function delete(): void
 	{
 		$this->checkAuth();

@@ -14,19 +14,44 @@
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\AnimeClient\API\Kitsu\Model;
+use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\Attribute\DefaultController;
+use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
 use Aviat\Ion\View\HtmlView;
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
+#[DefaultController]
 final class Misc extends BaseController
 {
+	private Model $model;
+
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->model = $container->get('kitsu-model');
+	}
+
+	/**
+	 * Redirect to the default controller/url from an empty path
+	 */
+	#[Route('index_redirect', '/')]
+	public function index(): void
+	{
+		parent::redirectToDefaultRoute();
+	}
+
 	/**
 	 * Purges the API cache
 	 */
+	#[Route('cache_purge', '/cache_purge')]
 	public function clearCache(): void
 	{
 		$this->checkAuth();
@@ -41,6 +66,7 @@ final class Misc extends BaseController
 	/**
 	 * Show the login form
 	 */
+	#[Route('login', '/login')]
 	public function login(string $status = ''): void
 	{
 		$message = '';
@@ -64,6 +90,7 @@ final class Misc extends BaseController
 	/**
 	 * Attempt login authentication
 	 */
+	#[Route('login.post', '/login', Route::POST)]
 	public function loginAction(): void
 	{
 		$post = (array) $this->request->getParsedBody();
@@ -86,6 +113,7 @@ final class Misc extends BaseController
 	/**
 	 * Deauthorize the current user
 	 */
+	#[Route('logout', '/logout')]
 	public function logout(): void
 	{
 		$this->auth->logout();
@@ -96,8 +124,72 @@ final class Misc extends BaseController
 	/**
 	 * Check if the current user is logged in
 	 */
+	#[Route('heartbeat', '/heartbeat')]
 	public function heartbeat(): void
 	{
 		$this->outputJSON(['hasAuth' => $this->auth->isAuthenticated()], 200);
+	}
+
+	/**
+	 * Show information about a character
+	 */
+	#[Route('character', '/character/{slug}')]
+	public function character(string $slug): void
+	{
+		$rawData = $this->model->getCharacter($slug);
+
+		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		{
+			$this->notFound(
+				$this->formatTitle(
+					'Characters',
+					'Character not found'
+				),
+				'Character Not Found'
+			);
+
+			return;
+		}
+
+		$data = (new CharacterTransformer())->transform($rawData)->toArray();
+
+		$this->outputHTML('character/details', [
+			'title' => $this->formatTitle(
+				'Characters',
+				$data['name']
+			),
+			'data' => $data,
+		]);
+	}
+
+	/**
+	 * Show information about a person
+	 */
+	#[Route('person', '/people/{slug}')]
+	public function person(string $slug): void
+	{
+		$rawData = $this->model->getPerson($slug);
+		$data = (new PersonTransformer())->transform($rawData)->toArray();
+
+		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		{
+			$this->notFound(
+				$this->formatTitle(
+					'People',
+					'Person not found'
+				),
+				'Person Not Found'
+			);
+
+			return;
+		}
+
+		$this->outputHTML('person/details', [
+			'title' => $this->formatTitle(
+				'People',
+				$data['name']
+			),
+			'data' => $data,
+		]);
 	}
 }
