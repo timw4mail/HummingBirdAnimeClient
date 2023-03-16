@@ -35,7 +35,7 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-$baseConfig = require "{$APPCONF_DIR}/base_config.php";
+$baseConfig = require _dir($APPCONF_DIR, 'base_config.php');
 $di = require "{$APP_DIR}/bootstrap.php";
 
 $config = loadConfig($CONF_DIR);
