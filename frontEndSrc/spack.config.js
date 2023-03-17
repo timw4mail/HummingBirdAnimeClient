@@ -1,4 +1,6 @@
-module.exports = {
+const { config } = require("@swc/core/spack");
+
+module.exports = config({
 	entry: {
 		'scripts.min': __dirname + '/js/index.js',
 		'tables.min': __dirname + '/js/base/sort-tables.js',
@@ -8,12 +10,15 @@ module.exports = {
 	},
 	options: {
 		jsc: {
-			target: 'es3',
-			loose: true,
+			parser: {
+				syntax: "ecmascript",
+				jsx: false,
+			},
+			target: 'es2016',
+			loose: false,
 		},
 		minify: true,
-		module: {
-			type: 'es6'
-		}
+		sourceMaps: false,
+		isModule: true,
 	}
-}
+});

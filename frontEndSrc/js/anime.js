@@ -1,5 +1,6 @@
 import _ from './anime-client.js'
 import { renderSearchResults } from './template-helpers.js'
+import { getNestedProperty, hasNestedProperty } from "./fns";
 
 const search = (query, isCollection = false) => {
 	// Show the loader
@@ -70,6 +71,14 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 		}
 	};
 
+	const displayMessage = (type, message) => {
+		_.hide('#loading-shadow');
+		_.showMessage(type, `${message} ${title}.`);
+		_.scrollToTop();
+	}
+
+	const showError = () => displayMessage('error', 'Failed to update');
+
 	// If the episode count is 0, and incremented,
 	// change status to currently watching
 	if (isNaN(watchedCount) || watchedCount === 0) {
@@ -89,36 +98,31 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 		dataType: 'json',
 		type: 'POST',
 		success: (res) => {
-			const resData = JSON.parse(res);
+			try {
+				const resData = JSON.parse(res);
 
-			if (resData.error) {
-				_.hide('#loading-shadow');
-				_.showMessage('error', `Failed to update ${title}. `);
-				_.scrollToTop();
+				// Do a rough sanity check for weird errors
+				let updatedProgress = getNestedProperty(resData, 'data.libraryEntry.update.libraryEntry.progress');
+				if (hasNestedProperty(resData, 'error') || updatedProgress !== data.data.progress) {
+					showError();
+					return;
+				}
 
-				return;
+				// We've completed the series
+				if (getNestedProperty(resData, 'data.libraryEntry.update.libraryEntry.status') === 'COMPLETED') {
+					_.hide(parentSel);
+					displayMessage('success', 'Completed')
+
+					return;
+				}
+
+				// Just a normal update
+				_.$('.completed_number', parentSel)[ 0 ].textContent = ++watchedCount;
+				displayMessage('success', 'Updated');
+			} catch (_) {
+				showError();
 			}
-
-			// We've completed the series
-			if (resData.data.libraryEntry.update.libraryEntry.status === 'COMPLETED') {
-				_.hide(parentSel);
-				_.hide('#loading-shadow');
-				_.showMessage('success', `Successfully completed ${title}`);
-				_.scrollToTop();
-
-				return;
-			}
-
-			_.hide('#loading-shadow');
-
-			_.showMessage('success', `Successfully updated ${title}`);
-			_.$('.completed_number', parentSel)[ 0 ].textContent = ++watchedCount;
-			_.scrollToTop();
 		},
-		error: () => {
-			_.hide('#loading-shadow');
-			_.showMessage('error', `Failed to update ${title}. `);
-			_.scrollToTop();
-		}
+		error: showError,
 	});
 });
