@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -25,15 +23,11 @@ use Locale;
 /**
  * Data transformation class for character pages
  */
-final class CharacterTransformer extends AbstractTransformer {
-
-	/**
-	 * @param array|object $item
-	 * @return Character
-	 */
+final class CharacterTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): Character
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$data = $item['data']['findCharacterBySlug'] ?? [];
 		$castings = [];
 		$media = [
@@ -42,10 +36,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		$names = array_unique(
-			array_merge(
-				[$data['names']['canonical']],
-				array_values($data['names']['localized'])
-			)
+			[...[$data['names']['canonical']], ...array_values($data['names']['localized'])]
 		);
 		$name = array_shift($names);
 
@@ -66,19 +57,22 @@ final class CharacterTransformer extends AbstractTransformer {
 		]);
 	}
 
-	protected function organizeMediaAndVoices (array $data): array
+	/**
+	 * @return array<int, mixed[]>
+	 */
+	protected function organizeMediaAndVoices(array $data): array
 	{
 		if (empty($data))
 		{
 			return [[], []];
 		}
 
-		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
+		$titleSort = static fn ($a, $b) => $a['title'] <=> $b['title'];
 
 		// First, let's deal with related media
 		$rawMedia = array_column($data, 'media');
-		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
-		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
+		$rawAnime = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Anime');
+		$rawManga = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Manga');
 
 		$anime = array_map(static function ($item) {
 			$output = $item;
@@ -106,7 +100,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, fn($item) => (! empty($item['voices'])) && count((array)$item['voices']['nodes']) > 0);
+		$rawVoices = array_filter($data, static fn ($item) => ( ! empty($item['voices'])) && (array) $item['voices']['nodes'] !== []);
 
 		if (empty($rawVoices))
 		{
@@ -139,7 +133,7 @@ final class CharacterTransformer extends AbstractTransformer {
 							'image' => $voice['person']['image']['original']['url'],
 							'name' => $voice['person']['name'],
 						],
-						'series' => []
+						'series' => [],
 					];
 				}
 

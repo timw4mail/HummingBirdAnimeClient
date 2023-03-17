@@ -6,52 +6,44 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
+use Amp\Http\Client\{Request, Response};
 use Aviat\AnimeClient\Anilist;
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Json;
-
-use Aviat\Ion\JsonException;
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-use const Aviat\AnimeClient\USER_AGENT;
-
 use Aviat\AnimeClient\API\APIRequestBuilder;
-
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\{Json, JsonException};
 use LogicException;
 use Throwable;
 
-final class RequestBuilder extends APIRequestBuilder {
+use function Amp\Promise\wait;
+
+use function Aviat\AnimeClient\getResponse;
+use function in_array;
+use const Aviat\AnimeClient\USER_AGENT;
+
+final class RequestBuilder extends APIRequestBuilder
+{
 	use ContainerAware;
 
 	/**
 	 * The base url for api requests
-	 * @var string $base_url
 	 */
 	protected string $baseUrl = Anilist::BASE_URL;
 
 	/**
 	 * Valid HTTP request methods
-	 * @var array
 	 */
 	protected array $validMethods = ['POST'];
 
 	/**
 	 * HTTP headers to send with every request
-	 *
-	 * @var array
 	 */
 	protected array $defaultHeaders = [
 		'Accept' => 'application/json',
@@ -67,9 +59,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a request object
-	 * @param string $url
-	 * @param array $options
-	 * @return Request
 	 * @throws Throwable
 	 */
 	public function setUpRequest(string $url, array $options = []): Request
@@ -111,10 +100,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Run a GraphQL API query
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
@@ -126,30 +111,28 @@ final class RequestBuilder extends APIRequestBuilder {
 
 		$query = file_get_contents($file);
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
 		if ( ! empty($variables))
 		{
 			$body['variables'] = [];
-			foreach($variables as $key => $val)
+
+			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
 			}
 		}
 
 		return $this->postRequest([
-			'body' => $body
+			'body' => $body,
 		]);
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 * @throws Throwable
 	 */
-	public function mutateRequest (string $name, array $variables = []): Request
+	public function mutateRequest(string $name, array $variables = []): Request
 	{
 		$file = __DIR__ . "/Mutations/{$name}.graphql";
 		if ( ! file_exists($file))
@@ -160,11 +143,13 @@ final class RequestBuilder extends APIRequestBuilder {
 		$query = file_get_contents($file);
 
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
-		if (!empty($variables)) {
+		if ( ! empty($variables))
+		{
 			$body['variables'] = [];
+
 			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
@@ -177,12 +162,10 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
-	public function mutate (string $name, array $variables = []): array
+	public function mutate(string $name, array $variables = []): array
 	{
 		$request = $this->mutateRequest($name, $variables);
 		$response = $this->getResponseFromRequest($request);
@@ -193,9 +176,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Make a request
 	 *
-	 * @param string $url
-	 * @param array $options
-	 * @return Response
 	 * @throws Throwable
 	 */
 	private function getResponse(string $url, array $options = []): Response
@@ -220,8 +200,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	}
 
 	/**
-	 * @param Request $request
-	 * @return Response
 	 * @throws Throwable
 	 */
 	public function getResponseFromRequest(Request $request): Response
@@ -247,8 +225,6 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Remove some boilerplate for post requests
 	 *
-	 * @param array $options
-	 * @return array
 	 * @throws Throwable
 	 */
 	protected function postRequest(array $options = []): array
@@ -265,13 +241,13 @@ final class RequestBuilder extends APIRequestBuilder {
 			//'requestHeaders' => $request->getHeaders(),
 		]);
 
-
-		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
-			$logger?->warning('Non 200 response for POST api call', (array)$response->getBody());
+			$logger?->warning('Non 200 response for POST api call', (array) $response->getBody());
 		}
 
 		$rawBody = wait($response->getBody()->buffer());
+
 		try
 		{
 			return Json::decode($rawBody);
@@ -280,7 +256,8 @@ final class RequestBuilder extends APIRequestBuilder {
 		{
 			dump($e);
 			dump($rawBody);
-			die();
+
+			exit();
 		}
 	}
 }

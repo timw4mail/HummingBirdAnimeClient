@@ -6,26 +6,25 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
-use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
 
 use InvalidArgumentException;
@@ -35,18 +34,17 @@ use TypeError;
 /**
  * Controller for Anime-related pages
  */
-final class Anime extends BaseController {
-
+#[Controller('anime')]
+final class Anime extends BaseController
+{
 	/**
 	 * The anime list model
-	 * @var AnimeModel $model
 	 */
 	protected AnimeModel $model;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -68,10 +66,10 @@ final class Anime extends BaseController {
 	 *
 	 * @param int|string $status - The section of the list
 	 * @param string|null $view - List or cover view
-	 * @return void
 	 * @throws InvalidArgumentException
 	 * @throws Throwable
 	 */
+	#[Route('anime.list', '/anime/{status}{/view}')]
 	public function index(int|string $status = KitsuWatchingStatus::WATCHING, ?string $view = NULL): void
 	{
 		if ( ! in_array($status, [
@@ -95,7 +93,7 @@ final class Anime extends BaseController {
 
 		$viewMap = [
 			'' => 'cover',
-			'list' => 'list'
+			'list' => 'list',
 		];
 
 		$data = ($status !== 'all')
@@ -104,7 +102,7 @@ final class Anime extends BaseController {
 
 		$this->outputHTML('anime/' . $viewMap[$view], [
 			'title' => $title,
-			'sections' => $data
+			'sections' => $data,
 		]);
 	}
 
@@ -112,12 +110,12 @@ final class Anime extends BaseController {
 	 * Form to add an anime
 	 *
 	 * @throws ContainerException
+	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws InvalidArgumentException
 	 * @throws Throwable
-	 * @return void
 	 */
+	#[Route('anime.add.get', '/anime/add')]
 	public function addForm(): void
 	{
 		$this->checkAuth();
@@ -129,7 +127,7 @@ final class Anime extends BaseController {
 				'Add'
 			),
 			'action_url' => $this->url->generate('anime.add.post'),
-			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE
+			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE,
 		]);
 	}
 
@@ -137,13 +135,13 @@ final class Anime extends BaseController {
 	 * Add an anime to the list
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
+	#[Route('anime.add.post', '/anime/add', Route::POST)]
 	public function add(): void
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 
 		if (empty($data['mal_id']))
 		{
@@ -155,7 +153,7 @@ final class Anime extends BaseController {
 			$this->redirect('anime/add', 303);
 		}
 
-		$result = $this->model->createLibraryItem($data);
+		$result = $this->model->createItem($data);
 
 		if ($result)
 		{
@@ -172,15 +170,13 @@ final class Anime extends BaseController {
 
 	/**
 	 * Form to edit details about a series
-	 *
-	 * @param string $id
-	 * @param string $status
 	 */
+	#[Route('anime.edit', '/anime/edit/{id}/{status}')]
 	public function edit(string $id, string $status = 'all'): void
 	{
 		$this->checkAuth();
 
-		$item = $this->model->getLibraryItem($id);
+		$item = $this->model->getItem($id);
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [
@@ -191,16 +187,15 @@ final class Anime extends BaseController {
 			'item' => $item,
 			'statuses' => AnimeWatchingStatus::KITSU_TO_TITLE,
 			'action' => $this->url->generate('update.post', [
-				'controller' => 'anime'
+				'controller' => 'anime',
 			]),
 		]);
 	}
 
 	/**
 	 * Search for anime
-	 *
-	 * @return void
 	 */
+	#[Route('anime.search', '/anime/search')]
 	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
@@ -212,19 +207,19 @@ final class Anime extends BaseController {
 	 * Update an anime item via a form submission
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
+	#[Route('anime.update.post', '/anime/update_form', Route::POST)]
 	public function formUpdate(): void
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 
 		// Do some minor data manipulation for
 		// large form-based updates
 		$transformer = new AnimeListTransformer();
 		$postData = $transformer->untransform($data);
-		$fullResult = $this->model->updateLibraryItem(FormItem::from($postData));
+		$fullResult = $this->model->updateItem(FormItem::from($postData));
 
 		if ($fullResult['statusCode'] === 200)
 		{
@@ -243,28 +238,24 @@ final class Anime extends BaseController {
 	 * Increase the watched count for an anime item
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
+	#[Route('anime.increment', '/anime/increment', Route::POST)]
 	public function increment(): void
 	{
 		$this->checkAuth();
 
-		if (str_contains($this->request->getHeader('content-type')[0], 'application/json'))
-		{
-			$data = Json::decode((string)$this->request->getBody());
-		}
-		else
-		{
-			$data = (array)$this->request->getParsedBody();
-		}
+		$data = str_contains($this->request->getHeader('content-type')[0], 'application/json')
+			? Json::decode((string) $this->request->getBody())
+			: (array) $this->request->getParsedBody();
 
 		if (empty($data))
 		{
 			$this->errorPage(400, 'Bad Request', '');
+
 			exit();
 		}
 
-		$response = $this->model->incrementLibraryItem(FormItem::from($data));
+		$response = $this->model->incrementItem(FormItem::from($data));
 
 		$this->cache->clear();
 		$this->outputJSON($response['body'], $response['statusCode']);
@@ -274,14 +265,14 @@ final class Anime extends BaseController {
 	 * Remove an anime from the list
 	 *
 	 * @throws Throwable
-	 * @return void
 	 */
+	#[Route('anime.delete', '/anime/delete', Route::POST)]
 	public function delete(): void
 	{
 		$this->checkAuth();
 
-		$body = (array)$this->request->getParsedBody();
-		$response = $this->model->deleteLibraryItem($body['id'], $body['mal_id']);
+		$body = (array) $this->request->getParsedBody();
+		$response = $this->model->deleteItem(FormItem::from($body));
 
 		if ($response === TRUE)
 		{
@@ -299,10 +290,9 @@ final class Anime extends BaseController {
 	/**
 	 * View details of an anime
 	 *
-	 * @param string $id
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
+	#[Route('anime.details', '/anime/details/{id}')]
 	public function details(string $id): void
 	{
 		try
@@ -341,6 +331,7 @@ final class Anime extends BaseController {
 		}
 	}
 
+	#[Route('anime.random', '/anime/details/random')]
 	public function random(): void
 	{
 		try
@@ -379,4 +370,5 @@ final class Anime extends BaseController {
 		}
 	}
 }
+
 // End of AnimeController.php

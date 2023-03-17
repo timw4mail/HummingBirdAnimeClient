@@ -6,31 +6,26 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion;
 
 use Aviat\Ion\Type\StringType;
+use InvalidArgumentException;
 
 /**
  * Helper class for json convenience methods
  */
-class Json {
-
+class Json
+{
 	/**
 	 * Encode data in json format
 	 *
-	 * @param mixed $data
-	 * @param int   $options
-	 * @param int   $depth
 	 * @throws JsonException
-	 * @return string
 	 */
 	public static function encode(mixed $data, int $options = 0, int $depth = 512): string
 	{
@@ -43,30 +38,23 @@ class Json {
 	/**
 	 * Encode data in json format and save to a file
 	 *
-	 * @param string $filename
-	 * @param mixed  $data
-	 * @param int    $jsonOptions - Options to pass to json_encode
-	 * @param int    $fileOptions - Options to pass to file_get_contents
+	 * @param int $jsonOptions - Options to pass to json_encode
+	 * @param int $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
-	 * @return bool
 	 */
-	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): bool
+	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): int
 	{
 		$json = self::encode($data, $jsonOptions);
 
 		$res = file_put_contents($filename, $json, $fileOptions);
-		return $res !== FALSE;
+
+		return ($res !== FALSE) ? $res : 0;
 	}
 
 	/**
 	 * Decode data from json
 	 *
-	 * @param string|null $json
-	 * @param bool   $assoc
-	 * @param int    $depth
-	 * @param int    $options
 	 * @throws JsonException
-	 * @return mixed
 	 */
 	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -79,18 +67,14 @@ class Json {
 		$data = json_decode($json, $assoc, $depth, $options);
 
 		self::check_json_error();
+
 		return $data;
 	}
 
 	/**
 	 * Decode json data loaded from the passed filename
 	 *
-	 * @param string $filename
-	 * @param bool   $assoc
- 	 * @param int    $depth
- 	 * @param int    $options
 	 * @throws JsonException
-	 * @return mixed
 	 */
 	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -103,9 +87,7 @@ class Json {
 	/**
 	 * Determines whether a string is valid json
 	 *
-	 * @param  string $string
-	 * @throws \InvalidArgumentException
-	 * @return boolean
+	 * @throws InvalidArgumentException
 	 */
 	public static function isJson(string $string): bool
 	{
@@ -116,7 +98,6 @@ class Json {
 	 * Call the json error functions to check for errors encoding/decoding
 	 *
 	 * @throws JsonException
-	 * @return void
 	 */
 	protected static function check_json_error(): void
 	{
@@ -129,7 +110,7 @@ class Json {
 			JSON_ERROR_UTF8 => 'JSON_ERROR_UTF8',
 			JSON_ERROR_RECURSION => 'JSON_ERROR_RECURSION',
 			JSON_ERROR_INF_OR_NAN => 'JSON_ERROR_INF_OR_NAN',
-			JSON_ERROR_UNSUPPORTED_TYPE => 'JSON_ERROR_UNSUPPORTED_TYPE'
+			JSON_ERROR_UNSUPPORTED_TYPE => 'JSON_ERROR_UNSUPPORTED_TYPE',
 		];
 
 		$error = json_last_error();
@@ -141,4 +122,5 @@ class Json {
 		}
 	}
 }
+
 // End of JSON.php

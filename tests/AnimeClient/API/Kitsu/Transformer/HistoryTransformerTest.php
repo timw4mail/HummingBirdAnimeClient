@@ -6,26 +6,28 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\{AnimeHistoryTransformer, MangaHistoryTransformer};
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
-class HistoryTransformerTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class HistoryTransformerTest extends AnimeClientTestCase
+{
 	protected array $beforeTransform;
 	protected string $dir;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
@@ -35,7 +37,7 @@ class HistoryTransformerTest extends AnimeClientTestCase {
 
 	public function testAnimeTransform(): void
 	{
-		$this->markTestSkipped("Old test data");
+		$this->markTestSkipped('Old test data');
 
 		$actual = (new AnimeHistoryTransformer())->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);

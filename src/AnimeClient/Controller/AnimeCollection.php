@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
@@ -22,9 +20,11 @@ use Aviat\AnimeClient\Model\{
 	Anime as AnimeModel,
 	AnimeCollection as AnimeCollectionModel
 };
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Json;
 use Aviat\Ion\Exception\DoubleRenderException;
 
 use InvalidArgumentException;
@@ -32,24 +32,22 @@ use InvalidArgumentException;
 /**
  * Controller for Anime collection pages
  */
-final class AnimeCollection extends BaseController {
-
+#[Controller('anime.collection')]
+final class AnimeCollection extends BaseController
+{
 	/**
 	 * The anime collection model
-	 * @var AnimeCollectionModel $animeCollectionModel
 	 */
 	private AnimeCollectionModel $animeCollectionModel;
 
 	/**
 	 * The anime API model
-	 * @var AnimeModel $animeModel
 	 */
 	private AnimeModel $animeModel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -67,6 +65,8 @@ final class AnimeCollection extends BaseController {
 		]);
 	}
 
+	#[Route('anime.collection.redirect', '/anime-collection')]
+	#[Route('anime.collection.redirect2', '/anime-collection/')]
 	public function index(): void
 	{
 		$this->redirect('/anime-collection/view', 303);
@@ -76,8 +76,8 @@ final class AnimeCollection extends BaseController {
 	 * Search for anime
 	 *
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
+	#[Route('anime.collection.search', '/anime-collection/search')]
 	public function search(): void
 	{
 		$queryParams = $this->request->getQueryParams();
@@ -88,17 +88,16 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Show the anime collection page
 	 *
-	 * @param string|null $view
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
+	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.view', '/anime-collection/view{/view}')]
 	public function view(?string $view = ''): void
 	{
 		$viewMap = [
 			'' => 'cover',
-			'list' => 'list'
+			'list' => 'list',
 		];
 
 		$sections = array_merge(
@@ -115,14 +114,15 @@ final class AnimeCollection extends BaseController {
 	/**
 	 * Show the anime collection add/edit form
 	 *
-	 * @param integer|null $id
+	 * @param int|null $id
 	 * @throws ContainerException
+	 * @throws InvalidArgumentException
 	 * @throws NotFoundException
 	 * @throws RouteNotFound
-	 * @throws InvalidArgumentException
-	 * @return void
 	 */
-	public function form($id = NULL): void
+	#[Route('anime.collection.add.get', '/anime-collection/add')]
+	#[Route('anime.collection.edit.get', '/anime-collection/edit/{id}')]
+	public function form(?int $id = NULL): void
 	{
 		$this->checkAuth();
 
@@ -139,7 +139,7 @@ final class AnimeCollection extends BaseController {
 				$action
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : []
+			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : [],
 		]);
 	}
 
@@ -147,29 +147,29 @@ final class AnimeCollection extends BaseController {
 	 * Update a collection item
 	 *
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
+	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.edit.post', '/anime-collection/edit', Route::POST)]
 	public function edit(): void
 	{
 		$this->checkAuth();
-		$this->update((array)$this->request->getParsedBody());
+		$this->update((array) $this->request->getParsedBody());
 	}
 
 	/**
 	 * Add a collection item
 	 *
 	 * @throws ContainerException
-	 * @throws NotFoundException
 	 * @throws InvalidArgumentException
-	 * @return void
+	 * @throws NotFoundException
 	 */
+	#[Route('anime.collection.add.post', '/anime-collection/add', Route::POST)]
 	public function add(): void
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 		if (array_key_exists('id', $data))
 		{
 			// Check for existing entry
@@ -191,6 +191,7 @@ final class AnimeCollection extends BaseController {
 				}
 
 				$this->update($data);
+
 				return;
 			}
 
@@ -201,6 +202,7 @@ final class AnimeCollection extends BaseController {
 			{
 				$this->setFlashMessage('Successfully added collection item', 'success');
 				$this->sessionRedirect();
+
 				return;
 			}
 		}
@@ -211,14 +213,13 @@ final class AnimeCollection extends BaseController {
 
 	/**
 	 * Remove a collection item
-	 *
-	 * @return void
 	 */
+	#[Route('anime.collection.delete', '/anime-collection/delete', Route::POST)]
 	public function delete(): void
 	{
 		$this->checkAuth();
 
-		$data = (array)$this->request->getParsedBody();
+		$data = (array) $this->request->getParsedBody();
 		if ( ! array_key_exists('hummingbird_id', $data))
 		{
 			$this->setFlashMessage("Can't delete item that doesn't exist", 'error');
@@ -237,8 +238,6 @@ final class AnimeCollection extends BaseController {
 
 	/**
 	 * Update a collection item
-	 *
-	 * @param array $data
 	 */
 	protected function update(array $data): void
 	{
@@ -259,4 +258,5 @@ final class AnimeCollection extends BaseController {
 		$this->sessionRedirect();
 	}
 }
+
 // End of AnimeCollection.php

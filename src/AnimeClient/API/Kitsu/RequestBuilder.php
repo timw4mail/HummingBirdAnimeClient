@@ -6,57 +6,46 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use const Aviat\AnimeClient\SESSION_SEGMENT;
-use const Aviat\AnimeClient\USER_AGENT;
-
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
-use Aviat\AnimeClient\Kitsu as K;
+use Amp\Http\Client\{Request, Response};
 use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\AnimeClient\Enum\EventType;
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Event;
-use Aviat\Ion\Json;
-use Aviat\Ion\JsonException;
+use Aviat\AnimeClient\Kitsu as K;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\{Event, Json, JsonException};
 
 use LogicException;
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\getResponse;
+use function in_array;
+use const Aviat\AnimeClient\{SESSION_SEGMENT, USER_AGENT};
 
-final class RequestBuilder extends APIRequestBuilder {
+final class RequestBuilder extends APIRequestBuilder
+{
 	use ContainerAware;
 
 	/**
 	 * The base url for api requests
-	 * @var string $base_url
 	 */
 	protected string $baseUrl = K::GRAPHQL_ENDPOINT;
 
 	/**
 	 * Where to look for GraphQL request files
-	 * @var string
 	 */
 	protected string $filePath = __DIR__;
 
 	/**
 	 * HTTP headers to send with every request
-	 *
-	 * @var array
 	 */
 	protected array $defaultHeaders = [
-		'User-Agent' =>  USER_AGENT,
+		'User-Agent' => USER_AGENT,
 		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',
 		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
@@ -70,11 +59,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a request object
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return Request
 	 */
 	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
@@ -85,13 +69,13 @@ final class RequestBuilder extends APIRequestBuilder {
 			->getSegment(SESSION_SEGMENT);
 
 		$cache = $this->getContainer()->get('cache');
-		$token = null;
+		$token = NULL;
 
 		if ($cache->has(K::AUTH_TOKEN_CACHE_KEY))
 		{
 			$token = $cache->get(K::AUTH_TOKEN_CACHE_KEY);
 		}
-		else if ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
+		elseif ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
 		{
 			$token = $sessionSegment->get('auth_token');
 			if ( ! (empty($token) || $cache->has(K::AUTH_TOKEN_CACHE_KEY)))
@@ -131,9 +115,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Run a GraphQL API query
 	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
@@ -141,12 +123,12 @@ final class RequestBuilder extends APIRequestBuilder {
 		$response = getResponse($request);
 		$validResponseCodes = [200, 201];
 
-		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
 			if ($logger !== NULL)
 			{
-				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+				$logger->warning('Non 200 response for GraphQL call', (array) $response->getBody());
 			}
 		}
 
@@ -156,9 +138,7 @@ final class RequestBuilder extends APIRequestBuilder {
 	/**
 	 * Run a GraphQL mutation
 	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function mutate(string $name, array $variables = []): array
 	{
@@ -166,12 +146,12 @@ final class RequestBuilder extends APIRequestBuilder {
 		$response = getResponse($request);
 		$validResponseCodes = [200, 201];
 
-		if ( ! \in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
 			if ($logger !== NULL)
 			{
-				$logger->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+				$logger->warning('Non 200 response for GraphQL call', (array) $response->getBody());
 			}
 		}
 
@@ -180,11 +160,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Make a request
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return Response
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -205,10 +180,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a GraphQL query and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 */
 	public function queryRequest(string $name, array $variables = []): Request
 	{
@@ -220,13 +191,14 @@ final class RequestBuilder extends APIRequestBuilder {
 
 		$query = file_get_contents($file);
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
 		if ( ! empty($variables))
 		{
 			$body['variables'] = [];
-			foreach($variables as $key => $val)
+
+			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
 			}
@@ -239,12 +211,8 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Create a GraphQL mutation request, and return the Request object
-	 *
-	 * @param string $name
-	 * @param array $variables
-	 * @return Request
 	 */
-	public function mutateRequest (string $name, array $variables = []): Request
+	public function mutateRequest(string $name, array $variables = []): Request
 	{
 		$file = realpath("{$this->filePath}/Mutations/{$name}.graphql");
 		if ($file === FALSE || ! file_exists($file))
@@ -254,11 +222,13 @@ final class RequestBuilder extends APIRequestBuilder {
 
 		$query = file_get_contents($file);
 		$body = [
-			'query' => $query
+			'query' => $query,
 		];
 
-		if (!empty($variables)) {
+		if ( ! empty($variables))
+		{
 			$body['variables'] = [];
+
 			foreach ($variables as $key => $val)
 			{
 				$body['variables'][$key] = $val;
@@ -272,11 +242,6 @@ final class RequestBuilder extends APIRequestBuilder {
 
 	/**
 	 * Make a request
-	 *
-	 * @param string $type
-	 * @param string $url
-	 * @param array $options
-	 * @return array
 	 */
 	private function request(string $type, string $url, array $options = []): array
 	{
@@ -297,7 +262,7 @@ final class RequestBuilder extends APIRequestBuilder {
 		{
 			if ($logger !== NULL)
 			{
-				$logger->warning('Non 2xx response for api call', (array)$response);
+				$logger->warning('Non 2xx response for api call', (array) $response);
 			}
 		}
 
@@ -305,11 +270,12 @@ final class RequestBuilder extends APIRequestBuilder {
 		{
 			return Json::decode($rawBody);
 		}
-		catch (JsonException $e)
+		catch (JsonException)
 		{
 			// dump($e);
 			dump($rawBody);
-			die();
+
+			exit();
 		}
 	}
 }

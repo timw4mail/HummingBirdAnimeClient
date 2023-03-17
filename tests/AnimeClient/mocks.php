@@ -1,45 +1,52 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * All the mock classes that extend the classes they are used to test
  */
 
 use Aviat\AnimeClient\Model\{
-	Anime as AnimeModel,
 	API as BaseApiModel,
+	Anime as AnimeModel,
 	Manga as MangaModel
 };
-use Aviat\Ion\{Enum, Friend, Json};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\{Enum, Friend, Json};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
 // -----------------------------------------------------------------------------
 
-class MockErrorHandler {
-	public function addDataTable(string $name, array $values=[]): void {}
+class MockErrorHandler
+{
+	public function addDataTable(string $name, array $values=[]): void
+	{
+	}
 }
 
 // -----------------------------------------------------------------------------
 // Ion Mocks
 // -----------------------------------------------------------------------------
 
-class TestEnum extends Enum {
-	const FOO = 'bar';
-	const BAR = 'foo';
-	const FOOBAR = 'baz';
+class TestEnum extends Enum
+{
+	public const FOO = 'bar';
+	public const BAR = 'foo';
+	public const FOOBAR = 'baz';
 }
 
-class FriendGrandParentTestClass {
+class FriendGrandParentTestClass
+{
 	protected int $grandParentProtected = 84;
 }
 
-class FriendParentTestClass extends FriendGrandParentTestClass {
+class FriendParentTestClass extends FriendGrandParentTestClass
+{
 	protected int $parentProtected = 47;
 	private int $parentPrivate = 654;
 }
 
-class FriendTestClass extends FriendParentTestClass {
+class FriendTestClass extends FriendParentTestClass
+{
 	protected int $protected = 356;
 	private int $private = 486;
 
@@ -54,14 +61,14 @@ class FriendTestClass extends FriendParentTestClass {
 	}
 }
 
-class TestTransformer extends AbstractTransformer {
-
+class TestTransformer extends AbstractTransformer
+{
 	public function transform($item): array
 	{
 		$out = [];
 		$genre_list = (array) $item;
 
-		foreach($genre_list as $genre)
+		foreach ($genre_list as $genre)
 		{
 			$out[] = $genre['name'];
 		}
@@ -70,13 +77,15 @@ class TestTransformer extends AbstractTransformer {
 	}
 }
 
-trait MockViewOutputTrait {
-	protected function output(): void {
+trait MockViewOutputTrait
+{
+	protected function output(): void
+	{
 		$reflect = new ReflectionClass($this);
 		$properties = $reflect->getProperties();
 		$props = [];
 
-		foreach($properties as $reflectProp)
+		foreach ($properties as $reflectProp)
 		{
 			$reflectProp->setAccessible(TRUE);
 			$props[$reflectProp->getName()] = $reflectProp->getValue($this);
@@ -84,7 +93,8 @@ trait MockViewOutputTrait {
 
 		$view = new TestView();
 		$friend = new Friend($view);
-		foreach($props as $name => $val)
+
+		foreach ($props as $name => $val)
 		{
 			$friend->__set($name, $val);
 		}
@@ -93,15 +103,20 @@ trait MockViewOutputTrait {
 	}
 }
 
-class MockUtil {
-	public function get_cached_image($api_path, $series_slug, $type = "anime"): string
+class MockUtil
+{
+	public function get_cached_image($api_path, $series_slug, $type = 'anime'): string
 	{
 		return "/public/images/{$type}/{$series_slug}.jpg";
 	}
 }
 
-class TestView extends HttpView {
-	public function send(): void {}
+class TestView extends HttpView
+{
+	public function send(): void
+	{
+	}
+
 	protected function output(): void
 	{
 		/*$content =& $this->response->content;
@@ -111,38 +126,46 @@ class TestView extends HttpView {
 	}
 }
 
-class TestHtmlView extends HtmlView {
+class TestHtmlView extends HtmlView
+{
 	use MockViewOutputTrait;
 }
 
-class TestHttpView extends HttpView {
+class TestHttpView extends HttpView
+{
 	use MockViewOutputTrait;
 }
 
-class TestJsonView extends JsonView {
-	public function __destruct() {}
+class TestJsonView extends JsonView
+{
+	public function __destruct()
+	{
+	}
 }
 
 // -----------------------------------------------------------------------------
 // AnimeClient Mocks
 // -----------------------------------------------------------------------------
 
-trait MockInjectionTrait {
+trait MockInjectionTrait
+{
 	public function __get(string $key): mixed
 	{
-		return $this->$key;
+		return $this->{$key};
 	}
 
 	public function __set(string $key, mixed $value)
 	{
-		$this->$key = $value;
+		$this->{$key} = $value;
+
 		return $this;
 	}
 }
 
-class MockBaseApiModel extends BaseApiModel {
-
+class MockBaseApiModel extends BaseApiModel
+{
 	use MockInjectionTrait;
+
 	protected string $base_url = 'https://httpbin.org/';
 
 	protected function _get_list_from_api(string $status): array
@@ -151,16 +174,19 @@ class MockBaseApiModel extends BaseApiModel {
 	}
 }
 
-class TestAnimeModel extends AnimeModel {
+class TestAnimeModel extends AnimeModel
+{
 	use MockInjectionTrait;
 }
 
-class TestMangaModel extends MangaModel {
+class TestMangaModel extends MangaModel
+{
 	use MockInjectionTrait;
 
 	protected function _check_cache($response)
 	{
 		$file = __DIR__ . '/test_data/manga_list/manga-transformed.json';
+
 		return Json::decodeFile($file);
 	}
 }

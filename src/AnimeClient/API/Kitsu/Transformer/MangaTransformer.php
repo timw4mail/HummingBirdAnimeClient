@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -23,30 +21,29 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for manga description page
  */
-final class MangaTransformer extends AbstractTransformer {
-
+final class MangaTransformer extends AbstractTransformer
+{
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array|object  $item API library item
-	 * @return MangaPage
+	 * @param array|object $item API library item
 	 */
 	public function transform(array|object $item): MangaPage
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findMangaBySlug'] ?? $item['data']['findMangaById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
 		sort($genres);
 
 		$title = $base['titles']['canonical'];
 		$titles = Kitsu::getTitles($base['titles']);
 		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
-		if (count($base['characters']['nodes']) > 0)
+		if ((is_countable($base['characters']['nodes']) ? count($base['characters']['nodes']) : 0) > 0)
 		{
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
@@ -57,11 +54,14 @@ final class MangaTransformer extends AbstractTransformer {
 				}
 
 				$details = $rawCharacter['character'];
-				$characters[$type][$details['id']] = [
-					'image' => $details['image']['original']['url'],
-					'name' => $details['names']['canonical'],
-					'slug' => $details['slug'],
-				];
+				if (array_key_exists($details['id'], $characters[$type]))
+				{
+					$characters[$type][$details['id']] = [
+						'image' => $details['image']['original']['url'],
+						'name' => $details['names']['canonical'],
+						'slug' => $details['slug'],
+					];
+				}
 			}
 
 			foreach (array_keys($characters) as $type)
@@ -72,14 +72,14 @@ final class MangaTransformer extends AbstractTransformer {
 				}
 				else
 				{
-					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
+					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}
 			}
 
 			krsort($characters);
 		}
 
-		if (count($base['staff']['nodes']) > 0)
+		if ((is_countable($base['staff']['nodes']) ? count($base['staff']['nodes']) : 0) > 0)
 		{
 			foreach ($base['staff']['nodes'] as $staffing)
 			{
@@ -89,7 +89,7 @@ final class MangaTransformer extends AbstractTransformer {
 
 				// If this person object is so broken as to not have a proper image object,
 				// just skip it. No point in showing a role with nothing in it.
-				if ($person === null || $person['id'] === null || $person['image'] === null)
+				if ($person === NULL || $person['id'] === NULL || $person['image'] === NULL)
 				{
 					continue;
 				}
@@ -106,13 +106,13 @@ final class MangaTransformer extends AbstractTransformer {
 					'image' => $person['image']['original']['url'],
 				];
 
-				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
+				usort($staff[$role], static fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
 
 			ksort($staff);
 		}
 
-		if (count($base['mappings']['nodes']) > 0)
+		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
 			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/manga/{$base['slug']}");
 		}

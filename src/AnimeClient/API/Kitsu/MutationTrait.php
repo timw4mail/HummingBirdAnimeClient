@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu;
@@ -22,16 +20,13 @@ use Aviat\AnimeClient\Types\FormItem;
 /**
  * Kitsu API calls that mutate data, C/U/D parts of CRUD
  */
-trait MutationTrait {
+trait MutationTrait
+{
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Create a list item
-	 *
-	 * @param array $data
-	 * @return Request|null
 	 */
 	public function createListItem(array $data): ?Request
 	{
@@ -46,9 +41,6 @@ trait MutationTrait {
 
 	/**
 	 * Increase the progress count for a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
 	 */
 	public function incrementListItem(FormItem $data): Request
 	{
@@ -57,9 +49,6 @@ trait MutationTrait {
 
 	/**
 	 * Modify a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
 	 */
 	public function updateListItem(FormItem $data): Request
 	{
@@ -70,10 +59,20 @@ trait MutationTrait {
 	 * Remove a list item
 	 *
 	 * @param string $id - The id of the list item to remove
-	 * @return Request
 	 */
 	public function deleteListItem(string $id): Request
 	{
 		return $this->listItem->delete($id);
+	}
+
+	/**
+	 * Remove a list item
+	 *
+	 * @param FormItem $data
+	 * @return Request
+	 */
+	public function deleteItem(FormItem $data): Request
+	{
+		return $this->listItem->delete($data['id']);
 	}
 }

@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\API;
@@ -20,8 +18,11 @@ use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\Ion\Friend;
 use PHPUnit\Framework\TestCase;
 
-class ParallelAPIRequestTest extends TestCase {
-
+/**
+ * @internal
+ */
+final class ParallelAPIRequestTest extends TestCase
+{
 	public function testAddStringUrlRequest()
 	{
 		$requester = new ParallelAPIRequest();
@@ -29,14 +30,14 @@ class ParallelAPIRequestTest extends TestCase {
 
 		$friend = new Friend($requester);
 
-		$this->assertEquals($friend->requests, ['https://httpbin.org']);
+		$this->assertSame($friend->requests, ['https://httpbin.org']);
 	}
 
 	public function testAddStringUrlRequests()
 	{
 		$requests = [
 			'foo' => 'http://example.com',
-			'bar' => 'https://example.com'
+			'bar' => 'https://example.com',
 		];
 
 		$requester = new ParallelAPIRequest();
@@ -44,6 +45,6 @@ class ParallelAPIRequestTest extends TestCase {
 
 		$friend = new Friend($requester);
 
-		$this->assertEquals($friend->requests, $requests);
+		$this->assertSame($friend->requests, $requests);
 	}
 }

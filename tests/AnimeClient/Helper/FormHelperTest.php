@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\Helper;
@@ -19,7 +17,11 @@ namespace Aviat\AnimeClient\Tests\Helper;
 use Aviat\AnimeClient\Helper\Form as FormHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class FormHelperTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class FormHelperTest extends AnimeClientTestCase
+{
 	public function testFormHelper(): void
 	{
 		$helper = new FormHelper();
@@ -29,7 +31,7 @@ class FormHelperTest extends AnimeClientTestCase {
 			'type' => 'text',
 			'value' => 'foo',
 			'placeholder' => 'field',
-			'name' => 'test'
+			'name' => 'test',
 		]);
 
 		$this->assertMatchesSnapshot($actual);

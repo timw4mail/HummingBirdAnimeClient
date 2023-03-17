@@ -63,6 +63,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 	// Setup the update data
 	let data = {
 		id: parentSel.dataset.kitsuId,
+		anilist_id: parentSel.dataset.anilistId,
 		mal_id: parentSel.dataset.malId,
 		data: {
 			progress: watchedCount + 1
@@ -94,11 +95,18 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 				_.hide('#loading-shadow');
 				_.showMessage('error', `Failed to update ${title}. `);
 				_.scrollToTop();
+
 				return;
 			}
 
+			// We've completed the series
 			if (resData.data.libraryEntry.update.libraryEntry.status === 'COMPLETED') {
 				_.hide(parentSel);
+				_.hide('#loading-shadow');
+				_.showMessage('success', `Successfully completed ${title}`);
+				_.scrollToTop();
+
+				return;
 			}
 
 			_.hide('#loading-shadow');

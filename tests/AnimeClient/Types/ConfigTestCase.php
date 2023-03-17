@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\Types;
@@ -19,13 +17,14 @@ namespace Aviat\AnimeClient\Tests\Types;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\UndefinedPropertyException;
 
-abstract class ConfigTestCase extends AnimeClientTestCase {
+abstract class ConfigTestCase extends AnimeClientTestCase
+{
 	public string $testClass;
 
 	public function testCheck(): void
 	{
 		$result = $this->testClass::check([]);
-		$this->assertEquals([], $result);
+		$this->assertSame([], $result);
 	}
 
 	public function testSetUndefinedProperty(): void
@@ -67,6 +66,6 @@ abstract class ConfigTestCase extends AnimeClientTestCase {
 	public function testCount(): void
 	{
 		$type = $this->testClass::from([]);
-		$this->assertEquals(0, $type->count());
+		$this->assertSame(0, $type->count());
 	}
 }

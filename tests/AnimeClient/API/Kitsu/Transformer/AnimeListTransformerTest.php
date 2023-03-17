@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
@@ -20,12 +18,17 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
-class AnimeListTransformerTest extends AnimeClientTestCase {
+/**
+ * @internal
+ */
+final class AnimeListTransformerTest extends AnimeClientTestCase
+{
 	protected string $dir;
 	protected array $beforeTransform;
 	protected AnimeListTransformer $transformer;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
 
@@ -37,7 +40,7 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 
 	public function testTransform(): void
 	{
-		$this->markTestSkipped("Old test data");
+		$this->markTestSkipped('Old test data');
 
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
@@ -53,8 +56,8 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'episodes_watched' => 38,
 				'rewatched' => 0,
 				'notes' => 'Very formulaic.',
-				'edit' => true
-			]
+				'edit' => TRUE,
+			],
 		], [
 			'input' => [
 				'id' => 14047981,
@@ -66,8 +69,8 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'notes' => 'Very formulaic.',
 				'edit' => 'true',
 				'private' => 'On',
-				'rewatching' => 'On'
-			]
+				'rewatching' => 'On',
+			],
 		], [
 			'input' => [
 				'id' => 14047983,
@@ -79,14 +82,13 @@ class AnimeListTransformerTest extends AnimeClientTestCase {
 				'notes' => '',
 				'edit' => 'true',
 				'private' => 'On',
-				'rewatching' => 'On'
-			]
+				'rewatching' => 'On',
+			],
 		]];
 	}
 
 	/**
 	 * @dataProvider dataUntransform
-	 * @param array $input
 	 */
 	public function testUntransform(array $input): void
 	{

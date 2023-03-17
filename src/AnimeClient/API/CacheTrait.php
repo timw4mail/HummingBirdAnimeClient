@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API;
@@ -21,29 +19,22 @@ use Psr\SimpleCache\CacheInterface;
 /**
  * Helper methods for dealing with the Cache
  */
-trait CacheTrait {
-
-	/**
-	 * @var CacheInterface
-	 */
+trait CacheTrait
+{
 	protected CacheInterface $cache;
 
 	/**
 	 * Inject the cache object
-	 *
-	 * @param CacheInterface $cache
-	 * @return self
 	 */
 	public function setCache(CacheInterface $cache): self
 	{
 		$this->cache = $cache;
+
 		return $this;
 	}
 
 	/**
 	 * Get the cache object if it exists
-	 *
-	 * @return CacheInterface
 	 */
 	public function getCache(): CacheInterface
 	{
@@ -53,11 +44,6 @@ trait CacheTrait {
 	/**
 	 * Get the cached value if it exists, otherwise set the cache value
 	 * and return it.
-	 *
-	 * @param string $key
-	 * @param callable $primer
-	 * @param array|null $primeArgs
-	 * @return mixed
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{

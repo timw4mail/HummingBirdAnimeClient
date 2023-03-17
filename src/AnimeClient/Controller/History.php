@@ -6,43 +6,39 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
+use Aviat\AnimeClient\{Controller as BaseController, Model};
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for Anime-related pages
  */
-final class History extends BaseController {
+#[Controller]
+final class History extends BaseController
+{
 	/**
 	 * The anime list model
-	 * @var AnimeModel
 	 */
-	protected AnimeModel $animeModel;
+	protected Model\Anime $animeModel;
 
 	/**
 	 * The manga list model
-	 * @var MangaModel
 	 */
-	protected MangaModel $mangaModel;
+	protected Model\Manga $mangaModel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -54,11 +50,13 @@ final class History extends BaseController {
 		$this->mangaModel = $container->get('manga-model');
 	}
 
+	#[Route('history', '/history/{type}')]
 	public function index(string $type = 'anime'): void
 	{
 		if (method_exists($this, $type))
 		{
-			$this->$type();
+			$this->{$type}();
+
 			return;
 		}
 

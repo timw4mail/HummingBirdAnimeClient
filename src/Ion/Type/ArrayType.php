@@ -6,38 +6,33 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Type;
 
 use InvalidArgumentException;
+use function in_array;
 
 /**
  * Wrapper class for native array methods for convenience
  *
  * @method array chunk(int $size, bool $preserve_keys = FALSE)
- * @method array pluck(mixed $column_key, mixed $index_key = NULL)
  * @method array filter(callable $callback = NULL, int $flag = 0)
+ * @method array pluck(mixed $column_key, mixed $index_key = NULL)
  */
-class ArrayType {
-
+class ArrayType
+{
 	/**
 	 * The current array
-	 *
-	 * @var array
 	 */
-	protected array $arr;
+	protected array $arr = [];
 
 	/**
 	 * Map generated methods to their native implementations
-	 *
-	 * @var array
 	 */
 	protected array $nativeMethods = [
 		'chunk' => 'array_chunk',
@@ -61,8 +56,6 @@ class ArrayType {
 
 	/**
 	 * Native methods that modify the passed in array
-	 *
-	 * @var array
 	 */
 	protected array $nativeInPlaceMethods = [
 		'shuffle' => 'shuffle',
@@ -74,9 +67,6 @@ class ArrayType {
 
 	/**
 	 * Create an ArrayType wrapper class from an array
-	 *
-	 * @param array $arr
-	 * @return ArrayType
 	 */
 	public static function from(array $arr): ArrayType
 	{
@@ -85,8 +75,6 @@ class ArrayType {
 
 	/**
 	 * Create an ArrayType wrapper class
-	 *
-	 * @param array $arr
 	 */
 	private function __construct(array &$arr)
 	{
@@ -96,9 +84,6 @@ class ArrayType {
 	/**
 	 * Call one of the dynamically created methods
 	 *
-	 * @param string $method
-	 * @param array  $args
-	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
 	public function __call(string $method, array $args): mixed
@@ -116,6 +101,7 @@ class ArrayType {
 		{
 			$func = $this->nativeInPlaceMethods[$method];
 			$func($this->arr);
+
 			return $this->arr;
 		}
 
@@ -124,9 +110,6 @@ class ArrayType {
 
 	/**
 	 * Does the passed key exist in the current array?
-	 *
-	 * @param int|string|array $key
-	 * @return bool
 	 */
 	public function hasKey(int|string|array $key): bool
 	{
@@ -134,7 +117,7 @@ class ArrayType {
 		{
 			$pos =& $this->arr;
 
-			foreach($key as $level)
+			foreach ($key as $level)
 			{
 				if ( ! array_key_exists($level, $pos))
 				{
@@ -153,10 +136,7 @@ class ArrayType {
 	/**
 	 * Fill an array with the specified value
 	 *
-	 * @param int   $start_index
-	 * @param int   $num
-	 * @param mixed $value
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function fill(int $start_index, int $num, mixed $value): array
 	{
@@ -166,8 +146,7 @@ class ArrayType {
 	/**
 	 * Call a callback on each item of the array
 	 *
-	 * @param callable $callback
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function map(callable $callback): array
 	{
@@ -176,35 +155,24 @@ class ArrayType {
 
 	/**
 	 * Find an array key by its associated value
-	 *
-	 * @param mixed $value
-	 * @param bool  $strict
-	 * @return false|integer|string|null
 	 */
-	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
+	public function search(mixed $value, bool $strict = TRUE): int|string|FALSE|null
 	{
 		return array_search($value, $this->arr, $strict);
 	}
 
 	/**
 	 * Determine if the array has the passed value
-	 *
-	 * @param mixed $value
-	 * @param bool  $strict
-	 * @return bool
 	 */
 	public function has(mixed $value, bool $strict = TRUE): bool
 	{
-		return \in_array($value, $this->arr, $strict);
+		return in_array($value, $this->arr, $strict);
 	}
 
 	/**
 	 * Return the array, or a key
-	 *
-	 * @param string|integer|null $key
-	 * @return mixed
 	 */
-	public function &get(string|int|null $key = NULL): mixed
+	public function &get(string|int|NULL $key = NULL): mixed
 	{
 		$value = NULL;
 		if ($key === NULL)
@@ -224,14 +192,11 @@ class ArrayType {
 
 	/**
 	 * Set a key on the array
-	 *
-	 * @param mixed $key
-	 * @param mixed $value
-	 * @return ArrayType
 	 */
 	public function set(mixed $key, mixed $value): ArrayType
 	{
 		$this->arr[$key] = $value;
+
 		return $this;
 	}
 
@@ -241,8 +206,7 @@ class ArrayType {
 	 * @example $arr = ArrayType::from([0 => ['data' => ['foo' => 'bar']]]);
 	 * $val = $arr->getDeepKey([0, 'data', 'foo']);
 	 * // returns 'bar'
-	 * @param  array $key An array of keys of the array
-	 * @return mixed
+	 * @param array $key An array of keys of the array
 	 */
 	public function &getDeepKey(array $key): mixed
 	{
@@ -257,8 +221,10 @@ class ArrayType {
 				// excess code, just what's required for this
 				// unique situation.
 				$pos = NULL;
+
 				return $pos;
 			}
+
 			$pos =& $pos[$level];
 		}
 
@@ -269,9 +235,7 @@ class ArrayType {
 	 * Sets the value of an arbitrarily deep key in the array
 	 * and returns the modified array
 	 *
-	 * @param array $key
-	 * @param mixed $value
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function setDeepKey(array $key, mixed $value): array
 	{
@@ -286,6 +250,7 @@ class ArrayType {
 				$pos = [];
 				$pos[$level] = [];
 			}
+
 			$pos =& $pos[$level];
 		}
 
@@ -294,4 +259,5 @@ class ArrayType {
 		return $this->arr;
 	}
 }
+
 // End of ArrayType.php

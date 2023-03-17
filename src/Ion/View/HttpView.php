@@ -6,47 +6,41 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\View;
 
+use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\HttpViewInterface;
+use InvalidArgumentException;
+
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-
-use Aviat\Ion\Exception\DoubleRenderException;
 use Psr\Http\Message\ResponseInterface;
+use Stringable;
 
 /**
  * Base view class for Http output
  */
-class HttpView implements HttpViewInterface{
-
+class HttpView implements HttpViewInterface, Stringable
+{
 	/**
 	 * HTTP response Object
-	 *
-	 * @var ResponseInterface
 	 */
 	public ResponseInterface $response;
 
 	/**
 	 * If the view has sent output via
 	 * __toString or send method
-	 *
-	 * @var boolean
 	 */
 	protected bool $hasRendered = FALSE;
 
 	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = '';
 
@@ -74,7 +68,6 @@ class HttpView implements HttpViewInterface{
 	 * and any attempts to call again will result in a DoubleRenderException
 	 *
 	 * @throws DoubleRenderException
-	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -82,42 +75,44 @@ class HttpView implements HttpViewInterface{
 		{
 			throw new DoubleRenderException();
 		}
+
 		$this->hasRendered = TRUE;
+
 		return $this->getOutput();
+	}
+
+	/**
+	 * Alternate static constructor
+	 */
+	public static function new(): static
+	{
+		return new static();
 	}
 
 	/**
 	 * Add an http header
 	 *
-	 * @param string $name
 	 * @param string|string[] $value
-	 * @return HttpView
 	 */
 	public function addHeader(string $name, array|string $value): self
 	{
 		$this->response = $this->response->withHeader($name, $value);
+
 		return $this;
 	}
 
 	/**
 	 * Set the output string
-	 *
-	 * @param mixed $string
-	 * @return HttpViewInterface
 	 */
 	public function setOutput(mixed $string): HttpViewInterface
 	{
 		$this->response->getBody()->write($string);
-
 
 		return $this;
 	}
 
 	/**
 	 * Append additional output.
-	 *
-	 * @param string $string
-	 * @return HttpViewInterface
 	 */
 	public function appendOutput(string $string): HttpViewInterface
 	{
@@ -127,40 +122,34 @@ class HttpView implements HttpViewInterface{
 	/**
 	 * Get the current output as a string. Does not
 	 * render view or send headers.
-	 *
-	 * @return string
 	 */
 	public function getOutput(): string
 	{
-		return (string)$this->response->getBody();
+		return (string) $this->response->getBody();
 	}
 
 	/**
 	 * Do a redirect
 	 *
-	 * @param string $url
-	 * @param int    $code
-	 * @param array $headers
-	 * @throws \InvalidArgumentException
-	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function redirect(string $url, int $code = 302, array $headers = []): self
 	{
 		$this->response = new Response\RedirectResponse($url, $code, $headers);
+
 		return $this;
 	}
 
 	/**
 	 * Set the status code of the request
 	 *
-	 * @param int $code
-	 * @throws \InvalidArgumentException
-	 * @return HttpView
+	 * @throws InvalidArgumentException
 	 */
 	public function setStatusCode(int $code): self
 	{
 		$this->response = $this->response->withStatus($code)
 			->withProtocolVersion('1.1');
+
 		return $this;
 	}
 
@@ -169,8 +158,7 @@ class HttpView implements HttpViewInterface{
 	 * any attempt to call again will result in a DoubleRenderException.
 	 *
 	 * @throws DoubleRenderException
-	 * @throws \InvalidArgumentException
-	 * @return void
+	 * @throws InvalidArgumentException
 	 */
 	public function send(): void
 	{
@@ -182,8 +170,7 @@ class HttpView implements HttpViewInterface{
 	 *
 	 * @codeCoverageIgnore
 	 * @throws DoubleRenderException
-	 * @throws \InvalidArgumentException
-	 * @return void
+	 * @throws InvalidArgumentException
 	 */
 	protected function output(): void
 	{

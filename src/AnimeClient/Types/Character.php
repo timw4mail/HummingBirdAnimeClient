@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Types;
@@ -19,24 +17,18 @@ namespace Aviat\AnimeClient\Types;
 /**
  * Type representing a character for display
  */
-final class Character extends AbstractType {
+final class Character extends AbstractType
+{
 	public array $castings = [];
-
 	public ?string $description;
-
 	public string $id;
-
 	public ?Media $media;
-
 	public string $image;
-
 	public ?string $name;
-
 	public array $names = [];
-
 	public array $otherNames = [];
 
-	public function setMedia (mixed $media): void
+	public function setMedia(mixed $media): void
 	{
 		$this->media = Media::from($media);
 	}

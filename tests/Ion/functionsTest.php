@@ -6,28 +6,29 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests;
 
-use function Aviat\Ion\_dir;
-
 use PHPUnit\Framework\TestCase;
 
-class functionsTest extends TestCase {
+use function Aviat\Ion\_dir;
+use const DIRECTORY_SEPARATOR;
 
-
-	public function test_dir()
+/**
+ * @internal
+ */
+final class functionsTest extends TestCase
+{
+	public function testDir()
 	{
 		$args = ['foo', 'bar', 'baz'];
-		$expected = implode(\DIRECTORY_SEPARATOR, $args);
+		$expected = implode(DIRECTORY_SEPARATOR, $args);
 
-		$this->assertEquals(_dir(...$args), $expected);
+		$this->assertSame(_dir(...$args), $expected);
 	}
 }

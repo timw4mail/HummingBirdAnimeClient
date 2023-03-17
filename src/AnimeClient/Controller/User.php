@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
@@ -20,24 +18,22 @@ use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class User extends BaseController {
-
-	/**
-	 * @var Model
-	 */
+#[Controller]
+final class User extends BaseController
+{
 	private Model $kitsuModel;
 
 	/**
 	 * User constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -51,6 +47,7 @@ final class User extends BaseController {
 	/**
 	 * Show the user profile page for the configured user
 	 */
+	#[Route('default_user_info', '/me')]
 	public function me(): void
 	{
 		$this->about('me');
@@ -58,10 +55,8 @@ final class User extends BaseController {
 
 	/**
 	 * Show the user profile page
-	 *
-	 * @param string $username
-	 * @return void
 	 */
+	#[Route('user_info', '/user/{username}')]
 	public function about(string $username): void
 	{
 		$isMainUser = $username === 'me';

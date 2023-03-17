@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Di;
@@ -22,37 +20,29 @@ use Psr\Log\LoggerInterface;
 /**
  * Dependency container
  */
-class Container implements ContainerInterface {
-
-	/**
-	 * Array of container Generator functions
-	 *
-	 * @var Callable[]
-	 */
-	protected array $container = [];
-
+class Container implements ContainerInterface
+{
 	/**
 	 * Array of object instances
-	 *
-	 * @var array
 	 */
 	protected array $instances = [];
 
 	/**
 	 * Map of logger instances
-	 *
-	 * @var array
 	 */
 	protected array $loggers = [];
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $values (optional)
+	 * @param (callable)[] $container (optional)
 	 */
-	public function __construct(array $values = [])
-	{
-		$this->container = $values;
+	public function __construct(
+		/**
+	 	* Array of container Generator functions
+	 	*/
+		protected array $container = []
+	) {
 		$this->loggers = [];
 	}
 
@@ -61,8 +51,8 @@ class Container implements ContainerInterface {
 	 *
 	 * @param string $id - Identifier of the entry to look for.
 	 *
-	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @throws ContainerException - Error while retrieving the entry.
+	 * @throws NotFoundException - No entry was found for this identifier.
 	 *
 	 * @return mixed Entry.
 	 */
@@ -79,6 +69,7 @@ class Container implements ContainerInterface {
 			// If there isn't already an instance, create one
 			$obj = $this->getNew($id);
 			$this->instances[$id] = $obj;
+
 			return $obj;
 		}
 
@@ -88,11 +79,10 @@ class Container implements ContainerInterface {
 	/**
 	 * Get a new instance of the specified item
 	 *
-	 * @param string $id   - Identifier of the entry to look for.
+	 * @param string $id - Identifier of the entry to look for.
 	 * @param array|null $args - Optional arguments for the factory callable
-	 * @throws NotFoundException - No entry was found for this identifier.
 	 * @throws ContainerException - Error while retrieving the entry.
-	 * @return mixed
+	 * @throws NotFoundException - No entry was found for this identifier.
 	 */
 	public function getNew(string $id, ?array $args = NULL): mixed
 	{
@@ -100,7 +90,7 @@ class Container implements ContainerInterface {
 		{
 			// By default, call a factory with the Container
 			$args = \is_array($args) ? $args : [$this];
-			$obj = \call_user_func_array($this->container[$id], $args);
+			$obj = ($this->container[$id])(...$args);
 
 			// Check for container interface, and apply the container to the object
 			// if applicable
@@ -113,23 +103,19 @@ class Container implements ContainerInterface {
 	/**
 	 * Add a factory to the container
 	 *
-	 * @param string $id
-	 * @param Callable  $value - a factory callable for the item
-	 * @return ContainerInterface
+	 * @param callable $value - a factory callable for the item
 	 */
-	public function set(string $id, Callable $value): ContainerInterface
+	public function set(string $id, callable $value): ContainerInterface
 	{
 		$this->container[$id] = $value;
+
 		return $this;
 	}
 
 	/**
 	 * Set a specific instance in the container for an existing factory
 	 *
-	 * @param string $id
-	 * @param mixed $value
 	 * @throws NotFoundException - No entry was found for this identifier.
-	 * @return ContainerInterface
 	 */
 	public function setInstance(string $id, mixed $value): ContainerInterface
 	{
@@ -139,6 +125,7 @@ class Container implements ContainerInterface {
 		}
 
 		$this->instances[$id] = $value;
+
 		return $this;
 	}
 
@@ -147,7 +134,6 @@ class Container implements ContainerInterface {
 	 * Returns false otherwise.
 	 *
 	 * @param string $id Identifier of the entry to look for.
-	 * @return boolean
 	 */
 	public function has(string $id): bool
 	{
@@ -157,8 +143,7 @@ class Container implements ContainerInterface {
 	/**
 	 * Determine whether a logger channel is registered
 	 *
-	 * @param  string $id The logger channel
-	 * @return boolean
+	 * @param string $id The logger channel
 	 */
 	public function hasLogger(string $id = 'default'): bool
 	{
@@ -168,21 +153,19 @@ class Container implements ContainerInterface {
 	/**
 	 * Add a logger to the Container
 	 *
-	 * @param LoggerInterface $logger
-	 * @param string          $id     The logger 'channel'
-	 * @return ContainerInterface
+	 * @param string $id The logger 'channel'
 	 */
 	public function setLogger(LoggerInterface $logger, string $id = 'default'): ContainerInterface
 	{
 		$this->loggers[$id] = $logger;
+
 		return $this;
 	}
 
 	/**
 	 * Retrieve a logger for the selected channel
 	 *
-	 * @param  string $id The logger to retrieve
-	 * @return LoggerInterface|null
+	 * @param string $id The logger to retrieve
 	 */
 	public function getLogger(string $id = 'default'): ?LoggerInterface
 	{
@@ -195,9 +178,6 @@ class Container implements ContainerInterface {
 	 * Check if object implements ContainerAwareInterface
 	 * or uses ContainerAware trait, and if so, apply the container
 	 * to that object
-	 *
-	 * @param mixed $obj
-	 * @return mixed
 	 */
 	private function applyContainer(mixed $obj): mixed
 	{
@@ -220,4 +200,5 @@ class Container implements ContainerInterface {
 		return $obj;
 	}
 }
+
 // End of Container.php

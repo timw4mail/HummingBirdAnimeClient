@@ -16,10 +16,10 @@
 
 use const Aviat\AnimeClient\{
 	ALPHA_SLUG_PATTERN,
-	NUM_PATTERN,
-	SLUG_PATTERN,
+	DEFAULT_CONTROLLER,
 	DEFAULT_CONTROLLER_METHOD,
-	DEFAULT_CONTROLLER
+	NUM_PATTERN,
+	SLUG_PATTERN
 };
 
 // -------------------------------------------------------------------------
@@ -190,14 +190,14 @@ $routes = [
 	'character' => [
 		'path' => '/character/{slug}',
 		'tokens' => [
-			'slug' => SLUG_PATTERN
-		]
+			'slug' => SLUG_PATTERN,
+		],
 	],
 	'person' => [
 		'path' => '/people/{slug}',
 		'tokens' => [
 			'slug' => SLUG_PATTERN,
-		]
+		],
 	],
 	'default_user_info' => [
 		'path' => '/me',
@@ -209,8 +209,8 @@ $routes = [
 		'controller' => 'user',
 		'action' => 'about',
 		'tokens' => [
-			'username' => '.*?'
-		]
+			'username' => '.*?',
+		],
 	],
 	// ---------------------------------------------------------------------
 	// Default / Shared routes
@@ -231,8 +231,8 @@ $routes = [
 		'controller' => 'images',
 		'tokens' => [
 			'type' => SLUG_PATTERN,
-			'file' => '[a-z0-9\-]+\.[a-z]{3,4}'
-		]
+			'file' => '[a-z0-9\-]+\.[a-z]{3,4}',
+		],
 	],
 	'settings' => [
 		'path' => '/settings',
@@ -259,8 +259,8 @@ $routes = [
 		'controller' => 'history',
 		'path' => '/history/{type}',
 		'tokens' => [
-			'type' => SLUG_PATTERN
-		]
+			'type' => SLUG_PATTERN,
+		],
 	],
 	'increment' => [
 		'path' => '/{controller}/increment',
@@ -316,7 +316,7 @@ $defaultMap = [
 
 foreach ($routes as &$route)
 {
-	foreach($defaultMap as $key => $val)
+	foreach ($defaultMap as $key => $val)
 	{
 		if ( ! array_key_exists($key, $route))
 		{

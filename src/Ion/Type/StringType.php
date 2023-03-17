@@ -6,28 +6,23 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Type;
 
-use Stringy\Stringy;
+use InvalidArgumentException;
 
 /**
- * Wrapper around Stringy
+ * Slightly extended Stringy library
  */
-class StringType extends Stringy {
-
+final class StringType extends Stringy
+{
 	/**
 	 * Alias for `create` static constructor
-	 *
-	 * @param string $str
-	 * @return self
 	 */
 	public static function from(string $str): self
 	{
@@ -38,16 +33,15 @@ class StringType extends Stringy {
 	 * See if two strings match, despite being delimited differently,
 	 * such as camelCase, PascalCase, kebab-case, or snake_case.
 	 *
-	 * @param string $strToMatch
-	 * @throws \InvalidArgumentException
-	 * @return boolean
+	 * @throws InvalidArgumentException
 	 */
 	public function fuzzyCaseMatch(string $strToMatch): bool
 	{
-		$firstStr = (string)self::create($this->str)->dasherize();
-		$secondStr = (string)self::create($strToMatch)->dasherize();
+		$firstStr = (string) self::create($this->str)->dasherize();
+		$secondStr = (string) self::create($strToMatch)->dasherize();
 
 		return $firstStr === $secondStr;
 	}
 }
+
 // End of StringType.php

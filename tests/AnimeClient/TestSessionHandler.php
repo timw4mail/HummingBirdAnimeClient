@@ -6,18 +6,18 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests;
 
-class TestSessionHandler implements \SessionHandlerInterface {
+use SessionHandlerInterface;
 
+class TestSessionHandler implements SessionHandlerInterface
+{
 	public $data = [];
 	public $savePath = './test_data/sessions';
 
@@ -28,12 +28,13 @@ class TestSessionHandler implements \SessionHandlerInterface {
 
 	public function destroy($id)
 	{
-		$file = "$this->savePath/$id";
+		$file = "{$this->savePath}/{$id}";
 		if (file_exists($file))
 		{
 			@unlink($file);
 		}
 		$this->data[$id] = [];
+
 		return TRUE;
 	}
 
@@ -54,16 +55,15 @@ class TestSessionHandler implements \SessionHandlerInterface {
 
 	public function read($id)
 	{
-		return json_decode(@file_get_contents("$this->savePath/$id"), TRUE);
+		return json_decode(@file_get_contents("{$this->savePath}/{$id}"), TRUE);
 	}
 
 	public function write($id, $data)
 	{
-		$file = "$this->savePath/$id";
+		$file = "{$this->savePath}/{$id}";
 		file_put_contents($file, json_encode($data));
 
 		return TRUE;
 	}
-
 }
 // End of TestSessionHandler.php

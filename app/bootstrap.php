@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
@@ -20,12 +18,10 @@ use Aura\Html\HelperLocatorFactory;
 use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{Anilist, Kitsu};
-use Aviat\AnimeClient\Component;
-use Aviat\AnimeClient\Model;
+use Aviat\AnimeClient\{Component, Model};
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
-use Aviat\Ion\Di\Container;
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\{Container, ContainerInterface};
 use Laminas\Diactoros\ServerRequestFactory;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
@@ -38,7 +34,7 @@ if ( ! defined('HB_APP_DIR'))
 {
 	define('HB_APP_DIR', __DIR__);
 	define('ROOT_DIR', dirname(HB_APP_DIR));
-	define('TEMPLATE_DIR', _dir(HB_APP_DIR,  'templates'));
+	define('TEMPLATE_DIR', _dir(HB_APP_DIR, 'templates'));
 }
 
 // -----------------------------------------------------------------------------
@@ -74,18 +70,19 @@ return static function (array $configArray = []): Container {
 	$container->set('config', static fn () => new Config($configArray));
 
 	// Create Cache Object
-	$container->set('cache', static function(ContainerInterface $container): CacheInterface {
+	$container->set('cache', static function (ContainerInterface $container): CacheInterface {
 		$logger = $container->getLogger();
 		$config = $container->get('config')->get('cache');
+
 		return new Teller($config, $logger);
 	});
 
 	// Create Aura Router Object
-	$container->set('aura-router', static fn() => new RouterContainer);
+	$container->set('aura-router', static fn () => new RouterContainer());
 
 	// Create Html helpers
-	$container->set('html-helper', static function(ContainerInterface $container) {
-		$htmlHelper = (new HelperLocatorFactory)->newInstance();
+	$container->set('html-helper', static function (ContainerInterface $container) {
+		$htmlHelper = (new HelperLocatorFactory())->newInstance();
 		$helpers = [
 			'menu' => Helper\Menu::class,
 			'field' => Helper\Form::class,
@@ -94,9 +91,10 @@ return static function (array $configArray = []): Container {
 
 		foreach ($helpers as $name => $class)
 		{
-			$htmlHelper->set($name, static function() use ($class, $container) {
-				$helper = new $class;
+			$htmlHelper->set($name, static function () use ($class, $container) {
+				$helper = new $class();
 				$helper->setContainer($container);
+
 				return $helper;
 			});
 		}
@@ -106,7 +104,7 @@ return static function (array $configArray = []): Container {
 
 	// Create Component helpers
 	$container->set('component-helper', static function (ContainerInterface $container) {
-		$helper = (new HelperLocatorFactory)->newInstance();
+		$helper = (new HelperLocatorFactory())->newInstance();
 		$components = [
 			'animeCover' => Component\AnimeCover::class,
 			'mangaCover' => Component\MangaCover::class,
@@ -119,8 +117,9 @@ return static function (array $configArray = []): Container {
 		foreach ($components as $name => $componentClass)
 		{
 			$helper->set($name, static function () use ($container, $componentClass) {
-				$helper = new $componentClass;
+				$helper = new $componentClass();
 				$helper->setContainer($container);
+
 				return $helper;
 			});
 		}
@@ -144,7 +143,7 @@ return static function (array $configArray = []): Container {
 	$container->set('util', static fn ($container) => new Util($container));
 
 	// Models
-	$container->set('kitsu-model', static function(ContainerInterface $container): Kitsu\Model {
+	$container->set('kitsu-model', static function (ContainerInterface $container): Kitsu\Model {
 		$requestBuilder = new Kitsu\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -158,9 +157,10 @@ return static function (array $configArray = []): Container {
 
 		$cache = $container->get('cache');
 		$model->setCache($cache);
+
 		return $model;
 	});
-	$container->set('anilist-model', static function(ContainerInterface $container): Anilist\Model {
+	$container->set('anilist-model', static function (ContainerInterface $container): Anilist\Model {
 		$requestBuilder = new Anilist\RequestBuilder($container);
 		$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
@@ -178,9 +178,10 @@ return static function (array $configArray = []): Container {
 	$container->set('manga-model', static fn ($container) => new Model\Manga($container));
 	$container->set('anime-collection-model', static fn ($container) => new Model\AnimeCollection($container));
 	$container->set('manga-collection-model', static fn ($container) => new Model\MangaCollection($container));
-	$container->set('settings-model', static function($container) {
+	$container->set('settings-model', static function ($container) {
 		$model = new Model\Settings($container->get('config'));
 		$model->setContainer($container);
+
 		return $model;
 	});
 

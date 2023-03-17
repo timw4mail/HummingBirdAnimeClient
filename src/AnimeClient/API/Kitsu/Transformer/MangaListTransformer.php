@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -27,16 +25,16 @@ use Aviat\Ion\Type\StringType;
 /**
  * Data transformation class for zippered Hummingbird manga
  */
-final class MangaListTransformer extends AbstractTransformer {
+final class MangaListTransformer extends AbstractTransformer
+{
 	/**
 	 * Remap zipped anime data to a more logical form
 	 *
-	 * @param  array|object  $item manga entry item
-	 * @return MangaListItem
+	 * @param array|object $item manga entry item
 	 */
 	public function transform(array|object $item): MangaListItem
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$mangaId = $item['media']['id'];
 		$manga = $item['media'];
 
@@ -82,11 +80,11 @@ final class MangaListTransformer extends AbstractTransformer {
 			'mal_id' => $MALid,
 			'chapters' => [
 				'read' => $readChapters,
-				'total' => $totalChapters
+				'total' => $totalChapters,
 			],
 			'volumes' => [
 				'read' => '-', //$item['attributes']['volumes_read'],
-				'total' => $totalVolumes
+				'total' => $totalVolumes,
 			],
 			'manga' => MangaListItemDetail::from([
 				'genres' => $genres,
@@ -95,12 +93,12 @@ final class MangaListTransformer extends AbstractTransformer {
 				'slug' => $manga['slug'],
 				'title' => $title,
 				'titles' => $titles,
-				'type' => (string)StringType::from($manga['subtype'])->toLowerCase()->upperCaseFirst(),
+				'type' => (string) StringType::from($manga['subtype'])->toLowerCase()->upperCaseFirst(),
 				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
 			]),
 			'reading_status' => strtolower($item['status']),
 			'notes' => $item['notes'],
-			'rereading' => (bool)$item['reconsuming'],
+			'rereading' => (bool) $item['reconsuming'],
 			'reread' => $item['reconsumeCount'],
 			'user_rating' => $rating,
 		]);
@@ -109,12 +107,11 @@ final class MangaListTransformer extends AbstractTransformer {
 	/**
 	 * Untransform data to update the api
 	 *
-	 * @param  array $item
-	 * @return FormItem
+	 * @param array $item
 	 */
 	public function untransform($item): FormItem
 	{
-		$rereading = array_key_exists('rereading', $item) && (bool)$item['rereading'];
+		$rereading = array_key_exists('rereading', $item) && (bool) $item['rereading'];
 
 		$map = FormItem::from([
 			'id' => $item['id'],
@@ -122,14 +119,14 @@ final class MangaListTransformer extends AbstractTransformer {
 			'data' => FormItemData::from([
 				'status' => $item['status'],
 				'reconsuming' => $rereading,
-				'reconsumeCount' => (int)$item['reread_count'],
+				'reconsumeCount' => (int) $item['reread_count'],
 				'notes' => $item['notes'],
 			]),
 		]);
 
 		if (is_numeric($item['chapters_read']) && $item['chapters_read'] > 0)
 		{
-			$map['data']['progress'] = (int)$item['chapters_read'];
+			$map['data']['progress'] = (int) $item['chapters_read'];
 		}
 
 		if (is_numeric($item['new_rating']) && $item['new_rating'] > 0)
@@ -140,4 +137,5 @@ final class MangaListTransformer extends AbstractTransformer {
 		return $map;
 	}
 }
+
 // End of MangaListTransformer.php

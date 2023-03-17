@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
@@ -19,8 +17,8 @@ namespace Aviat\AnimeClient\Command;
 /**
  * Clears out image cache directories
  */
-class ClearThumbnails extends BaseCommand {
-
+class ClearThumbnails extends BaseCommand
+{
 	public function execute(array $args, array $options = []): void
 	{
 		$this->clearThumbs();
@@ -50,7 +48,7 @@ class ClearThumbnails extends BaseCommand {
 			'people/*.webp',
 		];
 
-		foreach($paths as $path)
+		foreach ($paths as $path)
 		{
 			$cmd = "find {$imgDir} -path \"*/{$path}\" | xargs rm -f";
 			exec($cmd);

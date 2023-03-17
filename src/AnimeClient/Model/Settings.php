@@ -6,52 +6,51 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
-
-use function is_array;
-use const Aviat\AnimeClient\SETTINGS_MAP;
-
-use function Aviat\AnimeClient\arrayToToml;
-use function Aviat\Ion\_dir;
 
 use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
 
+use function Aviat\AnimeClient\arrayToToml;
+
+use function Aviat\Ion\_dir;
+use const Aviat\AnimeClient\SETTINGS_MAP;
+
 /**
  * Model for handling settings control panel
  */
-final class Settings {
+final class Settings
+{
 	use ContainerAware;
 
-	private ConfigInterface $config;
-
-	public function __construct(ConfigInterface $config)
+	public function __construct(private ConfigInterface $config)
 	{
-		$this->config = $config;
 	}
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function getSettings(): array
 	{
 		$settings = [
 			'config' => [],
 		];
 
-		foreach(SETTINGS_MAP as $file => $values)
+		foreach (SETTINGS_MAP as $file => $values)
 		{
 			if ($file === 'config')
 			{
 				$keys = array_keys($values);
-				foreach($keys as $key)
+
+				foreach ($keys as $key)
 				{
 					$settings['config'][$key] = $this->config->get($key);
 				}
@@ -65,23 +64,27 @@ final class Settings {
 		return $settings;
 	}
 
+	/**
+	 * @return array<mixed, array<string, array<string[]|array<string, mixed>[]|class-string<\memcached>[]|class-string<\redis>[]|bool|float|int|string|null>>>
+	 */
 	public function getSettingsForm(): array
 	{
 		$output = [];
 
-		foreach($this->getSettings() as $file => $values)
+		foreach ($this->getSettings() as $file => $values)
 		{
-			$values = $values ?? [];
+			$values ??= [];
 
-			foreach(SETTINGS_MAP[$file] as $key => $value)
+			foreach (SETTINGS_MAP[$file] as $key => $value)
 			{
 				if ($value['type'] === 'subfield')
 				{
-					foreach($value['fields'] as $k => $field)
+					foreach ($value['fields'] as $k => $field)
 					{
 						if (empty($values[$key][$k]))
 						{
 							unset($value['fields'][$k]);
+
 							continue;
 						}
 
@@ -121,6 +124,9 @@ final class Settings {
 		return $output;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	public function validateSettings(array $settings): array
 	{
 		$cfg = Config::check($settings);
@@ -153,13 +159,13 @@ final class Settings {
 			}
 			elseif (is_array($val) && ! empty($val))
 			{
-				foreach($val as $k => $v)
+				foreach ($val as $k => $v)
 				{
 					if ($v === '1')
 					{
 						$keyedConfig[$key][$k] = TRUE;
 					}
-					elseif($v === '0')
+					elseif ($v === '0')
 					{
 						$keyedConfig[$key][$k] = FALSE;
 					}
@@ -176,12 +182,12 @@ final class Settings {
 
 		$output = [];
 
-		foreach($looseConfig as $k => $v)
+		foreach ($looseConfig as $k => $v)
 		{
 			$output[$k] = $v;
 		}
 
-		foreach($keyedConfig as $k => $v)
+		foreach ($keyedConfig as $k => $v)
 		{
 			$output[$k] = $v;
 		}
@@ -205,6 +211,7 @@ final class Settings {
 		{
 			dump($e);
 			dump($settings);
+
 			return FALSE;
 		}
 

@@ -6,30 +6,52 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
 
+use Aviat\AnimeClient\API\Kitsu\Model;
+use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\Attribute\DefaultController;
+use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
 use Aviat\Ion\View\HtmlView;
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class Misc extends BaseController {
+#[DefaultController]
+final class Misc extends BaseController
+{
+	private Model $model;
+
+	public function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->model = $container->get('kitsu-model');
+	}
+
+	/**
+	 * Redirect to the default controller/url from an empty path
+	 */
+	#[Route('index_redirect', '/')]
+	public function index(): void
+	{
+		parent::redirectToDefaultRoute();
+	}
+
 	/**
 	 * Purges the API cache
-	 *
-	 * @return void
 	 */
+	#[Route('cache_purge', '/cache_purge')]
 	public function clearCache(): void
 	{
 		$this->checkAuth();
@@ -37,16 +59,14 @@ final class Misc extends BaseController {
 		Event::emit(EventType::CLEAR_CACHE);
 
 		$this->outputHTML('blank', [
-			'title' => 'Cache cleared'
+			'title' => 'Cache cleared',
 		]);
 	}
 
 	/**
 	 * Show the login form
-	 *
-	 * @param string $status
-	 * @return void
 	 */
+	#[Route('login', '/login')]
 	public function login(string $status = ''): void
 	{
 		$message = '';
@@ -63,22 +83,22 @@ final class Misc extends BaseController {
 
 		$this->outputHTML('login', [
 			'title' => 'Api login',
-			'message' => $message
+			'message' => $message,
 		], $view);
 	}
 
 	/**
 	 * Attempt login authentication
-	 *
-	 * @return void
 	 */
+	#[Route('login.post', '/login', Route::POST)]
 	public function loginAction(): void
 	{
-		$post = (array)$this->request->getParsedBody();
+		$post = (array) $this->request->getParsedBody();
 
 		if ($this->auth->authenticate($post['password']))
 		{
 			$this->sessionRedirect();
+
 			return;
 		}
 
@@ -92,9 +112,8 @@ final class Misc extends BaseController {
 
 	/**
 	 * Deauthorize the current user
-	 *
-	 * @return void
 	 */
+	#[Route('logout', '/logout')]
 	public function logout(): void
 	{
 		$this->auth->logout();
@@ -105,8 +124,72 @@ final class Misc extends BaseController {
 	/**
 	 * Check if the current user is logged in
 	 */
+	#[Route('heartbeat', '/heartbeat')]
 	public function heartbeat(): void
 	{
 		$this->outputJSON(['hasAuth' => $this->auth->isAuthenticated()], 200);
+	}
+
+	/**
+	 * Show information about a character
+	 */
+	#[Route('character', '/character/{slug}')]
+	public function character(string $slug): void
+	{
+		$rawData = $this->model->getCharacter($slug);
+
+		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		{
+			$this->notFound(
+				$this->formatTitle(
+					'Characters',
+					'Character not found'
+				),
+				'Character Not Found'
+			);
+
+			return;
+		}
+
+		$data = (new CharacterTransformer())->transform($rawData)->toArray();
+
+		$this->outputHTML('character/details', [
+			'title' => $this->formatTitle(
+				'Characters',
+				$data['name']
+			),
+			'data' => $data,
+		]);
+	}
+
+	/**
+	 * Show information about a person
+	 */
+	#[Route('person', '/people/{slug}')]
+	public function person(string $slug): void
+	{
+		$rawData = $this->model->getPerson($slug);
+		$data = (new PersonTransformer())->transform($rawData)->toArray();
+
+		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		{
+			$this->notFound(
+				$this->formatTitle(
+					'People',
+					'Person not found'
+				),
+				'Person Not Found'
+			);
+
+			return;
+		}
+
+		$this->outputHTML('person/details', [
+			'title' => $this->formatTitle(
+				'People',
+				$data['name']
+			),
+			'data' => $data,
+		]);
 	}
 }

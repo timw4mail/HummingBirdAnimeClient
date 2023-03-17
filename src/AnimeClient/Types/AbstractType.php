@@ -6,25 +6,22 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Types;
 
 use ArrayAccess;
 use Countable;
+use Stringable;
 
-abstract class AbstractType implements ArrayAccess, Countable {
+abstract class AbstractType implements ArrayAccess, Countable, Stringable
+{
 	/**
 	 * Populate values for un-serializing data
-	 *
-	 * @param mixed $properties
-	 * @return self
 	 */
 	public static function __set_state(mixed $properties): self
 	{
@@ -33,9 +30,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Check the shape of the object, and return the array equivalent
-	 *
-	 * @param array $data
-	 * @return array|null
 	 */
 	final public static function check(array $data = []): ?array
 	{
@@ -51,9 +45,6 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Static constructor
-	 *
-	 * @param mixed $data
-	 * @return static
 	 */
 	final public static function from(mixed $data): static
 	{
@@ -62,13 +53,11 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Sets the properties by using the constructor
-	 *
-	 * @param mixed $data
 	 */
 	final private function __construct(mixed $data = [])
 	{
-		$typeKeys = array_keys((array)$this);
-		$dataKeys = array_keys((array)$data);
+		$typeKeys = array_keys((array) $this);
+		$dataKeys = array_keys((array) $data);
 
 		$unsetKeys = array_diff($typeKeys, $dataKeys);
 
@@ -80,27 +69,20 @@ abstract class AbstractType implements ArrayAccess, Countable {
 		// Remove unset keys so that they aren't serialized
 		foreach ($unsetKeys as $k)
 		{
-			unset($this->$k);
+			unset($this->{$k});
 		}
 	}
 
 	/**
 	 * See if a property is set
-	 *
-	 * @param string $name
-	 * @return bool
 	 */
 	final public function __isset(string $name): bool
 	{
-		return property_exists($this, $name) && isset($this->$name);
+		return property_exists($this, $name) && isset($this->{$name});
 	}
 
 	/**
 	 * Set a property on the type object
-	 *
-	 * @param string $name
-	 * @param mixed $value
-	 * @return void
 	 */
 	final public function __set(string $name, mixed $value): void
 	{
@@ -108,37 +90,33 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 		if (method_exists($this, $setterMethod))
 		{
-			$this->$setterMethod($value);
+			$this->{$setterMethod}($value);
+
 			return;
 		}
 
 		if ( ! property_exists($this, $name))
 		{
-			$existing = json_encode($this);
+			$existing = json_encode($this, JSON_THROW_ON_ERROR);
 
-			throw new UndefinedPropertyException("Trying to set undefined property: '$name'. Existing properties: $existing");
+			throw new UndefinedPropertyException("Trying to set undefined property: '{$name}'. Existing properties: {$existing}");
 		}
 
-		$this->$name = $value;
+		$this->{$name} = $value;
 	}
 
 	/**
 	 * Get a property from the type object
-	 *
-	 * @param string $name
-	 * @return mixed
 	 */
 	final public function __get(string $name): mixed
 	{
 		// Be a bit more lenient here, so that you can easily typecast missing
 		// values to reasonable defaults, and not have to resort to array indexes
-		return ($this->__isset($name)) ? $this->$name : NULL;
+		return ($this->__isset($name)) ? $this->{$name} : NULL;
 	}
 
 	/**
 	 * Create a string representation of the object for debugging
-	 *
-	 * @return string
 	 */
 	public function __toString(): string
 	{
@@ -147,59 +125,47 @@ abstract class AbstractType implements ArrayAccess, Countable {
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @return bool
 	 */
 	final public function offsetExists(mixed $offset): bool
 	{
-		return $this->__isset((string)$offset);
+		return $this->__isset((string) $offset);
 	}
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @return mixed
 	 */
 	final public function offsetGet(mixed $offset): mixed
 	{
-		return $this->__get((string)$offset);
+		return $this->__get((string) $offset);
 	}
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
-	 * @param mixed $value
 	 */
 	final public function offsetSet(mixed $offset, mixed $value): void
 	{
-		$this->__set((string)$offset, $value);
+		$this->__set((string) $offset, $value);
 	}
 
 	/**
 	 * Implementing ArrayAccess
-	 *
-	 * @param mixed $offset
 	 */
 	final public function offsetUnset(mixed $offset): void
 	{
 		if ($this->offsetExists($offset))
 		{
-			$strOffset = (string)$offset;
-			unset($this->$strOffset);
+			$strOffset = (string) $offset;
+			unset($this->{$strOffset});
 		}
 	}
 
 	/**
 	 * Implementing Countable
-	 *
-	 * @return int
 	 */
 	final public function count(): int
 	{
 		$keys = array_keys($this->toArray());
+
 		return count($keys);
 	}
 
@@ -209,22 +175,21 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	 * Returns early on primitive values to work recursively.
 	 *
 	 * @param mixed $parent
-	 * @return array
 	 */
-	final public function toArray(mixed $parent = null): array
+	final public function toArray(mixed $parent = NULL): array
 	{
 		$fromObject = $this->fromObject($parent);
+
 		return (is_array($fromObject)) ? $fromObject : [];
 	}
 
 	/**
 	 * Determine whether the type has any properties set
-	 *
-	 * @return bool
 	 */
 	final public function isEmpty(): bool
 	{
 		$self = $this->toArray();
+
 		foreach ($self as $value)
 		{
 			if ( ! empty($value))
@@ -239,7 +204,7 @@ abstract class AbstractType implements ArrayAccess, Countable {
 	/**
 	 * @codeCoverageIgnore
 	 */
-	final protected function fromObject(mixed $parent = null): float|null|bool|int|array|string
+	final protected function fromObject(mixed $parent = NULL): float|NULL|bool|int|array|string
 	{
 		$object = $parent ?? $this;
 

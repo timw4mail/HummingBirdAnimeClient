@@ -6,31 +6,29 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion;
 
-use GdImage;
-
 use Aviat\Ion\Exception\ImageCreationException;
+
+use GdImage;
 
 /**
  * A wrapper around GD functions to create images
  *
- * @property GdImage|false|null $img
+ * @property false|GdImage|null $img
  */
-class ImageBuilder {
-	private GDImage|false|null $_img;
-
+class ImageBuilder
+{
+	private GDImage|FALSE|NULL $_img;
 	private int $fontSize = 10;
 
-	private function __construct(private int $width=200, private int $height=200 )
+	private function __construct(private int $width = 200, private int $height = 200)
 	{
 		$this->_img = imagecreatetruecolor($this->width, $this->height);
 	}
@@ -50,7 +48,7 @@ class ImageBuilder {
 		throw new ImageCreationException('Invalid GD object');
 	}
 
-	public static function new(int $width=200, int $height=200): self
+	public static function new(int $width = 200, int $height = 200): self
 	{
 		$i = new self($width, $height);
 		if ($i->_img === FALSE)
@@ -79,7 +77,7 @@ class ImageBuilder {
 		return $this;
 	}
 
-	public function addCenteredText(string $text, int $red, int $green, int $blue, int $alpha=-1): self
+	public function addCenteredText(string $text, int $red, int $green, int $blue, int $alpha = -1): self
 	{
 		// Create the font color
 		$textColor = ($alpha > -1)
@@ -104,7 +102,7 @@ class ImageBuilder {
 		return $this;
 	}
 
-	public function addBackgroundColor(int $red, int $green, int $blue, int $alpha=-1): self
+	public function addBackgroundColor(int $red, int $green, int $blue, int $alpha = -1): self
 	{
 		$fillColor = ($alpha > -1)
 			? imagecolorallocatealpha($this->getImg(), $red, $green, $blue, $alpha)

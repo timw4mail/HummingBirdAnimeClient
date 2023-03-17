@@ -6,38 +6,34 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
-use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
+use Aviat\AnimeClient\Controller as BaseController;
 
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for People pages
  */
-final class People extends BaseController {
-
-	/**
-	 * @var Model
-	 */
+#[Controller]
+final class People extends BaseController
+{
 	private Model $model;
 
 	/**
 	 * People constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -49,10 +45,8 @@ final class People extends BaseController {
 
 	/**
 	 * Show information about a person
-	 *
-	 * @param string $slug
-	 * @return void
 	 */
+	#[Route('person', '/people/{slug}')]
 	public function index(string $slug): void
 	{
 		$rawData = $this->model->getPerson($slug);

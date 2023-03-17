@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\Helper;
@@ -19,12 +17,16 @@ namespace Aviat\AnimeClient\Tests\Helper;
 use Aviat\AnimeClient\Helper\Menu as MenuHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class MenuHelperTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class MenuHelperTest extends AnimeClientTestCase
+{
 	protected $helper;
 	protected $urlGenerator;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->helper = $this->container->get('html-helper');
 		$this->urlGenerator = $this->container->get('url-generator');
@@ -36,15 +38,15 @@ class MenuHelperTest extends AnimeClientTestCase {
 			'no selection' => [
 				'route_prefix' => '/foo',
 				'items' => [
-					'bar' => '/bar'
-				]
+					'bar' => '/bar',
+				],
 			],
 			'selected' => [
 				'route_prefix' => '',
 				'items' => [
-					'index' => '/foobar'
-				]
-			]
+					'index' => '/foobar',
+				],
+			],
 		];
 
 		$expected = [];
@@ -64,15 +66,15 @@ class MenuHelperTest extends AnimeClientTestCase {
 		$config->set('menus', $menus);
 		$this->container->setInstance('config', $config);
 
-		foreach($menus as $case => $config)
+		foreach ($menus as $case => $config)
 		{
 			if ($case === 'selected')
 			{
 				$this->setSuperGlobals([
 					'_SERVER' => [
 						'HTTP_HOST' => 'localhost',
-						'REQUEST_URI' => '/foobar'
-					]
+						'REQUEST_URI' => '/foobar',
+					],
 				]);
 			}
 			else
@@ -80,14 +82,14 @@ class MenuHelperTest extends AnimeClientTestCase {
 				$this->setSuperGlobals([
 					'_SERVER' => [
 						'HTTP_HOST' => 'localhost',
-						'REQUEST_URI' => '/applesauceisgreat'
-					]
+						'REQUEST_URI' => '/applesauceisgreat',
+					],
 				]);
 			}
 
 			$helper = new MenuHelper();
 			$helper->setContainer($this->container);
-			$this->assertEquals($expected[$case], (string)$helper($case));
+			$this->assertSame($expected[$case], (string) $helper($case));
 		}
 	}
 }

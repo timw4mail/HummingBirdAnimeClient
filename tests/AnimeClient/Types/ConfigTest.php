@@ -6,20 +6,22 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\Types;
 
 use Aviat\AnimeClient\Types\Config;
 
-class ConfigTest extends ConfigTestCase {
-	public function setUp(): void
+/**
+ * @internal
+ */
+final class ConfigTest extends ConfigTestCase
+{
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -34,7 +36,7 @@ class ConfigTest extends ConfigTestCase {
 			'database' => [],
 		]);
 
-		$this->assertEquals(3, $type->count());
+		$this->assertSame(3, $type->count());
 	}
 
 	public function testOffsetUnset(): void

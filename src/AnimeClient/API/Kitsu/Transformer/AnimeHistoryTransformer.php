@@ -6,28 +6,22 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 
-class AnimeHistoryTransformer extends HistoryTransformer {
+class AnimeHistoryTransformer extends HistoryTransformer
+{
 	protected string $type = 'anime';
-
 	protected string $progressAction = 'Watched episode';
-
 	protected string $reconsumeAction = 'Rewatched episode';
-
 	protected string $largeAggregateAction = 'Marathoned episodes';
-
 	protected string $reconsumingStatus = 'Rewatching';
-
 	protected array $statusMap = AnimeWatchingStatus::KITSU_TO_TITLE;
 }

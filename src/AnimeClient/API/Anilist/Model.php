@@ -6,29 +6,25 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-use function Amp\Promise\wait;
-
-use InvalidArgumentException;
-
 use Amp\Http\Client\Request;
+
 use Aviat\AnimeClient\Anilist;
+
 use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Types\FormItem;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
-
+use InvalidArgumentException;
 use Throwable;
+use function Amp\Promise\wait;
 
 /**
  * Anilist API Model
@@ -36,32 +32,24 @@ use Throwable;
 final class Model
 {
 	use RequestBuilderTrait;
-	/**
-	 * @var ListItem
-	 */
-	private ListItem $listItem;
 
 	/**
 	 * Constructor
-	 *
-	 * @param ListItem $listItem
 	 */
-	public function __construct(ListItem $listItem)
+	public function __construct(private ListItem $listItem)
 	{
-		$this->listItem = $listItem;
 	}
 
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
 	// -------------------------------------------------------------------------
-
 	/**
 	 * Attempt to get an auth token
 	 *
 	 * @param string $code - The request token
 	 * @param string $redirectUri - The oauth callback url
-	 * @return array
 	 * @throws Throwable
+	 * @return mixed[]
 	 */
 	public function authenticate(string $code, string $redirectUri): array
 	{
@@ -84,8 +72,6 @@ final class Model
 
 	/**
 	 * Check auth status with simple API call
-	 *
-	 * @return array
 	 */
 	public function checkAuth(): array
 	{
@@ -95,8 +81,6 @@ final class Model
 	/**
 	 * Get user list data for syncing with Kitsu
 	 *
-	 * @param string $type
-	 * @return array
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -118,20 +102,10 @@ final class Model
 
 	/**
 	 * Create a list item
-	 *
-	 * @param array $data
-	 * @param string $type
-	 * @return Request
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
-		if ($data['mal_id'] === NULL)
-		{
-			return NULL;
-		}
-
-		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type));
-
+		$mediaId = $this->getMediaId($data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
@@ -159,15 +133,11 @@ final class Model
 
 	/**
 	 * Create a list item with all the relevant data
-	 *
-	 * @param array $data
-	 * @param string $type
-	 * @return Request
 	 */
 	public function createFullListItem(array $data, string $type): Request
 	{
 		$createData = $data['data'];
-		$mediaId = $this->getMediaIdFromMalId($data['mal_id'], strtoupper($type));
+		$mediaId = $this->getMediaId($data, $type);
 
 		if (empty($mediaId))
 		{
@@ -180,38 +150,13 @@ final class Model
 	}
 
 	/**
-	 * Get the data for a specific list item, generally for editing
-	 *
-	 * @param string $malId - The unique identifier of that list item
-	 * @param string $type - Them media type (anime/manga)
-	 *
-	 * @return array
-	 */
-	public function getListItem(string $malId, string $type): array
-	{
-		$id = $this->getListIdFromMalId($malId, $type);
-		if ($id === NULL)
-		{
-			return [];
-		}
-
-		$data = $this->listItem->get($id)['data'];
-
-		return ($data !== null)
-			? $data['MediaList']
-			: [];
-	}
-
-	/**
 	 * Increase the watch count for the current list item
 	 *
-	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
 	 */
 	public function incrementListItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($data['mal_id'], $type);
+		$id = $this->getListIdFromData($data, $type);
 		if ($id === NULL)
 		{
 			return NULL;
@@ -223,14 +168,11 @@ final class Model
 	/**
 	 * Modify a list item
 	 *
-	 * @param FormItem $data
 	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
 	 */
 	public function updateListItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($data['mal_id'], mb_strtoupper($type));
-
+		$id = $this->getListIdFromData($data, $type);
 		if ($id === NULL)
 		{
 			return NULL;
@@ -242,31 +184,32 @@ final class Model
 	/**
 	 * Remove a list item
 	 *
-	 * @param string $malId - The id of the list item to remove
-	 * @param string $type - Them media type (anime/manga)
-	 * @return Request|null
+	 * @param FormItem $data - The entry to remove
+	 * @param string $type - The media type (anime/manga)
 	 */
-	public function deleteListItem(string $malId, string $type): ?Request
+	public function deleteItem(FormItem $data, string $type): ?Request
 	{
-		$id = $this->getListIdFromMalId($malId, $type);
-		if ($id === NULL)
+		$mediaId = $this->getMediaId((array)$data, $type);
+		if ($mediaId === NULL)
 		{
 			return NULL;
 		}
 
-		return $this->listItem->delete($id);
+		$id = $this->getListIdFromMediaId($mediaId);
+		if (is_string($id))
+		{
+			return $this->listItem->delete($id);
+		}
+
+		return NULL;
 	}
 
 	/**
-	 * Get the id of the specific list entry from the malId
-	 *
-	 * @param string $malId
-	 * @param string $type - The media type (anime/manga)
-	 * @return string|null
+	 * Get the id of the specific list entry from the data
 	 */
-	public function getListIdFromMalId(string $malId, string $type): ?string
+	public function getListIdFromData(FormItem $data, string $type = 'ANIME'): ?string
 	{
-		$mediaId = $this->getMediaIdFromMalId($malId, $type);
+		$mediaId = $this->getMediaId((array)$data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
@@ -279,9 +222,6 @@ final class Model
 	 * Get the Anilist list item id from the media id from its MAL id
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
-	 *
-	 * @param string $mediaId
-	 * @return string|null
 	 */
 	private function getListIdFromMediaId(string $mediaId): ?string
 	{
@@ -298,15 +238,26 @@ final class Model
 			return NULL;
 		}
 
-		return (string)$info['data']['MediaList']['id'];
+		return (string) $info['data']['MediaList']['id'];
+	}
+
+	/**
+	 * Find the id to update by
+	 */
+	private function getMediaId (array $data, string $type = 'ANIME'): ?string
+	{
+		if (isset($data['anilist_id']))
+		{
+			return $data['anilist_id'];
+		}
+
+		return (isset($data['mal_id']))
+			? $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type))
+			: NULL;
 	}
 
 	/**
 	 * Get the Anilist media id from the malId
-	 *
-	 * @param string $malId
-	 * @param string $type
-	 * @return string|null
 	 */
 	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
 	{
@@ -325,6 +276,6 @@ final class Model
 			return NULL;
 		}
 
-		return (string)$info['data']['Media']['id'];
+		return (string) $info['data']['Media']['id'];
 	}
 }

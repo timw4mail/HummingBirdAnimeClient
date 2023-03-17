@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Transformer;
@@ -21,24 +19,20 @@ use BadMethodCallException;
 /**
  * Base class for data transformation
  */
-abstract class AbstractTransformer implements TransformerInterface {
+abstract class AbstractTransformer implements TransformerInterface
+{
 	/**
 	 * Mutate the data structure
-	 *
-	 * @param array|object $item
-	 * @return mixed
 	 */
 	abstract public function transform(array|object $item): mixed;
 
 	/**
 	 * Transform a set of structures
-	 *
-	 * @param  iterable $collection
-	 * @return array
 	 */
 	public function transformCollection(iterable $collection): array
 	{
-		$list = (array)$collection;
+		$list = (array) $collection;
+
 		return array_map([$this, 'transform'], $list);
 	}
 
@@ -46,9 +40,6 @@ abstract class AbstractTransformer implements TransformerInterface {
 	 * Untransform a set of structures
 	 *
 	 * Requires an 'untransform' method in the extending class
-	 *
-	 * @param iterable $collection
-	 * @return array
 	 */
 	public function untransformCollection(iterable $collection): array
 	{
@@ -57,8 +48,10 @@ abstract class AbstractTransformer implements TransformerInterface {
 			throw new BadMethodCallException('untransform() method does not exist.');
 		}
 
-		$list = (array)$collection;
+		$list = (array) $collection;
+
 		return array_map([$this, 'untransform'], $list);
 	}
 }
+
 // End of AbstractTransformer.php

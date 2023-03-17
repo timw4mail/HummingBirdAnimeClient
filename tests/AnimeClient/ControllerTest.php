@@ -6,32 +6,31 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests;
 
-use Aura\Router\RouterFactory;
-use Aura\Web\WebFactory;
 use Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Controller\{
 	Anime as AnimeController,
-	Character as CharacterController,
 	AnimeCollection as AnimeCollectionController,
-	// MangaCollection as MangaCollectionController,
-	Manga as MangaController
+	Character as CharacterController,
+	Manga as MangaController // MangaCollection as MangaCollectionController,
 };
 
-class ControllerTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class ControllerTest extends AnimeClientTestCase
+{
 	protected $BaseController;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		// Create Request/Response Objects
@@ -41,7 +40,7 @@ class ControllerTest extends AnimeClientTestCase {
 			'_POST' => [],
 			'_COOKIE' => [],
 			'_SERVER' => $GLOBALS['_SERVER'],
-			'_FILES' => []
+			'_FILES' => [],
 		]);
 
 		$this->BaseController = new Controller($this->container);
@@ -53,7 +52,7 @@ class ControllerTest extends AnimeClientTestCase {
 		$config->set('database', [
 			'type' => 'sqlite',
 			'database' => '',
-			'file' => ":memory:"
+			'file' => ':memory:',
 		]);
 		$this->container->setInstance('config', $config);
 
@@ -81,15 +80,14 @@ class ControllerTest extends AnimeClientTestCase {
 
 	public function testBaseControllerSanity()
 	{
-		$this->assertTrue(\is_object($this->BaseController));
+		$this->assertIsObject($this->BaseController);
 	}
 
 	public function testFormatTitle()
 	{
-		$this->assertEquals(
+		$this->assertSame(
 			$this->BaseController->formatTitle('foo', 'bar', 'baz'),
 			'foo &middot; bar &middot; baz'
 		);
 	}
-
 }

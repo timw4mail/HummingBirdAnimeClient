@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Enum;
@@ -21,7 +19,8 @@ use Aviat\Ion\Enum as BaseEnum;
 /**
  * Status of when anime is being/was/will be aired
  */
-final class AnimeAiringStatus extends BaseEnum {
+final class AnimeAiringStatus extends BaseEnum
+{
 	public const NOT_YET_AIRED = 'Not Yet Aired';
 	public const AIRING = 'Currently Airing';
 	public const FINISHED_AIRING = 'Finished Airing';

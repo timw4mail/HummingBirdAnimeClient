@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
@@ -21,19 +19,17 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 /**
  * Base model for database interaction
  */
-abstract class DB {
+abstract class DB
+{
 	use ContainerAware;
 
 	/**
 	 * The database connection information array
-	 * @var array $dbConfig
 	 */
 	protected array $dbConfig = [];
 
 	/**
 	 * Constructor
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -41,4 +37,5 @@ abstract class DB {
 		$this->setContainer($container);
 	}
 }
+
 // End of DB.php

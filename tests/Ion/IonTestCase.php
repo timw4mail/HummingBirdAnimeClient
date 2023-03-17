@@ -6,26 +6,25 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests;
 
-use function Aviat\Ion\_dir;
-
 use Aviat\Ion\Di\ContainerInterface;
-use PHPUnit\Framework\TestCase;
+
 use Laminas\Diactoros\ServerRequestFactory;
+use PHPUnit\Framework\TestCase;
+use function Aviat\Ion\_dir;
 
 /**
  * Base class for TestCases
  */
-class IonTestCase extends TestCase {
+class IonTestCase extends TestCase
+{
 	// Test directory constants
 	public const ROOT_DIR = AC_TEST_ROOT_DIR;
 	public const SRC_DIR = SRC_DIR;
@@ -44,7 +43,7 @@ class IonTestCase extends TestCase {
 		self::$session_handler = $session_handler;
 	}*/
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -62,7 +61,7 @@ class IonTestCase extends TestCase {
 					'pass' => '',
 					'port' => '',
 					'name' => 'default',
-					'database'   => '',
+					'database' => '',
 					'file' => ':memory:',
 				],
 				'cache' => [
@@ -72,31 +71,32 @@ class IonTestCase extends TestCase {
 					'pass' => '',
 					'port' => '',
 					'name' => 'default',
-					'database'   => '',
+					'database' => '',
 					'file' => ':memory:',
-				]
+				],
 			],
 			'routes' => [
 				'route_config' => [
-					'asset_path' => '/assets'
+					'asset_path' => '/assets',
 				],
 				'routes' => [
 
-				]
+				],
 			],
 			'redis' => [
 				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
-				'database' => 13
-			]
+				'database' => 13,
+			],
 		];
 
 		// Set up DI container
-		$di = require('di.php');
+		$di = require 'di.php';
 		$container = $di($config_array);
-		$container->set('session-handler', static function() {
+		$container->set('session-handler', static function () {
 			// Use mock session handler
 			$session_handler = new TestSessionHandler();
 			session_set_save_handler($session_handler, TRUE);
+
 			return $session_handler;
 		});
 
@@ -105,9 +105,6 @@ class IonTestCase extends TestCase {
 
 	/**
 	 * Set arbitrary superglobal values for testing purposes
-	 *
-	 * @param array $supers
-	 * @return void
 	 */
 	public function setSuperGlobals(array $supers = []): void
 	{
@@ -116,7 +113,7 @@ class IonTestCase extends TestCase {
 			'_GET' => $_GET,
 			'_POST' => $_POST,
 			'_COOKIE' => $_COOKIE,
-			'_FILES' => $_FILES
+			'_FILES' => $_FILES,
 		];
 
 		$request = call_user_func_array(

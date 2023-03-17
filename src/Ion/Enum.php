@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion;
@@ -22,12 +20,11 @@ use ReflectionException;
 /**
  * Class emulating an enumeration type
  */
-abstract class Enum {
-
+abstract class Enum
+{
 	/**
 	 * Return the list of constant values for the Enum
 	 *
-	 * @return array
 	 * @throws ReflectionException
 	 */
 	public static function getConstList(): array
@@ -37,24 +34,25 @@ abstract class Enum {
 		if ($self === NULL)
 		{
 			$class = static::class;
-			$self = new $class;
+			$self = new $class();
 		}
 
 		$reflect = new ReflectionClass($self);
+
 		return $reflect->getConstants();
 	}
 
 	/**
 	 * Verify that a constant value is valid
 	 *
-	 * @param  mixed $key
-	 * @return boolean
 	 * @throws ReflectionException
 	 */
 	public static function isValid(mixed $key): bool
 	{
 		$values = array_values(static::getConstList());
+
 		return in_array($key, $values, TRUE);
 	}
 }
+
 // End of Enum.php

@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests\Di;
@@ -19,7 +17,8 @@ namespace Aviat\Ion\Tests\Di;
 use Aviat\Ion\Di\{Container, ContainerAware, ContainerInterface};
 use Aviat\Ion\Tests\IonTestCase;
 
-class Aware {
+class Aware
+{
 	use ContainerAware;
 
 	public function __construct(ContainerInterface $container)
@@ -28,12 +27,14 @@ class Aware {
 	}
 }
 
-
-class ContainerAwareTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class ContainerAwareTest extends IonTestCase
+{
 	protected Aware $aware;
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		$this->container = new Container();
 		$this->aware = new Aware($this->container);
@@ -47,7 +48,7 @@ class ContainerAwareTest extends IonTestCase {
 
 		$container2 = new Container([
 			'foo' => 'bar',
-			'baz' => 'foobar'
+			'baz' => 'foobar',
 		]);
 		$this->aware->setContainer($container2);
 		$this->assertSame($container2, $this->aware->getContainer());

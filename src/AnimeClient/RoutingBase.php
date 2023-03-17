@@ -6,20 +6,17 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,45 +24,33 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Base for routing/url classes
  */
-class RoutingBase {
-
-	/**
-	 * Injection Container
-	 * @var ContainerInterface $container
-	 */
-	protected ContainerInterface $container;
-
+class RoutingBase
+{
 	/**
 	 * Config Object
-	 * @var ConfigInterface
 	 */
 	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
 	 */
 	protected ServerRequestInterface $request;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
+	 * @throws ConfigException
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws ConfigException
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(protected ContainerInterface $container)
 	{
-		$this->container = $container;
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 	}
 
 	/**
 	 * Get the current url path
-	 *
-	 * @return string
 	 */
 	public function path(): string
 	{
@@ -76,41 +61,36 @@ class RoutingBase {
 			->trimRight('/')
 			->ensureLeft('/');
 
-		return (string)$cleanedPath;
+		return (string) $cleanedPath;
 	}
 
 	/**
 	 * Get the url segments
-	 *
-	 * @return array
 	 */
 	public function segments(): array
 	{
 		$path = $this->path();
+
 		return explode('/', $path);
 	}
 
 	/**
 	 * Get a segment of the current url
-	 *
-	 * @param int $num
-	 *
-	 * @return string|null
 	 */
 	public function getSegment(int $num): ?string
 	{
 		$segments = $this->segments();
+
 		return $segments[$num] ?? NULL;
 	}
 
 	/**
 	 * Retrieve the last url segment
-	 *
-	 * @return string
 	 */
 	public function lastSegment(): string
 	{
 		$segments = $this->segments();
+
 		return end($segments);
 	}
 }

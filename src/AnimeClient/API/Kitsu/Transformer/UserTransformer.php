@@ -6,18 +6,15 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use function Aviat\AnimeClient\getLocalImg;
 
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
@@ -28,10 +25,11 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * @param array|object $profileData
  * @return User
  */
-final class UserTransformer extends AbstractTransformer {
+final class UserTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): User
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];
@@ -56,8 +54,7 @@ final class UserTransformer extends AbstractTransformer {
 	/**
 	 * Reorganize favorites data to be more useful
 	 *
-	 * @param array $rawFavorites
-	 * @return array
+	 * @return array<string, array<int|string, mixed>>
 	 */
 	private function organizeFavorites(array $rawFavorites): array
 	{
@@ -72,6 +69,9 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	private function organizeStats(array $stats, array $data = []): array
 	{
 		$animeStats = [];

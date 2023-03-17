@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
@@ -23,15 +21,11 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Data transformation class for people pages
  */
-final class PersonTransformer extends AbstractTransformer {
-
-	/**
-	 * @param array|object $item
-	 * @return Person
-	 */
+final class PersonTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): Person
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$data = $item['data']['findPersonBySlug'] ?? [];
 		$canonicalName = $data['names']['localized'][$data['names']['canonical']]
 			?? array_shift($data['names']['localized']);
@@ -49,6 +43,9 @@ final class PersonTransformer extends AbstractTransformer {
 		]);
 	}
 
+	/**
+	 * @return array<string, array<int|string, array<int|string, array<int|string, array<int|string, mixed>>>>>
+	 */
 	protected function organizeData(array $data): array
 	{
 		$output = [
@@ -59,13 +56,15 @@ final class PersonTransformer extends AbstractTransformer {
 		$characters = [];
 		$staff = [];
 
-		if (count($data['mediaStaff']['nodes']) > 0)
+		if ((is_countable($data['mediaStaff']['nodes']) ? count($data['mediaStaff']['nodes']) : 0) > 0)
 		{
 			$roles = array_unique(array_column($data['mediaStaff']['nodes'], 'role'));
+
 			foreach ($roles as $role)
 			{
 				$staff[$role] = [];
 			}
+
 			ksort($staff);
 
 			foreach ($data['mediaStaff']['nodes'] as $staffing)
@@ -88,13 +87,13 @@ final class PersonTransformer extends AbstractTransformer {
 					'slug' => $media['slug'],
 				];
 
-				uasort($staff[$role][$type], fn ($a, $b) => $a['title'] <=> $b['title']);
+				uasort($staff[$role][$type], static fn ($a, $b) => $a['title'] <=> $b['title']);
 			}
 
 			$output['staff'] = $staff;
 		}
 
-		if (count($data['voices']['nodes']) > 0)
+		if ((is_countable($data['voices']['nodes']) ? count($data['voices']['nodes']) : 0) > 0)
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{
@@ -128,7 +127,7 @@ final class PersonTransformer extends AbstractTransformer {
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [
-							$media['id'] => $media
+							$media['id'] => $media,
 						],
 					];
 				}
@@ -143,7 +142,7 @@ final class PersonTransformer extends AbstractTransformer {
 				// Sort the characters by name
 				uasort(
 					$characters[$role],
-					fn($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
+					static fn ($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
 				);
 
 				// Sort the media for the character
@@ -151,7 +150,7 @@ final class PersonTransformer extends AbstractTransformer {
 				{
 					uasort(
 						$characters[$role][$charId]['media'],
-						fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
+						static fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
 					);
 				}
 			}

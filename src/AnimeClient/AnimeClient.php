@@ -6,41 +6,33 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\ImageBuilder;
+use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
+
+use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use Psr\SimpleCache\CacheInterface;
-
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Response;
-use Amp\Http\Client\HttpClient;
-use Amp\Http\Client\HttpClientBuilder;
-
-use Aviat\Ion\ConfigInterface;
-use Yosymfony\Toml\{Toml, TomlBuilder};
-
 use Throwable;
+
+use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use function Amp\Promise\wait;
 use function Aviat\Ion\_dir;
+
 // ----------------------------------------------------------------------------
 //! TOML Functions
 // ----------------------------------------------------------------------------
-
 /**
  * Load configuration options from .toml files
  *
  * @codeCoverageIgnore
  * @param string $path - Path to load config
- * @return array
  */
 function loadConfig(string $path): array
 {
@@ -64,7 +56,7 @@ function loadConfig(string $path): array
 
 		if ($key === 'config')
 		{
-			foreach($config as $name => $value)
+			foreach ($config as $name => $value)
 			{
 				$output[$name] = $value;
 			}
@@ -82,8 +74,6 @@ function loadConfig(string $path): array
  * Load config from one specific TOML file
  *
  * @codeCoverageIgnore
- * @param string $filename
- * @return array
  */
 function loadTomlFile(string $filename): array
 {
@@ -100,10 +90,10 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			continue;
 		}
 
-
 		if (is_scalar($value) || isSequentialArray($value))
 		{
 			$builder->addValue($key, $value);
+
 			continue;
 		}
 
@@ -111,10 +101,7 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			? "{$parentKey}.{$key}"
 			: $key;
 
-		if ( ! isSequentialArray($value))
-		{
-			$builder->addTable($newKey);
-		}
+		$builder->addTable($newKey);
 
 		_iterateToml($builder, $value, $newKey);
 	}
@@ -122,9 +109,6 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 
 /**
  * Serialize config data into a Toml file
- *
- * @param iterable $data
- * @return string
  */
 function arrayToToml(iterable $data): string
 {
@@ -137,9 +121,6 @@ function arrayToToml(iterable $data): string
 
 /**
  * Serialize toml back to an array
- *
- * @param string $toml
- * @return array
  */
 function tomlToArray(string $toml): array
 {
@@ -156,8 +137,6 @@ if ( ! function_exists('array_is_list'))
 	 * Polyfill for PHP 8
 	 *
 	 * @see https://www.php.net/manual/en/function.array-is-list
-	 * @param array $a
-	 * @return bool
 	 */
 	function array_is_list(array $a): bool
 	{
@@ -167,25 +146,14 @@ if ( ! function_exists('array_is_list'))
 
 /**
  * Is the array sequential, not associative?
- *
- * @param mixed $array
- * @return bool
  */
 function isSequentialArray(mixed $array): bool
 {
-	if ( ! is_array($array))
-	{
-		return FALSE;
-	}
-
-	return array_is_list($array);
+	return is_array($array) && array_is_list($array);
 }
 
 /**
  * Check that folder permissions are correct for proper operation
- *
- * @param ConfigInterface $config
- * @return array
  */
 function checkFolderPermissions(ConfigInterface $config): array
 {
@@ -206,6 +174,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 		if ( ! is_dir($actual))
 		{
 			$errors['missing'][] = $pretty;
+
 			continue;
 		}
 
@@ -224,10 +193,8 @@ function checkFolderPermissions(ConfigInterface $config): array
 
 /**
  * Get an API Client, with better defaults
- *
- * @return HttpClient
  */
-function getApiClient (): HttpClient
+function getApiClient(): HttpClient
 {
 	static $client;
 
@@ -242,11 +209,9 @@ function getApiClient (): HttpClient
 /**
  * Simplify making a request with Http\Client
  *
- * @param string|Request $request
- * @return Response
  * @throws Throwable
  */
-function getResponse (Request|string $request): Response
+function getResponse(Request|string $request): Response
 {
 	$client = getApiClient();
 
@@ -260,12 +225,8 @@ function getResponse (Request|string $request): Response
 
 /**
  * Generate the path for the cached image from the original image
- *
- * @param string $kitsuUrl
- * @param bool $webp
- * @return string
  */
-function getLocalImg (string $kitsuUrl, bool $webp = TRUE): string
+function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 {
 	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
 	{
@@ -297,13 +258,8 @@ function getLocalImg (string $kitsuUrl, bool $webp = TRUE): string
  * Create a transparent placeholder image
  *
  * @codeCoverageIgnore
- * @param string $path
- * @param int $width
- * @param int $height
- * @param string $text
- * @return bool
  */
-function createPlaceholderImage (string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
+function createPlaceholderImage(string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
 {
 	$img = ImageBuilder::new($width, $height)
 		->enableAlphaBlending(TRUE)
@@ -322,22 +278,16 @@ function createPlaceholderImage (string $path, int $width = 200, int $height = 2
 
 /**
  * Check that there is a value for at least one item in a collection with the specified key
- *
- * @param array $search
- * @param string $key
- * @return bool
  */
 function colNotEmpty(array $search, string $key): bool
 {
 	$items = array_filter(array_column($search, $key), static fn ($x) => ( ! empty($x)));
-	return count($items) > 0;
+
+	return $items !== [];
 }
 
 /**
  * Clear the cache, but save user auth data
- *
- * @param CacheInterface $cache
- * @return bool
  */
 function clearCache(CacheInterface $cache): bool
 {
@@ -349,10 +299,11 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
 	]);
 
-	$userData = array_filter((array)$userData, static fn ($value) => $value !== NULL);
+	$userData = array_filter((array) $userData, static fn ($value) => $value !== NULL);
+
 	$cleared = $cache->clear();
 
-	$saved = ( ! empty($userData)) ? $cache->setMultiple($userData) : TRUE;
+	$saved = (empty($userData)) ? TRUE : $cache->setMultiple($userData);
 
 	return $cleared && $saved;
 }
@@ -361,9 +312,6 @@ function clearCache(CacheInterface $cache): bool
  * Render a PHP code template as a string
  *
  * @codeCoverageIgnore
- * @param string $path
- * @param array $data
- * @return string
  */
 function renderTemplate(string $path, array $data): string
 {
@@ -371,5 +319,6 @@ function renderTemplate(string $path, array $data): string
 	extract($data, EXTR_OVERWRITE);
 	include $path;
 	$rawOutput = ob_get_clean();
+
 	return (is_string($rawOutput)) ? $rawOutput : '';
 }

@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
@@ -24,14 +22,18 @@ use Aviat\AnimeClient\Types\{
 };
 use Aviat\Ion\Json;
 
-class MangaListTransformerTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class MangaListTransformerTest extends AnimeClientTestCase
+{
 	protected $dir;
 	protected $rawBefore;
 	protected $beforeTransform;
 	protected $transformer;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
@@ -56,17 +58,17 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 			'chapters_read' => 67,
 			'manga' => [
 				'id' => '12345',
-				'titles' => ["Bokura wa Minna Kawaisou"],
+				'titles' => ['Bokura wa Minna Kawaisou'],
 				'alternate_title' => NULL,
-				'slug' => "bokura-wa-minna-kawaisou",
-				'url' => "https://kitsu.io/manga/bokura-wa-minna-kawaisou",
+				'slug' => 'bokura-wa-minna-kawaisou',
+				'url' => 'https://kitsu.io/manga/bokura-wa-minna-kawaisou',
 				'type' => 'manga',
 				'image' => 'https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999',
 				'genres' => [],
 			],
 			'status' => 'current',
 			'notes' => '',
-			'rereading' => false,
+			'rereading' => FALSE,
 			'reread_count' => 0,
 			'new_rating' => 9,
 		];
@@ -78,14 +80,13 @@ class MangaListTransformerTest extends AnimeClientTestCase {
 			'data' => FormItemData::from([
 				'status' => 'current',
 				'progress' => 67,
-				'reconsuming' => false,
+				'reconsuming' => FALSE,
 				'reconsumeCount' => 0,
 				'notes' => '',
 				'ratingTwenty' => 18,
-			])
+			]),
 		]);
 
 		$this->assertEquals($expected, $actual);
 	}
-
 }

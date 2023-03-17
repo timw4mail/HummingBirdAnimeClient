@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Command;
@@ -23,10 +21,10 @@ use Aviat\AnimeClient\Controller\Images;
  * Clears out image cache directories, then re-creates the image cache
  * for manga and anime
  */
-final class UpdateThumbnails extends ClearThumbnails {
+final class UpdateThumbnails extends ClearThumbnails
+{
 	/**
 	 * Model for making requests to Kitsu API
-	 * @var KitsuModel
 	 */
 	protected KitsuModel $kitsuModel;
 
@@ -49,7 +47,7 @@ final class UpdateThumbnails extends ClearThumbnails {
 		$ids = $this->getImageList();
 
 		// Resave the images
-		foreach($ids as $type => $typeIds)
+		foreach ($ids as $type => $typeIds)
 		{
 			foreach ($typeIds as $id)
 			{

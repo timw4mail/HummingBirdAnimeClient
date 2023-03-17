@@ -6,38 +6,33 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Laminas\Diactoros\Response\HtmlResponse;
+use Throwable;
 use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
  */
-class HtmlView extends HttpView {
+class HtmlView extends HttpView
+{
 	use ContainerAware;
 
 	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = 'text/html';
 
 	/**
 	 * Create the Html View
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -50,10 +45,7 @@ class HtmlView extends HttpView {
 	/**
 	 * Render a basic html Template
 	 *
-	 * @param string $path
-	 * @param array  $data
-	 * @return string
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function renderTemplate(string $path, array $data): string
 	{
@@ -69,9 +61,9 @@ class HtmlView extends HttpView {
 		$rawBuffer = ob_get_clean();
 		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
 
-
 		// Very basic html minify, that won't affect content between html tags
 		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
 	}
 }
+
 // End of HtmlView.php

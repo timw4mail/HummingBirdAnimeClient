@@ -6,40 +6,42 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
 
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-use function Aviat\AnimeClient\createPlaceholderImage;
-
 use Aviat\AnimeClient\Controller as BaseController;
-
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Throwable;
+use function Amp\Promise\wait;
+use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};
+use function imagepalletetotruecolor;
+
+use function in_array;
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class Images extends BaseController {
+#[Controller]
+final class Images extends BaseController
+{
 	/**
 	 * Get image covers from kitsu
 	 *
 	 * @param string $type The category of image
 	 * @param string $file The filename to look for
 	 * @param bool $display Whether to output the image to the server
-	 * @return void
 	 * @throws Throwable
 	 */
+	#[Route('image_proxy', '/public/images/{type}/{file}')]
 	public function cache(string $type, string $file, bool $display = TRUE): void
 	{
-		$currentUrl = (string)$this->request->getUri();
+		$currentUrl = (string) $this->request->getUri();
 
 		$kitsuUrl = 'https://media.kitsu.io/';
 		$fileName = str_replace('-original', '', $file);
@@ -49,8 +51,8 @@ final class Images extends BaseController {
 
 		// Kitsu doesn't serve webp, but for most use cases,
 		// jpg is a safe assumption
-		$tryJpg = ['anime','characters','manga','people'];
-		if ($ext === 'webp' && \in_array($type, $tryJpg, TRUE))
+		$tryJpg = ['anime', 'characters', 'manga', 'people'];
+		if ($ext === 'webp' && in_array($type, $tryJpg, TRUE))
 		{
 			$ext = 'jpg';
 			$currentUrl = str_replace('webp', 'jpg', $currentUrl);
@@ -64,8 +66,8 @@ final class Images extends BaseController {
 			],
 			'avatars' => [
 				'kitsuUrl' => "users/avatars/{$id}/original.{$ext}",
-				'width' => null,
-				'height' => null,
+				'width' => NULL,
+				'height' => NULL,
 			],
 			'characters' => [
 				'kitsuUrl' => "characters/images/{$id}/original.{$ext}",
@@ -79,8 +81,8 @@ final class Images extends BaseController {
 			],
 			'people' => [
 				'kitsuUrl' => "people/images/{$id}/original.{$ext}",
-				'width' => null,
-				'height' => null,
+				'width' => NULL,
+				'height' => NULL,
 			],
 		];
 
@@ -89,6 +91,7 @@ final class Images extends BaseController {
 		if (NULL === $imageType)
 		{
 			$this->getPlaceholder($baseSavePath, 200, 200);
+
 			return;
 		}
 
@@ -112,6 +115,7 @@ final class Images extends BaseController {
 			{
 				$newUrl = str_replace($ext, $nextType[$ext], $currentUrl);
 				$this->redirect($newUrl, 303);
+
 				return;
 			}
 
@@ -123,6 +127,7 @@ final class Images extends BaseController {
 			{
 				createPlaceholderImage("{$baseSavePath}/{$type}", $width, $height);
 			}
+
 			return;
 		}
 
@@ -144,7 +149,7 @@ final class Images extends BaseController {
 		if ($ext === 'gif')
 		{
 			file_put_contents("{$filePrefix}.gif", $data);
-			\imagepalletetotruecolor($gdImg);
+			imagepalletetotruecolor($gdImg);
 		}
 
 		// save the webp versions
@@ -177,14 +182,10 @@ final class Images extends BaseController {
 
 	/**
 	 * Get a placeholder for a missing image
-	 *
-	 * @param string $path
-	 * @param int|null $width
-	 * @param int|null $height
 	 */
-	private function getPlaceholder (string $path, ?int $width = 200, ?int $height = NULL): void
+	private function getPlaceholder(string $path, ?int $width = 200, ?int $height = NULL): void
 	{
-		$height = $height ?? $width;
+		$height ??= $width;
 
 		$filename = $path . '/placeholder.png';
 

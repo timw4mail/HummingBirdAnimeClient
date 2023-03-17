@@ -6,27 +6,25 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion;
 
+use InvalidArgumentException;
+
 /**
  * View Interface abstracting an HTTP Response
  */
-interface HttpViewInterface extends ViewInterface {
-
+interface HttpViewInterface extends ViewInterface
+{
 	/**
 	 * Set the status code of the request
 	 *
-	 * @param int $code
-	 * @throws \InvalidArgumentException
-	 * @return self
+	 * @throws InvalidArgumentException
 	 */
 	public function setStatusCode(int $code): self;
 }

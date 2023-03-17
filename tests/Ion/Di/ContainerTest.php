@@ -6,42 +6,47 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests\Di;
 
-use Aviat\Ion\Di\{Container, ContainerAware};
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Tests\IonTestCase;
-use Monolog\Logger;
-use Monolog\Handler\{TestHandler, NullHandler};
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\{Container, ContainerAware};
+use Aviat\Ion\Tests\IonTestCase;
+use Monolog\Handler\{NullHandler, TestHandler};
+use Monolog\Logger;
 use Throwable;
 use TypeError;
 
-class FooTest {
-
+/**
+ * @internal
+ */
+final class FooTest
+{
 	public $item;
 
-	public function __construct($item) {
+	public function __construct($item)
+	{
 		$this->item = $item;
 	}
 }
 
-class FooTest2 {
+class FooTest2
+{
 	use ContainerAware;
 }
 
-class ContainerTest extends IonTestCase {
-
-	public function setUp(): void
+/**
+ * @internal
+ */
+final class ContainerTest extends IonTestCase
+{
+	protected function setUp(): void
 	{
 		$this->container = new Container();
 	}
@@ -60,13 +65,14 @@ class ContainerTest extends IonTestCase {
 			'Non-existent id' => [
 				'id' => 'foo',
 				'exception' => NotFoundException::class,
-				'message' => "Item 'foo' does not exist in container."
-			]
+				'message' => "Item 'foo' does not exist in container.",
+			],
 		];
 	}
 
 	/**
 	 * @dataProvider dataGetWithException
+	 * @param mixed $exception
 	 */
 	public function testGetWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
@@ -74,12 +80,12 @@ class ContainerTest extends IonTestCase {
 		{
 			$this->container->get($id);
 		}
-		catch(ContainerException $e)
+		catch (ContainerException $e)
 		{
 			$this->assertInstanceOf($exception, $e);
-			$this->assertEquals($message, $e->getMessage());
+			$this->assertSame($message, $e->getMessage());
 		}
-		catch(Throwable $e)
+		catch (Throwable $e)
 		{
 			$this->assertInstanceOf($exception, $e);
 		}
@@ -87,6 +93,7 @@ class ContainerTest extends IonTestCase {
 
 	/**
 	 * @dataProvider dataGetWithException
+	 * @param mixed $exception
 	 */
 	public function testGetNewWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
@@ -117,6 +124,9 @@ class ContainerTest extends IonTestCase {
 
 	/**
 	 * @dataProvider dataSetInstanceWithException
+	 * @param mixed $id
+	 * @param mixed $exception
+	 * @param mixed $message
 	 */
 	public function testSetInstanceWithException($id, $exception, $message): void
 	{
@@ -124,64 +134,56 @@ class ContainerTest extends IonTestCase {
 		{
 			$this->container->setInstance($id, NULL);
 		}
-		catch(ContainerException $e)
+		catch (ContainerException $e)
 		{
 			$this->assertInstanceOf($exception, $e);
-			$this->assertEquals($message, $e->getMessage());
+			$this->assertSame($message, $e->getMessage());
 		}
 	}
 
 	public function testGetNew(): void
 	{
-		$this->container->set('footest', static function($item) {
-			return new FooTest($item);
-		});
+		$this->container->set('footest', static fn ($item) => new FooTest($item));
 
 		// Check that the item is the container, if called without arguments
 		$footest1 = $this->container->getNew('footest');
 		$this->assertInstanceOf(ContainerInterface::class, $footest1->item);
 
 		$footest2 = $this->container->getNew('footest', ['Test String']);
-		$this->assertEquals('Test String', $footest2->item);
+		$this->assertSame('Test String', $footest2->item);
 	}
 
 	public function testSetContainerInInstance(): void
 	{
-		$this->container->set('footest2', function() {
-			return new FooTest2();
-		});
+		$this->container->set('footest2', static fn () => new FooTest2());
 
 		$footest2 = $this->container->get('footest2');
-		$this->assertEquals($this->container, $footest2->getContainer());
+		$this->assertSame($this->container, $footest2->getContainer());
 	}
 
 	public function testGetNewReturnCallable(): void
 	{
-		$this->container->set('footest', static function($item) {
-			return static function() use ($item) {
-				return $item;
-			};
-		});
+		$this->container->set('footest', static fn ($item) => static fn () => $item);
 
 		// Check that the item is the container, if called without arguments
 		$footest1 = $this->container->getNew('footest');
 		$this->assertInstanceOf(ContainerInterface::class, $footest1());
 
 		$footest2 = $this->container->getNew('footest', ['Test String']);
-		$this->assertEquals('Test String', $footest2());
+		$this->assertSame('Test String', $footest2());
 	}
 
 	public function testGetSet(): void
 	{
-		$container = $this->container->set('foo', static function() {
-			return static function() {};
+		$container = $this->container->set('foo', static function () {
+			return static function () {};
 		});
 
 		$this->assertInstanceOf(Container::class, $container);
 		$this->assertInstanceOf(ContainerInterface::class, $container);
 
 		// The factory returns a callable
-		$this->assertTrue(is_callable($container->get('foo')));
+		$this->assertIsCallable($container->get('foo'));
 	}
 
 	public function testLoggerMethods(): void
@@ -202,8 +204,8 @@ class ContainerTest extends IonTestCase {
 		$this->assertInstanceOf(ContainerInterface::class, $container);
 		$this->assertInstanceOf(Container::class, $container2);
 
-		$this->assertEquals($logger1, $this->container->getLogger('default'));
-		$this->assertEquals($logger2, $this->container->getLogger('test'));
+		$this->assertSame($logger1, $this->container->getLogger('default'));
+		$this->assertSame($logger2, $this->container->getLogger('test'));
 		$this->assertNull($this->container->getLogger('foo'));
 
 		$this->assertTrue($this->container->hasLogger());

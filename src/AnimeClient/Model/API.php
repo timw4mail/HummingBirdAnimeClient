@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Model;
@@ -19,13 +17,10 @@ namespace Aviat\AnimeClient\Model;
 /**
  * Base model for api interaction
  */
-abstract class API {
+abstract class API
+{
 	/**
 	 * Sort the list entries by their title
-	 *
-	 * @param array $array
-	 * @param string $sortKey
-	 * @return void
 	 */
 	protected function sortByName(array &$array, string $sortKey): void
 	{
@@ -44,11 +39,11 @@ abstract class API {
 		array_multisort($sort, SORT_ASC, $array);
 
 		// Re-key array items by their ids
-		if (array_key_exists('id', (array)$array[0]))
+		if (array_key_exists('id', (array) $array[0]))
 		{
 			$keyed = [];
 
-			foreach($array as $item)
+			foreach ($array as $item)
 			{
 				$keyed[$item['id']] = $item;
 			}

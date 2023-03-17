@@ -1,6 +1,7 @@
 <article
 	class="media"
 	data-kitsu-id="<?= $item['id'] ?>"
+	data-anilist-id="<?= $item['anilist_id'] ?>"
 	data-mal-id="<?= $item['mal_id'] ?>"
 >
 	<?php if ($auth->isAuthenticated()): ?>

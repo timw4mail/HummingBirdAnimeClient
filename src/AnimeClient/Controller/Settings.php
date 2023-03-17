@@ -6,12 +6,10 @@
  *
  * PHP version 8
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\Controller;
@@ -20,29 +18,23 @@ use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Settings as SettingsModel;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for user settings
  */
-final class Settings extends BaseController {
-
-	/**
-	 * @var AnilistModel
-	 */
+#[Controller]
+final class Settings extends BaseController
+{
 	private AnilistModel $anilistModel;
-
-	/**
-	 * @var SettingsModel
-	 */
 	private SettingsModel $settingsModel;
 
 	/**
 	 * Settings constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -60,6 +52,7 @@ final class Settings extends BaseController {
 	/**
 	 * Show the user settings, if logged in
 	 */
+	#[Route('settings', '/settings')]
 	public function index(): void
 	{
 		$auth = $this->container->get('auth');
@@ -82,9 +75,10 @@ final class Settings extends BaseController {
 	 *
 	 * @throws RouteNotFound
 	 */
+	#[Route('settings-post', '/settings/update', Route::POST)]
 	public function update(): void
 	{
-		$post = (array)$this->request->getParsedBody();
+		$post = (array) $this->request->getParsedBody();
 		unset($post['settings-tabs']);
 
 		$saved = $this->settingsModel->saveSettingsFile($post);
@@ -102,6 +96,7 @@ final class Settings extends BaseController {
 	/**
 	 * Redirect to Anilist to start Oauth flow
 	 */
+	#[Route('anilist-redirect', '/anilist-redirect')]
 	public function anilistRedirect(): void
 	{
 		$query = http_build_query([
@@ -118,6 +113,7 @@ final class Settings extends BaseController {
 	/**
 	 * Oauth callback for Anilist API
 	 */
+	#[Route('anilist-callback', '/anilist-oauth')]
 	public function anilistCallback(): void
 	{
 		$query = $this->request->getQueryParams();
@@ -130,6 +126,7 @@ final class Settings extends BaseController {
 		if (array_key_exists('error', $authData))
 		{
 			$this->errorPage(400, 'Error Linking Account', $authData['hint']);
+
 			return;
 		}
 
@@ -147,6 +144,7 @@ final class Settings extends BaseController {
 		{
 			$newSettings[$key] = $value;
 		}
+
 		unset($newSettings['config']);
 
 		$saved = $this->settingsModel->saveSettingsFile($newSettings);
