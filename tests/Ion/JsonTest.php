@@ -32,7 +32,7 @@ final class JsonTest extends IonTestCase
 		$this->assertSame($expected, Json::encode($data));
 	}
 
-	public function dataEncodeDecode(): array
+	public static function dataEncodeDecode(): array
 	{
 		return [
 			'set1' => [
@@ -47,24 +47,22 @@ final class JsonTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataEncodeDecode
-	 */
-	public function testEncodeDecodeFile(array $data, int $expected_size, string $expected_json): void
-	{
-		$target_file = _dir(self::TEST_DATA_DIR, 'json_write.json');
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataEncodeDecode')]
+ public function testEncodeDecodeFile(array $data, int $expected_size, string $expected_json): void
+ {
+ 	$target_file = _dir(self::TEST_DATA_DIR, 'json_write.json');
 
-		$actual_size = Json::encodeFile($target_file, $data);
-		$actual_json = file_get_contents($target_file);
+ 	$actual_size = Json::encodeFile($target_file, $data);
+ 	$actual_json = file_get_contents($target_file);
 
-		$this->assertTrue(Json::isJson($actual_json));
-		$this->assertSame($expected_size, $actual_size);
-		$this->assertSame($expected_json, $actual_json);
+ 	$this->assertTrue(Json::isJson($actual_json));
+ 	$this->assertSame($expected_size, $actual_size);
+ 	$this->assertSame($expected_json, $actual_json);
 
-		$this->assertEquals($data, Json::decodeFile($target_file));
+ 	$this->assertEquals($data, Json::decodeFile($target_file));
 
-		unlink($target_file);
-	}
+ 	unlink($target_file);
+ }
 
 	public function testDecode()
 	{

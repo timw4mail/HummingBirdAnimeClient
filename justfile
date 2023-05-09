@@ -4,11 +4,11 @@ default:
 
 # Runs rector, showing what changes will be make
 rector-dry-run:
-	tools/vendor/bin/rector process --config=tools/rector.php --dry-run src
+	tools/vendor/bin/rector process --config=tools/rector.php --dry-run src tests
 
-# Runs rector, and updates the files
+# Runs rector, and updates the source files
 rector:
-	tools/vendor/bin/rector process --config=tools/rector.php src
+	tools/vendor/bin/rector process --config=tools/rector.php src tests
 
 # Check code formatting
 check-fmt:

@@ -20,6 +20,7 @@ use Aviat\Ion\Di\{Container, ContainerAware};
 use Aviat\Ion\Tests\IonTestCase;
 use Monolog\Handler\{NullHandler, TestHandler};
 use Monolog\Logger;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
 use TypeError;
 
@@ -51,7 +52,7 @@ final class ContainerTest extends IonTestCase
 		$this->container = new Container();
 	}
 
-	public function dataGetWithException(): array
+	public static function dataGetWithException(): array
 	{
 		return [
 			'Bad index type: number' => [
@@ -71,9 +72,9 @@ final class ContainerTest extends IonTestCase
 	}
 
 	/**
-	 * @dataProvider dataGetWithException
 	 * @param mixed $exception
 	 */
+	#[DataProvider('dataGetWithException')]
 	public function testGetWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
 		try
@@ -92,9 +93,9 @@ final class ContainerTest extends IonTestCase
 	}
 
 	/**
-	 * @dataProvider dataGetWithException
 	 * @param mixed $exception
 	 */
+	#[DataProvider('dataGetWithException')]
 	public function testGetNewWithException(mixed $id, $exception, ?string $message = NULL): void
 	{
 		$this->expectException($exception);
@@ -106,7 +107,7 @@ final class ContainerTest extends IonTestCase
 		$this->container->getNew($id);
 	}
 
-	public function dataSetInstanceWithException(): array
+	public static function dataSetInstanceWithException(): array
 	{
 		return [
 			'Non-existent id' => [
@@ -123,11 +124,11 @@ final class ContainerTest extends IonTestCase
 	}
 
 	/**
-	 * @dataProvider dataSetInstanceWithException
 	 * @param mixed $id
 	 * @param mixed $exception
 	 * @param mixed $message
 	 */
+	#[DataProvider('dataSetInstanceWithException')]
 	public function testSetInstanceWithException($id, $exception, $message): void
 	{
 		try

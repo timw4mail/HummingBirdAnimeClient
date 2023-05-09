@@ -46,7 +46,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 		$this->assertMatchesSnapshot($actual);
 	}
 
-	public function dataUntransform(): array
+	public static function dataUntransform(): array
 	{
 		return [[
 			'input' => [
@@ -87,12 +87,10 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 		]];
 	}
 
-	/**
-	 * @dataProvider dataUntransform
-	 */
-	public function testUntransform(array $input): void
-	{
-		$actual = $this->transformer->untransform($input);
-		$this->assertMatchesSnapshot($actual);
-	}
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataUntransform')]
+ public function testUntransform(array $input): void
+ {
+ 	$actual = $this->transformer->untransform($input);
+ 	$this->assertMatchesSnapshot($actual);
+ }
 }

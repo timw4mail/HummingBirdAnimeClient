@@ -19,6 +19,7 @@ namespace Aviat\Ion\Tests;
  */
 final class EnumTest extends IonTestCase
 {
+	public $enum;
 	protected $expectedConstList = [
 		'FOO' => 'bar',
 		'BAR' => 'foo',
@@ -43,7 +44,7 @@ final class EnumTest extends IonTestCase
 		$this->assertSame($this->expectedConstList, $actual);
 	}
 
-	public function dataIsValid()
+	public static function dataIsValid()
 	{
 		return [
 			'Valid' => [
@@ -69,18 +70,17 @@ final class EnumTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataIsValid
-	 * @param mixed $value
-	 * @param mixed $expected
-	 * @param mixed $static
-	 */
-	public function testIsValid($value, $expected, $static)
-	{
-		$actual = ($static)
-			? TestEnum::isValid($value)
-			: $this->enum->isValid($value);
+ /**
+  * @param mixed $value
+  * @param mixed $static
+  */
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
+ public function testIsValid($value, mixed $expected, $static)
+ {
+ 	$actual = ($static)
+ 		? TestEnum::isValid($value)
+ 		: $this->enum->isValid($value);
 
-		$this->assertSame($expected, $actual);
-	}
+ 	$this->assertSame($expected, $actual);
+ }
 }

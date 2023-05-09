@@ -77,7 +77,7 @@ final class KitsuTest extends TestCase
 		$this->assertSame(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('yesterday'));
 	}
 
-	public function getPublishingStatus(): array
+	public static function getPublishingStatus(): array
 	{
 		return [
 			'current' => [
@@ -91,16 +91,14 @@ final class KitsuTest extends TestCase
 		];
 	}
 
-	/**
-	 * @dataProvider getPublishingStatus
-	 */
-	public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
-	{
-		$actual = Kitsu::getPublishingStatus($kitsuStatus);
-		$this->assertSame($expected, $actual);
-	}
+	#[\PHPUnit\Framework\Attributes\DataProvider('getPublishingStatus')]
+ public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
+ {
+ 	$actual = Kitsu::getPublishingStatus($kitsuStatus);
+ 	$this->assertSame($expected, $actual);
+ }
 
-	public function getFriendlyTime(): array
+	public static function getFriendlyTime(): array
 	{
 		$SECONDS_IN_DAY = Kitsu::SECONDS_IN_MINUTE * Kitsu::MINUTES_IN_DAY;
 		$SECONDS_IN_HOUR = Kitsu::SECONDS_IN_MINUTE * Kitsu::MINUTES_IN_HOUR;
@@ -121,15 +119,13 @@ final class KitsuTest extends TestCase
 		]];
 	}
 
-	/**
-	 * @dataProvider getFriendlyTime
-	 */
-	public function testGetFriendlyTime(int $seconds, string $expected): void
-	{
-		$actual = Kitsu::friendlyTime($seconds);
+	#[\PHPUnit\Framework\Attributes\DataProvider('getFriendlyTime')]
+ public function testGetFriendlyTime(int $seconds, string $expected): void
+ {
+ 	$actual = Kitsu::friendlyTime($seconds);
 
-		$this->assertSame($expected, $actual);
-	}
+ 	$this->assertSame($expected, $actual);
+ }
 
 	public function testFilterLocalizedTitles(): void
 	{

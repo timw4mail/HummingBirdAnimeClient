@@ -22,9 +22,7 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
  */
 final class PictureHelperTest extends AnimeClientTestCase
 {
-	/**
-	 * @dataProvider dataPictureCase
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPictureCase')]
 	public function testPictureHelper(array $params): void
 	{
 		$helper = new PictureHelper();
@@ -35,9 +33,7 @@ final class PictureHelperTest extends AnimeClientTestCase
 		$this->assertMatchesSnapshot($actual);
 	}
 
-	/**
-	 * @dataProvider dataSimpleImageCase
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSimpleImageCase')]
 	public function testSimpleImage(string $ext, bool $isSimple, string $fallbackExt = 'jpg'): void
 	{
 		$helper = new PictureHelper();
@@ -61,7 +57,7 @@ final class PictureHelperTest extends AnimeClientTestCase
 		$this->assertTrue( ! str_contains($actual, '<picture'));
 	}
 
-	public function dataPictureCase(): array
+	public static function dataPictureCase(): array
 	{
 		return [
 			'Full AVIF URL' => [
@@ -119,7 +115,7 @@ final class PictureHelperTest extends AnimeClientTestCase
 		];
 	}
 
-	public function dataSimpleImageCase(): array
+	public static function dataSimpleImageCase(): array
 	{
 		return [
 			'avif' => [

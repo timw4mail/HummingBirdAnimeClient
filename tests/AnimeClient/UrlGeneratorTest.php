@@ -16,13 +16,14 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\UrlGenerator;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
  */
 final class UrlGeneratorTest extends AnimeClientTestCase
 {
-	public function assetUrlProvider()
+	public static function assetUrlProvider(): array
 	{
 		return [
 			'single argument' => [
@@ -40,12 +41,8 @@ final class UrlGeneratorTest extends AnimeClientTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider assetUrlProvider
-	 * @param mixed $args
-	 * @param mixed $expected
-	 */
-	public function testAssetUrl($args, $expected)
+	#[DataProvider('assetUrlProvider')]
+	public function testAssetUrl(mixed $args, string $expected): void
 	{
 		$urlGenerator = new UrlGenerator($this->container);
 
