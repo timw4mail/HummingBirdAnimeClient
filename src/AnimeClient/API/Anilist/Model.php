@@ -189,7 +189,7 @@ final class Model
 	 */
 	public function deleteItem(FormItem $data, string $type): ?Request
 	{
-		$mediaId = $this->getMediaId((array)$data, $type);
+		$mediaId = $this->getMediaId((array) $data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
@@ -209,7 +209,7 @@ final class Model
 	 */
 	public function getListIdFromData(FormItem $data, string $type = 'ANIME'): ?string
 	{
-		$mediaId = $this->getMediaId((array)$data, $type);
+		$mediaId = $this->getMediaId((array) $data, $type);
 		if ($mediaId === NULL)
 		{
 			return NULL;
@@ -244,7 +244,7 @@ final class Model
 	/**
 	 * Find the id to update by
 	 */
-	private function getMediaId (array $data, string $type = 'ANIME'): ?string
+	private function getMediaId(array $data, string $type = 'ANIME'): ?string
 	{
 		if (isset($data['anilist_id']))
 		{

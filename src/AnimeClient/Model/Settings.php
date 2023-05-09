@@ -95,14 +95,7 @@ final class Settings
 					}
 				}
 
-				if (array_key_exists($key, $values) && is_scalar($values[$key]))
-				{
-					$value['value'] = $values[$key];
-				}
-				else
-				{
-					$value['value'] = $value['default'] ?? '';
-				}
+				$value['value'] = array_key_exists($key, $values) && is_scalar($values[$key]) ? $values[$key] : $value['default'] ?? '';
 
 				foreach (['readonly', 'disabled'] as $flag)
 				{

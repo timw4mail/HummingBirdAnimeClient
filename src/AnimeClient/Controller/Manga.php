@@ -14,20 +14,15 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
-
-use InvalidArgumentException;
-use Throwable;
 
 /**
  * Controller for manga list

@@ -133,7 +133,7 @@ final class Auth
 	/**
 	 * Save the new authentication information
 	 */
-	private function storeAuth(array|FALSE $auth): bool
+	private function storeAuth(array|false $auth): bool
 	{
 		if (FALSE !== $auth)
 		{

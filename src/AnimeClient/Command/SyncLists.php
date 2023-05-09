@@ -98,21 +98,23 @@ final class SyncLists extends BaseCommand
 		if ( ! $anilistEnabled)
 		{
 			$this->echoErrorBox('Anlist API is not enabled. Can not sync.');
-			return false;
+
+			return FALSE;
 		}
 
 		// Authentication is required to update Kitsu
 		$isKitsuAuthenticated = $this->container->get('auth')->isAuthenticated();
-		if ( !$isKitsuAuthenticated)
+		if ( ! $isKitsuAuthenticated)
 		{
 			$this->echoErrorBox('Kitsu is not authenticated. Kitsu list can not be updated.');
-			return false;
+
+			return FALSE;
 		}
 
 		$this->anilistModel = $this->container->get('anilist-model');
 		$this->kitsuModel = $this->container->get('kitsu-model');
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -148,7 +150,7 @@ final class SyncLists extends BaseCommand
 	 */
 	protected function fetch(string $type): array
 	{
-		$this->echo("Fetching $type List Data");
+		$this->echo("Fetching {$type} List Data");
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
 		$anilist = $this->fetchAnilist($type);

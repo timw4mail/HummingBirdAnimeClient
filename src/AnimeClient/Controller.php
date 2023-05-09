@@ -121,13 +121,13 @@ class Controller
 	}
 
 	/**
-	 * Set the current url in the session as the target of a future redirect
-	 *
-	 * @codeCoverageIgnore
-	 * @throws ContainerException
-	 * @throws NotFoundException
-	 */
-	public function setSessionRedirect(?string $url = NULL): void
+  * Set the current url in the session as the target of a future redirect
+  *
+  * @throws ContainerException
+  * @throws NotFoundException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function setSessionRedirect(?string $url = NULL): void
 	{
 		$serverParams = $this->request->getServerParams();
 
@@ -159,14 +159,14 @@ class Controller
 	}
 
 	/**
-	 * Redirect to the url previously set in the  session
-	 *
-	 * If one is not set, redirect to default url
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	public function sessionRedirect(): void
+  * Redirect to the url previously set in the  session
+  *
+  * If one is not set, redirect to default url
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function sessionRedirect(): void
 	{
 		$target = $this->session->get('redirect_url') ?? '/';
 
@@ -175,10 +175,10 @@ class Controller
 	}
 
 	/**
-	 * Check if the current user is authenticated, else error and exit
-	 * @codeCoverageIgnore
-	 */
-	protected function checkAuth(): void
+  * Check if the current user is authenticated, else error and exit
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function checkAuth(): void
 	{
 		if ( ! $this->auth->isAuthenticated())
 		{
@@ -191,11 +191,10 @@ class Controller
 	}
 
 	/**
-	 * Get the string output of a partial template
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
+  * Get the string output of a partial template
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
 
@@ -218,11 +217,10 @@ class Controller
 	}
 
 	/**
-	 * Render a template with header and footer
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
+  * Render a template with header and footer
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
 		$csp = [
 			"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
@@ -245,12 +243,12 @@ class Controller
 	}
 
 	/**
-	 * 404 action
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	public function notFound(
+  * 404 action
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function notFound(
 		string $title = 'Sorry, page not found',
 		string $message = 'Page Not Found'
 	): void {
@@ -263,12 +261,12 @@ class Controller
 	}
 
 	/**
-	 * Display a generic error page
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
+  * Display a generic error page
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
@@ -278,24 +276,23 @@ class Controller
 	}
 
 	/**
-	 * Redirect to the default controller/url from an empty path
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	public function redirectToDefaultRoute(): void
+  * Redirect to the default controller/url from an empty path
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function redirectToDefaultRoute(): void
 	{
 		$defaultType = $this->config->get('default_list');
 		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
 	}
 
 	/**
-	 * Set a session flash variable to display a message on
-	 * next page load
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function setFlashMessage(string $message, string $type = 'info'): void
+  * Set a session flash variable to display a message on
+  * next page load
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ public function setFlashMessage(string $message, string $type = 'info'): void
 	{
 		static $messages;
 
@@ -323,12 +320,12 @@ class Controller
 	}
 
 	/**
-	 * Add a message box to the page
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	protected function showMessage(HtmlView $view, string $type, string $message): string
+  * Add a message box to the page
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function showMessage(HtmlView $view, string $type, string $message): string
 	{
 		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
@@ -337,12 +334,12 @@ class Controller
 	}
 
 	/**
-	 * Output a template to HTML, using the provided data
-	 *
-	 * @codeCoverageIgnore
-	 * @throws InvalidArgumentException
-	 */
-	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
+  * Output a template to HTML, using the provided data
+  *
+  * @throws InvalidArgumentException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
 	{
 		if (NULL === $view)
 		{
@@ -354,13 +351,13 @@ class Controller
 	}
 
 	/**
-	 * Output a JSON Response
-	 *
-	 * @codeCoverageIgnore
-	 * @param int $code - the http status code
-	 * @throws DoubleRenderException
-	 */
-	protected function outputJSON(mixed $data, int $code): void
+  * Output a JSON Response
+  *
+  * @param int $code - the http status code
+  * @throws DoubleRenderException
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function outputJSON(mixed $data, int $code): void
 	{
 		JsonView::new()
 			->setOutput($data)
@@ -369,11 +366,10 @@ class Controller
 	}
 
 	/**
-	 * Redirect to the selected page
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function redirect(string $url, int $code): void
+  * Redirect to the selected page
+  */
+ #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ protected function redirect(string $url, int $code): void
 	{
 		HttpView::new()
 			->redirect($url, $code)

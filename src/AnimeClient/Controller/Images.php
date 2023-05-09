@@ -15,8 +15,7 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{Controller, Route};
 use Throwable;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};

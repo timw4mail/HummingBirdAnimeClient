@@ -67,9 +67,6 @@ trait MutationTrait
 
 	/**
 	 * Remove a list item
-	 *
-	 * @param FormItem $data
-	 * @return Request
 	 */
 	public function deleteItem(FormItem $data): Request
 	{

@@ -201,10 +201,8 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 		return TRUE;
 	}
 
-	/**
-	 * @codeCoverageIgnore
-	 */
-	final protected function fromObject(mixed $parent = NULL): float|NULL|bool|int|array|string
+	#[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
+ final protected function fromObject(mixed $parent = NULL): float|null|bool|int|array|string
 	{
 		$object = $parent ?? $this;
 

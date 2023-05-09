@@ -18,8 +18,7 @@ use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
