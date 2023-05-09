@@ -17,4 +17,6 @@ namespace Aviat\Ion\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class DefaultController {}
+class DefaultController
+{
+}

@@ -17,7 +17,8 @@ namespace Aviat\Ion\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_FUNCTION | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
-class Route {
+class Route
+{
 	public const GET = 'get';
 	public const POST = 'post';
 
@@ -25,8 +26,6 @@ class Route {
 		public string $name,
 		public string $path,
 		public string $verb = self::GET,
-	)
-	{
-
+	) {
 	}
 }

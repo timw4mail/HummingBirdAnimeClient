@@ -39,7 +39,7 @@ function get_text_to_replace(array $tokens): string
 	// [0] => token type constant
 	// [1] => raw syntax parsed to that token
 	// [2] => line number
-	foreach($tokens as $token)
+	foreach ($tokens as $token)
 	{
 		// Since we only care about opening docblocks,
 		// bail out when we get to the namespace token
@@ -81,9 +81,9 @@ function replace_file(string $file, string $template): void
 
 $files = array_filter(
 	glob_recursive('*.php'),
-	fn (string $file) => ! (str_contains($file, '/vendor/') || str_contains($file, '/tmp/'))
+	static fn (string $file) => ! (str_contains($file, '/vendor/') || str_contains($file, '/tmp/'))
 );
-array_walk($files, fn (string $file) => replace_file($file, '/header_comment.txt'));
+array_walk($files, static fn (string $file) => replace_file($file, '/header_comment.txt'));
 
 echo json_encode(array_values($files), JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR) . "\n";
 printf("Successfully updated header comments in %d files\n", count($files));

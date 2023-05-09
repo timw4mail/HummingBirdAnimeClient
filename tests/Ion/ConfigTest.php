@@ -15,6 +15,7 @@
 namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Config;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -67,7 +68,7 @@ final class ConfigTest extends IonTestCase
 		$this->assertSame('great', $this->config->get(['apple', 'sauce', 'is']), 'Array argument get for config failed.');
 	}
 
-	public function dataConfigDelete(): array
+	public static function dataConfigDelete(): array
 	{
 		return [
 			'top level delete' => [
@@ -124,11 +125,8 @@ final class ConfigTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataConfigDelete
-	 * @param mixed $key
-	 */
-	public function testConfigDelete($key, array $assertKeys): void
+	#[DataProvider('dataConfigDelete')]
+	public function testConfigDelete(string|array $key, array $assertKeys): void
 	{
 		$config = new Config([]);
 		$config->set(['apple', 'sauce', 'is'], 'great');

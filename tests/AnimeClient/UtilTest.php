@@ -47,7 +47,7 @@ final class UtilTest extends AnimeClientTestCase
 		$this->assertSame('', Util::isNotSelected('foo', 'foo'));
 	}
 
-	public function dataIsViewPage()
+	public static function dataIsViewPage()
 	{
 		return [
 			[
@@ -69,35 +69,34 @@ final class UtilTest extends AnimeClientTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataIsViewPage
-	 * @param mixed $uri
-	 * @param mixed $expected
-	 */
-	public function testIsViewPage($uri, $expected)
-	{
-		$this->setSuperGlobals([
-			'_SERVER' => [
-				'REQUEST_URI' => $uri,
-			],
-		]);
-		$this->assertSame($expected, $this->util->isViewPage());
-	}
+ /**
+  * @param mixed $uri
+  */
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+ public function testIsViewPage($uri, mixed $expected)
+ {
+ 	$this->setSuperGlobals([
+ 		'_SERVER' => [
+ 			'REQUEST_URI' => $uri,
+ 		],
+ 	]);
+ 	$this->assertSame($expected, $this->util->isViewPage());
+ }
 
-	/**
-	 * @dataProvider dataIsViewPage
-	 * @param mixed $uri
-	 * @param mixed $expected
-	 */
-	public function testIsFormPage($uri, $expected)
-	{
-		$this->setSuperGlobals([
-			'_SERVER' => [
-				'REQUEST_URI' => $uri,
-			],
-		]);
-		$this->assertSame( ! $expected, $this->util->isFormPage());
-	}
+ /**
+  * @param mixed $uri
+  * @param mixed $expected
+  */
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+ public function testIsFormPage($uri, $expected)
+ {
+ 	$this->setSuperGlobals([
+ 		'_SERVER' => [
+ 			'REQUEST_URI' => $uri,
+ 		],
+ 	]);
+ 	$this->assertSame( ! $expected, $this->util->isFormPage());
+ }
 
 	public function testAriaCurrent(): void
 	{

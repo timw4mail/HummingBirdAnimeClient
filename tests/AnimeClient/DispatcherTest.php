@@ -71,7 +71,7 @@ final class DispatcherTest extends AnimeClientTestCase
 		$this->assertIsObject($this->router);
 	}
 
-	public function dataRoute(): array
+	public static function dataRoute(): array
 	{
 		$defaultConfig = [
 			'routes' => [
@@ -141,35 +141,32 @@ final class DispatcherTest extends AnimeClientTestCase
 		return $data;
 	}
 
-	/**
-	 * @dataProvider dataRoute
-	 * @param mixed $config
-	 * @param mixed $controller
-	 * @param mixed $host
-	 * @param mixed $uri
-	 */
-	public function testRoute($config, $controller, $host, $uri): void
-	{
-		$this->doSetUp($config, $uri, $host);
+ /**
+  * @param mixed $config
+  */
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataRoute')]
+ public function testRoute($config, mixed $controller, mixed $host, mixed $uri): void
+ {
+ 	$this->doSetUp($config, $uri, $host);
 
-		$request = $this->container->get('request');
+ 	$request = $this->container->get('request');
 
-		// Check route setup
-		$this->assertSame($config['routes'], $this->config->get('routes'), 'Incorrect route path');
-		$this->assertIsArray($this->router->getOutputRoutes());
+ 	// Check route setup
+ 	$this->assertSame($config['routes'], $this->config->get('routes'), 'Incorrect route path');
+ 	$this->assertIsArray($this->router->getOutputRoutes());
 
-		// Check environment variables
-		$this->assertSame($uri, $request->getServerParams()['REQUEST_URI']);
-		$this->assertSame($host, $request->getServerParams()['HTTP_HOST']);
+ 	// Check environment variables
+ 	$this->assertSame($uri, $request->getServerParams()['REQUEST_URI']);
+ 	$this->assertSame($host, $request->getServerParams()['HTTP_HOST']);
 
-		// Make sure the route is an anime type
-		//$this->assertTrue($matcher->count() > 0, '0 routes');
-		$this->assertSame($controller, $this->router->getController(), 'Incorrect Route type');
+ 	// Make sure the route is an anime type
+ 	//$this->assertTrue($matcher->count() > 0, '0 routes');
+ 	$this->assertSame($controller, $this->router->getController(), 'Incorrect Route type');
 
-		// Make sure the route matches, by checking that it is actually an object
-		$route = $this->router->getRoute();
-		$this->assertInstanceOf(Route::class, $route, 'Route is invalid, not matched');
-	}
+ 	// Make sure the route matches, by checking that it is actually an object
+ 	$route = $this->router->getRoute();
+ 	$this->assertInstanceOf(Route::class, $route, 'Route is invalid, not matched');
+ }
 
 	public function testDefaultRoute(): void
 	{
@@ -209,53 +206,51 @@ final class DispatcherTest extends AnimeClientTestCase
 	}
 
 	#[ArrayShape(['controller_list_sanity_check' => 'array', 'empty_controller_list' => 'array'])]
-	public function dataGetControllerList(): array
-	{
-		$expectedList = [
-			'anime' => Controller\Anime::class,
-			'anime-collection' => Controller\AnimeCollection::class,
-			'character' => Controller\Character::class,
-			'misc' => Controller\Misc::class,
-			'manga' => Controller\Manga::class,
-			'people' => Controller\People::class,
-			'settings' => Controller\Settings::class,
-			'user' => Controller\User::class,
-			'images' => Controller\Images::class,
-			'history' => Controller\History::class,
-		];
+public static function dataGetControllerList(): array
+{
+	$expectedList = [
+		'anime' => Controller\Anime::class,
+		'anime-collection' => Controller\AnimeCollection::class,
+		'character' => Controller\Character::class,
+		'misc' => Controller\Misc::class,
+		'manga' => Controller\Manga::class,
+		'people' => Controller\People::class,
+		'settings' => Controller\Settings::class,
+		'user' => Controller\User::class,
+		'images' => Controller\Images::class,
+		'history' => Controller\History::class,
+	];
 
-		return [
-			'controller_list_sanity_check' => [
-				'config' => [
-					'anime_path' => 'anime',
-					'manga_path' => 'manga',
-					'default_anime_list_path' => 'watching',
-					'default_manga_list_path' => 'all',
-					'default_list' => 'manga',
-					'routes' => [],
-				],
-				'expected' => $expectedList,
+	return [
+		'controller_list_sanity_check' => [
+			'config' => [
+				'anime_path' => 'anime',
+				'manga_path' => 'manga',
+				'default_anime_list_path' => 'watching',
+				'default_manga_list_path' => 'all',
+				'default_list' => 'manga',
+				'routes' => [],
 			],
-			'empty_controller_list' => [
-				'config' => [
-					'anime_path' => 'anime',
-					'manga_path' => 'manga',
-					'default_anime_path' => '/anime/watching',
-					'default_manga_path' => '/manga/all',
-					'default_list' => 'manga',
-					'routes' => [],
-				],
-				'expected' => $expectedList,
+			'expected' => $expectedList,
+		],
+		'empty_controller_list' => [
+			'config' => [
+				'anime_path' => 'anime',
+				'manga_path' => 'manga',
+				'default_anime_path' => '/anime/watching',
+				'default_manga_path' => '/manga/all',
+				'default_list' => 'manga',
+				'routes' => [],
 			],
-		];
-	}
+			'expected' => $expectedList,
+		],
+	];
+}
 
-	/**
-	 * @dataProvider dataGetControllerList
-	 */
-	public function testGetControllerList(array $config, array $expected): void
-	{
-		$this->doSetUp($config, '/', 'localhost');
-		$this->assertEquals($expected, $this->router->getControllerList());
-	}
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataGetControllerList')]
+ public function testGetControllerList(array $config, array $expected): void
+ {
+ 	$this->doSetUp($config, '/', 'localhost');
+ 	$this->assertEquals($expected, $this->router->getControllerList());
+ }
 }
