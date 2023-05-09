@@ -21,37 +21,6 @@ use Stringable;
 abstract class AbstractType implements ArrayAccess, Countable, Stringable
 {
 	/**
-	 * Populate values for un-serializing data
-	 */
-	public static function __set_state(mixed $properties): self
-	{
-		return new static($properties);
-	}
-
-	/**
-	 * Check the shape of the object, and return the array equivalent
-	 */
-	final public static function check(array $data = []): ?array
-	{
-		$currentClass = static::class;
-
-		if (get_parent_class($currentClass) !== FALSE)
-		{
-			return static::class::from($data)->toArray();
-		}
-
-		return NULL;
-	}
-
-	/**
-	 * Static constructor
-	 */
-	final public static function from(mixed $data): static
-	{
-		return new static($data);
-	}
-
-	/**
 	 * Sets the properties by using the constructor
 	 */
 	final private function __construct(mixed $data = [])
@@ -71,6 +40,14 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 		{
 			unset($this->{$k});
 		}
+	}
+
+	/**
+	 * Populate values for un-serializing data
+	 */
+	public static function __set_state(mixed $properties): self
+	{
+		return new static($properties);
 	}
 
 	/**
@@ -121,6 +98,29 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	public function __toString(): string
 	{
 		return print_r($this, TRUE);
+	}
+
+	/**
+	 * Check the shape of the object, and return the array equivalent
+	 */
+	final public static function check(array $data = []): ?array
+	{
+		$currentClass = static::class;
+
+		if (get_parent_class($currentClass) !== FALSE)
+		{
+			return static::class::from($data)->toArray();
+		}
+
+		return NULL;
+	}
+
+	/**
+	 * Static constructor
+	 */
+	final public static function from(mixed $data): static
+	{
+		return new static($data);
 	}
 
 	/**
@@ -203,23 +203,23 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 
 	#[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  final protected function fromObject(mixed $parent = NULL): float|null|bool|int|array|string
-	{
-		$object = $parent ?? $this;
+ {
+ 	$object = $parent ?? $this;
 
-		if (is_scalar($object) || $object === NULL)
-		{
-			return $object;
-		}
+ 	if (is_scalar($object) || $object === NULL)
+ 	{
+ 		return $object;
+ 	}
 
-		$output = [];
+ 	$output = [];
 
-		foreach ($object as $key => $value)
-		{
-			$output[$key] = (is_scalar($value) || empty($value))
-				? $value
-				: $this->fromObject((array) $value);
-		}
+ 	foreach ($object as $key => $value)
+ 	{
+ 		$output[$key] = (is_scalar($value) || empty($value))
+ 			? $value
+ 			: $this->fromObject((array) $value);
+ 	}
 
-		return $output;
-	}
+ 	return $output;
+ }
 }

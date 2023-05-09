@@ -83,16 +83,16 @@ final class FormGenerator
 				];
 				$params['strict'] = TRUE;
 				unset($params['attribs']['id']);
-			break;
+				break;
 
 			case 'string':
 				$params['type'] = 'text';
-			break;
+				break;
 
 			case 'select':
 				$params['type'] = 'select';
 				$params['options'] = array_flip($form['options']);
-			break;
+				break;
 
 			default:
 				break;

@@ -5,22 +5,12 @@ use PhpCsFixer\{Config, Finder};
 
 $finder = Finder::create()
 	->in([
-		__DIR__,
-		__DIR__ . '/app',
+		__DIR__ . '/src',
+		__DIR__ . '/tests',
 		__DIR__ . '/tools',
 	])
 	->exclude([
-		'apidocs',
-		'build',
-		'coverage',
-		'frontEndSrc',
-		'phinx',
-		'public',
-		'tools',
-		'tmp',
 		'vendor',
-		'views',
-		'templates',
 	]);
 
 return (new Config())
@@ -45,7 +35,7 @@ return (new Config())
 		'blank_line_after_opening_tag' => false,
 		'blank_line_before_statement'  => [
 			'statements' => [
-				'case',
+				// 'case',
 				'continue',
 				'declare',
 				'default',
@@ -128,12 +118,12 @@ return (new Config())
 			'noise_remaining_usages_exclude' => [],
 		],
 		'escape_implicit_backslashes' => [
-			'double_quoted'  => true,
-			'heredoc_syntax' => true,
+			'double_quoted'  => false,
+			'heredoc_syntax' => false,
 			'single_quoted'  => false,
 		],
-		'explicit_indirect_variable' => true,
-		'explicit_string_variable'   => true,
+		'explicit_indirect_variable' => false,
+		'explicit_string_variable'   => false,
 		'final_class'                => false,
 		'final_internal_class'       => [
 			'annotation_exclude'                         => ['@no-final'],
@@ -167,7 +157,7 @@ return (new Config())
 		],
 		'group_import'                => true,
 		'header_comment'              => false, // false by default
-		'heredoc_indentation'         => ['indentation' => 'start_plus_one'],
+		// 'heredoc_indentation'         => ['indentation' => 'start_plus_one'],
 		'heredoc_to_nowdoc'           => true,
 		'implode_call'                => true,
 		'include'                     => true,
@@ -232,8 +222,7 @@ return (new Config())
 			'allow_unused_params' => true,
 			'remove_inheritdoc'   => false,
 		],
-		'no_trailing_comma_in_list_call'        => true,
-		'no_trailing_comma_in_singleline_array' => true,
+		'no_trailing_comma_in_singleline' => true,
 		'no_trailing_whitespace'                => true,
 		'no_trailing_whitespace_in_comment'     => true,
 		'no_trailing_whitespace_in_string'      => true,
@@ -270,9 +259,16 @@ return (new Config())
 		'ordered_class_elements'                           => [
 			'order' => [
 				'use_trait',
-				'constant',
-				'property',
-				'method',
+				'case',
+				'constant_public',
+				'constant_protected',
+				'constant_private',
+				'property_public',
+				'property_protected',
+				'property_private',
+				'construct',
+				'destruct',
+				'magic',
 			],
 			'sort_algorithm' => 'none',
 		],

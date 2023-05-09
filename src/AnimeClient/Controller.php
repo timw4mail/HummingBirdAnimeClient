@@ -43,6 +43,11 @@ class Controller
 	use ContainerAware;
 
 	/**
+	 * The global configuration object
+	 */
+	public ConfigInterface $config;
+
+	/**
 	 * The authentication object
 	 */
 	protected Auth $auth;
@@ -51,11 +56,6 @@ class Controller
 	 * Cache manager
 	 */
 	protected CacheInterface $cache;
-
-	/**
-	 * The global configuration object
-	 */
-	public ConfigInterface $config;
 
 	/**
 	 * Request object
@@ -120,7 +120,7 @@ class Controller
 		Event::on(EventType::RESET_CACHE_KEY, fn (string $key) => $this->cache->delete($key));
 	}
 
-	/**
+ /**
   * Set the current url in the session as the target of a future redirect
   *
   * @throws ContainerException
@@ -128,37 +128,37 @@ class Controller
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function setSessionRedirect(?string $url = NULL): void
-	{
-		$serverParams = $this->request->getServerParams();
+ {
+ 	$serverParams = $this->request->getServerParams();
 
-		if ( ! array_key_exists('HTTP_REFERER', $serverParams))
-		{
-			return;
-		}
+ 	if ( ! array_key_exists('HTTP_REFERER', $serverParams))
+ 	{
+ 		return;
+ 	}
 
-		$util = $this->container->get('util');
-		$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
-		$isLoginPage = str_contains($serverParams['HTTP_REFERER'], 'login');
+ 	$util = $this->container->get('util');
+ 	$doubleFormPage = $serverParams['HTTP_REFERER'] === $this->request->getUri();
+ 	$isLoginPage = str_contains($serverParams['HTTP_REFERER'], 'login');
 
-		// Don't attempt to set the redirect url if
-		// the page is one of the form type pages,
-		// and the previous page is also a form type
-		if ($doubleFormPage || $isLoginPage)
-		{
-			return;
-		}
+ 	// Don't attempt to set the redirect url if
+ 	// the page is one of the form type pages,
+ 	// and the previous page is also a form type
+ 	if ($doubleFormPage || $isLoginPage)
+ 	{
+ 		return;
+ 	}
 
-		if (NULL === $url)
-		{
-			$url = $util->isViewPage()
-				? (string) $this->request->getUri()
-				: $serverParams['HTTP_REFERER'];
-		}
+ 	if (NULL === $url)
+ 	{
+ 		$url = $util->isViewPage()
+ 			? (string) $this->request->getUri()
+ 			: $serverParams['HTTP_REFERER'];
+ 	}
 
-		$this->session->set('redirect_url', $url);
-	}
+ 	$this->session->set('redirect_url', $url);
+ }
 
-	/**
+ /**
   * Redirect to the url previously set in the  session
   *
   * If one is not set, redirect to default url
@@ -167,147 +167,147 @@ class Controller
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function sessionRedirect(): void
-	{
-		$target = $this->session->get('redirect_url') ?? '/';
+ {
+ 	$target = $this->session->get('redirect_url') ?? '/';
 
-		$this->redirect($target, 303);
-		$this->session->set('redirect_url', NULL);
-	}
+ 	$this->redirect($target, 303);
+ 	$this->session->set('redirect_url', NULL);
+ }
 
-	/**
+ /**
   * Check if the current user is authenticated, else error and exit
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function checkAuth(): void
-	{
-		if ( ! $this->auth->isAuthenticated())
-		{
-			$this->errorPage(
-				403,
-				'Forbidden',
-				'You must <a href="/login">log in</a> to perform this action.'
-			);
-		}
-	}
+ {
+ 	if ( ! $this->auth->isAuthenticated())
+ 	{
+ 		$this->errorPage(
+ 			403,
+ 			'Forbidden',
+ 			'You must <a href="/login">log in</a> to perform this action.'
+ 		);
+ 	}
+ }
 
-	/**
+ /**
   * Get the string output of a partial template
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function loadPartial(HtmlView $view, string $template, array $data = []): string
-	{
-		$router = $this->container->get('dispatcher');
+ {
+ 	$router = $this->container->get('dispatcher');
 
-		if (isset($this->baseData))
-		{
-			$data = array_merge($this->baseData, $data);
-		}
+ 	if (isset($this->baseData))
+ 	{
+ 		$data = array_merge($this->baseData, $data);
+ 	}
 
-		$route = $router->getRoute();
-		$data['route_path'] = $route !== FALSE ? $route->path : '';
+ 	$route = $router->getRoute();
+ 	$data['route_path'] = $route !== FALSE ? $route->path : '';
 
-		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
+ 	$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
-		if ( ! is_file($templatePath))
-		{
-			throw new InvalidArgumentException("Invalid template : {$template}");
-		}
+ 	if ( ! is_file($templatePath))
+ 	{
+ 		throw new InvalidArgumentException("Invalid template : {$template}");
+ 	}
 
-		return $view->renderTemplate($templatePath, $data);
-	}
+ 	return $view->renderTemplate($templatePath, $data);
+ }
 
-	/**
+ /**
   * Render a template with header and footer
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
-	{
-		$csp = [
-			"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
-			"object-src 'none'",
-			"child-src 'self' *.youtube.com polyfill.io",
-		];
+ {
+ 	$csp = [
+ 		"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
+ 		"object-src 'none'",
+ 		"child-src 'self' *.youtube.com polyfill.io",
+ 	];
 
-		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
-		$view->appendOutput($this->loadPartial($view, 'header', $data));
+ 	$view->addHeader('Content-Security-Policy', implode('; ', $csp));
+ 	$view->appendOutput($this->loadPartial($view, 'header', $data));
 
-		if (array_key_exists('message', $data) && is_array($data['message']))
-		{
-			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
-		}
+ 	if (array_key_exists('message', $data) && is_array($data['message']))
+ 	{
+ 		$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
+ 	}
 
-		$view->appendOutput($this->loadPartial($view, $template, $data));
-		$view->appendOutput($this->loadPartial($view, 'footer', $data));
+ 	$view->appendOutput($this->loadPartial($view, $template, $data));
+ 	$view->appendOutput($this->loadPartial($view, 'footer', $data));
 
-		return $view;
-	}
+ 	return $view;
+ }
 
-	/**
+ /**
   * 404 action
   *
   * @throws InvalidArgumentException
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function notFound(
-		string $title = 'Sorry, page not found',
-		string $message = 'Page Not Found'
-	): void {
-		$this->outputHTML('404', [
-			'title' => $title,
-			'message' => $message,
-		], NULL, 404);
+ 	string $title = 'Sorry, page not found',
+ 	string $message = 'Page Not Found'
+ ): void {
+ 	$this->outputHTML('404', [
+ 		'title' => $title,
+ 		'message' => $message,
+ 	], NULL, 404);
 
-		exit();
-	}
+ 	exit();
+ }
 
-	/**
+ /**
   * Display a generic error page
   *
   * @throws InvalidArgumentException
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
-	{
-		$this->outputHTML('error', [
-			'title' => $title,
-			'message' => $message,
-			'long_message' => $longMessage,
-		], NULL, $httpCode);
-	}
+ {
+ 	$this->outputHTML('error', [
+ 		'title' => $title,
+ 		'message' => $message,
+ 		'long_message' => $longMessage,
+ 	], NULL, $httpCode);
+ }
 
-	/**
+ /**
   * Redirect to the default controller/url from an empty path
   *
   * @throws InvalidArgumentException
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function redirectToDefaultRoute(): void
-	{
-		$defaultType = $this->config->get('default_list');
-		$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
-	}
+ {
+ 	$defaultType = $this->config->get('default_list');
+ 	$this->redirect($this->urlGenerator->defaultUrl($defaultType), 303);
+ }
 
-	/**
+ /**
   * Set a session flash variable to display a message on
   * next page load
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  public function setFlashMessage(string $message, string $type = 'info'): void
-	{
-		static $messages;
+ {
+ 	static $messages;
 
-		if ( ! $messages)
-		{
-			$messages = [];
-		}
+ 	if ( ! $messages)
+ 	{
+ 		$messages = [];
+ 	}
 
-		$messages[] = [
-			'message_type' => $type,
-			'message' => $message,
-		];
+ 	$messages[] = [
+ 		'message_type' => $type,
+ 		'message' => $message,
+ 	];
 
-		$this->session->setFlash('message', $messages);
-	}
+ 	$this->session->setFlash('message', $messages);
+ }
 
 	/**
 	 * Helper for consistent page titles
@@ -319,38 +319,38 @@ class Controller
 		return implode(' &middot; ', $parts);
 	}
 
-	/**
+ /**
   * Add a message box to the page
   *
   * @throws InvalidArgumentException
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function showMessage(HtmlView $view, string $type, string $message): string
-	{
-		return $this->loadPartial($view, 'message', [
-			'message_type' => $type,
-			'message' => $message,
-		]);
-	}
+ {
+ 	return $this->loadPartial($view, 'message', [
+ 		'message_type' => $type,
+ 		'message' => $message,
+ 	]);
+ }
 
-	/**
+ /**
   * Output a template to HTML, using the provided data
   *
   * @throws InvalidArgumentException
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
-	{
-		if (NULL === $view)
-		{
-			$view = new HtmlView($this->container);
-		}
+ {
+ 	if (NULL === $view)
+ 	{
+ 		$view = new HtmlView($this->container);
+ 	}
 
-		$view->setStatusCode($code);
-		$this->renderFullPage($view, $template, $data)->send();
-	}
+ 	$view->setStatusCode($code);
+ 	$this->renderFullPage($view, $template, $data)->send();
+ }
 
-	/**
+ /**
   * Output a JSON Response
   *
   * @param int $code - the http status code
@@ -358,23 +358,23 @@ class Controller
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function outputJSON(mixed $data, int $code): void
-	{
-		JsonView::new()
-			->setOutput($data)
-			->setStatusCode($code)
-			->send();
-	}
+ {
+ 	JsonView::new()
+ 		->setOutput($data)
+ 		->setStatusCode($code)
+ 		->send();
+ }
 
-	/**
+ /**
   * Redirect to the selected page
   */
  #[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
  protected function redirect(string $url, int $code): void
-	{
-		HttpView::new()
-			->redirect($url, $code)
-			->send();
-	}
+ {
+ 	HttpView::new()
+ 		->redirect($url, $code)
+ 		->send();
+ }
 }
 
 // End of BaseController.php

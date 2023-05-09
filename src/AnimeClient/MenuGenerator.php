@@ -36,6 +36,19 @@ final class MenuGenerator extends UrlGenerator
 	 */
 	protected ServerRequestInterface $request;
 
+	/**
+	 * MenuGenerator constructor.
+	 *
+	 * @throws ContainerException
+	 * @throws NotFoundException
+	 */
+	private function __construct(ContainerInterface $container)
+	{
+		parent::__construct($container);
+		$this->helper = $container->get('html-helper');
+		$this->request = $container->get('request');
+	}
+
 	public static function new(ContainerInterface $container): self
 	{
 		return new self($container);
@@ -78,19 +91,6 @@ final class MenuGenerator extends UrlGenerator
 
 		// Create the menu html
 		return (string) $this->helper->ul();
-	}
-
-	/**
-	 * MenuGenerator constructor.
-	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
-	 */
-	private function __construct(ContainerInterface $container)
-	{
-		parent::__construct($container);
-		$this->helper = $container->get('html-helper');
-		$this->request = $container->get('request');
 	}
 
 	/**
