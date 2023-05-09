@@ -70,37 +70,6 @@ final class Dispatcher extends RoutingBase
 	}
 
 	/**
-	 * Get the current route object, if one matches
-	 */
-	public function getRoute(): Route|false
-	{
-		$logger = $this->container->getLogger();
-
-		$rawRoute = $this->request->getUri()->getPath();
-		$routePath = '/' . trim($rawRoute, '/');
-
-		if ($logger !== NULL)
-		{
-			$logger->info('Dispatcher - Routing data from get_route method');
-			$logger->info(print_r([
-				'route_path' => $routePath,
-			], TRUE));
-		}
-
-		return $this->matcher->match($this->request);
-	}
-
-	/**
-	 * Get list of routes applied
-	 *
-	 * @return mixed[]
-	 */
-	public function getOutputRoutes(): array
-	{
-		return $this->outputRoutes;
-	}
-
-	/**
 	 * Handle the current route
 	 *
 	 * @throws ReflectionException
@@ -139,6 +108,37 @@ final class Dispatcher extends RoutingBase
 		$params = $parsed['params'];
 
 		$this->call($controllerName, $actionMethod, $params);
+	}
+
+	/**
+	 * Get the current route object, if one matches
+	 */
+	public function getRoute(): Route|false
+	{
+		$logger = $this->container->getLogger();
+
+		$rawRoute = $this->request->getUri()->getPath();
+		$routePath = '/' . trim($rawRoute, '/');
+
+		if ($logger !== NULL)
+		{
+			$logger->info('Dispatcher - Routing data from get_route method');
+			$logger->info(print_r([
+				'route_path' => $routePath,
+			], TRUE));
+		}
+
+		return $this->matcher->match($this->request);
+	}
+
+	/**
+	 * Get list of routes applied
+	 *
+	 * @return mixed[]
+	 */
+	public function getOutputRoutes(): array
+	{
+		return $this->outputRoutes;
 	}
 
 	/**
