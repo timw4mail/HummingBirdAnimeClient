@@ -44,7 +44,7 @@ abstract class BaseCommand extends Command
 	/**
 	 * Echo text in a box
 	 */
-	public function echoBox(string|array $message, string|int|NULL $fgColor = NULL, string|int|NULL $bgColor = NULL): void
+	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
 	{
 		if (is_array($message))
 		{
@@ -131,7 +131,7 @@ abstract class BaseCommand extends Command
 		return $this->_di($configArray, $APP_DIR);
 	}
 
-	private function _line(string $message, int|string|NULL $fgColor = NULL, int|string|NULL $bgColor = NULL): void
+	private function _line(string $message, int|string|null $fgColor = NULL, int|string|null $bgColor = NULL): void
 	{
 		if ($fgColor !== NULL)
 		{

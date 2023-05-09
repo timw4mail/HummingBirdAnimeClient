@@ -14,9 +14,8 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
 use Aviat\AnimeClient\{Controller as BaseController, Model};
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 

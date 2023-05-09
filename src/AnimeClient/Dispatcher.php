@@ -317,14 +317,15 @@ final class Dispatcher extends RoutingBase
 
 		$params = [];
 
-		switch ($failure->failedRule) {
+		switch ($failure->failedRule)
+		{
 			case Rule\Allows::class:
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
 					'message' => 'Invalid HTTP Verb',
 				];
-			break;
+				break;
 
 			case Rule\Accepts::class:
 				$params = [
@@ -332,12 +333,12 @@ final class Dispatcher extends RoutingBase
 					'title' => '406 Not Acceptable',
 					'message' => 'Unacceptable content type',
 				];
-			break;
+				break;
 
 			default:
 				// Fall back to a 404 message
 				$actionMethod = NOT_FOUND_METHOD;
-			break;
+				break;
 		}
 
 		return [

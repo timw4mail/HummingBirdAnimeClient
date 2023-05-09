@@ -20,11 +20,9 @@ use Aviat\AnimeClient\Model\{
 	Anime as AnimeModel,
 	AnimeCollection as AnimeCollectionModel
 };
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
-use Aviat\Ion\Json;
 use Aviat\Ion\Exception\DoubleRenderException;
 
 use InvalidArgumentException;
@@ -114,7 +112,6 @@ final class AnimeCollection extends BaseController
 	/**
 	 * Show the anime collection add/edit form
 	 *
-	 * @param int|null $id
 	 * @throws ContainerException
 	 * @throws InvalidArgumentException
 	 * @throws NotFoundException

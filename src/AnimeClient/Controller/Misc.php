@@ -15,12 +15,10 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
-use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\{CharacterTransformer, PersonTransformer};
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Enum\EventType;
-use Aviat\Ion\Attribute\DefaultController;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{DefaultController, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
 use Aviat\Ion\View\HtmlView;

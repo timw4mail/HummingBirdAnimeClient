@@ -34,6 +34,7 @@ use Aviat\AnimeClient\API\{
 use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\{Anime, MangaPage};
+use Aviat\AnimeClient\Types\{AnimeListItem, MangaListItem};
 use Aviat\Ion\{
 	Di\ContainerAware,
 	Json

@@ -17,6 +17,7 @@ namespace Aviat\AnimeClient;
 use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\SimpleCache\CacheInterface;
 use Throwable;
 
@@ -31,9 +32,9 @@ use function Aviat\Ion\_dir;
 /**
  * Load configuration options from .toml files
  *
- * @codeCoverageIgnore
  * @param string $path - Path to load config
  */
+#[CodeCoverageIgnore]
 function loadConfig(string $path): array
 {
 	$output = [];
@@ -72,9 +73,8 @@ function loadConfig(string $path): array
 
 /**
  * Load config from one specific TOML file
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
@@ -130,19 +130,6 @@ function tomlToArray(string $toml): array
 // ----------------------------------------------------------------------------
 //! Misc Functions
 // ----------------------------------------------------------------------------
-
-if ( ! function_exists('array_is_list'))
-{
-	/**
-	 * Polyfill for PHP 8
-	 *
-	 * @see https://www.php.net/manual/en/function.array-is-list
-	 */
-	function array_is_list(array $a): bool
-	{
-		return $a === [] || (array_keys($a) === range(0, count($a) - 1));
-	}
-}
 
 /**
  * Is the array sequential, not associative?
@@ -256,9 +243,8 @@ function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 
 /**
  * Create a transparent placeholder image
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 function createPlaceholderImage(string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
 {
 	$img = ImageBuilder::new($width, $height)
@@ -303,16 +289,15 @@ function clearCache(CacheInterface $cache): bool
 
 	$cleared = $cache->clear();
 
-	$saved = (empty($userData)) ? TRUE : $cache->setMultiple($userData);
+	$saved = empty($userData) || $cache->setMultiple($userData);
 
 	return $cleared && $saved;
 }
 
 /**
  * Render a PHP code template as a string
- *
- * @codeCoverageIgnore
  */
+#[CodeCoverageIgnore]
 function renderTemplate(string $path, array $data): string
 {
 	ob_start();
