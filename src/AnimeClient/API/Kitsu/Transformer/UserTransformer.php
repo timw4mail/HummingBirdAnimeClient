@@ -39,17 +39,18 @@ final class UserTransformer extends AbstractTransformer
 		] : [];
 
 		return User::from([
-			'about' => $base['about'],
-			'avatar' => $base['avatarImage']['original']['url'],
-			'birthday' => Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')',
-			'joinDate' => Kitsu::formatDate($base['createdAt']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['createdAt']), 'day') . ')',
+			'about' => $base['about'] ?? '',
+			'avatar' => $base['avatarImage']['original']['url'] ?? null,
+			'birthday' => $base['birthday'] !== null ? Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')' : null,
+			'joinDate' => Kitsu::formatDate($base['createdAt']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['createdAt']), 'day') . ' ago)',
+			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
 			'name' => $base['name'],
 			'slug' => $base['slug'],
 			'stats' => $this->organizeStats($stats),
 			'waifu' => $waifu,
-			'website' => $base['siteLinks']['nodes'][0]['url'],
+			'website' => $base['siteLinks']['nodes'][0]['url'] ?? null,
 		]);
 	}
 
