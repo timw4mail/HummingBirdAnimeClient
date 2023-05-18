@@ -36,7 +36,7 @@ final class PersonTransformer extends AbstractTransformer
 			'id' => $data['id'],
 			'name' => $canonicalName,
 			'birthday' => $data['birthday'],
-			'image' => $data['image']['original']['url'],
+			'image' => Kitsu::getImage($data),
 			'names' => array_diff($data['names']['localized'], [$canonicalName]),
 			'description' => $data['description']['en'] ?? '',
 			'characters' => $orgData['characters'],
@@ -129,7 +129,7 @@ final class PersonTransformer extends AbstractTransformer
 						'character' => [
 							'id' => $character['id'],
 							'slug' => $character['slug'],
-							'image' => $character['image']['original']['url'] ?? '',
+							'image' => Kitsu::getImage($character),
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [

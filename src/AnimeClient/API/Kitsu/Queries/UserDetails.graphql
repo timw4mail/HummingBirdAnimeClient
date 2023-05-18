@@ -18,6 +18,7 @@ query ($slug: String!) {
 			}
 		}
 		birthday
+		createdAt
 		id
 		location
 		name
@@ -151,7 +152,7 @@ query ($slug: String!) {
 			names {
 				canonical
 				alternatives
-				localized
+				localized(locales: "*")
 			}
 		}
 		waifuOrHusbando

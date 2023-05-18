@@ -21,6 +21,8 @@ final class User extends AbstractType
 {
 	public ?string $about;
 	public ?string $avatar;
+	public ?string $birthday;
+	public ?string $joinDate;
 	public ?array $favorites;
 	public ?string $location;
 	public ?string $name;

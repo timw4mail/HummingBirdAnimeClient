@@ -333,7 +333,8 @@ td.danger, td.danger:hover, td.danger:active {
 .borderless th,
 .invisible tr,
 .invisible td,
-.invisible th {
+.invisible th,
+table.invisible {
 	box-shadow: none;
 	border: 0;
 }
@@ -836,18 +837,10 @@ aside.info {
 	max-width: 390px;
 }
 
-/* .fixed aside.info + article {
-	max-width: inherit;
-} */
-
 aside picture, aside img {
 	display: block;
 	margin: 0 auto;
 }
-
-/* aside.info + article {
-	max-width: 66%;
-} */
 
 /* ----------------------------------------------------------------------------
 	User page styles

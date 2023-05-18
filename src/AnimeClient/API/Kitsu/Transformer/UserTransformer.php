@@ -41,6 +41,8 @@ final class UserTransformer extends AbstractTransformer
 		return User::from([
 			'about' => $base['about'],
 			'avatar' => $base['avatarImage']['original']['url'],
+			'birthday' => Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')',
+			'joinDate' => Kitsu::formatDate($base['createdAt']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['createdAt']), 'day') . ')',
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
 			'name' => $base['name'],

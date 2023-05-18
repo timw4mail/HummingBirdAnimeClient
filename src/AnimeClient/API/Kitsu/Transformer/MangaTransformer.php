@@ -57,7 +57,7 @@ final class MangaTransformer extends AbstractTransformer
 				if (array_key_exists($details['id'], $characters[$type]))
 				{
 					$characters[$type][$details['id']] = [
-						'image' => $details['image']['original']['url'],
+						'image' => Kitsu::getImage($details),
 						'name' => $details['names']['canonical'],
 						'slug' => $details['slug'],
 					];
@@ -103,7 +103,7 @@ final class MangaTransformer extends AbstractTransformer
 					'id' => $person['id'],
 					'slug' => $person['slug'],
 					'name' => $name,
-					'image' => $person['image']['original']['url'],
+					'image' => Kitsu::getImage($person),
 				];
 
 				usort($staff[$role], static fn ($a, $b) => $a['name'] <=> $b['name']);
