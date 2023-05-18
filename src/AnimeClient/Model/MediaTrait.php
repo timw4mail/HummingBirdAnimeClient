@@ -74,7 +74,7 @@ trait MediaTrait
 	 * Get information about a specific list item
 	 * for editing/updating that item
 	 */
-	public function getItem(string $itemId): AnimeListItem|MangaListItem
+	public function getItem(string $itemId): AnimeListItem|MangaListItem|array
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}

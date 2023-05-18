@@ -26,7 +26,7 @@ use Aviat\AnimeClient\Kitsu;
 			<br />
 			<hr />
 			<div class="description">
-				<p><?= str_replace("\n", '</p><p>', $data['description']) ?></p>
+				<p><?= nl2br($data['description']) ?></p>
 			</div>
 		</div>
 	</section>

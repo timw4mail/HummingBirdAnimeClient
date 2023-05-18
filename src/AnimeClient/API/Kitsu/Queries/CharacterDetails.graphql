@@ -6,12 +6,12 @@ query ($slug: String!) {
 				url
 			}
 		}
-		description
+		description(locales: "en")
 		names {
 			alternatives
 			canonical
 			canonicalLocale
-			localized
+			localized(locales: "*")
 		},
 		media(first: 100) {
 			nodes {
@@ -22,7 +22,7 @@ query ($slug: String!) {
 						alternatives
 						canonical
 						canonicalLocale
-						localized
+						localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 					}
 					posterImage {
 						original {
@@ -41,7 +41,7 @@ query ($slug: String!) {
 					type
 				}
 				role
-				voices(first: 10) {
+				voices(first: 10, locale:"*", sort:{direction:ASCENDING, on: UPDATED_AT}) {
 					nodes {
 						id
 						locale
@@ -53,7 +53,7 @@ query ($slug: String!) {
 								alternatives
 								canonical
 								canonicalLocale
-								localized
+								localized(locales: "*")
 							}
 							image {
 								original {

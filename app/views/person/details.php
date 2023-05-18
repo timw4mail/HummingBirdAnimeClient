@@ -8,6 +8,9 @@
 			<?php foreach ($data['names'] as $name): ?>
 				<h3><?= $name ?></h3>
 			<?php endforeach ?>
+			<?php if ( ! empty($data['birthday'])): ?>
+				<h4><?= $data['birthday'] ?></h4>
+			<?php endif ?>
 			<br />
 			<hr />
 			<div class="description">

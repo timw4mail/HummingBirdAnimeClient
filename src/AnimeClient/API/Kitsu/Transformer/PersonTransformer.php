@@ -35,6 +35,7 @@ final class PersonTransformer extends AbstractTransformer
 		return Person::from([
 			'id' => $data['id'],
 			'name' => $canonicalName,
+			'birthday' => $data['birthday'],
 			'image' => $data['image']['original']['url'],
 			'names' => array_diff($data['names']['localized'], [$canonicalName]),
 			'description' => $data['description']['en'] ?? '',
@@ -97,7 +98,12 @@ final class PersonTransformer extends AbstractTransformer
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{
-				$character = $voicing['mediaCharacter']['character'];
+				if ($voicing === null)
+				{
+					continue;
+				}
+
+				$character = $voicing['mediaCharacter']['character'] ?? [];
 				$charId = $character['id'];
 				$rawMedia = $voicing['mediaCharacter']['media'];
 				$role = strtolower($voicing['mediaCharacter']['role']);
@@ -123,7 +129,7 @@ final class PersonTransformer extends AbstractTransformer
 						'character' => [
 							'id' => $character['id'],
 							'slug' => $character['slug'],
-							'image' => $character['image']['original']['url'],
+							'image' => $character['image']['original']['url'] ?? '',
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [
