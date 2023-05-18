@@ -69,9 +69,10 @@ final class User extends BaseController
 			: $username;
 
 		$rawData = $this->kitsuModel->getUserData($username);
-		if ($rawData['data']['findProfileBySlug'] === null)
+		if ($rawData['data']['findProfileBySlug'] === NULL)
 		{
 			$this->notFound('Sorry, user not found', "The user '$username' does not seem to exist.");
+
 			return;
 		}
 

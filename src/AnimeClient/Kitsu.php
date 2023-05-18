@@ -142,7 +142,7 @@ final class Kitsu
 		$now = new DateTimeImmutable();
 		$then = new DateTimeImmutable($date);
 
-		$interval = $now->diff($then, true);
+		$interval = $now->diff($then, TRUE);
 
 		$years = $interval->y * self::SECONDS_IN_MINUTE * self::MINUTES_IN_YEAR;
 		$days = $interval->d * self::SECONDS_IN_MINUTE * self::MINUTES_IN_DAY;
