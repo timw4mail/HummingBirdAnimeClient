@@ -98,7 +98,7 @@ final class PersonTransformer extends AbstractTransformer
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{
-				if ($voicing === null)
+				if ($voicing === NULL)
 				{
 					continue;
 				}

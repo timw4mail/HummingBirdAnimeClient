@@ -40,8 +40,8 @@ final class UserTransformer extends AbstractTransformer
 
 		return User::from([
 			'about' => $base['about'] ?? '',
-			'avatar' => $base['avatarImage']['original']['url'] ?? null,
-			'birthday' => $base['birthday'] !== null ? Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')' : null,
+			'avatar' => $base['avatarImage']['original']['url'] ?? NULL,
+			'birthday' => $base['birthday'] !== NULL ? Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')' : NULL,
 			'joinDate' => Kitsu::formatDate($base['createdAt']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['createdAt']), 'day') . ' ago)',
 			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
@@ -50,7 +50,7 @@ final class UserTransformer extends AbstractTransformer
 			'slug' => $base['slug'],
 			'stats' => $this->organizeStats($stats),
 			'waifu' => $waifu,
-			'website' => $base['siteLinks']['nodes'][0]['url'] ?? null,
+			'website' => $base['siteLinks']['nodes'][0]['url'] ?? NULL,
 		]);
 	}
 
