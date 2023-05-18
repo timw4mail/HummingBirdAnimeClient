@@ -72,18 +72,18 @@ final class Kitsu
 		}
 
 		$monthMap = [
-			'01' => 'Jan',
-			'02' => 'Feb',
-			'03' => 'Mar',
-			'04' => 'Apr',
+			'01' => 'January',
+			'02' => 'February',
+			'03' => 'March',
+			'04' => 'April',
 			'05' => 'May',
-			'06' => 'Jun',
-			'07' => 'Jul',
-			'08' => 'Aug',
-			'09' => 'Sep',
-			'10' => 'Oct',
-			'11' => 'Nov',
-			'12' => 'Dec',
+			'06' => 'June',
+			'07' => 'July',
+			'08' => 'August',
+			'09' => 'September',
+			'10' => 'October',
+			'11' => 'November',
+			'12' => 'December',
 		];
 
 		[$startYear, $startMonth, $startDay] = explode('-', $startDate);
@@ -128,6 +128,29 @@ final class Kitsu
 		}
 
 		return MangaPublishingStatus::NOT_YET_PUBLISHED;
+	}
+
+	public static function formatDate(string $date): string
+	{
+		$date = new DateTimeImmutable($date);
+
+		return $date->format('F d, Y');
+	}
+
+	public static function getDateDiff(string $date): int
+	{
+		$now = new DateTimeImmutable();
+		$then = new DateTimeImmutable($date);
+
+		$interval = $now->diff($then, true);
+
+		$years = $interval->y * self::SECONDS_IN_MINUTE * self::MINUTES_IN_YEAR;
+		$days = $interval->d * self::SECONDS_IN_MINUTE * self::MINUTES_IN_DAY;
+		$hours = $interval->h * self::SECONDS_IN_MINUTE * self::MINUTES_IN_HOUR;
+		$minutes = $interval->i * self::SECONDS_IN_MINUTE;
+		$seconds = $interval->s;
+
+		return $years + $days + $hours + $minutes + $seconds;
 	}
 
 	/**
@@ -335,15 +358,29 @@ final class Kitsu
 	/**
 	 * Get the url of the posterImage from Kitsu, with fallbacks
 	 */
-	public static function getPosterImage(array $base, int $size = 1): string
+	public static function getPosterImage(array $base, int $sizeId = 1): string
 	{
-		$rawUrl = $base['posterImage']['views'][$size]['url']
+		$rawUrl = $base['posterImage']['views'][$sizeId]['url']
 			?? $base['posterImage']['original']['url']
 			?? '/public/images/placeholder.png';
 
 		$parts = explode('?', $rawUrl);
 
-		return (empty($parts)) ? $rawUrl : $parts[0];
+		return $parts[0];
+	}
+
+	/**
+	 * Get the url of the image from Kitsu, with fallbacks
+	 */
+	public static function getImage(array $base, int $sizeId = 1): string
+	{
+		$rawUrl = $base['image']['original']['url']
+			?? $base['image']['views'][$sizeId]['url']
+			?? '/public/images/placeholder.png';
+
+		$parts = explode('?', $rawUrl);
+
+		return $parts[0];
 	}
 
 	/**
@@ -430,7 +467,7 @@ final class Kitsu
 	/**
 	 * Convert a time in seconds to a more human-readable format
 	 */
-	public static function friendlyTime(int $seconds): string
+	public static function friendlyTime(int $seconds, string $minUnit = 'second'): string
 	{
 		// All the seconds left
 		$remSeconds = $seconds % self::SECONDS_IN_MINUTE;
@@ -469,6 +506,11 @@ final class Kitsu
 			}
 
 			$parts[] = "{$value} {$label}";
+
+			if ($label === $minUnit || $label === $minUnit . 's')
+			{
+				break;
+			}
 		}
 
 		$last = array_pop($parts);

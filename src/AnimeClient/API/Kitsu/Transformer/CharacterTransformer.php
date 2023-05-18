@@ -49,7 +49,7 @@ final class CharacterTransformer extends AbstractTransformer
 			'castings' => $castings,
 			'description' => $data['description']['en'],
 			'id' => $data['id'],
-			'image' => $data['image']['original']['url'] ?? 'images/placeholder.png',
+			'image' => Kitsu::getImage($data),
 			'media' => $media,
 			'name' => $name,
 			'names' => $names,
@@ -130,7 +130,7 @@ final class CharacterTransformer extends AbstractTransformer
 						'person' => [
 							'id' => $voice['person']['id'],
 							'slug' => $voice['person']['slug'],
-							'image' => $voice['person']['image']['original']['url'],
+							'image' => Kitsu::getImage($voice['person']),
 							'name' => $voice['person']['name'],
 						],
 						'series' => [],
