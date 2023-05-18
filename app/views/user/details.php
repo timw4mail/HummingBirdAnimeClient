@@ -16,7 +16,9 @@ use Aviat\AnimeClient\Kitsu;
 		<aside class="info">
 			<table class="media-details invisible">
 				<tr>
-					<td><?= $helper->img($data['avatar'], ['alt' => '']); ?></td>
+					<?php if($data['avatar'] !== null): ?>
+					<td><?= $helper->img($data['avatar'], ['alt' => '', 'width' => '225']); ?></td>
+					<?php endif ?>
 					<td><?= $escape->html($data['about']) ?></td>
 				</tr>
 			</table>
@@ -25,6 +27,7 @@ use Aviat\AnimeClient\Kitsu;
 				<?php foreach ([
 					'joinDate' => 'Joined',
 					'birthday' => 'Birthday',
+					'gender' => 'Gender',
 					'location' => 'Location'
 			   ] as $key => $label): ?>
 				<?php if ($data[$key] !== null): ?>
@@ -42,7 +45,7 @@ use Aviat\AnimeClient\Kitsu;
 				</tr>
 				<?php endif ?>
 
-				<?php if ( ! empty($data['waifu'])): ?>
+				<?php if ($data['waifu']['character'] !== null): ?>
 				<tr>
 					<td><?= $escape->html($data['waifu']['label']) ?></td>
 					<td>

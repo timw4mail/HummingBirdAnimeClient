@@ -21,6 +21,7 @@ query ($slug: String!) {
 		createdAt
 		id
 		location
+		gender
 		name
 		proMessage
 		proTier
