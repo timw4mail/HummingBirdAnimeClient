@@ -36,7 +36,8 @@ final class AnimeTransformer extends AbstractTransformer
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(static fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$rawGenres = array_filter($base['categories']['nodes'], static fn ($c) => $c !== null);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $rawGenres);
 
 		sort($genres);
 

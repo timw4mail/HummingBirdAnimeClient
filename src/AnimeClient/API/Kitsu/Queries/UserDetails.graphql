@@ -52,7 +52,7 @@ query ($slug: String!) {
 						}
 						titles {
 							canonical
-							localized
+							localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 						}
 					}
 					...on Manga {
@@ -72,7 +72,7 @@ query ($slug: String!) {
 						}
 						titles {
 							canonical
-							localized
+							localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 						}
 					}
 					...on Person {
@@ -88,11 +88,12 @@ query ($slug: String!) {
 								width
 							}
 						}
+						name,
 						names {
 							alternatives
 							canonical
 							canonicalLocale
-							localized
+							localized(locales: "*")
 						},
 					}
 					...on Character {
@@ -107,12 +108,12 @@ query ($slug: String!) {
 								height
 								width
 							}
-						}
+						},
 						names {
 							alternatives
 							canonical
 							canonicalLocale
-							localized
+							localized(locales: "*")
 						},
 					}
 				}

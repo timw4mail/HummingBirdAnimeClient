@@ -16,7 +16,7 @@ query($id: ID!) {
 			ageRating
 			categories(first: 100) {
 				nodes {
-					title
+					title(locales: "*")
 				}
 			}
 			mappings(first: 10) {
@@ -41,7 +41,7 @@ query($id: ID!) {
 			endDate
 			titles {
 				canonical
-				localized
+				localized(locales: "*")
 				canonicalLocale
 			}
 			type

@@ -535,14 +535,14 @@ final class Model
 	 * Get the data for a specific list item, generally for editing
 	 *
 	 * @param string $listId - The unique identifier of that list item
-	 * @return mixed
 	 */
-	public function getListItem(string $listId)
+	public function getListItem(string $listId): AnimeListItem|MangaListItem|array
 	{
 		$baseData = $this->listItem->get($listId);
 		if ( ! isset($baseData['data']['findLibraryEntryById']))
 		{
-			return [];
+			// We need to get the errors...
+			return $baseData;
 		}
 
 		return (new LibraryEntryTransformer())->transform($baseData['data']['findLibraryEntryById']);

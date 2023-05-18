@@ -305,7 +305,16 @@ final class Kitsu
 			{
 				// Really don't care about languages that aren't english
 				// or Japanese for titles
-				if ( ! in_array($locale, ['en', 'en_us', 'en_jp', 'ja_jp'], TRUE))
+				if ( ! in_array($locale, [
+					'en',
+					'en-jp',
+					'en-us',
+					'en_jp',
+					'en_us',
+					'ja-jp',
+					'ja_jp',
+					'jp',
+				], TRUE))
 				{
 					continue;
 				}
@@ -486,7 +495,7 @@ final class Kitsu
 
 		foreach ($existingTitles as $existing)
 		{
-			$isSubset = mb_substr_count($existing, $title) > 0;
+			$isSubset = mb_substr_count(mb_strtolower($existing), mb_strtolower($title)) > 0;
 			$diff = levenshtein(mb_strtolower($existing), mb_strtolower($title));
 
 			if ($diff <= 4 || $isSubset || mb_strlen($title) > 45 || mb_strlen($existing) > 50)
