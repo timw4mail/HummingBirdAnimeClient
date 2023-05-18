@@ -5,22 +5,24 @@
 	  "avatarImage": {
 		"original": {
 		  "name": "original",
-		  "url": "https://media.kitsu.io/users/avatars/2644/original.gif?1491510751",
-		  "width": null,
-		  "height": null
+		  "url": "https://media.kitsu.io/users/avatars/2644/original.gif",
+		  "width": 0,
+		  "height": 0
 		}
 	  },
 	  "bannerImage": {
 		"original": {
 		  "name": "original",
-		  "url": "https://media.kitsu.io/users/cover_images/2644/original.jpeg?1487201681",
-		  "width": null,
-		  "height": null
+		  "url": "https://media.kitsu.io/users/cover_images/2644/original.jpeg",
+		  "width": 0,
+		  "height": 0
 		}
 	  },
 	  "birthday": "1990-03-09",
+	  "createdAt": "2013-05-16T22:00:07Z",
 	  "id": "2644",
 	  "location": "Michigan, USA",
+	  "gender": "male",
 	  "name": "timw4mail",
 	  "proMessage": null,
 	  "proTier": null,
@@ -52,6 +54,369 @@
 	  "favorites": {
 		"nodes": [
 		  {
+			"id": "1671648",
+			"item": {
+			  "__typename": "Anime",
+			  "id": "8710",
+			  "slug": "ore-twintails-ni-narimasu",
+			  "posterImage": {
+				"original": {
+				  "url": "https://media.kitsu.io/anime/poster_images/8710/original.jpg",
+				  "height": 0,
+				  "width": 0
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/8710/tiny.jpg",
+					"height": 156,
+					"width": 110
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/8710/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/8710/small.jpg",
+					"height": 402,
+					"width": 284
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/8710/medium.jpg",
+					"height": 554,
+					"width": 390
+				  }
+				]
+			  },
+			  "titles": {
+				"canonical": "Ore, Twintail ni Narimasu.",
+				"localized": {
+				  "en": "Gonna be the Twin-Tail!!",
+				  "en-t-ja": "Ore, Twintail ni Narimasu.",
+				  "ja-jp": "俺、ツインテールになります。"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1671647",
+			"item": {
+			  "__typename": "Manga",
+			  "id": "40324",
+			  "slug": "ijiranaide-nagatoro-san",
+			  "posterImage": {
+				"original": {
+				  "url": "https://media.kitsu.io/manga/poster_images/40324/original.jpg",
+				  "height": 0,
+				  "width": 0
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/manga/poster_images/40324/tiny.jpg",
+					"height": 156,
+					"width": 110
+				  },
+				  {
+					"url": "https://media.kitsu.io/manga/poster_images/40324/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/manga/poster_images/40324/small.jpg",
+					"height": 402,
+					"width": 284
+				  },
+				  {
+					"url": "https://media.kitsu.io/manga/poster_images/40324/medium.jpg",
+					"height": 554,
+					"width": 390
+				  }
+				]
+			  },
+			  "titles": {
+				"canonical": "Ijiranaide, Nagatoro-san",
+				"localized": {
+				  "en": "Please don't bully me, Nagatoro",
+				  "en-t-ja": "Ijiranaide, Nagatoro-san",
+				  "ja-jp": "イジらないで、長瀞さん"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1605263",
+			"item": {
+			  "__typename": "Anime",
+			  "id": "186",
+			  "slug": "ranma-nettou-hen",
+			  "posterImage": {
+				"original": {
+				  "url": "https://media.kitsu.io/anime/poster_images/186/original.jpg",
+				  "height": 0,
+				  "width": 0
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/186/tiny.jpg",
+					"height": 156,
+					"width": 110
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/186/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/186/small.jpg",
+					"height": 402,
+					"width": 284
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/186/medium.jpg",
+					"height": 554,
+					"width": 390
+				  }
+				]
+			  },
+			  "titles": {
+				"canonical": "Ranma ½",
+				"localized": {
+				  "en": "Ranma ½",
+				  "en-t-ja": "Ranma ½",
+				  "ja-jp": "らんま1/2"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1605262",
+			"item": {
+			  "__typename": "Character",
+			  "id": "72098",
+			  "slug": "kaguya-shinomiya",
+			  "image": {
+				"original": {
+				  "url": "https://media.kitsu.io/characters/images/72098/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/72098/image/tiny-1100d3ab381e931da52d3b101e288e9f.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/72098/image/large-c17ad60081a5ce13f864a5ced17796dc.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/72098/image/small-076c6bb1e083a88882486e365c960917.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/72098/image/medium-727af59129bae47e5caeceb0c88557ac.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "Kaguya Shinomiya",
+				"canonicalLocale": null,
+				"localized": {
+				  "en": "Kaguya Shinomiya",
+				  "ja-jp": "四宮 かぐや"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1605261",
+			"item": {
+			  "__typename": "Character",
+			  "id": "5113",
+			  "slug": "kagome-higurashi",
+			  "image": {
+				"original": {
+				  "url": "https://media.kitsu.io/characters/images/5113/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/5113/image/tiny-9845283cee3765e7627affd86fcfe798.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/5113/image/large-d1f84a6858136c0f1e005676836a472c.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/5113/image/small-9aebfefc3dfb58e4947b035a997b339c.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/5113/image/medium-ad25ed7524c2bb2d44d227a50d1cf19b.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
+			  },
+			  "names": {
+				"alternatives": [],
+				"canonical": "Kagome Higurashi",
+				"canonicalLocale": null,
+				"localized": {
+				  "en": "Kagome Higurashi",
+				  "ja-jp": "日暮 かごめ"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1605260",
+			"item": {
+			  "__typename": "Character",
+			  "id": "3969",
+			  "slug": "ranma-saotome",
+			  "image": {
+				"original": {
+				  "url": "https://media.kitsu.io/characters/images/3969/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/3969/image/tiny-9e3de175b9678c97c2d13a86ad5a025d.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3969/image/large-45a86c1ee14f6f5f0deacae4acdd71db.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3969/image/small-bffce25af767e21c603207d36cac315f.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3969/image/medium-88b729e1a6b02ebdf1a829777d7fddc4.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
+			  },
+			  "names": {
+				"alternatives": [
+				  "Ran-chan",
+				  "Ranko",
+				  "Osage no onna (Pigtailed Girl)"
+				],
+				"canonical": "Ranma Saotome",
+				"canonicalLocale": null,
+				"localized": {
+				  "en": "Ranma Saotome",
+				  "ja-jp": "早乙女 乱馬"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1605259",
+			"item": {
+			  "__typename": "Character",
+			  "id": "3970",
+			  "slug": "akane-tendo",
+			  "image": {
+				"original": {
+				  "url": "https://media.kitsu.io/characters/images/3970/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/3970/image/tiny-77c338ad5155db2bb3667f7181feed07.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3970/image/large-f36bd803e355fa43186b9efd62e0dc62.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3970/image/small-6fd19a5b7c041edbb1259afc78d6d272.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/3970/image/medium-ece4ec7538c290235e2a027d47b07d8f.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
+			  },
+			  "names": {
+				"alternatives": [
+				  "Macho Chick"
+				],
+				"canonical": "Akane Tendou",
+				"canonicalLocale": null,
+				"localized": {
+				  "en": "Akane Tendou",
+				  "ja-jp": "天道 あかね"
+				}
+			  }
+			}
+		  },
+		  {
+			"id": "1604573",
+			"item": {
+			  "__typename": "Character",
+			  "id": "1438",
+			  "slug": "chii",
+			  "image": {
+				"original": {
+				  "url": "https://media.kitsu.io/characters/images/1438/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/1438/image/tiny-98b1d86328741e0e7ec928ff07cb9906.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/1438/image/large-edf9c97b4cfcb6611931b5519c0a6d94.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/1438/image/small-47419d3506d971b49ef22706bf902507.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/1438/image/medium-9a03116bc909aa45e50558f40c7a5441.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
+			  },
+			  "names": {
+				"alternatives": [
+				  "Elda"
+				],
+				"canonical": "Chii",
+				"canonicalLocale": null,
+				"localized": {
+				  "en": "Chii",
+				  "ja-jp": "ちぃ"
+				}
+			  }
+			}
+		  },
+		  {
 			"id": "933073",
 			"item": {
 			  "__typename": "Anime",
@@ -59,30 +424,30 @@
 			  "slug": "hataraku-saibou-tv",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/anime/poster_images/14212/original.jpg?1597697195",
-				  "height": 1050,
-				  "width": 750
+				  "url": "https://media.kitsu.io/anime/poster_images/14212/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/14212/tiny.jpg?1597697195",
+					"url": "https://media.kitsu.io/anime/poster_images/14212/tiny.jpg",
 					"height": 156,
 					"width": 110
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/14212/small.jpg?1597697195",
+					"url": "https://media.kitsu.io/anime/poster_images/14212/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/14212/small.jpg",
 					"height": 402,
 					"width": 284
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/14212/medium.jpg?1597697195",
+					"url": "https://media.kitsu.io/anime/poster_images/14212/medium.jpg",
 					"height": 554,
 					"width": 390
-				  },
-				  {
-					"url": "https://media.kitsu.io/anime/poster_images/14212/large.jpg?1597697195",
-					"height": 780,
-					"width": 550
 				  }
 				]
 			  },
@@ -90,8 +455,8 @@
 				"canonical": "Hataraku Saibou",
 				"localized": {
 				  "en": "Cells at Work!",
-				  "en_jp": "Hataraku Saibou",
-				  "ja_jp": "はたらく細胞"
+				  "en-t-ja": "Hataraku Saibou",
+				  "ja-jp": "はたらく細胞"
 				}
 			  }
 			}
@@ -104,30 +469,30 @@
 			  "slug": "fate-stay-night",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/anime/poster_images/323/original.jpg?1597698066",
-				  "height": 1074,
-				  "width": 760
+				  "url": "https://media.kitsu.io/anime/poster_images/323/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/323/tiny.jpg?1597698066",
+					"url": "https://media.kitsu.io/anime/poster_images/323/tiny.jpg",
 					"height": 156,
 					"width": 110
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/323/small.jpg?1597698066",
+					"url": "https://media.kitsu.io/anime/poster_images/323/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/323/small.jpg",
 					"height": 402,
 					"width": 284
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/323/medium.jpg?1597698066",
+					"url": "https://media.kitsu.io/anime/poster_images/323/medium.jpg",
 					"height": 554,
 					"width": 390
-				  },
-				  {
-					"url": "https://media.kitsu.io/anime/poster_images/323/large.jpg?1597698066",
-					"height": 780,
-					"width": 550
 				  }
 				]
 			  },
@@ -135,9 +500,8 @@
 				"canonical": "Fate/stay night",
 				"localized": {
 				  "en": "Fate/stay night",
-				  "en_jp": "Fate/stay night",
-				  "en_us": "Fate/stay night",
-				  "ja_jp": "Fate/stay night"
+				  "en-t-ja": "Fate/stay night",
+				  "ja-jp": "Fate/stay night"
 				}
 			  }
 			}
@@ -150,8 +514,30 @@
 			  "slug": "saber",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/6553/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/6553/image/tiny-3c55b6046721ce8c7d814ce81085e831.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6553/image/large-e07894deb248247058837bd73da0e08f.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6553/image/small-50137cc0861c18bb2591bc5dad85414b.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6553/image/medium-99fff0e9c562c6a55ce69a12ebf5bb9d.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [
@@ -161,7 +547,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Saber",
-				  "ja_jp": "セイバー"
+				  "ja-jp": "セイバー"
 				}
 			  }
 			}
@@ -174,8 +560,30 @@
 			  "slug": "rin-tohsaka",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/6556/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/6556/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/6556/image/tiny-f80f60d7571b1b63deab88671a8d2e75.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6556/image/large-970089ec2f2e40ff3cbfae2322c3bece.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6556/image/small-a0aaf6b1cbaccc62c70cd87f737f9439.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/6556/image/medium-3e67c2d2ea45484fde2c6840aa8904e0.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [],
@@ -183,7 +591,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Rin Toosaka",
-				  "ja_jp": "遠坂 凛"
+				  "ja-jp": "遠坂 凛"
 				}
 			  }
 			}
@@ -196,8 +604,30 @@
 			  "slug": "nano-shinonome",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/32035/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/32035/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/32035/image/tiny-37e5a8f8ca11f92221c8ac3da187284c.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32035/image/large-afd0ecf3e4bacde879c6204f715161ca.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32035/image/small-dc283bf30a0e2687d62a0313e63d5ed5.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32035/image/medium-8f91388c36a081828a7dc5fb19ce28f2.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [],
@@ -205,7 +635,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Nano Shinonome",
-				  "ja_jp": "東雲 なの"
+				  "ja-jp": "東雲 なの"
 				}
 			  }
 			}
@@ -218,8 +648,30 @@
 			  "slug": "mio-naganohara",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/32034/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/32034/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/32034/image/tiny-709f2a4daa2a01fec0c47b4a144439a5.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32034/image/large-7f9a0548990bbc414234fc53826cee6c.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32034/image/small-db36930f2d5a92de3a07258a3a51bfca.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/32034/image/medium-916c0f308117c0db949630cc2e7051f8.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [],
@@ -227,7 +679,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Mio Naganohara",
-				  "ja_jp": "長野原みお"
+				  "ja-jp": "長野原みお"
 				}
 			  }
 			}
@@ -240,30 +692,30 @@
 			  "slug": "tsukuyomi-moon-phase",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/anime/poster_images/310/original.jpg?1597690591",
-				  "height": 320,
-				  "width": 225
+				  "url": "https://media.kitsu.io/anime/poster_images/310/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/310/tiny.jpg?1597690591",
+					"url": "https://media.kitsu.io/anime/poster_images/310/tiny.jpg",
 					"height": 156,
 					"width": 110
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/310/small.jpg?1597690591",
+					"url": "https://media.kitsu.io/anime/poster_images/310/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/310/small.jpg",
 					"height": 402,
 					"width": 284
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/310/medium.jpg?1597690591",
+					"url": "https://media.kitsu.io/anime/poster_images/310/medium.jpg",
 					"height": 554,
 					"width": 390
-				  },
-				  {
-					"url": "https://media.kitsu.io/anime/poster_images/310/large.jpg?1597690591",
-					"height": 780,
-					"width": 550
 				  }
 				]
 			  },
@@ -271,9 +723,8 @@
 				"canonical": "Tsukuyomi: Moon Phase",
 				"localized": {
 				  "en": "Tsukuyomi: Moon Phase",
-				  "en_jp": "Tsukuyomi: Moon Phase",
-				  "en_us": "Tsukuyomi: Moon Phase",
-				  "ja_jp": "月詠 −MOON PHASE−"
+				  "en-t-ja": "Tsukuyomi: Moon Phase",
+				  "ja-jp": "月詠 −MOON PHASE−"
 				}
 			  }
 			}
@@ -286,62 +737,38 @@
 			  "slug": "carnival-phantasm",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/anime/poster_images/5992/original.jpg?1597697878",
-				  "height": 693,
-				  "width": 533
+				  "url": "https://media.kitsu.io/anime/poster_images/5992/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/5992/tiny.jpg?1597697878",
+					"url": "https://media.kitsu.io/anime/poster_images/5992/tiny.jpg",
 					"height": 156,
 					"width": 110
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/5992/small.jpg?1597697878",
+					"url": "https://media.kitsu.io/anime/poster_images/5992/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/5992/small.jpg",
 					"height": 402,
 					"width": 284
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/5992/medium.jpg?1597697878",
+					"url": "https://media.kitsu.io/anime/poster_images/5992/medium.jpg",
 					"height": 554,
 					"width": 390
-				  },
-				  {
-					"url": "https://media.kitsu.io/anime/poster_images/5992/large.jpg?1597697878",
-					"height": 780,
-					"width": 550
 				  }
 				]
 			  },
 			  "titles": {
 				"canonical": "Carnival Phantasm",
 				"localized": {
-				  "en_jp": "Carnival Phantasm",
-				  "ja_jp": "カーニバル・ファンタズム"
-				}
-			  }
-			}
-		  },
-		  {
-			"id": "636590",
-			"item": {
-			  "__typename": "Character",
-			  "id": "31851",
-			  "slug": "aria-holmes-kanzaki",
-			  "image": {
-				"original": {
-				  "url": "https://media.kitsu.io/characters/images/31851/original.jpg?1483096805"
-				}
-			  },
-			  "names": {
-				"alternatives": [
-				  "Quadra Aria"
-				],
-				"canonical": "Aria Holmes Kanzaki",
-				"canonicalLocale": null,
-				"localized": {
-				  "en": "Aria Holmes Kanzaki",
-				  "ja_jp": "神崎・H・アリア"
+				  "en-t-ja": "Carnival Phantasm",
+				  "ja-jp": "カーニバル・ファンタズム"
 				}
 			  }
 			}
@@ -354,8 +781,30 @@
 			  "slug": "taiga-aisaka",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/25930/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/25930/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/25930/image/tiny-16e96ed8b5bb2ee3529cc0ead065fe83.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/25930/image/large-72d18550c34d0fbf5265cda5949fb0e5.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/25930/image/small-4d7731584490b091f9d59c3fe0527ec2.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/25930/image/medium-541476f834fbefa2f829a4ab1c81c348.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [
@@ -365,7 +814,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Taiga Aisaka",
-				  "ja_jp": "逢坂 大河"
+				  "ja-jp": "逢坂 大河"
 				}
 			  }
 			}
@@ -378,8 +827,30 @@
 			  "slug": "victorique-de-blois",
 			  "image": {
 				"original": {
-				  "url": "https://media.kitsu.io/characters/images/31625/original.jpg?1483096805"
-				}
+				  "url": "https://media.kitsu.io/characters/images/31625/original.jpg"
+				},
+				"views": [
+				  {
+					"url": "https://media.kitsu.io/character/31625/image/tiny-916ccdc2623cc13ed3b7d50c4c1f6947.jpeg",
+					"height": 120,
+					"width": 100
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/31625/image/large-741fa69e62648cb1975c6492e8415aa9.jpeg",
+					"height": 600,
+					"width": 500
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/31625/image/small-7cd08f9a7ad2d082cb74b36caad7c6a8.jpeg",
+					"height": 240,
+					"width": 200
+				  },
+				  {
+					"url": "https://media.kitsu.io/character/31625/image/medium-c0fcb6b1807a7bc4597c7a02e39fb8d3.jpeg",
+					"height": 360,
+					"width": 300
+				  }
+				]
 			  },
 			  "names": {
 				"alternatives": [
@@ -391,7 +862,7 @@
 				"canonicalLocale": null,
 				"localized": {
 				  "en": "Victorique de Blois",
-				  "ja_jp": "ヴィクトリカ・ド・ブロワ"
+				  "ja-jp": "ヴィクトリカ・ド・ブロワ"
 				}
 			  }
 			}
@@ -404,28 +875,28 @@
 			  "slug": "tonari-no-seki-kun",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/manga/poster_images/21733/original.jpg?1496845097",
-				  "height": null,
-				  "width": null
+				  "url": "https://media.kitsu.io/manga/poster_images/21733/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/manga/poster_images/21733/tiny.jpg?1496845097",
+					"url": "https://media.kitsu.io/manga/poster_images/21733/tiny.jpg",
 					"height": null,
 					"width": null
 				  },
 				  {
-					"url": "https://media.kitsu.io/manga/poster_images/21733/small.jpg?1496845097",
+					"url": "https://media.kitsu.io/manga/poster_images/21733/large.jpg",
 					"height": null,
 					"width": null
 				  },
 				  {
-					"url": "https://media.kitsu.io/manga/poster_images/21733/medium.jpg?1496845097",
+					"url": "https://media.kitsu.io/manga/poster_images/21733/small.jpg",
 					"height": null,
 					"width": null
 				  },
 				  {
-					"url": "https://media.kitsu.io/manga/poster_images/21733/large.jpg?1496845097",
+					"url": "https://media.kitsu.io/manga/poster_images/21733/medium.jpg",
 					"height": null,
 					"width": null
 				  }
@@ -435,9 +906,8 @@
 				"canonical": "Tonari no Seki-kun",
 				"localized": {
 				  "en": "My Neighbour Seki",
-				  "en_jp": "Tonari no Seki-kun",
-				  "en_us": "My Neighbour Seki",
-				  "ja_jp": "となりの関くん"
+				  "en-t-ja": "Tonari no Seki-kun",
+				  "ja-jp": "となりの関くん"
 				}
 			  }
 			}
@@ -450,30 +920,30 @@
 			  "slug": "nichijou",
 			  "posterImage": {
 				"original": {
-				  "url": "https://media.kitsu.io/anime/poster_images/6062/original.jpg?1597696783",
-				  "height": 2292,
-				  "width": 1610
+				  "url": "https://media.kitsu.io/anime/poster_images/6062/original.jpg",
+				  "height": 0,
+				  "width": 0
 				},
 				"views": [
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/6062/tiny.jpg?1597696783",
+					"url": "https://media.kitsu.io/anime/poster_images/6062/tiny.jpg",
 					"height": 156,
 					"width": 110
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/6062/small.jpg?1597696783",
+					"url": "https://media.kitsu.io/anime/poster_images/6062/large.jpg",
+					"height": 780,
+					"width": 550
+				  },
+				  {
+					"url": "https://media.kitsu.io/anime/poster_images/6062/small.jpg",
 					"height": 402,
 					"width": 284
 				  },
 				  {
-					"url": "https://media.kitsu.io/anime/poster_images/6062/medium.jpg?1597696783",
+					"url": "https://media.kitsu.io/anime/poster_images/6062/medium.jpg",
 					"height": 554,
 					"width": 390
-				  },
-				  {
-					"url": "https://media.kitsu.io/anime/poster_images/6062/large.jpg?1597696783",
-					"height": 780,
-					"width": 550
 				  }
 				]
 			  },
@@ -481,9 +951,8 @@
 				"canonical": "Nichijou",
 				"localized": {
 				  "en": "Nichijou - My Ordinary Life",
-				  "en_jp": "Nichijou",
-				  "en_us": "Nichijou - My Ordinary Life",
-				  "ja_jp": "日常"
+				  "en-t-ja": "Nichijou",
+				  "ja-jp": "日常"
 				}
 			  }
 			}
@@ -492,31 +961,31 @@
 	  },
 	  "stats": {
 		"animeAmountConsumed": {
-		  "completed": 893,
+		  "completed": 1075,
 		  "id": "2161520",
-		  "media": 1044,
-		  "recalculatedAt": "2018-12-25",
-		  "time": 16953917,
-		  "units": 14943
+		  "media": 1254,
+		  "recalculatedAt": "2021-03-25",
+		  "time": 19193680,
+		  "units": 17720
 		},
 		"mangaAmountConsumed": {
-		  "completed": 26,
+		  "completed": 27,
 		  "id": "841057",
-		  "media": 49,
+		  "media": 52,
 		  "recalculatedAt": "2018-12-20",
-		  "units": 2678
+		  "units": 2862
 		}
 	  },
-	  "url": "https://kitsu/users/timw4mail",
+	  "url": "https://kitsu.io/users/timw4mail",
 	  "waifu": {
 		"id": "6553",
 		"slug": "saber",
 		"image": {
 		  "original": {
 			"name": "original",
-			"url": "https://media.kitsu.io/characters/images/6553/original.jpg?1483096805",
-			"width": null,
-			"height": null
+			"url": "https://media.kitsu.io/characters/images/6553/original.jpg",
+			"width": 0,
+			"height": 0
 		  }
 		},
 		"names": {
@@ -526,7 +995,7 @@
 		  ],
 		  "localized": {
 			"en": "Saber",
-			"ja_jp": "セイバー"
+			"ja-jp": "セイバー"
 		  }
 		}
 	  },
