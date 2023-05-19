@@ -73,7 +73,7 @@ _.on('body.anime.list', 'click', '.plus-one', (e) => {
 
 	const displayMessage = (type, message) => {
 		_.hide('#loading-shadow');
-		_.showMessage(type, `${message} ${title}.`);
+		_.showMessage(type, `${message} ${title}`);
 		_.scrollToTop();
 	}
 

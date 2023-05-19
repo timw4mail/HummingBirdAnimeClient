@@ -55,7 +55,7 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 
 	const displayMessage = (type, message) => {
 		_.hide('#loading-shadow');
-		_.showMessage(type, `${message} ${title}.`);
+		_.showMessage(type, `${message} ${title}`);
 		_.scrollToTop();
 	}
 
