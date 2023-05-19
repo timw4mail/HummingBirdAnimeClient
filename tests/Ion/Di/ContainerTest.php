@@ -30,8 +30,8 @@ use TypeError;
 final class FooTest
 {
 	public function __construct(public $item)
- {
- }
+	{
+	}
 }
 
 class FooTest2
@@ -162,7 +162,7 @@ final class ContainerTest extends IonTestCase
 
 	public function testGetSet(): void
 	{
-		$container = $this->container->set('foo', static fn() => static function (): void {});
+		$container = $this->container->set('foo', static fn () => static function (): void {});
 
 		$this->assertInstanceOf(Container::class, $container);
 		$this->assertInstanceOf(ContainerInterface::class, $container);

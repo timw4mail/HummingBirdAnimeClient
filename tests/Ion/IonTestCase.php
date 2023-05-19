@@ -92,7 +92,7 @@ class IonTestCase extends TestCase
 		// Set up DI container
 		$di = require 'di.php';
 		$container = $di($config_array);
-		$container->set('session-handler', static function (): \Aviat\Ion\Tests\TestSessionHandler {
+		$container->set('session-handler', static function (): TestSessionHandler {
 			// Use mock session handler
 			$session_handler = new TestSessionHandler();
 			session_set_save_handler($session_handler, TRUE);
