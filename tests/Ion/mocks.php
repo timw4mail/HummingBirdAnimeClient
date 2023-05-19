@@ -36,9 +36,9 @@ class MockErrorHandler
 
 class TestEnum extends Enum
 {
-	public const FOO = 'bar';
-	public const BAR = 'foo';
-	public const FOOBAR = 'baz';
+	final public const FOO = 'bar';
+	final public const BAR = 'foo';
+	final public const FOOBAR = 'baz';
 }
 
 class FriendGrandParentTestClass
@@ -49,13 +49,13 @@ class FriendGrandParentTestClass
 class FriendParentTestClass extends FriendGrandParentTestClass
 {
 	protected $parentProtected = 47;
-	private $parentPrivate = 654;
+	private int $parentPrivate = 654;
 }
 
 class FriendTestClass extends FriendParentTestClass
 {
 	protected $protected = 356;
-	private $private = 486;
+	private int $private = 486;
 
 	protected function getProtected()
 	{

@@ -83,6 +83,7 @@ final class MenuGeneratorTest extends AnimeClientTestCase
 		];
 		$config = $this->container->get('config');
 		$config->set('menus', $menus);
+
 		$this->container->setInstance('config', $config);
 		$expected = '';
 

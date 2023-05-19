@@ -74,7 +74,7 @@ final class JsonTest extends IonTestCase
 		$this->assertEquals((object) $expected, Json::decode($json, FALSE));
 
 		$badJson = '{foo:{1|2}}';
-		$this->expectException('Aviat\Ion\JsonException');
+		$this->expectException(\Aviat\Ion\JsonException::class);
 		$this->expectExceptionMessage('JSON_ERROR_SYNTAX - Syntax error');
 		$this->expectExceptionCode(JSON_ERROR_SYNTAX);
 
