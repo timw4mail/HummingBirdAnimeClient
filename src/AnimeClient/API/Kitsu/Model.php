@@ -567,7 +567,7 @@ final class Model
 		// this way is much faster...
 		foreach ($statuses as $status)
 		{
-			foreach ($this->getPages([$this, 'getThumbListPages'], strtoupper($type), $status) as $page)
+			foreach ($this->getPages($this->getThumbListPages(...), strtoupper($type), $status) as $page)
 			{
 				$pages[] = $page;
 			}
@@ -597,7 +597,7 @@ final class Model
 		// this way is much faster...
 		foreach ($statuses as $status)
 		{
-			foreach ($this->getPages([$this, 'getSyncPages'], strtoupper($type), $status) as $page)
+			foreach ($this->getPages($this->getSyncPages(...), strtoupper($type), $status) as $page)
 			{
 				$pages[] = $page;
 			}
@@ -627,7 +627,7 @@ final class Model
 	{
 		$pages = [];
 
-		foreach ($this->getPages([$this, 'getListPages'], strtoupper($type), strtoupper($status)) as $page)
+		foreach ($this->getPages($this->getListPages(...), strtoupper($type), strtoupper($status)) as $page)
 		{
 			$pages[] = $page;
 		}

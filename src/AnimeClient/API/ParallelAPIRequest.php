@@ -56,7 +56,7 @@ final class ParallelAPIRequest
 	 */
 	public function addRequests(array $requests): self
 	{
-		array_walk($requests, [$this, 'addRequest']);
+		array_walk($requests, $this->addRequest(...));
 
 		return $this;
 	}
