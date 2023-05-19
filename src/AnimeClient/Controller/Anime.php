@@ -306,8 +306,6 @@ final class Anime extends BaseController
 					'Anime not found',
 					'Anime Not Found'
 				);
-
-				return;
 			}
 
 			$this->outputHTML('anime/details', [
@@ -345,8 +343,6 @@ final class Anime extends BaseController
 					'Anime not found',
 					'Anime Not Found'
 				);
-
-				return;
 			}
 
 			$this->outputHTML('anime/details', [

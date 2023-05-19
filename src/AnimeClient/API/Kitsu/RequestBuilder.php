@@ -78,7 +78,7 @@ final class RequestBuilder extends APIRequestBuilder
 		elseif ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
 		{
 			$token = $sessionSegment->get('auth_token');
-			if ( ! (empty($token) || $cache->has(K::AUTH_TOKEN_CACHE_KEY)))
+			if ( ! empty($token))
 			{
 				$cache->set(K::AUTH_TOKEN_CACHE_KEY, $token);
 			}
@@ -238,44 +238,5 @@ final class RequestBuilder extends APIRequestBuilder
 		return $this->setUpRequest('POST', $this->baseUrl, [
 			'body' => $body,
 		]);
-	}
-
-	/**
-	 * Make a request
-	 */
-	private function request(string $type, string $url, array $options = []): array
-	{
-		$logger = $this->container->getLogger('kitsu-request');
-		$response = $this->getResponse($type, $url, $options);
-		$statusCode = $response->getStatus();
-
-		// Check for requests that are unauthorized
-		if ($statusCode === 401 || $statusCode === 403)
-		{
-			Event::emit(EventType::UNAUTHORIZED);
-		}
-
-		$rawBody = wait($response->getBody()->buffer());
-
-		// Any other type of failed request
-		if ($statusCode > 299 || $statusCode < 200)
-		{
-			if ($logger !== NULL)
-			{
-				$logger->warning('Non 2xx response for api call', (array) $response);
-			}
-		}
-
-		try
-		{
-			return Json::decode($rawBody);
-		}
-		catch (JsonException)
-		{
-			// dump($e);
-			dump($rawBody);
-
-			exit();
-		}
 	}
 }

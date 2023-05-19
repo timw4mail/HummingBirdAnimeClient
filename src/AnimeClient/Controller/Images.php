@@ -96,7 +96,7 @@ final class Images extends BaseController
 
 		$kitsuUrl .= $imageType['kitsuUrl'];
 		$width = $imageType['width'];
-		$height = $imageType['height'];
+		$height = $imageType['height'] ?? 225;
 		$filePrefix = "{$baseSavePath}/{$type}/{$id}";
 
 		$response = getResponse($kitsuUrl);
@@ -120,11 +120,11 @@ final class Images extends BaseController
 
 			if ($display)
 			{
-				$this->getPlaceholder("{$baseSavePath}/{$type}", $width, $height);
+				$this->getPlaceholder("{$baseSavePath}/{$type}", $width ?? 225, $height);
 			}
 			else
 			{
-				createPlaceholderImage("{$baseSavePath}/{$type}", $width, $height);
+				createPlaceholderImage("{$baseSavePath}/{$type}", $width ?? 225, $height);
 			}
 
 			return;
@@ -132,7 +132,13 @@ final class Images extends BaseController
 
 		$data = wait($response->getBody()->buffer());
 
-		[$origWidth] = getimagesizefromstring($data);
+		$size = getimagesizefromstring($data);
+		if ($size === FALSE)
+		{
+			return;
+		}
+
+		[$origWidth] = $size;
 		$gdImg = imagecreatefromstring($data);
 		if ($gdImg === FALSE)
 		{
@@ -182,15 +188,15 @@ final class Images extends BaseController
 	/**
 	 * Get a placeholder for a missing image
 	 */
-	private function getPlaceholder(string $path, ?int $width = 200, ?int $height = NULL): void
+	private function getPlaceholder(string $path, ?int $width = NULL, ?int $height = NULL): void
 	{
-		$height ??= $width;
+		$height ??= $width ?? 200;
 
 		$filename = $path . '/placeholder.png';
 
 		if ( ! file_exists($path . '/placeholder.png'))
 		{
-			createPlaceholderImage($path, $width, $height);
+			createPlaceholderImage($path, $width ?? 200, $height);
 		}
 
 		header('Content-Type: image/png');

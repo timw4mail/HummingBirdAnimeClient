@@ -82,11 +82,8 @@ final class Dispatcher extends RoutingBase
 		{
 			$route = $this->getRoute();
 
-			if ($logger !== NULL)
-			{
-				$logger->info('Dispatcher - Route invoke arguments');
-				$logger->info(print_r($route, TRUE));
-			}
+			$logger?->info('Dispatcher - Route invoke arguments');
+			$logger?->info(print_r($route, TRUE));
 		}
 
 		if ( ! $route)
@@ -183,10 +180,7 @@ final class Dispatcher extends RoutingBase
 		}
 
 		$logger = $this->container->getLogger();
-		if ($logger !== NULL)
-		{
-			$logger->info(Json::encode($params));
-		}
+		$logger?->info(Json::encode($params));
 
 		return [
 			'controller_name' => $controllerName,
@@ -208,10 +202,7 @@ final class Dispatcher extends RoutingBase
 		$controller = reset($segments);
 
 		$logger = $this->container->getLogger();
-		if ($logger !== NULL)
-		{
-			$logger->info('Controller: ' . $controller);
-		}
+		$logger?->info('Controller: ' . $controller);
 
 		if (empty($controller))
 		{
@@ -224,7 +215,7 @@ final class Dispatcher extends RoutingBase
 	/**
 	 * Get the list of controllers in the default namespace
 	 *
-	 * @return mixed[]
+	 * @return array
 	 */
 	public function getControllerList(): array
 	{
@@ -300,7 +291,6 @@ final class Dispatcher extends RoutingBase
 	/**
 	 * Get the appropriate params for the error page
 	 * passed on the failed route
-	 * @return mixed[][]
 	 */
 	protected function getErrorParams(): array
 	{
@@ -317,7 +307,7 @@ final class Dispatcher extends RoutingBase
 
 		$params = [];
 
-		switch ($failure->failedRule)
+		switch ($failure?->failedRule)
 		{
 			case Rule\Allows::class:
 				$params = [
@@ -349,8 +339,6 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Select controller based on the current url, and apply its relevant routes
-	 *
-	 * @return mixed[]
 	 */
 	protected function setupRoutes(): array
 	{

@@ -60,8 +60,6 @@ final class People extends BaseController
 				),
 				'Person Not Found'
 			);
-
-			return;
 		}
 
 		$this->outputHTML('person/details', [

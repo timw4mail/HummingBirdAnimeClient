@@ -25,7 +25,10 @@ class Json
 	/**
 	 * Encode data in json format
 	 *
-	 * @throws JsonException
+	 * @param mixed $data
+	 * @param int $options
+	 * @param int<1, max> $depth
+	 * @return string
 	 */
 	public static function encode(mixed $data, int $options = 0, int $depth = 512): string
 	{
@@ -54,7 +57,11 @@ class Json
 	/**
 	 * Decode data from json
 	 *
-	 * @throws JsonException
+	 * @param string|null $json
+	 * @param bool $assoc
+	 * @param int<1, max> $depth
+	 * @param int $options
+	 * @return mixed
 	 */
 	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -74,7 +81,11 @@ class Json
 	/**
 	 * Decode json data loaded from the passed filename
 	 *
-	 * @throws JsonException
+	 * @param string $filename
+	 * @param bool $assoc
+	 * @param int<1, max> $depth
+	 * @param int $options
+	 * @return mixed
 	 */
 	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{

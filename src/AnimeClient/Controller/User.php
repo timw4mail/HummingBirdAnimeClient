@@ -72,8 +72,6 @@ final class User extends BaseController
 		if ($rawData['data']['findProfileBySlug'] === NULL)
 		{
 			$this->notFound('Sorry, user not found', "The user '{$username}' does not seem to exist.");
-
-			return;
 		}
 
 		$data = (new UserTransformer())->transform($rawData)->toArray();

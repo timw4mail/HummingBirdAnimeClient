@@ -16,10 +16,12 @@ namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Config;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
 /**
  * @internal
  */
+#[IgnoreMethodForCodeCoverage(Config::class, 'set')]
 final class ConfigTest extends IonTestCase
 {
 	protected Config $config;

@@ -54,7 +54,7 @@ final class MangaTransformer extends AbstractTransformer
 				}
 
 				$details = $rawCharacter['character'];
-				if (array_key_exists($details['id'], $characters[$type]))
+				if (array_key_exists($details['id'], (array)$characters[$type]))
 				{
 					$characters[$type][$details['id']] = [
 						'image' => Kitsu::getImage($details),
