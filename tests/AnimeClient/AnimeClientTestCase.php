@@ -97,7 +97,7 @@ class AnimeClientTestCase extends TestCase
 		$container = $di($config_array);
 
 		// Use mock session handler
-		$container->set('session-handler', static function (): \Aviat\AnimeClient\Tests\TestSessionHandler {
+		$container->set('session-handler', static function (): TestSessionHandler {
 			$session_handler = new TestSessionHandler();
 			session_set_save_handler($session_handler, TRUE);
 
