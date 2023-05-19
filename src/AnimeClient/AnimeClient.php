@@ -17,6 +17,7 @@ namespace Aviat\AnimeClient;
 use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\SimpleCache\CacheInterface;
 use Throwable;
@@ -25,6 +26,11 @@ use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use function Amp\Promise\wait;
 use function Aviat\Ion\_dir;
+
+const SECONDS_IN_MINUTE = 60;
+const MINUTES_IN_HOUR = 60;
+const MINUTES_IN_DAY = 1440;
+const MINUTES_IN_YEAR = 525_600;
 
 // ----------------------------------------------------------------------------
 //! TOML Functions
@@ -306,4 +312,88 @@ function renderTemplate(string $path, array $data): string
 	$rawOutput = ob_get_clean();
 
 	return (is_string($rawOutput)) ? $rawOutput : '';
+}
+
+function formatDate(string $date): string
+{
+	$date = new DateTimeImmutable($date);
+
+	return $date->format('F d, Y');
+}
+
+function getDateDiff(string $date): int
+{
+	$now = new DateTimeImmutable();
+	$then = new DateTimeImmutable($date);
+
+	$interval = $now->diff($then, TRUE);
+
+	$years = $interval->y * SECONDS_IN_MINUTE * MINUTES_IN_YEAR;
+	$days = $interval->d * SECONDS_IN_MINUTE * MINUTES_IN_DAY;
+	$hours = $interval->h * SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
+	$minutes = $interval->i * SECONDS_IN_MINUTE;
+	$seconds = $interval->s;
+
+	return $years + $days + $hours + $minutes + $seconds;
+}
+
+/**
+ * Convert a time in seconds to a more human-readable format
+ */
+function friendlyTime(int $seconds, string $minUnit = 'second'): string
+{
+	// All the seconds left
+	$remSeconds = $seconds % SECONDS_IN_MINUTE;
+	$minutes = ($seconds - $remSeconds) / SECONDS_IN_MINUTE;
+
+	// Minutes short of a year
+	$years = (int) floor($minutes / MINUTES_IN_YEAR);
+	$minutes %= MINUTES_IN_YEAR;
+
+	// Minutes short of a day
+	$extraMinutes = $minutes % MINUTES_IN_DAY;
+	$days = ($minutes - $extraMinutes) / MINUTES_IN_DAY;
+
+	// Minutes short of an hour
+	$remMinutes = $extraMinutes % MINUTES_IN_HOUR;
+	$hours = ($extraMinutes - $remMinutes) / MINUTES_IN_HOUR;
+
+	$parts = [];
+
+	foreach ([
+		'year' => $years,
+		'day' => $days,
+		'hour' => $hours,
+		'minute' => $remMinutes,
+		'second' => $remSeconds,
+	] as $label => $value)
+	{
+		if ($value === 0)
+		{
+			continue;
+		}
+
+		if ($value > 1)
+		{
+			$label .= 's';
+		}
+
+		$parts[] = "{$value} {$label}";
+
+		if ($label === $minUnit || $label === $minUnit . 's')
+		{
+			break;
+		}
+	}
+
+	$last = array_pop($parts);
+
+	if (empty($parts))
+	{
+		return $last ?? '';
+	}
+
+	return (count($parts) > 1)
+		? implode(', ', $parts) . ", and {$last}"
+		: "{$parts[0]}, {$last}";
 }

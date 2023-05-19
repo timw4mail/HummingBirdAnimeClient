@@ -31,10 +31,6 @@ final class Kitsu
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
 	public const GRAPHQL_ENDPOINT = 'https://kitsu.io/api/graphql';
-	public const SECONDS_IN_MINUTE = 60;
-	public const MINUTES_IN_HOUR = 60;
-	public const MINUTES_IN_DAY = 1440;
-	public const MINUTES_IN_YEAR = 525_600;
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
@@ -128,29 +124,6 @@ final class Kitsu
 		}
 
 		return MangaPublishingStatus::NOT_YET_PUBLISHED;
-	}
-
-	public static function formatDate(string $date): string
-	{
-		$date = new DateTimeImmutable($date);
-
-		return $date->format('F d, Y');
-	}
-
-	public static function getDateDiff(string $date): int
-	{
-		$now = new DateTimeImmutable();
-		$then = new DateTimeImmutable($date);
-
-		$interval = $now->diff($then, TRUE);
-
-		$years = $interval->y * self::SECONDS_IN_MINUTE * self::MINUTES_IN_YEAR;
-		$days = $interval->d * self::SECONDS_IN_MINUTE * self::MINUTES_IN_DAY;
-		$hours = $interval->h * self::SECONDS_IN_MINUTE * self::MINUTES_IN_HOUR;
-		$minutes = $interval->i * self::SECONDS_IN_MINUTE;
-		$seconds = $interval->s;
-
-		return $years + $days + $hours + $minutes + $seconds;
 	}
 
 	/**
@@ -462,67 +435,6 @@ final class Kitsu
 			'link' => FALSE,
 			'image' => 'streaming-logos/netflix.svg',
 		];
-	}
-
-	/**
-	 * Convert a time in seconds to a more human-readable format
-	 */
-	public static function friendlyTime(int $seconds, string $minUnit = 'second'): string
-	{
-		// All the seconds left
-		$remSeconds = $seconds % self::SECONDS_IN_MINUTE;
-		$minutes = ($seconds - $remSeconds) / self::SECONDS_IN_MINUTE;
-
-		// Minutes short of a year
-		$years = (int) floor($minutes / self::MINUTES_IN_YEAR);
-		$minutes %= self::MINUTES_IN_YEAR;
-
-		// Minutes short of a day
-		$extraMinutes = $minutes % self::MINUTES_IN_DAY;
-		$days = ($minutes - $extraMinutes) / self::MINUTES_IN_DAY;
-
-		// Minutes short of an hour
-		$remMinutes = $extraMinutes % self::MINUTES_IN_HOUR;
-		$hours = ($extraMinutes - $remMinutes) / self::MINUTES_IN_HOUR;
-
-		$parts = [];
-
-		foreach ([
-			'year' => $years,
-			'day' => $days,
-			'hour' => $hours,
-			'minute' => $remMinutes,
-			'second' => $remSeconds,
-		] as $label => $value)
-		{
-			if ($value === 0)
-			{
-				continue;
-			}
-
-			if ($value > 1)
-			{
-				$label .= 's';
-			}
-
-			$parts[] = "{$value} {$label}";
-
-			if ($label === $minUnit || $label === $minUnit . 's')
-			{
-				break;
-			}
-		}
-
-		$last = array_pop($parts);
-
-		if (empty($parts))
-		{
-			return $last ?? '';
-		}
-
-		return (count($parts) > 1)
-			? implode(', ', $parts) . ", and {$last}"
-			: "{$parts[0]}, {$last}";
 	}
 
 	/**

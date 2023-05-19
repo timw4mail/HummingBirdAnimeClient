@@ -1,6 +1,6 @@
 <?php
 
-use Aviat\AnimeClient\Kitsu;
+use function Aviat\AnimeClient\friendlyTime;
 
 ?>
 <main class="details fixed">
@@ -38,14 +38,14 @@ use Aviat\AnimeClient\Kitsu;
 				<?php if (( ! empty($data['episode_length'])) && $data['episode_count'] !== 1): ?>
 					<tr>
 						<td>Episode Length</td>
-						<td><?= Kitsu::friendlyTime($data['episode_length']) ?></td>
+						<td><?= friendlyTime($data['episode_length']) ?></td>
 					</tr>
 				<?php endif ?>
 
 				<?php if (isset($data['total_length'], $data['episode_count']) && $data['total_length'] > 0): ?>
 					<tr>
 						<td>Total Length</td>
-						<td><?= Kitsu::friendlyTime($data['total_length']) ?></td>
+						<td><?= friendlyTime($data['total_length']) ?></td>
 					</tr>
 				<?php endif ?>
 

@@ -42,6 +42,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testGzipRequest(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
 		$response = getResponse($request);
@@ -51,6 +53,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testInvalidRequestMethod(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$this->expectException(InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
@@ -58,6 +62,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testRequestWithBasicAuth(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$request = $this->builder->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
@@ -70,6 +76,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testRequestWithQueryString(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$query = [
 			'foo' => 'bar',
 			'bar' => [
@@ -98,6 +106,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testFormValueRequest(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$formValues = [
 			'bar' => 'foo',
 			'foo' => 'bar',
@@ -115,6 +125,8 @@ final class APIRequestBuilderTest extends TestCase
 
 	public function testFullUrlRequest(): void
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$data = [
 			'foo' => [
 				'bar' => 1,
