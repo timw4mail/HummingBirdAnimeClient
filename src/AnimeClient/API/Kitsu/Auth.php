@@ -52,7 +52,7 @@ final class Auth
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 
-		Event::on('::unauthorized::', [$this, 'reAuthenticate']);
+		Event::on('::unauthorized::', $this->reAuthenticate(...));
 	}
 
 	/**

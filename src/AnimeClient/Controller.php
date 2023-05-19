@@ -251,7 +251,7 @@ class Controller
  public function notFound(
  	string $title = 'Sorry, page not found',
  	string $message = 'Page Not Found'
- ): void {
+ ): never {
  	$this->outputHTML('404', [
  		'title' => $title,
  		'message' => $message,
