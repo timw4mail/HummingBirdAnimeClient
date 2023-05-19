@@ -14,10 +14,10 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\Kitsu;
-
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
+
+use function Aviat\AnimeClient\{formatDate, friendlyTime, getDateDiff};
 
 /**
  * Transform user profile data for display
@@ -41,8 +41,12 @@ final class UserTransformer extends AbstractTransformer
 		return User::from([
 			'about' => $base['about'] ?? '',
 			'avatar' => $base['avatarImage']['original']['url'] ?? NULL,
-			'birthday' => $base['birthday'] !== NULL ? Kitsu::formatDate($base['birthday']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['birthday']), 'year') . ')' : NULL,
-			'joinDate' => Kitsu::formatDate($base['createdAt']) . ' (' . Kitsu::friendlyTime(Kitsu::getDateDiff($base['createdAt']), 'day') . ' ago)',
+			'birthday' => $base['birthday'] !== NULL
+				? formatDate($base['birthday']) . ' (' .
+					friendlyTime(getDateDiff($base['birthday']), 'year') . ')'
+				: NULL,
+			'joinDate' => formatDate($base['createdAt']) . ' (' .
+				friendlyTime(getDateDiff($base['createdAt']), 'day') . ' ago)',
 			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
@@ -84,7 +88,7 @@ final class UserTransformer extends AbstractTransformer
 		if (array_key_exists('animeAmountConsumed', $stats))
 		{
 			$animeStats = [
-				'Time spent watching anime:' => Kitsu::friendlyTime($stats['animeAmountConsumed']['time']),
+				'Time spent watching anime:' => friendlyTime($stats['animeAmountConsumed']['time']),
 				'Anime series watched:' => number_format($stats['animeAmountConsumed']['media']),
 				'Anime episodes watched:' => number_format($stats['animeAmountConsumed']['units']),
 			];

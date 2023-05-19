@@ -92,40 +92,11 @@ final class KitsuTest extends TestCase
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('getPublishingStatus')]
- public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
- {
- 	$actual = Kitsu::getPublishingStatus($kitsuStatus);
- 	$this->assertSame($expected, $actual);
- }
-
-	public static function getFriendlyTime(): array
+	public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
 	{
-		$SECONDS_IN_DAY = Kitsu::SECONDS_IN_MINUTE * Kitsu::MINUTES_IN_DAY;
-		$SECONDS_IN_HOUR = Kitsu::SECONDS_IN_MINUTE * Kitsu::MINUTES_IN_HOUR;
-		$SECONDS_IN_YEAR = Kitsu::SECONDS_IN_MINUTE * Kitsu::MINUTES_IN_YEAR;
-
-		return [[
-			'seconds' => $SECONDS_IN_YEAR,
-			'expected' => '1 year',
-		], [
-			'seconds' => $SECONDS_IN_HOUR,
-			'expected' => '1 hour',
-		], [
-			'seconds' => (2 * $SECONDS_IN_YEAR) + 30,
-			'expected' => '2 years, 30 seconds',
-		], [
-			'seconds' => (5 * $SECONDS_IN_YEAR) + (3 * $SECONDS_IN_DAY) + (17 * Kitsu::SECONDS_IN_MINUTE),
-			'expected' => '5 years, 3 days, and 17 minutes',
-		]];
+		$actual = Kitsu::getPublishingStatus($kitsuStatus);
+		$this->assertSame($expected, $actual);
 	}
-
-	#[\PHPUnit\Framework\Attributes\DataProvider('getFriendlyTime')]
- public function testGetFriendlyTime(int $seconds, string $expected): void
- {
- 	$actual = Kitsu::friendlyTime($seconds);
-
- 	$this->assertSame($expected, $actual);
- }
 
 	public function testFilterLocalizedTitles(): void
 	{
