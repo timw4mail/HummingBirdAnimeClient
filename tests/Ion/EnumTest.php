@@ -70,12 +70,8 @@ final class EnumTest extends IonTestCase
 		];
 	}
 
- /**
-  * @param mixed $value
-  * @param mixed $static
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
- public function testIsValid($value, mixed $expected, $static)
+ public function testIsValid(mixed $value, mixed $expected, mixed $static)
  {
  	$actual = ($static)
  		? TestEnum::isValid($value)

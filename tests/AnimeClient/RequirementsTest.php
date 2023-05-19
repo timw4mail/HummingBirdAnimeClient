@@ -23,7 +23,7 @@ final class RequirementsTest extends AnimeClientTestCase
 {
 	public function testPHPVersion(): void
 	{
-		$this->assertTrue(version_compare(PHP_VERSION, '8', 'ge'));
+		$this->assertTrue(PHP_VERSION_ID >= 8);
 	}
 
 	public function testHasPDO(): void

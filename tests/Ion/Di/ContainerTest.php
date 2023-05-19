@@ -29,12 +29,9 @@ use TypeError;
  */
 final class FooTest
 {
-	public $item;
-
-	public function __construct($item)
-	{
-		$this->item = $item;
-	}
+	public function __construct(public $item)
+ {
+ }
 }
 
 class FooTest2
@@ -71,11 +68,8 @@ final class ContainerTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @param mixed $exception
-	 */
 	#[DataProvider('dataGetWithException')]
-	public function testGetWithException(mixed $id, $exception, ?string $message = NULL): void
+	public function testGetWithException(mixed $id, mixed $exception, ?string $message = NULL): void
 	{
 		try
 		{
@@ -92,11 +86,8 @@ final class ContainerTest extends IonTestCase
 		}
 	}
 
-	/**
-	 * @param mixed $exception
-	 */
 	#[DataProvider('dataGetWithException')]
-	public function testGetNewWithException(mixed $id, $exception, ?string $message = NULL): void
+	public function testGetNewWithException(mixed $id, mixed $exception, ?string $message = NULL): void
 	{
 		$this->expectException($exception);
 		if ($message !== NULL)
@@ -123,13 +114,8 @@ final class ContainerTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @param mixed $id
-	 * @param mixed $exception
-	 * @param mixed $message
-	 */
 	#[DataProvider('dataSetInstanceWithException')]
-	public function testSetInstanceWithException($id, $exception, $message): void
+	public function testSetInstanceWithException(mixed $id, mixed $exception, mixed $message): void
 	{
 		try
 		{
@@ -176,9 +162,7 @@ final class ContainerTest extends IonTestCase
 
 	public function testGetSet(): void
 	{
-		$container = $this->container->set('foo', static function () {
-			return static function () {};
-		});
+		$container = $this->container->set('foo', static fn() => static function (): void {});
 
 		$this->assertInstanceOf(Container::class, $container);
 		$this->assertInstanceOf(ContainerInterface::class, $container);

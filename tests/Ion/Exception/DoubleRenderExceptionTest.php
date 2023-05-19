@@ -22,7 +22,7 @@ use Aviat\Ion\Tests\IonTestCase;
  */
 final class DoubleRenderExceptionTest extends IonTestCase
 {
-	public function testDefaultMessage()
+	public function testDefaultMessage(): never
 	{
 		$this->expectException(DoubleRenderException::class);
 		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');

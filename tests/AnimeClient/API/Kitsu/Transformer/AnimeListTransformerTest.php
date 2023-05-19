@@ -38,7 +38,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 		$this->transformer = new AnimeListTransformer();
 	}
 
-	public function testTransform(): void
+	public function testTransform(): never
 	{
 		$this->markTestSkipped('Old test data');
 
@@ -50,7 +50,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 	{
 		return [[
 			'input' => [
-				'id' => 14047981,
+				'id' => 14_047_981,
 				'watching_status' => 'current',
 				'user_rating' => 8,
 				'episodes_watched' => 38,
@@ -60,7 +60,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 			],
 		], [
 			'input' => [
-				'id' => 14047981,
+				'id' => 14_047_981,
 				'mal_id' => '12345',
 				'watching_status' => 'current',
 				'user_rating' => 8,
@@ -73,7 +73,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 			],
 		], [
 			'input' => [
-				'id' => 14047983,
+				'id' => 14_047_983,
 				'mal_id' => '12347',
 				'watching_status' => 'current',
 				'user_rating' => 0,

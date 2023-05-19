@@ -69,11 +69,8 @@ final class UtilTest extends AnimeClientTestCase
 		];
 	}
 
- /**
-  * @param mixed $uri
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
- public function testIsViewPage($uri, mixed $expected)
+ public function testIsViewPage(mixed $uri, mixed $expected)
  {
  	$this->setSuperGlobals([
  		'_SERVER' => [
@@ -83,12 +80,8 @@ final class UtilTest extends AnimeClientTestCase
  	$this->assertSame($expected, $this->util->isViewPage());
  }
 
- /**
-  * @param mixed $uri
-  * @param mixed $expected
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
- public function testIsFormPage($uri, $expected)
+ public function testIsFormPage(mixed $uri, mixed $expected)
  {
  	$this->setSuperGlobals([
  		'_SERVER' => [

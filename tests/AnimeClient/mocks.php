@@ -29,9 +29,9 @@ class MockErrorHandler
 
 class TestEnum extends Enum
 {
-	public const FOO = 'bar';
-	public const BAR = 'foo';
-	public const FOOBAR = 'baz';
+	final public const FOO = 'bar';
+	final public const BAR = 'foo';
+	final public const FOOBAR = 'baz';
 }
 
 class FriendGrandParentTestClass

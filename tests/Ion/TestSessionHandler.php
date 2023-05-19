@@ -55,13 +55,13 @@ class TestSessionHandler implements SessionHandlerInterface
 
 	public function read($id)
 	{
-		return json_decode(@file_get_contents("{$this->save_path}/{$id}"), TRUE);
+		return json_decode(@file_get_contents("{$this->save_path}/{$id}"), TRUE, 512, JSON_THROW_ON_ERROR);
 	}
 
 	public function write($id, $data)
 	{
 		$file = "{$this->save_path}/{$id}";
-		file_put_contents($file, json_encode($data));
+		file_put_contents($file, json_encode($data, JSON_THROW_ON_ERROR));
 
 		return TRUE;
 	}

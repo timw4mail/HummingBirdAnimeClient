@@ -251,7 +251,7 @@ final class FormGeneratorTest extends AnimeClientTestCase
 	{
 		$generator = FormGenerator::new($this->container);
 
-		foreach (SETTINGS_MAP as $section => $fields)
+		foreach (SETTINGS_MAP as $fields)
 		{
 			foreach ($fields as $name => $config)
 			{

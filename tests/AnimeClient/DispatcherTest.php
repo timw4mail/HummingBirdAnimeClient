@@ -141,11 +141,8 @@ final class DispatcherTest extends AnimeClientTestCase
 		return $data;
 	}
 
- /**
-  * @param mixed $config
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataRoute')]
- public function testRoute($config, mixed $controller, mixed $host, mixed $uri): void
+ public function testRoute(mixed $config, mixed $controller, mixed $host, mixed $uri): void
  {
  	$this->doSetUp($config, $uri, $host);
 

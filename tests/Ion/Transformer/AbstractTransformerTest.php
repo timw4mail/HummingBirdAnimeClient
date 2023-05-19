@@ -130,32 +130,22 @@ final class AbstractTransformerTest extends IonTestCase
 		$this->assertSame($expected, $actual);
 	}
 
- /**
-  * @param mixed $original
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataTransformCollection')]
- public function testTransformCollection($original, mixed $expected)
+ public function testTransformCollection(mixed $original, mixed $expected)
  {
  	$actual = $this->transformer->transformCollection($original);
  	$this->assertSame($expected, $actual);
  }
 
- /**
-  * @param mixed $original
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
- public function testUntransformCollection($original, mixed $expected)
+ public function testUntransformCollection(mixed $original, mixed $expected)
  {
  	$actual = $this->untransformer->untransformCollection($original);
  	$this->assertSame($expected, $actual);
  }
 
- /**
-  * @param mixed $original
-  * @param mixed $expected
-  */
  #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
- public function testUntransformCollectionWithException($original, $expected)
+ public function testUntransformCollectionWithException(mixed $original, mixed $expected)
  {
  	$this->expectException(BadMethodCallException::class);
  	$this->transformer->untransformCollection($original);
