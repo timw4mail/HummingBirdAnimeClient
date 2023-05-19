@@ -91,7 +91,7 @@ final class AnimeCollection extends Collection
 		$genres = $this->getGenreList();
 		$media = $this->getMediaList();
 
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -133,7 +133,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -349,7 +349,7 @@ final class AnimeCollection extends Collection
 			->get()
 			->fetchAll(PDO::FETCH_ASSOC);
 
-		if ($mediaRows === FALSE)
+		if (empty($mediaRows))
 		{
 			return [];
 		}
@@ -411,7 +411,7 @@ final class AnimeCollection extends Collection
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if ($rows === FALSE)
+			if (empty($rows))
 			{
 				return [];
 			}
@@ -479,7 +479,7 @@ final class AnimeCollection extends Collection
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if ($rows === FALSE)
+			if (empty($rows))
 			{
 				return [];
 			}
@@ -659,7 +659,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -691,7 +691,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -737,7 +737,7 @@ final class AnimeCollection extends Collection
 
 		// Add genres associated with each item
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}

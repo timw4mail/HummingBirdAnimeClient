@@ -16,11 +16,15 @@ namespace Aviat\Ion\Tests\Type;
 
 use Aviat\Ion\Tests\IonTestCase;
 use Aviat\Ion\Type\StringType;
+use Aviat\Ion\Type\Stringy;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
  */
+#[IgnoreClassForCodeCoverage(Stringy::class)]
 final class StringTypeTest extends IonTestCase
 {
 	public static function dataFuzzyCaseMatch(): array
@@ -55,7 +59,8 @@ final class StringTypeTest extends IonTestCase
 	}
 
 	#[DataProvider('dataFuzzyCaseMatch')]
-	public function testFuzzyCaseMatch(string $str1, string $str2, bool $expected): void
+	#[Test]
+	public function fuzzyCaseMatch(string $str1, string $str2, bool $expected): void
 	{
 		$actual = StringType::from($str1)->fuzzyCaseMatch($str2);
 		$this->assertSame($expected, $actual);

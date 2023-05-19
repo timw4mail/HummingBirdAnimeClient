@@ -23,8 +23,6 @@ trait RequestBuilderTrait
 
 	/**
 	 * Set the request builder object
-	 *
-	 * @return ListItem|Model|RequestBuilderTrait
 	 */
 	public function setRequestBuilder(RequestBuilder $requestBuilder): self
 	{

@@ -59,8 +59,6 @@ final class Character extends BaseController
 				),
 				'Character Not Found'
 			);
-
-			return;
 		}
 
 		$data = (new CharacterTransformer())->transform($rawData)->toArray();

@@ -277,8 +277,6 @@ final class Manga extends BaseController
 					'Manga not found',
 				'Manga Not Found'
 			);
-
-			return;
 		}
 
 		$this->outputHTML('manga/details', [
@@ -306,8 +304,6 @@ final class Manga extends BaseController
 				'Manga not found',
 				'Manga Not Found'
 			);
-
-			return;
 		}
 
 		$this->outputHTML('manga/details', [

@@ -14,6 +14,8 @@
 
 namespace Aviat\Ion\Tests;
 
+use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function Aviat\Ion\_dir;
@@ -22,9 +24,14 @@ use const DIRECTORY_SEPARATOR;
 /**
  * @internal
  */
+#[IgnoreClassForCodeCoverage(\Aviat\Ion\ImageBuilder::class)]
+#[IgnoreClassForCodeCoverage(\Aviat\Ion\Attribute\Controller::class)]
+#[IgnoreClassForCodeCoverage(\Aviat\Ion\Attribute\DefaultController::class)]
+#[IgnoreClassForCodeCoverage(\Aviat\Ion\Attribute\Route::class)]
 final class functionsTest extends TestCase
 {
-	public function testDir()
+	#[Test]
+	public function dir(): void
 	{
 		$args = ['foo', 'bar', 'baz'];
 		$expected = implode(DIRECTORY_SEPARATOR, $args);

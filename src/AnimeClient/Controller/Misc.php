@@ -101,11 +101,7 @@ final class Misc extends BaseController
 		}
 
 		$this->setFlashMessage('Invalid username or password.');
-
-		$redirectUrl = $this->url->generate('login');
-		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
-
-		$this->redirect($redirectUrl, 303);
+		$this->redirect($this->url->generate('login'), 303);
 	}
 
 	/**
@@ -145,8 +141,6 @@ final class Misc extends BaseController
 				),
 				'Character Not Found'
 			);
-
-			return;
 		}
 
 		$data = (new CharacterTransformer())->transform($rawData)->toArray();
@@ -178,8 +172,6 @@ final class Misc extends BaseController
 				),
 				'Person Not Found'
 			);
-
-			return;
 		}
 
 		$this->outputHTML('person/details', [

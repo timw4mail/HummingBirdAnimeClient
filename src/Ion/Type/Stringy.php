@@ -66,7 +66,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 	 * @throws InvalidArgumentException if an array or object without a
 	 *                                  __toString method is passed as the first argument
 	 */
-	public function __construct(mixed $str = '', ?string $encoding = NULL)
+	final public function __construct(mixed $str = '', ?string $encoding = NULL)
 	{
 		if (is_array($str))
 		{

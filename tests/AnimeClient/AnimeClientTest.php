@@ -15,12 +15,17 @@
 namespace Aviat\AnimeClient\Tests;
 
 use DateTime;
+use PHPUnit\Framework\Attributes\IgnoreFunctionForCodeCoverage;
 use function Aviat\AnimeClient\{arrayToToml, checkFolderPermissions, clearCache, colNotEmpty, friendlyTime, getLocalImg, getResponse, isSequentialArray, tomlToArray};
 use const Aviat\AnimeClient\{MINUTES_IN_DAY, MINUTES_IN_HOUR, MINUTES_IN_YEAR, SECONDS_IN_MINUTE};
 
 /**
  * @internal
  */
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\loadConfig')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\createPlaceholderImage')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\renderTemplate')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\getLocalImg')]
 final class AnimeClientTest extends AnimeClientTestCase
 {
 	public function testArrayToToml(): void

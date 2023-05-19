@@ -283,7 +283,7 @@ final class Model
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(MediaType::ANIME, $status) ?? [];
+			$data = $this->getList(MediaType::ANIME, $status);
 
 			// Bail out on no data
 			if (empty($data))
@@ -320,7 +320,7 @@ final class Model
 	/**
 	 * Get all the anime entries, that are organized for output to html
 	 *
-	 * @return array<string, mixed[]>
+	 * @return array<string, array>
 	 */
 	public function getFullOrganizedAnimeList(): array
 	{
@@ -331,7 +331,7 @@ final class Model
 		foreach ($statuses as $status)
 		{
 			$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
-			$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
+			$output[$mappedStatus] = $this->getAnimeList($status);
 		}
 
 		return $output;
@@ -413,7 +413,7 @@ final class Model
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(MediaType::MANGA, $status) ?? [];
+			$data = $this->getList(MediaType::MANGA, $status);
 
 			// Bail out on no data
 			if (empty($data))
@@ -787,7 +787,7 @@ final class Model
 		}
 	}
 
-	private function getUserId(): string
+	protected function getUserId(): string
 	{
 		static $userId = NULL;
 

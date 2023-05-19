@@ -18,7 +18,6 @@ use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\SimpleCache\CacheInterface;
 use Throwable;
 
@@ -40,7 +39,6 @@ const MINUTES_IN_YEAR = 525_600;
  *
  * @param string $path - Path to load config
  */
-#[CodeCoverageIgnore]
 function loadConfig(string $path): array
 {
 	$output = [];
@@ -80,7 +78,6 @@ function loadConfig(string $path): array
 /**
  * Load config from one specific TOML file
  */
-#[CodeCoverageIgnore]
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
@@ -250,7 +247,6 @@ function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 /**
  * Create a transparent placeholder image
  */
-#[CodeCoverageIgnore]
 function createPlaceholderImage(string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
 {
 	$img = ImageBuilder::new($width, $height)
@@ -303,7 +299,6 @@ function clearCache(CacheInterface $cache): bool
 /**
  * Render a PHP code template as a string
  */
-#[CodeCoverageIgnore]
 function renderTemplate(string $path, array $data): string
 {
 	ob_start();
