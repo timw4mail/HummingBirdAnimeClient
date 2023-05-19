@@ -24,6 +24,7 @@ use Rector\DeadCode\Rector\Switch_\RemoveDuplicatedCaseInSwitchRector;
 use Rector\EarlyReturn\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector;
 use Rector\EarlyReturn\Rector\If_\{ChangeIfElseValueAssignToEarlyReturnRector, RemoveAlwaysElseRector};
 use Rector\Php74\Rector\Property\RestoreDefaultNullToNullableTypePropertyRector;
+use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
@@ -33,7 +34,7 @@ use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
 
 return static function (RectorConfig $config): void {
 	// Import names with use statements
-	$config->importNames();
+	// $config->importNames();
 	$config->importShortClasses(FALSE);
 
 	$config->sets([
@@ -83,6 +84,7 @@ return static function (RectorConfig $config): void {
 	]);
 
 	$config->skip([
+		NullToStrictStringFuncCallArgRector::class,
 		ReadOnlyPropertyRector::class,
 		RestoreDefaultNullToNullableTypePropertyRector::class,
 	]);
