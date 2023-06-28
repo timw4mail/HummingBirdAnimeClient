@@ -14,8 +14,10 @@
 
 namespace Aviat\AnimeClient\API;
 
+// use Amp\Http\Client\Form;
 use Amp\Http\Client\Body\FormBody;
-
+use Amp\Http\Client\HttpClientBuilder;
+use Amp\Http\Client\HttpException;
 use Amp\Http\Client\Request;
 use Aviat\Ion\Json;
 
@@ -203,18 +205,15 @@ abstract class APIRequestBuilder
 	{
 		$this->buildUri();
 
-		if ($this->logger !== NULL)
-		{
-			$this->logger->debug('API Request', [
-				'request_url' => $this->request->getUri(),
-				'request_headers' => $this->request->getHeaders(),
-				'request_body' => wait(
-					$this->request->getBody()
-						->createBodyStream()
-						->read()
-				),
-			]);
-		}
+		$this->logger?->debug('API Request', [
+			'request_url' => $this->request->getUri(),
+			'request_headers' => $this->request->getHeaders(),
+			'request_body' => wait(
+				$this->request->getBody()
+					->createBodyStream()
+					->read()
+			),
+		]);
 
 		return $this->request;
 	}
@@ -222,12 +221,11 @@ abstract class APIRequestBuilder
 	/**
 	 * Get the data from the response of the passed request
 	 *
-	 * @throws Error
-	 * @throws Throwable
-	 * @throws TypeError
+	 * @param Request $request
 	 * @return mixed
+	 * @throws Throwable
 	 */
-	public function getResponseData(Request $request)
+	public function getResponseData(Request $request): mixed
 	{
 		$response = getResponse($request);
 
