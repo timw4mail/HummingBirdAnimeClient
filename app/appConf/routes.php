@@ -19,7 +19,8 @@ use const Aviat\AnimeClient\{
 	DEFAULT_CONTROLLER,
 	DEFAULT_CONTROLLER_METHOD,
 	NUM_PATTERN,
-	SLUG_PATTERN
+	SLUG_PATTERN,
+	SLUG_SPACE_PATTERN,
 };
 
 // -------------------------------------------------------------------------
@@ -291,7 +292,7 @@ $routes = [
 		'action' => 'edit',
 		'tokens' => [
 			'id' => SLUG_PATTERN,
-			'status' => '([a-zA-Z\-_]|%20)+',
+			'status' => SLUG_SPACE_PATTERN,
 		],
 	],
 	'list' => [
