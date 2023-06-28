@@ -2122,7 +2122,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 	 * Alias for mb_regex_encoding which default to a noop if the mbstring
 	 * module is not installed.
 	 */
-	protected function regexEncoding(): mixed
+	protected function regexEncoding(): string|bool|null
 	{
 		static $functionExists;
 
@@ -2137,6 +2137,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 
 			return mb_regex_encoding(...$args);
 		}
+
+		return null;
 	}
 
 	protected function supportsEncoding(): bool|null
