@@ -15,11 +15,17 @@
 namespace Aviat\AnimeClient\Tests;
 
 use DateTime;
-use function Aviat\AnimeClient\{arrayToToml, checkFolderPermissions, clearCache, colNotEmpty, getLocalImg, getResponse, isSequentialArray, tomlToArray};
+use PHPUnit\Framework\Attributes\IgnoreFunctionForCodeCoverage;
+use function Aviat\AnimeClient\{arrayToToml, checkFolderPermissions, clearCache, colNotEmpty, friendlyTime, getLocalImg, getResponse, isSequentialArray, tomlToArray};
+use const Aviat\AnimeClient\{MINUTES_IN_DAY, MINUTES_IN_HOUR, MINUTES_IN_YEAR, SECONDS_IN_MINUTE};
 
 /**
  * @internal
  */
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\loadConfig')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\createPlaceholderImage')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\renderTemplate')]
+#[IgnoreFunctionForCodeCoverage('Aviat\AnimeClient\getLocalImg')]
 final class AnimeClientTest extends AnimeClientTestCase
 {
 	public function testArrayToToml(): void
@@ -127,5 +133,34 @@ final class AnimeClientTest extends AnimeClientTestCase
 	public function testClearCache(): void
 	{
 		$this->assertTrue(clearCache($this->container->get('cache')));
+	}
+
+	public static function getFriendlyTime(): array
+	{
+		$SECONDS_IN_DAY = SECONDS_IN_MINUTE * MINUTES_IN_DAY;
+		$SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
+		$SECONDS_IN_YEAR = SECONDS_IN_MINUTE * MINUTES_IN_YEAR;
+
+		return [[
+			'seconds' => $SECONDS_IN_YEAR,
+			'expected' => '1 year',
+		], [
+			'seconds' => $SECONDS_IN_HOUR,
+			'expected' => '1 hour',
+		], [
+			'seconds' => (2 * $SECONDS_IN_YEAR) + 30,
+			'expected' => '2 years, 30 seconds',
+		], [
+			'seconds' => (5 * $SECONDS_IN_YEAR) + (3 * $SECONDS_IN_DAY) + (17 * SECONDS_IN_MINUTE),
+			'expected' => '5 years, 3 days, and 17 minutes',
+		]];
+	}
+
+	#[\PHPUnit\Framework\Attributes\DataProvider('getFriendlyTime')]
+	public function testGetFriendlyTime(int $seconds, string $expected): void
+	{
+		$actual = friendlyTime($seconds);
+
+		$this->assertSame($expected, $actual);
 	}
 }

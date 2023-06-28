@@ -70,6 +70,44 @@ final class Dispatcher extends RoutingBase
 	}
 
 	/**
+	 * Handle the current route
+	 *
+	 * @throws ReflectionException
+	 */
+	public function __invoke(?object $route = NULL): void
+	{
+		$logger = $this->container->getLogger();
+
+		if ($route === NULL)
+		{
+			$route = $this->getRoute();
+
+			$logger?->info('Dispatcher - Route invoke arguments');
+			$logger?->info(print_r($route, TRUE));
+		}
+
+		if ( ! $route)
+		{
+			// If not route was matched, return an appropriate http
+			// error message
+			$errorRoute = $this->getErrorParams();
+			$controllerName = DEFAULT_CONTROLLER;
+			$actionMethod = $errorRoute['action_method'];
+			$params = $errorRoute['params'];
+			$this->call($controllerName, $actionMethod, $params);
+
+			return;
+		}
+
+		$parsed = $this->processRoute(new Friend($route));
+		$controllerName = $parsed['controller_name'];
+		$actionMethod = $parsed['action_method'];
+		$params = $parsed['params'];
+
+		$this->call($controllerName, $actionMethod, $params);
+	}
+
+	/**
 	 * Get the current route object, if one matches
 	 */
 	public function getRoute(): Route|false
@@ -98,47 +136,6 @@ final class Dispatcher extends RoutingBase
 	public function getOutputRoutes(): array
 	{
 		return $this->outputRoutes;
-	}
-
-	/**
-	 * Handle the current route
-	 *
-	 * @throws ReflectionException
-	 */
-	public function __invoke(?object $route = NULL): void
-	{
-		$logger = $this->container->getLogger();
-
-		if ($route === NULL)
-		{
-			$route = $this->getRoute();
-
-			if ($logger !== NULL)
-			{
-				$logger->info('Dispatcher - Route invoke arguments');
-				$logger->info(print_r($route, TRUE));
-			}
-		}
-
-		if ( ! $route)
-		{
-			// If not route was matched, return an appropriate http
-			// error message
-			$errorRoute = $this->getErrorParams();
-			$controllerName = DEFAULT_CONTROLLER;
-			$actionMethod = $errorRoute['action_method'];
-			$params = $errorRoute['params'];
-			$this->call($controllerName, $actionMethod, $params);
-
-			return;
-		}
-
-		$parsed = $this->processRoute(new Friend($route));
-		$controllerName = $parsed['controller_name'];
-		$actionMethod = $parsed['action_method'];
-		$params = $parsed['params'];
-
-		$this->call($controllerName, $actionMethod, $params);
 	}
 
 	/**
@@ -183,10 +180,7 @@ final class Dispatcher extends RoutingBase
 		}
 
 		$logger = $this->container->getLogger();
-		if ($logger !== NULL)
-		{
-			$logger->info(Json::encode($params));
-		}
+		$logger?->info(Json::encode($params));
 
 		return [
 			'controller_name' => $controllerName,
@@ -208,10 +202,7 @@ final class Dispatcher extends RoutingBase
 		$controller = reset($segments);
 
 		$logger = $this->container->getLogger();
-		if ($logger !== NULL)
-		{
-			$logger->info('Controller: ' . $controller);
-		}
+		$logger?->info('Controller: ' . $controller);
 
 		if (empty($controller))
 		{
@@ -224,7 +215,7 @@ final class Dispatcher extends RoutingBase
 	/**
 	 * Get the list of controllers in the default namespace
 	 *
-	 * @return mixed[]
+	 * @return array
 	 */
 	public function getControllerList(): array
 	{
@@ -300,7 +291,6 @@ final class Dispatcher extends RoutingBase
 	/**
 	 * Get the appropriate params for the error page
 	 * passed on the failed route
-	 * @return mixed[][]
 	 */
 	protected function getErrorParams(): array
 	{
@@ -317,14 +307,15 @@ final class Dispatcher extends RoutingBase
 
 		$params = [];
 
-		switch ($failure->failedRule) {
+		switch ($failure?->failedRule)
+		{
 			case Rule\Allows::class:
 				$params = [
 					'http_code' => 405,
 					'title' => '405 Method Not Allowed',
 					'message' => 'Invalid HTTP Verb',
 				];
-			break;
+				break;
 
 			case Rule\Accepts::class:
 				$params = [
@@ -332,12 +323,12 @@ final class Dispatcher extends RoutingBase
 					'title' => '406 Not Acceptable',
 					'message' => 'Unacceptable content type',
 				];
-			break;
+				break;
 
 			default:
 				// Fall back to a 404 message
 				$actionMethod = NOT_FOUND_METHOD;
-			break;
+				break;
 		}
 
 		return [
@@ -348,8 +339,6 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Select controller based on the current url, and apply its relevant routes
-	 *
-	 * @return mixed[]
 	 */
 	protected function setupRoutes(): array
 	{

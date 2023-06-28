@@ -34,11 +34,11 @@ class HtmlView extends HttpView
 	/**
 	 * Create the Html View
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct()
 	{
 		parent::__construct();
 
-		$this->setContainer($container);
+		$this->setContainer(func_get_arg(0));
 		$this->response = new HtmlResponse('');
 	}
 

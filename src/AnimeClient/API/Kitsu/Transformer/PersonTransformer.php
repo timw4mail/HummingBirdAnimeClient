@@ -35,7 +35,8 @@ final class PersonTransformer extends AbstractTransformer
 		return Person::from([
 			'id' => $data['id'],
 			'name' => $canonicalName,
-			'image' => $data['image']['original']['url'],
+			'birthday' => $data['birthday'],
+			'image' => Kitsu::getImage($data),
 			'names' => array_diff($data['names']['localized'], [$canonicalName]),
 			'description' => $data['description']['en'] ?? '',
 			'characters' => $orgData['characters'],
@@ -97,7 +98,12 @@ final class PersonTransformer extends AbstractTransformer
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{
-				$character = $voicing['mediaCharacter']['character'];
+				if ($voicing === NULL)
+				{
+					continue;
+				}
+
+				$character = $voicing['mediaCharacter']['character'] ?? [];
 				$charId = $character['id'];
 				$rawMedia = $voicing['mediaCharacter']['media'];
 				$role = strtolower($voicing['mediaCharacter']['role']);
@@ -123,7 +129,7 @@ final class PersonTransformer extends AbstractTransformer
 						'character' => [
 							'id' => $character['id'],
 							'slug' => $character['slug'],
-							'image' => $character['image']['original']['url'],
+							'image' => Kitsu::getImage($character),
 							'canonicalName' => $character['names']['canonical'],
 						],
 						'media' => [

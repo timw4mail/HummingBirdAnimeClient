@@ -35,7 +35,7 @@ final class HistoryTransformerTest extends AnimeClientTestCase
 		$this->beforeTransform = $raw;
 	}
 
-	public function testAnimeTransform(): void
+	public function testAnimeTransform(): never
 	{
 		$this->markTestSkipped('Old test data');
 

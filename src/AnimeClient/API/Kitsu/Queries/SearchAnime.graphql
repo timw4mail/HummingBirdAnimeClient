@@ -19,7 +19,7 @@ query ($query: String!) {
 			slug
 			titles {
 				canonical
-				localized
+				localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 				alternatives
 			}
 			myLibraryEntry {

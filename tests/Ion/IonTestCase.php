@@ -26,10 +26,10 @@ use function Aviat\Ion\_dir;
 class IonTestCase extends TestCase
 {
 	// Test directory constants
-	public const ROOT_DIR = AC_TEST_ROOT_DIR;
-	public const SRC_DIR = SRC_DIR;
-	public const TEST_DATA_DIR = __DIR__ . '/test_data';
-	public const TEST_VIEW_DIR = __DIR__ . '/test_views';
+	final public const ROOT_DIR = AC_TEST_ROOT_DIR;
+	final public const SRC_DIR = SRC_DIR;
+	final public const TEST_DATA_DIR = __DIR__ . '/test_data';
+	final public const TEST_VIEW_DIR = __DIR__ . '/test_views';
 
 	protected ContainerInterface $container;
 	protected static $staticContainer;
@@ -92,7 +92,7 @@ class IonTestCase extends TestCase
 		// Set up DI container
 		$di = require 'di.php';
 		$container = $di($config_array);
-		$container->set('session-handler', static function () {
+		$container->set('session-handler', static function (): TestSessionHandler {
 			// Use mock session handler
 			$session_handler = new TestSessionHandler();
 			session_set_save_handler($session_handler, TRUE);
@@ -117,7 +117,7 @@ class IonTestCase extends TestCase
 		];
 
 		$request = call_user_func_array(
-			[ServerRequestFactory::class, 'fromGlobals'],
+			ServerRequestFactory::fromGlobals(...),
 			array_merge($default, $supers)
 		);
 		$this->container->setInstance('request', $request);

@@ -37,7 +37,7 @@ final class AnimeTransformerTest extends AnimeClientTestCase
 		$this->transformer = new AnimeTransformer();
 	}
 
-	public function testTransform()
+	public function testTransform(): never
 	{
 		$this->markTestSkipped('May fail on CI');
 		$actual = $this->transformer->transform($this->beforeTransform);

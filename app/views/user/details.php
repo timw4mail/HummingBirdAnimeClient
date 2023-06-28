@@ -3,40 +3,58 @@ use Aviat\AnimeClient\Kitsu;
 ?>
 <main class="user-page details">
 	<h2 class="toph">
+		About
 		<?= $helper->a(
-			"https://kitsu.io/users/{$data['slug']}",
-			$data['name'], [
-			'title' => 'View profile on Kitsu'
+				"https://kitsu.io/users/{$data['slug']}",
+				$data['name'], [
+				'title' => 'View profile on Kitsu'
 		])
 		?>
 	</h2>
 
-	<p><?= $escape->html($data['about']) ?></p>
-
 	<section class="flex flex-no-wrap">
 		<aside class="info">
-			<center>
-				<?= $helper->img($data['avatar'], ['alt' => '']); ?>
-			</center>
+			<table class="media-details invisible">
+				<tr>
+					<?php if($data['avatar'] !== null): ?>
+					<td><?= $helper->img($data['avatar'], ['alt' => '', 'width' => '225']); ?></td>
+					<?php endif ?>
+					<td><?= $escape->html($data['about']) ?></td>
+				</tr>
+			</table>
 			<br />
 			<table class="media-details">
+				<?php foreach ([
+					'joinDate' => 'Joined',
+					'birthday' => 'Birthday',
+					'gender' => 'Gender',
+					'location' => 'Location'
+			   ] as $key => $label): ?>
+				<?php if ($data[$key] !== null): ?>
 				<tr>
-					<td>Location</td>
-					<td><?= $data['location'] ?></td>
+					<td><?= $label ?></td>
+					<td><?= $data[$key] ?></td>
 				</tr>
+				<?php endif ?>
+				<?php endforeach; ?>
+
+				<?php if ($data['website'] !== null): ?>
 				<tr>
 					<td>Website</td>
 					<td><?= $helper->a($data['website'], $data['website']) ?></td>
 				</tr>
-				<?php if ( ! empty($data['waifu'])): ?>
+				<?php endif ?>
+
+				<?php if ($data['waifu']['character'] !== null): ?>
 				<tr>
 					<td><?= $escape->html($data['waifu']['label']) ?></td>
 					<td>
 						<?php
 							$character = $data['waifu']['character'];
-							echo $helper->a(
-								$url->generate('character', ['slug' => $character['slug']]),
-								$character['names']['canonical']
+							echo $component->character(
+									$character['names']['canonical'],
+									$url->generate('character', ['slug' => $character['slug']]),
+									$helper->img(Kitsu::getImage($character))
 							);
 						?>
 					</td>
@@ -75,7 +93,7 @@ use Aviat\AnimeClient\Kitsu;
 						$rendered[] = $component->character(
 								$item['names']['canonical'],
 								$url->generate('character', ['slug' => $item['slug']]),
-								$helper->img($item['image']['original']['url'])
+								$helper->img(Kitsu::getImage($item))
 						);
 					}
 					else

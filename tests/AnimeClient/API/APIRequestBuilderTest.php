@@ -40,8 +40,10 @@ final class APIRequestBuilderTest extends TestCase
 		$this->builder->setLogger(new NullLogger());
 	}
 
-	public function testGzipRequest(): void
+	public function testGzipRequest(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$request = $this->builder->newRequest('GET', 'gzip')
 			->getFullRequest();
 		$response = getResponse($request);
@@ -49,15 +51,19 @@ final class APIRequestBuilderTest extends TestCase
 		$this->assertTrue($body['gzipped']);
 	}
 
-	public function testInvalidRequestMethod(): void
+	public function testInvalidRequestMethod(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$this->expectException(InvalidArgumentException::class);
 		$this->builder->newRequest('FOO', 'gzip')
 			->getFullRequest();
 	}
 
-	public function testRequestWithBasicAuth(): void
+	public function testRequestWithBasicAuth(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$request = $this->builder->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
@@ -68,8 +74,10 @@ final class APIRequestBuilderTest extends TestCase
 		$this->assertSame('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
 	}
 
-	public function testRequestWithQueryString(): void
+	public function testRequestWithQueryString(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$query = [
 			'foo' => 'bar',
 			'bar' => [
@@ -96,8 +104,10 @@ final class APIRequestBuilderTest extends TestCase
 		$this->assertSame($expected, $body['args']);
 	}
 
-	public function testFormValueRequest(): void
+	public function testFormValueRequest(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$formValues = [
 			'bar' => 'foo',
 			'foo' => 'bar',
@@ -113,8 +123,10 @@ final class APIRequestBuilderTest extends TestCase
 		$this->assertSame($formValues, $body['form']);
 	}
 
-	public function testFullUrlRequest(): void
+	public function testFullUrlRequest(): never
 	{
+		$this->markTestSkipped('Need new test API');
+
 		$data = [
 			'foo' => [
 				'bar' => 1,

@@ -31,10 +31,6 @@ final class Kitsu
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
 	public const GRAPHQL_ENDPOINT = 'https://kitsu.io/api/graphql';
-	public const SECONDS_IN_MINUTE = 60;
-	public const MINUTES_IN_HOUR = 60;
-	public const MINUTES_IN_DAY = 1440;
-	public const MINUTES_IN_YEAR = 525_600;
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
@@ -72,18 +68,18 @@ final class Kitsu
 		}
 
 		$monthMap = [
-			'01' => 'Jan',
-			'02' => 'Feb',
-			'03' => 'Mar',
-			'04' => 'Apr',
+			'01' => 'January',
+			'02' => 'February',
+			'03' => 'March',
+			'04' => 'April',
 			'05' => 'May',
-			'06' => 'Jun',
-			'07' => 'Jul',
-			'08' => 'Aug',
-			'09' => 'Sep',
-			'10' => 'Oct',
-			'11' => 'Nov',
-			'12' => 'Dec',
+			'06' => 'June',
+			'07' => 'July',
+			'08' => 'August',
+			'09' => 'September',
+			'10' => 'October',
+			'11' => 'November',
+			'12' => 'December',
 		];
 
 		[$startYear, $startMonth, $startDay] = explode('-', $startDate);
@@ -305,7 +301,16 @@ final class Kitsu
 			{
 				// Really don't care about languages that aren't english
 				// or Japanese for titles
-				if ( ! in_array($locale, ['en', 'en_us', 'en_jp', 'ja_jp'], TRUE))
+				if ( ! in_array($locale, [
+					'en',
+					'en-jp',
+					'en-us',
+					'en_jp',
+					'en_us',
+					'ja-jp',
+					'ja_jp',
+					'jp',
+				], TRUE))
 				{
 					continue;
 				}
@@ -326,15 +331,29 @@ final class Kitsu
 	/**
 	 * Get the url of the posterImage from Kitsu, with fallbacks
 	 */
-	public static function getPosterImage(array $base, int $size = 1): string
+	public static function getPosterImage(array $base, int $sizeId = 1): string
 	{
-		$rawUrl = $base['posterImage']['views'][$size]['url']
+		$rawUrl = $base['posterImage']['views'][$sizeId]['url']
 			?? $base['posterImage']['original']['url']
 			?? '/public/images/placeholder.png';
 
 		$parts = explode('?', $rawUrl);
 
-		return (empty($parts)) ? $rawUrl : $parts[0];
+		return $parts[0];
+	}
+
+	/**
+	 * Get the url of the image from Kitsu, with fallbacks
+	 */
+	public static function getImage(array $base, int $sizeId = 1): string
+	{
+		$rawUrl = $base['image']['original']['url']
+			?? $base['image']['views'][$sizeId]['url']
+			?? '/public/images/placeholder.png';
+
+		$parts = explode('?', $rawUrl);
+
+		return $parts[0];
 	}
 
 	/**
@@ -419,62 +438,6 @@ final class Kitsu
 	}
 
 	/**
-	 * Convert a time in seconds to a more human-readable format
-	 */
-	public static function friendlyTime(int $seconds): string
-	{
-		// All the seconds left
-		$remSeconds = $seconds % self::SECONDS_IN_MINUTE;
-		$minutes = ($seconds - $remSeconds) / self::SECONDS_IN_MINUTE;
-
-		// Minutes short of a year
-		$years = (int) floor($minutes / self::MINUTES_IN_YEAR);
-		$minutes %= self::MINUTES_IN_YEAR;
-
-		// Minutes short of a day
-		$extraMinutes = $minutes % self::MINUTES_IN_DAY;
-		$days = ($minutes - $extraMinutes) / self::MINUTES_IN_DAY;
-
-		// Minutes short of an hour
-		$remMinutes = $extraMinutes % self::MINUTES_IN_HOUR;
-		$hours = ($extraMinutes - $remMinutes) / self::MINUTES_IN_HOUR;
-
-		$parts = [];
-
-		foreach ([
-			'year' => $years,
-			'day' => $days,
-			'hour' => $hours,
-			'minute' => $remMinutes,
-			'second' => $remSeconds,
-		] as $label => $value)
-		{
-			if ($value === 0)
-			{
-				continue;
-			}
-
-			if ($value > 1)
-			{
-				$label .= 's';
-			}
-
-			$parts[] = "{$value} {$label}";
-		}
-
-		$last = array_pop($parts);
-
-		if (empty($parts))
-		{
-			return $last ?? '';
-		}
-
-		return (count($parts) > 1)
-			? implode(', ', $parts) . ", and {$last}"
-			: "{$parts[0]}, {$last}";
-	}
-
-	/**
 	 * Determine if an alternate title is unique enough to list
 	 */
 	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
@@ -486,7 +449,7 @@ final class Kitsu
 
 		foreach ($existingTitles as $existing)
 		{
-			$isSubset = mb_substr_count($existing, $title) > 0;
+			$isSubset = mb_substr_count(mb_strtolower($existing), mb_strtolower($title)) > 0;
 			$diff = levenshtein(mb_strtolower($existing), mb_strtolower($title));
 
 			if ($diff <= 4 || $isSubset || mb_strlen($title) > 45 || mb_strlen($existing) > 50)

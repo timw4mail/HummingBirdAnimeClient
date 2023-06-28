@@ -2,13 +2,25 @@
 default:
 	@just --list
 
-# Runs rector, showing what changes will be make
-rector-dry-run:
-	tools/vendor/bin/rector process --config=tools/rector.php --dry-run src
+# -------------------------------------------------------------------
+# Front-end stuff
+# -------------------------------------------------------------------
 
-# Runs rector, and updates the files
-rector:
-	tools/vendor/bin/rector process --config=tools/rector.php src
+# Builds/optimizes JS and CSS
+build:
+	cd frontEndSrc && npm run build && cd ..
+
+# Builds/optimizes CSS
+css:
+	composer run-script build:css
+
+# Builds/optimizes JS
+js:
+	composer run-script build:js
+
+# -------------------------------------------------------------------
+# Code Quality and Formatting
+# -------------------------------------------------------------------
 
 # Check code formatting
 check-fmt:
@@ -18,6 +30,22 @@ check-fmt:
 fmt:
 	tools/vendor/bin/php-cs-fixer fix --verbose
 
+# Runs phpstan code check
+phpstan:
+	composer run-script phpstan
+
+# Runs rector, showing what changes will be make
+rector-dry-run:
+	tools/vendor/bin/rector process --config=tools/rector.php --dry-run src tests
+
+# Runs rector, and updates the source files
+rector:
+	tools/vendor/bin/rector process --config=tools/rector.php src tests
+
+# -------------------------------------------------------------------
+# Testing
+# -------------------------------------------------------------------
+
 # Run tests
 test:
 	composer run-script test
@@ -26,10 +54,14 @@ test:
 test-update:
 	composer run-script test-update
 
-# Update the per-file header comments
-update-headers:
-	php tools/update_header_comments.php
-
 # Run unit tests and generate test-coverage report
 coverage:
 	composer run-script coverage
+
+# -------------------------------------------------------------------
+# Misc
+# -------------------------------------------------------------------
+
+# Update the per-file header comments
+update-headers:
+	php tools/update_header_comments.php

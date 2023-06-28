@@ -33,7 +33,7 @@ query ($slug: String!) {
 					titles {
 						alternatives
 						canonical
-						localized
+						localized(locales: "*")
 					}
 					...on Anime {
 						episodeCount

@@ -32,7 +32,7 @@ final class AbstractTransformerTest extends IonTestCase
 		$this->untransformer = new TestTransformerUntransform();
 	}
 
-	public function dataTransformCollection()
+	public static function dataTransformCollection()
 	{
 		return [
 			'object' => [
@@ -90,7 +90,7 @@ final class AbstractTransformerTest extends IonTestCase
 		];
 	}
 
-	public function dataUnTransformCollection()
+	public static function dataUnTransformCollection()
 	{
 		return [
 			'object' => [
@@ -130,36 +130,24 @@ final class AbstractTransformerTest extends IonTestCase
 		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @dataProvider dataTransformCollection
-	 * @param mixed $original
-	 * @param mixed $expected
-	 */
-	public function testTransformCollection($original, $expected)
-	{
-		$actual = $this->transformer->transformCollection($original);
-		$this->assertSame($expected, $actual);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataTransformCollection')]
+ public function testTransformCollection(mixed $original, mixed $expected)
+ {
+ 	$actual = $this->transformer->transformCollection($original);
+ 	$this->assertSame($expected, $actual);
+ }
 
-	/**
-	 * @dataProvider dataUnTransformCollection
-	 * @param mixed $original
-	 * @param mixed $expected
-	 */
-	public function testUntransformCollection($original, $expected)
-	{
-		$actual = $this->untransformer->untransformCollection($original);
-		$this->assertSame($expected, $actual);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
+ public function testUntransformCollection(mixed $original, mixed $expected)
+ {
+ 	$actual = $this->untransformer->untransformCollection($original);
+ 	$this->assertSame($expected, $actual);
+ }
 
-	/**
-	 * @dataProvider dataUnTransformCollection
-	 * @param mixed $original
-	 * @param mixed $expected
-	 */
-	public function testUntransformCollectionWithException($original, $expected)
-	{
-		$this->expectException(BadMethodCallException::class);
-		$this->transformer->untransformCollection($original);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
+ public function testUntransformCollectionWithException(mixed $original, mixed $expected)
+ {
+ 	$this->expectException(BadMethodCallException::class);
+ 	$this->transformer->untransformCollection($original);
+ }
 }

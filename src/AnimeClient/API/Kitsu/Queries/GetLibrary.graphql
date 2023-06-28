@@ -57,7 +57,7 @@ query (
 						type
 						titles {
 							canonical
-							localized
+							localized(locales: "*")
 							alternatives
 						}
 						...on Anime {

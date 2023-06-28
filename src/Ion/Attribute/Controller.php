@@ -17,6 +17,9 @@ namespace Aviat\Ion\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class Controller {
-	public function __construct(public string $prefix = '') {}
+class Controller
+{
+	public function __construct(public string $prefix = '')
+	{
+	}
 }

@@ -15,12 +15,10 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
-use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\{CharacterTransformer, PersonTransformer};
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Enum\EventType;
-use Aviat\Ion\Attribute\DefaultController;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{DefaultController, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
 use Aviat\Ion\View\HtmlView;
@@ -103,11 +101,7 @@ final class Misc extends BaseController
 		}
 
 		$this->setFlashMessage('Invalid username or password.');
-
-		$redirectUrl = $this->url->generate('login');
-		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
-
-		$this->redirect($redirectUrl, 303);
+		$this->redirect($this->url->generate('login'), 303);
 	}
 
 	/**
@@ -147,8 +141,6 @@ final class Misc extends BaseController
 				),
 				'Character Not Found'
 			);
-
-			return;
 		}
 
 		$data = (new CharacterTransformer())->transform($rawData)->toArray();
@@ -180,8 +172,6 @@ final class Misc extends BaseController
 				),
 				'Person Not Found'
 			);
-
-			return;
 		}
 
 		$this->outputHTML('person/details', [

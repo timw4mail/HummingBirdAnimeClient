@@ -20,6 +20,7 @@ use Aviat\Ion\Di\{Container, ContainerAware};
 use Aviat\Ion\Tests\IonTestCase;
 use Monolog\Handler\{NullHandler, TestHandler};
 use Monolog\Logger;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
 use TypeError;
 
@@ -28,11 +29,8 @@ use TypeError;
  */
 final class FooTest
 {
-	public $item;
-
-	public function __construct($item)
+	public function __construct(public $item)
 	{
-		$this->item = $item;
 	}
 }
 
@@ -51,7 +49,7 @@ final class ContainerTest extends IonTestCase
 		$this->container = new Container();
 	}
 
-	public function dataGetWithException(): array
+	public static function dataGetWithException(): array
 	{
 		return [
 			'Bad index type: number' => [
@@ -70,11 +68,8 @@ final class ContainerTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataGetWithException
-	 * @param mixed $exception
-	 */
-	public function testGetWithException(mixed $id, $exception, ?string $message = NULL): void
+	#[DataProvider('dataGetWithException')]
+	public function testGetWithException(mixed $id, mixed $exception, ?string $message = NULL): void
 	{
 		try
 		{
@@ -91,11 +86,8 @@ final class ContainerTest extends IonTestCase
 		}
 	}
 
-	/**
-	 * @dataProvider dataGetWithException
-	 * @param mixed $exception
-	 */
-	public function testGetNewWithException(mixed $id, $exception, ?string $message = NULL): void
+	#[DataProvider('dataGetWithException')]
+	public function testGetNewWithException(mixed $id, mixed $exception, ?string $message = NULL): void
 	{
 		$this->expectException($exception);
 		if ($message !== NULL)
@@ -106,7 +98,7 @@ final class ContainerTest extends IonTestCase
 		$this->container->getNew($id);
 	}
 
-	public function dataSetInstanceWithException(): array
+	public static function dataSetInstanceWithException(): array
 	{
 		return [
 			'Non-existent id' => [
@@ -122,13 +114,8 @@ final class ContainerTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * @dataProvider dataSetInstanceWithException
-	 * @param mixed $id
-	 * @param mixed $exception
-	 * @param mixed $message
-	 */
-	public function testSetInstanceWithException($id, $exception, $message): void
+	#[DataProvider('dataSetInstanceWithException')]
+	public function testSetInstanceWithException(mixed $id, mixed $exception, mixed $message): void
 	{
 		try
 		{
@@ -175,9 +162,7 @@ final class ContainerTest extends IonTestCase
 
 	public function testGetSet(): void
 	{
-		$container = $this->container->set('foo', static function () {
-			return static function () {};
-		});
+		$container = $this->container->set('foo', static fn () => static function (): void {});
 
 		$this->assertInstanceOf(Container::class, $container);
 		$this->assertInstanceOf(ContainerInterface::class, $container);

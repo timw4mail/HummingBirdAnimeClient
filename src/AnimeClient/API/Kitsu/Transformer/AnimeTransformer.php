@@ -36,7 +36,8 @@ final class AnimeTransformer extends AbstractTransformer
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(static fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$rawGenres = array_filter($base['categories']['nodes'], static fn ($c) => $c !== NULL);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $rawGenres);
 
 		sort($genres);
 
@@ -56,7 +57,7 @@ final class AnimeTransformer extends AbstractTransformer
 
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
-					'image' => $details['image']['original']['url'] ?? '',
+					'image' => Kitsu::getImage($details),
 					'name' => $details['names']['canonical'],
 					'slug' => $details['slug'],
 				];
@@ -100,7 +101,7 @@ final class AnimeTransformer extends AbstractTransformer
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
 					'name' => $name,
-					'image' => $person['image']['original']['url'],
+					'image' => Kitsu::getImage($person),
 					'slug' => $person['slug'],
 				];
 

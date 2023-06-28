@@ -18,8 +18,7 @@ use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Settings as SettingsModel;
-use Aviat\Ion\Attribute\Controller;
-use Aviat\Ion\Attribute\Route;
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
@@ -87,10 +86,7 @@ final class Settings extends BaseController
 			? $this->setFlashMessage('Saved config settings.', 'success')
 			: $this->setFlashMessage('Failed to save config file.', 'error');
 
-		$redirectUrl = $this->url->generate('settings');
-		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
-
-		$this->redirect($redirectUrl, 303);
+		$this->redirect($this->url->generate('settings'), 303);
 	}
 
 	/**
@@ -153,9 +149,6 @@ final class Settings extends BaseController
 			? $this->setFlashMessage('Linked Anilist Account', 'success')
 			: $this->setFlashMessage('Error Linking Anilist Account', 'error');
 
-		$redirectUrl = $this->url->generate('settings');
-		$redirectUrl = ($redirectUrl !== FALSE) ? $redirectUrl : '';
-
-		$this->redirect($redirectUrl, 303);
+		$this->redirect($this->url->generate('settings'), 303);
 	}
 }

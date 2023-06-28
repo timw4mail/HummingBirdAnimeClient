@@ -1,7 +1,7 @@
 query ($slug: String!) {
 	findPersonBySlug(slug: $slug) {
 		id
-		description
+		description(locales: "en")
 		birthday
 		image {
 			original {
@@ -20,7 +20,7 @@ query ($slug: String!) {
 		names {
 			alternatives
 			canonical
-			localized
+			localized(locales: "*")
 		}
 		mediaStaff(first: 100) {
 			nodes {
@@ -47,7 +47,7 @@ query ($slug: String!) {
 					titles {
 						alternatives
 						canonical
-						localized
+						localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 					}
 				}
 			}
@@ -91,7 +91,7 @@ query ($slug: String!) {
 						}
 						titles {
 							canonical
-							localized
+							localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 						}
 					}
 				}

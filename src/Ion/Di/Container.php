@@ -39,8 +39,8 @@ class Container implements ContainerInterface
 	 */
 	public function __construct(
 		/**
-	 	* Array of container Generator functions
-	 	*/
+		 * Array of container Generator functions
+		 */
 		protected array $container = []
 	) {
 		$this->loggers = [];

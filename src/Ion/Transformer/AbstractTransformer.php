@@ -33,7 +33,7 @@ abstract class AbstractTransformer implements TransformerInterface
 	{
 		$list = (array) $collection;
 
-		return array_map([$this, 'transform'], $list);
+		return array_map($this->transform(...), $list);
 	}
 
 	/**

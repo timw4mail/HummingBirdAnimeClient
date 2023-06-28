@@ -66,14 +66,6 @@ class ArrayType
 	];
 
 	/**
-	 * Create an ArrayType wrapper class from an array
-	 */
-	public static function from(array $arr): ArrayType
-	{
-		return new ArrayType($arr);
-	}
-
-	/**
 	 * Create an ArrayType wrapper class
 	 */
 	private function __construct(array &$arr)
@@ -106,6 +98,14 @@ class ArrayType
 		}
 
 		throw new InvalidArgumentException("Method '{$method}' does not exist");
+	}
+
+	/**
+	 * Create an ArrayType wrapper class from an array
+	 */
+	public static function from(array $arr): ArrayType
+	{
+		return new ArrayType($arr);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class ArrayType
 	/**
 	 * Find an array key by its associated value
 	 */
-	public function search(mixed $value, bool $strict = TRUE): int|string|FALSE|null
+	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
 	{
 		return array_search($value, $this->arr, $strict);
 	}
@@ -172,7 +172,7 @@ class ArrayType
 	/**
 	 * Return the array, or a key
 	 */
-	public function &get(string|int|NULL $key = NULL): mixed
+	public function &get(string|int|null $key = NULL): mixed
 	{
 		$value = NULL;
 		if ($key === NULL)

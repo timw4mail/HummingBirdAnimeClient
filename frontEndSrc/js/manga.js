@@ -1,5 +1,6 @@
 import _ from './anime-client.js'
 import { renderSearchResults } from './template-helpers.js'
+import { getNestedProperty, hasNestedProperty } from "./fns";
 
 const search = (query) => {
 	_.show('.cssload-loader');
@@ -36,7 +37,7 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	let type = thisSel.classList.contains('plus-one-chapter') ? 'chapter' : 'volume';
 	let completed = parseInt(_.$(`.${type}s_read`, parentSel)[ 0 ].textContent, 10) || 0;
 	let total = parseInt(_.$(`.${type}_count`, parentSel)[ 0 ].textContent, 10);
-	let mangaName = _.$('.name', parentSel)[ 0 ].textContent;
+	let title = _.$('.name', parentSel)[ 0 ].textContent;
 
 	if (isNaN(completed)) {
 		completed = 0;
@@ -45,11 +46,20 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 	// Setup the update data
 	let data = {
 		id: parentSel.dataset.kitsuId,
+		anilist_id: parentSel.dataset.anilistId,
 		mal_id: parentSel.dataset.malId,
 		data: {
 			progress: completed
 		}
 	};
+
+	const displayMessage = (type, message) => {
+		_.hide('#loading-shadow');
+		_.showMessage(type, `${message} ${title}`);
+		_.scrollToTop();
+	}
+
+	const showError = () => displayMessage('error', 'Failed to update');
 
 	// If the episode count is 0, and incremented,
 	// change status to currently reading
@@ -73,33 +83,32 @@ _.on('.manga.list', 'click', '.edit-buttons button', (e) => {
 		type: 'POST',
 		mimeType: 'application/json',
 		success: (res) => {
-			const resData = JSON.parse(res)
-			if (resData.error) {
-				_.hide('#loading-shadow');
-				_.showMessage('error', `Failed to update ${mangaName}. `);
-				_.scrollToTop();
-				return;
+			try {
+				const resData = JSON.parse(res);
+
+				// Do a rough sanity check for weird errors
+				let updatedProgress = getNestedProperty(resData, 'data.libraryEntry.update.libraryEntry.progress');
+				if (hasNestedProperty(resData, 'error') || updatedProgress !== data.data.progress) {
+					showError();
+					return;
+				}
+
+				// We've completed the series
+				if (getNestedProperty(resData, 'data.libraryEntry.update.libraryEntry.status') === 'COMPLETED') {
+					_.hide(parentSel);
+					displayMessage('success', 'Completed')
+
+					return;
+				}
+
+				// Just a normal update
+				_.$(`.${type}s_read`, parentSel)[ 0 ].textContent = String(completed);
+				displayMessage('success', 'Updated');
+
+			} catch (_) {
+				showError();
 			}
-
-			if (String(data.data.status).toUpperCase() === 'COMPLETED') {
-				_.hide(parentSel);
-				_.hide('#loading-shadow');
-				_.showMessage('success', `Successfully completed ${mangaName}`);
-				_.scrollToTop();
-
-				return;
-			}
-
-			_.hide('#loading-shadow');
-
-			_.$(`.${type}s_read`, parentSel)[ 0 ].textContent = String(completed);
-			_.showMessage('success', `Successfully updated ${mangaName}`);
-			_.scrollToTop();
 		},
-		error: () => {
-			_.hide('#loading-shadow');
-			_.showMessage('error', `Failed to update ${mangaName}`);
-			_.scrollToTop();
-		}
+		error: showError,
 	});
 });

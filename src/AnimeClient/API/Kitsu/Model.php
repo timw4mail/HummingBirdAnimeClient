@@ -34,6 +34,7 @@ use Aviat\AnimeClient\API\{
 use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\{Anime, MangaPage};
+use Aviat\AnimeClient\Types\{AnimeListItem, MangaListItem};
 use Aviat\Ion\{
 	Di\ContainerAware,
 	Json
@@ -282,7 +283,7 @@ final class Model
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(MediaType::ANIME, $status) ?? [];
+			$data = $this->getList(MediaType::ANIME, $status);
 
 			// Bail out on no data
 			if (empty($data))
@@ -319,7 +320,7 @@ final class Model
 	/**
 	 * Get all the anime entries, that are organized for output to html
 	 *
-	 * @return array<string, mixed[]>
+	 * @return array<string, array>
 	 */
 	public function getFullOrganizedAnimeList(): array
 	{
@@ -330,7 +331,7 @@ final class Model
 		foreach ($statuses as $status)
 		{
 			$mappedStatus = AnimeWatchingStatus::KITSU_TO_TITLE[$status];
-			$output[$mappedStatus] = $this->getAnimeList($status) ?? [];
+			$output[$mappedStatus] = $this->getAnimeList($status);
 		}
 
 		return $output;
@@ -412,7 +413,7 @@ final class Model
 
 		if ($list === NULL)
 		{
-			$data = $this->getList(MediaType::MANGA, $status) ?? [];
+			$data = $this->getList(MediaType::MANGA, $status);
 
 			// Bail out on no data
 			if (empty($data))
@@ -534,14 +535,14 @@ final class Model
 	 * Get the data for a specific list item, generally for editing
 	 *
 	 * @param string $listId - The unique identifier of that list item
-	 * @return mixed
 	 */
-	public function getListItem(string $listId)
+	public function getListItem(string $listId): AnimeListItem|MangaListItem|array
 	{
 		$baseData = $this->listItem->get($listId);
 		if ( ! isset($baseData['data']['findLibraryEntryById']))
 		{
-			return [];
+			// We need to get the errors...
+			return $baseData;
 		}
 
 		return (new LibraryEntryTransformer())->transform($baseData['data']['findLibraryEntryById']);
@@ -566,7 +567,7 @@ final class Model
 		// this way is much faster...
 		foreach ($statuses as $status)
 		{
-			foreach ($this->getPages([$this, 'getThumbListPages'], strtoupper($type), $status) as $page)
+			foreach ($this->getPages($this->getThumbListPages(...), strtoupper($type), $status) as $page)
 			{
 				$pages[] = $page;
 			}
@@ -596,7 +597,7 @@ final class Model
 		// this way is much faster...
 		foreach ($statuses as $status)
 		{
-			foreach ($this->getPages([$this, 'getSyncPages'], strtoupper($type), $status) as $page)
+			foreach ($this->getPages($this->getSyncPages(...), strtoupper($type), $status) as $page)
 			{
 				$pages[] = $page;
 			}
@@ -626,7 +627,7 @@ final class Model
 	{
 		$pages = [];
 
-		foreach ($this->getPages([$this, 'getListPages'], strtoupper($type), strtoupper($status)) as $page)
+		foreach ($this->getPages($this->getListPages(...), strtoupper($type), strtoupper($status)) as $page)
 		{
 			$pages[] = $page;
 		}
@@ -786,7 +787,7 @@ final class Model
 		}
 	}
 
-	private function getUserId(): string
+	protected function getUserId(): string
 	{
 		static $userId = NULL;
 

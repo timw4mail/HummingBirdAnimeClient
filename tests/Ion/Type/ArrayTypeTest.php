@@ -22,7 +22,7 @@ use Aviat\Ion\Type\ArrayType;
  */
 final class ArrayTypeTest extends IonTestCase
 {
-	public function dataCall()
+	public static function dataCall()
 	{
 		$method_map = [
 			'chunk' => 'array_chunk',
@@ -80,18 +80,16 @@ final class ArrayTypeTest extends IonTestCase
 		];
 	}
 
-	/**
-	 * Test the array methods defined for the __Call method
-	 *
-	 * @dataProvider dataCall
-	 * @param $expected
-	 */
-	public function testCall(string $method, array $array, array $args, $expected): void
-	{
-		$obj = ArrayType::from($array);
-		$actual = $obj->__call($method, $args);
-		$this->assertSame($expected, $actual);
-	}
+ /**
+  * Test the array methods defined for the __Call method
+  */
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataCall')]
+ public function testCall(string $method, array $array, array $args, mixed $expected): void
+ {
+ 	$obj = ArrayType::from($array);
+ 	$actual = $obj->__call($method, $args);
+ 	$this->assertSame($expected, $actual);
+ }
 
 	public function testSet(): void
 	{

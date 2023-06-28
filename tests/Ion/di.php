@@ -16,15 +16,13 @@ return static function (array $config_array = []) {
 
 	$container->setInstance('config', new Config($config_array));
 
-	$container->set('request', static function () {
-		return ServerRequestFactory::fromGlobals(
-			$GLOBALS['_SERVER'],
-			$_GET,
-			$_POST,
-			$_COOKIE,
-			$_FILES
-		);
-	});
+	$container->set('request', static fn () => ServerRequestFactory::fromGlobals(
+		$GLOBALS['_SERVER'],
+		$_GET,
+		$_POST,
+		$_COOKIE,
+		$_FILES
+	));
 
 	$container->set('response', static fn () => new Response());
 

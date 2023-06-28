@@ -21,6 +21,7 @@ final class Person extends AbstractType
 {
 	public string $id;
 	public ?string $name;
+	public ?string $birthday;
 	public string $image;
 	public array $names = [];
 	public ?string $description;
