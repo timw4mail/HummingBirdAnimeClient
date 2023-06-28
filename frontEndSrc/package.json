@@ -11,8 +11,8 @@
 	"devDependencies": {
 		"@swc/cli": "^0.1.39",
 		"@swc/core": "^1.2.54",
-		"concurrently": "^7.4.0",
-		"cssnano": "^5.0.1",
+		"concurrently": "^8.2.0",
+		"cssnano": "^6.0.1",
 		"postcss": "^8.2.6",
 		"postcss-import": "^15.0.0",
 		"postcss-preset-env": "^8.0.1",
