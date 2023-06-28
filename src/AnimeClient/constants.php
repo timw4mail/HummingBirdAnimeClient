@@ -28,6 +28,7 @@ const USER_AGENT = "Tim's Anime Client/5.2";
 const ALPHA_SLUG_PATTERN = '[a-z_]+';
 const NUM_PATTERN = '[0-9]+';
 const SLUG_PATTERN = '[a-z0-9\-]+';
+const SLUG_SPACE_PATTERN = '[a-zA-Z_\- ]+';
 
 // Why doesn't this already exist?
 const MILLI_FROM_NANO = 1000 * 1000;
