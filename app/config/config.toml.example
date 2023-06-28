@@ -14,6 +14,9 @@ show_anime_collection = true
 # do you wish to show the manga collection?
 show_manga_collection = false
 
+# what theme would you like to use? light, dark, or auto
+theme = "auto"
+
 ################################################################################
 # Default views and paths
 ################################################################################
