@@ -18,7 +18,7 @@ use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use DateTimeImmutable;
-use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
 use Throwable;
 
 use Yosymfony\Toml\{Toml, TomlBuilder};
@@ -218,7 +218,7 @@ function getResponse(Request|string $request): Response
  */
 function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 {
-	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
+	if (empty($kitsuUrl))
 	{
 		return 'images/placeholder.webp';
 	}
@@ -276,6 +276,7 @@ function colNotEmpty(array $search, string $key): bool
 
 /**
  * Clear the cache, but save user auth data
+ * @throws InvalidArgumentException
  */
 function clearCache(CacheInterface $cache): bool
 {

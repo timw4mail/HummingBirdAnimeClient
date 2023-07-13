@@ -2138,7 +2138,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 			return mb_regex_encoding(...$args);
 		}
 
-		return null;
+		return NULL;
 	}
 
 	protected function supportsEncoding(): bool|null

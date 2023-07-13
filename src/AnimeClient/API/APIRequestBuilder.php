@@ -16,16 +16,14 @@ namespace Aviat\AnimeClient\API;
 
 // use Amp\Http\Client\Form;
 use Amp\Http\Client\Body\FormBody;
-use Amp\Http\Client\HttpClientBuilder;
-use Amp\Http\Client\HttpException;
-use Amp\Http\Client\Request;
+use Amp\Http\Client\{HttpClientBuilder, HttpException, Request};
 use Aviat\Ion\Json;
 
-use Error;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 use Throwable;
-use TypeError;
+// use function Amp\async;
+// use function Amp\Future\await;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 use const Aviat\AnimeClient\USER_AGENT;
@@ -221,8 +219,6 @@ abstract class APIRequestBuilder
 	/**
 	 * Get the data from the response of the passed request
 	 *
-	 * @param Request $request
-	 * @return mixed
 	 * @throws Throwable
 	 */
 	public function getResponseData(Request $request): mixed

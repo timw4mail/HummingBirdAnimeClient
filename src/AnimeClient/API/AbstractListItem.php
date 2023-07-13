@@ -38,7 +38,6 @@ abstract class AbstractListItem
 	 * Retrieve a list item
 	 *
 	 * @param string $id - The id of the list item
-	 * @return mixed[]
 	 */
 	abstract public function get(string $id): array;
 

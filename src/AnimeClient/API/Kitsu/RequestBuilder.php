@@ -16,7 +16,6 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp\Http\Client\{Request, Response};
 use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\AnimeClient\Enum\EventType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\{Event, Json, JsonException};

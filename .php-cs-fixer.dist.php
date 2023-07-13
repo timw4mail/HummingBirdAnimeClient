@@ -53,13 +53,13 @@ return (new Config())
 				'yield_from',
 			],
 		],
-		'braces' => [
-			'allow_single_line_anonymous_class_with_empty_body' => true,
-			'allow_single_line_closure'                         => true,
-			'position_after_anonymous_constructs'               => 'same',
-			'position_after_control_structures'                 => 'next',
-			'position_after_functions_and_oop_constructs'       => 'next',
-		],
+//		'braces' => [
+//			 'allow_single_line_anonymous_class_with_empty_body' => true,
+//			 'allow_single_line_closure'                         => true,
+//			 'position_after_anonymous_constructs'               => 'same',
+//			 'position_after_control_structures'                 => 'next',
+//			'position_after_functions_and_oop_constructs'       => 'next',
+//		],
 		'cast_spaces'                 => ['space' => 'single'],
 		'class_attributes_separation' => [
 			'elements' => [
@@ -93,7 +93,16 @@ return (new Config())
 		'compact_nullable_typehint'               => true,
 		'concat_space'                            => ['spacing' => 'one'],
 		'constant_case' => ['case' => 'upper'],
+		'control_structure_braces' => true,
 		'control_structure_continuation_position' => ['position' => 'next_line'],
+		'curly_braces_position' => [
+			'allow_single_line_anonymous_functions' => true,
+			'allow_single_line_empty_anonymous_classes' => true,
+			'anonymous_functions_opening_brace' => 'same_line',
+			'classes_opening_brace' => 'next_line_unless_newline_at_signature_end',
+			'control_structures_opening_brace' => 'next_line_unless_newline_at_signature_end',
+			'functions_opening_brace' => 'next_line_unless_newline_at_signature_end',
+		],
 		'date_time_immutable'                     => false,
 		'declare_equal_normalize'                 => ['space' => 'none'],
 		'declare_parentheses'                     => true,
@@ -108,7 +117,7 @@ return (new Config())
 			'long_function'                  => 'echo',
 			'shorten_simple_statements_only' => false,
 		],
-		'elseif'               => true,
+		'elseif'               => false,
 		'empty_loop_body'      => ['style' => 'braces'],
 		'empty_loop_condition' => ['style' => 'while'],
 		'encoding'             => true,
@@ -429,8 +438,8 @@ return (new Config())
 		'single_line_comment_style'          => ['comment_types' => ['asterisk', 'hash']],
 		'single_line_throw'                  => false,
 		'single_quote'                       => ['strings_containing_single_quote_chars' => false],
-		'single_space_after_construct'       => [
-			'constructs' => [
+		'single_space_around_construct'       => [
+			'constructs_followed_by_a_single_space' => [
 				'abstract',
 				'as',
 				'attribute',
@@ -493,6 +502,7 @@ return (new Config())
 		'space_after_semicolon'             => ['remove_in_empty_for_expressions' => true],
 		'standardize_increment'             => true,
 		'standardize_not_equals'            => true,
+		'statement_indentation' => true,
 		'static_lambda'                     => true,
 		'strict_comparison'                 => true,
 		'strict_param'                      => true,

@@ -15,11 +15,8 @@
 namespace Aviat\Ion\Tests\Type;
 
 use Aviat\Ion\Tests\IonTestCase;
-use Aviat\Ion\Type\StringType;
-use Aviat\Ion\Type\Stringy;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
-use PHPUnit\Framework\Attributes\Test;
+use Aviat\Ion\Type\{StringType, Stringy};
+use PHPUnit\Framework\Attributes\{DataProvider, IgnoreClassForCodeCoverage, Test};
 
 /**
  * @internal
