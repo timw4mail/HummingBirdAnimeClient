@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 5.3
+* Update PHP requirement to 8.2
+
 ## Version 5.2
 * Updated PHP requirement to 8.1
 * Updated to support PHP 8.2

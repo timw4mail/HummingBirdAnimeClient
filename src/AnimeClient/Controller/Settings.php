@@ -57,13 +57,15 @@ final class Settings extends BaseController
 		$auth = $this->container->get('auth');
 		$form = $this->settingsModel->getSettingsForm();
 
-		$hasAnilistLogin = $this->config->has(['anilist', 'access_token']);
+		$hasRequiredAnilistConfig = $this->config->has(['anilist', 'client_secret']) &&
+			$this->config->has(['anilist', 'client_id']) &&
+			$this->config->has(['anilist', 'username']);
 
 		$this->outputHTML('settings/settings', [
 			'anilistModel' => $this->anilistModel,
 			'auth' => $auth,
 			'form' => $form,
-			'hasAnilistLogin' => $hasAnilistLogin,
+			'hasRequiredAnilistConfig' => $hasRequiredAnilistConfig,
 			'config' => $this->config,
 			'title' => $this->config->get('whose_list') . "'s Settings",
 		]);
