@@ -4,12 +4,12 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient;
@@ -18,7 +18,7 @@ use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use DateTimeImmutable;
-use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
 use Throwable;
 
 use Yosymfony\Toml\{Toml, TomlBuilder};
@@ -218,7 +218,7 @@ function getResponse(Request|string $request): Response
  */
 function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 {
-	if (empty($kitsuUrl) || ( ! is_string($kitsuUrl)))
+	if (empty($kitsuUrl))
 	{
 		return 'images/placeholder.webp';
 	}
@@ -276,6 +276,7 @@ function colNotEmpty(array $search, string $key): bool
 
 /**
  * Clear the cache, but save user auth data
+ * @throws InvalidArgumentException
  */
 function clearCache(CacheInterface $cache): bool
 {

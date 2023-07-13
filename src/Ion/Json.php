@@ -4,12 +4,12 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion;
@@ -25,10 +25,7 @@ class Json
 	/**
 	 * Encode data in json format
 	 *
-	 * @param mixed $data
-	 * @param int $options
 	 * @param int<1, max> $depth
-	 * @return string
 	 */
 	public static function encode(mixed $data, int $options = 0, int $depth = 512): string
 	{
@@ -57,11 +54,7 @@ class Json
 	/**
 	 * Decode data from json
 	 *
-	 * @param string|null $json
-	 * @param bool $assoc
 	 * @param int<1, max> $depth
-	 * @param int $options
-	 * @return mixed
 	 */
 	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{
@@ -81,11 +74,7 @@ class Json
 	/**
 	 * Decode json data loaded from the passed filename
 	 *
-	 * @param string $filename
-	 * @param bool $assoc
 	 * @param int<1, max> $depth
-	 * @param int $options
-	 * @return mixed
 	 */
 	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
 	{

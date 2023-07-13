@@ -31,12 +31,18 @@ Update your anime/manga list on Kitsu.io and Anilist
 
 ### Requirements
 
-* PHP 8
-* PDO SQLite or PDO PostgreSQL (For collection tab)
-* GD extension for caching images
+* PHP 8.2
+  * ext-dom (For editing the DOM)
+  * ext-gd (For caching images)
+  * ext-intl (For time localization)
+  * ext-json
+  * ext-mbstring
+  * ext-pdo
 
 ### Highly Recommended
+
 * Redis or Memcached for caching
+* PDO SQLite or PDO PostgreSQL (For collection tab)
 
 ### Installation
 

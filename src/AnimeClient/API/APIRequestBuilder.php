@@ -4,26 +4,26 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API;
 
+// use Amp\Http\Client\Form;
 use Amp\Http\Client\Body\FormBody;
-
-use Amp\Http\Client\Request;
+use Amp\Http\Client\{HttpClientBuilder, HttpException, Request};
 use Aviat\Ion\Json;
 
-use Error;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 use Throwable;
-use TypeError;
+// use function Amp\async;
+// use function Amp\Future\await;
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 use const Aviat\AnimeClient\USER_AGENT;
@@ -203,18 +203,15 @@ abstract class APIRequestBuilder
 	{
 		$this->buildUri();
 
-		if ($this->logger !== NULL)
-		{
-			$this->logger->debug('API Request', [
-				'request_url' => $this->request->getUri(),
-				'request_headers' => $this->request->getHeaders(),
-				'request_body' => wait(
-					$this->request->getBody()
-						->createBodyStream()
-						->read()
-				),
-			]);
-		}
+		$this->logger?->debug('API Request', [
+			'request_url' => $this->request->getUri(),
+			'request_headers' => $this->request->getHeaders(),
+			'request_body' => wait(
+				$this->request->getBody()
+					->createBodyStream()
+					->read()
+			),
+		]);
 
 		return $this->request;
 	}
@@ -222,12 +219,9 @@ abstract class APIRequestBuilder
 	/**
 	 * Get the data from the response of the passed request
 	 *
-	 * @throws Error
 	 * @throws Throwable
-	 * @throws TypeError
-	 * @return mixed
 	 */
-	public function getResponseData(Request $request)
+	public function getResponseData(Request $request): mixed
 	{
 		$response = getResponse($request);
 

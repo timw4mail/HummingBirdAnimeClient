@@ -4,17 +4,17 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\AnimeClient\API;
 
-use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
 
 /**
  * Helper methods for dealing with the Cache
@@ -44,6 +44,7 @@ trait CacheTrait
 	/**
 	 * Get the cached value if it exists, otherwise set the cache value
 	 * and return it.
+	 * @throws InvalidArgumentException
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{

@@ -4,22 +4,19 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @copyright   2015 - 2022  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
- * @link        https://git.timshome.page/timw4mail/HummingBirdAnimeClient
+ * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
 namespace Aviat\Ion\Tests\Type;
 
 use Aviat\Ion\Tests\IonTestCase;
-use Aviat\Ion\Type\StringType;
-use Aviat\Ion\Type\Stringy;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
-use PHPUnit\Framework\Attributes\Test;
+use Aviat\Ion\Type\{StringType, Stringy};
+use PHPUnit\Framework\Attributes\{DataProvider, IgnoreClassForCodeCoverage, Test};
 
 /**
  * @internal

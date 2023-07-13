@@ -13,8 +13,8 @@
   "autoload": {
 	"files": [
 	  "src/Ion/functions.php",
-	  "src/AnimeClient/constants.php",
-	  "src/AnimeClient/AnimeClient.php"
+	  "src/AnimeClient.php",
+	  "src/AnimeClient/constants.php"
 	],
 	"psr-4": {
 	  "Aviat\\": "src/"
