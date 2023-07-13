@@ -14,7 +14,7 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
 
 /**
  * Helper methods for dealing with the Cache
@@ -44,6 +44,7 @@ trait CacheTrait
 	/**
 	 * Get the cached value if it exists, otherwise set the cache value
 	 * and return it.
+	 * @throws InvalidArgumentException
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed
 	{

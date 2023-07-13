@@ -14,11 +14,12 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp\Http\Client\Request;
+use Amp\Http\Client\{HttpException, Request};
 use Generator;
 use Throwable;
 use function Amp\call;
 
+// use function Amp\Future\{async, await};
 use function Amp\Promise\{all, wait};
 use function Aviat\AnimeClient\getApiClient;
 
@@ -65,9 +66,23 @@ final class ParallelAPIRequest
 	 * Make the requests, and return the body for each
 	 *
 	 * @throws Throwable
-	 * @return mixed[]
 	 */
 	public function makeRequests(): array
+	{
+		return $this->makeRequestOld();
+	}
+
+	/**
+	 * Make the requests and return the response objects
+	 *
+	 * @throws Throwable
+	 */
+	public function getResponses(): array
+	{
+		return $this->getResponsesOld();
+	}
+
+	private function makeRequestOld(): array
 	{
 		$client = getApiClient();
 
@@ -84,13 +99,19 @@ final class ParallelAPIRequest
 		return wait(all($promises));
 	}
 
-	/**
-	 * Make the requests and return the response objects
-	 *
-	 * @throws Throwable
-	 * @return mixed[]
-	 */
-	public function getResponses(): array
+	private function makeRequestsNew(): array
+	{
+		$futures = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$futures[$key] = async(static fn () => self::bodyHandler($url));
+		}
+
+		return await($futures);
+	}
+
+	private function getResponsesOld(): array
 	{
 		$client = getApiClient();
 
@@ -102,5 +123,42 @@ final class ParallelAPIRequest
 		}
 
 		return wait(all($promises));
+	}
+
+	private function getResponsesNew(): array
+	{
+		$futures = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$futures[$key] = async(static fn () => self::responseHandler($url));
+		}
+
+		return await($futures);
+	}
+
+	private static function bodyHandler(string|Request $uri): string
+	{
+		$client = getApiClient();
+
+		if (is_string($uri))
+		{
+			$uri = new Request($uri);
+		}
+		$response = $client->request($uri);
+
+		return $response->getBody()->buffer();
+	}
+
+	private static function responseHandler(string|Request $uri)
+	{
+		$client = getApiClient();
+
+		if (is_string($uri))
+		{
+			$uri = new Request($uri);
+		}
+
+		return $client->request($uri);
 	}
 }

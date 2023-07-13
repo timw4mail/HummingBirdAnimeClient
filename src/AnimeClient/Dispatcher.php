@@ -214,8 +214,6 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Get the list of controllers in the default namespace
-	 *
-	 * @return array
 	 */
 	public function getControllerList(): array
 	{

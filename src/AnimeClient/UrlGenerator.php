@@ -98,9 +98,7 @@ class UrlGenerator extends RoutingBase
 
 		if ($defaultPath !== NULL)
 		{
-			// @codeCoverageIgnoreStart
 			return $this->url("{$type}/{$defaultPath}");
-			// @codeCoverageIgnoreEnd
 		}
 
 		throw new InvalidArgumentException("Invalid default type: '{$type}'");
