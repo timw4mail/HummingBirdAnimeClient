@@ -54,6 +54,11 @@ class UrlGenerator extends RoutingBase
 		return implode('/', $args);
 	}
 
+	public function fromRoute(string $route, array $args = []): string
+	{
+		return $this->hostUrl($this->routerUrl->generate($route, $args));
+	}
+
 	/**
 	 * Generate a proper url from the path
 	 */
@@ -81,9 +86,7 @@ class UrlGenerator extends RoutingBase
 
 		$path = implode('/', $pathSegments);
 
-		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
-
-		return "{$scheme}//{$this->host}/{$path}";
+		return $this->hostUrl($path);
 	}
 
 	/**
@@ -102,6 +105,14 @@ class UrlGenerator extends RoutingBase
 		}
 
 		throw new InvalidArgumentException("Invalid default type: '{$type}'");
+	}
+
+	private function hostUrl(string $path): string
+	{
+		$path = trim($path, '/');
+		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
+
+		return "{$scheme}//{$this->host}/{$path}";
 	}
 }
 

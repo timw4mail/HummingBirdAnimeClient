@@ -14,6 +14,7 @@
 
 namespace Aviat\AnimeClient;
 
+use Aura\Router\Generator;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
@@ -24,7 +25,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Base for routing/url classes
  */
-class RoutingBase
+abstract class RoutingBase
 {
 	/**
 	 * Config Object
@@ -37,6 +38,11 @@ class RoutingBase
 	protected ServerRequestInterface $request;
 
 	/**
+	 * Aura url generator
+	 */
+	protected Generator $routerUrl;
+
+	/**
 	 * Constructor
 	 *
 	 * @throws ConfigException
@@ -47,6 +53,7 @@ class RoutingBase
 	{
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
+		$this->routerUrl = $container->get('aura-router')->getGenerator();
 	}
 
 	/**
