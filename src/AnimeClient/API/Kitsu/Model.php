@@ -15,6 +15,7 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Amp;
+use Amp\Future;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeHistoryTransformer,
 	AnimeListTransformer,
@@ -40,7 +41,6 @@ use Aviat\Ion\{
 	Json
 };
 use Generator;
-use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getApiClient;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
@@ -87,7 +87,7 @@ final class Model
 				'password' => $password,
 			],
 		]);
-		$data = Json::decode(wait($response->getBody()->buffer()));
+		$data = Json::decode($response->getBody()->buffer());
 
 		if (array_key_exists('error', $data))
 		{
@@ -124,7 +124,7 @@ final class Model
 				'refresh_token' => $token,
 			],
 		]);
-		$data = Json::decode(wait($response->getBody()->buffer()));
+		$data = Json::decode($response->getBody()->buffer());
 
 		if (array_key_exists('error', $data))
 		{

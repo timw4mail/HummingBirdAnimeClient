@@ -14,17 +14,16 @@
 
 namespace Aviat\AnimeClient\API;
 
-// use Amp\Http\Client\Form;
-use Amp\Http\Client\Body\FormBody;
+use Amp\Future;
+use Amp\Http\Client\Form;
 use Amp\Http\Client\{HttpClientBuilder, HttpException, Request};
 use Aviat\Ion\Json;
 
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 use Throwable;
-// use function Amp\async;
-// use function Amp\Future\await;
-use function Amp\Promise\wait;
+
+use function Amp\async;
 use function Aviat\AnimeClient\getResponse;
 use const Aviat\AnimeClient\USER_AGENT;
 
@@ -110,7 +109,7 @@ abstract class APIRequestBuilder
 	/**
 	 * Set the request body
 	 */
-	public function setBody(FormBody|string $body): self
+	public function setBody(Form|string $body): self
 	{
 		$this->request->setBody($body);
 
@@ -124,8 +123,9 @@ abstract class APIRequestBuilder
 	 */
 	public function setFormFields(array $fields): self
 	{
-		$body = new FormBody();
-		$body->addFields($fields);
+		$body = new Form;
+
+		array_walk($fields, fn ($content, $name) => $body->addField($name, $content));
 
 		return $this->setBody($body);
 	}
@@ -145,7 +145,12 @@ abstract class APIRequestBuilder
 	 */
 	public function setHeader(string $name, ?string $value = NULL): self
 	{
-		if (NULL === $value)
+		if ($name === '')
+		{
+			return $this;
+		}
+
+		if ($value === NULL)
 		{
 			$this->unsetHeader($name);
 		}
@@ -164,10 +169,7 @@ abstract class APIRequestBuilder
 	 */
 	public function setHeaders(array $headers): self
 	{
-		foreach ($headers as $name => $value)
-		{
-			$this->setHeader($name, $value);
-		}
+		array_walk($headers, fn ($value, $name) => $this->setHeader($name, $value));
 
 		return $this;
 	}
@@ -206,11 +208,9 @@ abstract class APIRequestBuilder
 		$this->logger?->debug('API Request', [
 			'request_url' => $this->request->getUri(),
 			'request_headers' => $this->request->getHeaders(),
-			'request_body' => wait(
-				$this->request->getBody()
-					->createBodyStream()
-					->read()
-			),
+			'request_body' => $this->request->getBody()
+				->getContent()
+				->read(),
 		]);
 
 		return $this->request;
@@ -225,7 +225,7 @@ abstract class APIRequestBuilder
 	{
 		$response = getResponse($request);
 
-		return wait($response->getBody()->buffer());
+		return $response->getBody()->buffer();
 	}
 
 	/**

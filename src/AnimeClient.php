@@ -14,6 +14,7 @@
 
 namespace Aviat\AnimeClient;
 
+use Amp\Future;
 use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
 
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
@@ -23,7 +24,7 @@ use Throwable;
 
 use Yosymfony\Toml\{Toml, TomlBuilder};
 
-use function Amp\Promise\wait;
+use function Amp\async;
 use function Aviat\Ion\_dir;
 
 const SECONDS_IN_MINUTE = 60;
@@ -210,7 +211,11 @@ function getResponse(Request|string $request): Response
 		$request = new Request($request);
 	}
 
-	return wait($client->request($request));
+	$future = async(fn () => $client->request($request));
+
+	[$response] = Future\await([$future]);
+
+	return $response;
 }
 
 /**
