@@ -14,8 +14,6 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Amp;
-use Amp\Future;
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeHistoryTransformer,
 	AnimeListTransformer,
@@ -29,6 +27,7 @@ use Aviat\AnimeClient\API\{
 	CacheTrait,
 	Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
 	Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus,
+	Kitsu\Enum\MediaStatus,
 	Mapping\AnimeWatchingStatus,
 	Mapping\MangaReadingStatus
 };
@@ -553,27 +552,7 @@ final class Model
 	 */
 	public function getThumbList(string $type): array
 	{
-		$statuses = [
-			'CURRENT',
-			'PLANNED',
-			'ON_HOLD',
-			'DROPPED',
-			'COMPLETED',
-		];
-
-		$pages = [];
-
-		// Although I can fetch the whole list without segregating by status,
-		// this way is much faster...
-		foreach ($statuses as $status)
-		{
-			foreach ($this->getPages($this->getThumbListPages(...), strtoupper($type), $status) as $page)
-			{
-				$pages[] = $page;
-			}
-		}
-
-		return array_merge(...$pages);
+		return $this->getZippedListPerStatus('GetLibraryThumbs', $type);
 	}
 
 	/**
@@ -583,27 +562,7 @@ final class Model
 	 */
 	public function getSyncList(string $type): array
 	{
-		$statuses = [
-			'CURRENT',
-			'PLANNED',
-			'ON_HOLD',
-			'DROPPED',
-			'COMPLETED',
-		];
-
-		$pages = [];
-
-		// Although I can fetch the whole list without segregating by status,
-		// this way is much faster...
-		foreach ($statuses as $status)
-		{
-			foreach ($this->getPages($this->getSyncPages(...), strtoupper($type), $status) as $page)
-			{
-				$pages[] = $page;
-			}
-		}
-
-		return array_merge(...$pages);
+		return $this->getZippedListPerStatus('GetSyncLibrary', $type);
 	}
 
 	/**
@@ -619,15 +578,39 @@ final class Model
 	}
 
 	/**
-	 * Get the raw anime/manga list from GraphQL
+	 * Get all the raw data for the current list, chunking by status
 	 *
-	 * @return mixed[]
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
+	 * @return array
 	 */
-	protected function getList(string $type, string $status = ''): array
+	protected function getZippedListPerStatus(string $queryName, string $type): array
+	{
+		$statusPages = [];
+
+		// Although I can fetch the whole list without segregating by status,
+		// this way is much faster...
+		foreach (MediaStatus::getConstList() as $status)
+		{
+			$statusPages[] = $this->getZippedList($queryName, $type, $status);
+		}
+
+		return array_merge(...$statusPages);
+	}
+
+	/**
+	 * Get all the raw data for the current list
+	 *
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
+	 * @param string $status - Media 'consumption' status
+	 * @return array
+	 */
+	protected function getZippedList(string $queryName, string $type, string $status): array
 	{
 		$pages = [];
 
-		foreach ($this->getPages($this->getListPages(...), strtoupper($type), strtoupper($status)) as $page)
+		foreach ($this->getListPages($queryName, $type, $status) as $page)
 		{
 			$pages[] = $page;
 		}
@@ -635,156 +618,90 @@ final class Model
 		return array_merge(...$pages);
 	}
 
-	private function getListPages(string $type, string $status = ''): Amp\Iterator
+	/**
+	 * Get the raw anime/manga list from GraphQL
+	 *
+	 * @return mixed[]
+	 */
+	protected function getList(string $type, string $status = ''): array
+	{
+		return $this->getZippedList('GetLibrary', $type, $status);
+	}
+
+	/**
+	 * A generator returning the relevant snippet for each 'page' of
+	 * a media list request
+	 *
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
+	 * @param string $status - Media 'consumption' status
+	 * @return iterable
+	 */
+	private function getListPages(string $queryName, string $type, string $status): iterable
 	{
 		$cursor = '';
 		$username = $this->getUsername();
 
-		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username): Generator {
-			while (TRUE)
-			{
-				$vars = [
-					'type' => $type,
-					'slug' => $username,
-				];
-				if ($status !== '')
-				{
-					$vars['status'] = $status;
-				}
-
-				if ($cursor !== '')
-				{
-					$vars['after'] = $cursor;
-				}
-
-				$request = $this->requestBuilder->queryRequest('GetLibrary', $vars);
-				$response = yield getApiClient()->request($request);
-				$json = yield $response->getBody()->buffer();
-
-				$rawData = Json::decode($json);
-				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
-				$page = $data['pageInfo'] ?? [];
-				if (empty($data))
-				{
-					// Clear session, in case the error is an invalid token.
-					$segment = $this->container->get('session')
-						->getSegment(SESSION_SEGMENT);
-					$segment->clear();
-
-					// @TODO Proper Error logging
-					dump($rawData);
-
-					exit();
-				}
-
-				$cursor = $page['endCursor'];
-
-				yield $emit($data['nodes']);
-
-				if ($page['hasNextPage'] !== TRUE)
-				{
-					break;
-				}
-			}
-		});
-	}
-
-	private function getSyncPages(string $type, string $status): Amp\Iterator
-	{
-		$cursor = '';
-		$username = $this->getUsername();
-
-		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username): Generator {
-			while (TRUE)
-			{
-				$vars = [
-					'type' => $type,
-					'slug' => $username,
-					'status' => $status,
-				];
-				if ($cursor !== '')
-				{
-					$vars['after'] = $cursor;
-				}
-
-				$request = $this->requestBuilder->queryRequest('GetSyncLibrary', $vars);
-				$response = yield getApiClient()->request($request);
-				$json = yield $response->getBody()->buffer();
-
-				$rawData = Json::decode($json);
-				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
-				$page = $data['pageInfo'];
-				if (empty($data))
-				{
-					dump($rawData);
-
-					exit();
-				}
-
-				$cursor = $page['endCursor'];
-
-				yield $emit($data['nodes']);
-
-				if ($page['hasNextPage'] === FALSE)
-				{
-					break;
-				}
-			}
-		});
-	}
-
-	private function getThumbListPages(string $type, string $status): Amp\Iterator
-	{
-		$cursor = '';
-		$username = $this->getUsername();
-
-		return new Amp\Producer(function (callable $emit) use ($type, $status, $cursor, $username): Generator {
-			while (TRUE)
-			{
-				$vars = [
-					'type' => $type,
-					'slug' => $username,
-					'status' => $status,
-				];
-				if ($cursor !== '')
-				{
-					$vars['after'] = $cursor;
-				}
-
-				$request = $this->requestBuilder->queryRequest('GetLibraryThumbs', $vars);
-				$response = yield getApiClient()->request($request);
-				$json = yield $response->getBody()->buffer();
-
-				$rawData = Json::decode($json);
-				$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
-				$page = $data['pageInfo'];
-				if (empty($data))
-				{
-					dump($rawData);
-
-					exit();
-				}
-
-				$cursor = $page['endCursor'];
-
-				yield $emit($data['nodes']);
-
-				if ($page['hasNextPage'] === FALSE)
-				{
-					break;
-				}
-			}
-		});
-	}
-
-	private function getPages(callable $method, mixed ...$args): Generator
-	{
-		$items = $method(...$args);
-
-		while (wait($items->advance()))
+		while (TRUE)
 		{
-			yield $items->getCurrent();
+			$vars = [
+				'type' => strtoupper($type),
+				'slug' => $username,
+			];
+			if ($status !== '')
+			{
+				$vars['status'] = strtoupper($status);
+			}
+			if ($cursor !== '')
+			{
+				$vars['after'] = $cursor;
+			}
+
+			$request = $this->requestBuilder->queryRequest($queryName, $vars);
+			$response = getApiClient()->request($request);
+			$json = $response->getBody()->buffer();
+
+			$rawData = Json::decode($json);
+			$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
+			$page = $data['pageInfo'] ?? [];
+			if (empty($data))
+			{
+				// Clear session, in case the error is an invalid token.
+				$segment = $this->container->get('session')
+					->getSegment(SESSION_SEGMENT);
+				$segment->clear();
+
+				// @TODO Proper Error logging
+				dump($rawData);
+
+				exit();
+			}
+
+			$cursor = $page['endCursor'];
+
+			yield $data['nodes'];
+
+			if ($page['hasNextPage'] === FALSE || $page === [])
+			{
+				break;
+			}
 		}
+	}
+
+	private function getListCount(string $type, string $status = ''): int
+	{
+		$args = [
+			'type' => strtoupper($type),
+			'slug' => $this->getUsername(),
+		];
+		if ($status !== '')
+		{
+			$args['status'] = strtoupper($status);
+		}
+
+		$res = $this->requestBuilder->runQuery('GetLibraryCount', $args);
+
+		return $res['data']['findProfileBySlug']['library']['all']['totalCount'];
 	}
 
 	protected function getUserId(): string
@@ -807,21 +724,5 @@ final class Model
 		return $this->getContainer()
 			->get('config')
 			->get(['kitsu_username']);
-	}
-
-	private function getListCount(string $type, string $status = ''): int
-	{
-		$args = [
-			'type' => strtoupper($type),
-			'slug' => $this->getUsername(),
-		];
-		if ($status !== '')
-		{
-			$args['status'] = strtoupper($status);
-		}
-
-		$res = $this->requestBuilder->runQuery('GetLibraryCount', $args);
-
-		return $res['data']['findProfileBySlug']['library']['all']['totalCount'];
 	}
 }

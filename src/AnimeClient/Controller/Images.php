@@ -17,9 +17,7 @@ namespace Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\Ion\Attribute\{Controller, Route};
 use Throwable;
-use function Amp\Promise\wait;
 use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};
-use function imagepalletetotruecolor;
 
 use function in_array;
 
@@ -130,7 +128,7 @@ final class Images extends BaseController
 			return;
 		}
 
-		$data = wait($response->getBody()->buffer());
+		$data = $response->getBody()->buffer();
 
 		$size = getimagesizefromstring($data);
 		if ($size === FALSE)

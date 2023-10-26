@@ -22,8 +22,6 @@ use Aviat\Ion\{Json, JsonException};
 use LogicException;
 use Throwable;
 
-use function Amp\Promise\wait;
-
 use function Aviat\AnimeClient\getResponse;
 use function in_array;
 use const Aviat\AnimeClient\USER_AGENT;
@@ -170,7 +168,7 @@ final class RequestBuilder extends APIRequestBuilder
 		$request = $this->mutateRequest($name, $variables);
 		$response = $this->getResponseFromRequest($request);
 
-		return Json::decode(wait($response->getBody()->buffer()));
+		return Json::decode($response->getBody()->buffer());
 	}
 
 	/**
@@ -246,7 +244,7 @@ final class RequestBuilder extends APIRequestBuilder
 			$logger?->warning('Non 200 response for POST api call', (array) $response->getBody());
 		}
 
-		$rawBody = wait($response->getBody()->buffer());
+		$rawBody = $response->getBody()->buffer();
 
 		try
 		{

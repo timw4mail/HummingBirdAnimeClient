@@ -14,13 +14,11 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp\Http\Client\{HttpException, Request};
-use Generator;
+use Amp\Future;
+use Amp\Http\Client\{Request, Response};
 use Throwable;
-use function Amp\call;
 
-// use function Amp\Future\{async, await};
-use function Amp\Promise\{all, wait};
+use function Amp\async;
 use function Aviat\AnimeClient\getApiClient;
 
 /**
@@ -69,7 +67,14 @@ final class ParallelAPIRequest
 	 */
 	public function makeRequests(): array
 	{
-		return $this->makeRequestOld();
+		$futures = [];
+
+		foreach ($this->requests as $key => $url)
+		{
+			$futures[$key] = async(static fn () => self::bodyHandler($url));
+		}
+
+		return Future\await($futures);
 	}
 
 	/**
@@ -79,54 +84,6 @@ final class ParallelAPIRequest
 	 */
 	public function getResponses(): array
 	{
-		return $this->getResponsesOld();
-	}
-
-	private function makeRequestOld(): array
-	{
-		$client = getApiClient();
-
-		$promises = [];
-
-		foreach ($this->requests as $key => $url)
-		{
-			$promises[$key] = call(static function () use ($client, $url): Generator {
-				$response = yield $client->request($url);
-				return yield $response->getBody()->buffer();
-			});
-		}
-
-		return wait(all($promises));
-	}
-
-	private function makeRequestsNew(): array
-	{
-		$futures = [];
-
-		foreach ($this->requests as $key => $url)
-		{
-			$futures[$key] = async(static fn () => self::bodyHandler($url));
-		}
-
-		return await($futures);
-	}
-
-	private function getResponsesOld(): array
-	{
-		$client = getApiClient();
-
-		$promises = [];
-
-		foreach ($this->requests as $key => $url)
-		{
-			$promises[$key] = call(static fn () => yield $client->request($url));
-		}
-
-		return wait(all($promises));
-	}
-
-	private function getResponsesNew(): array
-	{
 		$futures = [];
 
 		foreach ($this->requests as $key => $url)
@@ -134,7 +91,7 @@ final class ParallelAPIRequest
 			$futures[$key] = async(static fn () => self::responseHandler($url));
 		}
 
-		return await($futures);
+		return Future\await($futures);
 	}
 
 	private static function bodyHandler(string|Request $uri): string
@@ -150,7 +107,7 @@ final class ParallelAPIRequest
 		return $response->getBody()->buffer();
 	}
 
-	private static function responseHandler(string|Request $uri)
+	private static function responseHandler(string|Request $uri): Response
 	{
 		$client = getApiClient();
 

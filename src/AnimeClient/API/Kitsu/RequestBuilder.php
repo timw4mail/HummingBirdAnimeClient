@@ -21,7 +21,6 @@ use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\{Event, Json, JsonException};
 
 use LogicException;
-use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 use function in_array;
 use const Aviat\AnimeClient\{SESSION_SEGMENT, USER_AGENT};
@@ -125,13 +124,10 @@ final class RequestBuilder extends APIRequestBuilder
 		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			if ($logger !== NULL)
-			{
-				$logger->warning('Non 200 response for GraphQL call', (array) $response->getBody());
-			}
+			$logger?->warning('Non 200 response for GraphQL call', (array)$response->getBody());
 		}
 
-		return Json::decode(wait($response->getBody()->buffer()));
+		return Json::decode($response->getBody()->buffer());
 	}
 
 	/**
@@ -148,13 +144,10 @@ final class RequestBuilder extends APIRequestBuilder
 		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			if ($logger !== NULL)
-			{
-				$logger->warning('Non 200 response for GraphQL call', (array) $response->getBody());
-			}
+			$logger?->warning('Non 200 response for GraphQL call', (array)$response->getBody());
 		}
 
-		return Json::decode(wait($response->getBody()->buffer()));
+		return Json::decode($response->getBody()->buffer());
 	}
 
 	/**

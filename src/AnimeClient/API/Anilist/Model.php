@@ -24,7 +24,6 @@ use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Throwable;
-use function Amp\Promise\wait;
 
 /**
  * Anilist API Model
@@ -67,7 +66,7 @@ final class Model
 
 		$response = $this->requestBuilder->getResponseFromRequest($request);
 
-		return Json::decode(wait($response->getBody()->buffer()));
+		return Json::decode($response->getBody()->buffer());
 	}
 
 	/**

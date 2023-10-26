@@ -18,9 +18,9 @@ use const Aviat\AnimeClient\{
 	ALPHA_SLUG_PATTERN,
 	DEFAULT_CONTROLLER,
 	DEFAULT_CONTROLLER_METHOD,
+	KITSU_SLUG_PATTERN,
 	NUM_PATTERN,
 	SLUG_PATTERN,
-	SLUG_SPACE_PATTERN,
 };
 
 // -------------------------------------------------------------------------
@@ -28,7 +28,7 @@ use const Aviat\AnimeClient\{
 //
 // Maps paths to controllers and methods
 // -------------------------------------------------------------------------
-$routes = [
+$base_routes = [
 	// ---------------------------------------------------------------------
 	// AJAX Routes
 	// ---------------------------------------------------------------------
@@ -60,7 +60,7 @@ $routes = [
 		'path' => '/anime/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => SLUG_PATTERN,
+			'id' => KITSU_SLUG_PATTERN,
 		],
 	],
 	'anime.delete' => [
@@ -97,7 +97,7 @@ $routes = [
 		'path' => '/manga/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => SLUG_PATTERN,
+			'id' => KITSU_SLUG_PATTERN,
 		],
 	],
 	// ---------------------------------------------------------------------
@@ -191,13 +191,13 @@ $routes = [
 	'character' => [
 		'path' => '/character/{slug}',
 		'tokens' => [
-			'slug' => SLUG_PATTERN,
+			'slug' => KITSU_SLUG_PATTERN,
 		],
 	],
 	'person' => [
 		'path' => '/people/{slug}',
 		'tokens' => [
-			'slug' => SLUG_PATTERN,
+			'slug' => KITSU_SLUG_PATTERN,
 		],
 	],
 	'default_user_info' => [
@@ -291,8 +291,8 @@ $routes = [
 		'path' => '/{controller}/edit/{id}/{status}',
 		'action' => 'edit',
 		'tokens' => [
-			'id' => SLUG_PATTERN,
-			'status' => SLUG_SPACE_PATTERN,
+			'id' => KITSU_SLUG_PATTERN,
+			'status' => SLUG_PATTERN,
 		],
 	],
 	'list' => [
@@ -315,15 +315,10 @@ $defaultMap = [
 	'verb' => 'get',
 ];
 
-foreach ($routes as &$route)
+$routes = [];
+foreach ($base_routes as $name => $route)
 {
-	foreach ($defaultMap as $key => $val)
-	{
-		if ( ! array_key_exists($key, $route))
-		{
-			$route[$key] = $val;
-		}
-	}
+	$routes[$name] = array_merge($defaultMap, $route);
 }
 
 return $routes;
