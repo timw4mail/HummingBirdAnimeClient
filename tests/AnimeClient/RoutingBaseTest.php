@@ -17,6 +17,8 @@ namespace Aviat\AnimeClient\Tests;
 use Aviat\AnimeClient\RoutingBase;
 use JetBrains\PhpStorm\ArrayShape;
 
+class ConcreteRoutingBase extends RoutingBase {}
+
 /**
  * @internal
  */
@@ -50,7 +52,7 @@ final class RoutingBaseTest extends AnimeClientTestCase
 	 		],
 	 	]);
 
-	 	$routingBase = new RoutingBase($this->container);
+	 	$routingBase = new ConcreteRoutingBase($this->container);
 
 	 	$this->assertSame($path, $routingBase->path(), 'Path is invalid');
 	 	$this->assertSame($segments, $routingBase->segments(), 'Segments array is invalid');
