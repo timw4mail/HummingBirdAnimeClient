@@ -19,6 +19,6 @@
 	<?php elseif ( ! empty($field['display'])): ?>
 		<?php include '_field.php' ?>
 	<?php else: ?>
-		<?php $hiddenFields[] = $helper->field($fieldName, $field); ?>
+		<?php $hiddenFields[] = $_->h->field($fieldName, $field); ?>
 	<?php endif ?>
 <?php endforeach ?>

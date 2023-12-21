@@ -1,7 +1,7 @@
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<aside class="info">
-			<?= $helper->img($data['cover_image'], ['class' => 'cover', 'width' => '350']) ?>
+			<?= $_->h->img($data['cover_image'], ['class' => 'cover', 'width' => '350']) ?>
 
 			<br />
 
@@ -72,14 +72,14 @@
 	<?php if (count($data['characters']) > 0): ?>
 		<h2>Characters</h2>
 
-		<?= $component->tabs('manga-characters', $data['characters'], static function($list, $role) use ($component, $helper, $url) {
+		<?= $component->tabs('manga-characters', $data['characters'], static function($list, $role) use ($component, $helper, $_) {
 			$rendered = [];
 			foreach ($list as $id => $char)
 			{
 				$rendered[] = $component->character(
 					$char['name'],
-					$url->generate('character', ['slug' => $char['slug']]),
-					$helper->img($char['image'], ['loading' => 'lazy']),
+					$_->urlFromRoute('character', ['slug' => $char['slug']]),
+					$_->h->img($char['image'], ['loading' => 'lazy']),
 					($role !== 'main') ? 'small-character' : 'character'
 				);
 			}
@@ -95,8 +95,8 @@
 				fn($people) => implode('', array_map(
 						fn ($person) => $component->character(
 							$person['name'],
-							$url->generate('person', ['slug' => $person['slug']]),
-							$helper->img($person['image']),
+							$_->urlFromRoute('person', ['slug' => $person['slug']]),
+							$_->h->img($person['image']),
 						),
 						$people
 				))

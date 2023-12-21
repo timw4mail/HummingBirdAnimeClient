@@ -1,12 +1,12 @@
 <tr>
-	<?php if ($auth->isAuthenticated()): ?>
+	<?php if ($_->isAuthenticated()): ?>
 		<td>
 			<a class="bracketed"
-			   href="<?= $url->generate($collection_type . '.collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
+			   href="<?= $_->urlFromRoute($collection_type . '.collection.edit.get', ['id' => $item['hummingbird_id']]) ?>">Edit</a>
 		</td>
 	<?php endif ?>
 	<td class="align-left">
-		<a href="<?= $url->generate('anime.details', ['id' => $item['slug']]) ?>">
+		<a href="<?= $_->urlFromRoute('anime.details', ['id' => $item['slug']]) ?>">
 			<?= $item['title'] ?>
 		</a>
 		<?= ! empty($item['alternate_title']) ? ' <br /><small> ' . $item['alternate_title'] . '</small>' : '' ?>
@@ -18,6 +18,6 @@
 	<td><?= $item['episode_length'] ?></td>
 	<td><?= $item['show_type'] ?></td>
 	<td><?= $item['age_rating'] ?></td>
-	<?php if ($hasNotes): ?><td class="align-left"><?= nl2br($item['notes'], TRUE) ?></td><?php endif ?>
+	<?php if ($hasNotes): ?><td class="align-left"><?= nl2br($item['notes'] ?? '', TRUE) ?></td><?php endif ?>
 	<td class="align-left"><?= implode(', ', $item['genres']) ?></td>
 </tr>

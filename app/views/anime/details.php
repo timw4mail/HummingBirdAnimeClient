@@ -4,9 +4,9 @@ use function Aviat\AnimeClient\friendlyTime;
 
 ?>
 <main class="details fixed">
-	<section class="flex" unselectable>
+	<section class="flex">
 		<aside class="info">
-			<?= $helper->img($data['cover_image'], ['width' => '390']) ?>
+			<?= $_->h->img($data['cover_image'], ['width' => '390']) ?>
 
 			<br />
 
@@ -110,7 +110,7 @@ use function Aviat\AnimeClient\friendlyTime;
 										href="<?= $link['link'] ?>"
 										title="Stream '<?= $data['title'] ?>' on <?= $link['meta']['name'] ?>"
 									>
-										<?= $helper->img("/public/images/{$link['meta']['image']}", [
+										<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 											'class' => 'streaming-logo',
 											'width' => 50,
 											'height' => 50,
@@ -119,7 +119,7 @@ use function Aviat\AnimeClient\friendlyTime;
 										&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 									</a>
 								<?php else: ?>
-									<?= $helper->img("/public/images/{$link['meta']['image']}", [
+									<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 										'class' => 'streaming-logo',
 										'width' => 50,
 										'height' => 50,
@@ -157,18 +157,18 @@ use function Aviat\AnimeClient\friendlyTime;
 		<section>
 			<h2>Characters</h2>
 
-			<?= $component->tabs('character-types', $data['characters'], static function ($characterList, $role)
-			use ($component, $url, $helper) {
+			<?= $_->component->tabs('character-types', $data['characters'], static function ($characterList, $role)
+			use ($_) {
 				$rendered = [];
 				foreach ($characterList as $id => $character):
 					if (empty($character['image']))
 					{
 						continue;
 					}
-					$rendered[] = $component->character(
+					$rendered[] = $_->component->character(
 						$character['name'],
-						$url->generate('character', ['slug' => $character['slug']]),
-						$helper->img($character['image']),
+						$_->urlFromRoute('character', ['slug' => $character['slug']]),
+						$_->h->img($character['image']),
 						(strtolower($role) !== 'main') ? 'small-character' : 'character'
 					);
 				endforeach;
@@ -182,18 +182,18 @@ use function Aviat\AnimeClient\friendlyTime;
 		<section>
 			<h2>Staff</h2>
 
-			<?= $component->verticalTabs('staff-role', $data['staff'], static function ($staffList)
-			use ($component, $url, $helper) {
+			<?= $_->component->verticalTabs('staff-role', $data['staff'], static function ($staffList)
+			use ($_) {
 				$rendered = [];
 				foreach ($staffList as $id => $person):
 					if (empty($person['image']))
 					{
 						continue;
 					}
-					$rendered[] = $component->character(
+					$rendered[] = $_ ->component->character(
 						$person['name'],
-						$url->generate('person', ['slug' => $person['slug']]),
-						$helper->img($person['image']),
+						$_->urlFromRoute('person', ['slug' => $person['slug']]),
+						$_->h->img($person['image']),
 						'character small-person',
 					);
 				endforeach;

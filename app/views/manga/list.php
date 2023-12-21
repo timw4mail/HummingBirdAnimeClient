@@ -1,6 +1,6 @@
 <main class="media-list">
-<?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $url->generate('manga.add.get') ?>">Add Item</a>
+<?php if ($_->isAuthenticated()): ?>
+<a class="bracketed" href="<?= $_->urlFromRoute('manga.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -16,7 +16,7 @@
 		<table class='media-wrap'>
 			<thead>
 				<tr>
-					<?php if ($auth->isAuthenticated()): ?>
+					<?php if ($_->isAuthenticated()): ?>
 					<td>&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
@@ -29,9 +29,9 @@
 			<tbody>
 				<?php foreach($items as $item): ?>
 				<tr id="manga-<?= $item['id'] ?>">
-					<?php if($auth->isAuthenticated()): ?>
+					<?php if($_->isAuthenticated()): ?>
 					<td>
-						<a class="bracketed" href="<?= $url->generate('edit', [
+						<a class="bracketed" href="<?= $_->urlFromRoute('edit', [
 							'controller' => 'manga',
 							'id' => $item['id'],
 							'status' => $name
@@ -39,7 +39,7 @@
 					</td>
 					<?php endif ?>
 					<td class="align-left">
-						<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
+						<a href="<?= $_->urlFromRoute('manga.details', ['id' => $item['manga']['slug']]) ?>">
 							<?= $item['manga']['title'] ?>
 						</a>
 						<?php foreach($item['manga']['titles'] as $title): ?>
@@ -75,4 +75,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>
+<script defer="defer" src="<?= $_->assetUrl('js/tables.min.js') ?>"></script>

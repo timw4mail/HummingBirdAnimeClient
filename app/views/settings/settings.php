@@ -1,5 +1,5 @@
 <?php
-if ( ! $auth->isAuthenticated())
+if ( ! $_->isAuthenticated())
 {
 	echo '<h1>Not Authorized</h1>';
 	return;
@@ -16,7 +16,7 @@ $hiddenFields = [];
 $nestedPrefix = 'config';
 ?>
 
-<form action="<?= $url->generate('settings-post') ?>" method="POST">
+<form action="<?= $_->urlFromRoute('settings-post') ?>" method="POST">
 	<main class='settings form'>
 		<button type="submit">Save Changes</button>
 		<div class="tabs">

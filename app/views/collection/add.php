@@ -1,4 +1,4 @@
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 <main>
 	<h2>Add <?= ucfirst($collection_type) ?> to your Collection</h2>
 	<form action="<?= $action_url ?>" method="post">

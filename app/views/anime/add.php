@@ -1,4 +1,4 @@
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 <main>
 	<h2>Add Anime to your List</h2>
 	<form action="<?= $action_url ?>" method="post">

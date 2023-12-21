@@ -7,7 +7,7 @@ use Aviat\AnimeClient\Kitsu;
 <main class="character-page details fixed">
 	<section class="flex flex-no-wrap">
 		<aside>
-			<?= $helper->img($data['image']) ?>
+			<?= $_->h->img($data['image']) ?>
 		</aside>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
@@ -34,14 +34,14 @@ use Aviat\AnimeClient\Kitsu;
 	<?php if ( ! (empty($data['media']['anime']) || empty($data['media']['manga']))): ?>
 		<h3>Media</h3>
 
-		<?= $component->tabs('character-media', $data['media'], static function ($media, $mediaType) use ($url, $component, $helper) {
+		<?= $_->component->tabs('character-media', $data['media'], static function ($media, $mediaType) use ($_) {
 			$rendered = [];
 			foreach ($media as $id => $item)
 			{
-				$rendered[] = $component->media(
+				$rendered[] = $_->component->media(
 					array_merge([$item['title']], $item['titles']),
-					$url->generate("{$mediaType}.details", ['id' => $item['slug']]),
-					$helper->img(Kitsu::getPosterImage($item), ['width' => 220, 'loading' => 'lazy']),
+					$_->urlFromRoute("{$mediaType}.details", ['id' => $item['slug']]),
+					$_->h->img(Kitsu::getPosterImage($item), ['width' => 220, 'loading' => 'lazy']),
 				);
 			}
 
@@ -72,10 +72,10 @@ use Aviat\AnimeClient\Kitsu;
 								<td>
 									<article class="character">
 										<?php
-										$link = $url->generate('person', ['id' => $c['person']['id']]);
+										$link = $_->urlFromRoute('person', ['id' => $c['person']['id']]);
 										?>
 										<a href="<?= $link ?>">
-											<?= $helper->img($c['person']['image']) ?>
+											<?= $_->h->img($c['person']['image']) ?>
 											<div class="name">
 												<?= $c['person']['name'] ?>
 											</div>
@@ -87,11 +87,11 @@ use Aviat\AnimeClient\Kitsu;
 										<?php foreach ($c['series'] as $series): ?>
 											<article class="media">
 												<?php
-												$link = $url->generate('anime.details', ['id' => $series['attributes']['slug']]);
+												$link = $_->urlFromRoute('anime.details', ['id' => $series['attributes']['slug']]);
 												$titles = Kitsu::filterTitles($series['attributes']);
 												?>
 												<a href="<?= $link ?>">
-													<?= $helper->img(Kitsu::getPosterImage($series['attributes'])) ?>
+													<?= $_->h->img(Kitsu::getPosterImage($series['attributes'])) ?>
 												</a>
 												<div class="name">
 													<a href="<?= $link ?>">
@@ -115,18 +115,18 @@ use Aviat\AnimeClient\Kitsu;
 			<?php if ( ! empty($vas)): ?>
 				<h4>Voice Actors</h4>
 
-				<?= $component->tabs('character-vas', $vas, static function ($casting) use ($url, $component, $helper) {
+				<?= $_->component->tabs('character-vas', $vas, static function ($casting) use ($_) {
 					$castings = [];
 					foreach ($casting as $id => $c):
-						$person = $component->character(
+						$person = $_->component->character(
 							$c['person']['name'],
-							$url->generate('person', ['slug' => $c['person']['slug']]),
-							$helper->img($c['person']['image']['original']['url']),
+							$_->urlFromRoute('person', ['slug' => $c['person']['slug']]),
+							$_->h->img($c['person']['image']['original']['url']),
 						);
-						$medias = array_map(fn ($series) => $component->media(
+						$medias = array_map(fn ($series) => $_->component->media(
 							array_merge([$series['title']], $series['titles']),
-							$url->generate('anime.details', ['id' => $series['slug']]),
-							$helper->img(Kitsu::getPosterImage($series)),
+							$_->urlFromRoute('anime.details', ['id' => $series['slug']]),
+							$_->h->img(Kitsu::getPosterImage($series)),
 						), $c['series']);
 						$media = implode('', array_map('mb_trim', $medias));
 

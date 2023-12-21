@@ -7,14 +7,14 @@
 			<article class="flex flex-no-wrap flex-justify-start">
 				<section class="flex-self-center history-img">
 					<a href="<?= $item['url'] ?>">
-					<?= $helper->img(
+					<?= $_->h->img(
 						$item['coverImg'],
 						['width' => '110px', 'height' => '156px'],
 					) ?>
 					</a>
 				</section>
 				<section class="flex-self-center">
-					<?= $helper->a($item['url'], $item['title']) ?>
+					<?= $_->h->a($item['url'], $item['title']) ?>
 					<br />
 					<br />
 					<?= $item['action'] ?>
