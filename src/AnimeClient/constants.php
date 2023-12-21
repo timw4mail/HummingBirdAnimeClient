@@ -31,8 +31,7 @@ const NUM_PATTERN = '[0-9]+';
  * Eugh...url slugs can have weird characters
  * So...if it's not a forward slash, sure it's valid 😅
  */
-const KITSU_SLUG_PATTERN = '[^\/]+';
-const SLUG_PATTERN = '[a-zA-Z0-9\- ]+';
+const SLUG_PATTERN = '[^\/]+';
 
 // Why doesn't this already exist?
 const MILLI_FROM_NANO = 1000 * 1000;

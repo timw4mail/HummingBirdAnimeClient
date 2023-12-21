@@ -20,9 +20,8 @@ use InvalidArgumentException;
 
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
-use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Psr\Http\Message\ResponseInterface;
-use Stringable;
+use \Stringable;
 
 /**
  * Base view class for Http output
@@ -172,7 +171,6 @@ class HttpView implements HttpViewInterface, Stringable
 	 * @throws DoubleRenderException
 	 * @throws InvalidArgumentException
 	 */
-	#[CodeCoverageIgnore]
 	protected function output(): void
 	{
 		if ($this->hasRendered)

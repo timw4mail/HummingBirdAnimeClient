@@ -119,7 +119,7 @@ final class AnimeCollection extends BaseController
 	 */
 	#[Route('anime.collection.add.get', '/anime-collection/add')]
 	#[Route('anime.collection.edit.get', '/anime-collection/edit/{id}')]
-	public function form(?int $id = NULL): void
+	public function form(?string $id = NULL): void
 	{
 		$this->checkAuth();
 

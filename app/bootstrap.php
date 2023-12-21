@@ -139,9 +139,6 @@ return static function (array $configArray = []): Container {
 	// Create session Object
 	$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
 
-	// Miscellaneous helper methods
-	$container->set('util', static fn ($container) => new Util($container));
-
 	// Models
 	$container->set('kitsu-model', static function (ContainerInterface $container): Kitsu\Model {
 		$requestBuilder = new Kitsu\RequestBuilder($container);
@@ -174,10 +171,6 @@ return static function (array $configArray = []): Container {
 
 		return $model;
 	});
-	$container->set('anime-model', static fn ($container) => new Model\Anime($container));
-	$container->set('manga-model', static fn ($container) => new Model\Manga($container));
-	$container->set('anime-collection-model', static fn ($container) => new Model\AnimeCollection($container));
-	$container->set('manga-collection-model', static fn ($container) => new Model\MangaCollection($container));
 	$container->set('settings-model', static function ($container) {
 		$model = new Model\Settings($container->get('config'));
 		$model->setContainer($container);
@@ -185,14 +178,20 @@ return static function (array $configArray = []): Container {
 		return $model;
 	});
 
+	$container->setSimple('anime-model', Model\Anime::class);
+	$container->setSimple('manga-model', Model\Manga::class);
+	$container->setSimple('anime-collection-model', Model\AnimeCollection::class);
+
 	// Miscellaneous Classes
-	$container->set('auth', static fn ($container) => new Kitsu\Auth($container));
-	$container->set('url-generator', static fn ($container) => new UrlGenerator($container));
+	$container->setSimple('util', Util::class);
+	$container->setSimple('auth', Kitsu\Auth::class);
+	$container->setSimple('url-generator', UrlGenerator::class);
+	$container->setSimple('render-helper', RenderHelper::class);
 
 	// -------------------------------------------------------------------------
 	// Dispatcher
 	// -------------------------------------------------------------------------
-	$container->set('dispatcher', static fn ($container) => new Dispatcher($container));
+	$container->setSimple('dispatcher', Dispatcher::class);
 
 	return $container;
 };

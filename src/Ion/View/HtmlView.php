@@ -14,7 +14,7 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\ContainerAware;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Throwable;
 use const EXTR_OVERWRITE;
@@ -27,9 +27,19 @@ class HtmlView extends HttpView
 	use ContainerAware;
 
 	/**
+	 * Data to send to every template
+	 */
+	protected array $baseData = [];
+
+	/**
 	 * Response mime type
 	 */
 	protected string $contentType = 'text/html';
+
+	/**
+	 * Whether to 'minify' the html output
+	 */
+	protected bool $shouldMinify = false;
 
 	/**
 	 * Create the Html View
@@ -43,26 +53,50 @@ class HtmlView extends HttpView
 	}
 
 	/**
+	 * Set data to pass to every template
+	 *
+	 * @param array $data - Keys are variable names
+	 */
+	public function setBaseData(array $data): self
+	{
+		$this->baseData = $data;
+
+		return $this;
+	}
+
+	/**
+	 * Should the html be 'minified'?
+	 */
+	public function setMinify(bool $shouldMinify): self
+	{
+		$this->shouldMinify = $shouldMinify;
+
+		return $this;
+	}
+
+	/**
 	 * Render a basic html Template
 	 *
 	 * @throws Throwable
 	 */
-	public function renderTemplate(string $path, array $data): string
+	public function renderTemplate(string $path, array $data = []): string
 	{
-		$helper = $this->container->get('html-helper');
-		$data['component'] = $this->container->get('component-helper');
-		$data['helper'] = $helper;
-		$data['escape'] = $helper->escape();
-		$data['container'] = $this->container;
+		$data = array_merge($this->baseData, $data);
 
-		ob_start();
-		extract($data, EXTR_OVERWRITE);
-		include_once $path;
-		$rawBuffer = ob_get_clean();
-		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
+		return (function () use ($data, $path) {
+			ob_start();
+			extract($data, EXTR_OVERWRITE);
+			include_once $path;
+			$rawBuffer = ob_get_clean();
+			$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
 
-		// Very basic html minify, that won't affect content between html tags
-		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
+			// Very basic html minify, that won't affect content between html tags
+			if ($this->shouldMinify)
+			{
+				$buffer = preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
+			}
+			return $buffer;
+		})();
 	}
 }
 

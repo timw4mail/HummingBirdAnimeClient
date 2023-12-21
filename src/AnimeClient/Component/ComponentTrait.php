@@ -33,6 +33,7 @@ trait ComponentTrait
 		$helper = $container->get('html-helper');
 
 		$baseData = [
+			'_' => $container->get('render-helper'),
 			'auth' => $container->get('auth'),
 			'escape' => $helper->escape(),
 			'helper' => $helper,

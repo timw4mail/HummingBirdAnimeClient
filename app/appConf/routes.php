@@ -18,9 +18,8 @@ use const Aviat\AnimeClient\{
 	ALPHA_SLUG_PATTERN,
 	DEFAULT_CONTROLLER,
 	DEFAULT_CONTROLLER_METHOD,
-	KITSU_SLUG_PATTERN,
-	NUM_PATTERN,
 	SLUG_PATTERN,
+	NUM_PATTERN,
 };
 
 // -------------------------------------------------------------------------
@@ -60,7 +59,7 @@ $base_routes = [
 		'path' => '/anime/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => KITSU_SLUG_PATTERN,
+			'id' => SLUG_PATTERN,
 		],
 	],
 	'anime.delete' => [
@@ -97,7 +96,7 @@ $base_routes = [
 		'path' => '/manga/details/{id}',
 		'action' => 'details',
 		'tokens' => [
-			'id' => KITSU_SLUG_PATTERN,
+			'id' => SLUG_PATTERN,
 		],
 	],
 	// ---------------------------------------------------------------------
@@ -191,13 +190,13 @@ $base_routes = [
 	'character' => [
 		'path' => '/character/{slug}',
 		'tokens' => [
-			'slug' => KITSU_SLUG_PATTERN,
+			'slug' => SLUG_PATTERN,
 		],
 	],
 	'person' => [
 		'path' => '/people/{slug}',
 		'tokens' => [
-			'slug' => KITSU_SLUG_PATTERN,
+			'slug' => SLUG_PATTERN,
 		],
 	],
 	'default_user_info' => [
@@ -291,7 +290,7 @@ $base_routes = [
 		'path' => '/{controller}/edit/{id}/{status}',
 		'action' => 'edit',
 		'tokens' => [
-			'id' => KITSU_SLUG_PATTERN,
+			'id' => SLUG_PATTERN,
 			'status' => SLUG_PATTERN,
 		],
 	],

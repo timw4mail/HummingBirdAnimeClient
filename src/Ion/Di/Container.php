@@ -23,16 +23,6 @@ use Psr\Log\LoggerInterface;
 class Container implements ContainerInterface
 {
 	/**
-	 * Array of object instances
-	 */
-	protected array $instances = [];
-
-	/**
-	 * Map of logger instances
-	 */
-	protected array $loggers = [];
-
-	/**
 	 * Constructor
 	 *
 	 * @param (callable)[] $container (optional)
@@ -41,9 +31,24 @@ class Container implements ContainerInterface
 		/**
 		 * Array of container Generator functions
 		 */
-		protected array $container = []
+		protected array $container = [],
+
+		/**
+		 * Array of object instances
+		 */
+		protected array $instances = [],
+
+		/**
+		 * Map of logger instances
+		 */
+		protected array $loggers = [],
+
+		/**
+		 * Map classes back to container ids, to make automatic
+		 * sub-dependency setup possible
+		 */
+		private array $classIdMap = [],
 	) {
-		$this->loggers = [];
 	}
 
 	/**
@@ -79,7 +84,7 @@ class Container implements ContainerInterface
 	/**
 	 * Get a new instance of the specified item
 	 *
-	 * @param string $id - Identifier of the entry to look for.
+	 * @param string $id - Identifier or className of the entry to look for.
 	 * @param array|null $args - Optional arguments for the factory callable
 	 * @throws ContainerException - Error while retrieving the entry.
 	 * @throws NotFoundException - No entry was found for this identifier.
@@ -88,6 +93,11 @@ class Container implements ContainerInterface
 	{
 		if ($this->has($id))
 		{
+			if (array_key_exists($id, $this->classIdMap))
+			{
+				$id = $this->classIdMap[$id];
+			}
+
 			// By default, call a factory with the Container
 			$args = \is_array($args) ? $args : [$this];
 			$obj = ($this->container[$id])(...$args);
@@ -113,6 +123,20 @@ class Container implements ContainerInterface
 	}
 
 	/**
+	 * Add a common simple factory to the container
+	 *
+	 * @param string $id
+	 * @param string $className
+	 * @return ContainerInterface
+	 */
+	public function setSimple(string $id, string $className): ContainerInterface
+	{
+		$this->classIdMap[$className] = $id;
+
+		return $this->set($id, static fn (ContainerInterface $container) => new $className($container));
+	}
+
+	/**
 	 * Set a specific instance in the container for an existing factory
 	 *
 	 * @throws NotFoundException - No entry was found for this identifier.
@@ -122,6 +146,12 @@ class Container implements ContainerInterface
 		if ( ! $this->has($id))
 		{
 			throw new NotFoundException("Factory '{$id}' does not exist in container. Set that first.");
+		}
+
+		$className = get_class($value);
+		if ( ! array_key_exists((string)$className, $this->classIdMap))
+		{
+			$this->classIdMap[get_class($value)] = $id;
 		}
 
 		$this->instances[$id] = $value;
@@ -137,7 +167,7 @@ class Container implements ContainerInterface
 	 */
 	public function has(string $id): bool
 	{
-		return array_key_exists($id, $this->container);
+		return array_key_exists($id, $this->container) || array_key_exists($id, $this->classIdMap);
 	}
 
 	/**

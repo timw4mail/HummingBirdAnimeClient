@@ -83,6 +83,11 @@ class Controller
 	protected array $baseData = [];
 
 	/**
+	 * The data bag for rendering
+	 */
+	protected RenderHelper $renderHelper;
+
+	/**
 	 * Controller constructor.
 	 *
 	 * @throws ContainerException
@@ -99,14 +104,22 @@ class Controller
 		$this->auth = $container->get('auth');
 		$this->cache = $container->get('cache');
 		$this->config = $container->get('config');
+		$this->renderHelper = $container->get('render-helper');
 		$this->request = $container->get('request');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
 
+		$helper = $container->get('html-helper');
+
 		$this->baseData = [
+			'_' => $this->renderHelper,
 			'auth' => $container->get('auth'),
+			'component' => $container->get('component-helper'),
+			'container' => $container,
 			'config' => $this->config,
+			'escape' => $helper->escape(),
+			'helper' => $helper,
 			'menu_name' => '',
 			'message' => $this->session->getFlash('message'), // Get message box data if it exists
 			'other_type' => 'manga',
@@ -193,11 +206,7 @@ class Controller
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
-
-		if (isset($this->baseData))
-		{
-			$data = array_merge($this->baseData, $data);
-		}
+		$data = array_merge($this->baseData ?? [], $data);
 
 		$route = $router->getRoute();
 		$data['route_path'] = $route !== FALSE ? $route->path : '';
@@ -222,6 +231,8 @@ class Controller
 			"object-src 'none'",
 			"child-src 'self' *.youtube.com polyfill.io",
 		];
+
+		$data = array_merge($this->baseData ?? [], $data);
 
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));

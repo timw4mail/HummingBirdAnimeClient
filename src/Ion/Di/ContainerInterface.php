@@ -52,6 +52,14 @@ interface ContainerInterface
 	public function set(string $id, callable $value): ContainerInterface;
 
 	/**
+	 * Add a common simple factory to the container
+	 *
+	 * @param string $id - The identifier for the factory
+	 * @param string $className - The class name of the factory
+	 */
+	public function setSimple(string $id, string $className): ContainerInterface;
+
+	/**
 	 * Set a specific instance in the container for an existing factory
 	 */
 	public function setInstance(string $id, mixed $value): ContainerInterface;

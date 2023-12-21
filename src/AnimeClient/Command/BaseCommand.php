@@ -19,7 +19,8 @@ use Aura\Router\RouterContainer;
 use Aura\Session\SessionFactory;
 use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
 
-use Aviat\AnimeClient\{Model, UrlGenerator, Util};
+use Aviat\AnimeClient\
+{Model, RenderHelper, UrlGenerator, Util};
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
 use Aviat\Ion\Di\{Container, ContainerAware, ContainerInterface};
@@ -239,11 +240,11 @@ abstract class BaseCommand extends Command
 			return $model;
 		});
 
-		$container->set('auth', static fn ($container) => new Kitsu\Auth($container));
-
-		$container->set('url-generator', static fn ($container) => new UrlGenerator($container));
-
-		$container->set('util', static fn ($container) => new Util($container));
+		// Miscellaneous Classes
+		$container->setSimple('util', Util::class);
+		$container->setSimple('auth', Kitsu\Auth::class);
+		$container->setSimple('url-generator', UrlGenerator::class);
+		$container->setSimple('render-helper', RenderHelper::class);
 
 		return $container;
 	}
