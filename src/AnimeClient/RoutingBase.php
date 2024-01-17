@@ -65,7 +65,7 @@ abstract class RoutingBase
 		$cleanedPath = StringType::from($path)
 			->replace('%20', '')
 			->trim()
-			->trimRight('/')
+			->trimRight('\/')
 			->ensureLeft('/');
 
 		return (string) $cleanedPath;
