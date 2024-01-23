@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -21,46 +19,36 @@ use Aviat\Ion\Exception\DoubleRenderException;
 /**
  * View Interface abstracting a Response
  */
-interface ViewInterface {
+interface ViewInterface
+{
 	/**
 	 * Return rendered output as string. Renders the view,
 	 * and any attempts to call again will result in a DoubleRenderException
 	 *
 	 * @throws DoubleRenderException
-	 * @return string
 	 */
 	public function __toString(): string;
 
 	/**
 	 * Set the output string
-	 *
-	 * @param mixed $string
-	 * @return ViewInterface
 	 */
-	public function setOutput($string): self;
+	public function setOutput(mixed $string): self;
 
 	/**
 	 * Append additional output.
-	 *
-	 * @param string $string
-	 * @return ViewInterface
 	 */
 	public function appendOutput(string $string): self;
 
 	/**
 	 * Add an http header
 	 *
-	 * @param string $name
 	 * @param string|string[] $value
-	 * @return ViewInterface
 	 */
-	public function addHeader(string $name, $value): self;
+	public function addHeader(string $name, array|string $value): self;
 
 	/**
 	 * Get the current output as a string. Does not
 	 * render view or send headers.
-	 *
-	 * @return string
 	 */
 	public function getOutput(): string;
 
@@ -69,7 +57,6 @@ interface ViewInterface {
 	 * any attempt to call again will result in a DoubleRenderException.
 	 *
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
 	public function send(): void;
 }

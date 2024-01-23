@@ -1,26 +1,25 @@
 <article class="media" data-kitsu-id="<?= $item['id'] ?>" data-mal-id="<?= $item['mal_id'] ?>">
-	<?php if ($auth->isAuthenticated()): ?>
+	<?php if ($_->isAuthenticated()): ?>
 		<div class="edit-buttons" hidden>
 			<button class="plus-one-chapter">+1 Chapter</button>
-			<?php /* <button class="plus-one-volume">+1 Volume</button> */ ?>
 		</div>
 	<?php endif ?>
-	<?= $helper->picture("images/manga/{$item['manga']['id']}.webp") ?>
+	<?= $_->h->img($item['manga']['image'], ['width' => 220, 'loading' => 'lazy']) ?>
 	<div class="name">
-		<a href="<?= $url->generate('manga.details', ['id' => $item['manga']['slug']]) ?>">
-			<?= $escape->html($item['manga']['title']) ?>
+		<a href="<?= $_->urlFromRoute('manga.details', ['id' => $item['manga']['slug']]) ?>">
+			<?= $_->escape->html($item['manga']['title']) ?>
 			<?php foreach($item['manga']['titles'] as $title): ?>
 				<br /><small><?= $title ?></small>
 			<?php endforeach ?>
 		</a>
 	</div>
 	<div class="table">
-		<?php if ($auth->isAuthenticated()): ?>
+		<?php if ($_->isAuthenticated()): ?>
 			<div class="row">
 							<span class="edit">
 								<a class="bracketed"
 								   title="Edit information about this manga"
-								   href="<?= $url->generate('edit', [
+								   href="<?= $_->urlFromRoute('edit', [
 									   'controller' => 'manga',
 									   'id' => $item['id'],
 									   'status' => $name
@@ -63,11 +62,6 @@
 			<div class="chapter_completion">
 				Chapters: <span class="chapters_read"><?= $item['chapters']['read'] ?></span> /
 				<span class="chapter_count"><?= $item['chapters']['total'] ?></span>
-			</div>
-			<?php /* </div>
-						<div class="row"> */ ?>
-			<div class="volume_completion">
-				Volumes: <span class="volume_count"><?= $item['volumes']['total'] ?></span>
 			</div>
 		</div>
 	</div>

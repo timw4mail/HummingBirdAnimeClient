@@ -1,4 +1,4 @@
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 <main>
 	<h2>Add <?= ucfirst($collection_type) ?> to your Collection</h2>
 	<form action="<?= $action_url ?>" method="post">
@@ -9,7 +9,7 @@
 				<div class="cssload-inner cssload-two"></div>
 				<div class="cssload-inner cssload-three"></div>
 			</div>
-			<label for="search">Search for <?= $collection_type ?> by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search" name="search" /></label>
+			<label for="search-anime-collection">Search for <?= $collection_type ?> by name:&nbsp;&nbsp;&nbsp;&nbsp;<input type="search" id="search-anime-collection" name="search" /></label>
 			<section id="series-list" class="media-wrap">
 			</section>
 		</section>

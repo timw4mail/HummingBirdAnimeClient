@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -19,23 +17,19 @@ namespace Aviat\AnimeClient\Model;
 use Aviat\Ion\Di\ContainerInterface;
 use PDO;
 use PDOException;
-use function in_array;
 
 /**
  * Model for getting anime collection data
  */
-final class AnimeCollection extends Collection {
-
+final class AnimeCollection extends Collection
+{
 	/**
 	 * Anime API Model
-	 * @var Anime $animeModel
 	 */
 	protected Anime $animeModel;
 
 	/**
 	 * Create the collection model
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -46,7 +40,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get collection from the database, and organize by media type
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getCollection(): array
 	{
@@ -77,9 +71,9 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get the collection from the database
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getFlatCollection():  array
+	public function getFlatCollection(): array
 	{
 		if ($this->db === NULL)
 		{
@@ -97,12 +91,12 @@ final class AnimeCollection extends Collection {
 		$genres = $this->getGenreList();
 		$media = $this->getMediaList();
 
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
 
-		foreach($rows as &$row)
+		foreach ($rows as &$row)
 		{
 			$id = $row['hummingbird_id'];
 
@@ -123,7 +117,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get list of media types
 	 *
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	public function getMediaTypeList(): array
 	{
@@ -139,7 +133,7 @@ final class AnimeCollection extends Collection {
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -167,15 +161,12 @@ final class AnimeCollection extends Collection {
 			'Other' => [
 				10 => $flatList[10], // UMD
 				11 => $flatList[11], // Other
-			]
+			],
 		];
 	}
 
 	/**
 	 * Add an item to the anime collection
-	 *
-	 * @param mixed $data
-	 * @return void
 	 */
 	public function add(mixed $data): void
 	{
@@ -191,7 +182,7 @@ final class AnimeCollection extends Collection {
 		}
 
 		$id = $data['id'];
-		$anime = (object)$this->animeModel->getAnimeById($id);
+		$anime = (object) $this->animeModel->getAnimeById($id);
 
 		$this->db->set([
 			'hummingbird_id' => $id,
@@ -203,7 +194,7 @@ final class AnimeCollection extends Collection {
 			'cover_image' => $anime->cover_image,
 			'episode_count' => $anime->episode_count,
 			'episode_length' => $anime->episode_length,
-			'notes' => $data['notes']
+			'notes' => $data['notes'],
 		])->insert('anime_set');
 
 		$this->updateMediaLink($id, $data['media_id']);
@@ -212,9 +203,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Verify that an item was added
-	 *
-	 * @param array $data
-	 * @return bool
 	 */
 	public function wasAdded(array $data): bool
 	{
@@ -225,14 +213,11 @@ final class AnimeCollection extends Collection {
 
 		$row = $this->get($data['id']);
 
-		return  ! empty($row);
+		return ! empty($row);
 	}
 
 	/**
 	 * Update a collection item
-	 *
-	 * @param array $data
-	 * @return void
 	 */
 	public function update(array $data): void
 	{
@@ -268,10 +253,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Verify that the collection item was updated
-	 *
-	 * @param array $data
-	 *
-	 * @return bool
 	 */
 	public function wasUpdated(array $data): bool
 	{
@@ -289,7 +270,7 @@ final class AnimeCollection extends Collection {
 				continue;
 			}
 
-			if ((string)$row[$key] !== (string)$value)
+			if ((string) $row[$key] !== (string) $value)
 			{
 				return FALSE;
 			}
@@ -300,9 +281,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Remove a collection item
-	 *
-	 * @param  array $data
-	 * @return void
 	 */
 	public function delete(array $data): void
 	{
@@ -331,10 +309,6 @@ final class AnimeCollection extends Collection {
 		$this->db->commit();
 	}
 
-	/**
-	 * @param array $data
-	 * @return bool
-	 */
 	public function wasDeleted(array $data): bool
 	{
 		if ($this->db === NULL)
@@ -348,8 +322,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get the details of a collection item
 	 *
-	 * @param int|string $kitsuId
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function get(int|string $kitsuId): array
 	{
@@ -376,7 +349,7 @@ final class AnimeCollection extends Collection {
 			->get()
 			->fetchAll(PDO::FETCH_ASSOC);
 
-		if ($mediaRows === FALSE)
+		if (empty($mediaRows))
 		{
 			return [];
 		}
@@ -388,9 +361,6 @@ final class AnimeCollection extends Collection {
 
 	/**
 	 * Does this anime already exist in the collection?
-	 *
-	 * @param int|string $kitsuId
-	 * @return bool
 	 */
 	public function has(int|string $kitsuId): bool
 	{
@@ -411,8 +381,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get genres for anime collection items
 	 *
-	 * @param array $filter
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getGenreList(array $filter = []): array
 	{
@@ -432,7 +401,6 @@ final class AnimeCollection extends Collection {
 				->from('anime_set_genre_link gl')
 				->join('genres g', 'g.id=gl.genre_id', 'left');
 
-
 			if ( ! empty($filter))
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
@@ -443,7 +411,7 @@ final class AnimeCollection extends Collection {
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if ($rows === FALSE)
+			if (empty($rows))
 			{
 				return [];
 			}
@@ -469,7 +437,9 @@ final class AnimeCollection extends Collection {
 				}
 			}
 		}
-		catch (PDOException) {}
+		catch (PDOException)
+		{
+		}
 
 		$this->db->resetQuery();
 
@@ -479,8 +449,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get media for anime collection items
 	 *
-	 * @param array $filter
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getMediaList(array $filter = []): array
 	{
@@ -500,7 +469,6 @@ final class AnimeCollection extends Collection {
 				->from('anime_set_media_link ml')
 				->join('media m', 'm.id=ml.media_id', 'left');
 
-
 			if ( ! empty($filter))
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
@@ -511,7 +479,7 @@ final class AnimeCollection extends Collection {
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if ($rows === FALSE)
+			if (empty($rows))
 			{
 				return [];
 			}
@@ -537,7 +505,9 @@ final class AnimeCollection extends Collection {
 				}
 			}
 		}
-		catch (PDOException $e) {}
+		catch (PDOException)
+		{
+		}
 
 		$this->db->resetQuery();
 
@@ -559,6 +529,7 @@ final class AnimeCollection extends Collection {
 
 		// Add the new entries
 		$entries = [];
+
 		foreach ($media as $id)
 		{
 			$entries[] = [
@@ -576,9 +547,8 @@ final class AnimeCollection extends Collection {
 	 * Update genre information for selected anime
 	 *
 	 * @param string $animeId The current anime
-	 * @return void
 	 */
-	private function updateGenres($animeId): void
+	private function updateGenres(string $animeId): void
 	{
 		if ($this->db === NULL)
 		{
@@ -620,14 +590,14 @@ final class AnimeCollection extends Collection {
 			{
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
 			}
-			catch (PDOException) {}
+			catch (PDOException)
+			{
+			}
 		}
 	}
 
 	/**
 	 * Add genres to the database
-	 *
-	 * @param array $genres
 	 */
 	private function addNewGenres(array $genres): void
 	{
@@ -661,7 +631,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get list of existing genres
 	 *
-	 * @return array
+	 * @return array<string, mixed[]>
 	 */
 	private function getGenreData(): array
 	{
@@ -671,6 +641,9 @@ final class AnimeCollection extends Collection {
 		];
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function getExistingGenres(): array
 	{
 		if ($this->db === NULL)
@@ -686,7 +659,7 @@ final class AnimeCollection extends Collection {
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -701,6 +674,9 @@ final class AnimeCollection extends Collection {
 		return $genres;
 	}
 
+	/**
+	 * @return mixed[]
+	 */
 	private function getExistingGenreLinkEntries(): array
 	{
 		if ($this->db === NULL)
@@ -715,7 +691,7 @@ final class AnimeCollection extends Collection {
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
@@ -740,7 +716,7 @@ final class AnimeCollection extends Collection {
 	/**
 	 * Get full collection from the database
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	private function getCollectionFromDatabase(): array
 	{
@@ -761,14 +737,14 @@ final class AnimeCollection extends Collection {
 
 		// Add genres associated with each item
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if ($rows === FALSE)
+		if (empty($rows))
 		{
 			return [];
 		}
 
 		$genres = $this->getGenreList();
 
-		foreach($rows as &$row)
+		foreach ($rows as &$row)
 		{
 			$id = $row['hummingbird_id'];
 
@@ -782,4 +758,5 @@ final class AnimeCollection extends Collection {
 		return $rows;
 	}
 }
+
 // End of AnimeCollectionModel.php

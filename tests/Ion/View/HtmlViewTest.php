@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,15 +14,19 @@
 
 namespace Aviat\Ion\Tests\View;
 
-use function Aviat\Ion\_dir;
-
 use Aviat\Ion\Tests\TestHtmlView;
 
-class HtmlViewTest extends HttpViewTest {
+use function Aviat\Ion\_dir;
 
+/**
+ * @internal
+ */
+final class HtmlViewTest extends HttpViewTest
+{
 	protected $template_path;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->view = new TestHtmlView($this->container);
 	}
@@ -34,9 +36,8 @@ class HtmlViewTest extends HttpViewTest {
 		$path = _dir(self::TEST_VIEW_DIR, 'test_view.php');
 		$expected = '<tag>foo</tag>';
 		$actual = $this->view->renderTemplate($path, [
-			'var' => 'foo'
+			'var' => 'foo',
 		]);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
-
 }

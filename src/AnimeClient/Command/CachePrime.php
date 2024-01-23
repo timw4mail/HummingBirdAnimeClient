@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,23 +14,19 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\AnimeClient\Kitsu;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use function Aviat\AnimeClient\clearCache;
 
 /**
  * Clears the API Cache
  */
-final class CachePrime extends BaseCommand {
+final class CachePrime extends BaseCommand
+{
 	/**
 	 * Clear, then prime the API cache
 	 *
-	 * @param array $args
-	 * @param array $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return void
 	 */
 	public function execute(array $args, array $options = []): void
 	{
@@ -43,6 +37,7 @@ final class CachePrime extends BaseCommand {
 		if ( ! $cleared)
 		{
 			$this->echoErrorBox('Failed to clear cache.');
+
 			return;
 		}
 

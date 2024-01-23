@@ -3,40 +3,58 @@ use Aviat\AnimeClient\Kitsu;
 ?>
 <main class="user-page details">
 	<h2 class="toph">
-		<?= $helper->a(
-			"https://kitsu.io/users/{$data['slug']}",
-			$data['name'], [
-			'title' => 'View profile on Kitsu'
+		About
+		<?= $_->h->a(
+				"https://kitsu.io/users/{$data['slug']}",
+				$data['name'], [
+				'title' => 'View profile on Kitsu'
 		])
 		?>
 	</h2>
 
-	<p><?= $escape->html($data['about']) ?></p>
-
 	<section class="flex flex-no-wrap">
 		<aside class="info">
-			<center>
-				<?= $helper->img($urlGenerator->assetUrl($data['avatar']), ['alt' => '']); ?>
-			</center>
+			<table class="media-details invisible">
+				<tr>
+					<?php if($data['avatar'] !== null): ?>
+					<td><?= $_->h->img($data['avatar'], ['alt' => '', 'width' => '225']); ?></td>
+					<?php endif ?>
+					<td><?= $_->escape->html($data['about']) ?></td>
+				</tr>
+			</table>
 			<br />
 			<table class="media-details">
+				<?php foreach ([
+					'joinDate' => 'Joined',
+					'birthday' => 'Birthday',
+					'gender' => 'Gender',
+					'location' => 'Location'
+			   ] as $key => $label): ?>
+				<?php if ($data[$key] !== null): ?>
 				<tr>
-					<td>Location</td>
-					<td><?= $data['location'] ?></td>
+					<td><?= $label ?></td>
+					<td><?= $data[$key] ?></td>
 				</tr>
+				<?php endif ?>
+				<?php endforeach; ?>
+
+				<?php if ($data['website'] !== null): ?>
 				<tr>
 					<td>Website</td>
-					<td><?= $helper->a($data['website'], $data['website']) ?></td>
+					<td><?= $_->h->a($data['website'], $data['website']) ?></td>
 				</tr>
-				<?php if ( ! empty($data['waifu'])): ?>
+				<?php endif ?>
+
+				<?php if ($data['waifu']['character'] !== null): ?>
 				<tr>
-					<td><?= $escape->html($data['waifu']['label']) ?></td>
+					<td><?= $_->escape->html($data['waifu']['label']) ?></td>
 					<td>
 						<?php
 							$character = $data['waifu']['character'];
-							echo $helper->a(
-								$url->generate('character', ['slug' => $character['slug']]),
-								$character['names']['canonical']
+							echo $_->component->character(
+									$character['names']['canonical'],
+									$_->urlFromRoute('character', ['slug' => $character['slug']]),
+									$_->h->img(Kitsu::getImage($character))
 							);
 						?>
 					</td>
@@ -57,8 +75,7 @@ use Aviat\AnimeClient\Kitsu;
 		<article>
 			<?php if ( ! empty($data['favorites'])): ?>
 			<h3>Favorites</h3>
-			<?= $component->tabs('user-favorites', $data['favorites'], static function ($items, $type) use ($component, $helper, $url) {
-				$rendered = [];
+			<?= $_->component->tabs('user-favorites', $data['favorites'], static function ($items, $type) use ($_) {
 				if ($type === 'character')
 				{
 					uasort($items, fn ($a, $b) => $a['names']['canonical'] <=> $b['names']['canonical']);
@@ -68,28 +85,21 @@ use Aviat\AnimeClient\Kitsu;
 					uasort($items, fn ($a, $b) => $a['titles']['canonical'] <=> $b['titles']['canonical']);
 				}
 
-				foreach ($items as $id => $item)
-				{
-					if ($type === 'character')
-					{
-						$rendered[] = $component->character(
-								$item['names']['canonical'],
-								$url->generate('character', ['slug' => $item['slug']]),
-								$helper->picture("images/characters/{$item['id']}.webp")
-						);
-					}
-					else
-					{
-						$rendered[] = $component->media(
-								array_merge(
-										[$item['titles']['canonical']],
-										Kitsu::getFilteredTitles($item['titles']),
-								),
-								$url->generate("{$type}.details", ['id' => $item['slug']]),
-								$helper->picture("images/{$type}/{$item['id']}.webp"),
-						);
-					}
-				}
+				$rendered = array_map(fn ($item) => match ($type) {
+					'character' => $_->component->character(
+							$item['names']['canonical'],
+							$_->urlFromRoute('character', ['slug' => $item['slug']]),
+							$_->h->img(Kitsu::getImage($item))
+					),
+					default => $_->component->media(
+							array_merge(
+									[$item['titles']['canonical']],
+									Kitsu::getFilteredTitles($item['titles']),
+							),
+							$_->urlFromRoute("{$type}.details", ['id' => $item['slug']]),
+							$_->h->img(Kitsu::getPosterImage($item), ['width' => 220]),
+					),
+				}, $items);
 
 				return implode('', array_map('mb_trim', $rendered));
 

@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,12 +14,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Kitsu;
-use Aviat\AnimeClient\API\ParallelAPIRequest;
-use Aviat\AnimeClient\Types\AnimeListItem;
-use Aviat\AnimeClient\Types\FormItem;
-use Aviat\AnimeClient\Types\MangaListItem;
+use Aviat\AnimeClient\API\{Anilist, Kitsu, ParallelAPIRequest};
+use Aviat\AnimeClient\Types\{AnimeListItem, FormItem, MangaListItem};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
 
@@ -30,33 +24,25 @@ use Throwable;
 /**
  * Common functionality for Anime/Manga Models
  */
-trait MediaTrait {
-
+trait MediaTrait
+{
 	/**
 	 * Is the Anilist API enabled?
-	 *
-	 * @var boolean
 	 */
 	protected bool $anilistEnabled;
 
 	/**
 	 * Model for making requests to Anilist API
-	 *
-	 * @var Anilist\Model
 	 */
 	protected Anilist\Model $anilistModel;
 
 	/**
 	 * Model for making requests to Kitsu API
-	 *
-	 * @var Kitsu\Model
 	 */
 	protected Kitsu\Model $kitsuModel;
 
 	/**
 	 * Anime constructor.
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -70,22 +56,25 @@ trait MediaTrait {
 	/**
 	 * Search for anime by name
 	 *
-	 * @param string $name
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function search(string $name): array
+	public function search(string $name, bool $inCollection = FALSE): array
 	{
-		return $this->kitsuModel->search($this->type, urldecode($name));
+		$data = $this->kitsuModel->search($this->type, urldecode($name));
+
+		if ($inCollection)
+		{
+			// @TODO: allow filtering collection search by existing items
+		}
+
+		return $data;
 	}
 
 	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
-	 *
-	 * @param string $itemId
-	 * @return AnimeListItem|MangaListItem
 	 */
-	public function getLibraryItem(string $itemId): AnimeListItem|MangaListItem
+	public function getItem(string $itemId): AnimeListItem|MangaListItem|array
 	{
 		return $this->kitsuModel->getListItem($itemId);
 	}
@@ -93,11 +82,9 @@ trait MediaTrait {
 	/**
 	 * Add an anime to your list
 	 *
-	 * @param array $data
-	 * @return bool
 	 * @throws Throwable
 	 */
-	public function createLibraryItem(array $data): bool
+	public function createItem(array $data): bool
 	{
 		$requester = new ParallelAPIRequest();
 		$kitsuRequest = $this->kitsuModel->createListItem($data);
@@ -108,7 +95,7 @@ trait MediaTrait {
 
 		$requester->addRequest($kitsuRequest, 'kitsu');
 
-		if ($this->anilistEnabled && $data['mal_id'] !== null)
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->createListItem($data, strtoupper($this->type));
@@ -120,22 +107,21 @@ trait MediaTrait {
 
 		$results = $requester->makeRequests();
 
-		return count($results) > 0;
+		return $results !== [];
 	}
 
 	/**
 	 * Increment progress for the specified anime
 	 *
-	 * @param FormItem $data
-	 * @return array
 	 * @throws Throwable
+	 * @return array<string, mixed>
 	 */
-	public function incrementLibraryItem(FormItem $data): array
+	public function incrementItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->incrementListItem($data), 'kitsu');
 
-		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->incrementListItem($data, strtoupper($this->type));
@@ -152,23 +138,22 @@ trait MediaTrait {
 
 		return [
 			'body' => Json::decode($results['kitsu']),
-			'statusCode' => $statusCode
+			'statusCode' => $statusCode,
 		];
 	}
 
 	/**
 	 * Update a list entry
 	 *
-	 * @param FormItem $data
-	 * @return array
 	 * @throws Throwable
+	 * @return array<string, mixed>
 	 */
-	public function updateLibraryItem(FormItem $data): array
+	public function updateItem(FormItem $data): array
 	{
 		$requester = new ParallelAPIRequest();
 		$requester->addRequest($this->kitsuModel->updateListItem($data), 'kitsu');
 
-		if (( ! empty($data['mal_id'])) && $this->anilistEnabled)
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->updateListItem($data, strtoupper($this->type));
@@ -181,31 +166,28 @@ trait MediaTrait {
 		$results = $requester->makeRequests();
 
 		$body = Json::decode($results['kitsu']);
-		$statusCode = array_key_exists('errors', $body) ? 400: 200;
+		$statusCode = array_key_exists('errors', $body) ? 400 : 200;
 
 		return [
 			'body' => Json::decode($results['kitsu']),
-			'statusCode' => $statusCode
+			'statusCode' => $statusCode,
 		];
 	}
 
 	/**
 	 * Delete a list entry
 	 *
-	 * @param string $id
-	 * @param string|null $malId
-	 * @return bool
 	 * @throws Throwable
 	 */
-	public function deleteLibraryItem(string $id, string $malId = NULL): bool
+	public function deleteItem(FormItem $data): bool
 	{
 		$requester = new ParallelAPIRequest();
-		$requester->addRequest($this->kitsuModel->deleteListItem($id), 'kitsu');
+		$requester->addRequest($this->kitsuModel->deleteItem($data), 'kitsu');
 
-		if ($this->anilistEnabled && $malId !== null)
+		if ($this->anilistEnabled)
 		{
 			// If can't map MAL id, this will be null
-			$maybeRequest = $this->anilistModel->deleteListItem($malId, strtoupper($this->type));
+			$maybeRequest = $this->anilistModel->deleteItem($data, strtoupper($this->type));
 			if ($maybeRequest !== NULL)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');
@@ -214,6 +196,6 @@ trait MediaTrait {
 
 		$results = $requester->makeRequests();
 
-		return count($results) > 0;
+		return $results !== [];
 	}
 }

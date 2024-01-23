@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,18 +14,15 @@
 
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Anilist as AnilistStatus;
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KitsuStatus;
-use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
-use Aviat\AnimeClient\Types\MangaListItem;
-use Aviat\AnimeClient\Types\FormItem;
-
+use Aviat\AnimeClient\API\{Enum, Mapping};
+use Aviat\AnimeClient\Types\{FormItem, MangaListItem};
 use Aviat\Ion\Transformer\AbstractTransformer;
 
 use DateTime;
+use DateTimeInterface;
 
-class MangaListTransformer extends AbstractTransformer {
-
+class MangaListTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): MangaListItem
 	{
 		return MangaListItem::from([]);
@@ -35,13 +30,10 @@ class MangaListTransformer extends AbstractTransformer {
 
 	/**
 	 * Transform Anilist list item to Kitsu form update format
-	 *
-	 * @param array $item
-	 * @return FormItem
 	 */
 	public function untransform(array $item): FormItem
 	{
-		$reconsuming = $item['status'] === AnilistStatus::REPEATING;
+		$reconsuming = $item['status'] === Enum\MangaReadingStatus\Anilist::REPEATING;
 
 		return FormItem::from([
 			'id' => $item['id'],
@@ -54,12 +46,12 @@ class MangaListTransformer extends AbstractTransformer {
 				'reconsumeCount' => $item['repeat'],
 				'reconsuming' => $reconsuming,
 				'status' => $reconsuming
-					? KitsuStatus::READING
-					: MangaReadingStatus::ANILIST_TO_KITSU[$item['status']],
+					? Enum\MangaReadingStatus\Kitsu::READING
+					: Mapping\MangaReadingStatus::ANILIST_TO_KITSU[$item['status']],
 				'updatedAt' => (new DateTime())
 					->setTimestamp($item['updatedAt'])
-					->format(DateTime::W3C),
-			]
+					->format(DateTimeInterface::W3C),
+			],
 		]);
 	}
 }

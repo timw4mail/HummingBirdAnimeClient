@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
@@ -11,7 +11,7 @@ class ReorganizeAnimeCollectionMedia extends AbstractMigration
 		{
 			$newLinkTable = $this->table('anime_set_media_link', [
 				'id' => FALSE,
-				'primary_key' => ['hummingbird_id', 'media_id']
+				'primary_key' => ['hummingbird_id', 'media_id'],
 			]);
 
 			$newLinkTable->addColumn('hummingbird_id', 'biginteger')
@@ -31,6 +31,7 @@ class ReorganizeAnimeCollectionMedia extends AbstractMigration
 		foreach ($rows as $row)
 		{
 			$keys = array_keys($row);
+
 			foreach ($keys as $k)
 			{
 				if (is_numeric($k))
@@ -49,6 +50,7 @@ class ReorganizeAnimeCollectionMedia extends AbstractMigration
 		// and replace those rows with the individual entries
 		$linkRows = $this->fetchAll('SELECT hummingbird_id FROM anime_set_media_link WHERE media_id=1');
 		$insertRows = [];
+
 		foreach ($linkRows as $row)
 		{
 			$insertRows[] = [

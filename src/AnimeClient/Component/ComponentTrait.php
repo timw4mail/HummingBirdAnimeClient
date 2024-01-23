@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,21 +15,17 @@
 namespace Aviat\AnimeClient\Component;
 
 use Aviat\Ion\Di\ContainerAware;
-use const TEMPLATE_DIR;
 use function Aviat\AnimeClient\renderTemplate;
 
 /**
  * Shared logic for component-based functionality, like Tabs
  */
-trait ComponentTrait {
+trait ComponentTrait
+{
 	use ContainerAware;
 
 	/**
 	 * Render a template with common container values
-	 *
-	 * @param string $path
-	 * @param array $data
-	 * @return string
 	 */
 	public function render(string $path, array $data): string
 	{
@@ -39,6 +33,7 @@ trait ComponentTrait {
 		$helper = $container->get('html-helper');
 
 		$baseData = [
+			'_' => $container->get('render-helper'),
 			'auth' => $container->get('auth'),
 			'escape' => $helper->escape(),
 			'helper' => $helper,

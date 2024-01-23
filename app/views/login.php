@@ -1,7 +1,7 @@
 <main>
-	<h2><?= $config->get('whose_list'); ?>'s Login</h2>
+	<h2><?= $_->config->get('whose_list'); ?>'s Login</h2>
 	<?= $message ?>
-	<form method="post" action="<?= $url->generate('login.post') ?>">
+	<form method="post" action="<?= $_->urlFromRoute('login.post') ?>">
 		<table class="form invisible">
 			<tr>
 				<td><label for="password">Password: </label></td>

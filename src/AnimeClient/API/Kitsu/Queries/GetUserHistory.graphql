@@ -1,6 +1,9 @@
 query ($slug: String!) {
 	findProfileBySlug(slug: $slug) {
-		libraryEvents(first: 100, kind: [PROGRESSED, UPDATED]) {
+		libraryEvents(first: 100, kind: [PROGRESSED, UPDATED], sort: [{
+			direction: DESCENDING,
+			on: UPDATED_AT,
+		}]) {
 			nodes {
 				id
 				changedData
@@ -16,6 +19,11 @@ query ($slug: String!) {
 					id
 					slug
 					posterImage {
+						original {
+							width
+							height
+							url
+						}
 						views {
 							width
 							height
@@ -25,7 +33,13 @@ query ($slug: String!) {
 					titles {
 						alternatives
 						canonical
-						localized
+						localized(locales: "*")
+					}
+					...on Anime {
+						episodeCount
+					}
+					...on Manga {
+						chapterCount
 					}
 				}
 				updatedAt

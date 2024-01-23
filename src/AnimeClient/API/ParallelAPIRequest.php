@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,96 +14,108 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp\Http\Client\Request;
-use function Amp\call;
-use function Amp\Promise\{all, wait};
-use function Aviat\AnimeClient\getApiClient;
-
+use Amp\Future;
+use Amp\Http\Client\{Request, Response};
 use Throwable;
+
+use function Amp\async;
+use function Aviat\AnimeClient\getApiClient;
 
 /**
  * Class to simplify making and validating simultaneous requests
  */
-final class ParallelAPIRequest {
-
+final class ParallelAPIRequest
+{
 	/**
 	 * Set of requests to make in parallel
-	 *
-	 * @var array
 	 */
 	private array $requests = [];
 
 	/**
 	 * Add a request
-	 *
-	 * @param string|Request $request
-	 * @param string|number $key
-	 * @return self
 	 */
-	public function addRequest($request, $key = NULL): self
+	public function addRequest(string|Request $request, string|int|null $key = NULL): self
 	{
 		if ($key !== NULL)
 		{
 			$this->requests[$key] = $request;
+
 			return $this;
 		}
 
 		$this->requests[] = $request;
+
 		return $this;
 	}
 
 	/**
 	 * Add multiple requests
 	 *
-	 * @param string[]|Request[] $requests
-	 * @return self
+	 * @param Request[]|string[] $requests
 	 */
 	public function addRequests(array $requests): self
 	{
-		array_walk($requests, [$this, 'addRequest']);
+		array_walk($requests, $this->addRequest(...));
+
 		return $this;
 	}
 
 	/**
 	 * Make the requests, and return the body for each
 	 *
-	 * @return array
 	 * @throws Throwable
 	 */
 	public function makeRequests(): array
 	{
-		$client = getApiClient();
-
-		$promises = [];
+		$futures = [];
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(static function () use ($client, $url) {
-				$response = yield $client->request($url);
-				return yield $response->getBody()->buffer();
-			});
+			$futures[$key] = async(static fn () => self::bodyHandler($url));
 		}
 
-		return wait(all($promises));
+		return Future\await($futures);
 	}
 
 	/**
 	 * Make the requests and return the response objects
 	 *
-	 * @return array
 	 * @throws Throwable
 	 */
 	public function getResponses(): array
 	{
-		$client = getApiClient();
-
-		$promises = [];
+		$futures = [];
 
 		foreach ($this->requests as $key => $url)
 		{
-			$promises[$key] = call(fn () => yield $client->request($url));
+			$futures[$key] = async(static fn () => self::responseHandler($url));
 		}
 
-		return wait(all($promises));
+		return Future\await($futures);
+	}
+
+	private static function bodyHandler(string|Request $uri): string
+	{
+		$client = getApiClient();
+
+		if (is_string($uri))
+		{
+			$uri = new Request($uri);
+		}
+		$response = $client->request($uri);
+
+		return $response->getBody()->buffer();
+	}
+
+	private static function responseHandler(string|Request $uri): Response
+	{
+		$client = getApiClient();
+
+		if (is_string($uri))
+		{
+			$uri = new Request($uri);
+		}
+
+		return $client->request($uri);
 	}
 }

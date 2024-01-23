@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -23,23 +21,23 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 /**
  * Transformer for anime description page
  */
-final class AnimeTransformer extends AbstractTransformer {
-
+final class AnimeTransformer extends AbstractTransformer
+{
 	/**
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param  array|object  $item API library item
-	 * @return AnimePage
+	 * @param array|object $item API library item
 	 */
 	public function transform(array|object $item): AnimePage
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findAnimeBySlug'] ?? $item['data']['findAnimeById'] ?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];
-		$genres = array_map(fn ($genre) => $genre['title']['en'], $base['categories']['nodes']);
+		$rawGenres = array_filter($base['categories']['nodes'], static fn ($c) => $c !== NULL);
+		$genres = array_map(static fn ($genre) => $genre['title']['en'], $rawGenres);
 
 		sort($genres);
 
@@ -47,7 +45,7 @@ final class AnimeTransformer extends AbstractTransformer {
 		$titles = Kitsu::getTitles($base['titles']);
 		$titles_more = Kitsu::filterLocalizedTitles($base['titles']);
 
-		if (count($base['characters']['nodes']) > 0)
+		if ((is_countable($base['characters']['nodes']) ? count($base['characters']['nodes']) : 0) > 0)
 		{
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
@@ -59,7 +57,7 @@ final class AnimeTransformer extends AbstractTransformer {
 
 				$details = $rawCharacter['character'];
 				$characters[$type][$details['id']] = [
-					'image' => $details['image'],
+					'image' => Kitsu::getImage($details),
 					'name' => $details['names']['canonical'],
 					'slug' => $details['slug'],
 				];
@@ -73,20 +71,27 @@ final class AnimeTransformer extends AbstractTransformer {
 				}
 				else
 				{
-					uasort($characters[$type], fn($a, $b) => $a['name'] <=> $b['name']);
+					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}
 			}
 
 			krsort($characters);
 		}
 
-		if (count($base['staff']['nodes']) > 0)
+		if ((is_countable($base['staff']['nodes']) ? count($base['staff']['nodes']) : 0) > 0)
 		{
 			foreach ($base['staff']['nodes'] as $staffing)
 			{
 				$person = $staffing['person'];
 				$role = $staffing['role'];
 				$name = $person['names']['localized'][$person['names']['canonical']];
+
+				// If this person object is so broken as to not have a proper image object,
+				// just skip it. No point in showing a role with nothing in it.
+				if ($person === NULL || $person['id'] === NULL || $person['image'] === NULL)
+				{
+					continue;
+				}
 
 				if ( ! array_key_exists($role, $staff))
 				{
@@ -96,28 +101,27 @@ final class AnimeTransformer extends AbstractTransformer {
 				$staff[$role][$person['id']] = [
 					'id' => $person['id'],
 					'name' => $name,
-					'image' => [
-						'original' => $person['image']['original']['url'],
-					],
+					'image' => Kitsu::getImage($person),
 					'slug' => $person['slug'],
 				];
 
-				usort($staff[$role], fn ($a, $b) => $a['name'] <=> $b['name']);
+				usort($staff[$role], static fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
 
 			ksort($staff);
 		}
 
-		if (count($base['mappings']['nodes']) > 0)
+		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
 			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/anime/{$base['slug']}");
 		}
 
 		return AnimePage::from([
+			'airDate' => Kitsu::formatAirDates($base['startDate'], $base['endDate']),
 			'age_rating' => $base['ageRating'],
 			'age_rating_guide' => $base['ageRatingGuide'],
 			'characters' => $characters,
-			'cover_image' => $base['posterImage']['views'][1]['url'],
+			'cover_image' => Kitsu::getPosterImage($base),
 			'episode_count' => $base['episodeCount'],
 			'episode_length' => $base['episodeLength'],
 			'genres' => $genres,
@@ -128,7 +132,7 @@ final class AnimeTransformer extends AbstractTransformer {
 			'show_type' => $base['subtype'],
 			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
 			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes'] ?? []),
-			'synopsis' => $base['description']['en'],
+			'synopsis' => $base['description']['en'] ?? '',
 			'title' => $title,
 			'titles' => $titles,
 			'titles_more' => $titles_more,

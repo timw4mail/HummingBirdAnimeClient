@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -21,7 +19,8 @@ use Aviat\Ion\Enum as BaseEnum;
 /**
  * Status of when anime is being/was/will be aired
  */
-final class AnimeAiringStatus extends BaseEnum {
+final class AnimeAiringStatus extends BaseEnum
+{
 	public const NOT_YET_AIRED = 'Not Yet Aired';
 	public const AIRING = 'Currently Airing';
 	public const FINISHED_AIRING = 'Finished Airing';

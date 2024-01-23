@@ -333,7 +333,8 @@ td.danger, td.danger:hover, td.danger:active {
 .borderless th,
 .invisible tr,
 .invisible td,
-.invisible th {
+.invisible th,
+table.invisible {
 	box-shadow: none;
 	border: 0;
 }
@@ -628,6 +629,14 @@ picture.cover {
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+/* There are two .name elements, just darken them both in this case! */
+.media.search.disabled .name {
+	background-color: #000;
+	background-color: rgba(0, 0, 0, 0.75);
+	background-size: cover;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
 
 .media.search > .row {
 	z-index: 6;
@@ -828,18 +837,10 @@ aside.info {
 	max-width: 390px;
 }
 
-/* .fixed aside.info + article {
-	max-width: inherit;
-} */
-
 aside picture, aside img {
 	display: block;
 	margin: 0 auto;
 }
-
-/* aside.info + article {
-	max-width: 66%;
-} */
 
 /* ----------------------------------------------------------------------------
 	User page styles

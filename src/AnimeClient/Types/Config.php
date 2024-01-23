@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,16 +14,14 @@
 
 namespace Aviat\AnimeClient\Types;
 
-class Config extends AbstractType {
-
+class Config extends AbstractType
+{
 	// ------------------------------------------------------------------------
 	// Config files/namespaces
 	// ------------------------------------------------------------------------
 
 	public ?Config\Anilist $anilist;
-
 	public ?Config\Cache $cache;
-
 	public ?Config\Database $database;
 
 	// ------------------------------------------------------------------------
@@ -33,7 +29,6 @@ class Config extends AbstractType {
 	// ------------------------------------------------------------------------
 
 	public string $root; // Path to app root
-
 	public ?string $asset_path; // Path to public folder for urls
 
 	/**
@@ -50,8 +45,6 @@ class Config extends AbstractType {
 	/**
 	 * The list to redirect to from the root url
 	 * 'anime' or 'manga'
-	 *
-	 * @var string|null
 	 */
 	public ?string $default_list;
 
@@ -68,11 +61,8 @@ class Config extends AbstractType {
 	public ?string $default_view_type;
 
 	public ?string $kitsu_username;
-
 	public bool $secure_urls = TRUE;
-
 	public string|bool $show_anime_collection = FALSE;
-
 	public string|bool $show_manga_collection = FALSE;
 
 	/**
@@ -82,48 +72,31 @@ class Config extends AbstractType {
 	public ?string $theme = 'auto';
 
 	public ?string $whose_list;
-
-	// ------------------------------------------------------------------------
-	// Application config
-	// ------------------------------------------------------------------------
-
-	/**
-	 * @var array
-	 */
-	public array $menus;
-
-	/**
-	 * @var array
-	 */
-	public array $routes;
+	public array $menus = [];
+	public array $routes = [];
 
 	// ------------------------------------------------------------------------
 	// Generated config values
 	// ------------------------------------------------------------------------
 
 	public ?string $asset_dir; // Path to public folder for local files
-
 	public ?string $base_config_dir;
-
 	public ?string $config_dir;
-
 	public ?string $data_cache_path;
-
 	public ?string $img_cache_path;
-
 	public ?string $view_path;
 
-	public function setAnilist (mixed $data): void
+	public function setAnilist(mixed $data): void
 	{
 		$this->anilist = Config\Anilist::from($data);
 	}
 
-	public function setCache (mixed $data): void
+	public function setCache(mixed $data): void
 	{
 		$this->cache = Config\Cache::from($data);
 	}
 
-	public function setDatabase (mixed $data): void
+	public function setDatabase(mixed $data): void
 	{
 		$this->database = Config\Database::from($data);
 	}

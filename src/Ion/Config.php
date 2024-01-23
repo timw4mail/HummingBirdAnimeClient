@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -19,23 +17,20 @@ namespace Aviat\Ion;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\ArrayType;
 use InvalidArgumentException;
+use function is_array;
 
 /**
  * Wrapper for configuration values
  */
-class Config implements ConfigInterface {
-
+class Config implements ConfigInterface
+{
 	/**
 	 * Config object
-	 *
-	 * @var ArrayType
 	 */
 	protected ArrayType $map;
 
 	/**
 	 * Constructor
-	 *
-	 * @param array $configArray
 	 */
 	public function __construct(array $configArray = [])
 	{
@@ -44,11 +39,8 @@ class Config implements ConfigInterface {
 
 	/**
 	 * Does the config item exist?
-	 *
-	 * @param string|int|array $key
-	 * @return bool
 	 */
-	public function has($key): bool
+	public function has(array|int|string $key): bool
 	{
 		return $this->map->hasKey($key);
 	}
@@ -56,13 +48,11 @@ class Config implements ConfigInterface {
 	/**
 	 * Get a config value
 	 *
-	 * @param array|string|null $key
-	 * @return mixed
 	 * @throws ConfigException
 	 */
-	public function get($key = NULL)
+	public function get(array|string $key = NULL): mixed
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			return $this->map->getDeepKey($key);
 		}
@@ -72,13 +62,10 @@ class Config implements ConfigInterface {
 
 	/**
 	 * Remove a config value
-	 *
-	 * @param  string|array $key
-	 * @return void
 	 */
-	public function delete($key): void
+	public function delete(array|string $key): void
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, NULL);
 		}
@@ -92,18 +79,15 @@ class Config implements ConfigInterface {
 	/**
 	 * Set a config value
 	 *
-	 * @param integer|string|array $key
-	 * @param mixed                $value
-	 * @throws InvalidArgumentException
-	 * @return ConfigInterface
+	 *@throws InvalidArgumentException
 	 */
-	public function set($key, $value): ConfigInterface
+	public function set(array|int|string $key, mixed $value): ConfigInterface
 	{
-		if (\is_array($key))
+		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, $value);
 		}
-		else if (is_scalar($key) && ! empty($key))
+		elseif (is_scalar($key) && ! empty($key))
 		{
 			$this->map->set($key, $value);
 		}
@@ -115,4 +99,5 @@ class Config implements ConfigInterface {
 		return $this;
 	}
 }
+
 // End of config.php

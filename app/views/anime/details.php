@@ -1,13 +1,12 @@
 <?php
 
-use Aviat\AnimeClient\Kitsu;
-use function Aviat\AnimeClient\getLocalImg;
+use function Aviat\AnimeClient\friendlyTime;
 
 ?>
 <main class="details fixed">
-	<section class="flex" unselectable>
+	<section class="flex">
 		<aside class="info">
-			<?= $helper->picture("images/anime/{$data['id']}-original.webp") ?>
+			<?= $_->h->img($data['cover_image'], ['width' => '390']) ?>
 
 			<br />
 
@@ -16,6 +15,13 @@ use function Aviat\AnimeClient\getLocalImg;
 					<td class="align-right">Airing Status</td>
 					<td><?= $data['status'] ?></td>
 				</tr>
+
+				<?php if ( ! empty($data['airDate'])): ?>
+				<tr>
+					<td>Original Airing</td>
+					<td><?= $data['airDate'] ?></td>
+				</tr>
+				<?php endif ?>
 
 				<tr>
 					<td>Show Type</td>
@@ -32,14 +38,14 @@ use function Aviat\AnimeClient\getLocalImg;
 				<?php if (( ! empty($data['episode_length'])) && $data['episode_count'] !== 1): ?>
 					<tr>
 						<td>Episode Length</td>
-						<td><?= Kitsu::friendlyTime($data['episode_length']) ?></td>
+						<td><?= friendlyTime($data['episode_length']) ?></td>
 					</tr>
 				<?php endif ?>
 
 				<?php if (isset($data['total_length'], $data['episode_count']) && $data['total_length'] > 0): ?>
 					<tr>
 						<td>Total Length</td>
-						<td><?= Kitsu::friendlyTime($data['total_length']) ?></td>
+						<td><?= friendlyTime($data['total_length']) ?></td>
 					</tr>
 				<?php endif ?>
 
@@ -104,7 +110,7 @@ use function Aviat\AnimeClient\getLocalImg;
 										href="<?= $link['link'] ?>"
 										title="Stream '<?= $data['title'] ?>' on <?= $link['meta']['name'] ?>"
 									>
-										<?= $helper->img("/public/images/{$link['meta']['image']}", [
+										<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 											'class' => 'streaming-logo',
 											'width' => 50,
 											'height' => 50,
@@ -113,7 +119,7 @@ use function Aviat\AnimeClient\getLocalImg;
 										&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 									</a>
 								<?php else: ?>
-									<?= $helper->img("/public/images/{$link['meta']['image']}", [
+									<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 										'class' => 'streaming-logo',
 										'width' => 50,
 										'height' => 50,
@@ -122,8 +128,8 @@ use function Aviat\AnimeClient\getLocalImg;
 									&nbsp;&nbsp;<?= $link['meta']['name'] ?>
 								<?php endif ?>
 							</td>
-							<td><?= implode(', ', $link['subs']) ?></td>
-							<td><?= implode(', ', $link['dubs']) ?></td>
+							<td><?= implode(', ', array_map(fn ($sub) => Locale::getDisplayLanguage($sub, 'en'), $link['subs'])) ?></td>
+							<td><?= implode(', ', array_map(fn ($dub) => Locale::getDisplayLanguage($dub, 'en'), $link['dubs'])) ?></td>
 						</tr>
 					<?php endforeach ?>
 					</tbody>
@@ -151,18 +157,18 @@ use function Aviat\AnimeClient\getLocalImg;
 		<section>
 			<h2>Characters</h2>
 
-			<?= $component->tabs('character-types', $data['characters'], static function ($characterList, $role)
-			use ($component, $url, $helper) {
+			<?= $_->component->tabs('character-types', $data['characters'], static function ($characterList, $role)
+			use ($_) {
 				$rendered = [];
 				foreach ($characterList as $id => $character):
-					if (empty($character['image']['original']))
+					if (empty($character['image']))
 					{
 						continue;
 					}
-					$rendered[] = $component->character(
+					$rendered[] = $_->component->character(
 						$character['name'],
-						$url->generate('character', ['slug' => $character['slug']]),
-						$helper->picture("images/characters/{$id}.webp"),
+						$_->urlFromRoute('character', ['slug' => $character['slug']]),
+						$_->h->img($character['image']),
 						(strtolower($role) !== 'main') ? 'small-character' : 'character'
 					);
 				endforeach;
@@ -176,18 +182,18 @@ use function Aviat\AnimeClient\getLocalImg;
 		<section>
 			<h2>Staff</h2>
 
-			<?= $component->verticalTabs('staff-role', $data['staff'], static function ($staffList)
-			use ($component, $url, $helper) {
+			<?= $_->component->verticalTabs('staff-role', $data['staff'], static function ($staffList)
+			use ($_) {
 				$rendered = [];
 				foreach ($staffList as $id => $person):
-					if (empty($person['image']['original']))
+					if (empty($person['image']))
 					{
 						continue;
 					}
-					$rendered[] = $component->character(
+					$rendered[] = $_ ->component->character(
 						$person['name'],
-						$url->generate('person', ['slug' => $person['slug']]),
-						$helper->picture(getLocalImg($person['image']['original'] ?? NULL)),
+						$_->urlFromRoute('person', ['slug' => $person['slug']]),
+						$_->h->img($person['image']),
 						'character small-person',
 					);
 				endforeach;

@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -25,15 +23,11 @@ use Locale;
 /**
  * Data transformation class for character pages
  */
-final class CharacterTransformer extends AbstractTransformer {
-
-	/**
-	 * @param array|object $item
-	 * @return Character
-	 */
+final class CharacterTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): Character
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$data = $item['data']['findCharacterBySlug'] ?? [];
 		$castings = [];
 		$media = [
@@ -42,10 +36,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		$names = array_unique(
-			array_merge(
-				[$data['names']['canonical']],
-				array_values($data['names']['localized'])
-			)
+			[...[$data['names']['canonical']], ...array_values($data['names']['localized'])]
 		);
 		$name = array_shift($names);
 
@@ -58,6 +49,7 @@ final class CharacterTransformer extends AbstractTransformer {
 			'castings' => $castings,
 			'description' => $data['description']['en'],
 			'id' => $data['id'],
+			'image' => Kitsu::getImage($data),
 			'media' => $media,
 			'name' => $name,
 			'names' => $names,
@@ -65,19 +57,22 @@ final class CharacterTransformer extends AbstractTransformer {
 		]);
 	}
 
-	protected function organizeMediaAndVoices (array $data): array
+	/**
+	 * @return array<int, mixed[]>
+	 */
+	protected function organizeMediaAndVoices(array $data): array
 	{
 		if (empty($data))
 		{
 			return [[], []];
 		}
 
-		$titleSort = fn ($a, $b) => $a['title'] <=> $b['title'];
+		$titleSort = static fn ($a, $b) => $a['title'] <=> $b['title'];
 
 		// First, let's deal with related media
 		$rawMedia = array_column($data, 'media');
-		$rawAnime = array_filter($rawMedia, fn ($item) => $item['type'] === 'Anime');
-		$rawManga = array_filter($rawMedia, fn ($item) => $item['type'] === 'Manga');
+		$rawAnime = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Anime');
+		$rawManga = array_filter($rawMedia, static fn ($item) => $item['type'] === 'Manga');
 
 		$anime = array_map(static function ($item) {
 			$output = $item;
@@ -105,7 +100,7 @@ final class CharacterTransformer extends AbstractTransformer {
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, fn($item) => count((array)$item['voices']['nodes']) > 0);
+		$rawVoices = array_filter($data, static fn ($item) => ( ! empty($item['voices'])) && (array) $item['voices']['nodes'] !== []);
 
 		if (empty($rawVoices))
 		{
@@ -135,10 +130,10 @@ final class CharacterTransformer extends AbstractTransformer {
 						'person' => [
 							'id' => $voice['person']['id'],
 							'slug' => $voice['person']['slug'],
-							'image' => $voice['person']['image']['original']['url'],
+							'image' => Kitsu::getImage($voice['person']),
 							'name' => $voice['person']['name'],
 						],
-						'series' => []
+						'series' => [],
 					];
 				}
 
@@ -147,7 +142,7 @@ final class CharacterTransformer extends AbstractTransformer {
 					'slug' => $voiceMap['media']['slug'],
 					'title' => $voiceMap['media']['titles']['canonical'],
 					'titles' => Kitsu::getFilteredTitles($voiceMap['media']['titles']),
-					'posterImage' => $voiceMap['media']['posterImage']['views'][1]['url'],
+					'posterImage' => Kitsu::getPosterImage($voiceMap['media']),
 				];
 
 				uasort($castings['Voice Actor'][$lang][$id]['series'], $titleSort);

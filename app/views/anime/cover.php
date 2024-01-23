@@ -1,6 +1,6 @@
 <main class="media-list">
-<?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
+<?php if ($_->isAuthenticated()): ?>
+<a class="bracketed" href="<?= $_->urlFromRoute('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -11,16 +11,16 @@
 	<?php foreach ($sections as $name => $items): ?>
 	<?php if (empty($items)): ?>
 		<section class="status">
-			<h2><?= $escape->html($name) ?></h2>
+			<h2><?= $_->escape->html($name) ?></h2>
 			<h3>There's nothing here!</h3>
 		</section>
 	<?php else: ?>
 		<section class="status">
-			<h2><?= $escape->html($name) ?></h2>
+			<h2><?= $_->escape->html($name) ?></h2>
 			<section class="media-wrap">
 				<?php foreach($items as $item): ?>
-				<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
-					<?= $component->animeCover($item) ?>
+				<?php if ($item['private'] && ! $_->isAuthenticated()) continue; ?>
+					<?= $_->component->animeCover($item) ?>
 				<?php endforeach ?>
 			</section>
 		</section>

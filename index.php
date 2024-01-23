@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -25,8 +23,8 @@ setlocale(LC_CTYPE, 'en_US');
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-Debugger::$strictMode = true;
-Debugger::$showBar = false;
+Debugger::$strictMode = E_ALL;
+Debugger::$showBar = FALSE;
 Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/app/logs');
 
 // Define base directories
@@ -37,7 +35,7 @@ $CONF_DIR = _dir($APP_DIR, 'config');
 // -----------------------------------------------------------------------------
 // Dependency Injection setup
 // -----------------------------------------------------------------------------
-$baseConfig = require "{$APPCONF_DIR}/base_config.php";
+$baseConfig = require _dir($APPCONF_DIR, 'base_config.php');
 $di = require "{$APP_DIR}/bootstrap.php";
 
 $config = loadConfig($CONF_DIR);
@@ -59,7 +57,7 @@ if (is_array($checkedConfig) && array_key_exists('timezone', $checkedConfig) && 
 {
 	date_default_timezone_set($checkedConfig['timezone']);
 }
-else if (is_string($timezone) && $timezone !== '')
+elseif (is_string($timezone) && $timezone !== '')
 {
 	date_default_timezone_set($timezone);
 }

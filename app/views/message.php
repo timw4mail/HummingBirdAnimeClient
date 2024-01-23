@@ -1,5 +1,5 @@
-<div class="message <?= $escape->attr($message_type) ?>">
+<div class="message <?= $_->escape->attr($message_type) ?>">
 	<span class="icon"></span>
-	<?= $escape->html($message) ?>
+	<?= $_->escape->html($message) ?>
 	<span class="close"></span>
 </div>

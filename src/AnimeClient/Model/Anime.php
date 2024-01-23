@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,22 +14,14 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\ParallelAPIRequest;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
-use Aviat\AnimeClient\Types\{
-	Anime as AnimeType,
-	FormItem,
-	AnimeListItem
-};
-use Aviat\Ion\Json;
-
-use Throwable;
-use function is_array;
+use Aviat\AnimeClient\Types\Anime as AnimeType;
 
 /**
  * Model for handling requests dealing with the anime list
  */
-class Anime extends API {
+class Anime extends API
+{
 	use MediaTrait;
 
 	protected string $type = 'anime';
@@ -39,8 +29,7 @@ class Anime extends API {
 	/**
 	 * Get a category out of the full list
 	 *
-	 * @param string $status
-	 * @return array
+	 * @return array<string, mixed>
 	 */
 	public function getList(string $status): array
 	{
@@ -58,13 +47,13 @@ class Anime extends API {
 	/**
 	 * Get data for the 'all' anime page
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getAllLists(): array
 	{
-		$data =  $this->kitsuModel->getFullOrganizedAnimeList();
+		$data = $this->kitsuModel->getFullOrganizedAnimeList();
 
-		foreach($data as $section => &$list)
+		foreach ($data as &$list)
 		{
 			$this->sortByName($list, 'anime');
 		}
@@ -74,9 +63,6 @@ class Anime extends API {
 
 	/**
 	 * Get information about an anime from its slug
-	 *
-	 * @param string $slug
-	 * @return AnimeType
 	 */
 	public function getAnime(string $slug): AnimeType
 	{
@@ -85,8 +71,6 @@ class Anime extends API {
 
 	/**
 	 * Get information about a random anime
-	 *
-	 * @return AnimeType
 	 */
 	public function getRandomAnime(): AnimeType
 	{
@@ -95,9 +79,6 @@ class Anime extends API {
 
 	/**
 	 * Get anime by its kitsu id
-	 *
-	 * @param string $animeId
-	 * @return AnimeType
 	 */
 	public function getAnimeById(string $animeId): AnimeType
 	{
@@ -107,12 +88,10 @@ class Anime extends API {
 	/**
 	 * Get recent watch history
 	 *
-	 * @return array
+	 * @return mixed[]
 	 */
 	public function getHistory(): array
 	{
 		return $this->kitsuModel->getAnimeHistory();
 	}
-
-
 }

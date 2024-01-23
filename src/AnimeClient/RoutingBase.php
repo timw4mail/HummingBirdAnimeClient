@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,10 +14,10 @@
 
 namespace Aviat\AnimeClient;
 
+use Aura\Router\Generator;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,45 +25,39 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Base for routing/url classes
  */
-class RoutingBase {
-
-	/**
-	 * Injection Container
-	 * @var ContainerInterface $container
-	 */
-	protected ContainerInterface $container;
-
+abstract class RoutingBase
+{
 	/**
 	 * Config Object
-	 * @var ConfigInterface
 	 */
 	protected ConfigInterface $config;
 
 	/**
 	 * Class wrapper for input superglobals
-	 * @var ServerRequestInterface
 	 */
 	protected ServerRequestInterface $request;
 
 	/**
+	 * Aura url generator
+	 */
+	protected Generator $routerUrl;
+
+	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
+	 * @throws ConfigException
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @throws ConfigException
 	 */
-	public function __construct(ContainerInterface $container)
+	public function __construct(protected ContainerInterface $container)
 	{
-		$this->container = $container;
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
+		$this->routerUrl = $container->get('aura-router')->getGenerator();
 	}
 
 	/**
 	 * Get the current url path
-	 *
-	 * @return string
 	 */
 	public function path(): string
 	{
@@ -73,44 +65,39 @@ class RoutingBase {
 		$cleanedPath = StringType::from($path)
 			->replace('%20', '')
 			->trim()
-			->trimRight('/')
+			->trimRight('\/')
 			->ensureLeft('/');
 
-		return (string)$cleanedPath;
+		return (string) $cleanedPath;
 	}
 
 	/**
 	 * Get the url segments
-	 *
-	 * @return array
 	 */
 	public function segments(): array
 	{
 		$path = $this->path();
+
 		return explode('/', $path);
 	}
 
 	/**
 	 * Get a segment of the current url
-	 *
-	 * @param int $num
-	 *
-	 * @return string|null
 	 */
 	public function getSegment(int $num): ?string
 	{
 		$segments = $this->segments();
+
 		return $segments[$num] ?? NULL;
 	}
 
 	/**
 	 * Retrieve the last url segment
-	 *
-	 * @return string
 	 */
 	public function lastSegment(): string
 	{
 		$segments = $this->segments();
+
 		return end($segments);
 	}
 }

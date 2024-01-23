@@ -1,7 +1,7 @@
 <?php use function Aviat\AnimeClient\colNotEmpty; ?>
 <main class="media-list">
-<?php if ($auth->isAuthenticated()): ?>
-<a class="bracketed" href="<?= $url->generate('anime.add.get') ?>">Add Item</a>
+<?php if ($_->isAuthenticated()): ?>
+<a class="bracketed" href="<?= $_->urlFromRoute('anime.add.get') ?>">Add Item</a>
 <?php endif ?>
 <?php if (empty($sections)): ?>
 <h3>There's nothing here!</h3>
@@ -20,26 +20,26 @@
 		<table class='media-wrap'>
 			<thead>
 				<tr>
-					<?php if($auth->isAuthenticated()): ?>
+					<?php if($_->isAuthenticated()): ?>
 					<td class="no-border">&nbsp;</td>
 					<?php endif ?>
 					<th>Title</th>
 					<th>Airing Status</th>
-					<th>Score</th>
+					<th class='numeric'>Score</th>
 					<th>Type</th>
-					<th>Progress</th>
-					<th>Rated</th>
+					<th class='numeric'>Progress</th>
+					<th class='rating'>Age Rating</th>
 					<th>Attributes</th>
 					<?php if($hasNotes): ?><th>Notes</th><?php endif ?>
 				</tr>
 			</thead>
 			<tbody>
 				<?php foreach($items as $item): ?>
-				<?php if ($item['private'] && ! $auth->isAuthenticated()) continue; ?>
+				<?php if ($item['private'] && ! $_->isAuthenticated()) continue; ?>
 				<tr id="a-<?= $item['id'] ?>">
-					<?php if ($auth->isAuthenticated()): ?>
+					<?php if ($_->isAuthenticated()): ?>
 					<td>
-						<a class="bracketed" href="<?= $url->generate('edit', [
+						<a class="bracketed" href="<?= $_->urlFromRoute('edit', [
 							'controller' => 'anime',
 							'id' => $item['id'],
 							'status' => $item['watching_status']
@@ -47,7 +47,7 @@
 					</td>
 					<?php endif ?>
 					<td class="align-left justify">
-						<a href="<?= $url->generate('anime.details', ['id' => $item['anime']['slug']]) ?>">
+						<a href="<?= $_->urlFromRoute('anime.details', ['id' => $item['anime']['slug']]) ?>">
 							<?= $item['anime']['title'] ?>
 						</a>
 						<br />
@@ -65,7 +65,7 @@
 						<?php foreach($item['anime']['streaming_links'] as $link): ?>
 							<?php if ($link['meta']['link'] !== FALSE): ?>
 								<a href="<?= $link['link'] ?>" title="Stream '<?= $item['anime']['title'] ?>' on <?= $link['meta']['name'] ?>">
-									<?= $helper->img("/public/images/{$link['meta']['image']}", [
+									<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 											'class' => 'small-streaming-logo',
 											'width' => 25,
 											'height' => 25,
@@ -73,7 +73,7 @@
 									]) ?>
 								</a>
 							<?php else: ?>
-								<?= $helper->img("/public/images/{$link['meta']['image']}", [
+								<?= $_->h->img("/public/images/{$link['meta']['image']}", [
 										'class' => 'small-streaming-logo',
 										'width' => 25,
 										'height' => 25,
@@ -101,7 +101,7 @@
 						<?php endforeach ?>
 	                    </ul>
 					</td>
-					<?php if ($hasNotes): ?><td><p><?= $escape->html($item['notes']) ?></p></td><?php endif ?>
+					<?php if ($hasNotes): ?><td><p><?= $_->escape->html($item['notes']) ?></p></td><?php endif ?>
 				</tr>
 				<?php endforeach ?>
 			</tbody>
@@ -110,4 +110,4 @@
 	<?php endforeach ?>
 <?php endif ?>
 </main>
-<script defer="defer" src="<?= $urlGenerator->assetUrl('js/tables.min.js') ?>"></script>
+<script defer="defer" src="<?= $_->assetUrl('js/tables.min.js') ?>"></script>

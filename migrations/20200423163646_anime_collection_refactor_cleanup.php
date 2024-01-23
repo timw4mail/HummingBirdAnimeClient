@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
@@ -18,6 +18,7 @@ class AnimeCollectionRefactorCleanup extends AbstractMigration
 	{
 		// Add some new media types
 		$moreMediaTypes = [];
+
 		foreach ($this->newMediaTypes as $id => $medium)
 		{
 			$moreMediaTypes[] = [
@@ -47,7 +48,7 @@ class AnimeCollectionRefactorCleanup extends AbstractMigration
 		$this->execute("UPDATE media SET type='Bootleg DVD' WHERE id=4");
 
 		// Remove the new media types
-		$values = array_map(fn ($medium) => "'{$medium}'", $this->newMediaTypes);
+		$values = array_map(static fn ($medium) => "'{$medium}'", $this->newMediaTypes);
 		$valueList = implode(',', $values);
 		$this->execute("DELETE FROM media WHERE type IN ({$valueList})");
 	}

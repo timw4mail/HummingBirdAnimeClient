@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,17 +14,20 @@
 
 namespace Aviat\Ion\Tests;
 
-use Aviat\Ion\Enum;
-
-class EnumTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class EnumTest extends IonTestCase
+{
+	public $enum;
 	protected $expectedConstList = [
 		'FOO' => 'bar',
 		'BAR' => 'foo',
-		'FOOBAR' => 'baz'
+		'FOOBAR' => 'baz',
 	];
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->enum = new TestEnum();
 	}
@@ -34,50 +35,48 @@ class EnumTest extends IonTestCase {
 	public function testStaticGetConstList()
 	{
 		$actual = TestEnum::getConstList();
-		$this->assertEquals($this->expectedConstList, $actual);
+		$this->assertSame($this->expectedConstList, $actual);
 	}
 
 	public function testGetConstList()
 	{
 		$actual = $this->enum->getConstList();
-		$this->assertEquals($this->expectedConstList, $actual);
+		$this->assertSame($this->expectedConstList, $actual);
 	}
 
-	public function dataIsValid()
+	public static function dataIsValid()
 	{
 		return [
 			'Valid' => [
 				'value' => 'baz',
 				'expected' => TRUE,
-				'static' => FALSE
+				'static' => FALSE,
 			],
 			'ValidStatic' => [
 				'value' => 'baz',
 				'expected' => TRUE,
-				'static' => TRUE
+				'static' => TRUE,
 			],
 			'Invalid' => [
 				'value' => 'foobar',
 				'expected' => FALSE,
-				'static' => FALSE
+				'static' => FALSE,
 			],
 			'InvalidStatic' => [
 				'value' => 'foobar',
 				'expected' => FALSE,
-				'static' => TRUE
-			]
+				'static' => TRUE,
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider dataIsValid
-	 */
-	public function testIsValid($value, $expected, $static)
-	{
-		$actual = ($static)
-			? TestEnum::isValid($value)
-			: $this->enum->isValid($value);
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
+ public function testIsValid(mixed $value, mixed $expected, mixed $static)
+ {
+ 	$actual = ($static)
+ 		? TestEnum::isValid($value)
+ 		: $this->enum->isValid($value);
 
-		$this->assertEquals($expected, $actual);
-	}
+ 	$this->assertSame($expected, $actual);
+ }
 }

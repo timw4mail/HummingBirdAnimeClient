@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,22 +15,22 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\AnimeClient\API\Enum\{
-	AnimeWatchingStatus\Kitsu as KAWS,
-	MangaReadingStatus\Kitsu as KMRS
-};
-use Aviat\AnimeClient\API\Enum\{
 	AnimeWatchingStatus\Anilist as AnimeWatchingStatus,
 	MangaReadingStatus\Anilist as MangaReadingStatus
+};
+use Aviat\AnimeClient\API\Enum\{
+	AnimeWatchingStatus\Kitsu as KAWS,
+	MangaReadingStatus\Kitsu as KMRS
 };
 
 /**
  * Constants and mappings for the Anilist API
  */
-final class Anilist {
+final class Anilist
+{
 	public const AUTH_URL = 'https://anilist.co/api/v2/oauth/authorize';
 	public const TOKEN_URL = 'https://anilist.co/api/v2/oauth/token';
 	public const BASE_URL = 'https://graphql.anilist.co';
-
 	public const KITSU_ANILIST_WATCHING_STATUS_MAP = [
 		KAWS::WATCHING => AnimeWatchingStatus::WATCHING,
 		KAWS::COMPLETED => AnimeWatchingStatus::COMPLETED,
@@ -40,7 +38,6 @@ final class Anilist {
 		KAWS::DROPPED => AnimeWatchingStatus::DROPPED,
 		KAWS::PLAN_TO_WATCH => AnimeWatchingStatus::PLAN_TO_WATCH,
 	];
-
 	public const ANILIST_KITSU_WATCHING_STATUS_MAP = [
 		AnimeWatchingStatus::WATCHING => KAWS::WATCHING,
 		AnimeWatchingStatus::COMPLETED => KAWS::COMPLETED,
@@ -48,7 +45,6 @@ final class Anilist {
 		AnimeWatchingStatus::DROPPED => KAWS::DROPPED,
 		AnimeWatchingStatus::PLAN_TO_WATCH => KAWS::PLAN_TO_WATCH,
 	];
-
 	public const KITSU_ANILIST_READING_STATUS_MAP = [
 		KMRS::READING => MangaReadingStatus::READING,
 		KMRS::COMPLETED => MangaReadingStatus::COMPLETED,
@@ -56,7 +52,6 @@ final class Anilist {
 		KMRS::DROPPED => MangaReadingStatus::DROPPED,
 		KMRS::PLAN_TO_READ => MangaReadingStatus::PLAN_TO_READ,
 	];
-
 	public const ANILIST_KITSU_READING_STATUS_MAP = [
 		MangaReadingStatus::READING => KMRS::READING,
 		MangaReadingStatus::COMPLETED => KMRS::COMPLETED,

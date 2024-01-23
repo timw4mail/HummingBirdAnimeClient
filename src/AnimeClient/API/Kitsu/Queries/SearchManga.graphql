@@ -2,6 +2,14 @@ query ($query: String!) {
 	searchMangaByTitle(title: $query, first: 20) {
 		nodes {
 			id
+			posterImage {
+				original {
+					url
+				}
+				views {
+					url
+				}
+			}
 			mappings(first: 10) {
 				nodes {
 					externalId
@@ -11,8 +19,12 @@ query ($query: String!) {
 			slug
 			titles {
 				canonical
-				localized
+				localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 				alternatives
+			}
+			myLibraryEntry {
+				id
+				status
 			}
 		}
 	}

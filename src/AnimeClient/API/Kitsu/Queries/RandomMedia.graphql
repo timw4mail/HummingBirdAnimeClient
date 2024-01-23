@@ -17,9 +17,16 @@ query ($type: MediaTypeEnum!) {
 				width
 			}
 		}
+		myLibraryEntry {
+			progress
+			status
+			private
+			notes
+			rating
+		}
 		categories(first: 100) {
 			nodes {
-				title
+				title(locales: "*")
 			}
 		}
 		characters(first: 100) {
@@ -29,7 +36,7 @@ query ($type: MediaTypeEnum!) {
 					names {
 						alternatives
 						canonical
-						localized
+						localized(locales: "*")
 					}
 					image {
 						original {
@@ -83,7 +90,7 @@ query ($type: MediaTypeEnum!) {
 					names {
 						alternatives
 						canonical
-						localized
+						localized(locales: "*")
 					}
 					slug
 				}
@@ -101,7 +108,7 @@ query ($type: MediaTypeEnum!) {
 			alternatives
 			canonical
 			canonicalLocale
-			localized
+			localized(locales: "*")
 		}
 		...on Anime {
 			episodeCount

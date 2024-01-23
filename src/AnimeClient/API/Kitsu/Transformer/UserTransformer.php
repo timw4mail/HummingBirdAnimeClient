@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,11 +14,10 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\Kitsu;
-use function Aviat\AnimeClient\getLocalImg;
-
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
+
+use function Aviat\AnimeClient\{formatDate, friendlyTime, getDateDiff};
 
 /**
  * Transform user profile data for display
@@ -28,10 +25,11 @@ use Aviat\Ion\Transformer\AbstractTransformer;
  * @param array|object $profileData
  * @return User
  */
-final class UserTransformer extends AbstractTransformer {
+final class UserTransformer extends AbstractTransformer
+{
 	public function transform(array|object $item): User
 	{
-		$item = (array)$item;
+		$item = (array) $item;
 		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];
@@ -41,23 +39,29 @@ final class UserTransformer extends AbstractTransformer {
 		] : [];
 
 		return User::from([
-			'about' => $base['about'],
-			'avatar' => getLocalImg($base['avatarImage']['original']['url'], FALSE),
+			'about' => $base['about'] ?? '',
+			'avatar' => $base['avatarImage']['original']['url'] ?? NULL,
+			'birthday' => $base['birthday'] !== NULL
+				? formatDate($base['birthday']) . ' (' .
+					friendlyTime(getDateDiff($base['birthday']), 'year') . ')'
+				: NULL,
+			'joinDate' => formatDate($base['createdAt']) . ' (' .
+				friendlyTime(getDateDiff($base['createdAt']), 'day') . ' ago)',
+			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
 			'name' => $base['name'],
 			'slug' => $base['slug'],
 			'stats' => $this->organizeStats($stats),
 			'waifu' => $waifu,
-			'website' => $base['siteLinks']['nodes'][0]['url'],
+			'website' => $base['siteLinks']['nodes'][0]['url'] ?? NULL,
 		]);
 	}
 
 	/**
 	 * Reorganize favorites data to be more useful
 	 *
-	 * @param array $rawFavorites
-	 * @return array
+	 * @return array<string, array<int|string, mixed>>
 	 */
 	private function organizeFavorites(array $rawFavorites): array
 	{
@@ -72,6 +76,9 @@ final class UserTransformer extends AbstractTransformer {
 		return $output;
 	}
 
+	/**
+	 * @return array<string, string>
+	 */
 	private function organizeStats(array $stats, array $data = []): array
 	{
 		$animeStats = [];
@@ -81,7 +88,7 @@ final class UserTransformer extends AbstractTransformer {
 		if (array_key_exists('animeAmountConsumed', $stats))
 		{
 			$animeStats = [
-				'Time spent watching anime:' => Kitsu::friendlyTime($stats['animeAmountConsumed']['time']),
+				'Time spent watching anime:' => friendlyTime($stats['animeAmountConsumed']['time']),
 				'Anime series watched:' => number_format($stats['animeAmountConsumed']['media']),
 				'Anime episodes watched:' => number_format($stats['animeAmountConsumed']['units']),
 			];

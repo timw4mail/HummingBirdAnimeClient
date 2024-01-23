@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -19,11 +17,12 @@ namespace Aviat\AnimeClient\Tests\Helper;
 use Aviat\AnimeClient\Helper\Picture as PictureHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 
-class PictureHelperTest extends AnimeClientTestCase {
-	/**
-	 * @dataProvider dataPictureCase
-	 * @param array $params
-	 */
+/**
+ * @internal
+ */
+final class PictureHelperTest extends AnimeClientTestCase
+{
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataPictureCase')]
 	public function testPictureHelper(array $params): void
 	{
 		$helper = new PictureHelper();
@@ -34,12 +33,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 		$this->assertMatchesSnapshot($actual);
 	}
 
-	/**
-	 * @dataProvider dataSimpleImageCase
-	 * @param string $ext
-	 * @param bool $isSimple
-	 * @param string $fallbackExt
-	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSimpleImageCase')]
 	public function testSimpleImage(string $ext, bool $isSimple, string $fallbackExt = 'jpg'): void
 	{
 		$helper = new PictureHelper();
@@ -50,7 +44,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 
 		$actuallySimple = ! str_contains($actual, '<picture');
 
-		$this->assertEquals($isSimple, $actuallySimple);
+		$this->assertSame($isSimple, $actuallySimple);
 	}
 
 	public function testSimpleImageByFallback(): void
@@ -58,12 +52,12 @@ class PictureHelperTest extends AnimeClientTestCase {
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
-		$actual = $helper("foo.svg", 'svg');
+		$actual = $helper('foo.svg', 'svg');
 
-		$this->assertTrue(! str_contains($actual, '<picture'));
+		$this->assertTrue( ! str_contains($actual, '<picture'));
 	}
 
-	public function dataPictureCase(): array
+	public static function dataPictureCase(): array
 	{
 		return [
 			'Full AVIF URL' => [
@@ -78,7 +72,7 @@ class PictureHelperTest extends AnimeClientTestCase {
 			],
 			'Partial webp URL' => [
 				'params' => [
-					'images/anime/15424.webp'
+					'images/anime/15424.webp',
 				],
 			],
 			'bmp with gif fallback' => [
@@ -90,25 +84,25 @@ class PictureHelperTest extends AnimeClientTestCase {
 			'webp placeholder image' => [
 				'params' => [
 					'images/placeholder.webp',
-				]
+				],
 			],
 			'png placeholder image' => [
 				'params' => [
 					'images/placeholder.png',
-				]
+				],
 			],
 			'jpeg2000' => [
 				'params' => [
 					'images/foo.jpf',
-				]
+				],
 			],
 			'svg with png fallback and lots of attributes' => [
 				'params' => [
 					'images/example.svg',
 					'png',
-					[ 'width' => 200, 'height' => 300 ],
-					[ 'alt' => 'Example text' ]
-				]
+					['width' => 200, 'height' => 300],
+					['alt' => 'Example text'],
+				],
 			],
 			'simple image with attributes' => [
 				'params' => [
@@ -116,18 +110,18 @@ class PictureHelperTest extends AnimeClientTestCase {
 					'jpg',
 					[],
 					['width' => 200, 'height' => 200, 'alt' => 'should exist'],
-				]
-			]
+				],
+			],
 		];
 	}
 
-	public function dataSimpleImageCase(): array
+	public static function dataSimpleImageCase(): array
 	{
 		return [
 			'avif' => [
 				'ext' => 'avif',
 				'isSimple' => FALSE,
-				'fallback' => 'jpf'
+				'fallback' => 'jpf',
 			],
 			'apng' => [
 				'ext' => 'apng',

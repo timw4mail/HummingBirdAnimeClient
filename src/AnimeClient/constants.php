@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -27,9 +25,13 @@ const SRC_DIR = __DIR__;
 const USER_AGENT = "Tim's Anime Client/5.2";
 
 // Regex patterns
-const ALPHA_SLUG_PATTERN = '[a-z_]+';
+const ALPHA_SLUG_PATTERN = '[a-zA-Z_]+';
 const NUM_PATTERN = '[0-9]+';
-const SLUG_PATTERN = '[a-z0-9\-]+';
+/**
+ * Eugh...url slugs can have weird characters
+ * So...if it's not a forward slash, sure it's valid 😅
+ */
+const SLUG_PATTERN = '[^\/]+';
 
 // Why doesn't this already exist?
 const MILLI_FROM_NANO = 1000 * 1000;
@@ -94,7 +96,7 @@ const SETTINGS_MAP = [
 			'options' => [
 				'Memcached' => 'memcached',
 				'Redis' => 'redis',
-				'No Cache' => 'null'
+				'No Cache' => 'null',
 			],
 		],
 		'connection' => [
@@ -150,7 +152,7 @@ const SETTINGS_MAP = [
 			'type' => 'string',
 			'title' => 'Timezone',
 			'default' => 'America/Detroit',
-			'description' => 'See https://www.php.net/manual/en/timezones.php for options'
+			'description' => 'See https://www.php.net/manual/en/timezones.php for options',
 		],
 		'theme' => [
 			'type' => 'select',
@@ -161,7 +163,7 @@ const SETTINGS_MAP = [
 				'Automatically match OS theme' => 'auto',
 				'Original Light Theme' => 'light',
 				'Dark Theme' => 'dark',
-			]
+			],
 		],
 		'show_anime_collection' => [
 			'type' => 'boolean',
@@ -195,7 +197,7 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
+			],
 		],
 		'default_manga_list_path' => [ //reading|plan_to_read|on_hold|dropped|completed|all
 			'type' => 'select',
@@ -208,8 +210,8 @@ const SETTINGS_MAP = [
 				'Dropped' => 'dropped',
 				'Completed' => 'completed',
 				'All' => 'all',
-			]
-		]
+			],
+		],
 	],
 	'database' => [
 		'type' => [
@@ -236,7 +238,7 @@ const SETTINGS_MAP = [
 		'pass' => [
 			'type' => 'string',
 			'title' => 'Password',
-			'description' => 'Database connection password'
+			'description' => 'Database connection password',
 		],
 		'port' => [
 			'type' => 'string',

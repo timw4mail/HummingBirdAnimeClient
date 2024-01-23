@@ -19,7 +19,7 @@ query ($slug: String!) {
 		}
 		categories(first: 100) {
 			nodes {
-				title
+				title(locales: "en")
 			}
 		}
 		chapterCount
@@ -51,7 +51,7 @@ query ($slug: String!) {
 				startCursor
 			}
 		}
-		description
+		description(locales: "en")
 		startDate
 		endDate
 		mappings(first: 10) {
@@ -98,7 +98,7 @@ query ($slug: String!) {
 					names {
 						alternatives
 						canonical
-						localized
+						localized(locales: "*")
 					}
 					slug
 				}
@@ -116,7 +116,7 @@ query ($slug: String!) {
 		titles {
 			canonical
 			canonicalLocale
-			localized
+			localized(locales: ["en", "en-t-ja", "ja", "ja-jp"])
 		}
 	}
 }

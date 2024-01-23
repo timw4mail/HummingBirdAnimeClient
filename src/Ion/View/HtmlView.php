@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,61 +15,89 @@
 namespace Aviat\Ion\View;
 
 use Aviat\Ion\Di\ContainerAware;
-use Aviat\Ion\Di\ContainerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Throwable;
 use const EXTR_OVERWRITE;
 
 /**
  * View class for outputting HTML
  */
-class HtmlView extends HttpView {
+class HtmlView extends HttpView
+{
 	use ContainerAware;
 
 	/**
+	 * Data to send to every template
+	 */
+	protected array $baseData = [];
+
+	/**
 	 * Response mime type
-	 *
-	 * @var string
 	 */
 	protected string $contentType = 'text/html';
 
 	/**
-	 * Create the Html View
-	 *
-	 * @param ContainerInterface $container
+	 * Whether to 'minify' the html output
 	 */
-	public function __construct(ContainerInterface $container)
+	protected bool $shouldMinify = false;
+
+	/**
+	 * Create the Html View
+	 */
+	public function __construct()
 	{
 		parent::__construct();
 
-		$this->setContainer($container);
+		$this->setContainer(func_get_arg(0));
 		$this->response = new HtmlResponse('');
+	}
+
+	/**
+	 * Set data to pass to every template
+	 *
+	 * @param array $data - Keys are variable names
+	 */
+	public function setBaseData(array $data): self
+	{
+		$this->baseData = $data;
+
+		return $this;
+	}
+
+	/**
+	 * Should the html be 'minified'?
+	 */
+	public function setMinify(bool $shouldMinify): self
+	{
+		$this->shouldMinify = $shouldMinify;
+
+		return $this;
 	}
 
 	/**
 	 * Render a basic html Template
 	 *
-	 * @param string $path
-	 * @param array  $data
-	 * @return string
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
-	public function renderTemplate(string $path, array $data): string
+	public function renderTemplate(string $path, array $data = []): string
 	{
-		$helper = $this->container->get('html-helper');
-		$data['component'] = $this->container->get('component-helper');
-		$data['helper'] = $helper;
-		$data['escape'] = $helper->escape();
-		$data['container'] = $this->container;
+		$data = array_merge($this->baseData, $data);
 
-		ob_start();
-		extract($data, EXTR_OVERWRITE);
-		include_once $path;
-		$rawBuffer = ob_get_clean();
-		$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
+		return (function () use ($data, $path) {
+			ob_start();
+			extract($data, EXTR_OVERWRITE);
+			include_once $path;
+			$rawBuffer = ob_get_clean();
+			$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
 
-
-		// Very basic html minify, that won't affect content between html tags
-		return preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
+			// Very basic html minify, that won't affect content between html tags
+			if ($this->shouldMinify)
+			{
+				$buffer = preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
+			}
+			return $buffer;
+		})();
 	}
 }
+
 // End of HtmlView.php

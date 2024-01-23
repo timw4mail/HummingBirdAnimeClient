@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,21 +14,24 @@
 
 namespace Aviat\AnimeClient\API;
 
-use const Aviat\AnimeClient\USER_AGENT;
-
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-
-use Amp\Http\Client\Request;
-use Amp\Http\Client\Body\FormBody;
+use Amp\Future;
+use Amp\Http\Client\Form;
+use Amp\Http\Client\{HttpClientBuilder, HttpException, Request};
 use Aviat\Ion\Json;
+
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
+use Throwable;
+
+use function Amp\async;
+use function Aviat\AnimeClient\getResponse;
+use const Aviat\AnimeClient\USER_AGENT;
 
 /**
  * Wrapper around Http\Client to make it easier to build API requests
  */
-abstract class APIRequestBuilder {
+abstract class APIRequestBuilder
+{
 	use LoggerAwareTrait;
 
 	/**
@@ -70,9 +71,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Do a basic minimal GET request
-	 *
-	 * @param string $uri
-	 * @return Request
 	 */
 	public static function simpleRequest(string $uri): Request
 	{
@@ -89,7 +87,6 @@ abstract class APIRequestBuilder {
 	 *
 	 * @param string $type The type of authorization, eg, basic, bearer, etc.
 	 * @param string $value The authorization value
-	 * @return self
 	 */
 	public function setAuth(string $type, string $value): self
 	{
@@ -101,26 +98,21 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Set a basic authentication header
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return self
 	 */
 	public function setBasicAuth(string $username, string $password): self
 	{
 		$this->setAuth('basic', base64_encode($username . ':' . $password));
+
 		return $this;
 	}
 
 	/**
 	 * Set the request body
-	 *
-	 * @param FormBody|string $body
-	 * @return self
 	 */
-	public function setBody(FormBody|string $body): self
+	public function setBody(Form|string $body): self
 	{
 		$this->request->setBody($body);
+
 		return $this;
 	}
 
@@ -128,38 +120,37 @@ abstract class APIRequestBuilder {
 	 * Set body as form fields
 	 *
 	 * @param array $fields Mapping of field names to values
-	 * @return self
 	 */
 	public function setFormFields(array $fields): self
 	{
-		$body = new FormBody();
-		$body->addFields($fields);
+		$body = new Form;
+
+		array_walk($fields, fn ($content, $name) => $body->addField($name, $content));
 
 		return $this->setBody($body);
 	}
 
 	/**
 	 * Unset a request header
-	 *
-	 * @param string $name
-	 * @return self
 	 */
 	public function unsetHeader(string $name): self
 	{
 		$this->request->removeHeader($name);
+
 		return $this;
 	}
 
 	/**
 	 * Set a request header
-	 *
-	 * @param string $name
-	 * @param string $value
-	 * @return self
 	 */
-	public function setHeader(string $name, string $value = NULL): self
+	public function setHeader(string $name, ?string $value = NULL): self
 	{
-		if (NULL === $value)
+		if ($name === '')
+		{
+			return $this;
+		}
+
+		if ($value === NULL)
 		{
 			$this->unsetHeader($name);
 		}
@@ -175,69 +166,52 @@ abstract class APIRequestBuilder {
 	 * Set multiple request headers
 	 *
 	 * name => value
-	 *
-	 * @param array $headers
-	 * @return self
 	 */
 	public function setHeaders(array $headers): self
 	{
-		foreach ($headers as $name => $value)
-		{
-			$this->setHeader($name, $value);
-		}
+		array_walk($headers, fn ($value, $name) => $this->setHeader($name, $value));
 
 		return $this;
 	}
 
 	/**
 	 * Set the request body
-	 *
-	 * @param mixed $body
-	 * @return self
 	 */
 	public function setJsonBody(mixed $body): self
 	{
-		$requestBody = ( ! is_string($body))
-			? Json::encode($body)
-			: $body;
+		$requestBody = (is_string($body))
+			? $body
+			: Json::encode($body);
 
 		return $this->setBody($requestBody);
 	}
 
 	/**
 	 * Append a query string in array format
-	 *
-	 * @param array $params
-	 * @return self
 	 */
 	public function setQuery(array $params): self
 	{
 		$this->query = http_build_query($params);
+
 		return $this;
 	}
 
 	/**
 	 * Return the promise for the current request
 	 *
-	 * @return Request
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function getFullRequest(): Request
 	{
 		$this->buildUri();
 
-		if ($this->logger !== NULL)
-		{
-			$this->logger->debug('API Request', [
-				'request_url' => $this->request->getUri(),
-				'request_headers' => $this->request->getHeaders(),
-				'request_body' => wait(
-					$this->request->getBody()
-						->createBodyStream()
-						->read()
-				)
-			]);
-		}
+		$this->logger?->debug('API Request', [
+			'request_url' => $this->request->getUri(),
+			'request_headers' => $this->request->getHeaders(),
+			'request_body' => $this->request->getBody()
+				->getContent()
+				->read(),
+		]);
 
 		return $this->request;
 	}
@@ -245,25 +219,19 @@ abstract class APIRequestBuilder {
 	/**
 	 * Get the data from the response of the passed request
 	 *
-	 * @param Request $request
-	 * @return mixed
-	 * @throws \Error
-	 * @throws \Throwable
-	 * @throws \TypeError
+	 * @throws Throwable
 	 */
-	public function getResponseData(Request $request)
+	public function getResponseData(Request $request): mixed
 	{
 		$response = getResponse($request);
-		return wait($response->getBody()->buffer());
+
+		return $response->getBody()->buffer();
 	}
 
 	/**
 	 * Create a new http request
 	 *
-	 * @param string $type
-	 * @param string $uri
 	 * @throws InvalidArgumentException
-	 * @return self
 	 */
 	public function newRequest(string $type, string $uri): self
 	{
@@ -292,8 +260,6 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Create the full request url
-	 *
-	 * @return Request
 	 */
 	private function buildUri(): Request
 	{
@@ -313,12 +279,8 @@ abstract class APIRequestBuilder {
 
 	/**
 	 * Reset the class state for a new request
-	 *
-	 * @param string|null $url
-	 * @param string $type
-	 * @return void
 	 */
-	private function resetState(?string $url, $type = 'GET'): void
+	private function resetState(?string $url, string $type = 'GET'): void
 	{
 		$requestUrl = $url ?: $this->baseUrl;
 

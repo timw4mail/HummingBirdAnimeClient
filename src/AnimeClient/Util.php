@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,19 +14,18 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
 
 /**
  * Utility method class
  */
-class Util {
-
+class Util
+{
 	use ContainerAware;
 
 	/**
 	 * Routes that don't require a second navigation level
-	 * @var array
 	 */
 	private static array $formPages = [
 		'edit',
@@ -39,15 +36,11 @@ class Util {
 		'logout',
 		'details',
 		'character',
-		'me'
+		'me',
 	];
 
 	/**
 	 * Set up the Util class
-	 *
-	 * @param ContainerInterface $container
-	 * @throws ContainerException
-	 * @throws NotFoundException
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -56,10 +49,6 @@ class Util {
 
 	/**
 	 * Absolutely equal?
-	 *
-	 * @param mixed $left
-	 * @param mixed $right
-	 * @return bool
 	 */
 	public static function eq(mixed $left, mixed $right): bool
 	{
@@ -68,9 +57,6 @@ class Util {
 
 	/**
 	 * Set aria-current attribute based on a condition check
-	 *
-	 * @param bool $condition
-	 * @return string
 	 */
 	public static function ariaCurrent(bool $condition): string
 	{
@@ -82,7 +68,6 @@ class Util {
 	 *
 	 * @param string $left - First item to compare
 	 * @param string $right - Second item to compare
-	 * @return string
 	 */
 	public static function isSelected(string $left, string $right): string
 	{
@@ -94,7 +79,6 @@ class Util {
 	 *
 	 * @param string $left - First item to compare
 	 * @param string $right - Second item to compare
-	 * @return string
 	 */
 	public static function isNotSelected(string $left, string $right): string
 	{
@@ -106,7 +90,6 @@ class Util {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return bool
 	 */
 	public function isViewPage(): bool
 	{
@@ -124,11 +107,9 @@ class Util {
 	 *
 	 * @throws ContainerException
 	 * @throws NotFoundException
-	 * @return bool
 	 */
 	public function isFormPage(): bool
 	{
 		return ! $this->isViewPage();
 	}
 }
-

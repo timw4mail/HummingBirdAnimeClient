@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -26,39 +24,32 @@ use Aviat\AnimeClient\Types\FormItemData;
 /**
  * CRUD operations for MAL list items
  */
-final class ListItem extends AbstractListItem {
+final class ListItem extends AbstractListItem
+{
 	use RequestBuilderTrait;
 
 	/**
 	 * Create a minimal list item
-	 *
-	 * @param array $data
-	 * @return Request
 	 */
 	public function create(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
+
 		return $this->requestBuilder->mutateRequest('CreateMediaListEntry', $checkedData ?? []);
 	}
 
 	/**
 	 * Create a fleshed-out list item
-	 *
-	 * @param array $data
-	 * @return Request
 	 */
 	public function createFull(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
+
 		return $this->requestBuilder->mutateRequest('CreateFullMediaListEntry', $checkedData ?? []);
 	}
 
 	/**
 	 * Delete a list item
-	 *
-	 * @param string $id
-	 * @param string $type
-	 * @return Request
 	 */
 	public function delete(string $id, string $type = 'anime'): Request
 	{
@@ -67,9 +58,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Get the data for a list item
-	 *
-	 * @param string $id
-	 * @return array
 	 */
 	public function get(string $id): array
 	{
@@ -78,10 +66,6 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Increase the progress on the medium by 1
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	public function increment(string $id, FormItemData $data): Request
 	{
@@ -95,27 +79,23 @@ final class ListItem extends AbstractListItem {
 
 	/**
 	 * Update a list item
-	 *
-	 * @param string $id
-	 * @param FormItemData $data
-	 * @return Request
 	 */
 	public function update(string $id, FormItemData $data): Request
 	{
 		$notes = $data->notes ?? '';
-		$progress = (int)$data->progress;
-		$private = (bool)$data->private;
+		$progress = (int) $data->progress;
+		$private = (bool) $data->private;
 		$rating = $data->ratingTwenty;
 		$status = ($data->reconsuming === TRUE)
 			? AnilistStatus::REPEATING
 			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 
 		$updateData = Types\MediaListEntry::check([
-			'id' => (int)$id,
+			'id' => (int) $id,
 			'status' => $status,
 			'score' => $rating * 5,
 			'progress' => $progress,
-			'repeat' => (int)$data['reconsumeCount'],
+			'repeat' => (int) $data['reconsumeCount'],
 			'private' => $private,
 			'notes' => $notes,
 		]);

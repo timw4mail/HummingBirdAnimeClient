@@ -1,5 +1,5 @@
 <?php
-if ( ! $auth->isAuthenticated())
+if ( ! $_->isAuthenticated())
 {
 	echo '<h1>Not Authorized</h1>';
 	return;
@@ -16,7 +16,7 @@ $hiddenFields = [];
 $nestedPrefix = 'config';
 ?>
 
-<form action="<?= $url->generate('settings-post') ?>" method="POST">
+<form action="<?= $_->urlFromRoute('settings-post') ?>" method="POST">
 	<main class='settings form'>
 		<button type="submit">Save Changes</button>
 		<div class="tabs">
@@ -28,29 +28,11 @@ $nestedPrefix = 'config';
 				/>
 				<label for="settings-tab<?= $i ?>"><h3><?= $sectionMapping[$section] ?></h3></label>
 				<section class="content">
-					<?php if ($section === 'anilist'): ?>
-						<?php $auth = $anilistModel->checkAuth(); ?>
-						<?php if (array_key_exists('errors', $auth)): ?>
-							<p class="static-message error">Not Authorized.</p>
-							<?= $helper->a(
-								$url->generate('anilist-redirect'),
-								'Link Anilist Account'
-							) ?>
-						<?php else: ?>
-							<?php $expires = $config->get(['anilist', 'access_token_expires']); ?>
-							<p class="static-message info">
-								Linked to Anilist. Your access token will expire around <?= date('F j, Y, g:i a T', $expires) ?>
-							</p>
-							<?php require __DIR__ . '/_form.php' ?>
-							<?= $helper->a(
-										$url->generate('anilist-redirect'),
-										'Update Access Token',
-										['class' => 'bracketed user-btn']
-								) ?>
-						<?php endif ?>
-					<?php else: ?>
-					<?php require __DIR__ . '/_form.php' ?>
-					<?php endif ?>
+					<?php
+						($section === 'anilist')
+							? require __DIR__ . '/_anilist.php'
+							: require __DIR__ . '/_form.php'
+					?>
 				</section>
 				<?php $i++; ?>
 			<?php endforeach ?>
@@ -62,7 +44,3 @@ $nestedPrefix = 'config';
 		<button type="submit">Save Changes</button>
 	</main>
 </form>
-
-
-
-

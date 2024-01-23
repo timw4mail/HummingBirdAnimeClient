@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,11 +16,15 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Util;
 
-class UtilTest extends AnimeClientTestCase {
-
+/**
+ * @internal
+ */
+final class UtilTest extends AnimeClientTestCase
+{
 	protected $util;
 
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		parent::setUp();
 		$this->util = new Util($this->container);
 	}
@@ -30,72 +32,68 @@ class UtilTest extends AnimeClientTestCase {
 	public function testIsSelected()
 	{
 		// Failure to match
-		$this->assertEquals('', Util::isSelected('foo', 'bar'));
+		$this->assertSame('', Util::isSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('selected', Util::isSelected('foo', 'foo'));
+		$this->assertSame('selected', Util::isSelected('foo', 'foo'));
 	}
 
 	public function testIsNotSelected()
 	{
 		// Failure to match
-		$this->assertEquals('selected', Util::isNotSelected('foo', 'bar'));
+		$this->assertSame('selected', Util::isNotSelected('foo', 'bar'));
 
 		// Matches
-		$this->assertEquals('', Util::isNotSelected('foo', 'foo'));
+		$this->assertSame('', Util::isNotSelected('foo', 'foo'));
 	}
 
-	public function dataIsViewPage()
+	public static function dataIsViewPage()
 	{
 		return [
 			[
 				'uri' => '/anime/update',
-				'expected' => FALSE
+				'expected' => FALSE,
 			],
 			[
 				'uri' => '/anime/watching',
-				'expected' => TRUE
+				'expected' => TRUE,
 			],
 			[
 				'uri' => '/manga/reading',
-				'expected' => TRUE
+				'expected' => TRUE,
 			],
 			[
 				'uri' => '/manga/update',
-				'expected' => FALSE
-			]
+				'expected' => FALSE,
+			],
 		];
 	}
 
-	/**
-	 * @dataProvider dataIsViewPage
-	 */
-	public function testIsViewPage($uri, $expected)
-	{
-		$this->setSuperGlobals([
-			'_SERVER' => [
-				'REQUEST_URI' => $uri
-			]
-		]);
-		$this->assertEquals($expected, $this->util->isViewPage());
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+ public function testIsViewPage(mixed $uri, mixed $expected)
+ {
+ 	$this->setSuperGlobals([
+ 		'_SERVER' => [
+ 			'REQUEST_URI' => $uri,
+ 		],
+ 	]);
+ 	$this->assertSame($expected, $this->util->isViewPage());
+ }
 
-	/**
-	 * @dataProvider dataIsViewPage
-	 */
-	public function testIsFormPage($uri, $expected)
-	{
-		$this->setSuperGlobals([
-			'_SERVER' => [
-				'REQUEST_URI' => $uri
-			]
-		]);
-		$this->assertEquals(!$expected, $this->util->isFormPage());
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+ public function testIsFormPage(mixed $uri, mixed $expected)
+ {
+ 	$this->setSuperGlobals([
+ 		'_SERVER' => [
+ 			'REQUEST_URI' => $uri,
+ 		],
+ 	]);
+ 	$this->assertSame( ! $expected, $this->util->isFormPage());
+ }
 
 	public function testAriaCurrent(): void
 	{
-		$this->assertEquals('true', Util::ariaCurrent(true));
-		$this->assertEquals('false', Util::ariaCurrent(false));
+		$this->assertSame('true', Util::ariaCurrent(TRUE));
+		$this->assertSame('false', Util::ariaCurrent(FALSE));
 	}
 }

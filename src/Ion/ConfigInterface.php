@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,41 +14,32 @@
 
 namespace Aviat\Ion;
 
+use InvalidArgumentException;
+
 /**
  * Standard interface for retrieving/setting configuration values
  */
-interface ConfigInterface {
+interface ConfigInterface
+{
 	/**
 	 * Does the config item exist?
-	 *
-	 * @param string|int|array $key
-	 * @return bool
 	 */
-	public function has($key): bool;
+	public function has(array|int|string $key): bool;
 
 	/**
 	 * Get a config value
-	 *
-	 * @param array|string|null $key
-	 * @return mixed
 	 */
-	public function get($key = NULL);
+	public function get(array|string $key = NULL): mixed;
 
 	/**
 	 * Set a config value
 	 *
-	 * @param integer|string|array $key
-	 * @param mixed                $value
-	 * @throws \InvalidArgumentException
-	 * @return ConfigInterface
+	 * @throws InvalidArgumentException
 	 */
-	public function set($key, $value): self;
+	public function set(array|int|string $key, mixed $value): self;
 
 	/**
 	 * Remove a config value
-	 *
-	 * @param  string|array $key
-	 * @return void
 	 */
-	public function delete($key): void;
+	public function delete(array|string $key): void;
 }

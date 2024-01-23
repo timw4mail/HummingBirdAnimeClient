@@ -6,9 +6,22 @@ const LightTableSorter = (() => {
 	const sort = (a, b) => {
 		let textA = text(a);
 		let textB = text(b);
-		const n = parseInt(textA, 10);
-		if (n) {
-			textA = n;
+		console.log("Comparing " + textA + " and " + textB)
+
+		if(th.classList.contains("numeric")){
+			let arrayA = textA.replace('episodes:  ','').replace('-',0).split("/");
+			let arrayB = textB.replace('episodes:  ','').replace('-',0).split("/");
+			if(arrayA.length > 1) {
+				textA = parseInt(arrayA[0],10) / parseInt(arrayA[1],10);
+				textB = parseInt(arrayB[0],10) / parseInt(arrayB[1],10);
+			}
+			else{
+				textA = parseInt(arrayA[0],10);
+				textB = parseInt(arrayB[0],10);
+			}
+		}
+		else if (parseInt(textA, 10)) {
+			textA = parseInt(textA, 10);
 			textB = parseInt(textB, 10);
 		}
 		if (textA > textB) {
@@ -59,6 +72,7 @@ const LightTableSorter = (() => {
 			for (let i = 0, len = ths.length; i < len; i++) {
 				let th = ths[i];
 				th.classList.add('sorting');
+				th.classList.add('testing');
 				results.push(th.onclick = onClickEvent);
 			}
 			return results;

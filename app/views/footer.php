@@ -11,6 +11,6 @@
 	</div>
 </section>
 <script nomodule="nomodule" src="https://polyfill.io/v3/polyfill.min.js?features=es5%2CObject.assign"></script>
-<script async="async" defer="defer" src="<?= $urlGenerator->assetUrl('js/scripts.min.js') ?>"></script>
+<script async="async" defer="defer" src="<?= $_->assetUrl('js/scripts.min.js') ?>"></script>
 </body>
 </html>

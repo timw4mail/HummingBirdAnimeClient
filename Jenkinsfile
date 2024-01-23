@@ -10,10 +10,23 @@ pipeline {
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
-		stage('PHP 8') {
+		stage('PHP 8.1') {
 			agent {
 				docker {
-					image 'php:8-cli-alpine'
+					image 'php:8.1-cli-alpine'
+					args '-u root --privileged'
+				}
+			}
+			steps {
+				sh 'apk add --no-cache git icu-dev'
+				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
+				sh 'php ./vendor/bin/phpunit --colors=never'
+			}
+		}
+		stage('PHP 8.2') {
+			agent {
+				docker {
+					image 'php:8.2-cli-alpine'
 					args '-u root --privileged'
 				}
 			}
@@ -34,16 +47,6 @@ pipeline {
 				sh 'apk add --no-cache git icu-dev'
 				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
 				sh 'php ./vendor/bin/phpunit --colors=never'
-			}
-		}
-		stage('Code Cleanliness') {
-			agent any
-			steps {
-				sh "php ./vendor/bin/phpstan analyse -c phpstan.neon -n --no-progress --no-ansi --error-format=checkstyle | awk '{\$1=\$1;print}' > build/logs/phpstan.log"
-				recordIssues(
-					failOnError: false,
-					tools: [phpStan(reportEncoding: 'UTF-8', pattern: 'build/logs/phpstan.log')]
-				)
 			}
 		}
 		stage('Coverage') {

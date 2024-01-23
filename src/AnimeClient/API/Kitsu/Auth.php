@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,39 +16,33 @@ namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aura\Session\Segment;
 
-use const Aviat\AnimeClient\SESSION_SEGMENT;
+use Aviat\AnimeClient\API\CacheTrait;
 
 use Aviat\AnimeClient\Kitsu as K;
-use Aviat\AnimeClient\API\CacheTrait;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Event;
+use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 /**
  * Kitsu API Authentication
  */
-final class Auth {
+final class Auth
+{
 	use CacheTrait;
 	use ContainerAware;
 
 	/**
 	 * Anime API Model
-	 *
-	 * @var Model
 	 */
 	private Model $model;
 
 	/**
 	 * Session object
-	 *
-	 * @var Segment
 	 */
 	private Segment $segment;
 
 	/**
 	 * Constructor
-	 *
-	 * @param ContainerInterface $container
 	 */
 	public function __construct(ContainerInterface $container)
 	{
@@ -60,15 +52,12 @@ final class Auth {
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 
-		Event::on('::unauthorized::', [$this, 'reAuthenticate']);
+		Event::on('::unauthorized::', $this->reAuthenticate(...));
 	}
 
 	/**
 	 * Make the appropriate authentication call,
 	 * and save the resulting auth token if successful
-	 *
-	 * @param string $password
-	 * @return boolean
 	 */
 	public function authenticate(string $password): bool
 	{
@@ -82,9 +71,6 @@ final class Auth {
 
 	/**
 	 * Make the call to re-authenticate with the existing refresh token
-	 *
-	 * @param string|null $refreshToken
-	 * @return boolean
 	 */
 	public function reAuthenticate(?string $refreshToken = NULL): bool
 	{
@@ -102,18 +88,14 @@ final class Auth {
 
 	/**
 	 * Check whether the current user is authenticated
-	 *
-	 * @return boolean
 	 */
 	public function isAuthenticated(): bool
 	{
-		return ($this->getAuthToken() !== NULL);
+		return $this->getAuthToken() !== NULL;
 	}
 
 	/**
 	 * Clear authentication values
-	 *
-	 * @return void
 	 */
 	public function logout(): void
 	{
@@ -122,31 +104,27 @@ final class Auth {
 
 	/**
 	 * Retrieve the authentication token from the session
-	 *
-	 * @return string
 	 */
 	public function getAuthToken(): ?string
 	{
 		if (PHP_SAPI === 'cli')
 		{
-			return $this->segment->get('auth_token', NULL)
-				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY, NULL);
+			return $this->segment->get('auth_token')
+				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY);
 		}
 
-		return $this->segment->get('auth_token', NULL);
+		return $this->segment->get('auth_token');
 	}
 
 	/**
 	 * Retrieve the refresh token
-	 *
-	 * @return string|null
 	 */
 	private function getRefreshToken(): ?string
 	{
 		if (PHP_SAPI === 'cli')
 		{
 			return $this->segment->get('refresh_token')
-				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY, NULL);
+				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
 		}
 
 		return $this->segment->get('refresh_token');
@@ -154,9 +132,6 @@ final class Auth {
 
 	/**
 	 * Save the new authentication information
-	 *
-	 * @param array|false $auth
-	 * @return bool
 	 */
 	private function storeAuth(array|false $auth): bool
 	{
@@ -179,6 +154,7 @@ final class Auth {
 				$this->segment->set('auth_token', $auth['access_token']);
 				$this->segment->set('auth_token_expires', $expire_time);
 				$this->segment->set('refresh_token', $auth['refresh_token']);
+
 				return TRUE;
 			}
 		}
@@ -186,4 +162,5 @@ final class Auth {
 		return FALSE;
 	}
 }
+
 // End of KitsuAuth.php

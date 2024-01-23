@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,33 +14,38 @@
 
 namespace Aviat\AnimeClient;
 
-use function Aviat\Ion\_dir;
-
-use Aviat\AnimeClient\Enum\EventType;
 use Aura\Router\Generator;
+
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
-use Aviat\Ion\ConfigInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\SimpleCache\CacheInterface;
-
+use Aviat\AnimeClient\Enum\EventType;
 use Aviat\Ion\Di\{
 	ContainerAware,
 	ContainerInterface,
 	Exception\ContainerException,
 	Exception\NotFoundException
 };
-use Aviat\Ion\Event;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+
+use Aviat\Ion\{ConfigInterface, Event};
 use InvalidArgumentException;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\SimpleCache\CacheInterface;
+use function Aviat\Ion\_dir;
+use function is_array;
 
 /**
  * Controller base, defines output methods
  */
-class Controller {
-
+class Controller
+{
 	use ContainerAware;
+
+	/**
+	 * The global configuration object
+	 */
+	public ConfigInterface $config;
 
 	/**
 	 * The authentication object
@@ -53,11 +56,6 @@ class Controller {
 	 * Cache manager
 	 */
 	protected CacheInterface $cache;
-
-	/**
-	 * The global configuration object
-	 */
-	public ConfigInterface $config;
 
 	/**
 	 * Request object
@@ -85,9 +83,13 @@ class Controller {
 	protected array $baseData = [];
 
 	/**
+	 * The data bag for rendering
+	 */
+	protected RenderHelper $renderHelper;
+
+	/**
 	 * Controller constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -100,16 +102,24 @@ class Controller {
 		$urlGenerator = $container->get('url-generator');
 
 		$this->auth = $container->get('auth');
-		$this->cache =  $container->get('cache');
+		$this->cache = $container->get('cache');
 		$this->config = $container->get('config');
+		$this->renderHelper = $container->get('render-helper');
 		$this->request = $container->get('request');
 		$this->session = $session->getSegment(SESSION_SEGMENT);
 		$this->url = $auraUrlGenerator;
 		$this->urlGenerator = $urlGenerator;
 
+		$helper = $container->get('html-helper');
+
 		$this->baseData = [
+			'_' => $this->renderHelper,
 			'auth' => $container->get('auth'),
+			'component' => $container->get('component-helper'),
+			'container' => $container,
 			'config' => $this->config,
+			'escape' => $helper->escape(),
+			'helper' => $helper,
 			'menu_name' => '',
 			'message' => $this->session->getFlash('message'), // Get message box data if it exists
 			'other_type' => 'manga',
@@ -126,12 +136,10 @@ class Controller {
 	/**
 	 * Set the current url in the session as the target of a future redirect
 	 *
-	 * @codeCoverageIgnore
-	 * @param string|NULL $url
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function setSessionRedirect(string $url = NULL): void
+	public function setSessionRedirect(?string $url = NULL): void
 	{
 		$serverParams = $this->request->getServerParams();
 
@@ -167,9 +175,7 @@ class Controller {
 	 *
 	 * If one is not set, redirect to default url
 	 *
-	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function sessionRedirect(): void
 	{
@@ -181,7 +187,6 @@ class Controller {
 
 	/**
 	 * Check if the current user is authenticated, else error and exit
-	 * @codeCoverageIgnore
 	 */
 	protected function checkAuth(): void
 	{
@@ -197,25 +202,14 @@ class Controller {
 
 	/**
 	 * Get the string output of a partial template
-	 *
-	 * @codeCoverageIgnore
-	 * @param HtmlView $view
-	 * @param string $template
-	 * @param array $data
-	 * @return string
 	 */
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
-
-		if (isset($this->baseData))
-		{
-			$data = array_merge($this->baseData, $data);
-		}
+		$data = array_merge($this->baseData ?? [], $data);
 
 		$route = $router->getRoute();
 		$data['route_path'] = $route !== FALSE ? $route->path : '';
-
 
 		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
@@ -229,25 +223,21 @@ class Controller {
 
 	/**
 	 * Render a template with header and footer
-	 *
-	 * @codeCoverageIgnore
-	 * @param HtmlView $view
-	 * @param string $template
-	 * @param array $data
-	 * @return HtmlView
 	 */
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
 		$csp = [
-			"default-src 'self'",
+			"default-src 'self' media.kitsu.io kitsu-production-media.s3.us-west-002.backblazeb2.com",
 			"object-src 'none'",
 			"child-src 'self' *.youtube.com polyfill.io",
 		];
 
+		$data = array_merge($this->baseData ?? [], $data);
+
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));
 
-		if (array_key_exists('message', $data) && \is_array($data['message']))
+		if (array_key_exists('message', $data) && is_array($data['message']))
 		{
 			$view->appendOutput($this->loadPartial($view, 'message', $data['message']));
 		}
@@ -261,50 +251,38 @@ class Controller {
 	/**
 	 * 404 action
 	 *
-	 * @codeCoverageIgnore
-	 * @param string $title
-	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function notFound(
 		string $title = 'Sorry, page not found',
 		string $message = 'Page Not Found'
-	): void
-	{
+	): never {
 		$this->outputHTML('404', [
 			'title' => $title,
 			'message' => $message,
 		], NULL, 404);
+
 		exit();
 	}
 
 	/**
 	 * Display a generic error page
 	 *
-	 * @codeCoverageIgnore
-	 * @param int $httpCode
-	 * @param string $title
-	 * @param string $message
-	 * @param string $longMessage
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
 	{
 		$this->outputHTML('error', [
 			'title' => $title,
 			'message' => $message,
-			'long_message' => $longMessage
+			'long_message' => $longMessage,
 		], NULL, $httpCode);
 	}
 
 	/**
 	 * Redirect to the default controller/url from an empty path
 	 *
-	 * @codeCoverageIgnore
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
 	public function redirectToDefaultRoute(): void
 	{
@@ -315,11 +293,6 @@ class Controller {
 	/**
 	 * Set a session flash variable to display a message on
 	 * next page load
-	 *
-	 * @codeCoverageIgnore
-	 * @param string $message
-	 * @param string $type
-	 * @return void
 	 */
 	public function setFlashMessage(string $message, string $type = 'info'): void
 	{
@@ -332,7 +305,7 @@ class Controller {
 
 		$messages[] = [
 			'message_type' => $type,
-			'message' => $message
+			'message' => $message,
 		];
 
 		$this->session->setFlash('message', $messages);
@@ -342,9 +315,8 @@ class Controller {
 	 * Helper for consistent page titles
 	 *
 	 * @param string ...$parts Title segments
-	 * @return string
 	 */
-	public function formatTitle(string ...$parts) : string
+	public function formatTitle(string ...$parts): string
 	{
 		return implode(' &middot; ', $parts);
 	}
@@ -352,33 +324,22 @@ class Controller {
 	/**
 	 * Add a message box to the page
 	 *
-	 * @codeCoverageIgnore
-	 * @param HtmlView $view
-	 * @param string $type
-	 * @param string $message
 	 * @throws InvalidArgumentException
-	 * @return string
 	 */
 	protected function showMessage(HtmlView $view, string $type, string $message): string
 	{
 		return $this->loadPartial($view, 'message', [
 			'message_type' => $type,
-			'message'  => $message
+			'message' => $message,
 		]);
 	}
 
 	/**
 	 * Output a template to HTML, using the provided data
 	 *
-	 * @codeCoverageIgnore
-	 * @param string $template
-	 * @param array $data
-	 * @param HtmlView|NULL $view
-	 * @param int $code
 	 * @throws InvalidArgumentException
-	 * @return void
 	 */
-	protected function outputHTML(string $template, array $data = [], $view = NULL, int $code = 200): void
+	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
 	{
 		if (NULL === $view)
 		{
@@ -392,15 +353,12 @@ class Controller {
 	/**
 	 * Output a JSON Response
 	 *
-	 * @codeCoverageIgnore
-	 * @param mixed $data
 	 * @param int $code - the http status code
 	 * @throws DoubleRenderException
-	 * @return void
 	 */
 	protected function outputJSON(mixed $data, int $code): void
 	{
-		(new JsonView())
+		JsonView::new()
 			->setOutput($data)
 			->setStatusCode($code)
 			->send();
@@ -408,19 +366,13 @@ class Controller {
 
 	/**
 	 * Redirect to the selected page
-	 *
-	 * @codeCoverageIgnore
-	 * @param string $url
-	 * @param int $code
-	 * @return void
 	 */
 	protected function redirect(string $url, int $code): void
 	{
-		try
-		{
-			(new HttpView())->redirect($url, $code)->send();
-		}
-		catch (\Throwable) {}
+		HttpView::new()
+			->redirect($url, $code)
+			->send();
 	}
 }
+
 // End of BaseController.php

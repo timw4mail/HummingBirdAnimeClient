@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,24 +16,21 @@ namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Helper object to manage form generation, especially for config editing
  */
-final class FormGenerator {
+final class FormGenerator
+{
 	/**
 	 * Html generation helper
-	 *
-	 * @var HelperLocator
 	 */
 	private HelperLocator $helper;
 
 	/**
 	 * FormGenerator constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -46,9 +41,6 @@ final class FormGenerator {
 
 	/**
 	 * Create a new FormGenerator
-	 *
-	 * @param ContainerInterface $container
-	 * @return self
 	 */
 	public static function new(ContainerInterface $container): self
 	{
@@ -57,10 +49,6 @@ final class FormGenerator {
 
 	/**
 	 * Generate the html structure of the form
-	 *
-	 * @param string $name
-	 * @param array $form
-	 * @return string
 	 */
 	public function generate(string $name, array $form): string
 	{
@@ -70,7 +58,7 @@ final class FormGenerator {
 
 		if ($display === FALSE)
 		{
-			return (string)$this->helper->input([
+			return (string) $this->helper->input([
 				'type' => 'hidden',
 				'name' => $name,
 				'value' => $value,
@@ -85,7 +73,7 @@ final class FormGenerator {
 			],
 		];
 
-		switch($type)
+		switch ($type)
 		{
 			case 'boolean':
 				$params['type'] = 'radio';
@@ -93,18 +81,18 @@ final class FormGenerator {
 					'1' => 'Yes',
 					'0' => 'No',
 				];
-				$params['strict'] = true;
+				$params['strict'] = TRUE;
 				unset($params['attribs']['id']);
-			break;
+				break;
 
 			case 'string':
 				$params['type'] = 'text';
-			break;
+				break;
 
 			case 'select':
 				$params['type'] = 'select';
 				$params['options'] = array_flip($form['options']);
-			break;
+				break;
 
 			default:
 				break;
@@ -118,6 +106,6 @@ final class FormGenerator {
 			}
 		}
 
-		return (string)$this->helper->input($params);
+		return (string) $this->helper->input($params);
 	}
 }

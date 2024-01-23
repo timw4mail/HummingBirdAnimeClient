@@ -5,55 +5,62 @@ import _ from './anime-client.js';
 _.on('main', 'change', '.big-check', (e) => {
 	const id = e.target.id;
 	document.getElementById(`mal_${id}`).checked = true;
+	document.getElementById(`anilist_${id}`).checked = true;
 });
 
-export function renderAnimeSearchResults (data) {
-	return data.map(item => {
-		const titles = item.titles.join('<br />');
+/**
+ * On search results with an existing library entry, this shows that fact, with an edit link for the existing
+ * library entry
+ *
+ * @param {'anime'|'manga'} type
+ * @param {Object} item
+ * @param isCollection
+ * @returns {String}
+ */
+function renderEditLink (type, item, isCollection = false) {
+	if (isCollection || item.libraryEntry === null) {
+		return '';
+	}
 
-		return `
-			<article class="media search">
-				<div class="name">
-					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
-					<label for="${item.slug}">
-						<picture width="220">
-							<source srcset="/public/images/anime/${item.id}.webp" type="image/webp" />
-							<source srcset="/public/images/anime/${item.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/anime/${item.id}.jpg" alt="" width="220" />
-						</picture>
-						<span class="name">
-							${item.canonicalTitle}<br />
-							<small>${titles}</small>
-						</span>
-					</label>
-				</div>
-				<div class="table">
-					<div class="row">
-						<span class="edit">
-							<a class="bracketed" href="/anime/details/${item.slug}">Info Page</a>
-						</span>
-					</div>
-				</div>
-			</article>
-		`;
-	}).join('');
+	return `
+		<div class="row">
+			<span class="edit"><big>[ Already in List ]</big></span>
+		</div>
+		<div class="row">
+			<span class="edit">
+				<a class="bracketed" href="/${type}/edit/${item.libraryEntry.id}/${item.libraryEntry.status}">Edit</a>
+			</span>
+		</div>
+		<div class="row"><span class="edit">&nbsp;</span></div>
+	`
 }
 
-export function renderMangaSearchResults (data) {
+/**
+ * Show the search results for a media item
+ *
+ * @param {'anime'|'manga'} type
+ * @param {Object} data
+ * @param {boolean} isCollection
+ * @returns {String}
+ */
+export function renderSearchResults (type, data, isCollection = false) {
 	return data.map(item => {
 		const titles = item.titles.join('<br />');
+		let disabled = item.libraryEntry !== null ? 'disabled' : '';
+		const editLink = renderEditLink(type, item, isCollection);
+
+		if (isCollection) {
+			disabled = '';
+		}
+
 		return `
-			<article class="media search">
+			<article class="media search ${disabled}">
 				<div class="name">
-					<input type="radio" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" />
-					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" />
+					<input type="radio" class="mal-check" id="anilist_${item.slug}" name="anilist_id" value="${item.anilist_id}" ${disabled} />
+					<input type="radio" class="mal-check" id="mal_${item.slug}" name="mal_id" value="${item.mal_id}" ${disabled} />
+					<input type="radio" class="big-check" id="${item.slug}" name="id" value="${item.id}" ${disabled} />
 					<label for="${item.slug}">
-						<picture width="220">
-							<source srcset="/public/images/manga/${item.id}.webp" type="image/webp" />
-							<source srcset="/public/images/manga/${item.id}.jpg" type="image/jpeg" />
-							<img src="/public/images/manga/${item.id}.jpg" alt="" width="220" />
-						</picture>
+						<img src="${item.coverImage}" alt="" width="220" />
 						<span class="name">
 							${item.canonicalTitle}<br />
 							<small>${titles}</small>
@@ -61,9 +68,10 @@ export function renderMangaSearchResults (data) {
 					</label>
 				</div>
 				<div class="table">
+					${editLink}
 					<div class="row">
 						<span class="edit">
-							<a class="bracketed" href="/manga/details/${item.slug}">Info Page</a>
+							<a class="bracketed" href="/${type}/details/${item.slug}">Info Page</a>
 						</span>
 					</div>
 				</div>

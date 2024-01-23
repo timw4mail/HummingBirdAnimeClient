@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -20,24 +18,21 @@ use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
 
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for handling routes that don't fit elsewhere
  */
-final class User extends BaseController {
-
-	/**
-	 * @var Model
-	 */
+#[Controller]
+final class User extends BaseController
+{
 	private Model $kitsuModel;
 
 	/**
 	 * User constructor.
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -51,6 +46,7 @@ final class User extends BaseController {
 	/**
 	 * Show the user profile page for the configured user
 	 */
+	#[Route('default_user_info', '/me')]
 	public function me(): void
 	{
 		$this->about('me');
@@ -58,10 +54,8 @@ final class User extends BaseController {
 
 	/**
 	 * Show the user profile page
-	 *
-	 * @param string $username
-	 * @return void
 	 */
+	#[Route('user_info', '/user/{username}')]
 	public function about(string $username): void
 	{
 		$isMainUser = $username === 'me';
@@ -75,6 +69,11 @@ final class User extends BaseController {
 			: $username;
 
 		$rawData = $this->kitsuModel->getUserData($username);
+		if ($rawData['data']['findProfileBySlug'] === NULL)
+		{
+			$this->notFound('Sorry, user not found', "The user '{$username}' does not seem to exist.");
+		}
+
 		$data = (new UserTransformer())->transform($rawData)->toArray();
 
 		$this->outputHTML('user/details', [

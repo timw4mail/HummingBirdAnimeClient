@@ -1,4 +1,4 @@
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 	<main>
 		<h2>
 			Edit Manga List Item
@@ -8,9 +8,9 @@
 				<thead>
 				<tr>
 					<th>
-						<h3><?= $escape->html($item['manga']['title']) ?></h3>
+						<h3><?= $_->escape->html($item['manga']['title']) ?></h3>
 						<?php foreach ($item['manga']['titles'] as $title): ?>
-							<h4><?= $escape->html($title) ?></h4>
+							<h4><?= $_->escape->html($title) ?></h4>
 						<?php endforeach ?>
 					</th>
 				</tr>
@@ -18,7 +18,7 @@
 				<tbody>
 				<tr>
 					<td rowspan="9">
-						<?= $helper->picture("images/manga/{$item['manga']['id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
+						<?= $_->h->img($item['manga']['image']) ?>
 					</td>
 				</tr>
 				<tr>
@@ -47,13 +47,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td><label for="volumes_read">Volumes Read</label></td>
-					<td>
-						<?php /*<input type="number" disabled="disabled" min="0" name="volumes_read" id="volumes_read" value="" /> */ ?>
-						- / <?= $item['volumes']['total'] ?>
-					</td>
-				</tr>
-				<tr>
 					<td><label for="rereading_flag">Rereading?</label></td>
 					<td>
 						<input type="checkbox" name="rereading" id="rereading_flag"
@@ -71,7 +64,7 @@
 				<tr>
 					<td><label for="notes">Notes</label></td>
 					<td>
-						<textarea name="notes" id="notes"><?= $escape->html($item['notes']) ?></textarea>
+						<textarea name="notes" id="notes"><?= $_->escape->html($item['notes']) ?></textarea>
 					</td>
 				</tr>
 				<tr>
@@ -90,7 +83,7 @@
 		</form>
 		<fieldset>
 			<legend>Danger Zone</legend>
-			<form class="js-delete" action="<?= $url->generate('manga.delete') ?>" method="post">
+			<form class="js-delete" action="<?= $_->urlFromRoute('manga.delete') ?>" method="post">
 				<table class="form invisible">
 					<tbody>
 					<tr>

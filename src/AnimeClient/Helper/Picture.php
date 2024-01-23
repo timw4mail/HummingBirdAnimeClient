@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -17,12 +15,13 @@
 namespace Aviat\AnimeClient\Helper;
 
 use Aviat\Ion\Di\ContainerAware;
+use function in_array;
 
 /**
  * Simplify picture elements
  */
-final class Picture {
-
+final class Picture
+{
 	use ContainerAware;
 
 	private const SIMPLE_IMAGE_TYPES = [
@@ -35,12 +34,6 @@ final class Picture {
 	/**
 	 * Create the html for an html picture element.
 	 * Uses .webp images with fallback
-	 *
-	 * @param string $uri
-	 * @param string $fallbackExt
-	 * @param array $picAttrs
-	 * @param array $imgAttrs
-	 * @return string
 	 */
 	public function __invoke(string $uri, string $fallbackExt = 'jpg', array $picAttrs = [], array $imgAttrs = []): string
 	{
@@ -66,7 +59,8 @@ final class Picture {
 		$ext = array_pop($urlParts);
 		$path = implode('.', $urlParts);
 
-		$mime = match ($ext) {
+		$mime = match ($ext)
+		{
 			'avif' => 'image/avif',
 			'apng' => 'image/vnd.mozilla.apng',
 			'bmp' => 'image/bmp',
@@ -80,7 +74,8 @@ final class Picture {
 			default => 'image/jpeg',
 		};
 
-		$fallbackMime = match ($fallbackExt) {
+		$fallbackMime = match ($fallbackExt)
+		{
 			'gif' => 'image/gif',
 			'png' => 'image/png',
 			default => 'image/jpeg',
@@ -89,10 +84,9 @@ final class Picture {
 		// For image types that are well-established, just return a
 		// simple <img /> element instead
 		if (
-			$ext === $fallbackExt ||
-			\in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
-		)
-		{
+			$ext === $fallbackExt
+			|| in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
+		) {
 			$attrs = (count($imgAttrs) > 1)
 				? $imgAttrs
 				: $picAttrs;
@@ -109,7 +103,7 @@ final class Picture {
 			]),
 			$helper->void('source', [
 				'srcset' => $fallbackImg,
-				'type' => $fallbackMime
+				'type' => $fallbackMime,
 			]),
 			$helper->img($fallbackImg, array_merge(['alt' => ''], $imgAttrs)),
 		];
@@ -119,4 +113,5 @@ final class Picture {
 		return $helper->elementRaw('picture', $sources, $picAttrs);
 	}
 }
+
 // End of Picture.php

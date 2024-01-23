@@ -1,4 +1,4 @@
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 	<main>
 		<h2>Edit Anime List Item</h2>
 		<form action="<?= $action ?>" method="post">
@@ -6,9 +6,9 @@
 				<thead>
 					<tr>
 						<th>
-							<h3><?= $escape->html($item['anime']['title']) ?></h3>
+							<h3><?= $_->escape->html($item['anime']['title']) ?></h3>
 							<?php foreach($item['anime']['titles'] as $title): ?>
-							<h4><?= $escape->html($title) ?></h4>
+							<h4><?= $_->escape->html($title) ?></h4>
 							<?php endforeach ?>
 						</th>
 					</tr>
@@ -16,7 +16,7 @@
 				<tbody>
 					<tr>
 						<td rowspan="9">
-							<?= $helper->picture("images/anime/{$item['anime']['id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
+							<?= $_->h->img($item['anime']['cover_image']) ?>
 						</td>
 					</tr>
 					<tr>
@@ -70,7 +70,7 @@
 					<tr>
 						<td><label for="notes">Notes</label></td>
 						<td>
-							<textarea name="notes" id="notes"><?= $escape->html($item['notes']) ?></textarea>
+							<textarea name="notes" id="notes"><?= $_->escape->html($item['notes']) ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -87,7 +87,7 @@
 				</tbody>
 			</table>
 		</form>
-		<form class="js-delete" action="<?= $url->generate('anime.delete') ?>" method="post">
+		<form class="js-delete" action="<?= $_->urlFromRoute('anime.delete') ?>" method="post">
 			<fieldset>
 				<legend>Danger Zone</legend>
 				<table class="form invisible">

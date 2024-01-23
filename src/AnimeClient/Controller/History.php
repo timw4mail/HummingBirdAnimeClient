@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,33 +14,30 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Model\Anime as AnimeModel;
-use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\AnimeClient\{Controller as BaseController, Model};
+use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\ContainerException;
-use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 
 /**
  * Controller for Anime-related pages
  */
-final class History extends BaseController {
+#[Controller]
+final class History extends BaseController
+{
 	/**
 	 * The anime list model
-	 * @var AnimeModel
 	 */
-	protected AnimeModel $animeModel;
+	protected Model\Anime $animeModel;
 
 	/**
 	 * The manga list model
-	 * @var MangaModel
 	 */
-	protected MangaModel $mangaModel;
+	protected Model\Manga $mangaModel;
 
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface $container
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -54,11 +49,13 @@ final class History extends BaseController {
 		$this->mangaModel = $container->get('manga-model');
 	}
 
+	#[Route('history', '/history/{type}')]
 	public function index(string $type = 'anime'): void
 	{
 		if (method_exists($this, $type))
 		{
-			$this->$type();
+			$this->{$type}();
+
 			return;
 		}
 
@@ -78,8 +75,6 @@ final class History extends BaseController {
 			'url_type' => 'anime',
 		]);
 
-		// $this->outputJSON($this->animeModel->getHistory());
-		// return;
 		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
@@ -98,8 +93,6 @@ final class History extends BaseController {
 			'url_type' => 'manga',
 		]);
 
-		// $this->outputJSON($this->mangaModel->getHistory());
-		// return;
 		$this->outputHTML('history', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",

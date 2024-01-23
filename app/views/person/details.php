@@ -1,16 +1,16 @@
-<?php
-use function Aviat\AnimeClient\getLocalImg;
-?>
 <main class="details fixed">
 	<section class="flex flex-no-wrap">
 		<div>
-			<?= $helper->picture("images/people/{$data['id']}-original.webp", 'jpg', ['class' => 'cover' ]) ?>
+			<?= $_->h->img($data['image'], ['class' => 'cover' ]) ?>
 		</div>
 		<div>
 			<h2 class="toph"><?= $data['name'] ?></h2>
 			<?php foreach ($data['names'] as $name): ?>
 				<h3><?= $name ?></h3>
 			<?php endforeach ?>
+			<?php if ( ! empty($data['birthday'])): ?>
+				<h4><?= $data['birthday'] ?></h4>
+			<?php endif ?>
 			<br />
 			<hr />
 			<div class="description">
@@ -37,10 +37,10 @@ use function Aviat\AnimeClient\getLocalImg;
 							<section class="content media-wrap flex flex-wrap flex-justify-start">
 								<?php foreach ($casting as $sid => $series): ?>
 									<?php $mediaType = in_array($type, ['anime', 'manga'], TRUE) ? $type : 'anime'; ?>
-									<?= $component->media(
+									<?= $_->component->media(
 											$series['titles'],
-											$url->generate("{$mediaType}.details", ['id' => $series['slug']]),
-											$helper->picture("images/{$type}/{$sid}.webp")
+											$_->urlFromRoute("{$mediaType}.details", ['id' => $series['slug']]),
+											$_->h->img($series['image'], ['width' => 220, 'loading' => 'lazy'])
 									) ?>
 								<?php endforeach; ?>
 							</section>
@@ -55,21 +55,21 @@ use function Aviat\AnimeClient\getLocalImg;
 	<?php if ( ! empty($data['characters'])): ?>
 		<section>
 			<h3>Voice Acting Roles</h3>
-			<?= $component->tabs('voice-acting-roles', $data['characters'], static function ($characterList) use ($component, $helper, $url) {
+			<?= $component->tabs('voice-acting-roles', $data['characters'], static function ($characterList) use ($component, $helper, $_) {
 				$voiceRoles = [];
 				foreach ($characterList as $cid => $item):
 					$character = $component->character(
 						$item['character']['canonicalName'],
-						$url->generate('character', ['slug' => $item['character']['slug']]),
-						$helper->picture(getLocalImg($item['character']['image']['original'] ?? null))
+						$_->urlFromRoute('character', ['slug' => $item['character']['slug']]),
+						$_->h->img($item['character']['image'], ['loading' => 'lazy']),
 					);
 					$medias = [];
 					foreach ($item['media'] as $sid => $series)
 					{
 						$medias[] = $component->media(
 							$series['titles'],
-							$url->generate('anime.details', ['id' => $series['slug']]),
-							$helper->picture("images/anime/{$sid}.webp")
+							$_->urlFromRoute('anime.details', ['id' => $series['slug']]),
+							$_->h->img($series['image'], ['width' => 220, 'loading' => 'lazy'])
 						);
 					}
 					$media = implode('', array_map('mb_trim', $medias));

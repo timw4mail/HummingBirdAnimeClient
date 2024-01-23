@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -16,12 +14,14 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
+use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\HistoryItem;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 
-abstract class HistoryTransformer {
+abstract class HistoryTransformer
+{
 	/**
 	 * @var string The media type
 	 */
@@ -50,13 +50,10 @@ abstract class HistoryTransformer {
 	/**
 	 * @var array The mapping of api status to display status
 	 */
-	protected array $statusMap;
+	protected array $statusMap = [];
 
 	/**
 	 * Convert raw history
-	 *
-	 * @param array $data
-	 * @return array
 	 */
 	public function transform(array $data): array
 	{
@@ -65,13 +62,14 @@ abstract class HistoryTransformer {
 
 		foreach ($base as $entry)
 		{
+			// Filter out other media types
 			if (strtolower($entry['media']['__typename']) !== $this->type)
 			{
 				continue;
 			}
 
 			// Hide private library entries
-			if ($entry['libraryEntry']['private'] === true)
+			if ($entry['libraryEntry']['private'] === TRUE)
 			{
 				continue;
 			}
@@ -86,7 +84,7 @@ abstract class HistoryTransformer {
 					$output[] = $transformed;
 				}
 			}
-			else if ($kind === 'updated')
+			elseif ($kind === 'updated')
 			{
 				$output[] = $this->transformUpdated($entry);
 			}
@@ -97,15 +95,13 @@ abstract class HistoryTransformer {
 
 	/**
 	 * Combine consecutive 'progressed' events
-	 *
-	 * @param array $singles
-	 * @return array
 	 */
-	protected function aggregate (array $singles): array
+	protected function aggregate(array $singles): array
 	{
 		$output = [];
 
 		$count = count($singles);
+
 		for ($i = 0; $i < $count; $i++)
 		{
 			$entries = [];
@@ -113,9 +109,10 @@ abstract class HistoryTransformer {
 			$prevTitle = $entry['title'];
 			$nextId = $i;
 			$next = $singles[$nextId];
+
 			while (
-				$next['kind'] === 'progressed' &&
-				$next['title'] === $prevTitle
+				$next['kind'] === 'progressed'
+				&& $next['title'] === $prevTitle
 			) {
 				$entries[] = $next;
 				$prevTitle = $next['title'];
@@ -124,6 +121,7 @@ abstract class HistoryTransformer {
 				{
 					$nextId++;
 					$next = $singles[$nextId];
+
 					continue;
 				}
 
@@ -141,6 +139,7 @@ abstract class HistoryTransformer {
 					$items[] = array_pop($progressItem);
 					$updated[] = $e['updated'];
 				}
+
 				$firstItem = min($items);
 				$lastItem = max($items);
 				$firstUpdate = min($updated);
@@ -163,7 +162,7 @@ abstract class HistoryTransformer {
 					'action' => $action,
 					'coverImg' => $entries[0]['coverImg'],
 					'dateRange' => [$firstUpdate, $lastUpdate],
-					'isAggregate' => true,
+					'isAggregate' => TRUE,
 					'original' => $entries,
 					'title' => $title,
 					'updated' => $entries[0]['updated'],
@@ -172,6 +171,7 @@ abstract class HistoryTransformer {
 
 				// Skip the rest of the aggregate in the main loop
 				$i += count($entries) - 1;
+
 				continue;
 			}
 
@@ -181,18 +181,29 @@ abstract class HistoryTransformer {
 		return $output;
 	}
 
-	protected function transformProgress (array $entry): ?HistoryItem
+	protected function transformProgress(array $entry): ?HistoryItem
 	{
-		$id = $entry['media']['id'];
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = "images/{$this->type}/{$id}.webp";
 		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
-		if (((int)$item) === 0)
+		if (((int) $item) === 0)
 		{
 			return NULL;
+		}
+
+		// Hide the last episode update (Anime)
+		foreach (['episodeCount', 'chapterCount'] as $count)
+		{
+			if ( ! empty($entry['media'][$count]))
+			{
+				$update = $entry['changedData']['progress'][1] ?? 0;
+				if ($update === $entry['media'][$count])
+				{
+					return NULL;
+				}
+			}
 		}
 
 		$action = ($this->isReconsuming($entry))
@@ -201,7 +212,7 @@ abstract class HistoryTransformer {
 
 		return HistoryItem::from([
 			'action' => $action,
-			'coverImg' => $imgUrl,
+			'coverImg' => Kitsu::getPosterImage($data, 0),
 			'kind' => 'progressed',
 			'original' => $entry,
 			'title' => $title,
@@ -212,10 +223,8 @@ abstract class HistoryTransformer {
 
 	protected function transformUpdated(array $entry): HistoryItem
 	{
-		$id = $entry['media']['id'];
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
-		$imgUrl = "images/{$this->type}/{$id}.webp";
 
 		$kind = array_key_first($entry['changedData']);
 
@@ -233,7 +242,7 @@ abstract class HistoryTransformer {
 
 			return HistoryItem::from([
 				'action' => $statusName,
-				'coverImg' => $imgUrl,
+				'coverImg' => Kitsu::getPosterImage($data, 0),
 				'kind' => 'updated',
 				'original' => $entry,
 				'title' => $title,
@@ -245,12 +254,12 @@ abstract class HistoryTransformer {
 		return HistoryItem::from($entry);
 	}
 
-	protected function linkTitle (array $data): string
+	protected function linkTitle(array $data): string
 	{
 		return $data['titles']['canonical'];
 	}
 
-	protected function parseDate (string $date): DateTimeImmutable
+	protected function parseDate(string $date): DateTimeImmutable
 	{
 		$dateTime = DateTimeImmutable::createFromFormat(
 			DateTimeInterface::RFC3339,
@@ -265,12 +274,12 @@ abstract class HistoryTransformer {
 		return $dateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
 	}
 
-	protected function getUrl (array $data): string
+	protected function getUrl(array $data): string
 	{
 		return "/{$this->type}/details/{$data['slug']}";
 	}
 
-	protected function isReconsuming (array $entry): bool
+	protected function isReconsuming(array $entry): bool
 	{
 		return $entry['libraryEntry']['reconsuming'];
 	}

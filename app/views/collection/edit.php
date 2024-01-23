@@ -1,5 +1,5 @@
 <?php use function Aviat\AnimeClient\renderTemplate ?>
-<?php if ($auth->isAuthenticated()): ?>
+<?php if ($_->isAuthenticated()): ?>
 <main>
 	<h2>Edit Anime Collection Item</h2>
 	<form action="<?= $action_url ?>" method="post">
@@ -7,7 +7,7 @@
 			<tbody>
 				<tr>
 					<td rowspan="6" class="align-center">
-						<?= $helper->picture("images/anime/{$item['hummingbird_id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
+						<?= $_->h->picture("images/anime/{$item['hummingbird_id']}-original.webp", "jpg", [], ["width" => "390"]) ?>
 					</td>
 				</tr>
 				<tr>
@@ -30,7 +30,7 @@
 				</tr>
 				<tr>
 					<td><label for="notes">Notes</label></td>
-					<td><textarea id="notes" name="notes"><?= $escape->html($item['notes']) ?></textarea></td>
+					<td><textarea id="notes" name="notes"><?= $_->escape->html($item['notes']) ?></textarea></td>
 				</tr>
 				<tr>
 					<td>&nbsp;</td>
@@ -44,7 +44,7 @@
 			</tbody>
 		</table>
 	</form>
-	<form class="js-delete" action="<?= $url->generate($collection_type . '.collection.delete') ?>" method="post">
+	<form class="js-delete" action="<?= $_->urlFromRoute($collection_type . '.collection.delete') ?>" method="post">
 		<fieldset>
 			<legend>Danger Zone</legend>
 			<table class="form invisible">

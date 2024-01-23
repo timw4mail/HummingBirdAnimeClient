@@ -4,11 +4,9 @@
  *
  * An API client for Kitsu to manage anime and manga watch lists
  *
- * PHP version 8
+ * PHP version 8.1
  *
- * @package     HummingbirdAnimeClient
- * @author      Timothy J. Warren <tim@timshomepage.net>
- * @copyright   2015 - 2021  Timothy J. Warren
+ * @copyright   2015 - 2023  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.2
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
@@ -18,46 +16,50 @@ namespace Aviat\Ion\Tests\Transformer;
 
 use Aviat\Ion\Tests\IonTestCase;
 use Aviat\Ion\Tests\{TestTransformer, TestTransformerUntransform};
+use BadMethodCallException;
 
-class AbstractTransformerTest extends IonTestCase {
-
+/**
+ * @internal
+ */
+final class AbstractTransformerTest extends IonTestCase
+{
 	protected $transformer;
 	protected $untransformer;
 
-
-	public function setUp(): void	{
+	protected function setUp(): void
+	{
 		$this->transformer = new TestTransformer();
 		$this->untransformer = new TestTransformerUntransform();
 	}
 
-	public function dataTransformCollection()
+	public static function dataTransformCollection()
 	{
 		return [
 			'object' => [
 				'original' => [
-					(object)[
+					(object) [
 						['name' => 'Comedy'],
 						['name' => 'Romance'],
 						['name' => 'School'],
-						['name' => 'Harem']
+						['name' => 'Harem'],
 					],
-					(object)[
+					(object) [
 						['name' => 'Action'],
 						['name' => 'Comedy'],
 						['name' => 'Magic'],
 						['name' => 'Fantasy'],
-						['name' => 'Mahou Shoujo']
+						['name' => 'Mahou Shoujo'],
 					],
-					(object)[
+					(object) [
 						['name' => 'Comedy'],
-						['name' => 'Sci-Fi']
-					]
+						['name' => 'Sci-Fi'],
+					],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 			'array' => [
 				'original' => [
@@ -65,56 +67,56 @@ class AbstractTransformerTest extends IonTestCase {
 						['name' => 'Comedy'],
 						['name' => 'Romance'],
 						['name' => 'School'],
-						['name' => 'Harem']
+						['name' => 'Harem'],
 					],
 					[
 						['name' => 'Action'],
 						['name' => 'Comedy'],
 						['name' => 'Magic'],
 						['name' => 'Fantasy'],
-						['name' => 'Mahou Shoujo']
+						['name' => 'Mahou Shoujo'],
 					],
 					[
 						['name' => 'Comedy'],
-						['name' => 'Sci-Fi']
-					]
+						['name' => 'Sci-Fi'],
+					],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 		];
 	}
 
-	public function dataUnTransformCollection()
+	public static function dataUnTransformCollection()
 	{
 		return [
 			'object' => [
 				'original' => [
-					(object)['Comedy', 'Romance', 'School', 'Harem'],
-					(object)['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					(object)['Comedy', 'Sci-Fi']
+					(object) ['Comedy', 'Romance', 'School', 'Harem'],
+					(object) ['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
+					(object) ['Comedy', 'Sci-Fi'],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
+					['Comedy', 'Sci-Fi'],
+				],
 			],
 			'array' => [
 				'original' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
+					['Comedy', 'Sci-Fi'],
 				],
 				'expected' => [
 					['Comedy', 'Romance', 'School', 'Harem'],
 					['Action', 'Comedy', 'Magic', 'Fantasy', 'Mahou Shoujo'],
-					['Comedy', 'Sci-Fi']
-				]
-			]
+					['Comedy', 'Sci-Fi'],
+				],
+			],
 		];
 	}
 
@@ -125,33 +127,27 @@ class AbstractTransformerTest extends IonTestCase {
 		$expected = $data['object']['expected'][0];
 
 		$actual = $this->transformer->transform($original);
-		$this->assertEquals($expected, $actual);
+		$this->assertSame($expected, $actual);
 	}
 
-	/**
-	 * @dataProvider dataTransformCollection
-	 */
-	public function testTransformCollection($original, $expected)
-	{
-		$actual = $this->transformer->transformCollection($original);
-		$this->assertEquals($expected, $actual);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataTransformCollection')]
+ public function testTransformCollection(mixed $original, mixed $expected)
+ {
+ 	$actual = $this->transformer->transformCollection($original);
+ 	$this->assertSame($expected, $actual);
+ }
 
-	/**
-	 * @dataProvider dataUnTransformCollection
-	 */
-	public function testUntransformCollection($original, $expected)
-	{
-		$actual = $this->untransformer->untransformCollection($original);
-		$this->assertEquals($expected, $actual);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
+ public function testUntransformCollection(mixed $original, mixed $expected)
+ {
+ 	$actual = $this->untransformer->untransformCollection($original);
+ 	$this->assertSame($expected, $actual);
+ }
 
-	/**
-	 * @dataProvider dataUnTransformCollection
-	 */
-	public function testUntransformCollectionWithException($original, $expected)
-	{
-		$this->expectException(\BadMethodCallException::class);
-		$this->transformer->untransformCollection($original);
-	}
+ #[\PHPUnit\Framework\Attributes\DataProvider('dataUnTransformCollection')]
+ public function testUntransformCollectionWithException(mixed $original, mixed $expected)
+ {
+ 	$this->expectException(BadMethodCallException::class);
+ 	$this->transformer->untransformCollection($original);
+ }
 }
