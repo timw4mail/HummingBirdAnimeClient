@@ -14,11 +14,22 @@ module.exports = config({
 				syntax: "ecmascript",
 				jsx: false,
 			},
-			target: 'es2016',
+			target: 'es2018',
 			loose: false,
+			// keepClassNames: true,
+			// preserveAllComments: true,
+			minify: {
+				compress: {
+					unused: true,
+				},
+				mangle: true,
+				format: {
+					comments: false,
+				}
+			}
 		},
 		minify: true,
-		sourceMaps: false,
+		sourceMaps: true,
 		isModule: true,
 	}
 });
