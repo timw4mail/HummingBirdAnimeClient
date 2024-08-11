@@ -23,14 +23,14 @@ use const PHP_URL_HOST;
  */
 final class Kitsu
 {
-	public const AUTH_URL = 'https://kitsu.io/api/oauth/token';
+	public const AUTH_URL = 'https://kitsu.app/api/oauth/token';
 	public const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
 	public const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
 	public const AUTH_TOKEN_EXP_CACHE_KEY = 'kitsu-auth-token-expires';
 	public const AUTH_TOKEN_REFRESH_CACHE_KEY = 'kitsu-auth-token-refresh';
 	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
 	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
-	public const GRAPHQL_ENDPOINT = 'https://kitsu.io/api/graphql';
+	public const GRAPHQL_ENDPOINT = 'https://kitsu.app/api/graphql';
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
