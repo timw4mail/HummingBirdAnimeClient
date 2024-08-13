@@ -94,7 +94,7 @@ final class MangaListTransformer extends AbstractTransformer
 				'title' => $title,
 				'titles' => $titles,
 				'type' => (string) StringType::from($manga['subtype'])->toLowerCase()->upperCaseFirst(),
-				'url' => 'https://kitsu.io/manga/' . $manga['slug'],
+				'url' => 'https://kitsu.app/manga/' . $manga['slug'],
 			]),
 			'reading_status' => strtolower($item['status']),
 			'notes' => $item['notes'],

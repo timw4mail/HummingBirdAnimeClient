@@ -5,7 +5,7 @@ use Aviat\AnimeClient\Kitsu;
 	<h2 class="toph">
 		About
 		<?= $_->h->a(
-				"https://kitsu.io/users/{$data['slug']}",
+				"https://kitsu.app/users/{$data['slug']}",
 				$data['name'], [
 				'title' => 'View profile on Kitsu'
 		])

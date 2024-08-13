@@ -113,7 +113,7 @@ final class AnimeTransformer extends AbstractTransformer
 
 		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
-			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/anime/{$base['slug']}");
+			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.app/anime/{$base['slug']}");
 		}
 
 		return AnimePage::from([
@@ -138,7 +138,7 @@ final class AnimeTransformer extends AbstractTransformer
 			'titles_more' => $titles_more,
 			'total_length' => $base['totalLength'],
 			'trailer_id' => $base['youtubeTrailerVideoId'],
-			'url' => "https://kitsu.io/anime/{$base['slug']}",
+			'url' => "https://kitsu.app/anime/{$base['slug']}",
 		]);
 	}
 }

@@ -114,7 +114,7 @@ final class MangaTransformer extends AbstractTransformer
 
 		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
-			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.io/manga/{$base['slug']}");
+			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.app/manga/{$base['slug']}");
 		}
 
 		$data = [
@@ -134,7 +134,7 @@ final class MangaTransformer extends AbstractTransformer
 			'title' => $title,
 			'titles' => $titles,
 			'titles_more' => $titles_more,
-			'url' => "https://kitsu.io/manga/{$base['slug']}",
+			'url' => "https://kitsu.app/manga/{$base['slug']}",
 		];
 
 		return MangaPage::from($data);

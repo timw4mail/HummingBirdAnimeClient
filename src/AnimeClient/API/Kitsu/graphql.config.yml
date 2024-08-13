@@ -2,7 +2,7 @@ schema: schema.graphql
 extensions:
   endpoints:
     Kitsu:
-      url: https://kitsu.io/api/graphql
+      url: https://kitsu.app/api/graphql
       headers:
         user-agent: JS GraphQL
       introspect: true

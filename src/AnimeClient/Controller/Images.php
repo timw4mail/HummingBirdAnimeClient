@@ -40,7 +40,7 @@ final class Images extends BaseController
 	{
 		$currentUrl = (string) $this->request->getUri();
 
-		$kitsuUrl = 'https://media.kitsu.io/';
+		$kitsuUrl = 'https://media.kitsu.app/';
 		$fileName = str_replace('-original', '', $file);
 		[$id, $ext] = explode('.', basename($fileName));
 
