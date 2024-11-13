@@ -4,7 +4,7 @@
     mal_id: '28091'
     chapters: { read: 94, total: '-' }
     volumes: { read: '-', total: '-' }
-    manga: { empty: false, genres: {  }, id: '21733', image: 'https://media.kitsu.io/manga/poster_images/21733/small.jpg', slug: tonari-no-seki-kun, title: 'Tonari no Seki-kun', titles: ['My Neighbour Seki', となりの関くん], type: Manga, url: 'https://kitsu.io/manga/tonari-no-seki-kun' }
+    manga: { empty: false, genres: {  }, id: '21733', image: 'https://media.kitsu.io/manga/poster_images/21733/small.jpg', slug: tonari-no-seki-kun, title: 'Tonari no Seki-kun', titles: ['My Neighbour Seki', となりの関くん], type: Manga, url: 'https://kitsu.app/manga/tonari-no-seki-kun' }
     reading_status: current
     notes: ''
     rereading: false
@@ -16,7 +16,7 @@
     mal_id: '60815'
     chapters: { read: 87, total: '-' }
     volumes: { read: '-', total: '-' }
-    manga: { empty: false, genres: {  }, id: '25491', image: 'https://media.kitsu.io/manga/poster_images/25491/small.jpg', slug: joshikausei, title: Joshikausei, titles: [女子かう生], type: Manga, url: 'https://kitsu.io/manga/joshikausei' }
+    manga: { empty: false, genres: {  }, id: '25491', image: 'https://media.kitsu.io/manga/poster_images/25491/small.jpg', slug: joshikausei, title: Joshikausei, titles: [女子かう生], type: Manga, url: 'https://kitsu.app/manga/joshikausei' }
     reading_status: current
     notes: 'Wordless, and it works.'
     rereading: false

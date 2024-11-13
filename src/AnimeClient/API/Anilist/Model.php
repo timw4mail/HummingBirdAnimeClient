@@ -105,7 +105,7 @@ final class Model
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
 		$mediaId = $this->getMediaId($data, $type);
-		if ($mediaId === NULL || $mediaId === "undefined")
+		if (empty($mediaId))
 		{
 			return NULL;
 		}

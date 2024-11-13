@@ -11,7 +11,7 @@ genres:
     - 'Slice of Life'
 links:
     Anilist: 'https://anilist.co/anime/56769/'
-    Kitsu: 'https://kitsu.io/manga/bokura-wa-minna-kawaisou'
+    Kitsu: 'https://kitsu.app/manga/bokura-wa-minna-kawaisou'
     MyAnimeList: 'https://myanimelist.net/manga/26769'
 id: '20286'
 manga_type: MANGA
@@ -26,5 +26,5 @@ titles:
 titles_more:
     - 'The Kawai Complex Guide to Manors and Hostel'
     - 僕らはみんな河合荘
-url: 'https://kitsu.io/manga/bokura-wa-minna-kawaisou'
+url: 'https://kitsu.app/manga/bokura-wa-minna-kawaisou'
 volume_count: 10
