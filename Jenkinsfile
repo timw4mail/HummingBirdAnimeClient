@@ -23,7 +23,7 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
-		stage('PHP 8.2') {
+		stage('PHP 8.3') {
 			agent {
 				docker {
 					image 'php:8.3-cli-alpine'
