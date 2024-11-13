@@ -26,8 +26,7 @@ pipeline {
 		stage('PHP 8.2') {
 			agent {
 				docker {
-					image 'php:8.t  git
-					3-cli-alpine'
+					image 'php:8.3-cli-alpine'
 					args '-u root --privileged'
 				}
 			}
