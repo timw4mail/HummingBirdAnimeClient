@@ -496,15 +496,19 @@ final class Model
 				'libraryEntry' => $item['myLibraryEntry'],
 			];
 
-			// Search for MAL mapping
+			// Search for External mapping
 			if (is_array($item['mappings']['nodes']))
 			{
 				foreach ($item['mappings']['nodes'] as $mapping)
 				{
+					if ($mapping['externalSite'] === 'ANILIST_' . strtoupper($type))
+					{
+						$searchItem['anilist_id'] = $mapping['externalId'];
+					}
+
 					if ($mapping['externalSite'] === 'MYANIMELIST_' . strtoupper($type))
 					{
 						$searchItem['mal_id'] = $mapping['externalId'];
-						break;
 					}
 				}
 			}
