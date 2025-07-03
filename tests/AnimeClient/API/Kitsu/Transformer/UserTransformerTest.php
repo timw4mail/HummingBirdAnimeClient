@@ -39,8 +39,9 @@ final class UserTransformerTest extends AnimeClientTestCase
 	{
 		$actual = (new UserTransformer())->transform($this->beforeTransform);
 
-		// Unset the time value that will change every day, so the test is consistent
+		// Remove dates so test is consistent
 		$actual->joinDate = '';
+		$actual->birthday = '';
 
 		$this->assertMatchesSnapshot($actual);
 	}
