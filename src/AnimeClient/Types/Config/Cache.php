@@ -23,5 +23,4 @@ class Cache extends AbstractType
 	public string|int|NULL $port;
 	public ?string $database;
 	public array $connection = [];
-	public ?array $options;
 }
