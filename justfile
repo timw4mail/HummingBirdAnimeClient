@@ -22,6 +22,10 @@ js:
 # Code Quality and Formatting
 # -------------------------------------------------------------------
 
+# Check code grammar
+lint:
+	tools/vendor/bin/mago lint
+
 # Check code formatting
 check-fmt:
 	tools/vendor/bin/php-cs-fixer fix --dry-run --verbose

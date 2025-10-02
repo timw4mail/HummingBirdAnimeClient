@@ -1,0 +1,45 @@
+# Welcome to Mago!
+# For full documentation, see https://mago.carthage.software/tools/overview
+php-version = "8.2.0"
+
+[source]
+paths = ["src/", "tests/AnimeClient", "tests/Ion"]
+includes = ["vendor"]
+excludes = []
+
+[formatter]
+print-width = 100
+tab-width = 4
+use-tabs = true
+control-brace-style = "next_line"
+expand-use-groups = false
+preserve-breaking-member-access-chain = true
+preserve-breaking-argument-list = true
+preserve-breaking-array-like = true
+preserve-breaking-parameter-list = true
+preserve-breaking-attribute-list = true
+preserve-breaking-conditional-expression = true
+space-before-arrow-function-parameter-list-parenthesis = true
+space-before-closure-parameter-list-parenthesis = true
+space-after-logical-not-unary-prefix-operator = true
+#array-table-style-alignment = false
+empty-line-after-opening-tag = false
+empty-line-before-return = true
+
+[linter]
+integrations = ["phpunit"]
+
+[linter.rules]
+ambiguous-function-call = { enabled = false }
+literal-named-argument = { enabled = false }
+yoda-conditions = { enabled = false }
+too-many-methods = { level = "warning", threshold = 15 }
+halstead = { effort-threshold = 7000 }
+
+[analyzer]
+find-unused-definitions = true
+find-unused-expressions = true
+analyze-dead-code = true
+check-throws = true
+allow-possibly-undefined-array-keys = true
+perform-heuristic-checks = true
