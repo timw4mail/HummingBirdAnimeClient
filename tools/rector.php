@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector;
-use Rector\CodeQuality\Rector\For_\{ForRepeatedCountToOwnVariableRector, ForToForeachRector};
+use Rector\CodeQuality\Rector\For_\{ForRepeatedCountToOwnVariableRector};
 use Rector\CodeQuality\Rector\If_\{ConsecutiveNullCompareReturnsToNullCoalesceQueueRector, SimplifyIfElseToTernaryRector, SimplifyIfReturnBoolRector};
 use Rector\CodeQuality\Rector\Ternary\{SimplifyTautologyTernaryRector, SwitchNegatedTernaryRector};
 use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
-use Rector\CodingStyle\Rector\Class_\AddArrayDefaultToArrayPropertyRector;
 use Rector\CodingStyle\Rector\ClassConst\RemoveFinalFromConstRector;
 use Rector\CodingStyle\Rector\ClassMethod\{NewlineBeforeNewAssignSetRector, OrderAttributesRector};
 use Rector\CodingStyle\Rector\Encapsed\WrapEncapsedVariableInCurlyBracesRector;
@@ -14,8 +13,6 @@ use Rector\CodingStyle\Rector\FuncCall\
 	CallUserFuncToMethodCallRector,
 	CountArrayToEmptyArrayComparisonRector,
 	VersionCompareFuncCallToConstantRector};
-use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\ClassMethod\{RemoveUselessParamTagRector, RemoveUselessReturnTagRector};
 use Rector\DeadCode\Rector\Foreach_\RemoveUnusedForeachKeyRector;
@@ -29,7 +26,6 @@ use Rector\Php81\Rector\Property\ReadOnlyPropertyRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\{AddMethodCallBasedStrictParamTypeRector, ParamTypeByMethodCallTypeRector, ParamTypeByParentCallTypeRector};
-use Rector\TypeDeclaration\Rector\Closure\AddClosureReturnTypeRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromAssignsRector;
 
 return static function (RectorConfig $config): void {
@@ -38,14 +34,12 @@ return static function (RectorConfig $config): void {
 	$config->importShortClasses(FALSE);
 
 	$config->sets([
-		LevelSetList::UP_TO_PHP_81,
+		LevelSetList::UP_TO_PHP_84,
 		PHPUnitSetList::ANNOTATIONS_TO_ATTRIBUTES,
 		PHPUnitSetList::PHPUNIT_100,
 	]);
 
 	$config->rules([
-		AddArrayDefaultToArrayPropertyRector::class,
-		AddClosureReturnTypeRector::class,
 		AddMethodCallBasedStrictParamTypeRector::class,
 		CallUserFuncArrayToVariadicRector::class,
 		CallUserFuncToMethodCallRector::class,
@@ -54,9 +48,7 @@ return static function (RectorConfig $config): void {
 		ChangeNestedForeachIfsToEarlyContinueRector::class,
 		CompleteDynamicPropertiesRector::class,
 		ConsecutiveNullCompareReturnsToNullCoalesceQueueRector::class,
-		CountArrayToEmptyArrayComparisonRector::class,
 		ForRepeatedCountToOwnVariableRector::class,
-		ForToForeachRector::class,
 		// NewlineAfterStatementRector::class,
 		NewlineBeforeNewAssignSetRector::class,
 		ParamTypeByMethodCallTypeRector::class,
@@ -71,7 +63,6 @@ return static function (RectorConfig $config): void {
 		SimplifyIfElseToTernaryRector::class,
 		SimplifyIfReturnBoolRector::class,
 		SimplifyTautologyTernaryRector::class,
-		SymplifyQuoteEscapeRector::class,
 		StaticArrowFunctionRector::class,
 		SwitchNegatedTernaryRector::class,
 		TypedPropertyFromAssignsRector::class,
@@ -79,9 +70,9 @@ return static function (RectorConfig $config): void {
 		WrapEncapsedVariableInCurlyBracesRector::class,
 	]);
 
-	$config->ruleWithConfiguration(OrderAttributesRector::class, [
-		'alphabetically',
-	]);
+//	$config->ruleWithConfiguration(OrderAttributesRector::class, [
+//		'alphabetically',
+//	]);
 
 	$config->skip([
 		NullToStrictStringFuncCallArgRector::class,

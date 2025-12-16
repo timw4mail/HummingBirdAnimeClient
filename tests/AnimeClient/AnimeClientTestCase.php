@@ -51,7 +51,7 @@ class AnimeClientTestCase extends TestCase
 	{
 		// Remove test cache files
 		$files = glob(_dir(self::TEST_DATA_DIR, 'cache', '*.json'));
-		array_map('unlink', $files);
+		array_map(unlink(...), $files);
 	}
 
 	protected function setUp(): void

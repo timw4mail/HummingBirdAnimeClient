@@ -123,13 +123,9 @@ class Container implements ContainerInterface
 	}
 
 	/**
-	 * Add a common simple factory to the container
-	 *
-	 * @param string $id
-	 * @param string $className
-	 * @return ContainerInterface
-	 */
-	public function setSimple(string $id, string $className): ContainerInterface
+     * Add a common simple factory to the container
+     */
+    public function setSimple(string $id, string $className): ContainerInterface
 	{
 		$this->classIdMap[$className] = $id;
 
@@ -148,10 +144,10 @@ class Container implements ContainerInterface
 			throw new NotFoundException("Factory '{$id}' does not exist in container. Set that first.");
 		}
 
-		$className = get_class($value);
+		$className = $value::class;
 		if ( ! array_key_exists((string)$className, $this->classIdMap))
 		{
-			$this->classIdMap[get_class($value)] = $id;
+			$this->classIdMap[$value::class] = $id;
 		}
 
 		$this->instances[$id] = $value;

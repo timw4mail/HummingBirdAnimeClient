@@ -50,7 +50,7 @@ class Config implements ConfigInterface
 	 *
 	 * @throws ConfigException
 	 */
-	public function get(array|string $key = NULL): mixed
+	public function get(array|string|null $key = NULL): mixed
 	{
 		if (is_array($key))
 		{

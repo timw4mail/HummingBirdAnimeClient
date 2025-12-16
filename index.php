@@ -23,7 +23,7 @@ setlocale(LC_CTYPE, 'en_US');
 // Load composer autoloader
 require_once __DIR__ . '/vendor/autoload.php';
 
-Debugger::$strictMode = E_ALL;
+Debugger::$strictMode = E_ALL &~ E_DEPRECATED;
 Debugger::$showBar = FALSE;
 Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/app/logs');
 

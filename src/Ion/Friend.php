@@ -113,7 +113,6 @@ class Friend
 		}
 
 		$friendMethod = new ReflectionMethod($this->_friend_, $method);
-		$friendMethod->setAccessible(TRUE);
 
 		return $friendMethod->invokeArgs($this->_friend_, $args);
 	}

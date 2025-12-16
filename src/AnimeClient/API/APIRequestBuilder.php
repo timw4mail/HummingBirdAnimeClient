@@ -125,7 +125,7 @@ abstract class APIRequestBuilder
 	{
 		$body = new Form;
 
-		array_walk($fields, fn ($content, $name) => $body->addField($name, $content));
+		array_walk($fields, static fn (string $content, string $name) => $body->addField($name, $content));
 
 		return $this->setBody($body);
 	}
@@ -169,7 +169,7 @@ abstract class APIRequestBuilder
 	 */
 	public function setHeaders(array $headers): self
 	{
-		array_walk($headers, fn ($value, $name) => $this->setHeader($name, $value));
+		array_walk($headers, fn (?string $value, string $name) => $this->setHeader($name, $value));
 
 		return $this;
 	}

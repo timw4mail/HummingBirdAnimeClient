@@ -410,7 +410,7 @@ final class SyncLists extends BaseCommand
 		$kitsuUpdateItems = [];
 
 		$malIds = array_keys($anilistList);
-		$kitsuMalIds = array_map('intval', array_column($kitsuList, 'malId'));
+		$kitsuMalIds = array_map(intval(...), array_column($kitsuList, 'malId'));
 		$missingMalIds = array_filter($malIds, static fn ($id) => ! in_array($id, $kitsuMalIds, TRUE));
 
 		// Add items on Anilist, but not Kitsu to Kitsu

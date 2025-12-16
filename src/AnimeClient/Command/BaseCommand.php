@@ -202,7 +202,7 @@ abstract class BaseCommand extends Command
 		$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
 
 		// Models
-		$container->set('kitsu-model', static function ($container): Kitsu\Model {
+		$container->set('kitsu-model', static function (\Aviat\Ion\Di\ContainerInterface $container): Kitsu\Model {
 			$requestBuilder = new Kitsu\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('kitsu-request'));
 
@@ -219,7 +219,7 @@ abstract class BaseCommand extends Command
 
 			return $model;
 		});
-		$container->set('anilist-model', static function ($container): Anilist\Model {
+		$container->set('anilist-model', static function (\Aviat\Ion\Di\ContainerInterface $container): Anilist\Model {
 			$requestBuilder = new Anilist\RequestBuilder($container);
 			$requestBuilder->setLogger($container->getLogger('anilist-request'));
 
@@ -233,7 +233,7 @@ abstract class BaseCommand extends Command
 
 			return $model;
 		});
-		$container->set('settings-model', static function ($container): Model\Settings {
+		$container->set('settings-model', static function (\Aviat\Ion\Di\ContainerInterface $container): Model\Settings {
 			$model = new Model\Settings($container->get('config'));
 			$model->setContainer($container);
 

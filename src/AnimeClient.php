@@ -211,7 +211,7 @@ function getResponse(Request|string $request): Response
 		$request = new Request($request);
 	}
 
-	$future = async(fn () => $client->request($request));
+	$future = async(static fn () => $client->request($request));
 
 	[$response] = Future\await([$future]);
 

@@ -87,7 +87,6 @@ trait MockViewOutputTrait
 
 		foreach ($properties as $reflectProp)
 		{
-			$reflectProp->setAccessible(TRUE);
 			$props[$reflectProp->getName()] = $reflectProp->getValue($this);
 		}
 

@@ -245,14 +245,9 @@ final class Model
 	 */
 	private function getMediaId(array $data, string $type = 'ANIME'): ?string
 	{
-		if (isset($data['anilist_id']))
-		{
-			return $data['anilist_id'];
-		}
-
-		return (isset($data['mal_id']))
+		return $data['anilist_id'] ?? ((isset($data['mal_id']))
 			? $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type))
-			: NULL;
+			: NULL);
 	}
 
 	/**

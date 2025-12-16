@@ -41,7 +41,7 @@ use const MB_CASE_TITLE;
 /**
  * Vendored, slightly modernized version of Stringy
  */
-abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
+abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \Stringable
 {
 	/**
 	 * An instance's string.
@@ -1028,17 +1028,11 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 				"to be one of 'left', 'right' or 'both'");
 		}
 
-		switch ($padType)
-		{
-			case 'left':
-				return $this->padLeft($length, $padStr);
-
-			case 'right':
-				return $this->padRight($length, $padStr);
-
-			default:
-				return $this->padBoth($length, $padStr);
-		}
+		return match ($padType) {
+            'left' => $this->padLeft($length, $padStr),
+            'right' => $this->padRight($length, $padStr),
+            default => $this->padBoth($length, $padStr),
+        };
 	}
 
 	/**
@@ -1283,6 +1277,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 		$stringy = $this->toAscii($language);
 
 		$stringy->str = str_replace('@', $replacement, $stringy);
+
 		$quotedReplacement = preg_quote($replacement);
 		$pattern = "/[^a-zA-Z\\d\\s-_{$quotedReplacement}]/u";
 		$stringy->str = preg_replace($pattern, '', $stringy);
@@ -1464,7 +1459,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 	 */
 	public function substr(int $start, ?int $length = NULL): self
 	{
-		$length = $length === NULL ? $this->length() : $length;
+		$length ??= $this->length();
 		$str = mb_substr($this->str, $start, $length, $this->encoding);
 
 		return static::create($str, $this->encoding);
@@ -1582,7 +1577,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 	{
 		$str = $this->str;
 
-		$langSpecific = $this->langSpecificCharsArray($language);
+		$langSpecific = static::langSpecificCharsArray($language);
 		if ( ! empty($langSpecific))
 		{
 			$str = str_replace($langSpecific[0], $langSpecific[1], $str);
@@ -1832,12 +1827,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess
 	protected function charsArray(): array
 	{
 		static $charsArray;
-		if (isset($charsArray))
-		{
-			return $charsArray;
-		}
 
-		return $charsArray = [
+		return $charsArray ?? $charsArray = [
 			'0' => ['°', '₀', '۰', '０'],
 			'1' => ['¹', '₁', '۱', '１'],
 			'2' => ['²', '₂', '۲', '２'],

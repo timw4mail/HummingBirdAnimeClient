@@ -170,13 +170,11 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	}
 
 	/**
-	 * Recursively cast properties to an array
-	 *
-	 * Returns early on primitive values to work recursively.
-	 *
-	 * @param mixed $parent
-	 */
-	final public function toArray(mixed $parent = NULL): array
+     * Recursively cast properties to an array
+     *
+     * Returns early on primitive values to work recursively.
+     */
+    final public function toArray(mixed $parent = NULL): array
 	{
 		$fromObject = $this->fromObject($parent);
 

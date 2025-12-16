@@ -31,7 +31,7 @@ Update your anime/manga list on Kitsu.io and Anilist
 
 ### Requirements
 
-* PHP 8.2
+* PHP 8.4
   * ext-dom (For editing the DOM)
   * ext-gd (For caching images)
   * ext-intl (For time localization)

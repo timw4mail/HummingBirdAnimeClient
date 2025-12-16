@@ -582,13 +582,12 @@ final class Model
 	}
 
 	/**
-	 * Get all the raw data for the current list, chunking by status
-	 *
-	 * @param string $queryName - The GraphQL query
-	 * @param string $type - Media type (anime, manga)
-	 * @return array
-	 */
-	protected function getZippedListPerStatus(string $queryName, string $type): array
+     * Get all the raw data for the current list, chunking by status
+     *
+     * @param string $queryName - The GraphQL query
+     * @param string $type - Media type (anime, manga)
+     */
+    protected function getZippedListPerStatus(string $queryName, string $type): array
 	{
 		$statusPages = [];
 
@@ -603,14 +602,13 @@ final class Model
 	}
 
 	/**
-	 * Get all the raw data for the current list
-	 *
-	 * @param string $queryName - The GraphQL query
-	 * @param string $type - Media type (anime, manga)
-	 * @param string $status - Media 'consumption' status
-	 * @return array
-	 */
-	protected function getZippedList(string $queryName, string $type, string $status): array
+     * Get all the raw data for the current list
+     *
+     * @param string $queryName - The GraphQL query
+     * @param string $type - Media type (anime, manga)
+     * @param string $status - Media 'consumption' status
+     */
+    protected function getZippedList(string $queryName, string $type, string $status): array
 	{
 		$pages = [];
 
@@ -633,15 +631,14 @@ final class Model
 	}
 
 	/**
-	 * A generator returning the relevant snippet for each 'page' of
-	 * a media list request
-	 *
-	 * @param string $queryName - The GraphQL query
-	 * @param string $type - Media type (anime, manga)
-	 * @param string $status - Media 'consumption' status
-	 * @return iterable
-	 */
-	private function getListPages(string $queryName, string $type, string $status): iterable
+     * A generator returning the relevant snippet for each 'page' of
+     * a media list request
+     *
+     * @param string $queryName - The GraphQL query
+     * @param string $type - Media type (anime, manga)
+     * @param string $status - Media 'consumption' status
+     */
+    private function getListPages(string $queryName, string $type, string $status): iterable
 	{
 		$cursor = '';
 		$username = $this->getUsername();
