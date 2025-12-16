@@ -99,7 +99,7 @@ final class Anime extends BaseController
 			? $this->model->getList(AnimeWatchingStatus::ROUTE_TO_KITSU[$status])
 			: $this->model->getAllLists();
 
-		$this->outputHTML('anime/' . $viewMap[$view], [
+		$this->outputHTML('anime/' . $viewMap[$view ?? ''], [
 			'title' => $title,
 			'sections' => $data,
 		]);
