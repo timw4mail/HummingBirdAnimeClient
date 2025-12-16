@@ -126,7 +126,7 @@ class Friend
 		try
 		{
 			$property = $this->_reflect_->getProperty($name);
-			$property->setAccessible(TRUE);
+			// $property->setAccessible(TRUE);
 
 			return $property;
 		}
