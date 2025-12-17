@@ -88,7 +88,7 @@ final class AnimeListTransformer extends AbstractTransformer
 				'length' => $anime['episodeLength'],
 			],
 			'airing' => [
-				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']),
+				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate'])->value,
 				'started' => $anime['startDate'],
 				'ended' => $anime['endDate'],
 			],

@@ -14,15 +14,17 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Enum;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\EnumTrait;
 
 /**
  * Status of when anime is being/was/will be aired
  */
-final class AnimeAiringStatus extends BaseEnum
+enum AnimeAiringStatus: string
 {
-	public const NOT_YET_AIRED = 'Not Yet Aired';
-	public const AIRING = 'Currently Airing';
-	public const FINISHED_AIRING = 'Finished Airing';
+	use EnumTrait;
+
+	case NOT_YET_AIRED = 'Not Yet Aired';
+	case AIRING = 'Currently Airing';
+	case FINISHED_AIRING = 'Finished Airing';
 }
 // End of AnimeAiringStatus.php

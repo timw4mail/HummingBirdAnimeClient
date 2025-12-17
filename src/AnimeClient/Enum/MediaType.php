@@ -14,14 +14,16 @@
 
 namespace Aviat\AnimeClient\Enum;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\EnumTrait;
 
 /**
  * Types of media
  */
-final class MediaType extends BaseEnum
+enum MediaType: string
 {
-	public const ANIME = 'anime';
-	public const DRAMA = 'drama';
-	public const MANGA = 'manga';
+	use EnumTrait;
+
+	case ANIME = 'anime';
+	case DRAMA = 'drama';
+	case MANGA = 'manga';
 }

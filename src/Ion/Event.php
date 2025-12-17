@@ -14,6 +14,8 @@
 
 namespace Aviat\Ion;
 
+use Aviat\Ion\Type\EventType;
+
 /**
  * A basic event handler
  */
@@ -24,25 +26,30 @@ class Event
 	/**
 	 * Subscribe to an event
 	 */
-	public static function on(string $eventName, callable $handler): void
+	public static function on(EventType $eventName, callable $handler): void
 	{
-		if ( ! array_key_exists($eventName, static::$eventMap))
+		if ( ! array_key_exists($eventName->value, static::$eventMap))
 		{
-			static::$eventMap[$eventName] = [];
+			static::$eventMap[$eventName->value] = [];
 		}
 
-		static::$eventMap[$eventName][] = $handler;
+		static::$eventMap[$eventName->value][] = $handler;
 	}
 
 	/**
 	 * Fire off an event
 	 */
-	public static function emit(string $eventName, array $args = []): void
+	public static function emit(EventType $eventName, array $args = []): void
 	{
-		// Call each subscriber with the provided arguments
-		if (array_key_exists($eventName, static::$eventMap))
+		if ( ! array_key_exists($eventName->value, static::$eventMap))
 		{
-			array_walk(static::$eventMap[$eventName], static fn ($fn) => $fn(...$args));
+			return;
 		}
+
+		// Call each subscriber with the provided arguments
+		array_walk(
+			static::$eventMap[$eventName->value],
+			static fn (callable $fn) => $fn(...$args)
+		);
 	}
 }

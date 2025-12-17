@@ -12,18 +12,16 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Enum;
+namespace Aviat\Ion\Type;
 
 use Aviat\Ion\EnumTrait;
 
-/**
- * Types of actions when syncing lists from different APIs
- */
-enum SyncAction: string
+enum EventType: string
 {
 	use EnumTrait;
 
-	case CREATE = 'create';
-	case UPDATE = 'update';
-	case DELETE = 'delete';
+	case CLEAR_CACHE = '::clear-cache::';
+	case RESET_CACHE_KEY = '::reset-cache-key::';
+	case TEST = '::test::';
+	case UNAUTHORIZED = '::unauthorized::';
 }

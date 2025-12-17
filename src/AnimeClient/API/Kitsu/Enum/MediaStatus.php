@@ -14,17 +14,19 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Enum;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\EnumTrait;
 
 /**
  * Status of when anime is being/was/will be aired
  */
-final class MediaStatus extends BaseEnum
+enum MediaStatus: string
 {
-	public const CURRENT = 'CURRENT';
-	public const PLANNED = 'PLANNED';
-	public const ON_HOLD = 'ON_HOLD';
-	public const DROPPED = 'DROPPED';
-	public const COMPLETED = 'COMPLETED';
+	use EnumTrait;
+
+	case CURRENT = 'CURRENT';
+	case PLANNED = 'PLANNED';
+	case ON_HOLD = 'ON_HOLD';
+	case DROPPED = 'DROPPED';
+	case COMPLETED = 'COMPLETED';
 }
 // End of MediaStatus

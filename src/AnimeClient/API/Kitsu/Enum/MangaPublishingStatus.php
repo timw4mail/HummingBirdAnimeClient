@@ -14,15 +14,17 @@
 
 namespace Aviat\AnimeClient\API\Kitsu\Enum;
 
-use Aviat\Ion\Enum as BaseEnum;
+use Aviat\Ion\EnumTrait;
 
 /**
  * Status of when anime is being/was/will be aired
  */
-final class MangaPublishingStatus extends BaseEnum
+enum MangaPublishingStatus: string
 {
-	public const NOT_YET_PUBLISHED = 'Not Yet Published';
-	public const FINISHED = 'Completed';
-	public const CURRENT = 'Current';
+	use EnumTrait;
+
+	case NOT_YET_PUBLISHED = 'Not Yet Published';
+	case FINISHED = 'Completed';
+	case CURRENT = 'Current';
 }
 // End of MangaPublishingStatus

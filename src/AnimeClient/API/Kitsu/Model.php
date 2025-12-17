@@ -625,9 +625,9 @@ final class Model
 	 *
 	 * @return mixed[]
 	 */
-	protected function getList(string $type, string $status = ''): array
+	protected function getList(MediaType $type, string $status = ''): array
 	{
-		return $this->getZippedList('GetLibrary', $type, $status);
+		return $this->getZippedList('GetLibrary', $type->value, $status);
 	}
 
 	/**

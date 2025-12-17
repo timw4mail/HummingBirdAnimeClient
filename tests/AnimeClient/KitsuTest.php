@@ -77,25 +77,14 @@ final class KitsuTest extends TestCase
 		$this->assertSame(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('yesterday'));
 	}
 
-	public static function getPublishingStatus(): array
+	public function testGetPublishingStatusEmptyArguments(): void
 	{
-		return [
-			'current' => [
-				'kitsuStatus' => 'CURRENT',
-				'expected' => MangaPublishingStatus::CURRENT,
-			],
-			'future' => [
-				'kitsuStatus' => 'foo',
-				'expected' => MangaPublishingStatus::NOT_YET_PUBLISHED,
-			],
-		];
+		$this->assertSame(MangaPublishingStatus::NOT_YET_PUBLISHED, Kitsu::getPublishingStatus());
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('getPublishingStatus')]
-	public function testGetPublishingStatus(string $kitsuStatus, string $expected): void
+	public function testGetPublishingStatusIsPublishing(): void
 	{
-		$actual = Kitsu::getPublishingStatus($kitsuStatus);
-		$this->assertSame($expected, $actual);
+		$this->assertSame(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus('yesterday'));
 	}
 
 	public function testFilterLocalizedTitles(): void

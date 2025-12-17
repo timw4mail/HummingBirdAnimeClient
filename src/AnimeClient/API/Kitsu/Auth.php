@@ -19,6 +19,7 @@ use Aura\Session\Segment;
 use Aviat\AnimeClient\API\CacheTrait;
 
 use Aviat\AnimeClient\Kitsu as K;
+use Aviat\Ion\Type\EventType;
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Event;
 use const Aviat\AnimeClient\SESSION_SEGMENT;
@@ -52,7 +53,7 @@ final class Auth
 			->getSegment(SESSION_SEGMENT);
 		$this->model = $container->get('kitsu-model');
 
-		Event::on('::unauthorized::', $this->reAuthenticate(...));
+		Event::on(EventType::UNAUTHORIZED, $this->reAuthenticate(...));
 	}
 
 	/**

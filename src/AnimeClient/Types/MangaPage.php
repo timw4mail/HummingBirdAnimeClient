@@ -30,7 +30,7 @@ final class MangaPage extends AbstractType
 	public array $links;
 	public string $id;
 	public string $manga_type;
-	public string $status = MangaPublishingStatus::FINISHED;
+	public string $status = MangaPublishingStatus::FINISHED->value;
 	public array $staff;
 	public string $synopsis;
 	public string $title;

@@ -22,7 +22,7 @@ const ERROR_MESSAGE_METHOD = 'errorPage';
 const NOT_FOUND_METHOD = 'notFound';
 const SESSION_SEGMENT = 'Aviat\AnimeClient\Auth';
 const SRC_DIR = __DIR__;
-const USER_AGENT = "Tim's Anime Client/5.2";
+const USER_AGENT = "Tim's Anime Client/5.3";
 
 // Regex patterns
 const ALPHA_SLUG_PATTERN = '[a-zA-Z_]+';
@@ -32,9 +32,6 @@ const NUM_PATTERN = '[0-9]+';
  * So...if it's not a forward slash, sure it's valid 😅
  */
 const SLUG_PATTERN = '[^\/]+';
-
-// Why doesn't this already exist?
-const MILLI_FROM_NANO = 1000 * 1000;
 
 /**
  * Map config settings to form fields

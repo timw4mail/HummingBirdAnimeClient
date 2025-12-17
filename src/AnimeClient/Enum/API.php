@@ -14,10 +14,13 @@
 
 namespace Aviat\AnimeClient\Enum;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\EnumTrait;
 
-final class API extends Enum
+enum API: string
 {
-	public const ANILIST = 'anilist';
-	public const KITSU = 'kitsu';
+
+	use EnumTrait;
+
+	case ANILIST = 'anilist';
+	case KITSU = 'kitsu';
 }

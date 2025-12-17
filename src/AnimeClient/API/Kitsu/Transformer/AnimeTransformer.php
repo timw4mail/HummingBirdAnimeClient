@@ -130,7 +130,7 @@ final class AnimeTransformer extends AbstractTransformer
 			'slug' => $base['slug'],
 			'staff' => $staff,
 			'show_type' => $base['subtype'],
-			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate']),
+			'status' => Kitsu::getAiringStatus($base['startDate'], $base['endDate'])->value,
 			'streaming_links' => Kitsu::parseStreamingLinks($base['streamingLinks']['nodes'] ?? []),
 			'synopsis' => $base['description']['en'] ?? '',
 			'title' => $title,

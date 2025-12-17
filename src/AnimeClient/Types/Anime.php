@@ -30,7 +30,7 @@ class Anime extends AbstractType
 	public string $id = '';
 	public ?string $show_type;
 	public ?string $slug;
-	public string $status = AnimeAiringStatus::FINISHED_AIRING;
+	public string $status = AnimeAiringStatus::FINISHED_AIRING->value;
 	public ?array $streaming_links = [];
 	public ?string $synopsis;
 	public ?string $title;

@@ -15,6 +15,7 @@
 namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Event;
+use Aviat\Ion\Type\EventType;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -24,7 +25,7 @@ final class EventTest extends TestCase
 {
 	public function testEmit(): void
 	{
-		Event::on('test-event', fn ($fired) => $this->assertTrue($fired));
-		Event::emit('test-event', [TRUE]);
+		Event::on(EventType::TEST, fn (bool $fired) => $this->assertTrue($fired));
+		Event::emit(EventType::TEST, [TRUE]);
 	}
 }

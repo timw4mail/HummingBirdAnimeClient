@@ -35,7 +35,7 @@ final class Kitsu
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
 	 */
-	public static function getAiringStatus(?string $startDate = NULL, ?string $endDate = NULL): string
+	public static function getAiringStatus(?string $startDate = NULL, ?string $endDate = NULL): AnimeAiringStatus
 	{
 		$startAirDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endAirDate = new DateTimeImmutable($endDate ?? 'next year');
@@ -55,6 +55,28 @@ final class Kitsu
 		}
 
 		return AnimeAiringStatus::NOT_YET_AIRED;
+	}
+
+	public static function getPublishingStatus(?string $startDate = NULL, ?string $endDate = NULL): MangaPublishingStatus
+	{
+		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');
+		$endPubDate = new DateTimeImmutable($endDate ?? 'next year');
+		$now = new DateTimeImmutable();
+
+		$isDone = $now > $endPubDate;
+		$isCurrent = ($now > $startPubDate) && ! $isDone;
+
+		if ($isCurrent)
+		{
+			return MangaPublishingStatus::CURRENT;
+		}
+
+		if ($isDone)
+		{
+			return MangaPublishingStatus::FINISHED;
+		}
+
+		return MangaPublishingStatus::NOT_YET_PUBLISHED;
 	}
 
 	/**
@@ -102,28 +124,6 @@ final class Kitsu
 		}
 
 		return "{$monthMap[$startMonth]} {$startYear} - {$monthMap[$endMonth]} {$endYear}";
-	}
-
-	public static function getPublishingStatus(string $kitsuStatus, ?string $startDate = NULL, ?string $endDate = NULL): string
-	{
-		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');
-		$endPubDate = new DateTimeImmutable($endDate ?? 'next year');
-		$now = new DateTimeImmutable();
-
-		$isDone = $now > $endPubDate;
-		$isCurrent = ($now > $startPubDate) && ! $isDone;
-
-		if ($kitsuStatus === 'CURRENT' || $isCurrent)
-		{
-			return MangaPublishingStatus::CURRENT;
-		}
-
-		if ($kitsuStatus === 'FINISHED' || $isDone)
-		{
-			return MangaPublishingStatus::FINISHED;
-		}
-
-		return MangaPublishingStatus::NOT_YET_PUBLISHED;
 	}
 
 	/**

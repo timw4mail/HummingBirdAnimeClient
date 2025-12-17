@@ -23,9 +23,9 @@ use Aviat\Ion\Json;
  */
 final class MangaTransformerTest extends AnimeClientTestCase
 {
-	protected $dir;
-	protected $beforeTransform;
-	protected $transformer;
+	protected string $dir;
+	protected array $beforeTransform;
+	protected MangaTransformer $transformer;
 
 	protected function setUp(): void
 	{

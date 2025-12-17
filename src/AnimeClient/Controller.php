@@ -15,20 +15,13 @@
 namespace Aviat\AnimeClient;
 
 use Aura\Router\Generator;
-
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
-use Aviat\AnimeClient\Enum\EventType;
-use Aviat\Ion\Di\{
-	ContainerAware,
-	ContainerInterface,
-	Exception\ContainerException,
-	Exception\NotFoundException
-};
-use Aviat\Ion\Exception\DoubleRenderException;
-use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
-
 use Aviat\Ion\{ConfigInterface, Event};
+use Aviat\Ion\Di\{ContainerAware, ContainerInterface, Exception\ContainerException, Exception\NotFoundException};
+use Aviat\Ion\Exception\DoubleRenderException;
+use Aviat\Ion\Type\EventType;
+use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;

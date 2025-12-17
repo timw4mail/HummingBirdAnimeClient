@@ -12,13 +12,19 @@
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
  */
 
-namespace Aviat\AnimeClient\Enum;
+namespace Aviat\Ion;
 
-use Aviat\Ion\Enum as BaseEnum;
+/**
+ * Class emulating an enumeration type
+ */
+trait EnumTrait {
+	public static function getConstList(): array
+	{
+		return array_column(self::cases(), 'name');
+	}
 
-final class EventType extends BaseEnum
-{
-	public const CLEAR_CACHE = '::clear-cache::';
-	public const RESET_CACHE_KEY = '::reset-cache-key::';
-	public const UNAUTHORIZED = '::unauthorized::';
+	public static function isValid(mixed $key): bool
+	{
+		return in_array($key, self::getConstList());
+	}
 }
