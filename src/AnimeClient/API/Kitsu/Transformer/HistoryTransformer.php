@@ -48,12 +48,15 @@ abstract class HistoryTransformer
 	protected string $reconsumingStatus;
 
 	/**
-	 * @var array The mapping of api status to display status
+	 * @var array<string, string> The mapping of api status to display status
 	 */
 	protected array $statusMap = [];
 
 	/**
 	 * Convert raw history
+	 *
+	 * @param array<string, mixed> $data
+	 * @return array<HistoryItem>
 	 */
 	public function transform(array $data): array
 	{
@@ -95,6 +98,9 @@ abstract class HistoryTransformer
 
 	/**
 	 * Combine consecutive 'progressed' events
+	 *
+	 * @param list<HistoryItem> $singles
+	 * @return list<HistoryItem>
 	 */
 	protected function aggregate(array $singles): array
 	{
@@ -181,6 +187,10 @@ abstract class HistoryTransformer
 		return $output;
 	}
 
+	/**
+	 * @param array<string, mixed> $entry
+	 * @return HistoryItem|null
+	 */
 	protected function transformProgress(array $entry): ?HistoryItem
 	{
 		$data = $entry['media'];
@@ -221,6 +231,10 @@ abstract class HistoryTransformer
 		]);
 	}
 
+	/**
+	 * @param array<string, mixed> $entry
+	 * @return HistoryItem
+	 */
 	protected function transformUpdated(array $entry): HistoryItem
 	{
 		$data = $entry['media'];
@@ -254,6 +268,10 @@ abstract class HistoryTransformer
 		return HistoryItem::from($entry);
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 * @return string
+	 */
 	protected function linkTitle(array $data): string
 	{
 		return $data['titles']['canonical'];
@@ -274,11 +292,19 @@ abstract class HistoryTransformer
 		return $dateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 * @return string
+	 */
 	protected function getUrl(array $data): string
 	{
 		return "/{$this->type}/details/{$data['slug']}";
 	}
 
+	/**
+	 * @param array<string, mixed> $entry
+	 * @return bool
+	 */
 	protected function isReconsuming(array $entry): bool
 	{
 		return $entry['libraryEntry']['reconsuming'];

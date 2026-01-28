@@ -19,8 +19,19 @@ namespace Aviat\AnimeClient\Types;
  */
 final class AnimePage extends Anime
 {
+	/**
+	 * @var array<string, Character>
+	 */
 	public array $characters = [];
+
+	/**
+	 * @var array<string, string>
+	 */
 	public array $links = [];
+
+	/**
+	 * @var array<string, mixed>
+	 */
 	public array $staff = [];
 	public ?string $airDate = '';
 }

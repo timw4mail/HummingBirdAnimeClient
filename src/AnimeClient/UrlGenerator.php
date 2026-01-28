@@ -54,6 +54,12 @@ class UrlGenerator extends RoutingBase
 		return implode('/', $args);
 	}
 
+	/**
+	 * @param string $route
+	 * @param list<int|string> $args
+	 * @return string
+	 * @throws \Aura\Router\Exception\RouteNotFound
+	 */
 	public function fromRoute(string $route, array $args = []): string
 	{
 		return $this->hostUrl($this->routerUrl->generate($route, $args));

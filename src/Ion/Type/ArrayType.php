@@ -20,19 +20,21 @@ use function in_array;
 /**
  * Wrapper class for native array methods for convenience
  *
- * @method array chunk(int $size, bool $preserve_keys = FALSE)
- * @method array filter(callable $callback = NULL, int $flag = 0)
- * @method array pluck(mixed $column_key, mixed $index_key = NULL)
+ * @method array<mixed> chunk(int $size, bool $preserve_keys = FALSE)
+ * @method array<mixed> filter(callable $callback = NULL, int $flag = 0)
+ * @method array<mixed> pluck(mixed $column_key, mixed $index_key = NULL)
  */
 class ArrayType
 {
 	/**
 	 * The current array
+	 * @var array<int|string, mixed>
 	 */
 	protected array $arr = [];
 
 	/**
 	 * Map generated methods to their native implementations
+	 * @var array<string, string>
 	 */
 	protected array $nativeMethods = [
 		'chunk' => 'array_chunk',
@@ -56,6 +58,7 @@ class ArrayType
 
 	/**
 	 * Native methods that modify the passed in array
+	 * @var array<string, string>
 	 */
 	protected array $nativeInPlaceMethods = [
 		'shuffle' => 'shuffle',
@@ -67,6 +70,7 @@ class ArrayType
 
 	/**
 	 * Create an ArrayType wrapper class
+	 * @param array<int|string, mixed> $arr
 	 */
 	private function __construct(array &$arr)
 	{
@@ -76,6 +80,7 @@ class ArrayType
 	/**
 	 * Call one of the dynamically created methods
 	 *
+	 * @param array<int|string, mixed> $args
 	 * @throws InvalidArgumentException
 	 */
 	public function __call(string $method, array $args): mixed
@@ -102,6 +107,7 @@ class ArrayType
 
 	/**
 	 * Create an ArrayType wrapper class from an array
+	 * @param array<int|string, mixed> $arr
 	 */
 	public static function from(array $arr): ArrayType
 	{
@@ -110,6 +116,7 @@ class ArrayType
 
 	/**
 	 * Does the passed key exist in the current array?
+	 * @param int|string|array<string, mixed> $key
 	 */
 	public function hasKey(int|string|array $key): bool
 	{
@@ -206,7 +213,7 @@ class ArrayType
 	 * @example $arr = ArrayType::from([0 => ['data' => ['foo' => 'bar']]]);
 	 * $val = $arr->getDeepKey([0, 'data', 'foo']);
 	 * // returns 'bar'
-	 * @param array $key An array of keys of the array
+	 * @param array<int|string> $key An array of keys of the array
 	 */
 	public function &getDeepKey(array $key): mixed
 	{
@@ -235,6 +242,7 @@ class ArrayType
 	 * Sets the value of an arbitrarily deep key in the array
 	 * and returns the modified array
 	 *
+	 * @param array<int|string> $key An array of keys of the array
 	 * @return mixed[]
 	 */
 	public function setDeepKey(array $key, mixed $value): array

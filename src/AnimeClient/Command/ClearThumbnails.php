@@ -19,6 +19,11 @@ namespace Aviat\AnimeClient\Command;
  */
 class ClearThumbnails extends BaseCommand
 {
+	/**
+	 * @param array<mixed> $args
+	 * @param array<mixed> $options
+	 * @return void
+	 */
 	public function execute(array $args, array $options = []): void
 	{
 		$this->clearThumbs();

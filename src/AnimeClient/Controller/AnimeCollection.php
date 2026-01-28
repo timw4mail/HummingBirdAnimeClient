@@ -136,7 +136,7 @@ final class AnimeCollection extends BaseController
 				$action
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === 'Edit' && $id !== NULL) ? $this->animeCollectionModel->get($id) : [],
+			'item' => ($action === 'Edit') ? $this->animeCollectionModel->get($id) : [],
 		]);
 	}
 
@@ -235,6 +235,8 @@ final class AnimeCollection extends BaseController
 
 	/**
 	 * Update a collection item
+	 *
+	 * @param array<string, mixed> $data
 	 */
 	protected function update(array $data): void
 	{

@@ -18,6 +18,13 @@ final class Media
 {
 	use ComponentTrait;
 
+	/**
+	 * @param list<string> $titles
+	 * @param string $link
+	 * @param string $picture
+	 * @param string $className
+	 * @return string
+	 */
 	public function __invoke(array $titles, string $link, string $picture, string $className = 'media'): string
 	{
 		return $this->render('media.php', [

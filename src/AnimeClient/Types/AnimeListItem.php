@@ -22,11 +22,19 @@ final class AnimeListItem extends AbstractType
 	public ?string $id;
 	public ?string $anilist_id;
 	public ?string $mal_id;
+
+	/**
+	 * @var array<string, int|string>
+	 */
 	public array $episodes = [
 		'length' => 0,
 		'total' => 0,
 		'watched' => '',
 	];
+
+	/**
+	 * @var array<string, int|string>
+	 */
 	public array $airing = [
 		'status' => '',
 		'started' => '',

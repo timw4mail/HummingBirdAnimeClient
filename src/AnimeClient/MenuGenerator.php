@@ -96,6 +96,7 @@ final class MenuGenerator extends UrlGenerator
 	/**
 	 * Generate the full menu structure from the config files
 	 *
+	 * @param array<string, mixed> $menus
 	 * @return array<mixed, array<string, string>>
 	 */
 	private function parseConfig(array $menus): array

@@ -28,6 +28,8 @@ final class ParallelAPIRequest
 {
 	/**
 	 * Set of requests to make in parallel
+	 *
+	 * @var array<string|int, string|Request>
 	 */
 	private array $requests = [];
 
@@ -63,6 +65,7 @@ final class ParallelAPIRequest
 	/**
 	 * Make the requests, and return the body for each
 	 *
+	 * @return array<string|int, mixed>
 	 * @throws Throwable
 	 */
 	public function makeRequests(): array
@@ -80,6 +83,7 @@ final class ParallelAPIRequest
 	/**
 	 * Make the requests and return the response objects
 	 *
+	 * @return array<string|int, mixed>
 	 * @throws Throwable
 	 */
 	public function getResponses(): array

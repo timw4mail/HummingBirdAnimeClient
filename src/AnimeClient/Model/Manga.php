@@ -94,7 +94,8 @@ class Manga extends API
 	/**
 	 * Map transformed anime data to be organized by reading status
 	 *
-	 * @return array<string, mixed[]>
+	 * @param array<string, mixed> $data
+	 * @return array<string, mixed>
 	 */
 	private function mapByStatus(array $data): array
 	{

@@ -34,6 +34,9 @@ final class Picture
 	/**
 	 * Create the html for an html picture element.
 	 * Uses .webp images with fallback
+	 *
+	 * @param array<string, string> $picAttrs
+	 * @param array<string, string> $imgAttrs
 	 */
 	public function __invoke(string $uri, string $fallbackExt = 'jpg', array $picAttrs = [], array $imgAttrs = []): string
 	{

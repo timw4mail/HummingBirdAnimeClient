@@ -26,10 +26,8 @@ final class Menu
 
 	/**
 	 * Create the html for the selected menu
-	 *
-	 * @return string
 	 */
-	public function __invoke(string $menuName)
+	public function __invoke(string $menuName): string
 	{
 		return MenuGenerator::new($this->container)->generate($menuName);
 	}

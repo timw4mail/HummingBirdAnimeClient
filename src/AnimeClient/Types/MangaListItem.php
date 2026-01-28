@@ -22,14 +22,23 @@ final class MangaListItem extends AbstractType
 	public string $id;
 	public ?string $anilist_id;
 	public ?string $mal_id;
+
+	/**
+	 * @var array|int[]
+	 */
 	public array $chapters = [
 		'read' => 0,
 		'total' => 0,
 	];
+
+	/**
+	 * @var array<string, int|string>
+	 */
 	public array $volumes = [
 		'read' => '-',
 		'total' => 0,
 	];
+
 	public object $manga;
 	public string $reading_status;
 	public ?string $notes;

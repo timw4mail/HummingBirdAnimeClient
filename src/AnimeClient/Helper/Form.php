@@ -27,9 +27,10 @@ final class Form
 	/**
 	 * Create the html for the specified form
 	 *
+	 * @param array<string, mixed> $form
 	 * @return string
 	 */
-	public function __invoke(string $name, array $form)
+	public function __invoke(string $name, array $form): string
 	{
 		return FormGenerator::new($this->container)->generate($name, $form);
 	}

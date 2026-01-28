@@ -10,10 +10,10 @@ pipeline {
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
  		}
-		stage('PHP 8.2') {
+		stage('PHP 8.4') {
 			agent {
 				docker {
-					image 'php:8.2-cli-alpine'
+					image 'php:8.4-cli-alpine'
 					args '-u root --privileged'
 				}
 			}
@@ -23,10 +23,10 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
-		stage('PHP 8.3') {
+		stage('PHP 8.5') {
 			agent {
 				docker {
-					image 'php:8.3-cli-alpine'
+					image 'php:8.5-cli-alpine'
 					args '-u root --privileged'
 				}
 			}

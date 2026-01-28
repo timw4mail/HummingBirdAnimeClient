@@ -26,6 +26,7 @@ class Util
 
 	/**
 	 * Routes that don't require a second navigation level
+	 * @var list<string>
 	 */
 	private static array $formPages = [
 		'edit',
@@ -99,17 +100,5 @@ class Util
 		$intersect = array_intersect($pageSegments, self::$formPages);
 
 		return empty($intersect);
-	}
-
-	/**
-	 * Determine whether the page is a page with a form, and
-	 * not suitable for redirection
-	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
-	 */
-	public function isFormPage(): bool
-	{
-		return ! $this->isViewPage();
 	}
 }

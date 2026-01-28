@@ -84,9 +84,9 @@ class HttpView implements HttpViewInterface, Stringable
 	/**
 	 * Alternate static constructor
 	 */
-	public static function new(): static
+	public static function new(): self
 	{
-		return new static();
+		return new self();
 	}
 
 	/**
@@ -131,6 +131,7 @@ class HttpView implements HttpViewInterface, Stringable
 	/**
 	 * Do a redirect
 	 *
+	 * @param array<string, string> $headers
 	 * @throws InvalidArgumentException
 	 */
 	public function redirect(string $url, int $code = 302, array $headers = []): self

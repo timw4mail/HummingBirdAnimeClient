@@ -10,7 +10,7 @@ use Aviat\AnimeClient\Model\{
 };
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
-use Aviat\Ion\{Enum, Friend, Json};
+use Aviat\Ion\{ConstList, Friend, Json};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -27,7 +27,7 @@ class MockErrorHandler
 // Ion Mocks
 // -----------------------------------------------------------------------------
 
-class TestEnum extends Enum
+class TestConstList extends ConstList
 {
 	final public const FOO = 'bar';
 	final public const BAR = 'foo';

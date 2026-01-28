@@ -50,6 +50,7 @@ class HistoryItem extends AbstractType
 
 	/**
 	 * Range of updated times for the aggregated item
+	 * @var array<mixed>
 	 */
 	public array $dateRange = [];
 
@@ -60,6 +61,7 @@ class HistoryItem extends AbstractType
 
 	/**
 	 * The item before transformation
+	 * @var array<mixed>
 	 */
 	public array $original = [];
 }

@@ -20,9 +20,14 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Data transformation class for people pages
+ * @extends AbstractTransformer<Person>
  */
 final class PersonTransformer extends AbstractTransformer
 {
+	/**
+	 * @param array<string, mixed>|object $item
+	 * @return Person
+	 */
 	public function transform(array|object $item): Person
 	{
 		$item = (array) $item;
@@ -45,6 +50,7 @@ final class PersonTransformer extends AbstractTransformer
 	}
 
 	/**
+	 * @param array<string, mixed> $data
 	 * @return array<string, array<int|string, array<int|string, array<int|string, array<int|string, mixed>>>>>
 	 */
 	protected function organizeData(array $data): array

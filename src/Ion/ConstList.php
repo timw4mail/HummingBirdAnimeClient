@@ -20,11 +20,12 @@ use ReflectionException;
 /**
  * Class emulating an enumeration type
  */
-abstract class Enum
+abstract class ConstList
 {
 	/**
 	 * Return the list of constant values for the Enum
 	 *
+	 * @return array<string|int>
 	 * @throws ReflectionException
 	 */
 	public static function getConstList(): array

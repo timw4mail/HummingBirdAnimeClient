@@ -72,6 +72,8 @@ class Controller
 
 	/**
 	 * Common data to be sent to views
+	 *
+	 * @var array<string, mixed>
 	 */
 	protected array $baseData = [];
 
@@ -195,11 +197,13 @@ class Controller
 
 	/**
 	 * Get the string output of a partial template
+	 *
+	 * @param array<string, mixed> $data
 	 */
 	protected function loadPartial(HtmlView $view, string $template, array $data = []): string
 	{
 		$router = $this->container->get('dispatcher');
-		$data = array_merge($this->baseData ?? [], $data);
+		$data = array_merge($this->baseData, $data);
 
 		$route = $router->getRoute();
 		$data['route_path'] = $route !== FALSE ? $route->path : '';
@@ -216,6 +220,7 @@ class Controller
 
 	/**
 	 * Render a template with header and footer
+	 * @param array<string, mixed> $data
 	 */
 	protected function renderFullPage(HtmlView $view, string $template, array $data): HtmlView
 	{
@@ -225,7 +230,7 @@ class Controller
 			"child-src 'self' *.youtube.com",
 		];
 
-		$data = array_merge($this->baseData ?? [], $data);
+		$data = array_merge($this->baseData, $data);
 
 		$view->addHeader('Content-Security-Policy', implode('; ', $csp));
 		$view->appendOutput($this->loadPartial($view, 'header', $data));
@@ -329,7 +334,7 @@ class Controller
 
 	/**
 	 * Output a template to HTML, using the provided data
-	 *
+	 * @param array<string, mixed> $data
 	 * @throws InvalidArgumentException
 	 */
 	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void

@@ -23,21 +23,43 @@ final class MangaPage extends AbstractType
 {
 	public ?string $age_rating;
 	public ?string $age_rating_guide;
+
+	/**
+	 * @var array<mixed>
+	 */
 	public array $characters;
+
 	public ?int $chapter_count;
 	public ?string $cover_image;
+
+	/**
+	 * @var list<string>
+	 */
 	public array $genres;
+
+	/**
+	 * @var array<string, mixed>
+	 */
 	public array $links;
 	public string $id;
 	public string $manga_type;
 	public string $status = MangaPublishingStatus::FINISHED->value;
+
+	/**
+	 * @var array<string, mixed>
+	 */
 	public array $staff;
 	public string $synopsis;
 	public string $title;
+
+	/**
+	 * @var list<string>
+	 */
 	public array $titles;
 
 	/**
 	 * A potentially longer list of titles for the details page
+	 * @var list<string>
 	 */
 	public array $titles_more;
 

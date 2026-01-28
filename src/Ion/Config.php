@@ -31,6 +31,8 @@ class Config implements ConfigInterface
 
 	/**
 	 * Constructor
+	 *
+	 * @param array<string, mixed> $configArray
 	 */
 	public function __construct(array $configArray = [])
 	{
@@ -39,6 +41,7 @@ class Config implements ConfigInterface
 
 	/**
 	 * Does the config item exist?
+	 * @param array<string|int>|int|string $key
 	 */
 	public function has(array|int|string $key): bool
 	{
@@ -48,9 +51,10 @@ class Config implements ConfigInterface
 	/**
 	 * Get a config value
 	 *
+	 * @param array<string|int>|int|string|null $key
 	 * @throws ConfigException
 	 */
-	public function get(array|string|null $key = NULL): mixed
+	public function get(array|int|string|null $key = NULL): mixed
 	{
 		if (is_array($key))
 		{
@@ -62,8 +66,9 @@ class Config implements ConfigInterface
 
 	/**
 	 * Remove a config value
+	 * @param array<string|int>|int|string $key
 	 */
-	public function delete(array|string $key): void
+	public function delete(array|int|string $key): void
 	{
 		if (is_array($key))
 		{
@@ -87,7 +92,7 @@ class Config implements ConfigInterface
 		{
 			$this->map->setDeepKey($key, $value);
 		}
-		elseif (is_scalar($key) && ! empty($key))
+		elseif ( ! empty($key))
 		{
 			$this->map->set($key, $value);
 		}

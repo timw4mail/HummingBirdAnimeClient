@@ -15,13 +15,13 @@
 namespace Aviat\AnimeClient\API\Mapping;
 
 use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{Anilist, Kitsu, Route, Title};
-use Aviat\Ion\Enum;
+use Aviat\Ion\ConstList;
 
 /**
  * Manga reading status mappings, among Kitsu, MAL, Page titles
  * and url route segments
  */
-final class MangaReadingStatus extends Enum
+final class MangaReadingStatus extends ConstList
 {
 	public const ANILIST_TO_KITSU = [
 		Anilist::READING => Kitsu::READING,

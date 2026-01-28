@@ -20,6 +20,7 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 
 /**
  * Transformer for anime description page
+ * @extends AbstractTransformer<AnimePage>
  */
 final class AnimeTransformer extends AbstractTransformer
 {
@@ -27,7 +28,7 @@ final class AnimeTransformer extends AbstractTransformer
 	 * Convert raw api response to a more
 	 * logical and workable structure
 	 *
-	 * @param array|object $item API library item
+	 * @param array<string, mixed>|object $item API library item
 	 */
 	public function transform(array|object $item): AnimePage
 	{

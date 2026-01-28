@@ -25,6 +25,8 @@ final class CachePrime extends BaseCommand
 	/**
 	 * Clear, then prime the API cache
 	 *
+	 * @param array<mixed> $args
+	 * @param array<mixed> $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */

@@ -24,11 +24,23 @@ final class User extends AbstractType
 	public ?string $birthday;
 	public string $joinDate;
 	public ?string $gender;
+
+	/**
+	 * @var array<mixed>|null
+	 */
 	public ?array $favorites;
 	public ?string $location;
 	public ?string $name;
 	public ?string $slug;
+
+	/**
+	 * @var array<mixed>|null
+	 */
 	public ?array $stats;
+
+	/**
+	 * @var array<mixed>
+	 */
 	public array $waifu;
 	public ?string $website;
 }

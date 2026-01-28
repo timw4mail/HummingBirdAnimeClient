@@ -23,7 +23,7 @@ final class VerticalTabs
 	 *
 	 * @param string $name the name attribute for the input[type-option] form elements
 	 *                     also used to generate id attributes
-	 * @param array $tabData The data used to create the tab content, indexed by the tab label
+	 * @param array<string, mixed> $tabData The data used to create the tab content, indexed by the tab label
 	 * @param callable $cb The function to generate the tab content
 	 */
 	public function __invoke(

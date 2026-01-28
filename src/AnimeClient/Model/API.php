@@ -21,6 +21,7 @@ abstract class API
 {
 	/**
 	 * Sort the list entries by their title
+	 * @param array<int|string, mixed> $array
 	 */
 	protected function sortByName(array &$array, string $sortKey): void
 	{

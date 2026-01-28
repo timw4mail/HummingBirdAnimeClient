@@ -23,23 +23,27 @@ interface ConfigInterface
 {
 	/**
 	 * Does the config item exist?
+	 * @param array<string|int>|int|string $key
 	 */
 	public function has(array|int|string $key): bool;
 
 	/**
 	 * Get a config value
+	 * @param array<string|int>|int|string|null $key
 	 */
-	public function get(array|string $key = NULL): mixed;
+	public function get(array|int|string|null $key = NULL): mixed;
 
 	/**
 	 * Set a config value
 	 *
+	 * @param array<string|int>|int|string $key
 	 * @throws InvalidArgumentException
 	 */
 	public function set(array|int|string $key, mixed $value): self;
 
 	/**
 	 * Remove a config value
+	 * @param array<string|int>|int|string $key
 	 */
-	public function delete(array|string $key): void;
+	public function delete(array|int|string $key): void;
 }

@@ -69,27 +69,16 @@ final class UtilTest extends AnimeClientTestCase
 		];
 	}
 
- #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
- public function testIsViewPage(mixed $uri, mixed $expected)
- {
- 	$this->setSuperGlobals([
- 		'_SERVER' => [
- 			'REQUEST_URI' => $uri,
- 		],
- 	]);
- 	$this->assertSame($expected, $this->util->isViewPage());
- }
-
- #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
- public function testIsFormPage(mixed $uri, mixed $expected)
- {
- 	$this->setSuperGlobals([
- 		'_SERVER' => [
- 			'REQUEST_URI' => $uri,
- 		],
- 	]);
- 	$this->assertSame( ! $expected, $this->util->isFormPage());
- }
+	 #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+	 public function testIsViewPage(mixed $uri, mixed $expected)
+	 {
+		$this->setSuperGlobals([
+			'_SERVER' => [
+				'REQUEST_URI' => $uri,
+			],
+		]);
+		$this->assertSame($expected, $this->util->isViewPage());
+	 }
 
 	public function testAriaCurrent(): void
 	{

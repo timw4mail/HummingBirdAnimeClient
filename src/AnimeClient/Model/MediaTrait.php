@@ -73,6 +73,8 @@ trait MediaTrait
 	/**
 	 * Get information about a specific list item
 	 * for editing/updating that item
+	 *
+	 * @return AnimeListItem|MangaListItem|array<string, mixed>
 	 */
 	public function getItem(string $itemId): AnimeListItem|MangaListItem|array
 	{
@@ -82,6 +84,7 @@ trait MediaTrait
 	/**
 	 * Add an anime to your list
 	 *
+	 * @param array<string, mixed> $data
 	 * @throws Throwable
 	 */
 	public function createItem(array $data): bool

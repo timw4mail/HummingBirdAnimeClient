@@ -22,11 +22,14 @@ use function Aviat\AnimeClient\{formatDate, friendlyTime, getDateDiff};
 /**
  * Transform user profile data for display
  *
- * @param array|object $profileData
- * @return User
+ * @extends AbstractTransformer<User>
  */
 final class UserTransformer extends AbstractTransformer
 {
+	/**
+	 * @param array<string, mixed>|object $item
+	 * @return User
+	 */
 	public function transform(array|object $item): User
 	{
 		$item = (array) $item;
@@ -61,6 +64,7 @@ final class UserTransformer extends AbstractTransformer
 	/**
 	 * Reorganize favorites data to be more useful
 	 *
+	 * @param array<mixed> $rawFavorites
 	 * @return array<string, array<int|string, mixed>>
 	 */
 	private function organizeFavorites(array $rawFavorites): array
@@ -77,6 +81,8 @@ final class UserTransformer extends AbstractTransformer
 	}
 
 	/**
+	 * @param array<string, mixed> $stats
+	 * @param array<string, mixed> $data
 	 * @return array<string, string>
 	 */
 	private function organizeStats(array $stats, array $data = []): array

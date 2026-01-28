@@ -25,6 +25,8 @@ final class CacheClear extends BaseCommand
 	/**
 	 * Clear the API cache
 	 *
+	 * @param array<mixed> $args
+	 * @param array<mixed> $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */

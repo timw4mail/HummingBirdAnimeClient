@@ -14,12 +14,12 @@
 
 namespace Aviat\AnimeClient\API\Enum\MangaReadingStatus;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\ConstList;
 
 /**
  * Possible values for current reading status of manga
  */
-final class Title extends Enum
+final class Title extends ConstList
 {
 	public const ALL = 'All';
 	public const READING = 'Currently Reading';

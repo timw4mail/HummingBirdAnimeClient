@@ -52,6 +52,8 @@ final class SyncLists extends BaseCommand
 	/**
 	 * Sync Kitsu <=> Anilist
 	 *
+	 * @param array<mixed> $args
+	 * @param array<mixed> $options
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 * @throws Throwable
@@ -92,7 +94,7 @@ final class SyncLists extends BaseCommand
 		$this->setCache($this->container->get('cache'));
 
 		$config = $this->container->get('config');
-		$anilistEnabled = $config->get([Enum\API::ANILIST, 'enabled']);
+		$anilistEnabled = $config->get([Enum\API::ANILIST->value, 'enabled']);
 
 		// We can't sync kitsu against itself!
 		if ( ! $anilistEnabled)
@@ -120,7 +122,7 @@ final class SyncLists extends BaseCommand
 	/**
 	 * Get and display the count of items for each API
 	 */
-	protected function fetchCount(string $type): void
+	protected function fetchCount(MediaType $type): void
 	{
 		// This pulls too much data from Anilist, so skipping this step should result
 		// in fewer instances of API throttling
@@ -148,9 +150,9 @@ final class SyncLists extends BaseCommand
 	 *
 	 * @return array<string, mixed[]>
 	 */
-	protected function fetch(string $type): array
+	protected function fetch(MediaType $type): array
 	{
-		$this->echo("Fetching {$type} List Data");
+		$this->echo("Fetching {$type->value} List Data");
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
 		$anilist = $this->fetchAnilist($type);
@@ -162,79 +164,82 @@ final class SyncLists extends BaseCommand
 		$this->clearLine();
 
 		return [
-			Enum\API::ANILIST => $anilist,
-			Enum\API::KITSU => $kitsu,
+			Enum\API::ANILIST->value => $anilist,
+			Enum\API::KITSU->value => $kitsu,
 		];
 	}
 
 	/**
 	 * Normalize the list data for comparison
 	 *
+	 * @param array<mixed> $data
 	 * @return array<string, mixed[]>
 	 */
-	protected function transform(string $type, array $data): array
+	protected function transform(MediaType $type, array $data): array
 	{
 		$this->echo('Normalizing List Data');
 		$progress = new Widgets\ProgressBar($this->getConsole(), 2, 50, FALSE);
 
-		$kitsu = $this->transformKitsu($type, $data[Enum\API::KITSU]);
+		$kitsu = $this->transformKitsu($type, $data[Enum\API::KITSU->value]);
 		$progress->incr();
 
-		$anilist = $this->transformAnilist($type, $data[Enum\API::ANILIST]);
+		$anilist = $this->transformAnilist($type, $data[Enum\API::ANILIST->value]);
 		$progress->incr();
 
 		$this->clearLine();
 
 		return [
-			Enum\API::ANILIST => $anilist,
-			Enum\API::KITSU => $kitsu,
+			Enum\API::ANILIST->value => $anilist,
+			Enum\API::KITSU->value => $kitsu,
 		];
 	}
 
 	/**
 	 * Compare the lists data
 	 *
+	 * @param array<mixed> $data
 	 * @return array<string, mixed[]>
 	 */
-	protected function compare(string $type, array $data): array
+	protected function compare(MediaType $type, array $data): array
 	{
 		$this->echo('Comparing List Items');
 
-		return $this->compareLists($type, $data[Enum\API::ANILIST], $data[Enum\API::KITSU]);
+		return $this->compareLists($type, $data[Enum\API::ANILIST->value], $data[Enum\API::KITSU->value]);
 	}
 
 	/**
 	 * Updated outdated list items
 	 *
+	 * @param array<string, mixed> $data
 	 * @throws Throwable
 	 */
-	protected function update(string $type, array $data): void
+	protected function update(MediaType $type, array $data): void
 	{
 		if ( ! empty($data['addToAnilist']))
 		{
 			$count = is_countable($data['addToAnilist']) ? count($data['addToAnilist']) : 0;
-			$this->echoBox("Adding {$count} missing {$type} list items to Anilist");
+			$this->echoBox("Adding {$count} missing {$type->value} list items to Anilist");
 			$this->updateAnilistListItems($data['addToAnilist'], SyncAction::CREATE, $type);
 		}
 
 		if ( ! empty($data['updateAnilist']))
 		{
 			$count = is_countable($data['updateAnilist']) ? count($data['updateAnilist']) : 0;
-			$this->echoBox("Updating {$count} outdated Anilist {$type} list items");
+			$this->echoBox("Updating {$count} outdated Anilist {$type->value} list items");
 			$this->updateAnilistListItems($data['updateAnilist'], SyncAction::UPDATE, $type);
 		}
 
 		if ( ! empty($data['addToKitsu']))
 		{
 			$count = is_countable($data['addToKitsu']) ? count($data['addToKitsu']) : 0;
-			$this->echoBox("Adding {$count} missing {$type} list items to Kitsu");
+			$this->echoBox("Adding {$count} missing {$type->value} list items to Kitsu");
 			$this->updateKitsuListItems($data['addToKitsu'], SyncAction::CREATE, $type);
 		}
 
 		if ( ! empty($data['updateKitsu']))
 		{
 			$count = is_countable($data['updateKitsu']) ? count($data['updateKitsu']) : 0;
-			$this->echoBox("Updating {$count} outdated Kitsu {$type} list items");
+			$this->echoBox("Updating {$count} outdated Kitsu {$type->value} list items");
 			$this->updateKitsuListItems($data['updateKitsu'], SyncAction::UPDATE, $type);
 		}
 	}
@@ -242,7 +247,7 @@ final class SyncLists extends BaseCommand
 	// ------------------------------------------------------------------------
 	// Fetch helpers
 	// ------------------------------------------------------------------------
-	private function fetchAnilistCount(string $type): int
+	private function fetchAnilistCount(MediaType $type): int
 	{
 		$list = $this->fetchAnilist($type);
 
@@ -264,12 +269,14 @@ final class SyncLists extends BaseCommand
 	/**
 	 * @return mixed[]
 	 */
-	private function fetchAnilist(string $type): array
+	private function fetchAnilist(MediaType $type): array
 	{
 		static $list = [
-			MediaType::ANIME => NULL,
-			MediaType::MANGA => NULL,
+			MediaType::ANIME->value => NULL,
+			MediaType::MANGA->value => NULL,
 		];
+
+		$type = $type->value;
 
 		// This uses a static so I don't have to fetch this list twice for a count
 		if ($list[$type] === NULL)
@@ -299,18 +306,19 @@ final class SyncLists extends BaseCommand
 	/**
 	 * @return mixed[]
 	 */
-	private function fetchKitsu(string $type): array
+	private function fetchKitsu(MediaType $type): array
 	{
-		return $this->kitsuModel->getSyncList($type);
+		return $this->kitsuModel->getSyncList($type());
 	}
 
 	// ------------------------------------------------------------------------
 	// Transform Helpers
 	// ------------------------------------------------------------------------
 	/**
+	 * @param array<mixed> $data
 	 * @return mixed[]
 	 */
-	private function transformKitsu(string $type, array $data): array
+	private function transformKitsu(MediaType $type, array $data): array
 	{
 		if (empty($data))
 		{
@@ -331,7 +339,7 @@ final class SyncLists extends BaseCommand
 
 			foreach ($listItem['media']['mappings']['nodes'] as $mapping)
 			{
-				$uType = strtoupper($type);
+				$uType = strtoupper($type());
 				if ($mapping['externalSite'] === "MYANIMELIST_{$uType}")
 				{
 					$malId = $mapping['externalId'];
@@ -368,11 +376,12 @@ final class SyncLists extends BaseCommand
 	}
 
 	/**
+	 * @param array<mixed> $data
 	 * @return array<int|string, mixed>
 	 */
-	private function transformAnilist(string $type, array $data): array
+	private function transformAnilist(MediaType $type, array $data): array
 	{
-		$uType = ucfirst($type);
+		$uType = ucfirst($type());
 		$className = "\\Aviat\\AnimeClient\\API\\Anilist\\Transformer\\{$uType}ListTransformer";
 		$transformer = new $className();
 
@@ -400,9 +409,11 @@ final class SyncLists extends BaseCommand
 	// Compare Helpers
 	// ------------------------------------------------------------------------
 	/**
+	 * @param array<mixed> $anilistList
+	 * @param array<mixed> $kitsuList
 	 * @return array<string, mixed[]>
 	 */
-	private function compareLists(string $type, array $anilistList, array $kitsuList): array
+	private function compareLists(MediaType $type, array $anilistList, array $kitsuList): array
 	{
 		$itemsToAddToAnilist = [];
 		$itemsToAddToKitsu = [];
@@ -422,7 +433,7 @@ final class SyncLists extends BaseCommand
 			}
 
 			$data = $anilistList[$mid]['data'];
-			$data['id'] = $this->kitsuModel->getKitsuIdFromMALId((string) $mid, $type);
+			$data['id'] = $this->kitsuModel->getKitsuIdFromMALId((string) $mid, $type());
 			$data['type'] = $type;
 
 			$itemsToAddToKitsu[] = $data;
@@ -484,6 +495,10 @@ final class SyncLists extends BaseCommand
 
 	/**
 	 * Compare two list items, and return the out of date one, if one exists
+	 *
+	 * @param array<mixed> $kitsuItem
+	 * @param array<mixed> $anilistItem
+	 * @return array<mixed>|null
 	 */
 	private function compareListItems(array $kitsuItem, array $anilistItem): ?array
 	{
@@ -648,18 +663,18 @@ final class SyncLists extends BaseCommand
 		}
 
 		$return['meta'] = [
-			Enum\API::KITSU => $kitsuItem['data'],
-			Enum\API::ANILIST => $anilistItem['data'],
+			Enum\API::KITSU->value => $kitsuItem['data'],
+			Enum\API::ANILIST->value => $anilistItem['data'],
 			'dateDiff' => $dateDiff,
 			'diff' => $diff,
 		];
 		$return['data'] = $update;
-		$return['updateType'] = array_unique($return['updateType']);
+		$return['updateType'] = array_unique(array_map(static fn ($type) => $type->value, $return['updateType']));
 
 		// Fill in missing data values for update
 		// so I don't have to create a really complex graphql query
 		// to handle each combination of fields
-		if ($return['updateType'][0] === Enum\API::ANILIST)
+		if ($return['updateType'][0] === Enum\API::ANILIST->value)
 		{
 			// Anilist GraphQL expects a rating from 1-100
 			$prevData = [
@@ -676,7 +691,7 @@ final class SyncLists extends BaseCommand
 
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
 		}
-		elseif ($return['updateType'][0] === Enum\API::KITSU)
+		elseif ($return['updateType'][0] === Enum\API::KITSU->value)
 		{
 			$prevData = [
 				'notes' => $anilistItem['data']['notes'],
@@ -704,9 +719,10 @@ final class SyncLists extends BaseCommand
 	/**
 	 * Create/Update list items on Kitsu
 	 *
+	 * @param array<string, mixed> $itemsToUpdate
 	 * @throws Throwable
 	 */
-	private function updateKitsuListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
+	private function updateKitsuListItems(array $itemsToUpdate, SyncAction $action = SyncAction::UPDATE, MediaType $type = MediaType::ANIME): void
 	{
 		$requester = new ParallelAPIRequest();
 
@@ -723,7 +739,7 @@ final class SyncLists extends BaseCommand
 				$maybeRequest = $this->kitsuModel->createListItem($item);
 				if ($maybeRequest === NULL)
 				{
-					$this->echoWarning("Skipped creating Kitsu {$type} due to missing id ¯\\_(ツ)_/¯");
+					$this->echoWarning("Skipped creating Kitsu {$type->value} due to missing id ¯\\_(ツ)_/¯");
 
 					continue;
 				}
@@ -743,7 +759,7 @@ final class SyncLists extends BaseCommand
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === SyncAction::UPDATE) ? 'updated' : 'created';
-				$this->echoSuccess("Successfully {$verb} Kitsu {$type} list item with id: {$id}");
+				$this->echoSuccess("Successfully {$verb} Kitsu {$type->value} list item with id: {$id}");
 
 				continue;
 			}
@@ -755,7 +771,7 @@ final class SyncLists extends BaseCommand
 
 				if ($errorTitle === 'cannot exceed length of media')
 				{
-					$this->echoWarning("Skipped Kitsu {$type} {$id} due to episode count mismatch with other API");
+					$this->echoWarning("Skipped Kitsu {$type->value} {$id} due to episode count mismatch with other API");
 
 					continue;
 				}
@@ -767,16 +783,17 @@ final class SyncLists extends BaseCommand
 				'responseData' => $responseData,
 			]);
 			$verb = ($action === SyncAction::UPDATE) ? SyncAction::UPDATE : SyncAction::CREATE;
-			$this->echoError("Failed to {$verb} Kitsu {$type} list item with id: {$id}, and mal_id: {$mal_id}");
+			$this->echoError("Failed to {$verb->value} Kitsu {$type->value} list item with id: {$id}, and mal_id: {$mal_id}");
 		}
 	}
 
 	/**
 	 * Create/Update list items on Anilist
 	 *
+	 * @param array<string, mixed> $itemsToUpdate
 	 * @throws Throwable
 	 */
-	private function updateAnilistListItems(array $itemsToUpdate, string $action = SyncAction::UPDATE, string $type = MediaType::ANIME): void
+	private function updateAnilistListItems(array $itemsToUpdate, SyncAction $action = SyncAction::UPDATE, MediaType $type = MediaType::ANIME): void
 	{
 		$requester = new ParallelAPIRequest();
 
@@ -784,7 +801,7 @@ final class SyncLists extends BaseCommand
 		{
 			if ($action === SyncAction::UPDATE)
 			{
-				$maybeRequest = $this->anilistModel->updateListItem(FormItem::from($item), $type);
+				$maybeRequest = $this->anilistModel->updateListItem(FormItem::from($item), $type());
 				if ($maybeRequest !== NULL)
 				{
 					$requester->addRequest($maybeRequest);
@@ -796,13 +813,13 @@ final class SyncLists extends BaseCommand
 				{
 					try
 					{
-						$requester->addRequest($this->anilistModel->createFullListItem($item, $type));
+						$requester->addRequest($this->anilistModel->createFullListItem($item, $type()));
 					}
 					catch (MissingIdException)
 					{
 						// Case where there's a MAL mapping from Kitsu, but no equivalent Anlist item
 						$id = $item['mal_id'];
-						$this->echoWarning("Skipping Anilist {$type} with MAL id: {$id} due to missing mapping");
+						$this->echoWarning("Skipping Anilist {$type->value} with MAL id: {$id} due to missing mapping");
 					}
 				}
 			}
@@ -819,7 +836,7 @@ final class SyncLists extends BaseCommand
 			if ( ! array_key_exists('errors', $responseData))
 			{
 				$verb = ($action === SyncAction::UPDATE) ? 'updated' : 'created';
-				$this->echoSuccess("Successfully {$verb} Anilist {$type} list item with id: {$id}");
+				$this->echoSuccess("Successfully {$verb} Anilist {$type->value} list item with id: {$id}");
 			}
 			else
 			{
@@ -829,7 +846,7 @@ final class SyncLists extends BaseCommand
 					'responseData' => $responseData,
 				]);
 				$verb = ($action === SyncAction::UPDATE) ? SyncAction::UPDATE : SyncAction::CREATE;
-				$this->echoError("Failed to {$verb} Anilist {$type} list item with id: {$id}");
+				$this->echoError("Failed to {$verb->value} Anilist {$type->value} list item with id: {$id}");
 			}
 		}
 	}

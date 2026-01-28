@@ -15,13 +15,13 @@
 namespace Aviat\AnimeClient\API\Mapping;
 
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\{Anilist, Kitsu, Route, Title};
-use Aviat\Ion\Enum;
+use Aviat\Ion\ConstList;
 
 /**
  * Anime watching status mappings, among Kitsu, MAL, Page titles
  * and url route segments
  */
-final class AnimeWatchingStatus extends Enum
+final class AnimeWatchingStatus extends ConstList
 {
 	public const ANILIST_TO_KITSU = [
 		Anilist::WATCHING => Kitsu::WATCHING,

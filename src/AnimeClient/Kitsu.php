@@ -127,6 +127,7 @@ final class Kitsu
 	}
 
 	/**
+	 * @param array<string, mixed> $mappings
 	 * @return array<string, string>
 	 */
 	public static function mappingsToUrls(array $mappings, string $kitsuLink = ''): array
@@ -199,7 +200,8 @@ final class Kitsu
 	/**
 	 * Reorganize streaming links
 	 *
-	 * @return mixed[]
+	 * @param array<string, mixed> $nodes
+	 * @return list<array<string, mixed>>
 	 */
 	public static function parseStreamingLinks(array $nodes): array
 	{
@@ -243,7 +245,8 @@ final class Kitsu
 	/**
 	 * Get the list of titles
 	 *
-	 * @return mixed[]
+	 * @param array<string, mixed> $titles
+	 * @return list<string>
 	 */
 	public static function getTitles(array $titles): array
 	{
@@ -258,7 +261,8 @@ final class Kitsu
 	/**
 	 * Filter out duplicate and very similar titles from a GraphQL response
 	 *
-	 * @return mixed[]
+	 * @param array<string, mixed> $titles
+	 * @return list<string>
 	 */
 	public static function filterLocalizedTitles(array $titles): array
 	{
@@ -288,7 +292,8 @@ final class Kitsu
 	/**
 	 * Filter out duplicate and very similar titles from a GraphQL response
 	 *
-	 * @return mixed[]
+	 * @param array<string, mixed> $titles
+	 * @return list<string>
 	 */
 	public static function getFilteredTitles(array $titles): array
 	{
@@ -330,6 +335,7 @@ final class Kitsu
 
 	/**
 	 * Get the url of the posterImage from Kitsu, with fallbacks
+	 * @param array<string, mixed> $base
 	 */
 	public static function getPosterImage(array $base, int $sizeId = 1): string
 	{
@@ -344,6 +350,7 @@ final class Kitsu
 
 	/**
 	 * Get the url of the image from Kitsu, with fallbacks
+	 * @param array<string, mixed> $base
 	 */
 	public static function getImage(array $base, int $sizeId = 1): string
 	{
@@ -439,6 +446,7 @@ final class Kitsu
 
 	/**
 	 * Determine if an alternate title is unique enough to list
+	 * @param list<string> $existingTitles
 	 */
 	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
 	{

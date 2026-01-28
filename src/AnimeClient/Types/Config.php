@@ -72,7 +72,15 @@ class Config extends AbstractType
 	public ?string $theme = 'auto';
 
 	public ?string $whose_list;
+
+	/**
+	 * @var array<string, string>
+	 */
 	public array $menus = [];
+
+	/**
+	 * @var array<string, mixed>
+	 */
 	public array $routes = [];
 
 	// ------------------------------------------------------------------------

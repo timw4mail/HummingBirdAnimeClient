@@ -1,21 +1,19 @@
 parameters:
-	checkGenericClassInNonGenericObjectType: false
-	checkMissingIterableValueType: false
 	inferPrivatePropertyTypeFromConstructor: true
-	level: 8
+	level: 6
 	paths:
 		- app/appConf
 		- src
 		- ./console
 		- index.php
 	ignoreErrors:
-		- '#Unable to resolve the template type T#'
 		- '#imagepalletetotruecolor not found#'
 		- '#Call to an undefined method Aura\\\Html\\\HelperLocator::[a-zA-Z0-9_]+\(\)#'
 		- '#Call to an undefined method Query\\QueryBuilderInterface::[a-zA-Z0-9_]+\(\)#'
 	excludePaths:
 		- src/Ion/Type/Stringy.php
-		- tests/mocks.php
+		- src/Ion/Type/StringType.php
+		- tests/AnimeClient/mocks.php
 		- vendor
 	# These are objects that basically can return anything
 	universalObjectCratesClasses:

@@ -31,6 +31,7 @@ final class ListItem extends AbstractListItem
 
 	/**
 	 * @throws Throwable
+	 * @param array<string, mixed> $data
 	 */
 	public function create(array $data): Request
 	{
@@ -42,6 +43,11 @@ final class ListItem extends AbstractListItem
 		]);
 	}
 
+	/**
+	 * @param array<string, mixed> $data
+	 * @return Request
+	 * @throws Throwable
+	 */
 	public function createFull(array $data): Request
 	{
 		$body = [

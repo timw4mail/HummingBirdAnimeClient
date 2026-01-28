@@ -33,6 +33,15 @@ final class UpdateThumbnails extends ClearThumbnails
 	 */
 	protected Images $controller;
 
+
+	/**
+	 * @param array<mixed> $args
+	 * @param array<mixed> $options
+	 * @return void
+	 * @throws \Aviat\Ion\Di\Exception\ContainerException
+	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
+	 * @throws \Throwable
+	 */
 	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
@@ -61,8 +70,7 @@ final class UpdateThumbnails extends ClearThumbnails
 	}
 
 	/**
-	 * @return array array-key[][]
-	 * @psalm-return array{anime: list<array-key>, manga: list<array-key>}
+	 * @return array{anime: list<array-key>, manga: list<array-key>}
 	 */
 	public function getImageList(): array
 	{

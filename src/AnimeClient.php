@@ -173,9 +173,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 
 		if ( ! $writable)
 		{
-			// @codeCoverageIgnoreStart
 			$errors['writable'][] = $pretty;
-			// @codeCoverageIgnoreEnd
 		}
 	}
 

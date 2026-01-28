@@ -102,6 +102,9 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 
 	/**
 	 * Check the shape of the object, and return the array equivalent
+	 *
+	 * @param array<string, mixed> $data
+	 * @return array<string, mixed>|null
 	 */
 	final public static function check(array $data = []): ?array
 	{
@@ -173,6 +176,8 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
      * Recursively cast properties to an array
      *
      * Returns early on primitive values to work recursively.
+	 *
+	 * @return array<string, mixed>
      */
     final public function toArray(mixed $parent = NULL): array
 	{
@@ -199,25 +204,29 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 		return TRUE;
 	}
 
-	#[\PHPUnit\Framework\Attributes\CodeCoverageIgnore]
- final protected function fromObject(mixed $parent = NULL): float|null|bool|int|array|string
- {
- 	$object = $parent ?? $this;
 
- 	if (is_scalar($object) || $object === NULL)
- 	{
- 		return $object;
- 	}
+	/**
+	 * @param mixed|NULL $parent
+	 * @return float|bool|int|array<mixed>|string
+	 */
+	final protected function fromObject(mixed $parent = NULL): float|bool|int|array|string
+	{
+		$object = $parent ?? $this;
 
- 	$output = [];
+		if (is_scalar($object))
+		{
+			return $object;
+		}
 
- 	foreach ($object as $key => $value)
- 	{
- 		$output[$key] = (is_scalar($value) || empty($value))
- 			? $value
- 			: $this->fromObject((array) $value);
- 	}
+		$output = [];
 
- 	return $output;
- }
+		foreach ($object as $key => $value)
+		{
+			$output[$key] = (is_scalar($value) || empty($value))
+				? $value
+				: $this->fromObject((array) $value);
+		}
+
+		return $output;
+	}
 }

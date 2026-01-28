@@ -60,7 +60,10 @@ final class Auth
 	 * Make the appropriate authentication call,
 	 * and save the resulting auth token if successful
 	 */
-	public function authenticate(string $password): bool
+	public function authenticate(
+		#[\SensitiveParameter]
+		string $password
+	): bool
 	{
 		$config = $this->container->get('config');
 		$username = $config->get('kitsu_username');
@@ -133,6 +136,8 @@ final class Auth
 
 	/**
 	 * Save the new authentication information
+	 *
+	 * @param array<string, mixed> $auth
 	 */
 	private function storeAuth(array|false $auth): bool
 	{

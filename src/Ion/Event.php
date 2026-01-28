@@ -21,6 +21,9 @@ use Aviat\Ion\Type\EventType;
  */
 class Event
 {
+	/**
+	 * @var array<EventType, callable|list<callable>>
+	 */
 	protected static array $eventMap = [];
 
 	/**
@@ -38,6 +41,7 @@ class Event
 
 	/**
 	 * Fire off an event
+	 * @param array<mixed> $args
 	 */
 	public static function emit(EventType $eventName, array $args = []): void
 	{

@@ -16,11 +16,14 @@ namespace Aviat\Ion\Transformer;
 
 /**
  * Interface for data transformation classes
+ * @template T
  */
 interface TransformerInterface
 {
 	/**
 	 * Mutate the data structure
+	 * @param array<mixed>|object $item
+	 * @return T
 	 */
-	public function transform(array|object $item): mixed;
+	public function transform(array|object $item);
 }

@@ -49,6 +49,7 @@ final class FormGenerator
 
 	/**
 	 * Generate the html structure of the form
+	 * @param array<string, mixed> $form
 	 */
 	public function generate(string $name, array $form): string
 	{

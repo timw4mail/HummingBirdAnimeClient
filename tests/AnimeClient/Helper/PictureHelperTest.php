@@ -34,8 +34,10 @@ final class PictureHelperTest extends AnimeClientTestCase
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataSimpleImageCase')]
-	public function testSimpleImage(string $ext, bool $isSimple, string $fallbackExt = 'jpg'): void
+	public function testSimpleImage(string $ext, bool $isSimple, string|null $fallbackExt): void
 	{
+		$fallbackExt ??= 'jpg';
+
 		$helper = new PictureHelper();
 		$helper->setContainer($this->container);
 
@@ -121,31 +123,37 @@ final class PictureHelperTest extends AnimeClientTestCase
 			'avif' => [
 				'ext' => 'avif',
 				'isSimple' => FALSE,
-				'fallback' => 'jpf',
+				'fallbackExt' => 'jpf',
 			],
 			'apng' => [
 				'ext' => 'apng',
 				'isSimple' => FALSE,
+				'fallbackExt' => null,
 			],
 			'gif' => [
 				'ext' => 'gif',
 				'isSimple' => TRUE,
+				'fallbackExt' => null,
 			],
 			'jpg' => [
 				'ext' => 'jpg',
 				'isSimple' => TRUE,
+				'fallbackExt' => null,
 			],
 			'jpeg' => [
 				'ext' => 'jpeg',
 				'isSimple' => TRUE,
+				'fallbackExt' => null,
 			],
 			'png' => [
 				'ext' => 'png',
 				'isSimple' => TRUE,
+				'fallbackExt' => null,
 			],
 			'webp' => [
 				'ext' => 'webp',
 				'isSimple' => FALSE,
+				'fallbackExt' => null,
 			],
 		];
 	}

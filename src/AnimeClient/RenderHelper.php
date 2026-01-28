@@ -69,6 +69,7 @@ class RenderHelper {
 
 	/**
 	 * Routes that don't require a second navigation level
+	 * @var list<string>
 	 */
 	private static array $formPages = [
 		'edit',
@@ -129,6 +130,7 @@ class RenderHelper {
 
 	/**
 	 * Generate a url from its name and parameters
+	 * @param array<string, mixed> $data
 	 */
 	public function urlFromRoute(string $name, array $data = []): string
 	{
@@ -154,17 +156,5 @@ class RenderHelper {
 		$intersect = array_intersect($pageSegments, self::$formPages);
 
 		return empty($intersect);
-	}
-
-	/**
-	 * Determine whether the page is a page with a form, and
-	 * not suitable for redirection
-	 *
-	 * @throws ContainerException
-	 * @throws NotFoundException
-	 */
-	public function isFormPage(): bool
-	{
-		return ! $this->isViewPage();
 	}
 }

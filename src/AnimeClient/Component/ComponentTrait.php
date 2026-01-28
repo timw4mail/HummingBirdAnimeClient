@@ -26,6 +26,7 @@ trait ComponentTrait
 
 	/**
 	 * Render a template with common container values
+	 * @param array<mixed> $data
 	 */
 	public function render(string $path, array $data): string
 	{

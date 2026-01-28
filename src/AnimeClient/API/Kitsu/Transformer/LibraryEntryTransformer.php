@@ -21,9 +21,15 @@ use Aviat\Ion\Type\StringType;
 
 /**
  * Transformer for anime list
+ * @template T
+ * @extends AbstractTransformer<T>
  */
 final class LibraryEntryTransformer extends AbstractTransformer
 {
+	/**
+	 * @param array<string, mixed>|object $item
+	 * @return AnimeListItem|MangaListItem
+	 */
 	public function transform(array|object $item): AnimeListItem|MangaListItem
 	{
 		$item = (array) $item;
@@ -44,6 +50,11 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		};
 	}
 
+	/**
+	 * @param array<string, mixed> $item
+	 * @param list<string> $genres
+	 * @return AnimeListItem
+	 */
 	private function animeTransform(array $item, array $genres): AnimeListItem
 	{
 		$animeId = $item['media']['id'];
@@ -119,6 +130,11 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		]);
 	}
 
+	/**
+	 * @param array<string, mixed> $item
+	 * @param list<string> $genres
+	 * @return MangaListItem
+	 */
 	private function mangaTransform(array $item, array $genres): MangaListItem
 	{
 		$mangaId = $item['media']['id'];

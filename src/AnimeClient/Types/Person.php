@@ -23,8 +23,20 @@ final class Person extends AbstractType
 	public ?string $name;
 	public ?string $birthday;
 	public string $image;
+
+	/**
+	 * @var list<string>
+	 */
 	public array $names = [];
 	public ?string $description;
+
+	/**
+	 * @var list<mixed>
+	 */
 	public array $characters = [];
+
+	/**
+	 * @var array<string, mixed>
+	 */
 	public array $staff = [];
 }

@@ -44,6 +44,8 @@ abstract class BaseCommand extends Command
 
 	/**
 	 * Echo text in a box
+	 *
+	 * @param string|list<string> $message
 	 */
 	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
 	{
@@ -151,6 +153,11 @@ abstract class BaseCommand extends Command
 		$this->getConsole()->writeln($message);
 	}
 
+	/**
+	 * @param array<string, mixed> $configArray
+	 * @param string $APP_DIR
+	 * @return ContainerInterface
+	 */
 	private function _di(array $configArray, string $APP_DIR): ContainerInterface
 	{
 		$container = new Container();

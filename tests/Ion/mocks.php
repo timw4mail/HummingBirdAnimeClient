@@ -17,7 +17,7 @@ namespace Aviat\Ion\Tests;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
-use Aviat\Ion\{Enum, Friend};
+use Aviat\Ion\{ConstList, Friend};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -34,7 +34,7 @@ class MockErrorHandler
 // Ion Mocks
 // -----------------------------------------------------------------------------
 
-class TestEnum extends Enum
+class TestConstList extends ConstList
 {
 	final public const FOO = 'bar';
 	final public const BAR = 'foo';

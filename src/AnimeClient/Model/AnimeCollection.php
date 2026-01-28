@@ -117,7 +117,7 @@ final class AnimeCollection extends Collection
 	/**
 	 * Get list of media types
 	 *
-	 * @return array<string, mixed[]>
+	 * @return array<string, mixed>
 	 */
 	public function getMediaTypeList(): array
 	{
@@ -203,6 +203,7 @@ final class AnimeCollection extends Collection
 
 	/**
 	 * Verify that an item was added
+	 * @param array<mixed> $data
 	 */
 	public function wasAdded(array $data): bool
 	{
@@ -218,6 +219,7 @@ final class AnimeCollection extends Collection
 
 	/**
 	 * Update a collection item
+	 * @param array<mixed> $data
 	 */
 	public function update(array $data): void
 	{
@@ -253,6 +255,7 @@ final class AnimeCollection extends Collection
 
 	/**
 	 * Verify that the collection item was updated
+	 * @param array<mixed> $data
 	 */
 	public function wasUpdated(array $data): bool
 	{
@@ -281,6 +284,7 @@ final class AnimeCollection extends Collection
 
 	/**
 	 * Remove a collection item
+	 * @param array<mixed> $data
 	 */
 	public function delete(array $data): void
 	{
@@ -309,6 +313,10 @@ final class AnimeCollection extends Collection
 		$this->db->commit();
 	}
 
+	/**
+	 * @param array<mixed> $data
+	 * @return bool
+	 */
 	public function wasDeleted(array $data): bool
 	{
 		if ($this->db === NULL)
@@ -381,6 +389,7 @@ final class AnimeCollection extends Collection
 	/**
 	 * Get genres for anime collection items
 	 *
+	 * @param list<int> $filter - The list of ids to skip
 	 * @return mixed[]
 	 */
 	public function getGenreList(array $filter = []): array
@@ -449,6 +458,7 @@ final class AnimeCollection extends Collection
 	/**
 	 * Get media for anime collection items
 	 *
+	 * @param array<string, string> $filter
 	 * @return mixed[]
 	 */
 	public function getMediaList(array $filter = []): array
@@ -514,6 +524,11 @@ final class AnimeCollection extends Collection
 		return $output;
 	}
 
+	/**
+	 * @param string $animeId
+	 * @param array<string, mixed> $media
+	 * @return void
+	 */
 	private function updateMediaLink(string $animeId, array $media): void
 	{
 		if ($this->db === NULL)
@@ -598,6 +613,8 @@ final class AnimeCollection extends Collection
 
 	/**
 	 * Add genres to the database
+	 *
+	 * @param list<string> $genres
 	 */
 	private function addNewGenres(array $genres): void
 	{

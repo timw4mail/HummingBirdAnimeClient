@@ -69,6 +69,8 @@ final class Model
 
 	/**
 	 * Get the access token from the Kitsu API
+	 *
+	 * @return array<string, mixed>|false
 	 */
 	public function authenticate(string $username, string $password): array|false
 	{
@@ -109,6 +111,8 @@ final class Model
 
 	/**
 	 * Extend the current session with a refresh token
+	 *
+	 * @return array<string, mixed>|false
 	 */
 	public function reAuthenticate(string $token): array|false
 	{
@@ -319,7 +323,7 @@ final class Model
 	/**
 	 * Get all the anime entries, that are organized for output to html
 	 *
-	 * @return array<string, array>
+	 * @return array<string, mixed>
 	 */
 	public function getFullOrganizedAnimeList(): array
 	{
@@ -538,6 +542,7 @@ final class Model
 	 * Get the data for a specific list item, generally for editing
 	 *
 	 * @param string $listId - The unique identifier of that list item
+	 * @return AnimeListItem|MangaListItem|array<string, mixed>
 	 */
 	public function getListItem(string $listId): AnimeListItem|MangaListItem|array
 	{
@@ -586,6 +591,7 @@ final class Model
      *
      * @param string $queryName - The GraphQL query
      * @param string $type - Media type (anime, manga)
+	 * @return list<mixed>
      */
     protected function getZippedListPerStatus(string $queryName, string $type): array
 	{
@@ -607,6 +613,7 @@ final class Model
      * @param string $queryName - The GraphQL query
      * @param string $type - Media type (anime, manga)
      * @param string $status - Media 'consumption' status
+	 * @return array<mixed>
      */
     protected function getZippedList(string $queryName, string $type, string $status): array
 	{
@@ -637,6 +644,7 @@ final class Model
      * @param string $queryName - The GraphQL query
      * @param string $type - Media type (anime, manga)
      * @param string $status - Media 'consumption' status
+	 * @return iterable<array<string, mixed>>
      */
     private function getListPages(string $queryName, string $type, string $status): iterable
 	{
@@ -689,10 +697,10 @@ final class Model
 		}
 	}
 
-	private function getListCount(string $type, string $status = ''): int
+	private function getListCount(MediaType $type, string $status = ''): int
 	{
 		$args = [
-			'type' => strtoupper($type),
+			'type' => strtoupper($type()),
 			'slug' => $this->getUsername(),
 		];
 		if ($status !== '')

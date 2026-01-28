@@ -18,16 +18,24 @@ use BadMethodCallException;
 
 /**
  * Base class for data transformation
+ * @template T
+ * @implements TransformerInterface<T>
  */
 abstract class AbstractTransformer implements TransformerInterface
 {
 	/**
 	 * Mutate the data structure
+	 *
+	 * @param array<mixed>|object $item
+	 * @return T
 	 */
-	abstract public function transform(array|object $item): mixed;
+	abstract public function transform(array|object $item);
 
 	/**
 	 * Transform a set of structures
+	 *
+	 * @param iterable<array<mixed>|T> $collection
+	 * @return array<string, mixed>
 	 */
 	public function transformCollection(iterable $collection): array
 	{
@@ -40,6 +48,8 @@ abstract class AbstractTransformer implements TransformerInterface
 	 * Untransform a set of structures
 	 *
 	 * Requires an 'untransform' method in the extending class
+	 * @param iterable<array<mixed>|T> $collection
+	 * @return array<string, mixed>
 	 */
 	public function untransformCollection(iterable $collection): array
 	{

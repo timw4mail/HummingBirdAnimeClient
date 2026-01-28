@@ -27,6 +27,7 @@ trait MutationTrait
 	// -------------------------------------------------------------------------
 	/**
 	 * Create a list item
+	 * @param array<string, mixed> $data
 	 */
 	public function createListItem(array $data): ?Request
 	{

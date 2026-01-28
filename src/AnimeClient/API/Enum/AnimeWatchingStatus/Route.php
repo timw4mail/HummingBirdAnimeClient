@@ -14,12 +14,12 @@
 
 namespace Aviat\AnimeClient\API\Enum\AnimeWatchingStatus;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\ConstList;
 
 /**
  * Possible values for current watching status of anime
  */
-final class Route extends Enum
+final class Route extends ConstList
 {
 	public const ALL = 'all';
 	public const WATCHING = 'watching';

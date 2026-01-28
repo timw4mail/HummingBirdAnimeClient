@@ -24,16 +24,20 @@ use function is_object;
 
 /**
  * Friend class for testing
+ * @template F
  */
 class Friend
 {
 	/**
 	 * Object to create a friend of
+	 * @var F
 	 */
 	private mixed $_friend_;
 
 	/**
 	 * Reflection class of the object
+	 * @var ReflectionClass<F> $_reflect
+	 * @phpstan-ignore missingType.generics
 	 */
 	private ReflectionClass $_reflect_;
 
@@ -89,18 +93,14 @@ class Friend
 	{
 		if ($this->__isset($key))
 		{
-			$property = $this->_get_property($key);
-
-			if ($property !== NULL)
-			{
-				$property->setValue($this->_friend_, $value);
-			}
+			$this->_get_property($key)?->setValue($this->_friend_, $value);
 		}
 	}
 
 	/**
 	 * Calls a protected or private method on the friend
 	 *
+	 * @param array<string, mixed>|list<mixed> $args
 	 * @throws BadMethodCallException
 	 * @throws ReflectionException
 	 * @return mixed

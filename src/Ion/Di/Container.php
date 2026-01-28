@@ -25,27 +25,34 @@ class Container implements ContainerInterface
 	/**
 	 * Constructor
 	 *
-	 * @param (callable)[] $container (optional)
+	 * @param array<string, callable> $container
+	 * @param array<string,mixed> $instances
+	 * @param array<string, LoggerInterface> $loggers
+	 * @param array<string,string> $classIdMap
 	 */
 	public function __construct(
 		/**
 		 * Array of container Generator functions
+		 *
 		 */
 		protected array $container = [],
 
 		/**
 		 * Array of object instances
+		 *
 		 */
 		protected array $instances = [],
 
 		/**
 		 * Map of logger instances
+		 *
 		 */
 		protected array $loggers = [],
 
 		/**
 		 * Map classes back to container ids, to make automatic
 		 * sub-dependency setup possible
+		 *
 		 */
 		private array $classIdMap = [],
 	) {
@@ -85,7 +92,7 @@ class Container implements ContainerInterface
 	 * Get a new instance of the specified item
 	 *
 	 * @param string $id - Identifier or className of the entry to look for.
-	 * @param array|null $args - Optional arguments for the factory callable
+	 * @param array<mixed>|null $args - Optional arguments for the factory callable
 	 * @throws ContainerException - Error while retrieving the entry.
 	 * @throws NotFoundException - No entry was found for this identifier.
 	 */

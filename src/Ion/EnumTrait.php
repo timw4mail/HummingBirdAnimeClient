@@ -15,9 +15,17 @@
 namespace Aviat\Ion;
 
 /**
- * Class emulating an enumeration type
+ * An Enum Trait to have the same functionality as \Aviat\Ion\ConstList
  */
 trait EnumTrait {
+	public function __invoke(): int|string
+	{
+		return $this->value;
+	}
+
+	/**
+	 * @return array<string>
+	 */
 	public static function getConstList(): array
 	{
 		return array_column(self::cases(), 'name');

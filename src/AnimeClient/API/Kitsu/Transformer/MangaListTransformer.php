@@ -24,13 +24,14 @@ use Aviat\Ion\Type\StringType;
 
 /**
  * Data transformation class for zippered Hummingbird manga
+ * @extends AbstractTransformer<MangaListItem>
  */
 final class MangaListTransformer extends AbstractTransformer
 {
 	/**
 	 * Remap zipped anime data to a more logical form
 	 *
-	 * @param array|object $item manga entry item
+	 * @param array<string, mixed>|object $item manga entry item
 	 */
 	public function transform(array|object $item): MangaListItem
 	{
@@ -107,9 +108,9 @@ final class MangaListTransformer extends AbstractTransformer
 	/**
 	 * Untransform data to update the api
 	 *
-	 * @param array $item
+	 * @param array<string, mixed> $item
 	 */
-	public function untransform($item): FormItem
+	public function untransform(array $item): FormItem
 	{
 		$rereading = array_key_exists('rereading', $item) && (bool) $item['rereading'];
 

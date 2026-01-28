@@ -14,12 +14,12 @@
 
 namespace Aviat\AnimeClient\API\Enum\AnimeWatchingStatus;
 
-use Aviat\Ion\Enum;
+use Aviat\Ion\ConstList;
 
 /**
  * Possible values for watching status for the current anime
  */
-final class Kitsu extends Enum
+final class Kitsu extends ConstList
 {
 	public const WATCHING = 'current';
 	public const PLAN_TO_WATCH = 'planned';

@@ -28,6 +28,7 @@ class HtmlView extends HttpView
 
 	/**
 	 * Data to send to every template
+	 * @var array<string, mixed> $baseData
 	 */
 	protected array $baseData = [];
 
@@ -55,7 +56,7 @@ class HtmlView extends HttpView
 	/**
 	 * Set data to pass to every template
 	 *
-	 * @param array $data - Keys are variable names
+	 * @param array<string, mixed> $data - Keys are variable names
 	 */
 	public function setBaseData(array $data): self
 	{
@@ -77,6 +78,7 @@ class HtmlView extends HttpView
 	/**
 	 * Render a basic html Template
 	 *
+	 * @param array<string, mixed> $data
 	 * @throws Throwable
 	 */
 	public function renderTemplate(string $path, array $data = []): string

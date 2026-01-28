@@ -29,12 +29,12 @@ final class EnumTest extends IonTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		$this->enum = new TestEnum();
+		$this->enum = new TestConstList();
 	}
 
 	public function testStaticGetConstList()
 	{
-		$actual = TestEnum::getConstList();
+		$actual = TestConstList::getConstList();
 		$this->assertSame($this->expectedConstList, $actual);
 	}
 
@@ -74,7 +74,7 @@ final class EnumTest extends IonTestCase
  public function testIsValid(mixed $value, mixed $expected, mixed $static)
  {
  	$actual = ($static)
- 		? TestEnum::isValid($value)
+ 		? TestConstList::isValid($value)
  		: $this->enum->isValid($value);
 
  	$this->assertSame($expected, $actual);

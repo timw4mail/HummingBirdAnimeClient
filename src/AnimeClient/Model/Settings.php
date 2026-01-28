@@ -31,7 +31,7 @@ final class Settings
 {
 	use ContainerAware;
 
-	public function __construct(private ConfigInterface $config)
+	public function __construct(private readonly ConfigInterface $config)
 	{
 	}
 
@@ -118,6 +118,7 @@ final class Settings
 	}
 
 	/**
+	 * @param array<string, mixed> $settings
 	 * @return mixed[]
 	 */
 	public function validateSettings(array $settings): array
@@ -188,6 +189,10 @@ final class Settings
 		return $output;
 	}
 
+	/**
+	 * @param array<string, mixed> $settings
+	 * @return bool
+	 */
 	public function saveSettingsFile(array $settings): bool
 	{
 		$configWrapped = (count(array_keys($settings)) === 1 && array_key_exists('config', $settings));

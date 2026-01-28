@@ -41,6 +41,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * HTTP headers to send with every request
+	 * @var array<string, string>
 	 */
 	protected array $defaultHeaders = [
 		'User-Agent' => USER_AGENT,
@@ -57,6 +58,8 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Create a request object
+	 *
+	 * @param array<string, mixed> $options
 	 */
 	public function setUpRequest(string $type, string $url, array $options = []): Request
 	{
@@ -113,6 +116,7 @@ final class RequestBuilder extends APIRequestBuilder
 	/**
 	 * Run a GraphQL API query
 	 *
+	 * @param array<string, mixed> $variables
 	 * @return mixed[]
 	 */
 	public function runQuery(string $name, array $variables = []): array
@@ -133,6 +137,7 @@ final class RequestBuilder extends APIRequestBuilder
 	/**
 	 * Run a GraphQL mutation
 	 *
+	 * @param array<string, mixed> $variables
 	 * @return mixed[]
 	 */
 	public function mutate(string $name, array $variables = []): array
@@ -152,6 +157,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Make a request
+	 * @param array<string, mixed> $options
 	 */
 	public function getResponse(string $type, string $url, array $options = []): Response
 	{
@@ -172,6 +178,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Create a GraphQL query and return the Request object
+	 * @param array<string, mixed> $variables
 	 */
 	public function queryRequest(string $name, array $variables = []): Request
 	{
@@ -203,6 +210,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Create a GraphQL mutation request, and return the Request object
+	 * @param array<string, mixed> $variables
 	 */
 	public function mutateRequest(string $name, array $variables = []): Request
 	{

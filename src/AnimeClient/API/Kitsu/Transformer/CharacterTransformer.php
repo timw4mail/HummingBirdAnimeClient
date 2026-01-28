@@ -22,6 +22,7 @@ use Locale;
 
 /**
  * Data transformation class for character pages
+ * @extends AbstractTransformer<Character>
  */
 final class CharacterTransformer extends AbstractTransformer
 {
@@ -58,6 +59,7 @@ final class CharacterTransformer extends AbstractTransformer
 	}
 
 	/**
+	 * @param array<string, mixed> $data
 	 * @return array<int, mixed[]>
 	 */
 	protected function organizeMediaAndVoices(array $data): array

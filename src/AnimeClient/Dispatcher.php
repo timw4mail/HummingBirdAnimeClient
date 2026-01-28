@@ -14,20 +14,13 @@
 
 namespace Aviat\AnimeClient;
 
-use Aura\Router\{
-	Map,
-	Matcher,
-	Route,
-	Rule,
-};
+use Aura\Router\{Map, Matcher, Route, Rule,};
 use Aviat\AnimeClient\API\FailedResponseException;
-use Aviat\AnimeClient\Enum\EventType;
+use Aviat\Ion\{Friend, Json};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Type\StringType;
-use Aviat\Ion\{Event, Friend, Json};
 use LogicException;
 use ReflectionException;
-
 use function Aviat\Ion\_dir;
 
 /**
@@ -47,11 +40,13 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Routing array
+	 * @var array<string, mixed>
 	 */
 	protected array $routes = [];
 
 	/**
 	 * Routes added to router
+	 * @var list<mixed>
 	 */
 	protected array $outputRoutes = [];
 
@@ -142,6 +137,7 @@ final class Dispatcher extends RoutingBase
 	 * Parse out the arguments for the appropriate controller for
 	 * the current route
 	 *
+	 * @param Friend<Route> $route
 	 * @throws LogicException
 	 * @return array<string, mixed>
 	 */
@@ -214,6 +210,7 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Get the list of controllers in the default namespace
+	 * @return array<string, string>
 	 */
 	public function getControllerList(): array
 	{
@@ -250,6 +247,7 @@ final class Dispatcher extends RoutingBase
 	 * method
 	 *
 	 * @param string $controllerName - The full namespace of the controller class
+	 * @param array<mixed> $params
 	 */
 	protected function call(string $controllerName, string $method, array $params): void
 	{
@@ -289,6 +287,8 @@ final class Dispatcher extends RoutingBase
 	/**
 	 * Get the appropriate params for the error page
 	 * passed on the failed route
+	 *
+	 * @return array<string, mixed>
 	 */
 	protected function getErrorParams(): array
 	{
@@ -337,6 +337,7 @@ final class Dispatcher extends RoutingBase
 
 	/**
 	 * Select controller based on the current url, and apply its relevant routes
+	 * @return list<mixed>
 	 */
 	protected function setupRoutes(): array
 	{

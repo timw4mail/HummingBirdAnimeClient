@@ -73,6 +73,8 @@ abstract class RoutingBase
 
 	/**
 	 * Get the url segments
+	 *
+	 * @return list<string>
 	 */
 	public function segments(): array
 	{

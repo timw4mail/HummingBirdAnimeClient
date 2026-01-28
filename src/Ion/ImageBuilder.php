@@ -25,7 +25,7 @@ use GdImage;
  */
 class ImageBuilder
 {
-	private GDImage|FALSE|NULL $_img;
+	private GDImage|false $_img;
 	private int $fontSize = 10;
 
 	private function __construct(private int $width = 200, private int $height = 200)
@@ -150,12 +150,7 @@ class ImageBuilder
 
 	public function cleanup(): void
 	{
-		$cleaned = FALSE;
-
-		if ($this->getImg() instanceof GdImage)
-		{
-			$cleaned = imagedestroy($this->getImg());
-		}
+		$cleaned = imagedestroy($this->getImg());
 
 		if ($cleaned === FALSE)
 		{

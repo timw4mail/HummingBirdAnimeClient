@@ -26,15 +26,31 @@ class Anime extends AbstractType
 	public ?string $cover_image;
 	public ?int $episode_count;
 	public ?int $episode_length;
+
+	/**
+	 * @var list<string>
+	 */
 	public array $genres = [];
 	public string $id = '';
 	public ?string $show_type;
 	public ?string $slug;
 	public string $status = AnimeAiringStatus::FINISHED_AIRING->value;
+
+	/**
+	 * @var array<string, mixed>|null
+	 */
 	public ?array $streaming_links = [];
 	public ?string $synopsis;
 	public ?string $title;
+
+	/**
+	 * @var list<string>
+	 */
 	public array $titles = [];
+
+	/**
+	 * @var list<string>
+	 */
 	public array $titles_more = [];
 	public ?string $trailer_id;
 
