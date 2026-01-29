@@ -16,20 +16,21 @@ namespace Aviat\AnimeClient;
 
 use Amp\Future;
 use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
-
 use Aviat\Ion\{ConfigInterface, ImageBuilder};
 use DateTimeImmutable;
 use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
 use Throwable;
-
 use Yosymfony\Toml\{Toml, TomlBuilder};
 
 use function Amp\async;
 use function Aviat\Ion\_dir;
 
 const SECONDS_IN_MINUTE = 60;
+
 const MINUTES_IN_HOUR = 60;
+
 const MINUTES_IN_DAY = 1440;
+
 const MINUTES_IN_YEAR = 525_600;
 
 // ----------------------------------------------------------------------------
@@ -46,7 +47,7 @@ function loadConfig(string $path): array
 	$output = [];
 	$files = glob("{$path}/*.toml");
 
-	if ( ! is_array($files))
+	if (! is_array($files))
 	{
 		return [];
 	}
@@ -92,12 +93,12 @@ function loadTomlFile(string $filename): array
  * @param mixed|NULL $parentKey
  * @return void
  */
-function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = NULL): void
+function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = null): void
 {
 	foreach ($data as $key => $value)
 	{
 		// Skip unsupported empty value
-		if ($value === NULL)
+		if ($value === null)
 		{
 			continue;
 		}
@@ -109,7 +110,7 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 			continue;
 		}
 
-		$newKey = ($parentKey !== NULL)
+		$newKey = $parentKey !== null
 			? "{$parentKey}.{$key}"
 			: $key;
 
@@ -176,7 +177,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 	foreach ($pathMap as $pretty => $actual)
 	{
 		// Make sure the folder exists first
-		if ( ! is_dir($actual))
+		if (! is_dir($actual))
 		{
 			$errors['missing'][] = $pretty;
 
@@ -185,7 +186,7 @@ function checkFolderPermissions(ConfigInterface $config): array
 
 		$writable = is_writable($actual) && is_executable($actual);
 
-		if ( ! $writable)
+		if (! $writable)
 		{
 			$errors['writable'][] = $pretty;
 		}
@@ -201,7 +202,7 @@ function getApiClient(): HttpClient
 {
 	static $client;
 
-	if ($client === NULL)
+	if ($client === null)
 	{
 		$client = HttpClientBuilder::buildDefault();
 	}
@@ -233,7 +234,7 @@ function getResponse(Request|string $request): Response
 /**
  * Generate the path for the cached image from the original image
  */
-function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
+function getLocalImg(string $kitsuUrl, bool $webp = true): string
 {
 	if (empty($kitsuUrl))
 	{
@@ -242,7 +243,7 @@ function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 
 	$parts = parse_url($kitsuUrl);
 
-	if ($parts === FALSE || ! array_key_exists('path', $parts))
+	if ($parts === false || ! array_key_exists('path', $parts))
 	{
 		return 'images/placeholder.webp';
 	}
@@ -264,10 +265,14 @@ function getLocalImg(string $kitsuUrl, bool $webp = TRUE): string
 /**
  * Create a transparent placeholder image
  */
-function createPlaceholderImage(string $path, int $width = 200, int $height = 200, string $text = 'Image Unavailable'): bool
-{
+function createPlaceholderImage(
+	string $path,
+	int $width = 200,
+	int $height = 200,
+	string $text = 'Image Unavailable',
+): bool {
 	$img = ImageBuilder::new($width, $height)
-		->enableAlphaBlending(TRUE)
+		->enableAlphaBlending(true)
 		->addBackgroundColor(255, 255, 255)
 		->addCenteredText($text, 64, 64, 64);
 
@@ -288,7 +293,7 @@ function createPlaceholderImage(string $path, int $width = 200, int $height = 20
  */
 function colNotEmpty(array $search, string $key): bool
 {
-	$items = array_filter(array_column($search, $key), static fn ($x) => ( ! empty($x)));
+	$items = array_filter(array_column($search, $key), static fn ($x) => ! empty($x));
 
 	return $items !== [];
 }
@@ -307,7 +312,7 @@ function clearCache(CacheInterface $cache): bool
 		Kitsu::AUTH_TOKEN_REFRESH_CACHE_KEY,
 	]);
 
-	$userData = array_filter((array) $userData, static fn ($value) => $value !== NULL);
+	$userData = array_filter((array) $userData, static fn ($value) => $value !== null);
 
 	$cleared = $cache->clear();
 
@@ -328,7 +333,7 @@ function renderTemplate(string $path, array $data): string
 	include $path;
 	$rawOutput = ob_get_clean();
 
-	return (is_string($rawOutput)) ? $rawOutput : '';
+	return is_string($rawOutput) ? $rawOutput : '';
 }
 
 function formatDate(string $date): string
@@ -343,7 +348,7 @@ function getDateDiff(string $date): int
 	$now = new DateTimeImmutable();
 	$then = new DateTimeImmutable($date);
 
-	$interval = $now->diff($then, TRUE);
+	$interval = $now->diff($then, true);
 
 	$years = $interval->y * SECONDS_IN_MINUTE * MINUTES_IN_YEAR;
 	$days = $interval->d * SECONDS_IN_MINUTE * MINUTES_IN_DAY;
@@ -407,10 +412,10 @@ function friendlyTime(int $seconds, string $minUnit = 'second'): string
 
 	if (empty($parts))
 	{
-		return $last ?? '';
+		return $last;
 	}
 
-	return (count($parts) > 1)
+	return count($parts) > 1
 		? implode(', ', $parts) . ", and {$last}"
 		: "{$parts[0]}, {$last}";
 }

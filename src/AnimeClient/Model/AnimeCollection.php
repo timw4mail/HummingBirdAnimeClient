@@ -58,7 +58,8 @@ final class AnimeCollection extends Collection
 			if (array_key_exists($row['media'], $collection))
 			{
 				$collection[$row['media']][] = $row;
-			} else
+			}
+			else
 			{
 				$collection[$row['media']] = [$row];
 			}
@@ -442,12 +443,14 @@ final class AnimeCollection extends Collection
 				if (array_key_exists($id, $output))
 				{
 					$output[$id][] = $genre;
-				} else
+				}
+				else
 				{
 					$output[$id] = [$genre];
 				}
 			}
-		} catch (PDOException) {
+		}
+		catch (PDOException) {
 		}
 
 		$this->db->resetQuery();
@@ -509,12 +512,14 @@ final class AnimeCollection extends Collection
 				if (array_key_exists($id, $output))
 				{
 					$output[$id][] = $media;
-				} else
+				}
+				else
 				{
 					$output[$id] = [$media];
 				}
 			}
-		} catch (PDOException) {
+		}
+		catch (PDOException) {
 		}
 
 		$this->db->resetQuery();
@@ -596,11 +601,12 @@ final class AnimeCollection extends Collection
 			}
 		}
 
-		if ($this->db !== null && ! empty($linksToInsert))
+		if (! empty($linksToInsert))
 		{
 			try {
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
-			} catch (PDOException) {
+			}
+			catch (PDOException) {
 			}
 		}
 	}
@@ -631,7 +637,8 @@ final class AnimeCollection extends Collection
 
 		try {
 			$this->db->insertBatch('genres', $insert);
-		} catch (PDOException) {
+		}
+		catch (PDOException) {
 			// dump($e);
 		}
 	}
@@ -711,7 +718,8 @@ final class AnimeCollection extends Collection
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{
 				$links[$link['hummingbird_id']][] = $link['genre_id'];
-			} else
+			}
+			else
 			{
 				$links[$link['hummingbird_id']] = [$link['genre_id']];
 			}

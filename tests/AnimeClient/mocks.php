@@ -4,9 +4,9 @@
  */
 
 use Aviat\AnimeClient\Model\{Anime as AnimeModel, API as BaseApiModel, Manga as MangaModel};
+use Aviat\Ion\{ConstList, Friend, Json};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
-use Aviat\Ion\{ConstList, Friend, Json};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler

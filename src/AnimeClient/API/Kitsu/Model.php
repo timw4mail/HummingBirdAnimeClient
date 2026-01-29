@@ -14,6 +14,14 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
+use Aviat\AnimeClient\API\{
+	CacheTrait,
+	Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
+	Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus,
+	Kitsu\Enum\MediaStatus,
+	Mapping\AnimeWatchingStatus,
+	Mapping\MangaReadingStatus
+};
 use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	AnimeHistoryTransformer,
 	AnimeListTransformer,
@@ -23,24 +31,15 @@ use Aviat\AnimeClient\API\Kitsu\Transformer\{
 	MangaListTransformer,
 	MangaTransformer
 };
-use Aviat\AnimeClient\API\{
-	CacheTrait,
-	Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
-	Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus,
-	Kitsu\Enum\MediaStatus,
-	Mapping\AnimeWatchingStatus,
-	Mapping\MangaReadingStatus
-};
 use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Types\{Anime, MangaPage};
 use Aviat\AnimeClient\Types\{AnimeListItem, MangaListItem};
-use Aviat\Ion\{
-	Di\ContainerAware,
-	Json
-};
+use Aviat\Ion\{Di\ContainerAware, Json};
 use Generator;
+
 use function Aviat\AnimeClient\getApiClient;
+
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 /**
@@ -61,8 +60,9 @@ final class Model
 	/**
 	 * Constructor
 	 */
-	public function __construct(protected ListItem $listItem)
-	{
+	public function __construct(
+		protected ListItem $listItem,
+	) {
 		$this->animeTransformer = new AnimeTransformer();
 		$this->mangaTransformer = new MangaTransformer();
 	}
@@ -77,10 +77,10 @@ final class Model
 		// K::AUTH_URL
 		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
-				'accept' => NULL,
+				'accept' => null,
 				'Content-type' => 'application/x-www-form-urlencoded',
-				'client_id' => NULL,
-				'client_secret' => NULL,
+				'client_id' => null,
+				'client_secret' => null,
 			],
 			'form_params' => [
 				'grant_type' => 'password',
@@ -106,7 +106,7 @@ final class Model
 			return $data;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -118,7 +118,7 @@ final class Model
 	{
 		$response = $this->requestBuilder->getResponse('POST', K::AUTH_URL, [
 			'headers' => [
-				'accept' => NULL,
+				'accept' => null,
 				'Content-type' => 'application/x-www-form-urlencoded',
 				'Accept-encoding' => '*',
 			],
@@ -145,26 +145,30 @@ final class Model
 			return $data;
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	/**
 	 * Get the userid for a username from Kitsu
 	 */
-	public function getUserIdByUsername(?string $username = NULL): string
+	public function getUserIdByUsername(?string $username = null): string
 	{
-		if ($username === NULL)
+		if ($username === null)
 		{
 			$username = $this->getUsername();
 		}
 
-		return $this->getCached(K::AUTH_USER_ID_KEY, function (string $username) {
-			$data = $this->requestBuilder->runQuery('GetUserId', [
-				'slug' => $username,
-			]);
+		return $this->getCached(
+			K::AUTH_USER_ID_KEY,
+			function (string $username) {
+				$data = $this->requestBuilder->runQuery('GetUserId', [
+					'slug' => $username,
+				]);
 
-			return $data['data']['findProfileBySlug']['id'] ?? NULL;
-		}, [$username]);
+				return $data['data']['findProfileBySlug']['id'] ?? null;
+			},
+			[$username],
+		);
 	}
 
 	/**
@@ -186,9 +190,12 @@ final class Model
 	 */
 	public function getPerson(string $slug): array
 	{
-		return $this->getCached("kitsu-person-{$slug}", fn () => $this->requestBuilder->runQuery('PersonDetails', [
-			'slug' => $slug,
-		]));
+		return $this->getCached(
+			"kitsu-person-{$slug}",
+			fn () => $this->requestBuilder->runQuery('PersonDetails', [
+				'slug' => $slug,
+			]),
+		);
 	}
 
 	/**
@@ -232,7 +239,7 @@ final class Model
 		return $this->animeTransformer->transform($baseData);
 	}
 
-	public function getRandomLibraryAnime(string $status): Anime
+	public function getRandomLibraryAnime(string $_status): Anime
 	{
 		// @TODO
 		return Anime::from([]);
@@ -258,13 +265,13 @@ final class Model
 	public function getAnimeHistory(): array
 	{
 		$key = K::ANIME_HISTORY_LIST_CACHE_KEY;
-		$list = $this->cache->get($key, NULL);
+		$list = $this->cache->get($key, null);
 
-		if ($list === NULL)
+		if ($list === null)
 		{
 			$raw = $this->getHistoryList();
 
-			$list = (new AnimeHistoryTransformer())->transform($raw);
+			$list = new AnimeHistoryTransformer()->transform($raw);
 
 			$this->cache->set($key, $list);
 		}
@@ -282,9 +289,9 @@ final class Model
 	{
 		$key = "kitsu-anime-list-{$status}";
 
-		$list = $this->cache->get($key, NULL);
+		$list = $this->cache->get($key, null);
 
-		if ($list === NULL)
+		if ($list === null)
 		{
 			$data = $this->getList(MediaType::ANIME, $status);
 
@@ -389,12 +396,12 @@ final class Model
 	public function getMangaHistory(): array
 	{
 		$key = K::MANGA_HISTORY_LIST_CACHE_KEY;
-		$list = $this->cache->get($key, NULL);
+		$list = $this->cache->get($key, null);
 
-		if ($list === NULL)
+		if ($list === null)
 		{
 			$raw = $this->getHistoryList();
-			$list = (new MangaHistoryTransformer())->transform($raw);
+			$list = new MangaHistoryTransformer()->transform($raw);
 
 			$this->cache->set($key, $list);
 		}
@@ -412,9 +419,9 @@ final class Model
 	{
 		$key = "kitsu-manga-list-{$status}";
 
-		$list = $this->cache->get($key, NULL);
+		$list = $this->cache->get($key, null);
 
-		if ($list === NULL)
+		if ($list === null)
 		{
 			$data = $this->getList(MediaType::MANGA, $status);
 
@@ -535,7 +542,7 @@ final class Model
 			'site' => strtoupper("MYANIMELIST_{$type}"),
 		]);
 
-		return $raw['data']['lookupMapping']['id'] ?? NULL;
+		return $raw['data']['lookupMapping']['id'] ?? null;
 	}
 
 	/**
@@ -547,13 +554,13 @@ final class Model
 	public function getListItem(string $listId): AnimeListItem|MangaListItem|array
 	{
 		$baseData = $this->listItem->get($listId);
-		if ( ! isset($baseData['data']['findLibraryEntryById']))
+		if (! isset($baseData['data']['findLibraryEntryById']))
 		{
 			// We need to get the errors...
 			return $baseData;
 		}
 
-		return (new LibraryEntryTransformer())->transform($baseData['data']['findLibraryEntryById']);
+		return new LibraryEntryTransformer()->transform($baseData['data']['findLibraryEntryById']);
 	}
 
 	/**
@@ -587,13 +594,13 @@ final class Model
 	}
 
 	/**
-     * Get all the raw data for the current list, chunking by status
-     *
-     * @param string $queryName - The GraphQL query
-     * @param string $type - Media type (anime, manga)
+	 * Get all the raw data for the current list, chunking by status
+	 *
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
 	 * @return list<mixed>
-     */
-    protected function getZippedListPerStatus(string $queryName, string $type): array
+	 */
+	protected function getZippedListPerStatus(string $queryName, string $type): array
 	{
 		$statusPages = [];
 
@@ -608,14 +615,14 @@ final class Model
 	}
 
 	/**
-     * Get all the raw data for the current list
-     *
-     * @param string $queryName - The GraphQL query
-     * @param string $type - Media type (anime, manga)
-     * @param string $status - Media 'consumption' status
+	 * Get all the raw data for the current list
+	 *
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
+	 * @param string $status - Media 'consumption' status
 	 * @return array<mixed>
-     */
-    protected function getZippedList(string $queryName, string $type, string $status): array
+	 */
+	protected function getZippedList(string $queryName, string $type, string $status): array
 	{
 		$pages = [];
 
@@ -638,20 +645,20 @@ final class Model
 	}
 
 	/**
-     * A generator returning the relevant snippet for each 'page' of
-     * a media list request
-     *
-     * @param string $queryName - The GraphQL query
-     * @param string $type - Media type (anime, manga)
-     * @param string $status - Media 'consumption' status
+	 * A generator returning the relevant snippet for each 'page' of
+	 * a media list request
+	 *
+	 * @param string $queryName - The GraphQL query
+	 * @param string $type - Media type (anime, manga)
+	 * @param string $status - Media 'consumption' status
 	 * @return iterable<array<string, mixed>>
-     */
-    private function getListPages(string $queryName, string $type, string $status): iterable
+	 */
+	private function getListPages(string $queryName, string $type, string $status): iterable
 	{
 		$cursor = '';
 		$username = $this->getUsername();
 
-		while (TRUE)
+		while (true)
 		{
 			$vars = [
 				'type' => strtoupper($type),
@@ -690,7 +697,7 @@ final class Model
 
 			yield $data['nodes'];
 
-			if ($page['hasNextPage'] === FALSE || $page === [])
+			if ($page['hasNextPage'] === false || $page === [])
 			{
 				break;
 			}
@@ -730,7 +737,8 @@ final class Model
 	 */
 	private function getUsername(): string
 	{
-		return $this->getContainer()
+		return $this
+			->getContainer()
 			->get('config')
 			->get(['kitsu_username']);
 	}

@@ -14,10 +14,10 @@
 
 namespace Aviat\Ion\Tests;
 
+use Aviat\Ion\{ConstList, Friend};
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
-use Aviat\Ion\{ConstList, Friend};
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler

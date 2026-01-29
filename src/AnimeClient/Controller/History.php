@@ -97,7 +97,7 @@ final class History extends BaseController
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",
 				'Manga',
-				'Reading History'
+				'Reading History',
 			),
 			'items' => $this->mangaModel->getHistory(),
 		]);

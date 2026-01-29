@@ -14,12 +14,12 @@
 
 namespace Aviat\AnimeClient\Command;
 
+use Aviat\AnimeClient\{API, Enum};
 use Aviat\AnimeClient\API\Anilist;
-use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\API\{Anilist\MissingIdException, ParallelAPIRequest};
+use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
 use Aviat\AnimeClient\Enum\{MediaType, SyncAction};
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\AnimeClient\{API, Enum};
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\{Json, JsonException};
 use ConsoleKit\Widgets;
@@ -283,7 +283,8 @@ final class SyncLists extends BaseCommand
 		{
 			try {
 				$list[$type] = $this->anilistModel->getSyncList(strtoupper($type));
-			} catch (JsonException) {
+			}
+			catch (JsonException) {
 				$this->echoErrorBox('Anlist API exception. Can not sync.');
 
 				exit();
@@ -499,7 +500,7 @@ final class SyncLists extends BaseCommand
 	 * @param array<mixed> $anilistItem
 	 * @return array<mixed>|null
 	 */
-	private function compareListItems(array $kitsuItem, array $anilistItem): null|array
+	private function compareListItems(array $kitsuItem, array $anilistItem): ?array
 	{
 		$compareKeys = [
 			'notes',
@@ -558,7 +559,8 @@ final class SyncLists extends BaseCommand
 			{
 				$update['data']['progress'] = $kitsuItem['data']['progress'];
 				$return['updateType'][] = Enum\API::ANILIST;
-			} elseif ($diff['progress'] === self::ANILIST_GREATER)
+			}
+			elseif ($diff['progress'] === self::ANILIST_GREATER)
 			{
 				$update['data']['progress'] = $anilistItem['data']['progress'];
 				$return['updateType'][] = Enum\API::KITSU;
@@ -572,7 +574,8 @@ final class SyncLists extends BaseCommand
 			{
 				$update['data']['status'] = $kitsuItem['data']['status'];
 				$return['updateType'][] = Enum\API::ANILIST;
-			} elseif ($dateDiff === self::ANILIST_GREATER)
+			}
+			elseif ($dateDiff === self::ANILIST_GREATER)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
 				$return['updateType'][] = Enum\API::KITSU;
@@ -593,7 +596,8 @@ final class SyncLists extends BaseCommand
 				}
 
 				$return['updateType'][] = Enum\API::ANILIST;
-			} elseif ($dateDiff === self::ANILIST_GREATER)
+			}
+			elseif ($dateDiff === self::ANILIST_GREATER)
 			{
 				$update['data']['status'] = $anilistItem['data']['status'];
 
@@ -617,7 +621,8 @@ final class SyncLists extends BaseCommand
 			{
 				$update['data']['ratingTwenty'] = $kitsuItem['data']['rating'];
 				$return['updateType'][] = Enum\API::ANILIST;
-			} elseif ($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
+			}
+			elseif ($dateDiff === self::ANILIST_GREATER && $anilistItem['data']['rating'] !== 0)
 			{
 				$update['data']['ratingTwenty'] = $anilistItem['data']['rating'] * 2;
 				$return['updateType'][] = Enum\API::KITSU;
@@ -631,7 +636,8 @@ final class SyncLists extends BaseCommand
 			{
 				$update['data']['notes'] = $kitsuItem['data']['notes'];
 				$return['updateType'][] = Enum\API::ANILIST;
-			} else
+			}
+			else
 			{
 				$update['data']['notes'] = $anilistItem['data']['notes'];
 				$return['updateType'][] = Enum\API::KITSU;
@@ -645,7 +651,8 @@ final class SyncLists extends BaseCommand
 			{
 				$update['data']['reconsumeCount'] = $kitsuItem['data']['reconsumeCount'];
 				$return['updateType'][] = Enum\API::ANILIST;
-			} elseif ($diff['reconsumeCount'] === self::ANILIST_GREATER)
+			}
+			elseif ($diff['reconsumeCount'] === self::ANILIST_GREATER)
 			{
 				$update['data']['reconsumeCount'] = $anilistItem['data']['reconsumeCount'];
 				$return['updateType'][] = Enum\API::KITSU;
@@ -689,7 +696,8 @@ final class SyncLists extends BaseCommand
 			];
 
 			$return['data']['data'] = array_merge($prevData, $return['data']['data']);
-		} elseif ($return['updateType'][0] === Enum\API::KITSU->value)
+		}
+		elseif ($return['updateType'][0] === Enum\API::KITSU->value)
 		{
 			$prevData = [
 				'notes' => $anilistItem['data']['notes'],
@@ -734,7 +742,8 @@ final class SyncLists extends BaseCommand
 				$requester->addRequest(
 					$this->kitsuModel->updateListItem(FormItem::from($item)),
 				);
-			} elseif ($action === SyncAction::CREATE)
+			}
+			elseif ($action === SyncAction::CREATE)
 			{
 				$maybeRequest = $this->kitsuModel->createListItem($item);
 				if ($maybeRequest === null)
@@ -813,13 +822,15 @@ final class SyncLists extends BaseCommand
 				{
 					$requester->addRequest($maybeRequest);
 				}
-			} else
+			}
+			else
 			{
 				if ($action === SyncAction::CREATE)
 				{
 					try {
 						$requester->addRequest($this->anilistModel->createFullListItem($item, $type()));
-					} catch (MissingIdException) {
+					}
+					catch (MissingIdException) {
 						// Case where there's a MAL mapping from Kitsu, but no equivalent Anlist item
 						$id = $item['mal_id'];
 						$this->echoWarning(
@@ -842,7 +853,8 @@ final class SyncLists extends BaseCommand
 			{
 				$verb = $action === SyncAction::UPDATE ? 'updated' : 'created';
 				$this->echoSuccess("Successfully {$verb} Anilist {$type->value} list item with id: {$id}");
-			} else
+			}
+			else
 			{
 				dump([
 					'problem' => 'Failed to update anilist list item',

@@ -75,7 +75,7 @@ final class Manga extends BaseController
 
 		$title = $this->formatTitle(
 			$this->config->get('whose_list') . "'s Manga List",
-			$statusTitle
+			$statusTitle,
 		);
 
 		$view_map = [
@@ -83,7 +83,7 @@ final class Manga extends BaseController
 			'list' => 'list',
 		];
 
-		$data = ($status !== 'all')
+		$data = $status !== 'all'
 			? [$statusTitle => $this->model->getList($statusTitle)]
 			: $this->model->getList('All');
 
@@ -107,7 +107,7 @@ final class Manga extends BaseController
 		$this->outputHTML('manga/add', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",
-				'Add'
+				'Add',
 			),
 			'action_url' => $this->url->generate('manga.add.post'),
 			'status_list' => $statuses,
@@ -123,7 +123,7 @@ final class Manga extends BaseController
 		$this->checkAuth();
 
 		$data = (array) $this->request->getParsedBody();
-		if ( ! array_key_exists('id', $data))
+		if (! array_key_exists('id', $data))
 		{
 			$this->redirect('manga/add', 303);
 		}
@@ -142,7 +142,7 @@ final class Manga extends BaseController
 		}
 		else
 		{
-			$this->setFlashMessage('Failed to add new manga to list:' . print_r($data, TRUE), 'error');
+			$this->setFlashMessage('Failed to add new manga to list:' . print_r($data, true), 'error');
 		}
 
 		$this->sessionRedirect();
@@ -160,7 +160,7 @@ final class Manga extends BaseController
 		$item = $this->model->getItem($id);
 		$title = $this->formatTitle(
 			$this->config->get('whose_list') . "'s Manga List",
-			'Edit'
+			'Edit',
 		);
 
 		$this->outputHTML('manga/edit', [
@@ -283,7 +283,7 @@ final class Manga extends BaseController
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",
 				'Manga',
-				$data['title']
+				$data['title'],
 			),
 			'data' => $data,
 		]);
@@ -310,7 +310,7 @@ final class Manga extends BaseController
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Manga List",
 				'Manga',
-				$data['title']
+				$data['title'],
 			),
 			'data' => $data,
 		]);

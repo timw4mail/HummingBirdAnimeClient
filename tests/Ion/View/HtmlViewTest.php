@@ -15,6 +15,7 @@
 namespace Aviat\Ion\Tests\View;
 
 use Aviat\Ion\Tests\TestHtmlView;
+
 use function Aviat\Ion\_dir;
 
 /**

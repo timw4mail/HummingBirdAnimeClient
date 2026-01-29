@@ -15,13 +15,12 @@
 namespace Aviat\AnimeClient\Model;
 
 use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
-
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
 
 use function Aviat\AnimeClient\arrayToToml;
-
 use function Aviat\Ion\_dir;
+
 use const Aviat\AnimeClient\SETTINGS_MAP;
 
 /**
@@ -31,9 +30,9 @@ final class Settings
 {
 	use ContainerAware;
 
-	public function __construct(private readonly ConfigInterface $config)
-	{
-	}
+	public function __construct(
+		private readonly ConfigInterface $config,
+	) {}
 
 	/**
 	 * @return array<string, mixed>
@@ -88,26 +87,28 @@ final class Settings
 							continue;
 						}
 
-						$value['fields'][$k]['disabled'] = FALSE;
-						$value['fields'][$k]['display'] = TRUE;
-						$value['fields'][$k]['readonly'] = FALSE;
-						$value['fields'][$k]['value'] = $values[$key][$k] ?? '';
+						$value['fields'][$k]['disabled'] = false;
+						$value['fields'][$k]['display'] = true;
+						$value['fields'][$k]['readonly'] = false;
+						$value['fields'][$k]['value'] = $values[$key][$k];
 					}
 				}
 
-				$value['value'] = array_key_exists($key, $values) && is_scalar($values[$key]) ? $values[$key] : $value['default'] ?? '';
+				$value['value'] = array_key_exists($key, $values) && is_scalar($values[$key])
+					? $values[$key]
+					: $value['default'] ?? '';
 
 				foreach (['readonly', 'disabled'] as $flag)
 				{
-					if ( ! array_key_exists($flag, $value))
+					if (! array_key_exists($flag, $value))
 					{
-						$value[$flag] = FALSE;
+						$value[$flag] = false;
 					}
 				}
 
-				if ( ! array_key_exists('display', $value))
+				if (! array_key_exists('display', $value))
 				{
-					$value['display'] = TRUE;
+					$value['display'] = true;
 				}
 
 				$output[$file][$key] = $value;
@@ -124,7 +125,7 @@ final class Settings
 	public function validateSettings(array $settings): array
 	{
 		$cfg = Config::check($settings);
-		if ( ! is_iterable($cfg))
+		if (! is_iterable($cfg))
 		{
 			return [];
 		}
@@ -140,11 +141,11 @@ final class Settings
 			{
 				if ($val === '1')
 				{
-					$looseConfig[$key] = TRUE;
+					$looseConfig[$key] = true;
 				}
 				elseif ($val === '0')
 				{
-					$looseConfig[$key] = FALSE;
+					$looseConfig[$key] = false;
 				}
 				else
 				{
@@ -157,11 +158,11 @@ final class Settings
 				{
 					if ($v === '1')
 					{
-						$keyedConfig[$key][$k] = TRUE;
+						$keyedConfig[$key][$k] = true;
 					}
 					elseif ($v === '0')
 					{
-						$keyedConfig[$key][$k] = FALSE;
+						$keyedConfig[$key][$k] = false;
 					}
 					else
 					{
@@ -195,22 +196,20 @@ final class Settings
 	 */
 	public function saveSettingsFile(array $settings): bool
 	{
-		$configWrapped = (count(array_keys($settings)) === 1 && array_key_exists('config', $settings));
+		$configWrapped = count(array_keys($settings)) === 1 && array_key_exists('config', $settings);
 		if ($configWrapped)
 		{
 			$settings = $settings['config'];
 		}
 
-		try
-		{
+		try {
 			$settings = $this->validateSettings($settings);
 		}
-		catch (UndefinedPropertyException $e)
-		{
+		catch (UndefinedPropertyException $e) {
 			dump($e);
 			dump($settings);
 
-			return FALSE;
+			return false;
 		}
 
 		$savePath = _dir(dirname(__DIR__, 3), 'app', 'config');
@@ -218,6 +217,6 @@ final class Settings
 
 		$saved = file_put_contents($saveFile, arrayToToml($settings));
 
-		return $saved !== FALSE;
+		return $saved !== false;
 	}
 }

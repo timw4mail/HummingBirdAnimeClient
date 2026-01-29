@@ -25,7 +25,6 @@ use Aviat\Ion\Attribute\{Controller, Route};
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 use Aviat\Ion\Json;
-
 use InvalidArgumentException;
 use Throwable;
 use TypeError;
@@ -69,16 +68,22 @@ final class Anime extends BaseController
 	 * @throws Throwable
 	 */
 	#[Route('anime.list', '/anime/{status}{/view}')]
-	public function index(int|string $status = KitsuWatchingStatus::WATCHING, ?string $view = NULL): void
-	{
-		if ( ! in_array($status, [
-			'all',
-			'watching',
-			'plan_to_watch',
-			'on_hold',
-			'dropped',
-			'completed',
-		], TRUE))
+	public function index(
+		int|string $status = KitsuWatchingStatus::WATCHING,
+		?string $view = null,
+	): void {
+		if (! in_array(
+			$status,
+			[
+				'all',
+				'watching',
+				'plan_to_watch',
+				'on_hold',
+				'dropped',
+				'completed',
+			],
+			true,
+		))
 		{
 			$this->errorPage(404, 'Not Found', 'Page not found');
 		}
@@ -86,7 +91,7 @@ final class Anime extends BaseController
 		$title = array_key_exists($status, AnimeWatchingStatus::ROUTE_TO_TITLE)
 			? $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
-				AnimeWatchingStatus::ROUTE_TO_TITLE[$status]
+				AnimeWatchingStatus::ROUTE_TO_TITLE[$status],
 			)
 			: '';
 
@@ -95,7 +100,7 @@ final class Anime extends BaseController
 			'list' => 'list',
 		];
 
-		$data = ($status !== 'all')
+		$data = $status !== 'all'
 			? $this->model->getList(AnimeWatchingStatus::ROUTE_TO_KITSU[$status])
 			: $this->model->getAllLists();
 
@@ -123,7 +128,7 @@ final class Anime extends BaseController
 		$this->outputHTML('anime/add', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
-				'Add'
+				'Add',
 			),
 			'action_url' => $this->url->generate('anime.add.post'),
 			'status_list' => AnimeWatchingStatus::KITSU_TO_TITLE,
@@ -147,7 +152,7 @@ final class Anime extends BaseController
 			unset($data['mal_id']);
 		}
 
-		if ( ! array_key_exists('id', $data))
+		if (! array_key_exists('id', $data))
 		{
 			$this->redirect('anime/add', 303);
 		}
@@ -171,7 +176,7 @@ final class Anime extends BaseController
 	 * Form to edit details about a series
 	 */
 	#[Route('anime.edit', '/anime/edit/{id}/{status}')]
-	public function edit(string $id, string $status = 'all'): void
+	public function edit(string $id, string $_status = 'all'): void
 	{
 		$this->checkAuth();
 
@@ -181,7 +186,7 @@ final class Anime extends BaseController
 		$this->outputHTML('anime/edit', [
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
-				'Edit'
+				'Edit',
 			),
 			'item' => $item,
 			'statuses' => AnimeWatchingStatus::KITSU_TO_TITLE,
@@ -273,7 +278,7 @@ final class Anime extends BaseController
 		$body = (array) $this->request->getParsedBody();
 		$response = $this->model->deleteItem(FormItem::from($body));
 
-		if ($response === TRUE)
+		if ($response === true)
 		{
 			$this->setFlashMessage('Successfully deleted anime.', 'success');
 			$this->cache->clear();
@@ -294,17 +299,16 @@ final class Anime extends BaseController
 	#[Route('anime.details', '/anime/details/{id}')]
 	public function details(string $id): void
 	{
-		try
-		{
+		try {
 			$data = $this->model->getAnime($id);
 
 			if ($data->isEmpty())
 			{
 				$this->notFound(
-					$this->config->get('whose_list') .
-					"'s Anime List &middot; Anime &middot; " .
-					'Anime not found',
-					'Anime Not Found'
+					$this->config->get('whose_list')
+					. "'s Anime List &middot; Anime &middot; "
+					. 'Anime not found',
+					'Anime Not Found',
 				);
 			}
 
@@ -312,18 +316,15 @@ final class Anime extends BaseController
 				'title' => $this->formatTitle(
 					$this->config->get('whose_list') . "'s Anime List",
 					'Anime',
-					$data->title ?? ''
+					$data->title ?? '',
 				),
 				'data' => $data,
 			]);
 		}
-		catch (TypeError)
-		{
+		catch (TypeError) {
 			$this->notFound(
-				$this->config->get('whose_list') .
-				"'s Anime List &middot; Anime &middot; " .
-				'Anime not found',
-				'Anime Not Found'
+				$this->config->get('whose_list') . "'s Anime List &middot; Anime &middot; " . 'Anime not found',
+				'Anime Not Found',
 			);
 		}
 	}
@@ -331,17 +332,16 @@ final class Anime extends BaseController
 	#[Route('anime.random', '/anime/details/random')]
 	public function random(): void
 	{
-		try
-		{
+		try {
 			$data = $this->model->getRandomAnime();
 
 			if ($data->isEmpty())
 			{
 				$this->notFound(
-					$this->config->get('whose_list') .
-					"'s Anime List &middot; Anime &middot; " .
-					'Anime not found',
-					'Anime Not Found'
+					$this->config->get('whose_list')
+					. "'s Anime List &middot; Anime &middot; "
+					. 'Anime not found',
+					'Anime Not Found',
 				);
 			}
 
@@ -349,18 +349,15 @@ final class Anime extends BaseController
 				'title' => $this->formatTitle(
 					$this->config->get('whose_list') . "'s Anime List",
 					'Anime',
-					$data->title ?? ''
+					$data->title ?? '',
 				),
 				'data' => $data,
 			]);
 		}
-		catch (TypeError)
-		{
+		catch (TypeError) {
 			$this->notFound(
-				$this->config->get('whose_list') .
-				"'s Anime List &middot; Anime &middot; " .
-				'Anime not found',
-				'Anime Not Found'
+				$this->config->get('whose_list') . "'s Anime List &middot; Anime &middot; " . 'Anime not found',
+				'Anime Not Found',
 			);
 		}
 	}
