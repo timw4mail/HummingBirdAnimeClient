@@ -84,9 +84,9 @@ class HttpView implements HttpViewInterface, Stringable
 	/**
 	 * Alternate static constructor
 	 */
-	public static function new(): self
+	public static function new(): static
 	{
-		return new self();
+		return new static();
 	}
 
 	/**
