@@ -37,11 +37,13 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Valid HTTP request methods
+	 * @var list<string>
 	 */
 	protected array $validMethods = ['POST'];
 
 	/**
 	 * HTTP headers to send with every request
+	 * @var array<string, string>
 	 */
 	protected array $defaultHeaders = [
 		'Accept' => 'application/json',
@@ -57,6 +59,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Create a request object
+	 * @param array<string, mixed> $options
 	 * @throws Throwable
 	 */
 	public function setUpRequest(string $url, array $options = []): Request
@@ -98,6 +101,8 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Run a GraphQL API query
+	 * @param array<string, mixed> $variables
+	 * @return array<string, mixed>
 	 */
 	public function runQuery(string $name, array $variables = []): array
 	{
@@ -128,6 +133,7 @@ final class RequestBuilder extends APIRequestBuilder
 	}
 
 	/**
+	 * @param array<string, mixed> $variables
 	 * @throws Throwable
 	 */
 	public function mutateRequest(string $name, array $variables = []): Request
@@ -160,6 +166,7 @@ final class RequestBuilder extends APIRequestBuilder
 	}
 
 	/**
+	 * @param array<string, mixed> $variables
 	 * @throws Throwable
 	 * @return mixed[]
 	 */
@@ -173,7 +180,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Make a request
-	 *
+	 * @param array<string, mixed> $options
 	 * @throws Throwable
 	 */
 	private function getResponse(string $url, array $options = []): Response
@@ -222,7 +229,8 @@ final class RequestBuilder extends APIRequestBuilder
 
 	/**
 	 * Remove some boilerplate for post requests
-	 *
+	 * @param array<string, mixed> $options
+	 * @return array<string, mixed>
 	 * @throws Throwable
 	 */
 	protected function postRequest(array $options = []): array

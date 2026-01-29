@@ -26,13 +26,27 @@ js:
 lint:
 	tools/vendor/bin/mago lint
 
+# Auto fix lint errors
+lint-fix:
+	tools/vendor/bin/mago lint --fix --format-after-fix
+
+# Analyze code logic
+check:
+	tools/vendor/bin/mago analyze
+
+# Fix code logic
+check-fix:
+	tools/vendor/bin/mago analyze --fix --format-after-fix
+
 # Check code formatting
 check-fmt:
-	tools/vendor/bin/php-cs-fixer fix --dry-run --verbose
+	tools/vendor/bin/mago fmt --dry-run
+	#tools/vendor/bin/php-cs-fixer fix --dry-run --verbose
 
 # Fix code formatting
 fmt:
-	tools/vendor/bin/php-cs-fixer fix --verbose
+	tools/vendor/bin/mago fmt
+	#tools/vendor/bin/php-cs-fixer fix --verbose
 
 # Runs phpstan code check
 phpstan:

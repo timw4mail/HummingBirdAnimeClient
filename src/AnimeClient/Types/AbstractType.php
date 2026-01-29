@@ -18,6 +18,9 @@ use ArrayAccess;
 use Countable;
 use Stringable;
 
+/**
+ * @implements ArrayAccess<int|string, mixed>
+ */
 abstract class AbstractType implements ArrayAccess, Countable, Stringable
 {
 	/**

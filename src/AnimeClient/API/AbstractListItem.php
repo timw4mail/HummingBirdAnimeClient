@@ -25,12 +25,13 @@ abstract class AbstractListItem
 	/**
 	 * Create a list item
 	 *
-	 * @param array $data -
+	 * @param array<string, mixed> $data -
 	 */
 	abstract public function create(array $data): Request;
 
 	/**
 	 * Create a full list item for syncing
+	 * @param array<string, mixed> $data
 	 */
 	abstract public function createFull(array $data): Request;
 
@@ -38,6 +39,7 @@ abstract class AbstractListItem
 	 * Retrieve a list item
 	 *
 	 * @param string $id - The id of the list item
+	 * @return array<string, mixed>
 	 */
 	abstract public function get(string $id): array;
 

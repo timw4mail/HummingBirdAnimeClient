@@ -44,6 +44,7 @@ trait CacheTrait
 	/**
 	 * Get the cached value if it exists, otherwise set the cache value
 	 * and return it.
+	 * @param array<mixed> $primeArgs
 	 * @throws InvalidArgumentException
 	 */
 	public function getCached(string $key, callable $primer, ?array $primeArgs = []): mixed

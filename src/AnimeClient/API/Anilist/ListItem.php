@@ -30,6 +30,7 @@ final class ListItem extends AbstractListItem
 
 	/**
 	 * Create a minimal list item
+	 * @param array<string, mixed> $data
 	 */
 	public function create(array $data): Request
 	{
@@ -40,6 +41,7 @@ final class ListItem extends AbstractListItem
 
 	/**
 	 * Create a fleshed-out list item
+	 * @param array<string, mixed> $data
 	 */
 	public function createFull(array $data): Request
 	{
@@ -58,6 +60,7 @@ final class ListItem extends AbstractListItem
 
 	/**
 	 * Get the data for a list item
+	 * @return array<string, mixed>
 	 */
 	public function get(string $id): array
 	{

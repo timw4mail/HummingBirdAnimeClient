@@ -56,11 +56,13 @@ abstract class APIRequestBuilder
 
 	/**
 	 * Default request headers
+	 * @var array<string, string>
 	 */
 	protected array $defaultHeaders = [];
 
 	/**
 	 * Valid HTTP request methods
+	 * @var list<string>
 	 */
 	protected array $validMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'];
 
@@ -119,7 +121,7 @@ abstract class APIRequestBuilder
 	/**
 	 * Set body as form fields
 	 *
-	 * @param array $fields Mapping of field names to values
+	 * @param array<string, mixed> $fields Mapping of field names to values
 	 */
 	public function setFormFields(array $fields): self
 	{
@@ -166,6 +168,7 @@ abstract class APIRequestBuilder
 	 * Set multiple request headers
 	 *
 	 * name => value
+	 * @param array<string, string> $headers
 	 */
 	public function setHeaders(array $headers): self
 	{
@@ -188,6 +191,8 @@ abstract class APIRequestBuilder
 
 	/**
 	 * Append a query string in array format
+	 *
+	 * @param array<string, string> $params
 	 */
 	public function setQuery(array $params): self
 	{

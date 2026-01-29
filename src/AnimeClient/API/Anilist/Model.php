@@ -71,6 +71,7 @@ final class Model
 
 	/**
 	 * Check auth status with simple API call
+	 * @return array<string, mixed>
 	 */
 	public function checkAuth(): array
 	{
@@ -80,6 +81,7 @@ final class Model
 	/**
 	 * Get user list data for syncing with Kitsu
 	 *
+	 * @return array<string, mixed>
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
@@ -101,6 +103,7 @@ final class Model
 
 	/**
 	 * Create a list item
+	 * @param array<string, mixed> $data
 	 */
 	public function createListItem(array $data, string $type = 'anime'): ?Request
 	{
@@ -132,6 +135,7 @@ final class Model
 
 	/**
 	 * Create a list item with all the relevant data
+	 * @param array<string, mixed> $data
 	 */
 	public function createFullListItem(array $data, string $type): Request
 	{
@@ -242,6 +246,7 @@ final class Model
 
 	/**
 	 * Find the id to update by
+	 * @param array<string, mixed> $data
 	 */
 	private function getMediaId(array $data, string $type = 'ANIME'): ?string
 	{

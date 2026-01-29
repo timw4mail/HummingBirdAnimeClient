@@ -57,7 +57,7 @@ if (is_array($checkedConfig) && array_key_exists('timezone', $checkedConfig) && 
 {
 	date_default_timezone_set($checkedConfig['timezone']);
 }
-elseif (is_string($timezone) && $timezone !== '')
+elseif ($timezone !== '')
 {
 	date_default_timezone_set($timezone);
 }

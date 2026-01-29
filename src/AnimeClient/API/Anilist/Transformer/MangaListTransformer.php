@@ -21,8 +21,15 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 use DateTime;
 use DateTimeInterface;
 
+/**
+ * @extends AbstractTransformer<MangaListItem>
+ */
 class MangaListTransformer extends AbstractTransformer
 {
+	/**
+	 * @param array<mixed>|object $item
+	 * @return MangaListItem
+	 */
 	public function transform(array|object $item): MangaListItem
 	{
 		return MangaListItem::from([]);
@@ -30,6 +37,7 @@ class MangaListTransformer extends AbstractTransformer
 
 	/**
 	 * Transform Anilist list item to Kitsu form update format
+	 * @param array<string, mixed> $item
 	 */
 	public function untransform(array $item): FormItem
 	{

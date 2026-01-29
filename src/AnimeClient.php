@@ -39,6 +39,7 @@ const MINUTES_IN_YEAR = 525_600;
  * Load configuration options from .toml files
  *
  * @param string $path - Path to load config
+ * @return array<string, mixed>
  */
 function loadConfig(string $path): array
 {
@@ -78,12 +79,19 @@ function loadConfig(string $path): array
 
 /**
  * Load config from one specific TOML file
+ * @return array<string, mixed>
  */
 function loadTomlFile(string $filename): array
 {
 	return Toml::parseFile($filename);
 }
 
+/**
+ * @param TomlBuilder $builder
+ * @param iterable<mixed> $data
+ * @param mixed|NULL $parentKey
+ * @return void
+ */
 function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = NULL): void
 {
 	foreach ($data as $key => $value)
@@ -113,6 +121,8 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = N
 
 /**
  * Serialize config data into a Toml file
+ *
+ * @param iterable<mixed> $data
  */
 function arrayToToml(iterable $data): string
 {
@@ -125,6 +135,8 @@ function arrayToToml(iterable $data): string
 
 /**
  * Serialize toml back to an array
+ *
+ * @return array<string, mixed>
  */
 function tomlToArray(string $toml): array
 {
@@ -145,6 +157,8 @@ function isSequentialArray(mixed $array): bool
 
 /**
  * Check that folder permissions are correct for proper operation
+ *
+ * @return array<string, mixed>
  */
 function checkFolderPermissions(ConfigInterface $config): array
 {
@@ -269,6 +283,8 @@ function createPlaceholderImage(string $path, int $width = 200, int $height = 20
 
 /**
  * Check that there is a value for at least one item in a collection with the specified key
+ *
+ * @param array<string, mixed> $search
  */
 function colNotEmpty(array $search, string $key): bool
 {
@@ -302,6 +318,8 @@ function clearCache(CacheInterface $cache): bool
 
 /**
  * Render a PHP code template as a string
+ *
+ * @param array<string, mixed> $data
  */
 function renderTemplate(string $path, array $data): string
 {

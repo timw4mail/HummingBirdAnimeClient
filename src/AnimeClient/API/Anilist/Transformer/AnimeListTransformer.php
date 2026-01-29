@@ -22,8 +22,15 @@ use Aviat\Ion\Transformer\AbstractTransformer;
 use DateTime;
 use DateTimeInterface;
 
+/**
+ * @extends AbstractTransformer<AnimeListItem>
+ */
 class AnimeListTransformer extends AbstractTransformer
 {
+	/**
+	 * @param array<mixed>|object $item
+	 * @return AnimeListItem
+	 */
 	public function transform(array|object $item): AnimeListItem
 	{
 		return AnimeListItem::from([]);
@@ -31,6 +38,7 @@ class AnimeListTransformer extends AbstractTransformer
 
 	/**
 	 * Transform Anilist list item to Kitsu form update format
+	 * @param array<string, mixed> $item
 	 */
 	public function untransform(array $item): FormItem
 	{
