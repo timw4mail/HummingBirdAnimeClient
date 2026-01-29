@@ -13,6 +13,7 @@ tab-width = 4
 use-tabs = true
 control-brace-style = "next_line"
 expand-use-groups = false
+following-clause-on-newline = true
 preserve-breaking-member-access-chain = true
 preserve-breaking-argument-list = true
 preserve-breaking-array-like = true

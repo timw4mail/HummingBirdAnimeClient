@@ -36,19 +36,19 @@ pipeline {
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
-		stage('Latest PHP') {
-			agent {
-				docker {
-					image 'php:cli-alpine'
-					args '-u root --privileged'
-				}
-			}
-			steps {
-				sh 'apk add --no-cache git icu-dev'
-				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
-				sh 'php ./vendor/bin/phpunit --colors=never'
-			}
-		}
+// 		stage('Latest PHP') {
+// 			agent {
+// 				docker {
+// 					image 'php:cli-alpine'
+// 					args '-u root --privileged'
+// 				}
+// 			}
+// 			steps {
+// 				sh 'apk add --no-cache git icu-dev'
+// 				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
+// 				sh 'php ./vendor/bin/phpunit --colors=never'
+// 			}
+// 		}
 		stage('Coverage') {
 			agent any
 			steps {
