@@ -6,7 +6,7 @@
  *
  * PHP version 8.4
  *
- * @copyright   2015 - 2025  Timothy J. Warren <tim@timshome.page>
+ * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
  * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
  * @version     5.3
  * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
