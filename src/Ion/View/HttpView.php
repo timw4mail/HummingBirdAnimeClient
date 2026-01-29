@@ -17,7 +17,6 @@ namespace Aviat\Ion\View;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\HttpViewInterface;
 use InvalidArgumentException;
-
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Http\Message\ResponseInterface;
@@ -37,7 +36,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 * If the view has sent output via
 	 * __toString or send method
 	 */
-	protected bool $hasRendered = FALSE;
+	protected bool $hasRendered = false;
 
 	/**
 	 * Response mime type
@@ -57,7 +56,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 */
 	public function __destruct()
 	{
-		if ( ! $this->hasRendered)
+		if (! $this->hasRendered)
 		{
 			$this->send();
 		}
@@ -69,6 +68,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 *
 	 * @throws DoubleRenderException
 	 */
+	#[\Override]
 	public function __toString(): string
 	{
 		if ($this->hasRendered)
@@ -76,7 +76,7 @@ class HttpView implements HttpViewInterface, Stringable
 			throw new DoubleRenderException();
 		}
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 
 		return $this->getOutput();
 	}
@@ -94,6 +94,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 *
 	 * @param string|string[] $value
 	 */
+	#[\Override]
 	public function addHeader(string $name, array|string $value): self
 	{
 		$this->response = $this->response->withHeader($name, $value);
@@ -104,6 +105,7 @@ class HttpView implements HttpViewInterface, Stringable
 	/**
 	 * Set the output string
 	 */
+	#[\Override]
 	public function setOutput(mixed $string): HttpViewInterface
 	{
 		$this->response->getBody()->write($string);
@@ -114,6 +116,7 @@ class HttpView implements HttpViewInterface, Stringable
 	/**
 	 * Append additional output.
 	 */
+	#[\Override]
 	public function appendOutput(string $string): HttpViewInterface
 	{
 		return $this->setOutput($string);
@@ -123,6 +126,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 * Get the current output as a string. Does not
 	 * render view or send headers.
 	 */
+	#[\Override]
 	public function getOutput(): string
 	{
 		return (string) $this->response->getBody();
@@ -146,10 +150,10 @@ class HttpView implements HttpViewInterface, Stringable
 	 *
 	 * @throws InvalidArgumentException
 	 */
+	#[\Override]
 	public function setStatusCode(int $code): self
 	{
-		$this->response = $this->response->withStatus($code)
-			->withProtocolVersion('1.1');
+		$this->response = $this->response->withStatus($code)->withProtocolVersion('1.1');
 
 		return $this;
 	}
@@ -161,6 +165,7 @@ class HttpView implements HttpViewInterface, Stringable
 	 * @throws DoubleRenderException
 	 * @throws InvalidArgumentException
 	 */
+	#[\Override]
 	public function send(): void
 	{
 		$this->output();
@@ -185,8 +190,8 @@ class HttpView implements HttpViewInterface, Stringable
 			->withHeader('X-XSS-Protection', '1;mode=block')
 			->withHeader('X-Frame-Options', 'SAMEORIGIN');
 
-		(new SapiEmitter())->emit($this->response);
+		new SapiEmitter()->emit($this->response);
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 	}
 }

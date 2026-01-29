@@ -27,6 +27,7 @@ final class MangaTransformerTest extends AnimeClientTestCase
 	protected array $beforeTransform;
 	protected MangaTransformer $transformer;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();

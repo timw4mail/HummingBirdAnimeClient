@@ -30,6 +30,7 @@ final class CacheClear extends BaseCommand
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
@@ -41,8 +42,7 @@ final class CacheClear extends BaseCommand
 		if ($cleared)
 		{
 			$this->echoBox('API Cache has been cleared.');
-		}
-		else
+		} else
 		{
 			$this->echoErrorBox('Failed to clear cache.');
 		}

@@ -17,7 +17,6 @@ namespace Aviat\AnimeClient\API\Anilist\Transformer;
 use Aviat\AnimeClient\API\{Enum, Mapping};
 use Aviat\AnimeClient\Types\{FormItem, MangaListItem};
 use Aviat\Ion\Transformer\AbstractTransformer;
-
 use DateTime;
 use DateTimeInterface;
 
@@ -30,6 +29,7 @@ class MangaListTransformer extends AbstractTransformer
 	 * @param array<mixed>|object $item
 	 * @return MangaListItem
 	 */
+	#[\Override]
 	public function transform(array|object $item): MangaListItem
 	{
 		return MangaListItem::from([]);
@@ -56,7 +56,7 @@ class MangaListTransformer extends AbstractTransformer
 				'status' => $reconsuming
 					? Enum\MangaReadingStatus\Kitsu::READING
 					: Mapping\MangaReadingStatus::ANILIST_TO_KITSU[$item['status']],
-				'updatedAt' => (new DateTime())
+				'updatedAt' => new DateTime()
 					->setTimestamp($item['updatedAt'])
 					->format(DateTimeInterface::W3C),
 			],

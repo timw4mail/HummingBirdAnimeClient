@@ -15,7 +15,6 @@
 namespace Aviat\AnimeClient\API\Anilist;
 
 use Amp\Http\Client\Request;
-
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnilistStatus;
 use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
@@ -32,6 +31,7 @@ final class ListItem extends AbstractListItem
 	 * Create a minimal list item
 	 * @param array<string, mixed> $data
 	 */
+	#[\Override]
 	public function create(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
@@ -43,6 +43,7 @@ final class ListItem extends AbstractListItem
 	 * Create a fleshed-out list item
 	 * @param array<string, mixed> $data
 	 */
+	#[\Override]
 	public function createFull(array $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check($data);
@@ -53,6 +54,7 @@ final class ListItem extends AbstractListItem
 	/**
 	 * Delete a list item
 	 */
+	#[\Override]
 	public function delete(string $id, string $type = 'anime'): Request
 	{
 		return $this->requestBuilder->mutateRequest('DeleteMediaListEntry', ['id' => $id]);
@@ -62,6 +64,7 @@ final class ListItem extends AbstractListItem
 	 * Get the data for a list item
 	 * @return array<string, mixed>
 	 */
+	#[\Override]
 	public function get(string $id): array
 	{
 		return $this->requestBuilder->runQuery('MediaListItem', ['id' => $id]);
@@ -70,6 +73,7 @@ final class ListItem extends AbstractListItem
 	/**
 	 * Increase the progress on the medium by 1
 	 */
+	#[\Override]
 	public function increment(string $id, FormItemData $data): Request
 	{
 		$checkedData = Types\MediaListEntry::check([
@@ -83,13 +87,14 @@ final class ListItem extends AbstractListItem
 	/**
 	 * Update a list item
 	 */
+	#[\Override]
 	public function update(string $id, FormItemData $data): Request
 	{
 		$notes = $data->notes ?? '';
 		$progress = (int) $data->progress;
 		$private = (bool) $data->private;
 		$rating = $data->ratingTwenty;
-		$status = ($data->reconsuming === TRUE)
+		$status = $data->reconsuming === true
 			? AnilistStatus::REPEATING
 			: AnimeWatchingStatus::KITSU_TO_ANILIST[$data->status];
 

@@ -15,7 +15,6 @@
 namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Di\ContainerInterface;
-
 use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
 use function Aviat\Ion\_dir;
@@ -36,13 +35,14 @@ class IonTestCase extends TestCase
 	protected static $session_handler;
 
 	/*public static function setUpBeforeClass()
-	{
-		// Use mock session handler
-		$session_handler = new TestSessionHandler();
-		session_set_save_handler($session_handler, TRUE);
-		self::$session_handler = $session_handler;
-	}*/
+	 * {
+	 * // Use mock session handler
+	 * $session_handler = new TestSessionHandler();
+	 * session_set_save_handler($session_handler, TRUE);
+	 * self::$session_handler = $session_handler;
+	 * }*/
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -79,12 +79,10 @@ class IonTestCase extends TestCase
 				'route_config' => [
 					'asset_path' => '/assets',
 				],
-				'routes' => [
-
-				],
+				'routes' => [],
 			],
 			'redis' => [
-				'host' => (array_key_exists('REDIS_HOST', $_ENV)) ? $_ENV['REDIS_HOST'] : 'localhost',
+				'host' => array_key_exists('REDIS_HOST', $_ENV) ? $_ENV['REDIS_HOST'] : 'localhost',
 				'database' => 13,
 			],
 		];
@@ -95,7 +93,7 @@ class IonTestCase extends TestCase
 		$container->set('session-handler', static function (): TestSessionHandler {
 			// Use mock session handler
 			$session_handler = new TestSessionHandler();
-			session_set_save_handler($session_handler, TRUE);
+			session_set_save_handler($session_handler, true);
 
 			return $session_handler;
 		});
@@ -118,9 +116,10 @@ class IonTestCase extends TestCase
 
 		$request = call_user_func_array(
 			ServerRequestFactory::fromGlobals(...),
-			array_merge($default, $supers)
+			array_merge($default, $supers),
 		);
 		$this->container->setInstance('request', $request);
 	}
 }
+
 // End of IonTestCase.php

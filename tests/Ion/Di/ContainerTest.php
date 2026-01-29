@@ -29,9 +29,9 @@ use TypeError;
  */
 final class FooTest
 {
-	public function __construct(public $item)
-	{
-	}
+	public function __construct(
+		public $item,
+	) {}
 }
 
 class FooTest2
@@ -44,6 +44,7 @@ class FooTest2
  */
 final class ContainerTest extends IonTestCase
 {
+	#[\Override]
 	protected function setUp(): void
 	{
 		$this->container = new Container();
@@ -69,28 +70,29 @@ final class ContainerTest extends IonTestCase
 	}
 
 	#[DataProvider('dataGetWithException')]
-	public function testGetWithException(mixed $id, mixed $exception, ?string $message = NULL): void
-	{
-		try
-		{
+	public function testGetWithException(
+		mixed $id,
+		mixed $exception,
+		null|string $message = null,
+	): void {
+		try {
 			$this->container->get($id);
-		}
-		catch (ContainerException $e)
-		{
+		} catch (ContainerException $e) {
 			$this->assertInstanceOf($exception, $e);
 			$this->assertSame($message, $e->getMessage());
-		}
-		catch (Throwable $e)
-		{
+		} catch (Throwable $e) {
 			$this->assertInstanceOf($exception, $e);
 		}
 	}
 
 	#[DataProvider('dataGetWithException')]
-	public function testGetNewWithException(mixed $id, mixed $exception, ?string $message = NULL): void
-	{
+	public function testGetNewWithException(
+		mixed $id,
+		mixed $exception,
+		null|string $message = null,
+	): void {
 		$this->expectException($exception);
-		if ($message !== NULL)
+		if ($message !== null)
 		{
 			$this->expectExceptionMessage($message);
 		}
@@ -117,12 +119,9 @@ final class ContainerTest extends IonTestCase
 	#[DataProvider('dataSetInstanceWithException')]
 	public function testSetInstanceWithException(mixed $id, mixed $exception, mixed $message): void
 	{
-		try
-		{
-			$this->container->setInstance($id, NULL);
-		}
-		catch (ContainerException $e)
-		{
+		try {
+			$this->container->setInstance($id, null);
+		} catch (ContainerException $e) {
 			$this->assertInstanceOf($exception, $e);
 			$this->assertSame($message, $e->getMessage());
 		}

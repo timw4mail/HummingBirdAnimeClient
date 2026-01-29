@@ -16,7 +16,6 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
 use Aviat\AnimeClient\Types\Character;
-
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Locale;
 
@@ -26,6 +25,7 @@ use Locale;
  */
 final class CharacterTransformer extends AbstractTransformer
 {
+	#[\Override]
 	public function transform(array|object $item): Character
 	{
 		$item = (array) $item;
@@ -37,7 +37,7 @@ final class CharacterTransformer extends AbstractTransformer
 		];
 
 		$names = array_unique(
-			[...[$data['names']['canonical']], ...array_values($data['names']['localized'])]
+			[...[$data['names']['canonical']], ...array_values($data['names']['localized'])],
 		);
 		$name = array_shift($names);
 
@@ -102,7 +102,10 @@ final class CharacterTransformer extends AbstractTransformer
 		];
 
 		// And now, reorganize voice actor relationships
-		$rawVoices = array_filter($data, static fn ($item) => ( ! empty($item['voices'])) && (array) $item['voices']['nodes'] !== []);
+		$rawVoices = array_filter(
+			$data,
+			static fn ($item) => ! empty($item['voices']) && (array) $item['voices']['nodes'] !== [],
+		);
 
 		if (empty($rawVoices))
 		{
@@ -121,12 +124,12 @@ final class CharacterTransformer extends AbstractTransformer
 				$id = $voice['person']['name'];
 				$seriesId = $voiceMap['media']['id'];
 
-				if ( ! array_key_exists($lang, $castings['Voice Actor']))
+				if (! array_key_exists($lang, $castings['Voice Actor']))
 				{
 					$castings['Voice Actor'][$lang] = [];
 				}
 
-				if ( ! array_key_exists($id, $castings['Voice Actor'][$lang]))
+				if (! array_key_exists($id, $castings['Voice Actor'][$lang]))
 				{
 					$castings['Voice Actor'][$lang][$id] = [
 						'person' => [

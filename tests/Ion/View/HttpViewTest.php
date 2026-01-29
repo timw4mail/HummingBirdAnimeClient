@@ -23,6 +23,7 @@ class HttpViewTest extends IonTestCase
 	protected $view;
 	protected $friend;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -72,7 +73,9 @@ class HttpViewTest extends IonTestCase
 	public function testSendDoubleRenderException(): void
 	{
 		$this->expectException(DoubleRenderException::class);
-		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');
+		$this->expectExceptionMessage(
+			'A view can only be rendered once, because headers can only be sent once.',
+		);
 
 		// First render
 		$this->view->__toString();
@@ -84,7 +87,9 @@ class HttpViewTest extends IonTestCase
 	public function testToStringDoubleRenderException(): void
 	{
 		$this->expectException(DoubleRenderException::class);
-		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');
+		$this->expectExceptionMessage(
+			'A view can only be rendered once, because headers can only be sent once.',
+		);
 
 		// First render
 		$this->view->send();
@@ -96,7 +101,10 @@ class HttpViewTest extends IonTestCase
 	public function testRedirect(): void
 	{
 		$this->friend->redirect('http://example.com');
-		$this->assertInstanceOf(\Laminas\Diactoros\Response\RedirectResponse::class, $this->friend->response);
+		$this->assertInstanceOf(
+			\Laminas\Diactoros\Response\RedirectResponse::class,
+			$this->friend->response,
+		);
 	}
 
 	public function testOutput(): void

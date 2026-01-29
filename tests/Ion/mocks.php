@@ -25,7 +25,7 @@ use Aviat\Ion\{ConstList, Friend};
 
 class MockErrorHandler
 {
-	public function addDataTable($name, array $values=[])
+	public function addDataTable($name, array $values = [])
 	{
 	}
 }
@@ -70,6 +70,7 @@ class FriendTestClass extends FriendParentTestClass
 
 class TestTransformer extends AbstractTransformer
 {
+	#[\Override]
 	public function transform(array|object $item): array
 	{
 		$out = [];
@@ -95,25 +96,25 @@ class TestTransformerUntransform extends TestTransformer
 trait MockViewOutputTrait
 {
 	/*protected function output() {
-		$reflect = new ReflectionClass($this);
-		$properties = $reflect->getProperties();
-		$props = [];
-
-		foreach($properties as $reflectProp)
-		{
-			$reflectProp->setAccessible(TRUE);
-			$props[$reflectProp->getName()] = $reflectProp->getValue($this);
-		}
-
-		$view = new TestView($this->container);
-		$friend = new Friend($view);
-		foreach($props as $name => $val)
-		{
-			$friend->__set($name, $val);
-		}
-
-		//$friend->output();
-	}*/
+	 * $reflect = new ReflectionClass($this);
+	 * $properties = $reflect->getProperties();
+	 * $props = [];
+	 *
+	 * foreach($properties as $reflectProp)
+	 * {
+	 * $reflectProp->setAccessible(TRUE);
+	 * $props[$reflectProp->getName()] = $reflectProp->getValue($this);
+	 * }
+	 *
+	 * $view = new TestView($this->container);
+	 * $friend = new Friend($view);
+	 * foreach($props as $name => $val)
+	 * {
+	 * $friend->__set($name, $val);
+	 * }
+	 *
+	 * //$friend->output();
+	 * }*/
 
 	public function send(): void
 	{
@@ -122,12 +123,13 @@ trait MockViewOutputTrait
 			throw new DoubleRenderException();
 		}
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 	}
 }
 
 class TestHtmlView extends HtmlView
 {
+	#[\Override]
 	protected function output(): void
 	{
 		if ($this->hasRendered)
@@ -135,12 +137,13 @@ class TestHtmlView extends HtmlView
 			throw new DoubleRenderException();
 		}
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 	}
 }
 
 class TestHttpView extends HttpView
 {
+	#[\Override]
 	protected function output(): void
 	{
 		if ($this->hasRendered)
@@ -148,16 +151,18 @@ class TestHttpView extends HttpView
 			throw new DoubleRenderException();
 		}
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 	}
 }
 
 class TestJsonView extends JsonView
 {
+	#[\Override]
 	public function __destruct()
 	{
 	}
 
+	#[\Override]
 	protected function output(): void
 	{
 		if ($this->hasRendered)
@@ -165,7 +170,7 @@ class TestJsonView extends JsonView
 			throw new DoubleRenderException();
 		}
 
-		$this->hasRendered = TRUE;
+		$this->hasRendered = true;
 	}
 }
 
@@ -187,4 +192,5 @@ trait MockInjectionTrait
 		return $this;
 	}
 }
+
 // End of mocks.php

@@ -22,6 +22,7 @@ use Aviat\Ion\Tests\TestJsonView;
  */
 final class JsonViewTest extends HttpViewTest
 {
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -42,6 +43,7 @@ final class JsonViewTest extends HttpViewTest
 		$this->assertSame($expected, $view->getOutput());
 	}
 
+	#[\Override]
 	public function testSetOutput(): void
 	{
 		// Directly set string

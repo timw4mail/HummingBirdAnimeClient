@@ -34,6 +34,7 @@ final class ContainerAwareTest extends IonTestCase
 {
 	protected Aware $aware;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		$this->container = new Container();

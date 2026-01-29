@@ -18,7 +18,6 @@ use Amp\Http\Client\Request;
 use Aviat\AnimeClient\API\AbstractListItem;
 use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Di\ContainerAware;
-
 use Throwable;
 
 /**
@@ -33,6 +32,7 @@ final class ListItem extends AbstractListItem
 	 * @throws Throwable
 	 * @param array<string, mixed> $data
 	 */
+	#[\Override]
 	public function create(array $data): Request
 	{
 		return $this->requestBuilder->mutateRequest('CreateLibraryItem', [
@@ -48,6 +48,7 @@ final class ListItem extends AbstractListItem
 	 * @return Request
 	 * @throws Throwable
 	 */
+	#[\Override]
 	public function createFull(array $data): Request
 	{
 		$body = [
@@ -83,18 +84,18 @@ final class ListItem extends AbstractListItem
 
 		$request = $this->requestBuilder->newRequest('POST', 'library-entries');
 
-		if ($authHeader !== NULL)
+		if ($authHeader !== null)
 		{
 			$request = $request->setHeader('Authorization', $authHeader);
 		}
 
-		return $request->setJsonBody($body)
-			->getFullRequest();
+		return $request->setJsonBody($body)->getFullRequest();
 	}
 
 	/**
 	 * @throws Throwable
 	 */
+	#[\Override]
 	public function delete(string $id): Request
 	{
 		return $this->requestBuilder->mutateRequest('DeleteLibraryItem', [
@@ -106,6 +107,7 @@ final class ListItem extends AbstractListItem
 	 * @throws Throwable
 	 * @return mixed[]
 	 */
+	#[\Override]
 	public function get(string $id): array
 	{
 		return $this->requestBuilder->runQuery('GetLibraryItem', [
@@ -116,6 +118,7 @@ final class ListItem extends AbstractListItem
 	/**
 	 * Increase the progress on the medium by 1
 	 */
+	#[\Override]
 	public function increment(string $id, FormItemData $data): Request
 	{
 		return $this->requestBuilder->mutateRequest('IncrementLibraryItem', [
@@ -127,6 +130,7 @@ final class ListItem extends AbstractListItem
 	/**
 	 * @throws Throwable
 	 */
+	#[\Override]
 	public function update(string $id, FormItemData $data): Request
 	{
 		// Data to always send
@@ -140,12 +144,12 @@ final class ListItem extends AbstractListItem
 		];
 
 		// Only send these variables if they have a value
-		if ($data['progress'] !== NULL)
+		if ($data['progress'] !== null)
 		{
 			$updateData['progress'] = (int) $data['progress'];
 		}
 
-		if ($data['ratingTwenty'] !== NULL)
+		if ($data['ratingTwenty'] !== null)
 		{
 			$updateData['ratingTwenty'] = (int) $data['ratingTwenty'];
 		}
@@ -153,16 +157,16 @@ final class ListItem extends AbstractListItem
 		return $this->requestBuilder->mutateRequest('UpdateLibraryItem', $updateData);
 	}
 
-	private function getAuthHeader(): ?string
+	private function getAuthHeader(): null|string
 	{
 		$auth = $this->getContainer()->get('auth');
 		$token = $auth->getAuthToken();
 
-		if ( ! empty($token))
+		if (! empty($token))
 		{
 			return "bearer {$token}";
 		}
 
-		return NULL;
+		return null;
 	}
 }

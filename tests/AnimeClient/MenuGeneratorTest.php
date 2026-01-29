@@ -25,6 +25,7 @@ final class MenuGeneratorTest extends AnimeClientTestCase
 	protected $generator;
 	protected $friend;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();

@@ -55,8 +55,7 @@ class Container implements ContainerInterface
 		 *
 		 */
 		private array $classIdMap = [],
-	) {
-	}
+	) {}
 
 	/**
 	 * Finds an entry of the container by its identifier and returns it.
@@ -68,6 +67,7 @@ class Container implements ContainerInterface
 	 *
 	 * @return mixed Entry.
 	 */
+	#[\Override]
 	public function get(string $id): mixed
 	{
 		if ($this->has($id))
@@ -96,7 +96,8 @@ class Container implements ContainerInterface
 	 * @throws ContainerException - Error while retrieving the entry.
 	 * @throws NotFoundException - No entry was found for this identifier.
 	 */
-	public function getNew(string $id, ?array $args = NULL): mixed
+	#[\Override]
+	public function getNew(string $id, null|array $args = null): mixed
 	{
 		if ($this->has($id))
 		{
@@ -107,7 +108,7 @@ class Container implements ContainerInterface
 
 			// By default, call a factory with the Container
 			$args = \is_array($args) ? $args : [$this];
-			$obj = ($this->container[$id])(...$args);
+			$obj = $this->container[$id](...$args);
 
 			// Check for container interface, and apply the container to the object
 			// if applicable
@@ -122,6 +123,7 @@ class Container implements ContainerInterface
 	 *
 	 * @param callable $value - a factory callable for the item
 	 */
+	#[\Override]
 	public function set(string $id, callable $value): ContainerInterface
 	{
 		$this->container[$id] = $value;
@@ -130,9 +132,10 @@ class Container implements ContainerInterface
 	}
 
 	/**
-     * Add a common simple factory to the container
-     */
-    public function setSimple(string $id, string $className): ContainerInterface
+	 * Add a common simple factory to the container
+	 */
+	#[\Override]
+	public function setSimple(string $id, string $className): ContainerInterface
 	{
 		$this->classIdMap[$className] = $id;
 
@@ -144,15 +147,16 @@ class Container implements ContainerInterface
 	 *
 	 * @throws NotFoundException - No entry was found for this identifier.
 	 */
+	#[\Override]
 	public function setInstance(string $id, mixed $value): ContainerInterface
 	{
-		if ( ! $this->has($id))
+		if (! $this->has($id))
 		{
 			throw new NotFoundException("Factory '{$id}' does not exist in container. Set that first.");
 		}
 
 		$className = $value::class;
-		if ( ! array_key_exists((string)$className, $this->classIdMap))
+		if (! array_key_exists((string) $className, $this->classIdMap))
 		{
 			$this->classIdMap[$value::class] = $id;
 		}
@@ -168,6 +172,7 @@ class Container implements ContainerInterface
 	 *
 	 * @param string $id Identifier of the entry to look for.
 	 */
+	#[\Override]
 	public function has(string $id): bool
 	{
 		return array_key_exists($id, $this->container) || array_key_exists($id, $this->classIdMap);
@@ -178,6 +183,7 @@ class Container implements ContainerInterface
 	 *
 	 * @param string $id The logger channel
 	 */
+	#[\Override]
 	public function hasLogger(string $id = 'default'): bool
 	{
 		return array_key_exists($id, $this->loggers);
@@ -188,6 +194,7 @@ class Container implements ContainerInterface
 	 *
 	 * @param string $id The logger 'channel'
 	 */
+	#[\Override]
 	public function setLogger(LoggerInterface $logger, string $id = 'default'): ContainerInterface
 	{
 		$this->loggers[$id] = $logger;
@@ -200,11 +207,12 @@ class Container implements ContainerInterface
 	 *
 	 * @param string $id The logger to retrieve
 	 */
-	public function getLogger(string $id = 'default'): ?LoggerInterface
+	#[\Override]
+	public function getLogger(string $id = 'default'): null|LoggerInterface
 	{
 		return $this->hasLogger($id)
 			? $this->loggers[$id]
-			: NULL;
+			: null;
 	}
 
 	/**
@@ -218,12 +226,12 @@ class Container implements ContainerInterface
 		$interfaceName = ContainerAwareInterface::class;
 
 		$traits = class_uses($obj);
-		$traitsUsed = (is_array($traits)) ? $traits : [];
-		$usesTrait = in_array($traitName, $traitsUsed, TRUE);
+		$traitsUsed = is_array($traits) ? $traits : [];
+		$usesTrait = in_array($traitName, $traitsUsed, true);
 
 		$interfaces = class_implements($obj);
-		$implemented = (is_array($interfaces)) ? $interfaces : [];
-		$implementsInterface = in_array($interfaceName, $implemented, TRUE);
+		$implemented = is_array($interfaces) ? $interfaces : [];
+		$implementsInterface = in_array($interfaceName, $implemented, true);
 
 		if ($usesTrait || $implementsInterface)
 		{

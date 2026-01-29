@@ -3,11 +3,7 @@
  * All the mock classes that extend the classes they are used to test
  */
 
-use Aviat\AnimeClient\Model\{
-	API as BaseApiModel,
-	Anime as AnimeModel,
-	Manga as MangaModel
-};
+use Aviat\AnimeClient\Model\{Anime as AnimeModel, API as BaseApiModel, Manga as MangaModel};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 use Aviat\Ion\{ConstList, Friend, Json};
@@ -18,7 +14,7 @@ use Aviat\Ion\{ConstList, Friend, Json};
 
 class MockErrorHandler
 {
-	public function addDataTable(string $name, array $values=[]): void
+	public function addDataTable(string $name, array $values = []): void
 	{
 	}
 }
@@ -63,6 +59,7 @@ class FriendTestClass extends FriendParentTestClass
 
 class TestTransformer extends AbstractTransformer
 {
+	#[\Override]
 	public function transform($item): array
 	{
 		$out = [];
@@ -112,16 +109,18 @@ class MockUtil
 
 class TestView extends HttpView
 {
+	#[\Override]
 	public function send(): void
 	{
 	}
 
+	#[\Override]
 	protected function output(): void
 	{
 		/*$content =& $this->response->content;
-		$content->set($this->output);
-		$content->setType($this->contentType);
-		$content->setCharset('utf-8');*/
+		 $content->set($this->output);
+		 $content->setType($this->contentType);
+		 $content->setCharset('utf-8');*/
 	}
 }
 
@@ -137,6 +136,7 @@ class TestHttpView extends HttpView
 
 class TestJsonView extends JsonView
 {
+	#[\Override]
 	public function __destruct()
 	{
 	}
@@ -189,4 +189,5 @@ class TestMangaModel extends MangaModel
 		return Json::decodeFile($file);
 	}
 }
+
 // End of mocks.php

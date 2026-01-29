@@ -16,7 +16,6 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
-
 use function Aviat\AnimeClient\{formatDate, friendlyTime, getDateDiff};
 
 /**
@@ -30,26 +29,33 @@ final class UserTransformer extends AbstractTransformer
 	 * @param array<string, mixed>|object $item
 	 * @return User
 	 */
+	#[\Override]
 	public function transform(array|object $item): User
 	{
 		$item = (array) $item;
 		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];
-		$waifu = (array_key_exists('waifu', $base)) ? [
-			'label' => $base['waifuOrHusbando'],
-			'character' => $base['waifu'],
-		] : [];
+		$waifu = array_key_exists('waifu', $base)
+			? [
+				'label' => $base['waifuOrHusbando'],
+				'character' => $base['waifu'],
+			] : [];
 
 		return User::from([
 			'about' => $base['about'] ?? '',
-			'avatar' => $base['avatarImage']['original']['url'] ?? NULL,
-			'birthday' => $base['birthday'] !== NULL
-				? formatDate($base['birthday']) . ' (' .
-					friendlyTime(getDateDiff($base['birthday']), 'year') . ')'
-				: NULL,
-			'joinDate' => formatDate($base['createdAt']) . ' (' .
-				friendlyTime(getDateDiff($base['createdAt']), 'day') . ' ago)',
+			'avatar' => $base['avatarImage']['original']['url'] ?? null,
+			'birthday' => $base['birthday'] !== null
+				? formatDate($base['birthday'])
+				. ' ('
+				. friendlyTime(getDateDiff($base['birthday']), 'year')
+				. ')'
+				: null,
+			'joinDate' =>
+				formatDate($base['createdAt'])
+				. ' ('
+				. friendlyTime(getDateDiff($base['createdAt']), 'day')
+				. ' ago)',
 			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],
@@ -57,7 +63,7 @@ final class UserTransformer extends AbstractTransformer
 			'slug' => $base['slug'],
 			'stats' => $this->organizeStats($stats),
 			'waifu' => $waifu,
-			'website' => $base['siteLinks']['nodes'][0]['url'] ?? NULL,
+			'website' => $base['siteLinks']['nodes'][0]['url'] ?? null,
 		]);
 	}
 
@@ -108,7 +114,7 @@ final class UserTransformer extends AbstractTransformer
 			];
 		}
 
-		if ( ! empty($data))
+		if (! empty($data))
 		{
 			$otherStats = [
 				'Posts:' => number_format($data['postsCount']),

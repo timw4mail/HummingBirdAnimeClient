@@ -16,9 +16,7 @@ namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
 use Aviat\AnimeClient\API\{Enum, Mapping};
 use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
-
 use Aviat\Ion\Transformer\AbstractTransformer;
-
 use DateTime;
 use DateTimeInterface;
 
@@ -31,6 +29,7 @@ class AnimeListTransformer extends AbstractTransformer
 	 * @param array<mixed>|object $item
 	 * @return AnimeListItem
 	 */
+	#[\Override]
 	public function transform(array|object $item): AnimeListItem
 	{
 		return AnimeListItem::from([]);
@@ -51,13 +50,13 @@ class AnimeListTransformer extends AbstractTransformer
 				'notes' => $item['notes'] ?? '',
 				'private' => $item['private'],
 				'progress' => $item['progress'],
-				'rating' => $item['score'] ?? NULL,
+				'rating' => $item['score'] ?? null,
 				'reconsumeCount' => $item['repeat'],
 				'reconsuming' => $reconsuming,
 				'status' => $reconsuming
 					? Enum\AnimeWatchingStatus\Kitsu::WATCHING
 					: Mapping\AnimeWatchingStatus::ANILIST_TO_KITSU[$item['status']],
-				'updatedAt' => (new DateTime())
+				'updatedAt' => new DateTime()
 					->setTimestamp($item['updatedAt'])
 					->format(DateTimeInterface::W3C),
 			],

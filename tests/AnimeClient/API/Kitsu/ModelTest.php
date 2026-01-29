@@ -23,6 +23,7 @@ final class ModelTest extends AnimeClientTestCase
 {
 	protected $model;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setup();

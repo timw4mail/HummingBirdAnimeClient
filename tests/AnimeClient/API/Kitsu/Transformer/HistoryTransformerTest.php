@@ -26,6 +26,7 @@ final class HistoryTransformerTest extends AnimeClientTestCase
 	protected array $beforeTransform;
 	protected string $dir;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -39,13 +40,13 @@ final class HistoryTransformerTest extends AnimeClientTestCase
 	{
 		$this->markTestSkipped('Old test data');
 
-		$actual = (new AnimeHistoryTransformer())->transform($this->beforeTransform);
+		$actual = new AnimeHistoryTransformer()->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}
 
 	public function testMangaTransform(): void
 	{
-		$actual = (new MangaHistoryTransformer())->transform($this->beforeTransform);
+		$actual = new MangaHistoryTransformer()->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}
 }

@@ -16,20 +16,12 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
 use Aviat\Ion\Json;
-
-use Laminas\Diactoros\{
-	Response as HttpResponse,
-	ServerRequestFactory
-};
+use Laminas\Diactoros\{Response as HttpResponse, ServerRequestFactory};
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use function Aviat\Ion\_dir;
 use function call_user_func_array;
-
-use const Aviat\AnimeClient\{
-	DEFAULT_CONTROLLER,
-	SLUG_PATTERN,
-};
+use const Aviat\AnimeClient\{DEFAULT_CONTROLLER, SLUG_PATTERN};
 
 /**
  * Base class for TestCases
@@ -47,6 +39,7 @@ class AnimeClientTestCase extends TestCase
 
 	protected ContainerInterface $container;
 
+	#[\Override]
 	public static function setUpBeforeClass(): void
 	{
 		// Remove test cache files
@@ -54,6 +47,7 @@ class AnimeClientTestCase extends TestCase
 		array_map(unlink(...), $files);
 	}
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -99,7 +93,7 @@ class AnimeClientTestCase extends TestCase
 		// Use mock session handler
 		$container->set('session-handler', static function (): TestSessionHandler {
 			$session_handler = new TestSessionHandler();
-			session_set_save_handler($session_handler, TRUE);
+			session_set_save_handler($session_handler, true);
 
 			return $session_handler;
 		});
@@ -161,4 +155,5 @@ class AnimeClientTestCase extends TestCase
 		return Json::decode($rawData);
 	}
 }
+
 // End of AnimeClientTestCase.php

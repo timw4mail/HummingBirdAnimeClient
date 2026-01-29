@@ -30,10 +30,13 @@ final class MangaTransformer extends AbstractTransformer
 	 *
 	 * @param array<string, mixed>|object $item API library item
 	 */
+	#[\Override]
 	public function transform(array|object $item): MangaPage
 	{
 		$item = (array) $item;
-		$base = $item['data']['findMangaBySlug'] ?? $item['data']['findMangaById'] ?? $item['data']['randomMedia'];
+		$base =
+			$item['data']['findMangaBySlug'] ?? $item['data']['findMangaById']
+				?? $item['data']['randomMedia'];
 		$characters = [];
 		$links = [];
 		$staff = [];
@@ -49,13 +52,13 @@ final class MangaTransformer extends AbstractTransformer
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
 				$type = mb_strtolower($rawCharacter['role']);
-				if ( ! isset($characters[$type]))
+				if (! isset($characters[$type]))
 				{
 					$characters[$type] = [];
 				}
 
 				$details = $rawCharacter['character'];
-				if (array_key_exists($details['id'], (array) $characters[$type]))
+				if (array_key_exists($details['id'], $characters[$type]))
 				{
 					$characters[$type][$details['id']] = [
 						'image' => Kitsu::getImage($details),
@@ -70,8 +73,7 @@ final class MangaTransformer extends AbstractTransformer
 				if (empty($characters[$type]))
 				{
 					unset($characters[$type]);
-				}
-				else
+				} else
 				{
 					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}
@@ -90,12 +92,12 @@ final class MangaTransformer extends AbstractTransformer
 
 				// If this person object is so broken as to not have a proper image object,
 				// just skip it. No point in showing a role with nothing in it.
-				if ($person === NULL || $person['id'] === NULL || $person['image'] === NULL)
+				if ($person === null || $person['id'] === null || $person['image'] === null)
 				{
 					continue;
 				}
 
-				if ( ! array_key_exists($role, $staff))
+				if (! array_key_exists($role, $staff))
 				{
 					$staff[$role] = [];
 				}
@@ -115,7 +117,10 @@ final class MangaTransformer extends AbstractTransformer
 
 		if ((is_countable($base['mappings']['nodes']) ? count($base['mappings']['nodes']) : 0) > 0)
 		{
-			$links = Kitsu::mappingsToUrls($base['mappings']['nodes'], "https://kitsu.app/manga/{$base['slug']}");
+			$links = Kitsu::mappingsToUrls(
+				$base['mappings']['nodes'],
+				"https://kitsu.app/manga/{$base['slug']}",
+			);
 		}
 
 		$data = [

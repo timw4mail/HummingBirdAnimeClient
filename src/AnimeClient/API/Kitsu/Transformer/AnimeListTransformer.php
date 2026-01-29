@@ -15,10 +15,7 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{
-	AnimeListItem,
-	FormItem
-};
+use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 
@@ -34,6 +31,7 @@ final class AnimeListTransformer extends AbstractTransformer
 	 *
 	 * @param array<string, mixed>|object $item API library item
 	 */
+	#[\Override]
 	public function transform(array|object $item): AnimeListItem
 	{
 		$item = (array) $item;
@@ -50,11 +48,11 @@ final class AnimeListTransformer extends AbstractTransformer
 			? (int) $anime['episodeCount']
 			: '-';
 
-		$AnilistId = NULL;
-		$MALid = NULL;
+		$AnilistId = null;
+		$MALid = null;
 
 		$mappings = $anime['mappings']['nodes'] ?? [];
-		if ( ! empty($mappings))
+		if (! empty($mappings))
 		{
 			foreach ($mappings as $mapping)
 			{
@@ -108,8 +106,8 @@ final class AnimeListTransformer extends AbstractTransformer
 			'notes' => $item['notes'],
 			'rewatching' => (bool) $item['reconsuming'],
 			'rewatched' => (int) $item['reconsumeCount'],
-			'user_rating' => (is_string($rating)) ? $rating : (int) $rating,
-			'private' => $item['private'] ?? FALSE,
+			'user_rating' => is_string($rating) ? $rating : (int) $rating,
+			'private' => $item['private'] ?? false,
 		]);
 	}
 
@@ -122,13 +120,13 @@ final class AnimeListTransformer extends AbstractTransformer
 	 */
 	public function untransform(array $item): FormItem
 	{
-		$privacy = (array_key_exists('private', $item) && $item['private']);
-		$rewatching = (array_key_exists('rewatching', $item) && $item['rewatching']);
+		$privacy = array_key_exists('private', $item) && $item['private'];
+		$rewatching = array_key_exists('rewatching', $item) && $item['rewatching'];
 
 		$untransformed = FormItem::from([
 			'id' => $item['id'],
-			'anilist_id' => $item['anilist_id'] ?? NULL,
-			'mal_id' => $item['mal_id'] ?? NULL,
+			'anilist_id' => $item['anilist_id'] ?? null,
+			'mal_id' => $item['mal_id'] ?? null,
 			'data' => [
 				'status' => $item['watching_status'],
 				'reconsuming' => $rewatching,

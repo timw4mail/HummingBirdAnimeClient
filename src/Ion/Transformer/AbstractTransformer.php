@@ -29,6 +29,7 @@ abstract class AbstractTransformer implements TransformerInterface
 	 * @param array<mixed>|object $item
 	 * @return T
 	 */
+	#[\Override]
 	abstract public function transform(array|object $item);
 
 	/**
@@ -53,7 +54,7 @@ abstract class AbstractTransformer implements TransformerInterface
 	 */
 	public function untransformCollection(iterable $collection): array
 	{
-		if ( ! method_exists($this, 'untransform'))
+		if (! method_exists($this, 'untransform'))
 		{
 			throw new BadMethodCallException('untransform() method does not exist.');
 		}

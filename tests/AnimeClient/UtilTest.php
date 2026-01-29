@@ -23,6 +23,7 @@ final class UtilTest extends AnimeClientTestCase
 {
 	protected $util;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -52,37 +53,37 @@ final class UtilTest extends AnimeClientTestCase
 		return [
 			[
 				'uri' => '/anime/update',
-				'expected' => FALSE,
+				'expected' => false,
 			],
 			[
 				'uri' => '/anime/watching',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			[
 				'uri' => '/manga/reading',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			[
 				'uri' => '/manga/update',
-				'expected' => FALSE,
+				'expected' => false,
 			],
 		];
 	}
 
-	 #[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
-	 public function testIsViewPage(mixed $uri, mixed $expected)
-	 {
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsViewPage')]
+	public function testIsViewPage(mixed $uri, mixed $expected)
+	{
 		$this->setSuperGlobals([
 			'_SERVER' => [
 				'REQUEST_URI' => $uri,
 			],
 		]);
 		$this->assertSame($expected, $this->util->isViewPage());
-	 }
+	}
 
 	public function testAriaCurrent(): void
 	{
-		$this->assertSame('true', Util::ariaCurrent(TRUE));
-		$this->assertSame('false', Util::ariaCurrent(FALSE));
+		$this->assertSame('true', Util::ariaCurrent(true));
+		$this->assertSame('false', Util::ariaCurrent(false));
 	}
 }

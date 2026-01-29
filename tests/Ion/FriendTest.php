@@ -23,6 +23,7 @@ final class FriendTest extends IonTestCase
 {
 	protected $friend;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();

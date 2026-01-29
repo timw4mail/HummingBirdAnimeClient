@@ -27,6 +27,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 	protected array $beforeTransform;
 	protected AnimeListTransformer $transformer;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -48,49 +49,53 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 
 	public static function dataUntransform(): array
 	{
-		return [[
-			'input' => [
-				'id' => 14_047_981,
-				'watching_status' => 'current',
-				'user_rating' => 8,
-				'episodes_watched' => 38,
-				'rewatched' => 0,
-				'notes' => 'Very formulaic.',
-				'edit' => TRUE,
+		return [
+			[
+				'input' => [
+					'id' => 14_047_981,
+					'watching_status' => 'current',
+					'user_rating' => 8,
+					'episodes_watched' => 38,
+					'rewatched' => 0,
+					'notes' => 'Very formulaic.',
+					'edit' => true,
+				],
 			],
-		], [
-			'input' => [
-				'id' => 14_047_981,
-				'mal_id' => '12345',
-				'watching_status' => 'current',
-				'user_rating' => 8,
-				'episodes_watched' => 38,
-				'rewatched' => 0,
-				'notes' => 'Very formulaic.',
-				'edit' => 'true',
-				'private' => 'On',
-				'rewatching' => 'On',
+			[
+				'input' => [
+					'id' => 14_047_981,
+					'mal_id' => '12345',
+					'watching_status' => 'current',
+					'user_rating' => 8,
+					'episodes_watched' => 38,
+					'rewatched' => 0,
+					'notes' => 'Very formulaic.',
+					'edit' => 'true',
+					'private' => 'On',
+					'rewatching' => 'On',
+				],
 			],
-		], [
-			'input' => [
-				'id' => 14_047_983,
-				'mal_id' => '12347',
-				'watching_status' => 'current',
-				'user_rating' => 0,
-				'episodes_watched' => 12,
-				'rewatched' => 0,
-				'notes' => '',
-				'edit' => 'true',
-				'private' => 'On',
-				'rewatching' => 'On',
+			[
+				'input' => [
+					'id' => 14_047_983,
+					'mal_id' => '12347',
+					'watching_status' => 'current',
+					'user_rating' => 0,
+					'episodes_watched' => 12,
+					'rewatched' => 0,
+					'notes' => '',
+					'edit' => 'true',
+					'private' => 'On',
+					'rewatching' => 'On',
+				],
 			],
-		]];
+		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataUntransform')]
- public function testUntransform(array $input): void
- {
- 	$actual = $this->transformer->untransform($input);
- 	$this->assertMatchesSnapshot($actual);
- }
+	public function testUntransform(array $input): void
+	{
+		$actual = $this->transformer->untransform($input);
+		$this->assertMatchesSnapshot($actual);
+	}
 }

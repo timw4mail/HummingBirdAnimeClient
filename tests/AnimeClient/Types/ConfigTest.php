@@ -21,6 +21,7 @@ use Aviat\AnimeClient\Types\Config;
  */
 final class ConfigTest extends ConfigTestCase
 {
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();

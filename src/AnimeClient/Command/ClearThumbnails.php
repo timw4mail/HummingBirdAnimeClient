@@ -24,6 +24,7 @@ class ClearThumbnails extends BaseCommand
 	 * @param array<mixed> $options
 	 * @return void
 	 */
+	#[\Override]
 	public function execute(array $args, array $options = []): void
 	{
 		$this->clearThumbs();

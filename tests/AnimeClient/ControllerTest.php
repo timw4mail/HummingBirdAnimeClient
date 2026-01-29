@@ -29,6 +29,7 @@ final class ControllerTest extends AnimeClientTestCase
 {
 	protected $BaseController;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -58,24 +59,25 @@ final class ControllerTest extends AnimeClientTestCase
 
 		$this->assertInstanceOf(
 			Controller::class,
-			new AnimeController($this->container)
+			new AnimeController($this->container),
 		);
 		$this->assertInstanceOf(
 			Controller::class,
-			new MangaController($this->container)
+			new MangaController($this->container),
 		);
 		$this->assertInstanceOf(
 			Controller::class,
-			new CharacterController($this->container)
+			new CharacterController($this->container),
 		);
 		$this->assertInstanceOf(
 			Controller::class,
-			new AnimeCollectionController($this->container)
+			new AnimeCollectionController($this->container),
 		);
+
 		/* $this->assertInstanceOf(
-			Controller::class,
-			new MangaCollectionController($this->container)
-		); */
+		 * Controller::class,
+		 * new MangaCollectionController($this->container)
+		 * ); */
 	}
 
 	public function testBaseControllerSanity()
@@ -87,7 +89,7 @@ final class ControllerTest extends AnimeClientTestCase
 	{
 		$this->assertSame(
 			$this->BaseController->formatTitle('foo', 'bar', 'baz'),
-			'foo &middot; bar &middot; baz'
+			'foo &middot; bar &middot; baz',
 		);
 	}
 }

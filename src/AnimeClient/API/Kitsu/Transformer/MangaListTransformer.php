@@ -15,10 +15,7 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{
-	FormItem, FormItemData,
-	MangaListItem, MangaListItemDetail
-};
+use Aviat\AnimeClient\Types\{FormItem, FormItemData, MangaListItem, MangaListItemDetail};
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 
@@ -33,6 +30,7 @@ final class MangaListTransformer extends AbstractTransformer
 	 *
 	 * @param array<string, mixed>|object $item manga entry item
 	 */
+	#[\Override]
 	public function transform(array|object $item): MangaListItem
 	{
 		$item = (array) $item;
@@ -46,22 +44,22 @@ final class MangaListTransformer extends AbstractTransformer
 			? $item['rating'] / 2
 			: '-';
 
-		$totalChapters = ((int) $manga['chapterCount'] !== 0)
+		$totalChapters = (int) $manga['chapterCount'] !== 0
 			? $manga['chapterCount']
 			: '-';
 
-		$totalVolumes = ((int) $manga['volumeCount'] !== 0)
+		$totalVolumes = (int) $manga['volumeCount'] !== 0
 			? $manga['volumeCount']
 			: '-';
 
-		$readChapters = ((int) $item['progress'] !== 0)
+		$readChapters = (int) $item['progress'] !== 0
 			? $item['progress']
 			: '-';
 
-		$MALid = NULL;
+		$MALid = null;
 
 		$mappings = $manga['mappings']['nodes'] ?? [];
-		if ( ! empty($mappings))
+		if (! empty($mappings))
 		{
 			foreach ($mappings as $mapping)
 			{

@@ -30,6 +30,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 	 * @param array<string, mixed>|object $item
 	 * @return AnimeListItem|MangaListItem
 	 */
+	#[\Override]
 	public function transform(array|object $item): AnimeListItem|MangaListItem
 	{
 		$item = (array) $item;
@@ -68,8 +69,8 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			? (int) $anime['episodeCount']
 			: '-';
 
-		$MALid = NULL;
-		$AnilistId = NULL;
+		$MALid = null;
+		$AnilistId = null;
 
 		if (isset($anime['mappings']['nodes']))
 		{
@@ -126,7 +127,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			'rewatching' => (bool) $item['reconsuming'],
 			'rewatched' => (int) $item['reconsumeCount'],
 			'user_rating' => $rating,
-			'private' => $item['private'] ?? FALSE,
+			'private' => $item['private'] ?? false,
 		]);
 	}
 
@@ -144,20 +145,20 @@ final class LibraryEntryTransformer extends AbstractTransformer
 			? $item['rating'] / 2
 			: '-';
 
-		$totalChapters = ((int) $manga['chapterCount'] !== 0)
+		$totalChapters = (int) $manga['chapterCount'] !== 0
 			? $manga['chapterCount']
 			: '-';
 
-		$totalVolumes = ((int) $manga['volumeCount'] !== 0)
+		$totalVolumes = (int) $manga['volumeCount'] !== 0
 			? $manga['volumeCount']
 			: '-';
 
-		$readChapters = ((int) $item['progress'] !== 0)
+		$readChapters = (int) $item['progress'] !== 0
 			? $item['progress']
 			: '-';
 
-		$MALid = NULL;
-		$AnilistId = NULL;
+		$MALid = null;
+		$AnilistId = null;
 
 		if (isset($manga['mappings']['nodes']))
 		{

@@ -75,11 +75,13 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 			return;
 		}
 
-		if ( ! property_exists($this, $name))
+		if (! property_exists($this, $name))
 		{
 			$existing = json_encode($this, JSON_THROW_ON_ERROR);
 
-			throw new UndefinedPropertyException("Trying to set undefined property: '{$name}'. Existing properties: {$existing}");
+			throw new UndefinedPropertyException(
+				"Trying to set undefined property: '{$name}'. Existing properties: {$existing}",
+			);
 		}
 
 		$this->{$name} = $value;
@@ -92,15 +94,16 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	{
 		// Be a bit more lenient here, so that you can easily typecast missing
 		// values to reasonable defaults, and not have to resort to array indexes
-		return ($this->__isset($name)) ? $this->{$name} : NULL;
+		return $this->__isset($name) ? $this->{$name} : null;
 	}
 
 	/**
 	 * Create a string representation of the object for debugging
 	 */
+	#[\Override]
 	public function __toString(): string
 	{
-		return print_r($this, TRUE);
+		return print_r($this, true);
 	}
 
 	/**
@@ -109,16 +112,16 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	 * @param array<string, mixed> $data
 	 * @return array<string, mixed>|null
 	 */
-	final public static function check(array $data = []): ?array
+	final public static function check(array $data = []): null|array
 	{
 		$currentClass = static::class;
 
-		if (get_parent_class($currentClass) !== FALSE)
+		if (get_parent_class($currentClass) !== false)
 		{
 			return static::class::from($data)->toArray();
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -132,6 +135,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	/**
 	 * Implementing ArrayAccess
 	 */
+	#[\Override]
 	final public function offsetExists(mixed $offset): bool
 	{
 		return $this->__isset((string) $offset);
@@ -140,6 +144,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	/**
 	 * Implementing ArrayAccess
 	 */
+	#[\Override]
 	final public function offsetGet(mixed $offset): mixed
 	{
 		return $this->__get((string) $offset);
@@ -148,6 +153,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	/**
 	 * Implementing ArrayAccess
 	 */
+	#[\Override]
 	final public function offsetSet(mixed $offset, mixed $value): void
 	{
 		$this->__set((string) $offset, $value);
@@ -156,6 +162,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	/**
 	 * Implementing ArrayAccess
 	 */
+	#[\Override]
 	final public function offsetUnset(mixed $offset): void
 	{
 		if ($this->offsetExists($offset))
@@ -168,6 +175,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	/**
 	 * Implementing Countable
 	 */
+	#[\Override]
 	final public function count(): int
 	{
 		$keys = array_keys($this->toArray());
@@ -176,17 +184,17 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	}
 
 	/**
-     * Recursively cast properties to an array
-     *
-     * Returns early on primitive values to work recursively.
+	 * Recursively cast properties to an array
+	 *
+	 * Returns early on primitive values to work recursively.
 	 *
 	 * @return array<string, mixed>
-     */
-    final public function toArray(mixed $parent = NULL): array
+	 */
+	final public function toArray(mixed $parent = null): array
 	{
 		$fromObject = $this->fromObject($parent);
 
-		return (is_array($fromObject)) ? $fromObject : [];
+		return is_array($fromObject) ? $fromObject : [];
 	}
 
 	/**
@@ -198,21 +206,20 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 
 		foreach ($self as $value)
 		{
-			if ( ! empty($value))
+			if (! empty($value))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
-
 
 	/**
 	 * @param mixed|NULL $parent
 	 * @return float|bool|int|array<mixed>|string
 	 */
-	final protected function fromObject(mixed $parent = NULL): float|bool|int|array|string
+	final protected function fromObject(mixed $parent = null): float|bool|int|array|string
 	{
 		$object = $parent ?? $this;
 
@@ -225,7 +232,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 
 		foreach ($object as $key => $value)
 		{
-			$output[$key] = (is_scalar($value) || empty($value))
+			$output[$key] = is_scalar($value) || empty($value)
 				? $value
 				: $this->fromObject((array) $value);
 		}

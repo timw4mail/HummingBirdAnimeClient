@@ -16,10 +16,7 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\AnimeClient\Types\{
-	FormItem,
-	FormItemData
-};
+use Aviat\AnimeClient\Types\{FormItem, FormItemData};
 use Aviat\Ion\Json;
 
 /**
@@ -32,6 +29,7 @@ final class MangaListTransformerTest extends AnimeClientTestCase
 	protected $beforeTransform;
 	protected $transformer;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -59,7 +57,7 @@ final class MangaListTransformerTest extends AnimeClientTestCase
 			'manga' => [
 				'id' => '12345',
 				'titles' => ['Bokura wa Minna Kawaisou'],
-				'alternate_title' => NULL,
+				'alternate_title' => null,
 				'slug' => 'bokura-wa-minna-kawaisou',
 				'url' => 'https://kitsu.io/manga/bokura-wa-minna-kawaisou',
 				'type' => 'manga',
@@ -68,7 +66,7 @@ final class MangaListTransformerTest extends AnimeClientTestCase
 			],
 			'status' => 'current',
 			'notes' => '',
-			'rereading' => FALSE,
+			'rereading' => false,
 			'reread_count' => 0,
 			'new_rating' => 9,
 		];
@@ -80,7 +78,7 @@ final class MangaListTransformerTest extends AnimeClientTestCase
 			'data' => FormItemData::from([
 				'status' => 'current',
 				'progress' => 67,
-				'reconsuming' => FALSE,
+				'reconsuming' => false,
 				'reconsumeCount' => 0,
 				'notes' => '',
 				'ratingTwenty' => 18,

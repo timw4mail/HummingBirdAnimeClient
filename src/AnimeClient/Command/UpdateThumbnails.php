@@ -33,7 +33,6 @@ final class UpdateThumbnails extends ClearThumbnails
 	 */
 	protected Images $controller;
 
-
 	/**
 	 * @param array<mixed> $args
 	 * @param array<mixed> $options
@@ -42,6 +41,7 @@ final class UpdateThumbnails extends ClearThumbnails
 	 * @throws \Aviat\Ion\Di\Exception\NotFoundException
 	 * @throws \Throwable
 	 */
+	#[\Override]
 	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
@@ -60,7 +60,7 @@ final class UpdateThumbnails extends ClearThumbnails
 		{
 			foreach ($typeIds as $id)
 			{
-				$this->controller->cache($type, "{$id}.jpg", FALSE);
+				$this->controller->cache($type, "{$id}.jpg", false);
 			}
 
 			$this->echoBox("Finished regenerating {$type} thumbnails");
@@ -76,11 +76,11 @@ final class UpdateThumbnails extends ClearThumbnails
 	{
 		$animeIds = array_map(
 			static fn ($item) => $item['media']['id'],
-			$this->kitsuModel->getThumbList('ANIME')
+			$this->kitsuModel->getThumbList('ANIME'),
 		);
 		$mangaIds = array_map(
 			static fn ($item) => $item['media']['id'],
-			$this->kitsuModel->getThumbList('MANGA')
+			$this->kitsuModel->getThumbList('MANGA'),
 		);
 
 		return [

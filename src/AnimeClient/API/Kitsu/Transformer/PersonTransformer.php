@@ -28,12 +28,14 @@ final class PersonTransformer extends AbstractTransformer
 	 * @param array<string, mixed>|object $item
 	 * @return Person
 	 */
+	#[\Override]
 	public function transform(array|object $item): Person
 	{
 		$item = (array) $item;
 		$data = $item['data']['findPersonBySlug'] ?? [];
-		$canonicalName = $data['names']['localized'][$data['names']['canonical']]
-			?? array_shift($data['names']['localized']);
+		$canonicalName = $data['names']['localized'][$data['names']['canonical']] ?? array_shift(
+			$data['names']['localized'],
+		);
 
 		$orgData = $this->organizeData($data);
 
@@ -104,7 +106,7 @@ final class PersonTransformer extends AbstractTransformer
 		{
 			foreach ($data['voices']['nodes'] as $voicing)
 			{
-				if ($voicing === NULL)
+				if ($voicing === null)
 				{
 					continue;
 				}
@@ -124,9 +126,9 @@ final class PersonTransformer extends AbstractTransformer
 					),
 				];
 
-				if ( ! isset($characters[$role][$charId]))
+				if (! isset($characters[$role][$charId]))
 				{
-					if ( ! array_key_exists($role, $characters))
+					if (! array_key_exists($role, $characters))
 					{
 						$characters[$role] = [];
 					}
@@ -142,8 +144,7 @@ final class PersonTransformer extends AbstractTransformer
 							$media['id'] => $media,
 						],
 					];
-				}
-				else
+				} else
 				{
 					$characters[$role][$charId]['media'][$media['id']] = $media;
 				}
@@ -154,7 +155,7 @@ final class PersonTransformer extends AbstractTransformer
 				// Sort the characters by name
 				uasort(
 					$characters[$role],
-					static fn ($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName']
+					static fn ($a, $b) => $a['character']['canonicalName'] <=> $b['character']['canonicalName'],
 				);
 
 				// Sort the media for the character
@@ -162,7 +163,7 @@ final class PersonTransformer extends AbstractTransformer
 				{
 					uasort(
 						$characters[$role][$charId]['media'],
-						static fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0]
+						static fn ($a, $b) => $a['titles'][0] <=> $b['titles'][0],
 					);
 				}
 			}

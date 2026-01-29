@@ -32,6 +32,7 @@ final class BaseCommandTest extends AnimeClientTestCase
 	protected Command $base;
 	protected Friend $friend;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		$this->base = new Command(new Console());

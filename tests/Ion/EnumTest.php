@@ -26,6 +26,7 @@ final class EnumTest extends IonTestCase
 		'FOOBAR' => 'baz',
 	];
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -49,34 +50,34 @@ final class EnumTest extends IonTestCase
 		return [
 			'Valid' => [
 				'value' => 'baz',
-				'expected' => TRUE,
-				'static' => FALSE,
+				'expected' => true,
+				'static' => false,
 			],
 			'ValidStatic' => [
 				'value' => 'baz',
-				'expected' => TRUE,
-				'static' => TRUE,
+				'expected' => true,
+				'static' => true,
 			],
 			'Invalid' => [
 				'value' => 'foobar',
-				'expected' => FALSE,
-				'static' => FALSE,
+				'expected' => false,
+				'static' => false,
 			],
 			'InvalidStatic' => [
 				'value' => 'foobar',
-				'expected' => FALSE,
-				'static' => TRUE,
+				'expected' => false,
+				'static' => true,
 			],
 		];
 	}
 
- #[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
- public function testIsValid(mixed $value, mixed $expected, mixed $static)
- {
- 	$actual = ($static)
- 		? TestConstList::isValid($value)
- 		: $this->enum->isValid($value);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataIsValid')]
+	public function testIsValid(mixed $value, mixed $expected, mixed $static)
+	{
+		$actual = $static
+			? TestConstList::isValid($value)
+			: $this->enum->isValid($value);
 
- 	$this->assertSame($expected, $actual);
- }
+		$this->assertSame($expected, $actual);
+	}
 }

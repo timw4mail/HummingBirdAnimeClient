@@ -26,6 +26,7 @@ final class CharacterTransformerTest extends AnimeClientTestCase
 	protected array $beforeTransform;
 	protected string $dir;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -38,7 +39,7 @@ final class CharacterTransformerTest extends AnimeClientTestCase
 	public function testTransform(): never
 	{
 		$this->markTestSkipped('Fails on CI');
-		$actual = (new CharacterTransformer())->transform($this->beforeTransform);
+		$actual = new CharacterTransformer()->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}
 }

@@ -16,7 +16,6 @@ namespace Aviat\AnimeClient\Tests\API;
 
 use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\Ion\Json;
-
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -30,9 +29,10 @@ final class APIRequestBuilderTest extends TestCase
 {
 	protected $builder;
 
+	#[\Override]
 	protected function setUp(): void
 	{
-		$this->builder = new class () extends APIRequestBuilder {
+		$this->builder = new class() extends APIRequestBuilder {
 			protected string $baseUrl = 'https://httpbin.org/';
 			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
@@ -44,8 +44,7 @@ final class APIRequestBuilderTest extends TestCase
 	{
 		$this->markTestSkipped('Need new test API');
 
-		$request = $this->builder->newRequest('GET', 'gzip')
-			->getFullRequest();
+		$request = $this->builder->newRequest('GET', 'gzip')->getFullRequest();
 		$response = getResponse($request);
 		$body = Json::decode(wait($response->getBody()->buffer()));
 		$this->assertTrue($body['gzipped']);
@@ -56,15 +55,15 @@ final class APIRequestBuilderTest extends TestCase
 		$this->markTestSkipped('Need new test API');
 
 		$this->expectException(InvalidArgumentException::class);
-		$this->builder->newRequest('FOO', 'gzip')
-			->getFullRequest();
+		$this->builder->newRequest('FOO', 'gzip')->getFullRequest();
 	}
 
 	public function testRequestWithBasicAuth(): never
 	{
 		$this->markTestSkipped('Need new test API');
 
-		$request = $this->builder->newRequest('GET', 'headers')
+		$request = $this->builder
+			->newRequest('GET', 'headers')
 			->setBasicAuth('username', 'password')
 			->getFullRequest();
 
@@ -94,7 +93,8 @@ final class APIRequestBuilderTest extends TestCase
 			'foo' => 'bar',
 		];
 
-		$request = $this->builder->newRequest('GET', 'get')
+		$request = $this->builder
+			->newRequest('GET', 'get')
 			->setQuery($query)
 			->getFullRequest();
 
@@ -113,7 +113,8 @@ final class APIRequestBuilderTest extends TestCase
 			'foo' => 'bar',
 		];
 
-		$request = $this->builder->newRequest('POST', 'post')
+		$request = $this->builder
+			->newRequest('POST', 'post')
 			->setFormFields($formValues)
 			->getFullRequest();
 
@@ -138,7 +139,8 @@ final class APIRequestBuilderTest extends TestCase
 			],
 		];
 
-		$request = $this->builder->newRequest('PUT', 'https://httpbin.org/put')
+		$request = $this->builder
+			->newRequest('PUT', 'https://httpbin.org/put')
 			->setHeader('Content-Type', 'application/json')
 			->setJsonBody($data)
 			->getFullRequest();

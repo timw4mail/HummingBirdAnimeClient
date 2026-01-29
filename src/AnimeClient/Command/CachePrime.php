@@ -30,13 +30,14 @@ final class CachePrime extends BaseCommand
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
+	#[\Override]
 	public function execute(array $args, array $options = []): void
 	{
 		$this->setContainer($this->setupContainer());
 		$cache = $this->container->get('cache');
 
 		$cleared = clearCache($cache);
-		if ( ! $cleared)
+		if (! $cleared)
 		{
 			$this->echoErrorBox('Failed to clear cache.');
 

@@ -43,6 +43,7 @@ class Config implements ConfigInterface
 	 * Does the config item exist?
 	 * @param array<string|int>|int|string $key
 	 */
+	#[\Override]
 	public function has(array|int|string $key): bool
 	{
 		return $this->map->hasKey($key);
@@ -54,7 +55,8 @@ class Config implements ConfigInterface
 	 * @param array<string|int>|int|string|null $key
 	 * @throws ConfigException
 	 */
-	public function get(array|int|string|null $key = NULL): mixed
+	#[\Override]
+	public function get(array|int|string|null $key = null): mixed
 	{
 		if (is_array($key))
 		{
@@ -68,16 +70,16 @@ class Config implements ConfigInterface
 	 * Remove a config value
 	 * @param array<string|int>|int|string $key
 	 */
+	#[\Override]
 	public function delete(array|int|string $key): void
 	{
 		if (is_array($key))
 		{
-			$this->map->setDeepKey($key, NULL);
-		}
-		else
+			$this->map->setDeepKey($key, null);
+		} else
 		{
-			$pos =& $this->map->get($key);
-			$pos = NULL;
+			$pos = &$this->map->get($key);
+			$pos = null;
 		}
 	}
 
@@ -86,17 +88,16 @@ class Config implements ConfigInterface
 	 *
 	 *@throws InvalidArgumentException
 	 */
+	#[\Override]
 	public function set(array|int|string $key, mixed $value): ConfigInterface
 	{
 		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, $value);
-		}
-		elseif ( ! empty($key))
+		} elseif (! empty($key))
 		{
 			$this->map->set($key, $value);
-		}
-		else
+		} else
 		{
 			throw new InvalidArgumentException('Key must be integer, string, or array, and cannot be empty');
 		}

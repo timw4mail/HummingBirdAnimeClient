@@ -25,6 +25,7 @@ final class MenuHelperTest extends AnimeClientTestCase
 	protected $helper;
 	protected $urlGenerator;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -57,7 +58,9 @@ final class MenuHelperTest extends AnimeClientTestCase
 		$expected['no selection'] = $this->helper->ul()->__toString();
 
 		// selected
-		$link = $this->helper->a($this->urlGenerator->url('/foobar'), 'Index', ['aria-current' => 'location']);
+		$link = $this->helper->a($this->urlGenerator->url('/foobar'), 'Index', [
+			'aria-current' => 'location',
+		]);
 		$this->helper->ul()->rawItem($link, ['class' => 'selected']);
 		$expected['selected'] = $this->helper->ul()->__toString();
 
@@ -77,8 +80,7 @@ final class MenuHelperTest extends AnimeClientTestCase
 						'REQUEST_URI' => '/foobar',
 					],
 				]);
-			}
-			else
+			} else
 			{
 				$this->setSuperGlobals([
 					'_SERVER' => [
@@ -90,7 +92,7 @@ final class MenuHelperTest extends AnimeClientTestCase
 
 			$helper = new MenuHelper();
 			$helper->setContainer($this->container);
-			$this->assertSame($expected[$case], (string) $helper($case));
+			$this->assertSame($expected[$case], $helper($case));
 		}
 	}
 }

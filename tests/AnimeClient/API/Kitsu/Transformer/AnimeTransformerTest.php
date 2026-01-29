@@ -27,6 +27,7 @@ final class AnimeTransformerTest extends AnimeClientTestCase
 	protected $beforeTransform;
 	protected $transformer;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();

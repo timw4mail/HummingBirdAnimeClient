@@ -26,6 +26,7 @@ final class UserTransformerTest extends AnimeClientTestCase
 	protected array $beforeTransform;
 	protected string $dir;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
@@ -37,7 +38,7 @@ final class UserTransformerTest extends AnimeClientTestCase
 
 	public function testTransform(): void
 	{
-		$actual = (new UserTransformer())->transform($this->beforeTransform);
+		$actual = new UserTransformer()->transform($this->beforeTransform);
 
 		// Remove dates so test is consistent
 		$actual->joinDate = '';

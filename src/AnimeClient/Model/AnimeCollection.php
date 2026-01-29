@@ -44,7 +44,7 @@ final class AnimeCollection extends Collection
 	 */
 	public function getCollection(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
@@ -58,8 +58,7 @@ final class AnimeCollection extends Collection
 			if (array_key_exists($row['media'], $collection))
 			{
 				$collection[$row['media']][] = $row;
-			}
-			else
+			} else
 			{
 				$collection[$row['media']] = [$row];
 			}
@@ -75,12 +74,13 @@ final class AnimeCollection extends Collection
 	 */
 	public function getFlatCollection(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
 
-		$query = $this->db->select('a.hummingbird_id, slug, title, alternate_title, show_type,
+		$query = $this->db
+			->select('a.hummingbird_id, slug, title, alternate_title, show_type,
 			 age_rating, episode_count, episode_length, cover_image, notes')
 			->from('anime_set a')
 			->orderBy('title')
@@ -121,14 +121,15 @@ final class AnimeCollection extends Collection
 	 */
 	public function getMediaTypeList(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
 
 		$flatList = [];
 
-		$query = $this->db->select('id, type')
+		$query = $this->db
+			->select('id, type')
 			->from('media')
 			->get();
 
@@ -170,7 +171,7 @@ final class AnimeCollection extends Collection
 	 */
 	public function add(mixed $data): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
@@ -182,7 +183,7 @@ final class AnimeCollection extends Collection
 		}
 
 		$id = $data['id'];
-		$anime = (object) $this->animeModel->getAnimeById($id);
+		$anime = $this->animeModel->getAnimeById($id);
 
 		$this->db->set([
 			'hummingbird_id' => $id,
@@ -207,9 +208,9 @@ final class AnimeCollection extends Collection
 	 */
 	public function wasAdded(array $data): bool
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
-			return FALSE;
+			return false;
 		}
 
 		$row = $this->get($data['id']);
@@ -223,13 +224,13 @@ final class AnimeCollection extends Collection
 	 */
 	public function update(array $data): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
 
 		// If there's no id to update, don't update
-		if ( ! array_key_exists('hummingbird_id', $data))
+		if (! array_key_exists('hummingbird_id', $data))
 		{
 			return;
 		}
@@ -241,9 +242,10 @@ final class AnimeCollection extends Collection
 		// If updating from the 'add' page, there
 		// might be no data to actually update in
 		// the anime_set table
-		if ( ! empty($data))
+		if (! empty($data))
 		{
-			$this->db->set($data)
+			$this->db
+				->set($data)
 				->where('hummingbird_id', $id)
 				->update('anime_set');
 		}
@@ -259,9 +261,9 @@ final class AnimeCollection extends Collection
 	 */
 	public function wasUpdated(array $data): bool
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
-			return FALSE;
+			return false;
 		}
 
 		$row = $this->get($data['hummingbird_id']);
@@ -275,11 +277,11 @@ final class AnimeCollection extends Collection
 
 			if ((string) $row[$key] !== (string) $value)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -288,27 +290,24 @@ final class AnimeCollection extends Collection
 	 */
 	public function delete(array $data): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
 
 		// If there's no id to update, don't delete
-		if ( ! array_key_exists('hummingbird_id', $data))
+		if (! array_key_exists('hummingbird_id', $data))
 		{
 			return;
 		}
 
 		$this->db->beginTransaction();
 
-		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('anime_set_genre_link');
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])->delete('anime_set_genre_link');
 
-		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('anime_set_media_link');
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])->delete('anime_set_media_link');
 
-		$this->db->where('hummingbird_id', $data['hummingbird_id'])
-			->delete('anime_set');
+		$this->db->where('hummingbird_id', $data['hummingbird_id'])->delete('anime_set');
 
 		$this->db->commit();
 	}
@@ -319,12 +318,12 @@ final class AnimeCollection extends Collection
 	 */
 	public function wasDeleted(array $data): bool
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
-			return FALSE;
+			return false;
 		}
 
-		return $this->has($data['hummingbird_id']) === FALSE;
+		return $this->has($data['hummingbird_id']) === false;
 	}
 
 	/**
@@ -334,24 +333,26 @@ final class AnimeCollection extends Collection
 	 */
 	public function get(int|string $kitsuId): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
 
 		// Get the main row data
-		$row = $this->db->from('anime_set')
+		$row = $this->db
+			->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
 			->get()
 			->fetch(PDO::FETCH_ASSOC);
 
-		if ($row === FALSE)
+		if ($row === false)
 		{
 			return [];
 		}
 
 		// Get the media ids
-		$mediaRows = $this->db->select('media_id')
+		$mediaRows = $this->db
+			->select('media_id')
 			->from('anime_set_media_link')
 			->where('hummingbird_id', $kitsuId)
 			->get()
@@ -372,12 +373,13 @@ final class AnimeCollection extends Collection
 	 */
 	public function has(int|string $kitsuId): bool
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
-			return FALSE;
+			return false;
 		}
 
-		$row = $this->db->select('hummingbird_id')
+		$row = $this->db
+			->select('hummingbird_id')
 			->from('anime_set')
 			->where('hummingbird_id', $kitsuId)
 			->get()
@@ -394,7 +396,7 @@ final class AnimeCollection extends Collection
 	 */
 	public function getGenreList(array $filter = []): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
@@ -404,18 +406,19 @@ final class AnimeCollection extends Collection
 		// Catch the missing table PDOException
 		// so that the collection does not show an
 		// error by default
-		try
-		{
-			$this->db->select('hummingbird_id, genre')
+		try {
+			$this->db
+				->select('hummingbird_id, genre')
 				->from('anime_set_genre_link gl')
 				->join('genres g', 'g.id=gl.genre_id', 'left');
 
-			if ( ! empty($filter))
+			if (! empty($filter))
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
 			}
 
-			$query = $this->db->orderBy('hummingbird_id')
+			$query = $this->db
+				->orderBy('hummingbird_id')
 				->orderBy('genre')
 				->get();
 
@@ -439,15 +442,12 @@ final class AnimeCollection extends Collection
 				if (array_key_exists($id, $output))
 				{
 					$output[$id][] = $genre;
-				}
-				else
+				} else
 				{
 					$output[$id] = [$genre];
 				}
 			}
-		}
-		catch (PDOException)
-		{
+		} catch (PDOException) {
 		}
 
 		$this->db->resetQuery();
@@ -463,7 +463,7 @@ final class AnimeCollection extends Collection
 	 */
 	public function getMediaList(array $filter = []): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
@@ -473,18 +473,19 @@ final class AnimeCollection extends Collection
 		// Catch the missing table PDOException
 		// so that the collection does not show an
 		// error by default
-		try
-		{
-			$this->db->select('m.type as media, hummingbird_id')
+		try {
+			$this->db
+				->select('m.type as media, hummingbird_id')
 				->from('anime_set_media_link ml')
 				->join('media m', 'm.id=ml.media_id', 'left');
 
-			if ( ! empty($filter))
+			if (! empty($filter))
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
 			}
 
-			$query = $this->db->orderBy('hummingbird_id')
+			$query = $this->db
+				->orderBy('hummingbird_id')
 				->orderBy('media')
 				->get();
 
@@ -508,15 +509,12 @@ final class AnimeCollection extends Collection
 				if (array_key_exists($id, $output))
 				{
 					$output[$id][] = $media;
-				}
-				else
+				} else
 				{
 					$output[$id] = [$media];
 				}
 			}
-		}
-		catch (PDOException)
-		{
+		} catch (PDOException) {
 		}
 
 		$this->db->resetQuery();
@@ -531,7 +529,7 @@ final class AnimeCollection extends Collection
 	 */
 	private function updateMediaLink(string $animeId, array $media): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
@@ -539,8 +537,7 @@ final class AnimeCollection extends Collection
 		$this->db->beginTransaction();
 
 		// Delete the old entries
-		$this->db->where('hummingbird_id', $animeId)
-			->delete('anime_set_media_link');
+		$this->db->where('hummingbird_id', $animeId)->delete('anime_set_media_link');
 
 		// Add the new entries
 		$entries = [];
@@ -565,7 +562,7 @@ final class AnimeCollection extends Collection
 	 */
 	private function updateGenres(string $animeId): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
@@ -590,7 +587,7 @@ final class AnimeCollection extends Collection
 
 			$animeLinks = $links[$animeId] ?? [];
 
-			if ( ! in_array($flippedGenres[$animeGenre], $animeLinks, TRUE))
+			if (! in_array($flippedGenres[$animeGenre], $animeLinks, true))
 			{
 				$linksToInsert[] = [
 					'hummingbird_id' => $animeId,
@@ -599,14 +596,11 @@ final class AnimeCollection extends Collection
 			}
 		}
 
-		if ($this->db !== NULL && ! empty($linksToInsert))
+		if ($this->db !== null && ! empty($linksToInsert))
 		{
-			try
-			{
+			try {
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
-			}
-			catch (PDOException)
-			{
+			} catch (PDOException) {
 			}
 		}
 	}
@@ -618,7 +612,7 @@ final class AnimeCollection extends Collection
 	 */
 	private function addNewGenres(array $genres): void
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return;
 		}
@@ -635,12 +629,9 @@ final class AnimeCollection extends Collection
 			];
 		}
 
-		try
-		{
+		try {
 			$this->db->insertBatch('genres', $insert);
-		}
-		catch (PDOException)
-		{
+		} catch (PDOException) {
 			// dump($e);
 		}
 	}
@@ -663,7 +654,7 @@ final class AnimeCollection extends Collection
 	 */
 	private function getExistingGenres(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
@@ -671,7 +662,8 @@ final class AnimeCollection extends Collection
 		$genres = [];
 
 		// Get existing genres
-		$query = $this->db->select('id, genre')
+		$query = $this->db
+			->select('id, genre')
 			->from('genres')
 			->get();
 
@@ -696,14 +688,15 @@ final class AnimeCollection extends Collection
 	 */
 	private function getExistingGenreLinkEntries(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
 
 		$links = [];
 
-		$query = $this->db->select('hummingbird_id, genre_id')
+		$query = $this->db
+			->select('hummingbird_id, genre_id')
 			->from('anime_set_genre_link')
 			->get();
 
@@ -718,8 +711,7 @@ final class AnimeCollection extends Collection
 			if (array_key_exists($link['hummingbird_id'], $links))
 			{
 				$links[$link['hummingbird_id']][] = $link['genre_id'];
-			}
-			else
+			} else
 			{
 				$links[$link['hummingbird_id']] = [$link['genre_id']];
 			}
@@ -737,12 +729,13 @@ final class AnimeCollection extends Collection
 	 */
 	private function getCollectionFromDatabase(): array
 	{
-		if ($this->db === NULL)
+		if ($this->db === null)
 		{
 			return [];
 		}
 
-		$query = $this->db->select('a.hummingbird_id, slug, title, alternate_title, show_type,
+		$query = $this->db
+			->select('a.hummingbird_id, slug, title, alternate_title, show_type,
 			 age_rating, episode_count, episode_length, cover_image, notes, media.type as media')
 			->from('anime_set a')
 			->join('anime_set_media_link ml', 'ml.hummingbird_id=a.hummingbird_id', 'inner')

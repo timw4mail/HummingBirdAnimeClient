@@ -25,6 +25,7 @@ final class ConfigTest extends IonTestCase
 {
 	protected Config $config;
 
+	#[\Override]
 	protected function setUp(): void
 	{
 		$this->config = new Config([
@@ -33,7 +34,7 @@ final class ConfigTest extends IonTestCase
 			'bar' => 'baz',
 			'a' => [
 				'b' => [
-					'c' => TRUE,
+					'c' => true,
 				],
 			],
 		]);
@@ -66,7 +67,11 @@ final class ConfigTest extends IonTestCase
 		$apple = $this->config->get('apple');
 		$this->assertSame('great', $apple['sauce']['is'], 'Config value not set correctly');
 
-		$this->assertSame('great', $this->config->get(['apple', 'sauce', 'is']), 'Array argument get for config failed.');
+		$this->assertSame(
+			'great',
+			$this->config->get(['apple', 'sauce', 'is']),
+			'Array argument get for config failed.',
+		);
 	}
 
 	public static function dataConfigDelete(): array
@@ -77,15 +82,15 @@ final class ConfigTest extends IonTestCase
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL,
+						'expected' => null,
 					],
 					[
 						'path' => ['apple', 'sauce'],
-						'expected' => NULL,
+						'expected' => null,
 					],
 					[
 						'path' => 'apple',
-						'expected' => NULL,
+						'expected' => null,
 					],
 				],
 			],
@@ -94,16 +99,16 @@ final class ConfigTest extends IonTestCase
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL,
+						'expected' => null,
 					],
 					[
 						'path' => ['apple', 'sauce'],
-						'expected' => NULL,
+						'expected' => null,
 					],
 					[
 						'path' => 'apple',
 						'expected' => [
-							'sauce' => NULL,
+							'sauce' => null,
 						],
 					],
 				],
@@ -113,12 +118,12 @@ final class ConfigTest extends IonTestCase
 				'assertKeys' => [
 					[
 						'path' => ['apple', 'sauce', 'is'],
-						'expected' => NULL,
+						'expected' => null,
 					],
 					[
 						'path' => ['apple', 'sauce'],
 						'expected' => [
-							'is' => NULL,
+							'is' => null,
 						],
 					],
 				],

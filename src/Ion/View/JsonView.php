@@ -29,9 +29,10 @@ class JsonView extends HttpView
 	/**
 	 * Set the output string
 	 */
+	#[\Override]
 	public function setOutput(mixed $string): HttpViewInterface
 	{
-		if ( ! is_string($string))
+		if (! is_string($string))
 		{
 			$string = Json::encode($string);
 		}

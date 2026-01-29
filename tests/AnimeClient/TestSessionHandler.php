@@ -21,11 +21,13 @@ class TestSessionHandler implements SessionHandlerInterface
 	public $data = [];
 	public $savePath = './test_data/sessions';
 
+	#[\Override]
 	public function close()
 	{
-		return TRUE;
+		return true;
 	}
 
+	#[\Override]
 	public function destroy($id)
 	{
 		$file = "{$this->savePath}/{$id}";
@@ -35,35 +37,40 @@ class TestSessionHandler implements SessionHandlerInterface
 		}
 		$this->data[$id] = [];
 
-		return TRUE;
+		return true;
 	}
 
+	#[\Override]
 	public function gc($maxLifetime)
 	{
-		return TRUE;
+		return true;
 	}
 
+	#[\Override]
 	public function open($savePath, $name)
 	{
 		/*if ( ! array_key_exists($savePath, $this->data))
-		{
-			$this->savePath = $savePath;
-			$this->data = [];
-		}*/
-		return TRUE;
+		 * {
+		 * $this->savePath = $savePath;
+		 * $this->data = [];
+		 * }*/
+		return true;
 	}
 
+	#[\Override]
 	public function read($id)
 	{
-		return json_decode(@file_get_contents("{$this->savePath}/{$id}"), TRUE, 512, JSON_THROW_ON_ERROR);
+		return json_decode(@file_get_contents("{$this->savePath}/{$id}"), true, 512, JSON_THROW_ON_ERROR);
 	}
 
+	#[\Override]
 	public function write($id, $data)
 	{
 		$file = "{$this->savePath}/{$id}";
 		file_put_contents($file, json_encode($data, JSON_THROW_ON_ERROR));
 
-		return TRUE;
+		return true;
 	}
 }
+
 // End of TestSessionHandler.php
