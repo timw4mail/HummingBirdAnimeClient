@@ -17,7 +17,8 @@ namespace Aviat\AnimeClient;
 use Aura\Router\Generator;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
@@ -49,8 +50,9 @@ abstract class RoutingBase
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function __construct(protected ContainerInterface $container)
-	{
+	public function __construct(
+		protected ContainerInterface $container,
+	) {
 		$this->config = $container->get('config');
 		$this->request = $container->get('request');
 		$this->routerUrl = $container->get('aura-router')->getGenerator();
@@ -86,11 +88,11 @@ abstract class RoutingBase
 	/**
 	 * Get a segment of the current url
 	 */
-	public function getSegment(int $num): ?string
+	public function getSegment(int $num): null|string
 	{
 		$segments = $this->segments();
 
-		return $segments[$num] ?? NULL;
+		return $segments[$num] ?? null;
 	}
 
 	/**

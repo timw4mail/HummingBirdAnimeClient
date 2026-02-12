@@ -17,6 +17,7 @@ namespace Aviat\Ion\View;
 use Aviat\Ion\Di\ContainerAware;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Throwable;
+
 use const EXTR_OVERWRITE;
 
 /**
@@ -90,13 +91,14 @@ class HtmlView extends HttpView
 			extract($data, EXTR_OVERWRITE);
 			include_once $path;
 			$rawBuffer = ob_get_clean();
-			$buffer = ($rawBuffer === FALSE) ? '' : $rawBuffer;
+			$buffer = $rawBuffer === false ? '' : $rawBuffer;
 
 			// Very basic html minify, that won't affect content between html tags
 			if ($this->shouldMinify)
 			{
 				$buffer = preg_replace('/>\s+</', '> <', $buffer) ?? $buffer;
 			}
+
 			return $buffer;
 		})();
 	}

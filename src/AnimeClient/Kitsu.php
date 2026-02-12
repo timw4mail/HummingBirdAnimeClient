@@ -14,8 +14,10 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\{AnimeAiringStatus, MangaPublishingStatus};
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
 use DateTimeImmutable;
+
 use const PHP_URL_HOST;
 
 /**
@@ -35,14 +37,16 @@ final class Kitsu
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
 	 */
-	public static function getAiringStatus(?string $startDate = NULL, ?string $endDate = NULL): AnimeAiringStatus
-	{
+	public static function getAiringStatus(
+		null|string $startDate = null,
+		null|string $endDate = null,
+	): AnimeAiringStatus {
 		$startAirDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endAirDate = new DateTimeImmutable($endDate ?? 'next year');
 		$now = new DateTimeImmutable();
 
 		$isDoneAiring = $now > $endAirDate;
-		$isCurrentlyAiring = ($now > $startAirDate) && ! $isDoneAiring;
+		$isCurrentlyAiring = $now > $startAirDate && ! $isDoneAiring;
 
 		if ($isCurrentlyAiring)
 		{
@@ -57,14 +61,16 @@ final class Kitsu
 		return AnimeAiringStatus::NOT_YET_AIRED;
 	}
 
-	public static function getPublishingStatus(?string $startDate = NULL, ?string $endDate = NULL): MangaPublishingStatus
-	{
+	public static function getPublishingStatus(
+		null|string $startDate = null,
+		null|string $endDate = null,
+	): MangaPublishingStatus {
 		$startPubDate = new DateTimeImmutable($startDate ?? 'tomorrow');
 		$endPubDate = new DateTimeImmutable($endDate ?? 'next year');
 		$now = new DateTimeImmutable();
 
 		$isDone = $now > $endPubDate;
-		$isCurrent = ($now > $startPubDate) && ! $isDone;
+		$isCurrent = $now > $startPubDate && ! $isDone;
 
 		if ($isCurrent)
 		{
@@ -82,8 +88,10 @@ final class Kitsu
 	/**
 	 * Reformat the airing date range for an Anime
 	 */
-	public static function formatAirDates(?string $startDate = NULL, ?string $endDate = NULL): string
-	{
+	public static function formatAirDates(
+		null|string $startDate = null,
+		null|string $endDate = null,
+	): string {
 		if (empty($startDate))
 		{
 			return '';
@@ -175,7 +183,7 @@ final class Kitsu
 
 		foreach ($mappings as $mapping)
 		{
-			if ( ! array_key_exists($mapping['externalSite'], $urlMap))
+			if (! array_key_exists($mapping['externalSite'], $urlMap))
 			{
 				continue;
 			}
@@ -218,13 +226,13 @@ final class Kitsu
 
 			// 'Fix' links that start with the hostname,
 			// rather than a protocol
-			if ( ! str_contains($url, '//'))
+			if (! str_contains($url, '//'))
 			{
 				$url = '//' . $url;
 			}
 
 			$host = parse_url($url, PHP_URL_HOST);
-			if ($host === FALSE)
+			if ($host === false)
 			{
 				return [];
 			}
@@ -271,15 +279,19 @@ final class Kitsu
 
 		foreach (['alternatives', 'localized'] as $search)
 		{
-			if (array_key_exists($search, $titles) && is_array($titles[$search]))
+			if (! (array_key_exists($search, $titles) && is_array($titles[$search])))
 			{
-				foreach ($titles[$search] as $alternateTitle)
+				continue;
+			}
+
+			foreach ($titles[$search] as $alternateTitle)
+			{
+				if (! self::titleIsUnique($alternateTitle, $valid))
 				{
-					if (self::titleIsUnique($alternateTitle, $valid))
-					{
-						$valid[] = $alternateTitle;
-					}
+					continue;
 				}
+
+				$valid[] = $alternateTitle;
 			}
 		}
 
@@ -306,16 +318,20 @@ final class Kitsu
 			{
 				// Really don't care about languages that aren't english
 				// or Japanese for titles
-				if ( ! in_array($locale, [
-					'en',
-					'en-jp',
-					'en-us',
-					'en_jp',
-					'en_us',
-					'ja-jp',
-					'ja_jp',
-					'jp',
-				], TRUE))
+				if (! in_array(
+					$locale,
+					[
+						'en',
+						'en-jp',
+						'en-us',
+						'en_jp',
+						'en_us',
+						'ja-jp',
+						'ja_jp',
+						'jp',
+					],
+					true,
+				))
 				{
 					continue;
 				}
@@ -339,9 +355,9 @@ final class Kitsu
 	 */
 	public static function getPosterImage(array $base, int $sizeId = 1): string
 	{
-		$rawUrl = $base['posterImage']['views'][$sizeId]['url']
-			?? $base['posterImage']['original']['url']
-			?? '/public/images/placeholder.png';
+		$rawUrl =
+			$base['posterImage']['views'][$sizeId]['url'] ?? $base['posterImage']['original']['url']
+				?? '/public/images/placeholder.png';
 
 		$parts = explode('?', $rawUrl);
 
@@ -354,9 +370,9 @@ final class Kitsu
 	 */
 	public static function getImage(array $base, int $sizeId = 1): string
 	{
-		$rawUrl = $base['image']['original']['url']
-			?? $base['image']['views'][$sizeId]['url']
-			?? '/public/images/placeholder.png';
+		$rawUrl =
+			$base['image']['original']['url'] ?? $base['image']['views'][$sizeId]['url']
+				?? '/public/images/placeholder.png';
 
 		$parts = explode('?', $rawUrl);
 
@@ -368,64 +384,64 @@ final class Kitsu
 	 *
 	 * @return bool[]|string[]
 	 */
-	private static function getServiceMetaData(?string $hostname = NULL): array
+	private static function getServiceMetaData(null|string $hostname = null): array
 	{
 		$hostname = str_replace('www.', '', $hostname ?? '');
 
 		$serviceMap = [
 			'animelab.com' => [
 				'name' => 'Animelab',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/animelab.svg',
 			],
 			'amazon.com' => [
 				'name' => 'Amazon Prime',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/amazon.svg',
 			],
 			'crunchyroll.com' => [
 				'name' => 'Crunchyroll',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/crunchyroll.svg',
 			],
 			'daisuki.net' => [
 				'name' => 'Daisuki',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/daisuki.svg',
 			],
 			'funimation.com' => [
 				'name' => 'Funimation',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/funimation.svg',
 			],
 			'hidive.com' => [
 				'name' => 'Hidive',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/hidive.svg',
 			],
 			'hulu.com' => [
 				'name' => 'Hulu',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/hulu.svg',
 			],
 			'netflix.com' => [
 				'name' => 'Netflix',
-				'link' => FALSE,
+				'link' => false,
 				'image' => 'streaming-logos/netflix.svg',
 			],
 			'tubitv.com' => [
 				'name' => 'TubiTV',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/tubitv.svg',
 			],
 			'viewster.com' => [
 				'name' => 'Viewster',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/viewster.svg',
 			],
 			'vrv.co' => [
 				'name' => 'VRV',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/vrv.svg',
 			],
 		];
@@ -439,7 +455,7 @@ final class Kitsu
 		// and there's no other real identifier for Netflix
 		return [
 			'name' => 'Netflix',
-			'link' => FALSE,
+			'link' => false,
 			'image' => 'streaming-logos/netflix.svg',
 		];
 	}
@@ -448,11 +464,11 @@ final class Kitsu
 	 * Determine if an alternate title is unique enough to list
 	 * @param list<string> $existingTitles
 	 */
-	private static function titleIsUnique(?string $title = '', array $existingTitles = []): bool
+	private static function titleIsUnique(null|string $title = '', array $existingTitles = []): bool
 	{
 		if (empty($title))
 		{
-			return FALSE;
+			return false;
 		}
 
 		foreach ($existingTitles as $existing)
@@ -462,10 +478,10 @@ final class Kitsu
 
 			if ($diff <= 4 || $isSubset || mb_strlen($title) > 45 || mb_strlen($existing) > 50)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 }

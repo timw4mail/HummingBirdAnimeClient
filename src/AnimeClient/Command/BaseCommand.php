@@ -15,23 +15,32 @@
 namespace Aviat\AnimeClient\Command;
 
 use Aura\Router\RouterContainer;
-
 use Aura\Session\SessionFactory;
-use Aviat\AnimeClient\API\{Anilist, CacheTrait, Kitsu};
-
-use Aviat\AnimeClient\
-{Model, RenderHelper, UrlGenerator, Util};
+use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\API\CacheTrait;
+use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\Model;
+use Aviat\AnimeClient\RenderHelper;
+use Aviat\AnimeClient\UrlGenerator;
+use Aviat\AnimeClient\Util;
 use Aviat\Banker\Teller;
 use Aviat\Ion\Config;
-use Aviat\Ion\Di\{Container, ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\Container;
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use ConsoleKit\Colors;
+use ConsoleKit\Command;
 use ConsoleKit\Widgets\Box;
-use ConsoleKit\{Colors, Command, ConsoleException};
-use Laminas\Diactoros\{Response, ServerRequestFactory};
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequestFactory;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
-use function Aviat\AnimeClient\{loadConfig, loadTomlFile};
+
+use function Aviat\AnimeClient\loadConfig;
+use function Aviat\AnimeClient\loadTomlFile;
 use function Aviat\Ion\_dir;
+
 use const Aviat\AnimeClient\SRC_DIR;
 
 /**
@@ -40,6 +49,7 @@ use const Aviat\AnimeClient\SRC_DIR;
 abstract class BaseCommand extends Command
 {
 	use CacheTrait;
+
 	use ContainerAware;
 
 	/**
@@ -47,19 +57,22 @@ abstract class BaseCommand extends Command
 	 *
 	 * @param string|list<string> $message
 	 */
-	public function echoBox(string|array $message, string|int|null $fgColor = NULL, string|int|null $bgColor = NULL): void
-	{
+	public function echoBox(
+		string|array $message,
+		string|int|null $fgColor = null,
+		string|int|null $bgColor = null,
+	): void {
 		if (is_array($message))
 		{
 			$message = implode("\n", $message);
 		}
 
-		if ($fgColor !== NULL)
+		if ($fgColor !== null)
 		{
 			$fgColor = (int) $fgColor;
 		}
 
-		if ($bgColor !== NULL)
+		if ($bgColor !== null)
 		{
 			$bgColor = (int) $bgColor;
 		}
@@ -134,14 +147,17 @@ abstract class BaseCommand extends Command
 		return $this->_di($configArray, $APP_DIR);
 	}
 
-	private function _line(string $message, int|string|null $fgColor = NULL, int|string|null $bgColor = NULL): void
-	{
-		if ($fgColor !== NULL)
+	private function _line(
+		string $message,
+		int|string|null $fgColor = null,
+		int|string|null $bgColor = null,
+	): void {
+		if ($fgColor !== null)
 		{
 			$fgColor = (int) $fgColor;
 		}
 
-		if ($bgColor !== NULL)
+		if ($bgColor !== null)
 		{
 			$bgColor = (int) $bgColor;
 		}
@@ -167,11 +183,20 @@ abstract class BaseCommand extends Command
 		// -------------------------------------------------------------------------
 
 		$appLogger = new Logger('animeclient');
-		$appLogger->pushHandler(new RotatingFileHandler($APP_DIR . '/logs/app-cli.log', 2, Logger::WARNING));
+		$appLogger->pushHandler(new RotatingFileHandler(
+			$APP_DIR . '/logs/app-cli.log',
+			2,
+			Logger::WARNING,
+		));
 
 		$container->setLogger($appLogger);
 
-		foreach (['kitsu-request', 'anilist-request', 'anilist-request-cli', 'kitsu-request-cli'] as $channel)
+		foreach ([
+			'kitsu-request',
+			'anilist-request',
+			'anilist-request-cli',
+			'kitsu-request-cli',
+		] as $channel)
 		{
 			$logger = new Logger($channel);
 			$handler = new RotatingFileHandler("{$APP_DIR}/logs/{$channel}.log", 2, Logger::WARNING);
@@ -201,12 +226,12 @@ abstract class BaseCommand extends Command
 			$_GET,
 			$_POST,
 			$_COOKIE,
-			$_FILES
+			$_FILES,
 		));
 		$container->set('response', static fn () => new Response());
 
 		// Create session Object
-		$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
+		$container->set('session', static fn () => new SessionFactory()->newInstance($_COOKIE));
 
 		// Models
 		$container->set('kitsu-model', static function (\Aviat\Ion\Di\ContainerInterface $container): Kitsu\Model {

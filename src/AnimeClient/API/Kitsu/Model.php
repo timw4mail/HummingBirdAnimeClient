@@ -14,29 +14,27 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Aviat\AnimeClient\API\{
-	CacheTrait,
-	Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus,
-	Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus,
-	Kitsu\Enum\MediaStatus,
-	Mapping\AnimeWatchingStatus,
-	Mapping\MangaReadingStatus
-};
-use Aviat\AnimeClient\API\Kitsu\Transformer\{
-	AnimeHistoryTransformer,
-	AnimeListTransformer,
-	AnimeTransformer,
-	LibraryEntryTransformer,
-	MangaHistoryTransformer,
-	MangaListTransformer,
-	MangaTransformer
-};
+use Aviat\AnimeClient\API\CacheTrait;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KitsuWatchingStatus;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KitsuReadingStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\MediaStatus;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\LibraryEntryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaTransformer;
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Enum\MediaType;
 use Aviat\AnimeClient\Kitsu as K;
-use Aviat\AnimeClient\Types\{Anime, MangaPage};
-use Aviat\AnimeClient\Types\{AnimeListItem, MangaListItem};
-use Aviat\Ion\{Di\ContainerAware, Json};
-use Generator;
+use Aviat\AnimeClient\Types\Anime;
+use Aviat\AnimeClient\Types\AnimeListItem;
+use Aviat\AnimeClient\Types\MangaListItem;
+use Aviat\AnimeClient\Types\MangaPage;
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Json;
 
 use function Aviat\AnimeClient\getApiClient;
 
@@ -48,14 +46,18 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 final class Model
 {
 	use CacheTrait;
+
 	use ContainerAware;
+
 	use RequestBuilderTrait;
+
 	use MutationTrait;
 
 	protected const LIST_PAGE_SIZE = 100;
 
-	protected AnimeTransformer $animeTransformer;
-	protected MangaTransformer $mangaTransformer;
+	private AnimeTransformer $animeTransformer;
+
+	private MangaTransformer $mangaTransformer;
 
 	/**
 	 * Constructor
@@ -151,7 +153,7 @@ final class Model
 	/**
 	 * Get the userid for a username from Kitsu
 	 */
-	public function getUserIdByUsername(?string $username = null): string
+	public function getUserIdByUsername(null|string $username = null): string
 	{
 		if ($username === null)
 		{
@@ -535,7 +537,7 @@ final class Model
 	 *
 	 * @param string $type "anime" or "manga"
 	 */
-	public function getKitsuIdFromMALId(string $malId, string $type = 'anime'): ?string
+	public function getKitsuIdFromMALId(string $malId, string $type = 'anime'): null|string
 	{
 		$raw = $this->requestBuilder->runQuery('GetIdByMapping', [
 			'id' => $malId,
@@ -586,7 +588,7 @@ final class Model
 	 *
 	 * @return mixed[]
 	 */
-	protected function getHistoryList(): array
+	private function getHistoryList(): array
 	{
 		return $this->requestBuilder->runQuery('GetUserHistory', [
 			'slug' => $this->getUsername(),
@@ -600,7 +602,7 @@ final class Model
 	 * @param string $type - Media type (anime, manga)
 	 * @return list<mixed>
 	 */
-	protected function getZippedListPerStatus(string $queryName, string $type): array
+	private function getZippedListPerStatus(string $queryName, string $type): array
 	{
 		$statusPages = [];
 
@@ -622,7 +624,7 @@ final class Model
 	 * @param string $status - Media 'consumption' status
 	 * @return array<mixed>
 	 */
-	protected function getZippedList(string $queryName, string $type, string $status): array
+	private function getZippedList(string $queryName, string $type, string $status): array
 	{
 		$pages = [];
 
@@ -639,7 +641,7 @@ final class Model
 	 *
 	 * @return mixed[]
 	 */
-	protected function getList(MediaType $type, string $status = ''): array
+	private function getList(MediaType $type, string $status = ''): array
 	{
 		return $this->getZippedList('GetLibrary', $type->value, $status);
 	}
@@ -668,6 +670,7 @@ final class Model
 			{
 				$vars['status'] = strtoupper($status);
 			}
+
 			if ($cursor !== '')
 			{
 				$vars['after'] = $cursor;
@@ -720,11 +723,11 @@ final class Model
 		return $res['data']['findProfileBySlug']['library']['all']['totalCount'];
 	}
 
-	protected function getUserId(): string
+	private function getUserId(): string
 	{
-		static $userId = NULL;
+		static $userId = null;
 
-		if ($userId === NULL)
+		if ($userId === null)
 		{
 			$userId = $this->getUserIdByUsername($this->getUsername());
 		}

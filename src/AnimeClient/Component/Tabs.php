@@ -31,7 +31,7 @@ final class Tabs
 		array $tabData,
 		callable $cb,
 		string $className = 'content media-wrap flex flex-wrap flex-justify-start',
-		bool $hasSectionWrapper = FALSE
+		bool $hasSectionWrapper = false,
 	): string {
 		if (count($tabData) < 2)
 		{

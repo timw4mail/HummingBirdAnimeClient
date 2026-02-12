@@ -34,6 +34,6 @@ final class RequirementsTest extends AnimeClientTestCase
 	public function testHasPDOSqlite(): void
 	{
 		$drivers = PDO::getAvailableDrivers();
-		$this->assertTrue(in_array('sqlite', $drivers, TRUE));
+		$this->assertTrue(in_array('sqlite', $drivers, true));
 	}
 }

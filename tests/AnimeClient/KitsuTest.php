@@ -14,7 +14,8 @@
 
 namespace Aviat\AnimeClient\Tests\API;
 
-use Aviat\AnimeClient\API\Kitsu\Enum\{AnimeAiringStatus, MangaPublishingStatus};
+use Aviat\AnimeClient\API\Kitsu\Enum\AnimeAiringStatus;
+use Aviat\AnimeClient\API\Kitsu\Enum\MangaPublishingStatus;
 use Aviat\AnimeClient\Kitsu;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +46,7 @@ final class KitsuTest extends TestCase
 		$expected = [[
 			'meta' => [
 				'name' => 'Hulu',
-				'link' => TRUE,
+				'link' => true,
 				'image' => 'streaming-logos/hulu.svg',
 			],
 			'link' => 'www.hulu.com/chobits',
@@ -94,7 +95,7 @@ final class KitsuTest extends TestCase
 			'localized' => [
 				'en' => 'Foo the Movie',
 				'fr' => '',
-				'jp' => NULL,
+				'jp' => null,
 			],
 			'alternatives' => [],
 		];

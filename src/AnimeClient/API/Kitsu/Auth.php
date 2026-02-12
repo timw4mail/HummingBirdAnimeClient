@@ -15,13 +15,13 @@
 namespace Aviat\AnimeClient\API\Kitsu;
 
 use Aura\Session\Segment;
-
 use Aviat\AnimeClient\API\CacheTrait;
-
 use Aviat\AnimeClient\Kitsu as K;
-use Aviat\Ion\Type\EventType;
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
+use Aviat\Ion\Type\EventType;
+
 use const Aviat\AnimeClient\SESSION_SEGMENT;
 
 /**
@@ -30,6 +30,7 @@ use const Aviat\AnimeClient\SESSION_SEGMENT;
 final class Auth
 {
 	use CacheTrait;
+
 	use ContainerAware;
 
 	/**
@@ -62,9 +63,8 @@ final class Auth
 	 */
 	public function authenticate(
 		#[\SensitiveParameter]
-		string $password
-	): bool
-	{
+		string $password,
+	): bool {
 		$config = $this->container->get('config');
 		$username = $config->get('kitsu_username');
 
@@ -76,13 +76,13 @@ final class Auth
 	/**
 	 * Make the call to re-authenticate with the existing refresh token
 	 */
-	public function reAuthenticate(?string $refreshToken = NULL): bool
+	public function reAuthenticate(null|string $refreshToken = null): bool
 	{
 		$refreshToken ??= $this->getRefreshToken();
 
 		if (empty($refreshToken))
 		{
-			return FALSE;
+			return false;
 		}
 
 		$auth = $this->model->reAuthenticate($refreshToken);
@@ -95,7 +95,7 @@ final class Auth
 	 */
 	public function isAuthenticated(): bool
 	{
-		return $this->getAuthToken() !== NULL;
+		return $this->getAuthToken() !== null;
 	}
 
 	/**
@@ -109,12 +109,11 @@ final class Auth
 	/**
 	 * Retrieve the authentication token from the session
 	 */
-	public function getAuthToken(): ?string
+	public function getAuthToken(): null|string
 	{
 		if (PHP_SAPI === 'cli')
 		{
-			return $this->segment->get('auth_token')
-				?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY);
+			return $this->segment->get('auth_token') ?? $this->cache->get(K::AUTH_TOKEN_CACHE_KEY);
 		}
 
 		return $this->segment->get('auth_token');
@@ -123,12 +122,13 @@ final class Auth
 	/**
 	 * Retrieve the refresh token
 	 */
-	private function getRefreshToken(): ?string
+	private function getRefreshToken(): null|string
 	{
 		if (PHP_SAPI === 'cli')
 		{
-			return $this->segment->get('refresh_token')
-				?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY);
+			return (
+				$this->segment->get('refresh_token') ?? $this->cache->get(K::AUTH_TOKEN_REFRESH_CACHE_KEY)
+			);
 		}
 
 		return $this->segment->get('refresh_token');
@@ -141,7 +141,7 @@ final class Auth
 	 */
 	private function storeAuth(array|false $auth): bool
 	{
-		if (FALSE !== $auth)
+		if (false !== $auth)
 		{
 			$expire_time = $auth['created_at'] + $auth['expires_in'];
 
@@ -161,11 +161,11 @@ final class Auth
 				$this->segment->set('auth_token_expires', $expire_time);
 				$this->segment->set('refresh_token', $auth['refresh_token']);
 
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 

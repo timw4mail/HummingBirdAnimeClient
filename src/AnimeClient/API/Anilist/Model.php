@@ -15,12 +15,12 @@
 namespace Aviat\AnimeClient\API\Anilist;
 
 use Amp\Http\Client\Request;
-
 use Aviat\AnimeClient\Anilist;
-
-use Aviat\AnimeClient\API\Mapping\{AnimeWatchingStatus, MangaReadingStatus};
+use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Throwable;
@@ -35,9 +35,9 @@ final class Model
 	/**
 	 * Constructor
 	 */
-	public function __construct(private ListItem $listItem)
-	{
-	}
+	public function __construct(
+		private ListItem $listItem,
+	) {}
 
 	// -------------------------------------------------------------------------
 	// ! Generic API calls
@@ -90,7 +90,7 @@ final class Model
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
 
-		if ( ! (is_string($anilistUser) && $anilistUser !== ''))
+		if (! (is_string($anilistUser) && $anilistUser !== ''))
 		{
 			throw new InvalidArgumentException('Anilist username is not defined in config');
 		}
@@ -105,12 +105,12 @@ final class Model
 	 * Create a list item
 	 * @param array<string, mixed> $data
 	 */
-	public function createListItem(array $data, string $type = 'anime'): ?Request
+	public function createListItem(array $data, string $type = 'anime'): null|Request
 	{
 		$mediaId = $this->getMediaId($data, $type);
 		if (empty($mediaId))
 		{
-			return NULL;
+			return null;
 		}
 
 		$createData = [];
@@ -157,12 +157,12 @@ final class Model
 	 *
 	 * @param string $type - Them media type (anime/manga)
 	 */
-	public function incrementListItem(FormItem $data, string $type): ?Request
+	public function incrementListItem(FormItem $data, string $type): null|Request
 	{
 		$id = $this->getListIdFromData($data, $type);
-		if ($id === NULL)
+		if ($id === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		return $this->listItem->increment($id, $data['data']);
@@ -173,12 +173,12 @@ final class Model
 	 *
 	 * @param string $type - Them media type (anime/manga)
 	 */
-	public function updateListItem(FormItem $data, string $type): ?Request
+	public function updateListItem(FormItem $data, string $type): null|Request
 	{
 		$id = $this->getListIdFromData($data, $type);
-		if ($id === NULL)
+		if ($id === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		return $this->listItem->update($id, $data['data']);
@@ -190,12 +190,12 @@ final class Model
 	 * @param FormItem $data - The entry to remove
 	 * @param string $type - The media type (anime/manga)
 	 */
-	public function deleteItem(FormItem $data, string $type): ?Request
+	public function deleteItem(FormItem $data, string $type): null|Request
 	{
 		$mediaId = $this->getMediaId((array) $data, $type);
-		if ($mediaId === NULL)
+		if ($mediaId === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		$id = $this->getListIdFromMediaId($mediaId);
@@ -204,18 +204,18 @@ final class Model
 			return $this->listItem->delete($id);
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**
 	 * Get the id of the specific list entry from the data
 	 */
-	public function getListIdFromData(FormItem $data, string $type = 'ANIME'): ?string
+	public function getListIdFromData(FormItem $data, string $type = 'ANIME'): null|string
 	{
 		$mediaId = $this->getMediaId((array) $data, $type);
-		if ($mediaId === NULL)
+		if ($mediaId === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		return $this->getListIdFromMediaId($mediaId);
@@ -226,7 +226,7 @@ final class Model
 	 * this way is more accurate than getting the list item id
 	 * directly from the MAL id
 	 */
-	private function getListIdFromMediaId(string $mediaId): ?string
+	private function getListIdFromMediaId(string $mediaId): null|string
 	{
 		$config = $this->container->get('config');
 		$anilistUser = $config->get(['anilist', 'username']);
@@ -236,9 +236,9 @@ final class Model
 			'userName' => $anilistUser,
 		]);
 
-		if ( ! empty($info['errors']))
+		if (! empty($info['errors']))
 		{
-			return NULL;
+			return null;
 		}
 
 		return (string) $info['data']['MediaList']['id'];
@@ -248,21 +248,21 @@ final class Model
 	 * Find the id to update by
 	 * @param array<string, mixed> $data
 	 */
-	private function getMediaId(array $data, string $type = 'ANIME'): ?string
+	private function getMediaId(array $data, string $type = 'ANIME'): null|string
 	{
-		return $data['anilist_id'] ?? ((isset($data['mal_id']))
+		return $data['anilist_id'] ?? (isset($data['mal_id'])
 			? $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type))
-			: NULL);
+			: null);
 	}
 
 	/**
 	 * Get the Anilist media id from the malId
 	 */
-	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): ?string
+	private function getMediaIdFromMalId(string $malId, string $type = 'ANIME'): null|string
 	{
 		if ($malId === '')
 		{
-			return NULL;
+			return null;
 		}
 
 		$info = $this->requestBuilder->runQuery('MediaIdByMalId', [
@@ -272,7 +272,7 @@ final class Model
 
 		if (array_key_exists('errors', $info))
 		{
-			return NULL;
+			return null;
 		}
 
 		return (string) $info['data']['Media']['id'];

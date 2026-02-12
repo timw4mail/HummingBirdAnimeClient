@@ -20,6 +20,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
+
 use function is_object;
 
 /**
@@ -49,7 +50,7 @@ class Friend
 	 */
 	public function __construct(mixed $obj)
 	{
-		if ( ! is_object($obj))
+		if (! is_object($obj))
 		{
 			throw new InvalidArgumentException('Friend must be an object');
 		}
@@ -67,13 +68,13 @@ class Friend
 		{
 			$property = $this->_get_property($key);
 
-			if ($property !== NULL)
+			if ($property !== null)
 			{
 				return $property->getValue($this->_friend_);
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 	/**
@@ -107,7 +108,7 @@ class Friend
 	 */
 	public function __call(string $method, array $args)
 	{
-		if ( ! $this->_reflect_->hasMethod($method))
+		if (! $this->_reflect_->hasMethod($method))
 		{
 			throw new BadMethodCallException("Method '{$method}' does not exist");
 		}
@@ -120,21 +121,18 @@ class Friend
 	/**
 	 * Iterates over parent classes to get a ReflectionProperty
 	 */
-	private function _get_property(string $name): ?ReflectionProperty
+	private function _get_property(string $name): null|ReflectionProperty
 	{
-		try
-		{
-			$property = $this->_reflect_->getProperty($name);
+		try {
 			// $property->setAccessible(TRUE);
 
-			return $property;
+			return $this->_reflect_->getProperty($name);
 		}
 		// Return NULL on any exception, so no further logic needed
 		// in the catch block
 		// @codeCoverageIgnoreStart
-		catch (\Exception)
-		{
-			return NULL;
+		catch (\Exception) {
+			return null;
 		}
 
 		// @codeCoverageIgnoreEnd

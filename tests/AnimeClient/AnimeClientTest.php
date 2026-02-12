@@ -16,8 +16,21 @@ namespace Aviat\AnimeClient\Tests;
 
 use DateTime;
 use PHPUnit\Framework\Attributes\IgnoreFunctionForCodeCoverage;
-use function Aviat\AnimeClient\{arrayToToml, checkFolderPermissions, clearCache, colNotEmpty, friendlyTime, getLocalImg, getResponse, isSequentialArray, tomlToArray};
-use const Aviat\AnimeClient\{MINUTES_IN_DAY, MINUTES_IN_HOUR, MINUTES_IN_YEAR, SECONDS_IN_MINUTE};
+
+use function Aviat\AnimeClient\arrayToToml;
+use function Aviat\AnimeClient\checkFolderPermissions;
+use function Aviat\AnimeClient\clearCache;
+use function Aviat\AnimeClient\colNotEmpty;
+use function Aviat\AnimeClient\friendlyTime;
+use function Aviat\AnimeClient\getLocalImg;
+use function Aviat\AnimeClient\getResponse;
+use function Aviat\AnimeClient\isSequentialArray;
+use function Aviat\AnimeClient\tomlToArray;
+
+use const Aviat\AnimeClient\MINUTES_IN_DAY;
+use const Aviat\AnimeClient\MINUTES_IN_HOUR;
+use const Aviat\AnimeClient\MINUTES_IN_YEAR;
+use const Aviat\AnimeClient\SECONDS_IN_MINUTE;
 
 /**
  * @internal
@@ -31,7 +44,7 @@ final class AnimeClientTest extends AnimeClientTestCase
 	public function testArrayToToml(): void
 	{
 		$arr = [
-			'cat' => FALSE,
+			'cat' => false,
 			'foo' => 'bar',
 			'dateTime' => (array) new DateTime(),
 			'bar' => [
@@ -45,7 +58,7 @@ final class AnimeClientTest extends AnimeClientTestCase
 				'z' => [3, 6, 9],
 			],
 			'foobar' => [
-				'z' => 3.1415926539,
+				'z' => 3.141_592_653_9,
 				'a' => [
 					'aa' => -8,
 					'b' => [
@@ -66,18 +79,21 @@ final class AnimeClientTest extends AnimeClientTestCase
 	public function testArrayToTomlNullValue(): void
 	{
 		$arr = [
-			'cat' => FALSE,
-			'bat' => NULL,
+			'cat' => false,
+			'bat' => null,
 			'foo' => 'bar',
 		];
 
 		$toml = arrayToToml($arr);
 		$parsedArray = tomlToArray($toml);
 
-		$this->assertSame([
-			'cat' => FALSE,
-			'foo' => 'bar',
-		], $parsedArray);
+		$this->assertSame(
+			[
+				'cat' => false,
+				'foo' => 'bar',
+			],
+			$parsedArray,
+		);
 	}
 
 	public function testIsSequentialArray(): void
@@ -114,17 +130,23 @@ final class AnimeClientTest extends AnimeClientTestCase
 
 	public function testColNotEmpty(): void
 	{
-		$hasEmptyCols = [[
-			'foo' => '',
-		], [
-			'foo' => '',
-		]];
+		$hasEmptyCols = [
+			[
+				'foo' => '',
+			],
+			[
+				'foo' => '',
+			],
+		];
 
-		$hasNonEmptyCols = [[
-			'foo' => 'bar',
-		], [
-			'foo' => 'baz',
-		]];
+		$hasNonEmptyCols = [
+			[
+				'foo' => 'bar',
+			],
+			[
+				'foo' => 'baz',
+			],
+		];
 
 		$this->assertFalse(colNotEmpty($hasEmptyCols, 'foo'));
 		$this->assertTrue(colNotEmpty($hasNonEmptyCols, 'foo'));
@@ -141,19 +163,24 @@ final class AnimeClientTest extends AnimeClientTestCase
 		$SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
 		$SECONDS_IN_YEAR = SECONDS_IN_MINUTE * MINUTES_IN_YEAR;
 
-		return [[
-			'seconds' => $SECONDS_IN_YEAR,
-			'expected' => '1 year',
-		], [
-			'seconds' => $SECONDS_IN_HOUR,
-			'expected' => '1 hour',
-		], [
-			'seconds' => (2 * $SECONDS_IN_YEAR) + 30,
-			'expected' => '2 years, 30 seconds',
-		], [
-			'seconds' => (5 * $SECONDS_IN_YEAR) + (3 * $SECONDS_IN_DAY) + (17 * SECONDS_IN_MINUTE),
-			'expected' => '5 years, 3 days, and 17 minutes',
-		]];
+		return [
+			[
+				'seconds' => $SECONDS_IN_YEAR,
+				'expected' => '1 year',
+			],
+			[
+				'seconds' => $SECONDS_IN_HOUR,
+				'expected' => '1 hour',
+			],
+			[
+				'seconds' => (2 * $SECONDS_IN_YEAR) + 30,
+				'expected' => '2 years, 30 seconds',
+			],
+			[
+				'seconds' => (5 * $SECONDS_IN_YEAR) + (3 * $SECONDS_IN_DAY) + (17 * SECONDS_IN_MINUTE),
+				'expected' => '5 years, 3 days, and 17 minutes',
+			],
+		];
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('getFriendlyTime')]

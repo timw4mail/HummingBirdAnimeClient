@@ -14,7 +14,8 @@
 
 namespace Aviat\Ion\Tests;
 
-use Aviat\Ion\{Json, JsonException};
+use Aviat\Ion\Json;
+use Aviat\Ion\JsonException;
 
 use function Aviat\Ion\_dir;
 
@@ -48,21 +49,21 @@ final class JsonTest extends IonTestCase
 	}
 
 	#[\PHPUnit\Framework\Attributes\DataProvider('dataEncodeDecode')]
- public function testEncodeDecodeFile(array $data, int $expected_size, string $expected_json): void
- {
- 	$target_file = _dir(self::TEST_DATA_DIR, 'json_write.json');
+	public function testEncodeDecodeFile(array $data, int $expected_size, string $expected_json): void
+	{
+		$target_file = _dir(self::TEST_DATA_DIR, 'json_write.json');
 
- 	$actual_size = Json::encodeFile($target_file, $data);
- 	$actual_json = file_get_contents($target_file);
+		$actual_size = Json::encodeFile($target_file, $data);
+		$actual_json = file_get_contents($target_file);
 
- 	$this->assertTrue(Json::isJson($actual_json));
- 	$this->assertSame($expected_size, $actual_size);
- 	$this->assertSame($expected_json, $actual_json);
+		$this->assertTrue(Json::isJson($actual_json));
+		$this->assertSame($expected_size, $actual_size);
+		$this->assertSame($expected_json, $actual_json);
 
- 	$this->assertEquals($data, Json::decodeFile($target_file));
+		$this->assertEquals($data, Json::decodeFile($target_file));
 
- 	unlink($target_file);
- }
+		unlink($target_file);
+	}
 
 	public function testDecode()
 	{
@@ -71,7 +72,7 @@ final class JsonTest extends IonTestCase
 			'foo' => [1, 2, 3, 4],
 		];
 		$this->assertSame($expected, Json::decode($json));
-		$this->assertEquals((object) $expected, Json::decode($json, FALSE));
+		$this->assertEquals((object) $expected, Json::decode($json, false));
 
 		$badJson = '{foo:{1|2}}';
 		$this->expectException(\Aviat\Ion\JsonException::class);
@@ -83,6 +84,6 @@ final class JsonTest extends IonTestCase
 
 	public function testDecodeNull()
 	{
-		$this->assertNull(Json::decode(NULL));
+		$this->assertNull(Json::decode(null));
 	}
 }

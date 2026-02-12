@@ -18,11 +18,17 @@ use Aviat\AnimeClient\Types\AbstractType;
 
 class Anilist extends AbstractType
 {
-	public bool|string $enabled = FALSE;
-	public ?string $client_id;
-	public ?string $client_secret;
-	public ?string $access_token;
-	public int|string|NULL $access_token_expires;
-	public ?string $refresh_token;
-	public ?string $username;
+	public bool|string $enabled = false;
+
+	public null|string $client_id;
+
+	public null|string $client_secret;
+
+	public null|string $access_token;
+
+	public int|string|null $access_token_expires;
+
+	public null|string $refresh_token;
+
+	public null|string $username;
 }

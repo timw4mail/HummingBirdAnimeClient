@@ -19,9 +19,12 @@ use Aviat\AnimeClient\Types\AbstractType;
 class Cache extends AbstractType
 {
 	public string $driver = 'null';
-	public ?string $host;
-	public string|int|NULL $port;
-	public ?string $database;
+
+	public null|string $host;
+
+	public string|int|null $port;
+
+	public null|string $database;
 
 	/**
 	 * @var array<string, mixed>

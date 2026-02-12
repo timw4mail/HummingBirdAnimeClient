@@ -36,17 +36,17 @@ class HistoryItem extends AbstractType
 	/**
 	 * Is this item a combination of items?
 	 */
-	public bool $isAggregate = FALSE;
+	public bool $isAggregate = false;
 
 	/**
 	 * The kind of history event
 	 */
-	public ?string $kind = '';
+	public null|string $kind = '';
 
 	/**
 	 * When the item was last updated
 	 */
-	public ?DateTimeImmutable $updated = NULL;
+	public null|DateTimeImmutable $updated = null;
 
 	/**
 	 * Range of updated times for the aggregated item

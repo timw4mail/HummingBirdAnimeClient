@@ -16,7 +16,8 @@ namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Helper object to manage form generation, especially for config editing
@@ -54,10 +55,10 @@ final class FormGenerator
 	public function generate(string $name, array $form): string
 	{
 		$type = $form['type'];
-		$display = $form['display'] ?? TRUE;
+		$display = $form['display'] ?? true;
 		$value = $form['value'] ?? $form['default'] ?? '';
 
-		if ($display === FALSE)
+		if ($display === false)
 		{
 			return (string) $this->helper->input([
 				'type' => 'hidden',
@@ -82,7 +83,7 @@ final class FormGenerator
 					'1' => 'Yes',
 					'0' => 'No',
 				];
-				$params['strict'] = TRUE;
+				$params['strict'] = true;
 				unset($params['attribs']['id']);
 				break;
 
@@ -101,10 +102,12 @@ final class FormGenerator
 
 		foreach (['readonly', 'disabled'] as $key)
 		{
-			if (array_key_exists($key, $form) && $form[$key] !== FALSE)
+			if (! (array_key_exists($key, $form) && $form[$key] !== false))
 			{
-				$params['attribs'][$key] = $form[$key];
+				continue;
 			}
+
+			$params['attribs'][$key] = $form[$key];
 		}
 
 		return (string) $this->helper->input($params);

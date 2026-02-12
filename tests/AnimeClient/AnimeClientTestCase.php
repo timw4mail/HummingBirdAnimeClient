@@ -14,14 +14,16 @@
 
 namespace Aviat\AnimeClient\Tests;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
-use Laminas\Diactoros\{Response as HttpResponse, ServerRequestFactory};
+use Laminas\Diactoros\Response as HttpResponse;
+use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+
 use function Aviat\Ion\_dir;
 use function call_user_func_array;
-use const Aviat\AnimeClient\{DEFAULT_CONTROLLER, SLUG_PATTERN};
 
 /**
  * Base class for TestCases
@@ -29,6 +31,7 @@ use const Aviat\AnimeClient\{DEFAULT_CONTROLLER, SLUG_PATTERN};
 class AnimeClientTestCase extends TestCase
 {
 	use ContainerAware;
+
 	use MatchesSnapshots;
 
 	// Test directory constants

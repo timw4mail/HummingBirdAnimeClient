@@ -14,10 +14,12 @@
 
 namespace Aviat\Ion\Tests;
 
-use Aviat\Ion\{ConstList, Friend};
+use Aviat\Ion\ConstList;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\View\HtmlView;
+use Aviat\Ion\View\HttpView;
+use Aviat\Ion\View\JsonView;
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -25,9 +27,7 @@ use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 class MockErrorHandler
 {
-	public function addDataTable($name, array $values = [])
-	{
-	}
+	public function addDataTable($name, array $values = []) {}
 }
 
 // -----------------------------------------------------------------------------
@@ -49,12 +49,14 @@ class FriendGrandParentTestClass
 class FriendParentTestClass extends FriendGrandParentTestClass
 {
 	protected $parentProtected = 47;
+
 	private int $parentPrivate = 654;
 }
 
 class FriendTestClass extends FriendParentTestClass
 {
 	protected $protected = 356;
+
 	private int $private = 486;
 
 	protected function getProtected()
@@ -158,9 +160,7 @@ class TestHttpView extends HttpView
 class TestJsonView extends JsonView
 {
 	#[\Override]
-	public function __destruct()
-	{
-	}
+	public function __destruct() {}
 
 	#[\Override]
 	protected function output(): void

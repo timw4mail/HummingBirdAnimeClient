@@ -14,13 +14,18 @@
 
 namespace Aviat\AnimeClient;
 
-use Aura\Router\{Map, Matcher, Route, Rule,};
+use Aura\Router\Map;
+use Aura\Router\Matcher;
+use Aura\Router\Route;
+use Aura\Router\Rule;
 use Aviat\AnimeClient\API\FailedResponseException;
-use Aviat\Ion\{Friend, Json};
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Friend;
+use Aviat\Ion\Json;
 use Aviat\Ion\Type\StringType;
 use LogicException;
 use ReflectionException;
+
 use function Aviat\Ion\_dir;
 
 /**
@@ -69,19 +74,19 @@ final class Dispatcher extends RoutingBase
 	 *
 	 * @throws ReflectionException
 	 */
-	public function __invoke(?object $route = NULL): void
+	public function __invoke(null|object $route = null): void
 	{
 		$logger = $this->container->getLogger();
 
-		if ($route === NULL)
+		if ($route === null)
 		{
 			$route = $this->getRoute();
 
 			$logger?->info('Dispatcher - Route invoke arguments');
-			$logger?->info(print_r($route, TRUE));
+			$logger?->info(print_r($route, true));
 		}
 
-		if ( ! $route)
+		if (! $route)
 		{
 			// If not route was matched, return an appropriate http
 			// error message
@@ -112,12 +117,12 @@ final class Dispatcher extends RoutingBase
 		$rawRoute = $this->request->getUri()->getPath();
 		$routePath = '/' . trim($rawRoute, '/');
 
-		if ($logger !== NULL)
+		if ($logger !== null)
 		{
 			$logger->info('Dispatcher - Routing data from get_route method');
 			$logger->info(print_r([
 				'route_path' => $routePath,
-			], TRUE));
+			], true));
 		}
 
 		return $this->matcher->match($this->request);
@@ -143,7 +148,7 @@ final class Dispatcher extends RoutingBase
 	 */
 	protected function processRoute(Friend $route): array
 	{
-		if ( ! array_key_exists('controller', $route->attributes))
+		if (! array_key_exists('controller', $route->attributes))
 		{
 			throw new LogicException('Missing controller');
 		}
@@ -151,7 +156,7 @@ final class Dispatcher extends RoutingBase
 		$controllerName = $route->attributes['controller'];
 
 		// Get the full namespace for a controller if a short name is given
-		if ( ! str_contains($controllerName, '\\'))
+		if (! str_contains($controllerName, '\\'))
 		{
 			$map = $this->getControllerList();
 			$controllerName = $map[$controllerName];
@@ -162,16 +167,18 @@ final class Dispatcher extends RoutingBase
 			: NOT_FOUND_METHOD;
 
 		$params = [];
-		if ( ! empty($route->__get('tokens')))
+		if (! empty($route->__get('tokens')))
 		{
 			$tokens = array_keys($route->__get('tokens'));
 
 			foreach ($tokens as $param)
 			{
-				if (array_key_exists($param, $route->attributes))
+				if (! array_key_exists($param, $route->attributes))
 				{
-					$params[$param] = $route->attributes[$param];
+					continue;
 				}
+
+				$params[$param] = $route->attributes[$param];
 			}
 		}
 
@@ -223,7 +230,7 @@ final class Dispatcher extends RoutingBase
 
 		$actualPath = realpath(_dir(SRC_DIR, $path));
 		$classFiles = glob("{$actualPath}/*.php");
-		if ($classFiles === FALSE)
+		if ($classFiles === false)
 		{
 			return [];
 		}
@@ -253,8 +260,7 @@ final class Dispatcher extends RoutingBase
 	{
 		$logger = $this->container->getLogger();
 
-		try
-		{
+		try {
 			$controller = new $controllerName($this->container);
 
 			// Run the appropriate controller method
@@ -295,10 +301,10 @@ final class Dispatcher extends RoutingBase
 		$logger = $this->container->getLogger();
 		$failure = $this->matcher->getFailedRoute();
 
-		if ($logger !== NULL)
+		if ($logger !== null)
 		{
 			$logger->info('Dispatcher - failed route');
-			$logger->info(print_r($failure, TRUE));
+			$logger->info(print_r($failure, true));
 		}
 
 		$actionMethod = ERROR_MESSAGE_METHOD;
@@ -376,7 +382,7 @@ final class Dispatcher extends RoutingBase
 				: 'get';
 
 			// Add the route to the router object
-			if ( ! array_key_exists('tokens', $route))
+			if (! array_key_exists('tokens', $route))
 			{
 				$routes[] = $this->router->{$verb}($name, $path)->defaults($route);
 
@@ -386,7 +392,8 @@ final class Dispatcher extends RoutingBase
 			$tokens = $route['tokens'];
 			unset($route['tokens']);
 
-			$routes[] = $this->router->{$verb}($name, $path)
+			$routes[] = $this->router
+				->{$verb}($name, $path)
 				->defaults($route)
 				->tokens($tokens);
 		}

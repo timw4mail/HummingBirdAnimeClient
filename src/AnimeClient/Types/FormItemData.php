@@ -19,17 +19,24 @@ namespace Aviat\AnimeClient\Types;
  */
 class FormItemData extends AbstractType
 {
-	public ?string $notes;
-	public ?bool $private = FALSE;
-	public ?int $progress = NULL;
-	public ?int $rating;
-	public ?int $ratingTwenty = NULL;
+	public null|string $notes;
+
+	public null|bool $private = false;
+
+	public null|int $progress = null;
+
+	public null|int $rating;
+
+	public null|int $ratingTwenty = null;
+
 	public string|int $reconsumeCount;
-	public bool $reconsuming = FALSE;
+
+	public bool $reconsuming = false;
+
 	public string $status;
 
 	/**
 	 * W3C Format Date string
 	 */
-	public ?string $updatedAt;
+	public null|string $updatedAt;
 }

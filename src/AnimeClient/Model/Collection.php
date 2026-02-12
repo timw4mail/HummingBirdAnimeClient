@@ -16,8 +16,8 @@ namespace Aviat\AnimeClient\Model;
 
 use Aviat\Ion\Di\ContainerInterface;
 use PDOException;
-
 use Query\QueryBuilderInterface;
+
 use function Query;
 
 /**
@@ -28,7 +28,7 @@ class Collection extends DB
 	/**
 	 * The query builder object
 	 */
-	protected ?QueryBuilderInterface $db;
+	protected null|QueryBuilderInterface $db;
 
 	/**
 	 * Create a new collection object
@@ -37,12 +37,10 @@ class Collection extends DB
 	{
 		parent::__construct($container);
 
-		try
-		{
+		try {
 			$this->db = Query($this->dbConfig);
 		}
-		catch (PDOException)
-		{
+		catch (PDOException) {
 			$this->db = Query([
 				'type' => 'sqlite',
 				'file' => ':memory:',
@@ -58,8 +56,8 @@ class Collection extends DB
 			if ($dbFileName !== ':memory:')
 			{
 				$rawFile = file_get_contents($dbFileName);
-				$dbFile = ($rawFile !== FALSE) ? $rawFile : '';
-				$this->db = (str_starts_with($dbFile, 'SQLite format 3')) ? $this->db : NULL;
+				$dbFile = $rawFile !== false ? $rawFile : '';
+				$this->db = str_starts_with($dbFile, 'SQLite format 3') ? $this->db : null;
 			}
 		}
 	}

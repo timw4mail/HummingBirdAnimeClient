@@ -56,7 +56,7 @@ final class PictureHelperTest extends AnimeClientTestCase
 
 		$actual = $helper('foo.svg', 'svg');
 
-		$this->assertTrue( ! str_contains($actual, '<picture'));
+		$this->assertTrue(! str_contains($actual, '<picture'));
 	}
 
 	public static function dataPictureCase(): array
@@ -122,37 +122,37 @@ final class PictureHelperTest extends AnimeClientTestCase
 		return [
 			'avif' => [
 				'ext' => 'avif',
-				'isSimple' => FALSE,
+				'isSimple' => false,
 				'fallbackExt' => 'jpf',
 			],
 			'apng' => [
 				'ext' => 'apng',
-				'isSimple' => FALSE,
+				'isSimple' => false,
 				'fallbackExt' => null,
 			],
 			'gif' => [
 				'ext' => 'gif',
-				'isSimple' => TRUE,
+				'isSimple' => true,
 				'fallbackExt' => null,
 			],
 			'jpg' => [
 				'ext' => 'jpg',
-				'isSimple' => TRUE,
+				'isSimple' => true,
 				'fallbackExt' => null,
 			],
 			'jpeg' => [
 				'ext' => 'jpeg',
-				'isSimple' => TRUE,
+				'isSimple' => true,
 				'fallbackExt' => null,
 			],
 			'png' => [
 				'ext' => 'png',
-				'isSimple' => TRUE,
+				'isSimple' => true,
 				'fallbackExt' => null,
 			],
 			'webp' => [
 				'ext' => 'webp',
-				'isSimple' => FALSE,
+				'isSimple' => false,
 				'fallbackExt' => null,
 			],
 		];

@@ -15,7 +15,8 @@
 namespace Aviat\AnimeClient;
 
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use InvalidArgumentException;
 
 /**
@@ -46,8 +47,7 @@ class UrlGenerator extends RoutingBase
 	 */
 	public function assetUrl(string ...$args): string
 	{
-		$baseUrl = rtrim($this->url(''), '/')
-			. $this->config->get('asset_path');
+		$baseUrl = rtrim($this->url(''), '/') . $this->config->get('asset_path');
 
 		array_unshift($args, $baseUrl);
 
@@ -82,7 +82,7 @@ class UrlGenerator extends RoutingBase
 
 		for ($i = 0; $i < $segmentCount; $i++)
 		{
-			if ( ! array_key_exists($i + 1, $segments))
+			if (! array_key_exists($i + 1, $segments))
 			{
 				$segments[$i + 1] = '';
 			}
@@ -105,7 +105,7 @@ class UrlGenerator extends RoutingBase
 		$type = trim($type);
 		$defaultPath = $this->config->get("default_{$type}_list_path");
 
-		if ($defaultPath !== NULL)
+		if ($defaultPath !== null)
 		{
 			return $this->url("{$type}/{$defaultPath}");
 		}
@@ -116,7 +116,7 @@ class UrlGenerator extends RoutingBase
 	private function hostUrl(string $path): string
 	{
 		$path = trim($path, '/');
-		$scheme = $this->config->get('secure_urls') !== FALSE ? 'https:' : 'http:';
+		$scheme = $this->config->get('secure_urls') !== false ? 'https:' : 'http:';
 
 		return "{$scheme}//{$this->host}/{$path}";
 	}

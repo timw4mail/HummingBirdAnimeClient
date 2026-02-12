@@ -80,16 +80,16 @@ final class ArrayTypeTest extends IonTestCase
 		];
 	}
 
- /**
-  * Test the array methods defined for the __Call method
-  */
- #[\PHPUnit\Framework\Attributes\DataProvider('dataCall')]
- public function testCall(string $method, array $array, array $args, mixed $expected): void
- {
- 	$obj = ArrayType::from($array);
- 	$actual = $obj->__call($method, $args);
- 	$this->assertSame($expected, $actual);
- }
+	/**
+	 * Test the array methods defined for the __Call method
+	 */
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataCall')]
+	public function testCall(string $method, array $array, array $args, mixed $expected): void
+	{
+		$obj = ArrayType::from($array);
+		$actual = $obj->__call($method, $args);
+		$this->assertSame($expected, $actual);
+	}
 
 	public function testSet(): void
 	{
@@ -167,7 +167,7 @@ final class ArrayTypeTest extends IonTestCase
 			'foo' => [
 				'bar' => [
 					'baz' => [
-						'foobar' => NULL,
+						'foobar' => null,
 						'one' => 1,
 					],
 				],

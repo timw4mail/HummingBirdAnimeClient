@@ -23,6 +23,7 @@ use IteratorAggregate;
 use OutOfBoundsException;
 use RuntimeException;
 use Traversable;
+
 use function mb_convert_case;
 use function mb_ereg_match;
 use function mb_ereg_replace;
@@ -36,6 +37,7 @@ use function mb_strtolower;
 use function mb_strtoupper;
 use function mb_substr;
 use function mb_substr_count;
+
 use const MB_CASE_TITLE;
 
 /**
@@ -74,6 +76,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 				'Passed value cannot be an array',
 			);
 		}
+
 		if (is_object($str) && ! method_exists($str, '__toString'))
 		{
 			throw new InvalidArgumentException(
@@ -817,7 +820,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 			if ($char === mb_substr($otherStr, $i, 1, $encoding))
 			{
 				$longestCommonPrefix .= $char;
-			} else
+			}
+			else
 			{
 				break;
 			}
@@ -846,7 +850,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 			if ($char === mb_substr($otherStr, -$i, 1, $encoding))
 			{
 				$longestCommonSuffix = $char . $longestCommonSuffix;
-			} else
+			}
+			else
 			{
 				break;
 			}
@@ -902,7 +907,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 						$len = $table[$i][$j];
 						$end = $i;
 					}
-				} else
+				}
+				else
 				{
 					$table[$i][$j] = 0;
 				}
@@ -1224,7 +1230,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		// Need to further trim the string so we can append the substring
 		$encoding = $stringy->encoding;
 		$substringLength = mb_strlen($substring, $encoding);
-		$length = $length - $substringLength;
+		$length -= $substringLength;
 
 		$truncated = mb_substr($stringy->str, 0, $length, $encoding);
 
@@ -1366,13 +1372,16 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		if ($end === null)
 		{
 			$length = $this->length();
-		} elseif ($end >= 0 && $end <= $start)
+		}
+		elseif ($end >= 0 && $end <= $start)
 		{
 			return static::create('', $this->encoding);
-		} elseif ($end < 0)
+		}
+		elseif ($end < 0)
 		{
 			$length = $this->length() + $end - $start;
-		} else
+		}
+		else
 		{
 			$length = $end - $start;
 		}
@@ -1419,7 +1428,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		if ($functionExists)
 		{
 			$array = mb_split($pattern, $this->str, $limit);
-		} elseif ($this->supportsEncoding())
+		}
+		elseif ($this->supportsEncoding())
 		{
 			$array = \preg_split("/{$pattern}/", $this->str, $limit);
 		}
@@ -1430,6 +1440,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		{
 			array_pop($array);
 		}
+
 		$arrayCount = count($array);
 
 		for ($i = 0; $i < $arrayCount; $i++)
@@ -1633,6 +1644,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		{
 			return $map[$key];
 		}
+
 		if (is_numeric($this->str))
 		{
 			return (int) $this->str > 0;
@@ -1774,7 +1786,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 
 		// Need to further trim the string so we can append the substring
 		$substringLength = mb_strlen($substring, $stringy->encoding);
-		$length = $length - $substringLength;
+		$length -= $substringLength;
 
 		$truncated = mb_substr($stringy->str, 0, $length, $stringy->encoding);
 		$stringy->str = $truncated . $substring;
@@ -2504,6 +2516,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		{
 			return mb_ereg_replace($pattern, $replacement, $string, $option);
 		}
+
 		if ($this->supportsEncoding())
 		{
 			$option = str_replace('r', '', (string) $option);
@@ -2544,9 +2557,11 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 			return true;
 		}
 
-		throw new RuntimeException('Stringy method requires the '
-		. 'mbstring module for encodings other than ASCII and UTF-8. '
-		. 'Encoding used: '
-		. $this->encoding);
+		throw new RuntimeException(
+			'Stringy method requires the '
+			. 'mbstring module for encodings other than ASCII and UTF-8. '
+			. 'Encoding used: '
+			. $this->encoding,
+		);
 	}
 }

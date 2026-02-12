@@ -15,7 +15,6 @@
 namespace Aviat\Ion;
 
 use Aviat\Ion\Exception\ImageCreationException;
-
 use GdImage;
 
 /**
@@ -26,10 +25,13 @@ use GdImage;
 class ImageBuilder
 {
 	private GDImage|false $_img;
+
 	private int $fontSize = 10;
 
-	private function __construct(private int $width = 200, private int $height = 200)
-	{
+	private function __construct(
+		private int $width = 200,
+		private int $height = 200,
+	) {
 		$this->_img = imagecreatetruecolor($this->width, $this->height);
 	}
 
@@ -51,7 +53,7 @@ class ImageBuilder
 	public static function new(int $width = 200, int $height = 200): self
 	{
 		$i = new self($width, $height);
-		if ($i->_img === FALSE)
+		if ($i->_img === false)
 		{
 			throw new ImageCreationException('Could not create image object');
 		}
@@ -69,7 +71,7 @@ class ImageBuilder
 	public function enableAlphaBlending(bool $enable): self
 	{
 		$ab = imagealphablending($this->getImg(), $enable);
-		if ( ! $ab)
+		if (! $ab)
 		{
 			throw new ImageCreationException('Failed to toggle image alpha blending');
 		}
@@ -77,13 +79,18 @@ class ImageBuilder
 		return $this;
 	}
 
-	public function addCenteredText(string $text, int $red, int $green, int $blue, int $alpha = -1): self
-	{
+	public function addCenteredText(
+		string $text,
+		int $red,
+		int $green,
+		int $blue,
+		int $alpha = -1,
+	): self {
 		// Create the font color
-		$textColor = ($alpha > -1)
+		$textColor = $alpha > -1
 			? imagecolorallocatealpha($this->getImg(), $red, $green, $blue, $alpha)
 			: imagecolorallocate($this->getImg(), $red, $green, $blue);
-		if ($textColor === FALSE)
+		if ($textColor === false)
 		{
 			throw new ImageCreationException('Could not create image text color');
 		}
@@ -104,17 +111,17 @@ class ImageBuilder
 
 	public function addBackgroundColor(int $red, int $green, int $blue, int $alpha = -1): self
 	{
-		$fillColor = ($alpha > -1)
+		$fillColor = $alpha > -1
 			? imagecolorallocatealpha($this->getImg(), $red, $green, $blue, $alpha)
 			: imagecolorallocate($this->getImg(), $red, $green, $blue);
 
-		if ($fillColor === FALSE)
+		if ($fillColor === false)
 		{
 			throw new ImageCreationException('Failed to create image fill color');
 		}
 
 		$hasFilled = imagefill($this->getImg(), 0, 0, $fillColor);
-		if ($hasFilled === FALSE)
+		if ($hasFilled === false)
 		{
 			throw new ImageCreationException('Failed to add background color to image');
 		}
@@ -122,10 +129,10 @@ class ImageBuilder
 		return $this;
 	}
 
-	public function savePng(string $savePath, bool $saveAlpha = TRUE): bool
+	public function savePng(string $savePath, bool $saveAlpha = true): bool
 	{
 		$setAlpha = imagesavealpha($this->getImg(), $saveAlpha);
-		if ($setAlpha === FALSE)
+		if ($setAlpha === false)
 		{
 			throw new ImageCreationException('Failed to set image save alpha flag');
 		}
@@ -152,7 +159,7 @@ class ImageBuilder
 	{
 		$cleaned = imagedestroy($this->getImg());
 
-		if ($cleaned === FALSE)
+		if ($cleaned === false)
 		{
 			throw new ImageCreationException('Failed to clean up image resource');
 		}

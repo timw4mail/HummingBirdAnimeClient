@@ -31,7 +31,7 @@ interface ConfigInterface
 	 * Get a config value
 	 * @param array<string|int>|int|string|null $key
 	 */
-	public function get(array|int|string|null $key = NULL): mixed;
+	public function get(array|int|string|null $key = null): mixed;
 
 	/**
 	 * Set a config value

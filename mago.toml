@@ -11,37 +11,61 @@ excludes = []
 print-width = 100
 tab-width = 4
 use-tabs = true
+
 control-brace-style = "next_line"
-expand-use-groups = false
+expand-use-groups = true
 following-clause-on-newline = true
+
 preserve-breaking-member-access-chain = true
 preserve-breaking-argument-list = true
 preserve-breaking-array-like = true
 preserve-breaking-parameter-list = true
 preserve-breaking-attribute-list = true
 preserve-breaking-conditional-expression = true
+
 space-before-arrow-function-parameter-list-parenthesis = true
 space-before-closure-parameter-list-parenthesis = true
 space-after-logical-not-unary-prefix-operator = true
-#array-table-style-alignment = false
-empty-line-after-opening-tag = false
+
+empty-line-after-control-structure = true
 empty-line-after-declare = false
+empty-line-after-enum-case = true
+empty-line-after-opening-tag = false
+empty-line-after-property = true
+empty-line-after-trait-use = true
 empty-line-before-return = true
+
+array-table-style-alignment = false
+null-type-hint = "null_pipe"
 
 [linter]
 integrations = ["phpunit"]
 
 [linter.rules]
-ambiguous-function-call = { enabled = false }
+assertion-style = { enabled = false }
+cyclomatic-complexity = { level = "warning", enabled = false }
+excessive-parameter-list = { enabled = false }
+halstead = { effort-threshold = 7000, difficulty-threshold = 15, enabled = false }
+kan-defect = { level = "warning", enabled = false }
 literal-named-argument = { enabled = false }
+no-boolean-flag-parameter = { enabled = false }
+no-ffi = { enabled = false }
+sensitive-parameter = { enabled = false }
+too-many-enum-cases = { enabled = false }
+too-many-methods = { enabled = false }
 yoda-conditions = { enabled = false }
-too-many-methods = { level = "warning", threshold = 15 }
-halstead = { effort-threshold = 7000 }
 
 [analyzer]
+# Things to skip/ignore
+allow-possibly-undefined-array-keys = true
+ignore = ["mixed-argument", "mixed-array-access", "mixed-property-access", "mixed-method-access"]
+excludes = ["tests", "test.php"]
+
+# Things to be more strict about
+analyze-dead-code = true
+check-missing-override = true
+#check-property-initialization = true
+check-use-statements = true
 find-unused-definitions = true
 find-unused-expressions = true
-analyze-dead-code = true
-check-throws = true
-allow-possibly-undefined-array-keys = true
 perform-heuristic-checks = true

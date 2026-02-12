@@ -15,6 +15,7 @@
 namespace Aviat\AnimeClient\Helper;
 
 use Aviat\Ion\Di\ContainerAware;
+
 use function in_array;
 
 /**
@@ -38,8 +39,12 @@ final class Picture
 	 * @param array<string, string> $picAttrs
 	 * @param array<string, string> $imgAttrs
 	 */
-	public function __invoke(string $uri, string $fallbackExt = 'jpg', array $picAttrs = [], array $imgAttrs = []): string
-	{
+	public function __invoke(
+		string $uri,
+		string $fallbackExt = 'jpg',
+		array $picAttrs = [],
+		array $imgAttrs = [],
+	): string {
 		$urlGenerator = $this->container->get('url-generator');
 		$helper = $this->container->get('html-helper');
 
@@ -53,7 +58,7 @@ final class Picture
 			$fallbackExt = 'png';
 		}
 
-		if ( ! str_contains($uri, '//'))
+		if (! str_contains($uri, '//'))
 		{
 			$uri = $urlGenerator->assetUrl($uri);
 		}
@@ -86,11 +91,9 @@ final class Picture
 
 		// For image types that are well-established, just return a
 		// simple <img /> element instead
-		if (
-			$ext === $fallbackExt
-			|| in_array($ext, Picture::SIMPLE_IMAGE_TYPES, TRUE)
-		) {
-			$attrs = (count($imgAttrs) > 1)
+		if ($ext === $fallbackExt || in_array($ext, Picture::SIMPLE_IMAGE_TYPES, true))
+		{
+			$attrs = count($imgAttrs) > 1
 				? $imgAttrs
 				: $picAttrs;
 

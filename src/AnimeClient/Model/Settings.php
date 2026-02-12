@@ -14,7 +14,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\Types\{Config, UndefinedPropertyException};
+use Aviat\AnimeClient\Types\Config;
+use Aviat\AnimeClient\Types\UndefinedPropertyException;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\Di\ContainerAware;
 
@@ -100,10 +101,12 @@ final class Settings
 
 				foreach (['readonly', 'disabled'] as $flag)
 				{
-					if (! array_key_exists($flag, $value))
+					if (array_key_exists($flag, $value))
 					{
-						$value[$flag] = false;
+						continue;
 					}
+
+					$value[$flag] = false;
 				}
 
 				if (! array_key_exists('display', $value))

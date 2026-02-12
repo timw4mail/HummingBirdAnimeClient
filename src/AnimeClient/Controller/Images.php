@@ -15,10 +15,12 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Throwable;
-use function Aviat\AnimeClient\{createPlaceholderImage, getResponse};
 
+use function Aviat\AnimeClient\createPlaceholderImage;
+use function Aviat\AnimeClient\getResponse;
 use function in_array;
 
 /**
@@ -36,7 +38,7 @@ final class Images extends BaseController
 	 * @throws Throwable
 	 */
 	#[Route('image_proxy', '/public/images/{type}/{file}')]
-	public function cache(string $type, string $file, bool $display = TRUE): void
+	public function cache(string $type, string $file, bool $display = true): void
 	{
 		$currentUrl = (string) $this->request->getUri();
 
@@ -49,7 +51,7 @@ final class Images extends BaseController
 		// Kitsu doesn't serve webp, but for most use cases,
 		// jpg is a safe assumption
 		$tryJpg = ['anime', 'characters', 'manga', 'people'];
-		if ($ext === 'webp' && in_array($type, $tryJpg, TRUE))
+		if ($ext === 'webp' && in_array($type, $tryJpg, true))
 		{
 			$ext = 'jpg';
 			$currentUrl = str_replace('webp', 'jpg', $currentUrl);
@@ -63,8 +65,8 @@ final class Images extends BaseController
 			],
 			'avatars' => [
 				'kitsuUrl' => "users/avatars/{$id}/original.{$ext}",
-				'width' => NULL,
-				'height' => NULL,
+				'width' => null,
+				'height' => null,
 			],
 			'characters' => [
 				'kitsuUrl' => "characters/images/{$id}/original.{$ext}",
@@ -78,14 +80,14 @@ final class Images extends BaseController
 			],
 			'people' => [
 				'kitsuUrl' => "people/images/{$id}/original.{$ext}",
-				'width' => NULL,
-				'height' => NULL,
+				'width' => null,
+				'height' => null,
 			],
 		];
 
-		$imageType = $typeMap[$type] ?? NULL;
+		$imageType = $typeMap[$type] ?? null;
 
-		if (NULL === $imageType)
+		if (null === $imageType)
 		{
 			$this->getPlaceholder($baseSavePath, 200, 200);
 
@@ -131,20 +133,20 @@ final class Images extends BaseController
 		$data = $response->getBody()->buffer();
 
 		$size = getimagesizefromstring($data);
-		if ($size === FALSE)
+		if ($size === false)
 		{
 			return;
 		}
 
 		[$origWidth] = $size;
 		$gdImg = imagecreatefromstring($data);
-		if ($gdImg === FALSE)
+		if ($gdImg === false)
 		{
 			return;
 		}
 
 		$resizedImg = imagescale($gdImg, $width ?? $origWidth);
-		if ($resizedImg === FALSE)
+		if ($resizedImg === false)
 		{
 			return;
 		}
@@ -170,11 +172,11 @@ final class Images extends BaseController
 
 		if ($display)
 		{
-			$contentType = ($ext === 'webp')
+			$contentType = $ext === 'webp'
 				? 'image/webp'
 				: $response->getHeader('content-type')[0] ?? 'image/jpeg';
 
-			$outputFile = (str_contains($file, '-original'))
+			$outputFile = str_contains($file, '-original')
 				? "{$filePrefix}-original.{$ext}"
 				: "{$filePrefix}.{$ext}";
 
@@ -186,13 +188,16 @@ final class Images extends BaseController
 	/**
 	 * Get a placeholder for a missing image
 	 */
-	private function getPlaceholder(string $path, ?int $width = NULL, ?int $height = NULL): void
-	{
+	private function getPlaceholder(
+		string $path,
+		null|int $width = null,
+		null|int $height = null,
+	): void {
 		$height ??= $width ?? 200;
 
 		$filename = $path . '/placeholder.png';
 
-		if ( ! file_exists($path . '/placeholder.png'))
+		if (! file_exists($path . '/placeholder.png'))
 		{
 			createPlaceholderImage($path, $width ?? 200, $height);
 		}

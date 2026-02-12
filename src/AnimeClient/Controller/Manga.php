@@ -19,9 +19,11 @@ use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 
 /**
@@ -57,16 +59,20 @@ final class Manga extends BaseController
 	 * Get a section of the manga list
 	 */
 	#[Route('manga.list', '/list/{status}{/view}')]
-	public function index(string $status = 'all', ?string $view = ''): void
+	public function index(string $status = 'all', null|string $view = ''): void
 	{
-		if ( ! in_array($status, [
-			'all',
-			'reading',
-			'plan_to_read',
-			'dropped',
-			'on_hold',
-			'completed',
-		], TRUE))
+		if (! in_array(
+			$status,
+			[
+				'all',
+				'reading',
+				'plan_to_read',
+				'dropped',
+				'on_hold',
+				'completed',
+			],
+			true,
+		))
 		{
 			$this->errorPage(404, 'Not Found', 'Page not found');
 		}
@@ -272,10 +278,8 @@ final class Manga extends BaseController
 		if ($data->isEmpty())
 		{
 			$this->notFound(
-				$this->config->get('whose_list') .
-					"'s Manga List &middot; Manga &middot; " .
-					'Manga not found',
-				'Manga Not Found'
+				$this->config->get('whose_list') . "'s Manga List &middot; Manga &middot; " . 'Manga not found',
+				'Manga Not Found',
 			);
 		}
 
@@ -299,10 +303,8 @@ final class Manga extends BaseController
 		if ($data->isEmpty())
 		{
 			$this->notFound(
-				$this->config->get('whose_list') .
-				"'s Manga List &middot; Manga &middot; " .
-				'Manga not found',
-				'Manga Not Found'
+				$this->config->get('whose_list') . "'s Manga List &middot; Manga &middot; " . 'Manga not found',
+				'Manga Not Found',
 			);
 		}
 

@@ -15,7 +15,8 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp\Future;
-use Amp\Http\Client\{Request, Response};
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
 use Throwable;
 
 use function Amp\async;
@@ -36,9 +37,9 @@ final class ParallelAPIRequest
 	/**
 	 * Add a request
 	 */
-	public function addRequest(string|Request $request, string|int|null $key = NULL): self
+	public function addRequest(string|Request $request, string|int|null $key = null): self
 	{
-		if ($key !== NULL)
+		if ($key !== null)
 		{
 			$this->requests[$key] = $request;
 
@@ -106,6 +107,7 @@ final class ParallelAPIRequest
 		{
 			$uri = new Request($uri);
 		}
+
 		$response = $client->request($uri);
 
 		return $response->getBody()->buffer();

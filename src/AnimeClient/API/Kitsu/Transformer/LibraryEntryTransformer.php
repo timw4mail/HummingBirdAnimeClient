@@ -15,7 +15,9 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{AnimeListItem, FormItem, MangaListItem, MangaListItemDetail};
+use Aviat\AnimeClient\Types\AnimeListItem;
+use Aviat\AnimeClient\Types\MangaListItem;
+use Aviat\AnimeClient\Types\MangaListItemDetail;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 

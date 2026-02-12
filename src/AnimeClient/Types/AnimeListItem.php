@@ -19,9 +19,11 @@ namespace Aviat\AnimeClient\Types;
  */
 final class AnimeListItem extends AbstractType
 {
-	public ?string $id;
-	public ?string $anilist_id;
-	public ?string $mal_id;
+	public null|string $id;
+
+	public null|string $anilist_id;
+
+	public null|string $mal_id;
 
 	/**
 	 * @var array<string, int|string>
@@ -40,11 +42,17 @@ final class AnimeListItem extends AbstractType
 		'started' => '',
 		'ended' => '',
 	];
-	public ?Anime $anime;
-	public ?string $notes;
-	public bool $private = FALSE;
-	public bool $rewatching = FALSE;
+
+	public null|Anime $anime;
+
+	public null|string $notes;
+
+	public bool $private = false;
+
+	public bool $rewatching = false;
+
 	public int $rewatched = 0;
+
 	public string|int $user_rating = '';
 
 	/**

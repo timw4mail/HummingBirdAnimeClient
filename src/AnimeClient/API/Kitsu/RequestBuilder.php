@@ -14,16 +14,20 @@
 
 namespace Aviat\AnimeClient\API\Kitsu;
 
-use Amp\Http\Client\{Request, Response};
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
 use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\AnimeClient\Kitsu as K;
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\{Event, Json, JsonException};
-
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
 use LogicException;
+
 use function Aviat\AnimeClient\getResponse;
 use function in_array;
-use const Aviat\AnimeClient\{SESSION_SEGMENT, USER_AGENT};
+
+use const Aviat\AnimeClient\SESSION_SEGMENT;
+use const Aviat\AnimeClient\USER_AGENT;
 
 final class RequestBuilder extends APIRequestBuilder
 {
@@ -65,27 +69,28 @@ final class RequestBuilder extends APIRequestBuilder
 	{
 		$request = $this->newRequest($type, $url);
 
-		$sessionSegment = $this->getContainer()
+		$sessionSegment = $this
+			->getContainer()
 			->get('session')
 			->getSegment(SESSION_SEGMENT);
 
 		$cache = $this->getContainer()->get('cache');
-		$token = NULL;
+		$token = null;
 
 		if ($cache->has(K::AUTH_TOKEN_CACHE_KEY))
 		{
 			$token = $cache->get(K::AUTH_TOKEN_CACHE_KEY);
 		}
-		elseif ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== NULL)
+		elseif ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== null)
 		{
 			$token = $sessionSegment->get('auth_token');
-			if ( ! empty($token))
+			if (! empty($token))
 			{
 				$cache->set(K::AUTH_TOKEN_CACHE_KEY, $token);
 			}
 		}
 
-		if ($token !== NULL)
+		if ($token !== null)
 		{
 			$request = $request->setAuth('bearer', $token);
 		}
@@ -125,10 +130,10 @@ final class RequestBuilder extends APIRequestBuilder
 		$response = getResponse($request);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if (! in_array($response->getStatus(), $validResponseCodes, true))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			$logger?->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			$logger?->warning('Non 200 response for GraphQL call', (array) $response->getBody());
 		}
 
 		return Json::decode($response->getBody()->buffer());
@@ -146,10 +151,10 @@ final class RequestBuilder extends APIRequestBuilder
 		$response = getResponse($request);
 		$validResponseCodes = [200, 201];
 
-		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if (! in_array($response->getStatus(), $validResponseCodes, true))
 		{
 			$logger = $this->container->getLogger('kitsu-graphql');
-			$logger?->warning('Non 200 response for GraphQL call', (array)$response->getBody());
+			$logger?->warning('Non 200 response for GraphQL call', (array) $response->getBody());
 		}
 
 		return Json::decode($response->getBody()->buffer());
@@ -183,7 +188,7 @@ final class RequestBuilder extends APIRequestBuilder
 	public function queryRequest(string $name, array $variables = []): Request
 	{
 		$file = realpath("{$this->filePath}/Queries/{$name}.graphql");
-		if ($file === FALSE || ! file_exists($file))
+		if ($file === false || ! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');
 		}
@@ -193,7 +198,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if ( ! empty($variables))
+		if (! empty($variables))
 		{
 			$body['variables'] = [];
 
@@ -215,7 +220,7 @@ final class RequestBuilder extends APIRequestBuilder
 	public function mutateRequest(string $name, array $variables = []): Request
 	{
 		$file = realpath("{$this->filePath}/Mutations/{$name}.graphql");
-		if ($file === FALSE || ! file_exists($file))
+		if ($file === false || ! file_exists($file))
 		{
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}
@@ -225,7 +230,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if ( ! empty($variables))
+		if (! empty($variables))
 		{
 			$body['variables'] = [];
 

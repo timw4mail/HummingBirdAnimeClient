@@ -20,16 +20,19 @@ class Config extends AbstractType
 	// Config files/namespaces
 	// ------------------------------------------------------------------------
 
-	public ?Config\Anilist $anilist;
-	public ?Config\Cache $cache;
-	public ?Config\Database $database;
+	public null|Config\Anilist $anilist;
+
+	public null|Config\Cache $cache;
+
+	public null|Config\Database $database;
 
 	// ------------------------------------------------------------------------
 	// Settings in config.toml
 	// ------------------------------------------------------------------------
 
 	public string $root; // Path to app root
-	public ?string $asset_path; // Path to public folder for urls
+
+	public null|string $asset_path; // Path to public folder for urls
 
 	/**
 	 * The PHP timezone
@@ -40,38 +43,41 @@ class Config extends AbstractType
 	 * Default Anime list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title
 	 */
-	public ?string $default_anime_list_path;
+	public null|string $default_anime_list_path;
 
 	/**
 	 * The list to redirect to from the root url
 	 * 'anime' or 'manga'
 	 */
-	public ?string $default_list;
+	public null|string $default_list;
 
 	/**
 	 * Default Manga list status page, values are listed in
 	 * Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title
 	 */
-	public ?string $default_manga_list_path;
+	public null|string $default_manga_list_path;
 
 	/**
 	 * Default list view type
 	 * 'cover_view' or 'list_view'
 	 */
-	public ?string $default_view_type;
+	public null|string $default_view_type;
 
-	public ?string $kitsu_username;
-	public bool $secure_urls = TRUE;
-	public string|bool $show_anime_collection = FALSE;
-	public string|bool $show_manga_collection = FALSE;
+	public null|string $kitsu_username;
+
+	public bool $secure_urls = true;
+
+	public string|bool $show_anime_collection = false;
+
+	public string|bool $show_manga_collection = false;
 
 	/**
 	 * CSS theme: light, dark, or auto-switching
 	 * 'auto', 'light', or 'dark'
 	 */
-	public ?string $theme = 'auto';
+	public null|string $theme = 'auto';
 
-	public ?string $whose_list;
+	public null|string $whose_list;
 
 	/**
 	 * @var array<string, string>
@@ -87,12 +93,17 @@ class Config extends AbstractType
 	// Generated config values
 	// ------------------------------------------------------------------------
 
-	public ?string $asset_dir; // Path to public folder for local files
-	public ?string $base_config_dir;
-	public ?string $config_dir;
-	public ?string $data_cache_path;
-	public ?string $img_cache_path;
-	public ?string $view_path;
+	public null|string $asset_dir; // Path to public folder for local files
+
+	public null|string $base_config_dir;
+
+	public null|string $config_dir;
+
+	public null|string $data_cache_path;
+
+	public null|string $img_cache_path;
+
+	public null|string $view_path;
 
 	public function setAnilist(mixed $data): void
 	{

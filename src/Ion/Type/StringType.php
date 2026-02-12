@@ -24,7 +24,7 @@ final class StringType extends Stringy
 	/**
 	 * Alias for `create` static constructor
 	 */
-	public static function from(string $str = '', ?string $encoding = NULL): Stringy
+	public static function from(string $str = '', null|string $encoding = null): Stringy
 	{
 		return self::create($str, $encoding);
 	}

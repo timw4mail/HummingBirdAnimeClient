@@ -29,12 +29,12 @@ trait MutationTrait
 	 * Create a list item
 	 * @param array<string, mixed> $data
 	 */
-	public function createListItem(array $data): ?Request
+	public function createListItem(array $data): null|Request
 	{
 		$data['user_id'] = $this->getUserId();
-		if ($data['id'] === NULL)
+		if ($data['id'] === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		return $this->listItem->create($data);

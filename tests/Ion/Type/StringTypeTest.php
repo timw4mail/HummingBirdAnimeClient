@@ -15,8 +15,11 @@
 namespace Aviat\Ion\Tests\Type;
 
 use Aviat\Ion\Tests\IonTestCase;
-use Aviat\Ion\Type\{StringType, Stringy};
-use PHPUnit\Framework\Attributes\{DataProvider, IgnoreClassForCodeCoverage, Test};
+use Aviat\Ion\Type\StringType;
+use Aviat\Ion\Type\Stringy;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @internal
@@ -30,27 +33,27 @@ final class StringTypeTest extends IonTestCase
 			'space separated' => [
 				'str1' => 'foo bar baz',
 				'str2' => 'foo-bar-baz',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			'camelCase' => [
 				'str1' => 'fooBarBaz',
 				'str2' => 'foo-bar-baz',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			'PascalCase' => [
 				'str1' => 'FooBarBaz',
 				'str2' => 'foo-bar-baz',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			'snake_case' => [
 				'str1' => 'foo_bar_baz',
 				'str2' => 'foo-bar-baz',
-				'expected' => TRUE,
+				'expected' => true,
 			],
 			'mEsSYcAse' => [
 				'str1' => 'fOObArBAZ',
 				'str2' => 'foo-bar-baz',
-				'expected' => FALSE,
+				'expected' => false,
 			],
 		];
 	}

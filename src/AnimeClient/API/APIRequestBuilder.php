@@ -14,17 +14,17 @@
 
 namespace Aviat\AnimeClient\API;
 
-use Amp\Future;
 use Amp\Http\Client\Form;
-use Amp\Http\Client\{HttpClientBuilder, HttpException, Request};
+use Amp\Http\Client\HttpClientBuilder;
+use Amp\Http\Client\HttpException;
+use Amp\Http\Client\Request;
 use Aviat\Ion\Json;
-
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 use Throwable;
 
-use function Amp\async;
 use function Aviat\AnimeClient\getResponse;
+
 use const Aviat\AnimeClient\USER_AGENT;
 
 /**
@@ -76,10 +76,10 @@ abstract class APIRequestBuilder
 	 */
 	public static function simpleRequest(string $uri): Request
 	{
-		$request = (new Request($uri));
+		$request = new Request($uri);
 		$request->setHeader('User-Agent', USER_AGENT);
-		$request->setTcpConnectTimeout(300000);
-		$request->setTransferTimeout(300000);
+		$request->setTcpConnectTimeout(300_000);
+		$request->setTransferTimeout(300_000);
 
 		return $request;
 	}
@@ -125,9 +125,12 @@ abstract class APIRequestBuilder
 	 */
 	public function setFormFields(array $fields): self
 	{
-		$body = new Form;
+		$body = new Form();
 
-		array_walk($fields, static fn (string $content, string $name) => $body->addField($name, $content));
+		array_walk($fields, static fn (string $content, string $name) => $body->addField(
+			$name,
+			$content,
+		));
 
 		return $this->setBody($body);
 	}
@@ -145,14 +148,14 @@ abstract class APIRequestBuilder
 	/**
 	 * Set a request header
 	 */
-	public function setHeader(string $name, ?string $value = NULL): self
+	public function setHeader(string $name, null|string $value = null): self
 	{
 		if ($name === '')
 		{
 			return $this;
 		}
 
-		if ($value === NULL)
+		if ($value === null)
 		{
 			$this->unsetHeader($name);
 		}
@@ -172,7 +175,7 @@ abstract class APIRequestBuilder
 	 */
 	public function setHeaders(array $headers): self
 	{
-		array_walk($headers, fn (?string $value, string $name) => $this->setHeader($name, $value));
+		array_walk($headers, fn (null|string $value, string $name) => $this->setHeader($name, $value));
 
 		return $this;
 	}
@@ -182,7 +185,7 @@ abstract class APIRequestBuilder
 	 */
 	public function setJsonBody(mixed $body): self
 	{
-		$requestBody = (is_string($body))
+		$requestBody = is_string($body)
 			? $body
 			: Json::encode($body);
 
@@ -213,7 +216,8 @@ abstract class APIRequestBuilder
 		$this->logger?->debug('API Request', [
 			'request_url' => $this->request->getUri(),
 			'request_headers' => $this->request->getHeaders(),
-			'request_body' => $this->request->getBody()
+			'request_body' => $this->request
+				->getBody()
 				->getContent()
 				->read(),
 		]);
@@ -240,12 +244,12 @@ abstract class APIRequestBuilder
 	 */
 	public function newRequest(string $type, string $uri): self
 	{
-		if ( ! in_array($type, $this->validMethods, TRUE))
+		if (! in_array($type, $this->validMethods, true))
 		{
 			throw new InvalidArgumentException('Invalid HTTP method');
 		}
 
-		$realUrl = (str_contains($uri, '//'))
+		$realUrl = str_contains($uri, '//')
 			? $uri
 			: $this->baseUrl . $uri;
 
@@ -255,7 +259,7 @@ abstract class APIRequestBuilder
 		// Actually create the full url!
 		$this->buildUri();
 
-		if ( ! empty($this->defaultHeaders))
+		if (! empty($this->defaultHeaders))
 		{
 			$this->setHeaders($this->defaultHeaders);
 		}
@@ -268,11 +272,11 @@ abstract class APIRequestBuilder
 	 */
 	private function buildUri(): Request
 	{
-		$url = (str_contains($this->path, '//'))
+		$url = str_contains($this->path, '//')
 			? $this->path
 			: $this->baseUrl . $this->path;
 
-		if ( ! empty($this->query))
+		if (! empty($this->query))
 		{
 			$url .= '?' . $this->query;
 		}
@@ -285,16 +289,16 @@ abstract class APIRequestBuilder
 	/**
 	 * Reset the class state for a new request
 	 */
-	private function resetState(?string $url, string $type = 'GET'): void
+	private function resetState(null|string $url, string $type = 'GET'): void
 	{
 		$requestUrl = $url ?: $this->baseUrl;
 
 		$this->path = '';
 		$this->query = '';
 		$this->request = new Request($requestUrl, $type);
-		$this->request->setInactivityTimeout(300000);
-		$this->request->setTlsHandshakeTimeout(300000);
-		$this->request->setTcpConnectTimeout(300000);
-		$this->request->setTransferTimeout(300000);
+		$this->request->setInactivityTimeout(300_000);
+		$this->request->setTlsHandshakeTimeout(300_000);
+		$this->request->setTcpConnectTimeout(300_000);
+		$this->request->setTransferTimeout(300_000);
 	}
 }

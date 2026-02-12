@@ -24,7 +24,7 @@ const SETTINGS_MAP = [
 		'enabled' => [
 			'type' => 'boolean',
 			'title' => 'Enable Anilist Integration',
-			'default' => FALSE,
+			'default' => false,
 			'description' => 'Enable syncing data between Kitsu and Anilist. Requires appropriate API keys to be set in config',
 		],
 		'client_id' => [
@@ -50,26 +50,26 @@ const SETTINGS_MAP = [
 			'title' => 'API Access Token',
 			'default' => '',
 			'description' => 'The Access code for accessing the Anilist API',
-			'readonly' => TRUE,
+			'readonly' => true,
 		],
 		'access_token_expires' => [
 			'type' => 'string',
 			'title' => 'Expiration timestamp of the access token',
 			'default' => '0',
 			'description' => 'The unix timestamp of when the access token expires.',
-			'readonly' => TRUE,
+			'readonly' => true,
 		],
 		'refresh_token' => [
 			'type' => 'string',
 			'title' => 'API Refresh Token',
 			'default' => '',
 			'description' => 'Token to refresh the access token before it expires',
-			'readonly' => TRUE,
+			'readonly' => true,
 		],
 		'special_hidden_flag' => [
 			'type' => 'string',
 			'title' => '',
-			'display' => FALSE,
+			'display' => false,
 			'description' => '',
 			'value' => 'foo_bar',
 		],
@@ -100,19 +100,19 @@ const SETTINGS_MAP = [
 					'type' => 'string',
 					'title' => 'Cache Port',
 					'description' => 'Port of the cache backend to connect to',
-					'default' => NULL,
+					'default' => null,
 				],
 				'password' => [
 					'type' => 'string',
 					'title' => 'Cache Password',
 					'description' => 'Password to connect to cache backend',
-					'default' => NULL,
+					'default' => null,
 				],
 				'persistent' => [
 					'type' => 'boolean',
 					'title' => 'Persistent Cache Connection',
 					'description' => 'Whether to have a persistent connection to the cache',
-					'default' => FALSE,
+					'default' => false,
 				],
 				'database' => [
 					'type' => 'string',
@@ -150,13 +150,13 @@ const SETTINGS_MAP = [
 		'show_anime_collection' => [
 			'type' => 'boolean',
 			'title' => 'Show Anime Collection',
-			'default' => FALSE,
+			'default' => false,
 			'description' => 'Should the anime collection be shown?',
 		],
 		'show_manga_collection' => [
 			'type' => 'boolean',
 			'title' => 'Show Manga Collection',
-			'default' => FALSE,
+			'default' => false,
 			'description' => 'Should the manga collection be shown?',
 		],
 		'default_list' => [
@@ -226,7 +226,7 @@ const SETTINGS_MAP = [
 			'type' => 'string',
 			'title' => 'Port',
 			'description' => 'Database connection port',
-			'default' => NULL,
+			'default' => null,
 		],
 		'database' => [
 			'type' => 'string',

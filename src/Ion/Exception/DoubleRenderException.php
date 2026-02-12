@@ -25,8 +25,11 @@ class DoubleRenderException extends LogicException
 	/**
 	 * DoubleRenderException constructor.
 	 */
-	public function __construct(string $message = 'A view can only be rendered once, because headers can only be sent once.', int $code = 0, ?Exception $previous = NULL)
-	{
+	public function __construct(
+		string $message = 'A view can only be rendered once, because headers can only be sent once.',
+		int $code = 0,
+		null|Exception $previous = null,
+	) {
 		parent::__construct($message, $code, $previous);
 	}
 }

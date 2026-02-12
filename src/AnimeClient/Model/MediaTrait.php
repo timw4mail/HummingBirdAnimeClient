@@ -14,11 +14,14 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\{Anilist, Kitsu, ParallelAPIRequest};
-use Aviat\AnimeClient\Types\{AnimeListItem, FormItem, MangaListItem};
+use Aviat\AnimeClient\API\Anilist;
+use Aviat\AnimeClient\API\Kitsu;
+use Aviat\AnimeClient\API\ParallelAPIRequest;
+use Aviat\AnimeClient\Types\AnimeListItem;
+use Aviat\AnimeClient\Types\FormItem;
+use Aviat\AnimeClient\Types\MangaListItem;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
-
 use Throwable;
 
 /**
@@ -58,7 +61,7 @@ trait MediaTrait
 	 *
 	 * @return mixed[]
 	 */
-	public function search(string $name, bool $inCollection = FALSE): array
+	public function search(string $name, bool $inCollection = false): array
 	{
 		$data = $this->kitsuModel->search($this->type, urldecode($name));
 
@@ -91,9 +94,9 @@ trait MediaTrait
 	{
 		$requester = new ParallelAPIRequest();
 		$kitsuRequest = $this->kitsuModel->createListItem($data);
-		if ($kitsuRequest === NULL)
+		if ($kitsuRequest === null)
 		{
-			return FALSE;
+			return false;
 		}
 
 		$requester->addRequest($kitsuRequest, 'kitsu');
@@ -102,7 +105,7 @@ trait MediaTrait
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->createListItem($data, strtoupper($this->type));
-			if ($maybeRequest !== NULL)
+			if ($maybeRequest !== null)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');
 			}
@@ -128,7 +131,7 @@ trait MediaTrait
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->incrementListItem($data, strtoupper($this->type));
-			if ($maybeRequest !== NULL)
+			if ($maybeRequest !== null)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');
 			}
@@ -160,7 +163,7 @@ trait MediaTrait
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->updateListItem($data, strtoupper($this->type));
-			if ($maybeRequest !== NULL)
+			if ($maybeRequest !== null)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');
 			}
@@ -191,7 +194,7 @@ trait MediaTrait
 		{
 			// If can't map MAL id, this will be null
 			$maybeRequest = $this->anilistModel->deleteItem($data, strtoupper($this->type));
-			if ($maybeRequest !== NULL)
+			if ($maybeRequest !== null)
 			{
 				$requester->addRequest($maybeRequest, 'anilist');
 			}

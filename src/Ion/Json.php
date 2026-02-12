@@ -32,7 +32,7 @@ class Json
 		$json = json_encode($data, $options, $depth);
 		self::check_json_error();
 
-		return ($json !== FALSE) ? $json : '';
+		return $json !== false ? $json : '';
 	}
 
 	/**
@@ -42,13 +42,17 @@ class Json
 	 * @param int $fileOptions - Options to pass to file_get_contents
 	 * @throws JsonException
 	 */
-	public static function encodeFile(string $filename, mixed $data, int $jsonOptions = 0, int $fileOptions = 0): int
-	{
+	public static function encodeFile(
+		string $filename,
+		mixed $data,
+		int $jsonOptions = 0,
+		int $fileOptions = 0,
+	): int {
 		$json = self::encode($data, $jsonOptions);
 
 		$res = file_put_contents($filename, $json, $fileOptions);
 
-		return ($res !== FALSE) ? $res : 0;
+		return $res !== false ? $res : 0;
 	}
 
 	/**
@@ -56,12 +60,16 @@ class Json
 	 *
 	 * @param int<1, max> $depth
 	 */
-	public static function decode(?string $json, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
-	{
+	public static function decode(
+		null|string $json,
+		bool $assoc = true,
+		int $depth = 512,
+		int $options = 0,
+	): mixed {
 		// Don't try to decode null
-		if ($json === NULL)
+		if ($json === null)
 		{
-			return NULL;
+			return null;
 		}
 
 		$data = json_decode($json, $assoc, $depth, $options);
@@ -76,10 +84,14 @@ class Json
 	 *
 	 * @param int<1, max> $depth
 	 */
-	public static function decodeFile(string $filename, bool $assoc = TRUE, int $depth = 512, int $options = 0): mixed
-	{
+	public static function decodeFile(
+		string $filename,
+		bool $assoc = true,
+		int $depth = 512,
+		int $options = 0,
+	): mixed {
 		$rawJson = file_get_contents($filename);
-		$json = ($rawJson !== FALSE) ? $rawJson : '';
+		$json = $rawJson !== false ? $rawJson : '';
 
 		return self::decode($json, $assoc, $depth, $options);
 	}

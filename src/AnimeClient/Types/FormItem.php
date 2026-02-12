@@ -20,9 +20,12 @@ namespace Aviat\AnimeClient\Types;
 class FormItem extends AbstractType
 {
 	public string|int $id;
-	public string|int|NULL $mal_id;
-	public string|int|NULL $anilist_id;
-	public ?FormItemData $data;
+
+	public string|int|null $mal_id;
+
+	public string|int|null $anilist_id;
+
+	public null|FormItemData $data;
 
 	public function setData(mixed $value): void
 	{

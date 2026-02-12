@@ -15,7 +15,10 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{FormItem, FormItemData, MangaListItem, MangaListItemDetail};
+use Aviat\AnimeClient\Types\FormItem;
+use Aviat\AnimeClient\Types\FormItemData;
+use Aviat\AnimeClient\Types\MangaListItem;
+use Aviat\AnimeClient\Types\MangaListItemDetail;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 
@@ -63,11 +66,13 @@ final class MangaListTransformer extends AbstractTransformer
 		{
 			foreach ($mappings as $mapping)
 			{
-				if ($mapping['externalSite'] === 'MYANIMELIST_MANGA')
+				if ($mapping['externalSite'] !== 'MYANIMELIST_MANGA')
 				{
-					$MALid = $mapping['externalId'];
-					break;
+					continue;
 				}
+
+				$MALid = $mapping['externalId'];
+				break;
 			}
 		}
 

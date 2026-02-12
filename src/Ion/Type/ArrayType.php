@@ -15,6 +15,7 @@
 namespace Aviat\Ion\Type;
 
 use InvalidArgumentException;
+
 use function in_array;
 
 /**
@@ -74,7 +75,7 @@ class ArrayType
 	 */
 	private function __construct(array &$arr)
 	{
-		$this->arr =& $arr;
+		$this->arr = &$arr;
 	}
 
 	/**
@@ -89,6 +90,7 @@ class ArrayType
 		if (array_key_exists($method, $this->nativeMethods))
 		{
 			$func = $this->nativeMethods[$method];
+
 			// Set the current array as the first argument of the method
 			return $func($this->arr, ...$args);
 		}
@@ -122,19 +124,19 @@ class ArrayType
 	{
 		if (\is_array($key))
 		{
-			$pos =& $this->arr;
+			$pos = &$this->arr;
 
 			foreach ($key as $level)
 			{
-				if ( ! array_key_exists($level, $pos))
+				if (! array_key_exists($level, $pos))
 				{
-					return FALSE;
+					return false;
 				}
 
-				$pos =& $pos[$level];
+				$pos = &$pos[$level];
 			}
 
-			return TRUE;
+			return true;
 		}
 
 		return array_key_exists($key, $this->arr);
@@ -163,7 +165,7 @@ class ArrayType
 	/**
 	 * Find an array key by its associated value
 	 */
-	public function search(mixed $value, bool $strict = TRUE): int|string|false|null
+	public function search(mixed $value, bool $strict = true): int|string|false|null
 	{
 		return array_search($value, $this->arr, $strict);
 	}
@@ -171,7 +173,7 @@ class ArrayType
 	/**
 	 * Determine if the array has the passed value
 	 */
-	public function has(mixed $value, bool $strict = TRUE): bool
+	public function has(mixed $value, bool $strict = true): bool
 	{
 		return in_array($value, $this->arr, $strict);
 	}
@@ -179,18 +181,18 @@ class ArrayType
 	/**
 	 * Return the array, or a key
 	 */
-	public function &get(string|int|null $key = NULL): mixed
+	public function &get(string|int|null $key = null): mixed
 	{
-		$value = NULL;
-		if ($key === NULL)
+		$value = null;
+		if ($key === null)
 		{
-			$value =& $this->arr;
+			$value = &$this->arr;
 		}
 		else
 		{
 			if ($this->hasKey($key))
 			{
-				$value =& $this->arr[$key];
+				$value = &$this->arr[$key];
 			}
 		}
 
@@ -217,7 +219,7 @@ class ArrayType
 	 */
 	public function &getDeepKey(array $key): mixed
 	{
-		$pos =& $this->arr;
+		$pos = &$this->arr;
 
 		foreach ($key as $level)
 		{
@@ -227,12 +229,10 @@ class ArrayType
 				// result in a reference error. This isn't
 				// excess code, just what's required for this
 				// unique situation.
-				$pos = NULL;
-
-				return $pos;
+				return null;
 			}
 
-			$pos =& $pos[$level];
+			$pos = &$pos[$level];
 		}
 
 		return $pos;
@@ -247,19 +247,19 @@ class ArrayType
 	 */
 	public function setDeepKey(array $key, mixed $value): array
 	{
-		$pos =& $this->arr;
+		$pos = &$this->arr;
 
 		// Iterate through the levels of the array,
 		// create the levels if they don't exist
 		foreach ($key as $level)
 		{
-			if ( ! \is_array($pos) && empty($pos))
+			if (! \is_array($pos) && empty($pos))
 			{
 				$pos = [];
 				$pos[$level] = [];
 			}
 
-			$pos =& $pos[$level];
+			$pos = &$pos[$level];
 		}
 
 		$pos = $value;

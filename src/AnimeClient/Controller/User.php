@@ -17,10 +17,11 @@ namespace Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
-
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for handling routes that don't fit elsewhere
@@ -69,12 +70,14 @@ final class User extends BaseController
 			: $username;
 
 		$rawData = $this->kitsuModel->getUserData($username);
-		if ($rawData['data']['findProfileBySlug'] === NULL)
+		if ($rawData['data']['findProfileBySlug'] === null)
 		{
 			$this->notFound('Sorry, user not found', "The user '{$username}' does not seem to exist.");
 		}
 
-		$data = (new UserTransformer())->transform($rawData)->toArray();
+		$data = new UserTransformer()
+			->transform($rawData)
+			->toArray();
 
 		$this->outputHTML('user/details', [
 			'title' => 'About ' . $whom,

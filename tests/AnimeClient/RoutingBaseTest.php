@@ -32,7 +32,7 @@ final class RoutingBaseTest extends AnimeClientTestCase
 				'requestUri' => '  //      ',
 				'path' => '/',
 				'segments' => ['', ''],
-				'lastSegment' => NULL,
+				'lastSegment' => null,
 			],
 			'three_segments' => [
 				'requestUri' => '/anime/watching/list  ',
@@ -43,24 +43,28 @@ final class RoutingBaseTest extends AnimeClientTestCase
 		];
 	}
 
-		#[\PHPUnit\Framework\Attributes\DataProvider('dataSegments')]
-	 public function testSegments(string $requestUri, string $path, array $segments, ?string $lastSegment): void
-	 {
-	 	$this->setSuperGlobals([
-	 		'_SERVER' => [
-	 			'REQUEST_URI' => $requestUri,
-	 		],
-	 	]);
+	#[\PHPUnit\Framework\Attributes\DataProvider('dataSegments')]
+	public function testSegments(
+		string $requestUri,
+		string $path,
+		array $segments,
+		null|string $lastSegment,
+	): void {
+		$this->setSuperGlobals([
+			'_SERVER' => [
+				'REQUEST_URI' => $requestUri,
+			],
+		]);
 
-	 	$routingBase = new ConcreteRoutingBase($this->container);
+		$routingBase = new ConcreteRoutingBase($this->container);
 
-	 	$this->assertSame($path, $routingBase->path(), 'Path is invalid');
-	 	$this->assertSame($segments, $routingBase->segments(), 'Segments array is invalid');
-	 	$this->assertEquals($lastSegment, $routingBase->lastSegment(), 'Last segment is invalid');
+		$this->assertSame($path, $routingBase->path(), 'Path is invalid');
+		$this->assertSame($segments, $routingBase->segments(), 'Segments array is invalid');
+		$this->assertEquals($lastSegment, $routingBase->lastSegment(), 'Last segment is invalid');
 
-	 	foreach ($segments as $i => $value)
-	 	{
-	 		$this->assertEquals($value, $routingBase->getSegment($i), "Segment {$i} is invalid");
-	 	}
-	 }
+		foreach ($segments as $i => $value)
+		{
+			$this->assertEquals($value, $routingBase->getSegment($i), "Segment {$i} is invalid");
+		}
+	}
 }

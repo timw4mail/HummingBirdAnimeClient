@@ -17,14 +17,21 @@ namespace Aviat\AnimeClient;
 use Aura\Router\Generator;
 use Aura\Session\Segment;
 use Aviat\AnimeClient\API\Kitsu\Auth;
-use Aviat\Ion\{ConfigInterface, Event};
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface, Exception\ContainerException, Exception\NotFoundException};
+use Aviat\Ion\ConfigInterface;
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+use Aviat\Ion\Event;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Type\EventType;
-use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\View\HtmlView;
+use Aviat\Ion\View\HttpView;
+use Aviat\Ion\View\JsonView;
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
+
 use function Aviat\Ion\_dir;
 use function is_array;
 
@@ -134,11 +141,11 @@ class Controller
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function setSessionRedirect(?string $url = NULL): void
+	public function setSessionRedirect(null|string $url = null): void
 	{
 		$serverParams = $this->request->getServerParams();
 
-		if ( ! array_key_exists('HTTP_REFERER', $serverParams))
+		if (! array_key_exists('HTTP_REFERER', $serverParams))
 		{
 			return;
 		}
@@ -155,7 +162,7 @@ class Controller
 			return;
 		}
 
-		if (NULL === $url)
+		if (null === $url)
 		{
 			$url = $util->isViewPage()
 				? (string) $this->request->getUri()
@@ -177,7 +184,7 @@ class Controller
 		$target = $this->session->get('redirect_url') ?? '/';
 
 		$this->redirect($target, 303);
-		$this->session->set('redirect_url', NULL);
+		$this->session->set('redirect_url', null);
 	}
 
 	/**
@@ -185,12 +192,12 @@ class Controller
 	 */
 	protected function checkAuth(): void
 	{
-		if ( ! $this->auth->isAuthenticated())
+		if (! $this->auth->isAuthenticated())
 		{
 			$this->errorPage(
 				403,
 				'Forbidden',
-				'You must <a href="/login">log in</a> to perform this action.'
+				'You must <a href="/login">log in</a> to perform this action.',
 			);
 		}
 	}
@@ -206,11 +213,11 @@ class Controller
 		$data = array_merge($this->baseData, $data);
 
 		$route = $router->getRoute();
-		$data['route_path'] = $route !== FALSE ? $route->path : '';
+		$data['route_path'] = $route !== false ? $route->path : '';
 
 		$templatePath = _dir($this->config->get('view_path'), "{$template}.php");
 
-		if ( ! is_file($templatePath))
+		if (! is_file($templatePath))
 		{
 			throw new InvalidArgumentException("Invalid template : {$template}");
 		}
@@ -253,12 +260,17 @@ class Controller
 	 */
 	public function notFound(
 		string $title = 'Sorry, page not found',
-		string $message = 'Page Not Found'
+		string $message = 'Page Not Found',
 	): never {
-		$this->outputHTML('404', [
-			'title' => $title,
-			'message' => $message,
-		], NULL, 404);
+		$this->outputHTML(
+			'404',
+			[
+				'title' => $title,
+				'message' => $message,
+			],
+			null,
+			404,
+		);
 
 		exit();
 	}
@@ -268,13 +280,22 @@ class Controller
 	 *
 	 * @throws InvalidArgumentException
 	 */
-	public function errorPage(int $httpCode, string $title, string $message, string $longMessage = ''): void
-	{
-		$this->outputHTML('error', [
-			'title' => $title,
-			'message' => $message,
-			'long_message' => $longMessage,
-		], NULL, $httpCode);
+	public function errorPage(
+		int $httpCode,
+		string $title,
+		string $message,
+		string $longMessage = '',
+	): void {
+		$this->outputHTML(
+			'error',
+			[
+				'title' => $title,
+				'message' => $message,
+				'long_message' => $longMessage,
+			],
+			null,
+			$httpCode,
+		);
 	}
 
 	/**
@@ -296,7 +317,7 @@ class Controller
 	{
 		static $messages;
 
-		if ( ! $messages)
+		if (! $messages)
 		{
 			$messages = [];
 		}
@@ -337,9 +358,13 @@ class Controller
 	 * @param array<string, mixed> $data
 	 * @throws InvalidArgumentException
 	 */
-	protected function outputHTML(string $template, array $data = [], ?HtmlView $view = NULL, int $code = 200): void
-	{
-		if (NULL === $view)
+	protected function outputHTML(
+		string $template,
+		array $data = [],
+		null|HtmlView $view = null,
+		int $code = 200,
+	): void {
+		if (null === $view)
 		{
 			$view = new HtmlView($this->container);
 		}

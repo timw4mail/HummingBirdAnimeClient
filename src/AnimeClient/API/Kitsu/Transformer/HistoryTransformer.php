@@ -72,7 +72,7 @@ abstract class HistoryTransformer
 			}
 
 			// Hide private library entries
-			if ($entry['libraryEntry']['private'] === TRUE)
+			if ($entry['libraryEntry']['private'] === true)
 			{
 				continue;
 			}
@@ -82,7 +82,7 @@ abstract class HistoryTransformer
 			if ($kind === 'progressed' && ! empty($entry['changedData']['progress']))
 			{
 				$transformed = $this->transformProgress($entry);
-				if ($transformed !== NULL)
+				if ($transformed !== null)
 				{
 					$output[] = $transformed;
 				}
@@ -116,14 +116,12 @@ abstract class HistoryTransformer
 			$nextId = $i;
 			$next = $singles[$nextId];
 
-			while (
-				$next['kind'] === 'progressed'
-				&& $next['title'] === $prevTitle
-			) {
+			while ($next['kind'] === 'progressed' && $next['title'] === $prevTitle)
+			{
 				$entries[] = $next;
 				$prevTitle = $next['title'];
 
-				if ($nextId + 1 < $count)
+				if (($nextId + 1) < $count)
 				{
 					$nextId++;
 					$next = $singles[$nextId];
@@ -159,7 +157,7 @@ abstract class HistoryTransformer
 				}
 				else
 				{
-					$action = (count($entries) > 3)
+					$action = count($entries) > 3
 						? "{$this->largeAggregateAction} {$firstItem}-{$lastItem}"
 						: "{$this->progressAction}s {$firstItem}-{$lastItem}";
 				}
@@ -168,7 +166,7 @@ abstract class HistoryTransformer
 					'action' => $action,
 					'coverImg' => $entries[0]['coverImg'],
 					'dateRange' => [$firstUpdate, $lastUpdate],
-					'isAggregate' => TRUE,
+					'isAggregate' => true,
 					'original' => $entries,
 					'title' => $title,
 					'updated' => $entries[0]['updated'],
@@ -191,32 +189,34 @@ abstract class HistoryTransformer
 	 * @param array<string, mixed> $entry
 	 * @return HistoryItem|null
 	 */
-	protected function transformProgress(array $entry): ?HistoryItem
+	protected function transformProgress(array $entry): null|HistoryItem
 	{
 		$data = $entry['media'];
 		$title = $this->linkTitle($data);
 		$item = end($entry['changedData']['progress']);
 
 		// No showing episode 0 nonsense
-		if (((int) $item) === 0)
+		if ((int) $item === 0)
 		{
-			return NULL;
+			return null;
 		}
 
 		// Hide the last episode update (Anime)
 		foreach (['episodeCount', 'chapterCount'] as $count)
 		{
-			if ( ! empty($entry['media'][$count]))
+			if (empty($entry['media'][$count]))
 			{
-				$update = $entry['changedData']['progress'][1] ?? 0;
-				if ($update === $entry['media'][$count])
-				{
-					return NULL;
-				}
+				continue;
+			}
+
+			$update = $entry['changedData']['progress'][1] ?? 0;
+			if ($update === $entry['media'][$count])
+			{
+				return null;
 			}
 		}
 
-		$action = ($this->isReconsuming($entry))
+		$action = $this->isReconsuming($entry)
 			? "{$this->reconsumeAction} {$item}"
 			: "{$this->progressAction} {$item}";
 
@@ -249,7 +249,7 @@ abstract class HistoryTransformer
 
 			if ($this->isReconsuming($entry))
 			{
-				$statusName = ($statusName === 'Completed')
+				$statusName = $statusName === 'Completed'
 					? "Finished {$this->reconsumingStatus}"
 					: $this->reconsumingStatus;
 			}
@@ -281,10 +281,10 @@ abstract class HistoryTransformer
 	{
 		$dateTime = DateTimeImmutable::createFromFormat(
 			DateTimeInterface::RFC3339,
-			$date
+			$date,
 		);
 
-		if ($dateTime === FALSE)
+		if ($dateTime === false)
 		{
 			return new DateTimeImmutable();
 		}

@@ -16,15 +16,14 @@ namespace Aviat\AnimeClient\Controller;
 
 use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\AnimeClient\Model\{
-	Anime as AnimeModel,
-	AnimeCollection as AnimeCollectionModel
-};
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Model\AnimeCollection as AnimeCollectionModel;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\DoubleRenderException;
-
 use InvalidArgumentException;
 
 /**
@@ -80,7 +79,7 @@ final class AnimeCollection extends BaseController
 	{
 		$queryParams = $this->request->getQueryParams();
 		$query = $queryParams['query'];
-		$this->outputJSON($this->animeModel->search($query, inCollection: TRUE), 200);
+		$this->outputJSON($this->animeModel->search($query, inCollection: true), 200);
 	}
 
 	/**
@@ -91,7 +90,7 @@ final class AnimeCollection extends BaseController
 	 * @throws NotFoundException
 	 */
 	#[Route('anime.collection.view', '/anime-collection/view{/view}')]
-	public function view(?string $view = ''): void
+	public function view(null|string $view = ''): void
 	{
 		$viewMap = [
 			'' => 'cover',
@@ -100,7 +99,7 @@ final class AnimeCollection extends BaseController
 
 		$sections = array_merge(
 			['All' => $this->animeCollectionModel->getFlatCollection()],
-			$this->animeCollectionModel->getCollection()
+			$this->animeCollectionModel->getCollection(),
 		);
 
 		$this->outputHTML('collection/' . $viewMap[$view], [
@@ -119,13 +118,13 @@ final class AnimeCollection extends BaseController
 	 */
 	#[Route('anime.collection.add.get', '/anime-collection/add')]
 	#[Route('anime.collection.edit.get', '/anime-collection/edit/{id}')]
-	public function form(?string $id = NULL): void
+	public function form(null|string $id = null): void
 	{
 		$this->checkAuth();
 
 		$this->setSessionRedirect();
 
-		$action = $id === NULL ? 'Add' : 'Edit';
+		$action = $id === null ? 'Add' : 'Edit';
 		$urlAction = strtolower($action);
 
 		$this->outputHTML('collection/' . $urlAction, [
@@ -133,10 +132,10 @@ final class AnimeCollection extends BaseController
 			'action_url' => $this->url->generate("anime.collection.{$urlAction}.post"),
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime Collection",
-				$action
+				$action,
 			),
 			'media_items' => $this->animeCollectionModel->getMediaTypeList(),
-			'item' => ($action === 'Edit') ? $this->animeCollectionModel->get($id) : [],
+			'item' => $action === 'Edit' ? $this->animeCollectionModel->get($id) : [],
 		]);
 	}
 
@@ -175,11 +174,7 @@ final class AnimeCollection extends BaseController
 				// Let's just update with the data we have
 				// if the entry already exists.
 				$data['hummingbird_id'] = $data['id'];
-				unset(
-					$data['id'],
-					$data['mal_id'],
-					$data['search']
-				);
+				unset($data['id'], $data['mal_id'], $data['search']);
 
 				// Don't overwrite notes if the box is empty
 				if (trim($data['notes']) === '')
@@ -217,7 +212,7 @@ final class AnimeCollection extends BaseController
 		$this->checkAuth();
 
 		$data = (array) $this->request->getParsedBody();
-		if ( ! array_key_exists('hummingbird_id', $data))
+		if (! array_key_exists('hummingbird_id', $data))
 		{
 			$this->setFlashMessage("Can't delete item that doesn't exist", 'error');
 			$this->redirect('/anime-collection/view', 303);
@@ -226,7 +221,7 @@ final class AnimeCollection extends BaseController
 		$this->animeCollectionModel->delete($data);
 
 		// Verify that item was actually deleted
-		($this->animeCollectionModel->wasDeleted($data))
+		$this->animeCollectionModel->wasDeleted($data)
 			? $this->setFlashMessage('Successfully removed anime from collection.', 'success')
 			: $this->setFlashMessage('Failed to delete item from collection.', 'error');
 
@@ -245,7 +240,7 @@ final class AnimeCollection extends BaseController
 			$this->animeCollectionModel->update($data);
 
 			// Verify the item was actually updated
-			($this->animeCollectionModel->wasUpdated($data))
+			$this->animeCollectionModel->wasUpdated($data)
 				? $this->setFlashMessage('Successfully updated collection item.', 'success')
 				: $this->setFlashMessage('Failed to update collection item.', 'error');
 		}

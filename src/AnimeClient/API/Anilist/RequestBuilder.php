@@ -14,16 +14,20 @@
 
 namespace Aviat\AnimeClient\API\Anilist;
 
-use Amp\Http\Client\{Request, Response};
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
 use Aviat\AnimeClient\Anilist;
 use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
-use Aviat\Ion\{Json, JsonException};
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Json;
+use Aviat\Ion\JsonException;
 use LogicException;
 use Throwable;
 
 use function Aviat\AnimeClient\getResponse;
 use function in_array;
+
 use const Aviat\AnimeClient\USER_AGENT;
 
 final class RequestBuilder extends APIRequestBuilder
@@ -107,7 +111,7 @@ final class RequestBuilder extends APIRequestBuilder
 	public function runQuery(string $name, array $variables = []): array
 	{
 		$file = __DIR__ . "/Queries/{$name}.graphql";
-		if ( ! file_exists($file))
+		if (! file_exists($file))
 		{
 			throw new LogicException('GraphQL query file does not exist.');
 		}
@@ -117,7 +121,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if ( ! empty($variables))
+		if (! empty($variables))
 		{
 			$body['variables'] = [];
 
@@ -139,7 +143,7 @@ final class RequestBuilder extends APIRequestBuilder
 	public function mutateRequest(string $name, array $variables = []): Request
 	{
 		$file = __DIR__ . "/Mutations/{$name}.graphql";
-		if ( ! file_exists($file))
+		if (! file_exists($file))
 		{
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}
@@ -150,7 +154,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if ( ! empty($variables))
+		if (! empty($variables))
 		{
 			$body['variables'] = [];
 
@@ -190,7 +194,7 @@ final class RequestBuilder extends APIRequestBuilder
 		$request = $this->setUpRequest($url, $options);
 		$response = getResponse($request);
 
-		if ($logger !== NULL)
+		if ($logger !== null)
 		{
 			$logger->debug('Anilist response', [
 				'status' => $response->getStatus(),
@@ -213,7 +217,7 @@ final class RequestBuilder extends APIRequestBuilder
 
 		$response = getResponse($request);
 
-		if ($logger !== NULL)
+		if ($logger !== null)
 		{
 			$logger->debug('Anilist response', [
 				'status' => $response->getStatus(),
@@ -247,19 +251,17 @@ final class RequestBuilder extends APIRequestBuilder
 			//'requestHeaders' => $request->getHeaders(),
 		]);
 
-		if ( ! in_array($response->getStatus(), $validResponseCodes, TRUE))
+		if (! in_array($response->getStatus(), $validResponseCodes, true))
 		{
 			$logger?->warning('Non 200 response for POST api call', (array) $response->getBody());
 		}
 
 		$rawBody = $response->getBody()->buffer();
 
-		try
-		{
+		try {
 			return Json::decode($rawBody);
 		}
-		catch (JsonException $e)
-		{
+		catch (JsonException $e) {
 			dump($e);
 			dump($rawBody);
 

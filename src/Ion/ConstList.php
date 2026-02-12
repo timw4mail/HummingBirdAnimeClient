@@ -32,7 +32,7 @@ abstract class ConstList
 	{
 		static $self;
 
-		if ($self === NULL)
+		if ($self === null)
 		{
 			$class = static::class;
 			$self = new $class();
@@ -52,7 +52,7 @@ abstract class ConstList
 	{
 		$values = array_values(static::getConstList());
 
-		return in_array($key, $values, TRUE);
+		return in_array($key, $values, true);
 	}
 }
 
