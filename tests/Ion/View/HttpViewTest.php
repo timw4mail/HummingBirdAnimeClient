@@ -16,11 +16,13 @@ namespace Aviat\Ion\Tests\View;
 
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\Friend;
-use Aviat\Ion\Tests\{IonTestCase, TestHttpView};
+use Aviat\Ion\Tests\IonTestCase;
+use Aviat\Ion\Tests\TestHttpView;
 
 class HttpViewTest extends IonTestCase
 {
 	protected $view;
+
 	protected $friend;
 
 	#[\Override]

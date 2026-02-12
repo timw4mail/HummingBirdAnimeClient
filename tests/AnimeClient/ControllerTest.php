@@ -15,12 +15,11 @@
 namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\Controller;
-use Aviat\AnimeClient\Controller\{
-	Anime as AnimeController,
-	AnimeCollection as AnimeCollectionController,
-	Character as CharacterController,
-	Manga as MangaController // MangaCollection as MangaCollectionController,
-};
+use Aviat\AnimeClient\Controller\Anime as AnimeController// MangaCollection as MangaCollectionController,
+;
+use Aviat\AnimeClient\Controller\AnimeCollection as AnimeCollectionController;
+use Aviat\AnimeClient\Controller\Character as CharacterController;
+use Aviat\AnimeClient\Controller\Manga as MangaController;
 
 /**
  * @internal

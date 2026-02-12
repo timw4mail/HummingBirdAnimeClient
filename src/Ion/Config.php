@@ -17,6 +17,7 @@ namespace Aviat\Ion;
 use Aviat\Ion\Exception\ConfigException;
 use Aviat\Ion\Type\ArrayType;
 use InvalidArgumentException;
+
 use function is_array;
 
 /**
@@ -76,7 +77,8 @@ class Config implements ConfigInterface
 		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, null);
-		} else
+		}
+		else
 		{
 			$pos = &$this->map->get($key);
 			$pos = null;
@@ -94,10 +96,12 @@ class Config implements ConfigInterface
 		if (is_array($key))
 		{
 			$this->map->setDeepKey($key, $value);
-		} elseif (! empty($key))
+		}
+		elseif (! empty($key))
 		{
 			$this->map->set($key, $value);
-		} else
+		}
+		else
 		{
 			throw new InvalidArgumentException('Key must be integer, string, or array, and cannot be empty');
 		}

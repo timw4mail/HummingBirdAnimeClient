@@ -33,5 +33,6 @@ final class AnimePage extends Anime
 	 * @var array<string, mixed>
 	 */
 	public array $staff = [];
-	public ?string $airDate = '';
+
+	public null|string $airDate = '';
 }

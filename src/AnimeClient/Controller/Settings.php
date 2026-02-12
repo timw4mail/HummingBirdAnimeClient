@@ -18,9 +18,11 @@ use Aura\Router\Exception\RouteNotFound;
 use Aviat\AnimeClient\API\Anilist\Model as AnilistModel;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Settings as SettingsModel;
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for user settings
@@ -29,6 +31,7 @@ use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
 final class Settings extends BaseController
 {
 	private AnilistModel $anilistModel;
+
 	private SettingsModel $settingsModel;
 
 	/**
@@ -57,9 +60,10 @@ final class Settings extends BaseController
 		$auth = $this->container->get('auth');
 		$form = $this->settingsModel->getSettingsForm();
 
-		$hasRequiredAnilistConfig = $this->config->has(['anilist', 'client_secret']) &&
-			$this->config->has(['anilist', 'client_id']) &&
-			$this->config->has(['anilist', 'username']);
+		$hasRequiredAnilistConfig =
+			$this->config->has(['anilist', 'client_secret'])
+			&& $this->config->has(['anilist', 'client_id'])
+			&& $this->config->has(['anilist', 'username']);
 
 		$this->outputHTML('settings/settings', [
 			'anilistModel' => $this->anilistModel,
@@ -131,7 +135,7 @@ final class Settings extends BaseController
 		// Update the override config file
 		$anilistSettings = [
 			'access_token' => $authData['access_token'],
-			'access_token_expires' => (time() - 10) + $authData['expires_in'],
+			'access_token_expires' => time() - 10 + $authData['expires_in'],
 			'refresh_token' => $authData['refresh_token'],
 		];
 

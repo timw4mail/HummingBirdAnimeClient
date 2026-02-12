@@ -17,10 +17,11 @@ namespace Aviat\AnimeClient\Controller;
 use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
-
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for People pages
@@ -49,23 +50,25 @@ final class People extends BaseController
 	public function index(string $slug): void
 	{
 		$rawData = $this->model->getPerson($slug);
-		$data = (new PersonTransformer())->transform($rawData)->toArray();
+		$data = new PersonTransformer()
+			->transform($rawData)
+			->toArray();
 
-		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
 		{
 			$this->notFound(
 				$this->formatTitle(
 					'People',
-					'Person not found'
+					'Person not found',
 				),
-				'Person Not Found'
+				'Person Not Found',
 			);
 		}
 
 		$this->outputHTML('person/details', [
 			'title' => $this->formatTitle(
 				'People',
-				$data['name']
+				$data['name'],
 			),
 			'data' => $data,
 		]);

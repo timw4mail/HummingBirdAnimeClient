@@ -14,11 +14,14 @@
 
 namespace Aviat\Ion\Tests\Di;
 
+use Aviat\Ion\Di\Container;
+use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
-use Aviat\Ion\Di\{Container, ContainerAware};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Tests\IonTestCase;
-use Monolog\Handler\{NullHandler, TestHandler};
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\TestHandler;
 use Monolog\Logger;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Throwable;
@@ -77,10 +80,12 @@ final class ContainerTest extends IonTestCase
 	): void {
 		try {
 			$this->container->get($id);
-		} catch (ContainerException $e) {
+		}
+		catch (ContainerException $e) {
 			$this->assertInstanceOf($exception, $e);
 			$this->assertSame($message, $e->getMessage());
-		} catch (Throwable $e) {
+		}
+		catch (Throwable $e) {
 			$this->assertInstanceOf($exception, $e);
 		}
 	}
@@ -121,7 +126,8 @@ final class ContainerTest extends IonTestCase
 	{
 		try {
 			$this->container->setInstance($id, null);
-		} catch (ContainerException $e) {
+		}
+		catch (ContainerException $e) {
 			$this->assertInstanceOf($exception, $e);
 			$this->assertSame($message, $e->getMessage());
 		}

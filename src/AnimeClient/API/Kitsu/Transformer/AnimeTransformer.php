@@ -72,7 +72,8 @@ final class AnimeTransformer extends AbstractTransformer
 				if (empty($characters[$type]))
 				{
 					unset($characters[$type]);
-				} else
+				}
+				else
 				{
 					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 				}

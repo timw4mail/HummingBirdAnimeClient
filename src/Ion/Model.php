@@ -17,8 +17,6 @@ namespace Aviat\Ion;
 /**
  * Common base for all Models
  */
-class Model
-{
-}
+class Model {}
 
 // End of Model.php

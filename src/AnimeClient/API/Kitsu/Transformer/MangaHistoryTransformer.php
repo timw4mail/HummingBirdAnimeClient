@@ -19,9 +19,13 @@ use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
 class MangaHistoryTransformer extends HistoryTransformer
 {
 	protected string $type = 'manga';
+
 	protected string $progressAction = 'Read chapter';
+
 	protected string $reconsumeAction = 'Reread chapter';
+
 	protected string $largeAggregateAction = 'Blew through chapters';
+
 	protected string $reconsumingStatus = 'Rereading';
 
 	/**

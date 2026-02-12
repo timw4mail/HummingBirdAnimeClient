@@ -14,10 +14,12 @@
 
 namespace Aviat\Ion\Tests;
 
-use PHPUnit\Framework\Attributes\{IgnoreClassForCodeCoverage, Test};
+use PHPUnit\Framework\Attributes\IgnoreClassForCodeCoverage;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function Aviat\Ion\_dir;
+
 use const DIRECTORY_SEPARATOR;
 
 /**

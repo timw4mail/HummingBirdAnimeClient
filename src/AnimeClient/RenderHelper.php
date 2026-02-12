@@ -24,7 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * A container for helper functions and data for rendering HTML output
  */
-class RenderHelper {
+class RenderHelper
+{
 	use ContainerAware;
 
 	/**
@@ -83,7 +84,8 @@ class RenderHelper {
 		'me',
 	];
 
-	public function __construct(ContainerInterface $container) {
+	public function __construct(ContainerInterface $container)
+	{
 		$this->setContainer($container);
 
 		$this->auth = $container->get('auth');

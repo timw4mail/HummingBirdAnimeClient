@@ -15,7 +15,8 @@
 namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Kitsu;
-use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
+use Aviat\AnimeClient\Types\AnimeListItem;
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use Aviat\Ion\Type\StringType;
 

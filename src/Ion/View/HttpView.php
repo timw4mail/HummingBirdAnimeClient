@@ -14,13 +14,13 @@
 
 namespace Aviat\Ion\View;
 
+use \Stringable;
 use Aviat\Ion\Exception\DoubleRenderException;
 use Aviat\Ion\HttpViewInterface;
 use InvalidArgumentException;
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Http\Message\ResponseInterface;
-use \Stringable;
 
 /**
  * Base view class for Http output

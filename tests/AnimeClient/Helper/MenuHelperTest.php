@@ -23,6 +23,7 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 final class MenuHelperTest extends AnimeClientTestCase
 {
 	protected $helper;
+
 	protected $urlGenerator;
 
 	#[\Override]
@@ -80,7 +81,8 @@ final class MenuHelperTest extends AnimeClientTestCase
 						'REQUEST_URI' => '/foobar',
 					],
 				]);
-			} else
+			}
+			else
 			{
 				$this->setSuperGlobals([
 					'_SERVER' => [

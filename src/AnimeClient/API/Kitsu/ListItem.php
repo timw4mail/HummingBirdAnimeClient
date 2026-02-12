@@ -26,6 +26,7 @@ use Throwable;
 final class ListItem extends AbstractListItem
 {
 	use ContainerAware;
+
 	use RequestBuilderTrait;
 
 	/**

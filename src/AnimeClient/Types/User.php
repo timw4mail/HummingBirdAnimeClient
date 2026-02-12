@@ -19,28 +19,36 @@ namespace Aviat\AnimeClient\Types;
  */
 final class User extends AbstractType
 {
-	public ?string $about;
-	public ?string $avatar;
-	public ?string $birthday;
+	public null|string $about;
+
+	public null|string $avatar;
+
+	public null|string $birthday;
+
 	public string $joinDate;
-	public ?string $gender;
+
+	public null|string $gender;
 
 	/**
 	 * @var array<mixed>|null
 	 */
-	public ?array $favorites;
-	public ?string $location;
-	public ?string $name;
-	public ?string $slug;
+	public null|array $favorites;
+
+	public null|string $location;
+
+	public null|string $name;
+
+	public null|string $slug;
 
 	/**
 	 * @var array<mixed>|null
 	 */
-	public ?array $stats;
+	public null|array $stats;
 
 	/**
 	 * @var array<mixed>
 	 */
 	public array $waifu;
-	public ?string $website;
+
+	public null|string $website;
 }

@@ -23,6 +23,7 @@ use Aviat\Ion\Friend;
 final class MenuGeneratorTest extends AnimeClientTestCase
 {
 	protected $generator;
+
 	protected $friend;
 
 	#[\Override]

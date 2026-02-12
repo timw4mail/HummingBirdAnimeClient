@@ -34,7 +34,9 @@ final class UrlGeneratorTest extends AnimeClientTestCase
 			],
 			'multiple arguments' => [
 				'args' => [
-					'images', 'anime', 'foo.png',
+					'images',
+					'anime',
+					'foo.png',
 				],
 				'expected' => 'https://localhost/assets/images/anime/foo.png',
 			],

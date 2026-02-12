@@ -14,7 +14,8 @@
 
 namespace Aviat\Ion\View;
 
-use Aviat\Ion\{HttpViewInterface, Json};
+use Aviat\Ion\HttpViewInterface;
+use Aviat\Ion\Json;
 
 /**
  * View class to serialize Json

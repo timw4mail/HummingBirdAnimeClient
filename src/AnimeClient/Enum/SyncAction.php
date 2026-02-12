@@ -24,6 +24,8 @@ enum SyncAction: string
 	use EnumTrait;
 
 	case CREATE = 'create';
+
 	case UPDATE = 'update';
+
 	case DELETE = 'delete';
 }

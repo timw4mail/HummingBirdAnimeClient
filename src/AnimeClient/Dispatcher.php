@@ -269,25 +269,15 @@ final class Dispatcher extends RoutingBase
 			$params = array_values($params);
 			$controller->{$method}(...$params);
 		}
-		catch (FailedResponseException)
-		{
+		catch (FailedResponseException) {
 			$controllerName = DEFAULT_CONTROLLER;
 			$controller = new $controllerName($this->container);
 			$controller->errorPage(
 				500,
 				'API request timed out',
-				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻'
+				'Failed to retrieve data from API (╯°□°)╯︵ ┻━┻',
 			);
 		}
-
-		/* finally
-		{
-			// Log out on session/api token expiration
-			Event::on(EventType::UNAUTHORIZED, static function () {
-				$controllerName = DEFAULT_CONTROLLER;
-				(new $controllerName($this->container))->logout();
-			});
-		} */
 	}
 
 	/**

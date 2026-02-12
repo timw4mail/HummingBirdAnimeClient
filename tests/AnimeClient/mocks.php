@@ -3,10 +3,16 @@
  * All the mock classes that extend the classes they are used to test
  */
 
-use Aviat\AnimeClient\Model\{Anime as AnimeModel, API as BaseApiModel, Manga as MangaModel};
-use Aviat\Ion\{ConstList, Friend, Json};
+use Aviat\AnimeClient\Model\Anime as AnimeModel;
+use Aviat\AnimeClient\Model\API as BaseApiModel;
+use Aviat\AnimeClient\Model\Manga as MangaModel;
+use Aviat\Ion\ConstList;
+use Aviat\Ion\Friend;
+use Aviat\Ion\Json;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
+use Aviat\Ion\View\HtmlView;
+use Aviat\Ion\View\HttpView;
+use Aviat\Ion\View\JsonView;
 
 // -----------------------------------------------------------------------------
 // Mock the default error handler
@@ -14,9 +20,7 @@ use Aviat\Ion\View\{HtmlView, HttpView, JsonView};
 
 class MockErrorHandler
 {
-	public function addDataTable(string $name, array $values = []): void
-	{
-	}
+	public function addDataTable(string $name, array $values = []): void {}
 }
 
 // -----------------------------------------------------------------------------
@@ -38,12 +42,14 @@ class FriendGrandParentTestClass
 class FriendParentTestClass extends FriendGrandParentTestClass
 {
 	protected int $parentProtected = 47;
+
 	private int $parentPrivate = 654;
 }
 
 class FriendTestClass extends FriendParentTestClass
 {
 	protected int $protected = 356;
+
 	private int $private = 486;
 
 	protected function getProtected(): int
@@ -110,9 +116,7 @@ class MockUtil
 class TestView extends HttpView
 {
 	#[\Override]
-	public function send(): void
-	{
-	}
+	public function send(): void {}
 
 	#[\Override]
 	protected function output(): void
@@ -137,9 +141,7 @@ class TestHttpView extends HttpView
 class TestJsonView extends JsonView
 {
 	#[\Override]
-	public function __destruct()
-	{
-	}
+	public function __destruct() {}
 }
 
 // -----------------------------------------------------------------------------

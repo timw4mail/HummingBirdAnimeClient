@@ -15,7 +15,8 @@
 namespace Aviat\Ion\Tests\Transformer;
 
 use Aviat\Ion\Tests\IonTestCase;
-use Aviat\Ion\Tests\{TestTransformer, TestTransformerUntransform};
+use Aviat\Ion\Tests\TestTransformer;
+use Aviat\Ion\Tests\TestTransformerUntransform;
 use BadMethodCallException;
 
 /**
@@ -24,6 +25,7 @@ use BadMethodCallException;
 final class AbstractTransformerTest extends IonTestCase
 {
 	protected $transformer;
+
 	protected $untransformer;
 
 	#[\Override]

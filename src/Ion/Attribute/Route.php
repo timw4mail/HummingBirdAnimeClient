@@ -26,6 +26,5 @@ class Route
 		public string $name,
 		public string $path,
 		public string $verb = self::GET,
-	) {
-	}
+	) {}
 }

@@ -21,7 +21,10 @@ enum EventType: string
 	use EnumTrait;
 
 	case CLEAR_CACHE = '::clear-cache::';
+
 	case RESET_CACHE_KEY = '::reset-cache-key::';
+
 	case TEST = '::test::';
+
 	case UNAUTHORIZED = '::unauthorized::';
 }

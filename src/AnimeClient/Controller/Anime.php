@@ -21,9 +21,11 @@ use Aviat\AnimeClient\API\Mapping\AnimeWatchingStatus;
 use Aviat\AnimeClient\Controller as BaseController;
 use Aviat\AnimeClient\Model\Anime as AnimeModel;
 use Aviat\AnimeClient\Types\FormItem;
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Json;
 use InvalidArgumentException;
 use Throwable;
@@ -70,7 +72,7 @@ final class Anime extends BaseController
 	#[Route('anime.list', '/anime/{status}{/view}')]
 	public function index(
 		int|string $status = KitsuWatchingStatus::WATCHING,
-		?string $view = null,
+		null|string $view = null,
 	): void {
 		if (! in_array(
 			$status,

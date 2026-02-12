@@ -24,9 +24,14 @@ enum MediaStatus: string
 	use EnumTrait;
 
 	case CURRENT = 'CURRENT';
+
 	case PLANNED = 'PLANNED';
+
 	case ON_HOLD = 'ON_HOLD';
+
 	case DROPPED = 'DROPPED';
+
 	case COMPLETED = 'COMPLETED';
 }
+
 // End of MediaStatus

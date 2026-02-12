@@ -30,7 +30,7 @@ final class VerticalTabs
 		string $name,
 		array $tabData,
 		callable $cb,
-		string $className = 'content media-wrap flex flex-wrap flex-justify-start'
+		string $className = 'content media-wrap flex flex-wrap flex-justify-start',
 	): string {
 		return $this->render('vertical-tabs.php', [
 			'name' => $name,

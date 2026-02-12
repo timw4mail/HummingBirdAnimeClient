@@ -18,8 +18,12 @@ final class Character
 {
 	use ComponentTrait;
 
-	public function __invoke(string $name, string $link, string $picture, string $className = 'character'): string
-	{
+	public function __invoke(
+		string $name,
+		string $link,
+		string $picture,
+		string $className = 'character',
+	): string {
 		return $this->render('character.php', [
 			'name' => $name,
 			'link' => $link,

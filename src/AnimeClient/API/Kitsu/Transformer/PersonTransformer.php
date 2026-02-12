@@ -144,7 +144,8 @@ final class PersonTransformer extends AbstractTransformer
 							$media['id'] => $media,
 						],
 					];
-				} else
+				}
+				else
 				{
 					$characters[$role][$charId]['media'][$media['id']] = $media;
 				}

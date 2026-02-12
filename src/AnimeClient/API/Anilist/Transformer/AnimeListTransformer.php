@@ -14,8 +14,10 @@
 
 namespace Aviat\AnimeClient\API\Anilist\Transformer;
 
-use Aviat\AnimeClient\API\{Enum, Mapping};
-use Aviat\AnimeClient\Types\{AnimeListItem, FormItem};
+use Aviat\AnimeClient\API\Enum;
+use Aviat\AnimeClient\API\Mapping;
+use Aviat\AnimeClient\Types\AnimeListItem;
+use Aviat\AnimeClient\Types\FormItem;
 use Aviat\Ion\Transformer\AbstractTransformer;
 use DateTime;
 use DateTimeInterface;

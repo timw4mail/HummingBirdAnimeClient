@@ -25,7 +25,9 @@ final class DoubleRenderExceptionTest extends IonTestCase
 	public function testDefaultMessage(): never
 	{
 		$this->expectException(DoubleRenderException::class);
-		$this->expectExceptionMessage('A view can only be rendered once, because headers can only be sent once.');
+		$this->expectExceptionMessage(
+			'A view can only be rendered once, because headers can only be sent once.',
+		);
 
 		throw new DoubleRenderException();
 	}

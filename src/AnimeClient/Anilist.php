@@ -14,14 +14,10 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\AnimeClient\API\Enum\{
-	AnimeWatchingStatus\Anilist as AnimeWatchingStatus,
-	MangaReadingStatus\Anilist as MangaReadingStatus
-};
-use Aviat\AnimeClient\API\Enum\{
-	AnimeWatchingStatus\Kitsu as KAWS,
-	MangaReadingStatus\Kitsu as KMRS
-};
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist as AnimeWatchingStatus;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu as KAWS;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Anilist as MangaReadingStatus;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu as KMRS;
 
 /**
  * Constants and mappings for the Anilist API

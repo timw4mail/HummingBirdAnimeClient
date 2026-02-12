@@ -14,7 +14,8 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\Ion\Di\{ContainerAware, ContainerInterface};
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
 
 /**
  * Base model for database interaction

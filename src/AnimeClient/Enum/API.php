@@ -18,9 +18,9 @@ use Aviat\Ion\EnumTrait;
 
 enum API: string
 {
-
 	use EnumTrait;
 
 	case ANILIST = 'anilist';
+
 	case KITSU = 'kitsu';
 }

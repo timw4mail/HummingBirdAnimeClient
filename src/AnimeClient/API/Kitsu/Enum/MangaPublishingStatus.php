@@ -24,7 +24,10 @@ enum MangaPublishingStatus: string
 	use EnumTrait;
 
 	case NOT_YET_PUBLISHED = 'Not Yet Published';
+
 	case FINISHED = 'Completed';
+
 	case CURRENT = 'Current';
 }
+
 // End of MangaPublishingStatus

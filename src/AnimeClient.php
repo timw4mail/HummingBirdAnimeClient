@@ -15,12 +15,18 @@
 namespace Aviat\AnimeClient;
 
 use Amp\Future;
-use Amp\Http\Client\{HttpClient, HttpClientBuilder, Request, Response};
-use Aviat\Ion\{ConfigInterface, ImageBuilder};
+use Amp\Http\Client\HttpClient;
+use Amp\Http\Client\HttpClientBuilder;
+use Amp\Http\Client\Request;
+use Amp\Http\Client\Response;
+use Aviat\Ion\ConfigInterface;
+use Aviat\Ion\ImageBuilder;
 use DateTimeImmutable;
-use Psr\SimpleCache\{CacheInterface, InvalidArgumentException};
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
-use Yosymfony\Toml\{Toml, TomlBuilder};
+use Yosymfony\Toml\Toml;
+use Yosymfony\Toml\TomlBuilder;
 
 use function Amp\async;
 use function Aviat\Ion\_dir;

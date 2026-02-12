@@ -88,5 +88,5 @@ interface ContainerInterface
 	 *
 	 * @param string $id The logger to retrieve
 	 */
-	public function getLogger(string $id = 'default'): ?LoggerInterface;
+	public function getLogger(string $id = 'default'): null|LoggerInterface;
 }

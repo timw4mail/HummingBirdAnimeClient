@@ -24,7 +24,9 @@ use Aviat\Ion\Json;
 final class AnimeTransformerTest extends AnimeClientTestCase
 {
 	protected $dir;
+
 	protected $beforeTransform;
+
 	protected $transformer;
 
 	#[\Override]

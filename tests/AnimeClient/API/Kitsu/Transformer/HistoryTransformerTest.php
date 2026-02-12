@@ -14,7 +14,8 @@
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
-use Aviat\AnimeClient\API\Kitsu\Transformer\{AnimeHistoryTransformer, MangaHistoryTransformer};
+use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
 
@@ -24,6 +25,7 @@ use Aviat\Ion\Json;
 final class HistoryTransformerTest extends AnimeClientTestCase
 {
 	protected array $beforeTransform;
+
 	protected string $dir;
 
 	#[\Override]

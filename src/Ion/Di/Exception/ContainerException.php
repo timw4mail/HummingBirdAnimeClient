@@ -19,8 +19,6 @@ use Exception;
 /**
  * Generic exception for Di Container
  */
-class ContainerException extends Exception
-{
-}
+class ContainerException extends Exception {}
 
 // End of ContainerException.php

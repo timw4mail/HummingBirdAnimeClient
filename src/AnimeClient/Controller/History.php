@@ -14,10 +14,13 @@
 
 namespace Aviat\AnimeClient\Controller;
 
-use Aviat\AnimeClient\{Controller as BaseController, Model};
-use Aviat\Ion\Attribute\{Controller, Route};
+use Aviat\AnimeClient\Controller as BaseController;
+use Aviat\AnimeClient\Model;
+use Aviat\Ion\Attribute\Controller;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Controller for Anime-related pages
@@ -60,10 +63,8 @@ final class History extends BaseController
 		}
 
 		$this->notFound(
-			$this->config->get('whose_list') .
-			"'s List &middot; History &middot; " .
+			$this->config->get('whose_list') . "'s List &middot; History &middot; " . 'History Not Found',
 			'History Not Found',
-			'History Not Found'
 		);
 	}
 
@@ -79,7 +80,7 @@ final class History extends BaseController
 			'title' => $this->formatTitle(
 				$this->config->get('whose_list') . "'s Anime List",
 				'Anime',
-				'Watching History'
+				'Watching History',
 			),
 			'items' => $this->animeModel->getHistory(),
 		]);

@@ -17,7 +17,8 @@ namespace Aviat\Ion;
 /**
  * An Enum Trait to have the same functionality as \Aviat\Ion\ConstList
  */
-trait EnumTrait {
+trait EnumTrait
+{
 	public function __invoke(): int|string
 	{
 		return $this->value;

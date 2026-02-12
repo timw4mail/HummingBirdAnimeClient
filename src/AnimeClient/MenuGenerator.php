@@ -16,9 +16,11 @@ namespace Aviat\AnimeClient;
 
 use Aura\Html\HelperLocator;
 use Aviat\Ion\Di\ContainerInterface;
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 use Aviat\Ion\Exception\ConfigException;
-use Aviat\Ion\Type\{ArrayType, StringType};
+use Aviat\Ion\Type\ArrayType;
+use Aviat\Ion\Type\StringType;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -65,7 +67,7 @@ final class MenuGenerator extends UrlGenerator
 		$parsedConfig = $this->parseConfig($menus);
 
 		// Bail out early on invalid menu
-		if ( ! ArrayType::from($parsedConfig)->hasKey($menu))
+		if (! ArrayType::from($parsedConfig)->hasKey($menu))
 		{
 			return '';
 		}
@@ -75,9 +77,9 @@ final class MenuGenerator extends UrlGenerator
 		foreach ($menuConfig as $title => $path)
 		{
 			$has = StringType::from($this->path())->contains($path);
-			$selected = ($has && mb_strlen($this->path()) >= mb_strlen($path));
+			$selected = $has && mb_strlen($this->path()) >= mb_strlen($path);
 
-			$linkAttrs = ($selected)
+			$linkAttrs = $selected
 				? ['aria-current' => 'location']
 				: [];
 			$link = $this->helper->a($this->url($path), $title, $linkAttrs);

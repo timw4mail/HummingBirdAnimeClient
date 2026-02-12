@@ -14,7 +14,10 @@
 
 namespace Aviat\AnimeClient\API\Mapping;
 
-use Aviat\AnimeClient\API\Enum\MangaReadingStatus\{Anilist, Kitsu, Route, Title};
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Anilist;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Kitsu;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Route;
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title;
 use Aviat\Ion\ConstList;
 
 /**

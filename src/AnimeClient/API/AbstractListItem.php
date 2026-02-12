@@ -61,5 +61,5 @@ abstract class AbstractListItem
 	 *
 	 * @param string $id - The id of the list item to delete
 	 */
-	abstract public function delete(string $id): ?Request;
+	abstract public function delete(string $id): null|Request;
 }

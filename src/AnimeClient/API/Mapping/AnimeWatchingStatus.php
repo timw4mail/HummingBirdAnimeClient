@@ -14,7 +14,10 @@
 
 namespace Aviat\AnimeClient\API\Mapping;
 
-use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\{Anilist, Kitsu, Route, Title};
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Anilist;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Kitsu;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Route;
+use Aviat\AnimeClient\API\Enum\AnimeWatchingStatus\Title;
 use Aviat\Ion\ConstList;
 
 /**

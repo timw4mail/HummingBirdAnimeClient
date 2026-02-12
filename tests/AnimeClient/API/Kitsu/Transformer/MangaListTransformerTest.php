@@ -16,7 +16,8 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\AnimeClient\Types\{FormItem, FormItemData};
+use Aviat\AnimeClient\Types\FormItem;
+use Aviat\AnimeClient\Types\FormItemData;
 use Aviat\Ion\Json;
 
 /**
@@ -25,8 +26,11 @@ use Aviat\Ion\Json;
 final class MangaListTransformerTest extends AnimeClientTestCase
 {
 	protected $dir;
+
 	protected $rawBefore;
+
 	protected $beforeTransform;
+
 	protected $transformer;
 
 	#[\Override]

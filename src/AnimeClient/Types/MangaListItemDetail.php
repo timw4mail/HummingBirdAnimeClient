@@ -23,15 +23,21 @@ final class MangaListItemDetail extends AbstractType
 	 * @var list<string>
 	 */
 	public array $genres = [];
+
 	public string $id;
+
 	public string $image;
+
 	public string $slug;
+
 	public string $title;
 
 	/**
 	 * @var list<string>
 	 */
 	public array $titles;
-	public ?string $type;
+
+	public null|string $type;
+
 	public string $url;
 }

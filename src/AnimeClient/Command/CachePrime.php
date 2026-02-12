@@ -14,7 +14,9 @@
 
 namespace Aviat\AnimeClient\Command;
 
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
+
 use function Aviat\AnimeClient\clearCache;
 
 /**

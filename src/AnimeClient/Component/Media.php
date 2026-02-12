@@ -25,8 +25,12 @@ final class Media
 	 * @param string $className
 	 * @return string
 	 */
-	public function __invoke(array $titles, string $link, string $picture, string $className = 'media'): string
-	{
+	public function __invoke(
+		array $titles,
+		string $link,
+		string $picture,
+		string $className = 'media',
+	): string {
 		return $this->render('media.php', [
 			'titles' => $titles,
 			'link' => $link,

@@ -15,6 +15,7 @@
 namespace Aviat\AnimeClient\Component;
 
 use Aviat\Ion\Di\ContainerAware;
+
 use function Aviat\AnimeClient\renderTemplate;
 
 /**

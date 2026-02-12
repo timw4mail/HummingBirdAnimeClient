@@ -31,7 +31,7 @@ class Event
 	 */
 	public static function on(EventType $eventName, callable $handler): void
 	{
-		if ( ! array_key_exists($eventName->value, static::$eventMap))
+		if (! array_key_exists($eventName->value, static::$eventMap))
 		{
 			static::$eventMap[$eventName->value] = [];
 		}
@@ -45,7 +45,7 @@ class Event
 	 */
 	public static function emit(EventType $eventName, array $args = []): void
 	{
-		if ( ! array_key_exists($eventName->value, static::$eventMap))
+		if (! array_key_exists($eventName->value, static::$eventMap))
 		{
 			return;
 		}
@@ -53,7 +53,7 @@ class Event
 		// Call each subscriber with the provided arguments
 		array_walk(
 			static::$eventMap[$eventName->value],
-			static fn (callable $fn) => $fn(...$args)
+			static fn (callable $fn) => $fn(...$args),
 		);
 	}
 }

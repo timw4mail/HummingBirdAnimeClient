@@ -24,11 +24,15 @@ final class Character extends AbstractType
 	 */
 	public array $castings = [];
 
-	public ?string $description;
+	public null|string $description;
+
 	public string $id;
-	public ?Media $media;
+
+	public null|Media $media;
+
 	public string $image;
-	public ?string $name;
+
+	public null|string $name;
 
 	/**
 	 * @var list<string>

@@ -16,7 +16,10 @@ namespace Aviat\AnimeClient\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\Types\User;
 use Aviat\Ion\Transformer\AbstractTransformer;
-use function Aviat\AnimeClient\{formatDate, friendlyTime, getDateDiff};
+
+use function Aviat\AnimeClient\formatDate;
+use function Aviat\AnimeClient\friendlyTime;
+use function Aviat\AnimeClient\getDateDiff;
 
 /**
  * Transform user profile data for display
@@ -53,9 +56,9 @@ final class UserTransformer extends AbstractTransformer
 				: null,
 			'joinDate' =>
 				formatDate($base['createdAt'])
-				. ' ('
-				. friendlyTime(getDateDiff($base['createdAt']), 'day')
-				. ' ago)',
+					. ' ('
+					. friendlyTime(getDateDiff($base['createdAt']), 'day')
+					. ' ago)',
 			'gender' => $base['gender'],
 			'favorites' => $this->organizeFavorites($favorites),
 			'location' => $base['location'],

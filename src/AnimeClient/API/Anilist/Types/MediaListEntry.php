@@ -19,10 +19,16 @@ use Aviat\AnimeClient\Types\AbstractType;
 class MediaListEntry extends AbstractType
 {
 	public int|string $id;
-	public ?string $notes;
-	public ?bool $private;
-	public ?int $progress;
-	public ?int $repeat;
+
+	public null|string $notes;
+
+	public null|bool $private;
+
+	public null|int $progress;
+
+	public null|int $repeat;
+
 	public string $status;
-	public ?int $score;
+
+	public null|int $score;
 }

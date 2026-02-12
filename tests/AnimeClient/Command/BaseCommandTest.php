@@ -20,9 +20,7 @@ use Aviat\Ion\Di\Container;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
 
-class Command extends BaseCommand
-{
-}
+class Command extends BaseCommand {}
 
 /**
  * @internal
@@ -30,6 +28,7 @@ class Command extends BaseCommand
 final class BaseCommandTest extends AnimeClientTestCase
 {
 	protected Command $base;
+
 	protected Friend $friend;
 
 	#[\Override]

@@ -19,6 +19,7 @@ use SessionHandlerInterface;
 class TestSessionHandler implements SessionHandlerInterface
 {
 	public $data = [];
+
 	public $save_path = './test_data/sessions';
 
 	#[\Override]
@@ -35,6 +36,7 @@ class TestSessionHandler implements SessionHandlerInterface
 		{
 			@unlink($file);
 		}
+
 		$this->data[$id] = [];
 
 		return true;

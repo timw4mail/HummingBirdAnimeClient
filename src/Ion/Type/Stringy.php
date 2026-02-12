@@ -2425,11 +2425,11 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 
 		$languageSpecific = [
 			'de' => [
-				['ä',  'ö',  'ü',  'Ä',  'Ö',  'Ü'],
+				['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü'],
 				['ae', 'oe', 'ue', 'AE', 'OE', 'UE'],
 			],
 			'bg' => [
-				['х', 'Х', 'щ',   'Щ',   'ъ', 'Ъ', 'ь', 'Ь'],
+				['х', 'Х', 'щ', 'Щ', 'ъ', 'Ъ', 'ь', 'Ь'],
 				['h', 'H', 'sht', 'SHT', 'a', 'А', 'y', 'Y'],
 			],
 		];

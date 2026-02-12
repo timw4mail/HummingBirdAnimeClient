@@ -24,6 +24,13 @@ enum MediaType: string
 	use EnumTrait;
 
 	case ANIME = 'anime';
+
 	case DRAMA = 'drama';
+
 	case MANGA = 'manga';
+
+	public function __invoke(): string
+	{
+		return $this->value;
+	}
 }

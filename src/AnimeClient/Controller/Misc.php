@@ -15,9 +15,11 @@
 namespace Aviat\AnimeClient\Controller;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
-use Aviat\AnimeClient\API\Kitsu\Transformer\{CharacterTransformer, PersonTransformer};
+use Aviat\AnimeClient\API\Kitsu\Transformer\CharacterTransformer;
+use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 use Aviat\AnimeClient\Controller as BaseController;
-use Aviat\Ion\Attribute\{DefaultController, Route};
+use Aviat\Ion\Attribute\DefaultController;
+use Aviat\Ion\Attribute\Route;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Event;
 use Aviat\Ion\Type\EventType;
@@ -79,10 +81,14 @@ final class Misc extends BaseController
 		// Set the redirect url
 		$this->setSessionRedirect();
 
-		$this->outputHTML('login', [
-			'title' => 'Api login',
-			'message' => $message,
-		], $view);
+		$this->outputHTML(
+			'login',
+			[
+				'title' => 'Api login',
+				'message' => $message,
+			],
+			$view,
+		);
 	}
 
 	/**
@@ -132,23 +138,25 @@ final class Misc extends BaseController
 	{
 		$rawData = $this->model->getCharacter($slug);
 
-		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
 		{
 			$this->notFound(
 				$this->formatTitle(
 					'Characters',
-					'Character not found'
+					'Character not found',
 				),
-				'Character Not Found'
+				'Character Not Found',
 			);
 		}
 
-		$data = (new CharacterTransformer())->transform($rawData)->toArray();
+		$data = new CharacterTransformer()
+			->transform($rawData)
+			->toArray();
 
 		$this->outputHTML('character/details', [
 			'title' => $this->formatTitle(
 				'Characters',
-				$data['name']
+				$data['name'],
 			),
 			'data' => $data,
 		]);
@@ -161,23 +169,25 @@ final class Misc extends BaseController
 	public function person(string $slug): void
 	{
 		$rawData = $this->model->getPerson($slug);
-		$data = (new PersonTransformer())->transform($rawData)->toArray();
+		$data = new PersonTransformer()
+			->transform($rawData)
+			->toArray();
 
-		if (( ! array_key_exists('data', $rawData)) || empty($rawData['data']))
+		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
 		{
 			$this->notFound(
 				$this->formatTitle(
 					'People',
-					'Person not found'
+					'Person not found',
 				),
-				'Person Not Found'
+				'Person Not Found',
 			);
 		}
 
 		$this->outputHTML('person/details', [
 			'title' => $this->formatTitle(
 				'People',
-				$data['name']
+				$data['name'],
 			),
 			'data' => $data,
 		]);

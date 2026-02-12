@@ -14,8 +14,10 @@
 
 namespace Aviat\AnimeClient;
 
-use Aviat\Ion\Di\Exception\{ContainerException, NotFoundException};
-use Aviat\Ion\Di\{ContainerAware,  ContainerInterface};
+use Aviat\Ion\Di\ContainerAware;
+use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Di\Exception\ContainerException;
+use Aviat\Ion\Di\Exception\NotFoundException;
 
 /**
  * Utility method class
@@ -83,7 +85,7 @@ class Util
 	 */
 	public static function isNotSelected(string $left, string $right): string
 	{
-		return ($left !== $right) ? 'selected' : '';
+		return $left !== $right ? 'selected' : '';
 	}
 
 	/**

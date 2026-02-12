@@ -24,7 +24,10 @@ enum AnimeAiringStatus: string
 	use EnumTrait;
 
 	case NOT_YET_AIRED = 'Not Yet Aired';
+
 	case AIRING = 'Currently Airing';
+
 	case FINISHED_AIRING = 'Finished Airing';
 }
+
 // End of AnimeAiringStatus.php

@@ -14,13 +14,9 @@
 
 namespace Aviat\AnimeClient\Model;
 
-use Aviat\AnimeClient\API\{
-	Enum\MangaReadingStatus\Title,
-	Mapping\MangaReadingStatus,
-};
-use Aviat\AnimeClient\Types\{
-	MangaPage
-};
+use Aviat\AnimeClient\API\Enum\MangaReadingStatus\Title;
+use Aviat\AnimeClient\API\Mapping\MangaReadingStatus;
+use Aviat\AnimeClient\Types\MangaPage;
 
 /**
  * Model for handling requests dealing with the manga list

@@ -52,7 +52,7 @@ final class MangaTransformer extends AbstractTransformer
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
 				$type = mb_strtolower($rawCharacter['role']);
-				if (! isset($characters[$type]))
+				if ($characters[$type] === null)
 				{
 					$characters[$type] = [];
 				}
@@ -70,13 +70,13 @@ final class MangaTransformer extends AbstractTransformer
 
 			foreach (array_keys($characters) as $type)
 			{
-				if (empty($characters[$type]))
+				if ($characters[$type] === [])
 				{
 					unset($characters[$type]);
-				} else
-				{
-					uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
+					continue;
 				}
+
+				uasort($characters[$type], static fn ($a, $b) => $a['name'] <=> $b['name']);
 			}
 
 			krsort($characters);

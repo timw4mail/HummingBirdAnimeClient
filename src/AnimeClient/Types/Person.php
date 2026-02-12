@@ -20,15 +20,19 @@ namespace Aviat\AnimeClient\Types;
 final class Person extends AbstractType
 {
 	public string $id;
-	public ?string $name;
-	public ?string $birthday;
+
+	public null|string $name;
+
+	public null|string $birthday;
+
 	public string $image;
 
 	/**
 	 * @var list<string>
 	 */
 	public array $names = [];
-	public ?string $description;
+
+	public null|string $description;
 
 	/**
 	 * @var list<mixed>

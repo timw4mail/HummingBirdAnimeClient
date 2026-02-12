@@ -19,6 +19,7 @@ use Aviat\Ion\Json;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
+
 use function Amp\Promise\wait;
 use function Aviat\AnimeClient\getResponse;
 
@@ -34,6 +35,7 @@ final class APIRequestBuilderTest extends TestCase
 	{
 		$this->builder = new class() extends APIRequestBuilder {
 			protected string $baseUrl = 'https://httpbin.org/';
+
 			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
 		};
 
