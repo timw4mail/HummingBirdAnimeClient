@@ -6,6 +6,7 @@ pipeline {
 			steps {
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -rf ./vendor'
+				sh 'rf -f .phpunit.result.cache'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
@@ -14,12 +15,16 @@ pipeline {
 			agent {
 				docker {
 					image 'php:8.4-cli'
-					args '-u root --privileged'
 				}
 			}
 			steps {
 				sh 'apt-get update \
-						&& apt-get install -yy build-essential git'
+					&& apt-get install -yy libzip-dev build-essential git \
+					&& docker-php-source extract \
+					&& docker-php-ext-install zip \
+					&& pecl install pcov \
+					&& docker-php-ext-enable pcov \
+					&& docker-php-source delete'
 				sh 'php composer.phar run-script coverage'
 			}
 		}
@@ -27,12 +32,16 @@ pipeline {
 			agent {
 				docker {
 					image 'php:8.5-cli'
-					args '-u root --privileged'
 				}
 			}
 			steps {
 				sh 'apt-get update \
-						&& apt-get install -yy build-essential git'
+					&& apt-get install -yy libzip-dev build-essential git \
+					&& docker-php-source extract \
+					&& docker-php-ext-install zip \
+					&& pecl install pcov \
+					&& docker-php-ext-enable pcov \
+					&& docker-php-source delete'
 				sh 'php composer.phar run-script coverage'
 			}
 		}
@@ -40,7 +49,6 @@ pipeline {
 			agent {
 				docker {
 					image 'php-cli'
-					args '-u root --privileged'
 				}
 			}
 			steps {
