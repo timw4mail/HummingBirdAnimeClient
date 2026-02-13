@@ -48,4 +48,37 @@ final class ImagesControllerTest extends AnimeClientTestCase
 
 		$this->assertTrue(true);
 	}
+
+	public function testCacheAvatars(): void
+	{
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		$controller->cache('avatars', '123.jpg');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testCacheCharacters(): void
+	{
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		$controller->cache('characters', '123.jpg');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testCachePeople(): void
+	{
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		$controller->cache('people', '123.jpg');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
 }

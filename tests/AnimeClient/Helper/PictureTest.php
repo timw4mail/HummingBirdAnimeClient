@@ -27,7 +27,16 @@ final class PictureTest extends AnimeClientTestCase
 		$picture->setContainer($this->container);
 
 		$html = $picture('test.jpg', 'jpg');
-		$this->assertStringNotContainsString('<picture>', $html);
+		$this->assertStringNotContainsString('<picture', $html);
 		$this->assertStringContainsString('<img', $html);
+	}
+
+	public function testNonSimpleImg(): void
+	{
+		$picture = new Picture();
+		$picture->setContainer($this->container);
+
+		$html = $picture('test.tiff', 'webp');
+		$this->assertStringContainsString('<picture', $html);
 	}
 }

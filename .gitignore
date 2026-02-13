@@ -145,6 +145,11 @@ public/images/avatars/**
 public/images/manga/**
 public/images/characters/**
 public/images/people/**
+tests/AnimeClient/test_data/images/anime/**
+tests/AnimeClient/test_data/images/avatars/**
+tests/AnimeClient/test_data/images/characters/**
+tests/AnimeClient/test_data/images/manga/**
+tests/AnimeClient/test_data/images/people/**
 public/mal_mappings.json
 .phpunit.result.cache
 

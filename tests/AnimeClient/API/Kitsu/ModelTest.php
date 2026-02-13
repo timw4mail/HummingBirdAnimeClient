@@ -433,6 +433,32 @@ final class ModelTest extends AnimeClientTestCase
 		$this->assertEquals(42, $result);
 	}
 
+	public function testGetAnimeListCountWithStatus(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('GetLibraryCount', [
+				'type' => 'ANIME',
+				'slug' => 'test_user',
+				'status' => 'CURRENT',
+			])
+			->willReturn(['data' => ['findProfileBySlug' => ['library' => ['all' => [
+				'totalCount' => 10,
+			]]]]]);
+
+		$this->container->get('config')->set('kitsu_username', 'test_user');
+		$result = $this->model->getAnimeListCount('current');
+		$this->assertEquals(10, $result);
+	}
+
+	public function testGetRandomLibraryAnime(): void
+	{
+		$result = $this->model->getRandomLibraryAnime('current');
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\Anime::class, $result);
+		$this->assertTrue($result->isEmpty());
+	}
+
 	public function testGetMangaListCount(): void
 	{
 		$this->requestBuilder

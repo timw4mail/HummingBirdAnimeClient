@@ -32,14 +32,24 @@ final class EventTest extends TestCase
 	public function testMultipleListeners(): void
 	{
 		$count = 0;
+
 		Event::on(EventType::CLEAR_CACHE, function () use (&$count) {
 			$count++;
 		});
+
 		Event::on(EventType::CLEAR_CACHE, function () use (&$count) {
 			$count++;
 		});
 
 		Event::emit(EventType::CLEAR_CACHE);
+
 		$this->assertGreaterThanOrEqual(2, $count);
+	}
+
+	public function testEmitNoListeners(): void
+	{
+		Event::emit(EventType::UNAUTHORIZED);
+
+		$this->assertTrue(true);
 	}
 }

@@ -136,11 +136,13 @@ final class KitsuTest extends TestCase
 		$mappings = [
 			['externalSite' => 'MYANIMELIST_ANIME', 'externalId' => '1'],
 			['externalSite' => 'ANILIST_ANIME', 'externalId' => '2'],
+			['externalSite' => 'UNKNOWN_SITE', 'externalId' => '3'],
 		];
 		$urls = Kitsu::mappingsToUrls($mappings, 'http://kitsu.example.com');
 		$this->assertArrayHasKey('MyAnimeList', $urls);
 		$this->assertArrayHasKey('Anilist', $urls);
 		$this->assertArrayHasKey('Kitsu', $urls);
+		$this->assertArrayNotHasKey('Unknown Site', $urls);
 		$this->assertEquals('https://myanimelist.net/anime/1', $urls['MyAnimeList']);
 	}
 

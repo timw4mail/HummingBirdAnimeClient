@@ -139,7 +139,7 @@ final class Model
 	 */
 	public function createFullListItem(array $data, string $type): Request
 	{
-		$createData = $data['data'];
+		$createData = $data['data'] ?? $data;
 		$mediaId = $this->getMediaId($data, $type);
 
 		if ($mediaId === null || $mediaId === '')

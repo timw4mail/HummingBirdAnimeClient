@@ -22,11 +22,10 @@ use Amp\Http\Client\Response;
 use Aviat\Ion\ConfigInterface;
 use Aviat\Ion\ImageBuilder;
 use DateTimeImmutable;
+use Devium\Toml\Toml;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use Throwable;
-use Yosymfony\Toml\Toml;
-use Yosymfony\Toml\TomlBuilder;
 
 use function Amp\async;
 use function Aviat\Ion\_dir;
@@ -66,7 +65,7 @@ function loadConfig(string $path): array
 			continue;
 		}
 
-		$config = Toml::parseFile($file);
+		$config = loadTomlFile($file);
 
 		if ($key === 'config')
 		{
@@ -90,40 +89,14 @@ function loadConfig(string $path): array
  */
 function loadTomlFile(string $filename): array
 {
-	return Toml::parseFile($filename);
-}
-
-/**
- * @param TomlBuilder $builder
- * @param iterable<mixed> $data
- * @param mixed|NULL $parentKey
- * @return void
- */
-function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = null): void
-{
-	foreach ($data as $key => $value)
+	if (! is_file($filename))
 	{
-		// Skip unsupported empty value
-		if ($value === null)
-		{
-			continue;
-		}
-
-		if (is_scalar($value) || isSequentialArray($value))
-		{
-			$builder->addValue($key, $value);
-
-			continue;
-		}
-
-		$newKey = $parentKey !== null
-			? "{$parentKey}.{$key}"
-			: $key;
-
-		$builder->addTable($newKey);
-
-		_iterateToml($builder, $value, $newKey);
+		return [];
 	}
+
+	$file = file_get_contents($filename) ?? '';
+
+	return tomlToArray($file);
 }
 
 /**
@@ -133,11 +106,7 @@ function _iterateToml(TomlBuilder $builder, iterable $data, mixed $parentKey = n
  */
 function arrayToToml(iterable $data): string
 {
-	$builder = new TomlBuilder();
-
-	_iterateToml($builder, $data);
-
-	return $builder->getTomlString();
+	return Toml::encode($data);
 }
 
 /**
@@ -147,7 +116,7 @@ function arrayToToml(iterable $data): string
  */
 function tomlToArray(string $toml): array
 {
-	return Toml::parse($toml);
+	return Toml::decode($toml, asArray: true);
 }
 
 // ----------------------------------------------------------------------------

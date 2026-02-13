@@ -334,4 +334,32 @@ final class DispatcherTest extends AnimeClientTestCase
 		$this->doSetUp([], '/manga/reading', 'localhost');
 		$this->assertEquals('manga', $this->router->getController());
 	}
+
+	public function testProcessRouteWithTokens(): void
+	{
+		$config = [
+			'routes' => [
+				'test' => [
+					'path' => '/test/{id}',
+					'controller' => 'anime',
+					'action' => 'details',
+					'tokens' => [
+						'id' => '[0-9]+',
+					],
+				],
+			],
+			'config' => [
+				'default_list' => 'anime',
+			],
+		];
+		$this->doSetUp($config, '/test/123', 'localhost');
+
+		$route = $this->router->getRoute();
+		$this->assertNotFalse($route);
+
+		$friend = new \Aviat\Ion\Friend($this->router);
+		$parsed = $friend->processRoute(new \Aviat\Ion\Friend($route));
+
+		$this->assertEquals('123', $parsed['params']['id']);
+	}
 }

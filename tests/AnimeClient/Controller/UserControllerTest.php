@@ -2,6 +2,7 @@
 
 namespace Aviat\AnimeClient\Tests\Controller;
 
+use Aviat\AnimeClient\API\Kitsu\Model;
 use Aviat\AnimeClient\Controller\User as UserController;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
@@ -32,7 +33,7 @@ final class UserControllerTest extends AnimeClientTestCase
 		$this->container->get('config')->set('kitsu_username', 'test_user');
 		$this->container->get('config')->set('whose_list', 'Test');
 
-		$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
+		$model = $this->createMock(Model::class);
 		$model
 			->expects($this->once())
 			->method('getUserData')

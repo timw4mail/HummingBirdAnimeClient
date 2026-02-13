@@ -238,4 +238,53 @@ final class AnimeControllerTest extends AnimeClientTestCase
 
 		$this->assertTrue(true);
 	}
+
+	public function testFormUpdate(): void
+	{
+		$this->setSuperGlobals(['_POST' => [
+			'id' => '123',
+			'watching_status' => 'completed',
+			'rewatched' => 0,
+			'notes' => '',
+			'episodes_watched' => 12,
+			'user_rating' => 8,
+		]]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
+		$model
+			->expects($this->once())
+			->method('updateItem')
+			->willReturn(['body' => [], 'statusCode' => 200]);
+		$this->container->setInstance('anime-model', $model);
+
+		$controller = new AnimeController($this->container);
+
+		ob_start();
+		$controller->formUpdate();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testIndexCover(): void
+	{
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
+		$model
+			->expects($this->once())
+			->method('getList')
+			->willReturn([]);
+		$this->container->setInstance('anime-model', $model);
+
+		$controller = new AnimeController($this->container);
+
+		ob_start();
+		$controller->index('watching', null);
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
 }

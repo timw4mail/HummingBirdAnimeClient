@@ -16,13 +16,14 @@ namespace Aviat\AnimeClient\Tests\Helper;
 
 use Aviat\AnimeClient\Helper\Picture as PictureHelper;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
  */
 final class PictureHelperTest extends AnimeClientTestCase
 {
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataPictureCase')]
+	#[DataProvider('dataPictureCase')]
 	public function testPictureHelper(array $params): void
 	{
 		$helper = new PictureHelper();
@@ -33,7 +34,7 @@ final class PictureHelperTest extends AnimeClientTestCase
 		$this->assertMatchesSnapshot($actual);
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataSimpleImageCase')]
+	#[DataProvider('dataSimpleImageCase')]
 	public function testSimpleImage(string $ext, bool $isSimple, string|null $fallbackExt): void
 	{
 		$fallbackExt ??= 'jpg';

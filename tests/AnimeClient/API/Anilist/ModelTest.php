@@ -2,7 +2,9 @@
 
 namespace Aviat\AnimeClient\Tests\API\Anilist;
 
+use Aviat\AnimeClient\API\Anilist\ListItem;
 use Aviat\AnimeClient\API\Anilist\Model;
+use Aviat\AnimeClient\API\Anilist\RequestBuilder;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
@@ -23,8 +25,8 @@ final class ModelTest extends AnimeClientTestCase
 	{
 		parent::setUp();
 
-		$this->requestBuilder = $this->createMock(\Aviat\AnimeClient\API\Anilist\RequestBuilder::class);
-		$this->listItem = $this->createStub(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$this->requestBuilder = $this->createMock(RequestBuilder::class);
+		$this->listItem = $this->createStub(ListItem::class);
 
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
@@ -64,7 +66,7 @@ final class ModelTest extends AnimeClientTestCase
 			'status' => 'current',
 		];
 
-		$this->listItem = $this->createMock(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$this->listItem = $this->createMock(ListItem::class);
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
 		$this->model->setContainer($this->container);
@@ -89,7 +91,7 @@ final class ModelTest extends AnimeClientTestCase
 			'data' => \Aviat\AnimeClient\Types\FormItemData::from(['progress' => 5]),
 		]);
 
-		$this->listItem = $this->createMock(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$this->listItem = $this->createMock(ListItem::class);
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
 		$this->model->setContainer($this->container);
@@ -149,7 +151,7 @@ final class ModelTest extends AnimeClientTestCase
 			'data' => \Aviat\AnimeClient\Types\FormItemData::from(['progress' => 5]),
 		]);
 
-		$this->listItem = $this->createMock(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$this->listItem = $this->createMock(ListItem::class);
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
 		$this->model->setContainer($this->container);
@@ -181,7 +183,7 @@ final class ModelTest extends AnimeClientTestCase
 			'anilist_id' => '123',
 		]);
 
-		$this->listItem = $this->createMock(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$this->listItem = $this->createMock(ListItem::class);
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
 		$this->model->setContainer($this->container);
@@ -209,8 +211,11 @@ final class ModelTest extends AnimeClientTestCase
 
 	public function testCreateFullListItem(): void
 	{
-		$data = ['id' => '123', 'anilist_id' => '456'];
-		$this->listItem = $this->createMock(\Aviat\AnimeClient\API\Anilist\ListItem::class);
+		$data = [
+			'id' => '123',
+			'anilist_id' => '456',
+		];
+		$this->listItem = $this->createMock(ListItem::class);
 		$this->model = new Model($this->listItem);
 		$this->model->setRequestBuilder($this->requestBuilder);
 		$this->model->setContainer($this->container);

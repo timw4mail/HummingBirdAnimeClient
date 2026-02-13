@@ -109,9 +109,9 @@ final class LibraryEntryTransformer extends AbstractTransformer
 				'length' => $anime['episodeLength'],
 			],
 			'airing' => [
-				'status' => Kitsu::getAiringStatus($anime['startDate'], $anime['endDate']),
-				'started' => $anime['startDate'],
-				'ended' => $anime['endDate'],
+				'status' => Kitsu::getAiringStatus($anime['startDate'] ?? null, $anime['endDate'] ?? null),
+				'started' => $anime['startDate'] ?? null,
+				'ended' => $anime['endDate'] ?? null,
 			],
 			'anime' => [
 				'id' => $animeId,

@@ -36,6 +36,7 @@
 		"aura/session": "^4.0",
 		"aviat/banker": "^5.0.0",
 		"aviat/query": "^5.0.0",
+		"devium/toml": "^1.0",
 		"ext-dom": "*",
 		"ext-gd": "*",
 		"ext-intl": "*",
@@ -48,8 +49,7 @@
 		"monolog/monolog": "^3.0.0",
 		"php": ">= 8.4.0",
 		"psr/http-message": "^1.0.1 || ^2.0.0",
-		"tracy/tracy": "^2.8.0",
-		"yosymfony/toml": "^1.0.4"
+		"tracy/tracy": "^2.8.0"
 	},
 	"replace": {
 		"symfony/polyfill-mbstring": "*"

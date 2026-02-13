@@ -39,7 +39,7 @@ final class UserTransformer extends AbstractTransformer
 		$base = $item['data']['findProfileBySlug'] ?? [];
 		$favorites = $base['favorites']['nodes'] ?? [];
 		$stats = $base['stats'] ?? [];
-		$waifu = array_key_exists('waifu', $base)
+		$waifu = array_key_exists('waifu', $base) && $base['waifu'] !== null
 			? [
 				'label' => $base['waifuOrHusbando'],
 				'character' => $base['waifu'],

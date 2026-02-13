@@ -82,4 +82,19 @@ final class MiscControllerTest extends AnimeClientTestCase
 
 		$this->assertTrue(true);
 	}
+
+	public function testClearCache(): void
+	{
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->clearCache();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
 }

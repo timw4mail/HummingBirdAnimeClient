@@ -220,4 +220,36 @@ final class MangaControllerTest extends AnimeClientTestCase
 
 		$this->assertTrue(true);
 	}
+
+	public function testFormUpdate(): void
+	{
+		$this->setSuperGlobals(['_POST' => [
+			'id' => '123',
+			'mal_id' => '456',
+			'status' => 'completed',
+			'reread_count' => 0,
+			'notes' => '',
+			'chapters_read' => 50,
+			'new_rating' => 8,
+		]]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Manga::class);
+		$model
+			->expects($this->once())
+			->method('updateItem')
+			->willReturn(['body' => [], 'statusCode' => 200]);
+		$this->container->setInstance('manga-model', $model);
+
+		$controller = new MangaController($this->container);
+
+		ob_start();
+		$controller->formUpdate();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
 }

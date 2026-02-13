@@ -25,14 +25,15 @@ use const PHP_URL_HOST;
  */
 final class Kitsu
 {
-	public const AUTH_URL = 'https://kitsu.app/api/oauth/token';
-	public const AUTH_USER_ID_KEY = 'kitsu-auth-userid';
-	public const AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
-	public const AUTH_TOKEN_EXP_CACHE_KEY = 'kitsu-auth-token-expires';
-	public const AUTH_TOKEN_REFRESH_CACHE_KEY = 'kitsu-auth-token-refresh';
-	public const ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
-	public const MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
-	public const GRAPHQL_ENDPOINT = 'https://kitsu.app/api/graphql';
+	public const string BASE_KITSU_URL = 'https://kitsu.app/api';
+	public const string AUTH_URL = self::BASE_KITSU_URL . '/oauth/token';
+	public const string GRAPHQL_ENDPOINT = self::BASE_KITSU_URL . '/graphql';
+	public const string AUTH_USER_ID_KEY = 'kitsu-auth-userid';
+	public const string AUTH_TOKEN_CACHE_KEY = 'kitsu-auth-token';
+	public const string AUTH_TOKEN_EXP_CACHE_KEY = 'kitsu-auth-token-expires';
+	public const string AUTH_TOKEN_REFRESH_CACHE_KEY = 'kitsu-auth-token-refresh';
+	public const string ANIME_HISTORY_LIST_CACHE_KEY = 'kitsu-anime-history-list';
+	public const string MANGA_HISTORY_LIST_CACHE_KEY = 'kitsu-manga-history-list';
 
 	/**
 	 * Determine whether an anime is airing, finished airing, or has not yet aired
@@ -72,17 +73,12 @@ final class Kitsu
 		$isDone = $now > $endPubDate;
 		$isCurrent = $now > $startPubDate && ! $isDone;
 
-		if ($isCurrent)
+		return match (true)
 		{
-			return MangaPublishingStatus::CURRENT;
-		}
-
-		if ($isDone)
-		{
-			return MangaPublishingStatus::FINISHED;
-		}
-
-		return MangaPublishingStatus::NOT_YET_PUBLISHED;
+			$isCurrent => MangaPublishingStatus::CURRENT,
+			$isDone => MangaPublishingStatus::FINISHED,
+			default => MangaPublishingStatus::NOT_YET_PUBLISHED,
+		};
 	}
 
 	/**

@@ -68,4 +68,17 @@ final class CacheTraitTest extends AnimeClientTestCase
 		$this->assertEquals($value, $result2);
 		$this->assertFalse($called);
 	}
+
+	public function testGetCachedWithArgs(): void
+	{
+		$cachePool = $this->container->get('cache');
+		$cachePool->clear();
+		$this->testClass->setCache($cachePool);
+
+		$key = 'arg-key';
+		$primer = fn ($arg) => "value-{$arg}";
+
+		$result = $this->testClass->getCached($key, $primer, ['foo']);
+		$this->assertEquals('value-foo', $result);
+	}
 }

@@ -67,7 +67,7 @@ class AnimeClientTestCase extends TestCase
 		$config_array = [
 			'root' => self::ROOT_DIR,
 			'asset_path' => '/assets',
-			'img_cache_path' => _dir(self::ROOT_DIR, 'public/images'),
+			'img_cache_path' => _dir(self::TEST_DATA_DIR, 'images'),
 			'data_cache_path' => _dir(self::TEST_DATA_DIR, 'cache'),
 			'cache' => [
 				'driver' => 'null',
