@@ -15,6 +15,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php:8.4-cli'
+					args '-u root --privileged'
 				}
 			}
 			steps {
@@ -32,6 +33,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php:8.5-cli'
+					args '-u root --privileged'
 				}
 			}
 			steps {
@@ -49,6 +51,7 @@ pipeline {
 			agent {
 				docker {
 					image 'php-cli'
+					args '-u root --privileged'
 				}
 			}
 			steps {
