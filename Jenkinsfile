@@ -6,7 +6,7 @@ pipeline {
 			steps {
 				sh 'curl -sS https://getcomposer.org/installer | php'
 				sh 'rm -rf ./vendor'
-				sh 'rf -f .phpunit.result.cache'
+				sh 'rm -f .phpunit.result.cache'
 				sh 'rm -f composer.lock'
 				sh 'php composer.phar install --ignore-platform-reqs'
 			}
