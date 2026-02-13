@@ -1,49 +1,28 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\Ion\Json;
+use Aviat\AnimeClient\Types\AnimePage;
 
-/**
- * @internal
- */
 final class AnimeTransformerTest extends AnimeClientTestCase
 {
-	protected $dir;
-
-	protected $beforeTransform;
-
-	protected $transformer;
+	protected AnimeTransformer $transformer;
 
 	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
-		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-
-		$this->beforeTransform = Json::decodeFile("{$this->dir}/animeBeforeTransform.json");
-
 		$this->transformer = new AnimeTransformer();
 	}
 
-	public function testTransform(): never
+	public function testTransform(): void
 	{
-		$this->markTestSkipped('May fail on CI');
-		$actual = $this->transformer->transform($this->beforeTransform);
-		$this->assertMatchesSnapshot($actual);
+		$data = $this->getMockFileData('Kitsu', 'animeBeforeTransform.json');
+		$result = $this->transformer->transform($data);
+
+		$this->assertInstanceOf(AnimePage::class, $result);
+		$this->assertMatchesSnapshot($result);
 	}
 }

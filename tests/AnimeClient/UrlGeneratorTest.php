@@ -52,6 +52,20 @@ final class UrlGeneratorTest extends AnimeClientTestCase
 		$this->assertSame($expected, $result);
 	}
 
+	public function testFromRoute(): void
+	{
+		$urlGenerator = new UrlGenerator($this->container);
+		$url = $urlGenerator->fromRoute('login');
+		$this->assertEquals('https://localhost/login', $url);
+	}
+
+	public function testUrl(): void
+	{
+		$urlGenerator = new UrlGenerator($this->container);
+		$url = $urlGenerator->url('/foo/bar');
+		$this->assertEquals('https://localhost/foo/bar', $url);
+	}
+
 	public function testDefaultUrlInvalidType(): void
 	{
 		$this->expectException(InvalidArgumentException::class);

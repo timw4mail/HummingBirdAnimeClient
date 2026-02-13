@@ -1,5 +1,6 @@
 empty: false
 id: '435513'
+anilist_id: '209'
 mal_id: '209'
 episodes:
     watched: 7
@@ -12,14 +13,23 @@ airing:
 anime:
     empty: false
     age_rating: PG
-    cover_image: 'https://media.kitsu.io/anime/poster_images/185/small.jpg?1597697520'
+    age_rating_guide: null
+    cover_image: 'https://media.kitsu.io/anime/poster_images/185/small.jpg'
+    episode_count: 26
+    episode_length: 1500
     genres: {  }
     id: '185'
     show_type: TV
     slug: r-o-d
+    status: 'Finished Airing'
     streaming_links: [{ meta: { name: Crunchyroll, link: true, image: streaming-logos/crunchyroll.svg }, link: 'http://www.crunchyroll.com/rod', subs: [en], dubs: [ja] }, { meta: { name: Hulu, link: true, image: streaming-logos/hulu.svg }, link: 'http://www.hulu.com/rod-the-tv', subs: [en], dubs: [ja] }]
+    synopsis: ''
     title: 'R.O.D the TV'
     titles: ['アール・オー・ディー ザ・ティーヴィー']
+    titles_more: ['アール・オー・ディー ザ・ティーヴィー']
+    trailer_id: null
+    total_length: null
+    url: 'https://kitsu.app/anime/r-o-d'
 notes: ''
 private: false
 rewatching: false

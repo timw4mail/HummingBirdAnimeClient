@@ -26,10 +26,10 @@ use function Aviat\Ion\_dir;
 class IonTestCase extends TestCase
 {
 	// Test directory constants
-	final public const ROOT_DIR = AC_TEST_ROOT_DIR;
-	final public const SRC_DIR = SRC_DIR;
-	final public const TEST_DATA_DIR = __DIR__ . '/test_data';
-	final public const TEST_VIEW_DIR = __DIR__ . '/test_views';
+	final public const string ROOT_DIR = AC_TEST_ROOT_DIR;
+	final public const string SRC_DIR = SRC_DIR;
+	final public const string TEST_DATA_DIR = __DIR__ . '/test_data';
+	final public const string TEST_VIEW_DIR = __DIR__ . '/test_views';
 
 	protected ContainerInterface $container;
 
@@ -55,7 +55,7 @@ class IonTestCase extends TestCase
 
 		$config_array = [
 			'asset_path' => '//localhost/assets/',
-			'img_cache_path' => _dir(ROOT_DIR, 'public/images'),
+			'img_cache_path' => _dir($ROOT_DIR, 'public/images'),
 			'database' => [
 				'collection' => [
 					'type' => 'sqlite',

@@ -33,10 +33,39 @@ final class CacheTraitTest extends AnimeClientTestCase
 		};
 	}
 
-	public function testSetGet()
+	public function testSetGet(): void
 	{
 		$cachePool = $this->container->get('cache');
 		$this->testClass->setCache($cachePool);
 		$this->assertSame($cachePool, $this->testClass->getCache());
+	}
+
+	public function testGetCached(): void
+	{
+		$cachePool = $this->container->get('cache');
+		$cachePool->clear();
+		$this->testClass->setCache($cachePool);
+
+		$key = 'test-key';
+		$value = 'test-value';
+		$primer = fn () => $value;
+
+		// First call, should call primer and set cache
+		$result = $this->testClass->getCached($key, $primer);
+		$this->assertEquals($value, $result);
+		$this->assertTrue($cachePool->has($key));
+		$this->assertEquals($value, $cachePool->get($key));
+
+		// Second call, should return from cache
+		$called = false;
+		$primer2 = function () use (&$called) {
+			$called = true;
+
+			return 'wrong-value';
+		};
+
+		$result2 = $this->testClass->getCached($key, $primer2);
+		$this->assertEquals($value, $result2);
+		$this->assertFalse($called);
 	}
 }

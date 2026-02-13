@@ -37,9 +37,8 @@ final class CharacterTransformerTest extends AnimeClientTestCase
 		$this->beforeTransform = $raw;
 	}
 
-	public function testTransform(): never
+	public function testTransform(): void
 	{
-		$this->markTestSkipped('Fails on CI');
 		$actual = new CharacterTransformer()->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}

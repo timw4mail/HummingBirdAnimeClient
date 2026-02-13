@@ -17,6 +17,7 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Json;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @internal
@@ -41,10 +42,8 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 		$this->transformer = new AnimeListTransformer();
 	}
 
-	public function testTransform(): never
+	public function testTransform(): void
 	{
-		$this->markTestSkipped('Old test data');
-
 		$actual = $this->transformer->transform($this->beforeTransform);
 		$this->assertMatchesSnapshot($actual);
 	}
@@ -94,7 +93,7 @@ final class AnimeListTransformerTest extends AnimeClientTestCase
 		];
 	}
 
-	#[\PHPUnit\Framework\Attributes\DataProvider('dataUntransform')]
+	#[DataProvider('dataUntransform')]
 	public function testUntransform(array $input): void
 	{
 		$actual = $this->transformer->untransform($input);

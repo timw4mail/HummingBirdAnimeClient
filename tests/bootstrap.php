@@ -14,9 +14,11 @@ const TEST_DIR = __DIR__ . '/';
 // Autoloading
 // -----------------------------------------------------------------------------
 
-require_once TEST_DIR . 'AnimeClient/AnimeClientTestCase.php';
-require_once TEST_DIR . '/Ion/IonTestCase.php';
 require_once AC_TEST_ROOT_DIR . 'vendor/autoload.php';
+
+DG\BypassFinals::enable();
+
+require_once TEST_DIR . 'AnimeClient/AnimeClientTestCase.php';
 
 // -----------------------------------------------------------------------------
 // Ini Settings

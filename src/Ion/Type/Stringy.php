@@ -1059,8 +1059,8 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		$padding = $length - $this->length();
 
 		return $this->applyPadding(
-			floor($padding / 2),
-			ceil($padding / 2),
+			(int) floor($padding / 2),
+			(int) ceil($padding / 2),
 			$padStr,
 		);
 	}
@@ -1075,7 +1075,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	 */
 	public function padLeft(int $length, string $padStr = ' '): self
 	{
-		return $this->applyPadding($length - $this->length(), 0, $padStr);
+		return $this->applyPadding((int) ($length - $this->length()), 0, $padStr);
 	}
 
 	/**
@@ -1088,7 +1088,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	 */
 	public function padRight(int $length, string $padStr = ' '): self
 	{
-		return $this->applyPadding(0, $length - $this->length(), $padStr);
+		return $this->applyPadding(0, (int) ($length - $this->length()), $padStr);
 	}
 
 	/**
@@ -1287,11 +1287,11 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	{
 		$stringy = $this->toAscii($language);
 
-		$stringy->str = str_replace('@', $replacement, $stringy);
+		$stringy->str = str_replace('@', $replacement, (string) $stringy);
 
 		$quotedReplacement = preg_quote($replacement);
-		$pattern = "/[^a-zA-Z\\d\\s-_{$quotedReplacement}]/u";
-		$stringy->str = preg_replace($pattern, '', $stringy);
+		$pattern = "/[^a-zA-Z\\d\\s_{$quotedReplacement}]/u";
+		$stringy->str = preg_replace($pattern, '', (string) $stringy) ?? '';
 
 		return $stringy
 			->toLowerCase()
@@ -1604,7 +1604,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 
 		foreach ($this->charsArray() as $key => $value)
 		{
-			$str = str_replace($value, $key, $str);
+			$str = str_replace($value, (string) $key, $str);
 		}
 
 		if ($removeUnsupported)
@@ -2462,13 +2462,13 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 		}
 
 		$leftPadding = mb_substr(
-			str_repeat($padStr, ceil($left / $length)),
+			str_repeat($padStr, (int) ceil($left / $length)),
 			0,
 			$left,
 			$stringy->encoding,
 		);
 		$rightPadding = mb_substr(
-			str_repeat($padStr, ceil($right / $length)),
+			str_repeat($padStr, (int) ceil($right / $length)),
 			0,
 			$right,
 			$stringy->encoding,

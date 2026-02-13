@@ -1,54 +1,127 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\AnimeHistoryTransformer;
-use Aviat\AnimeClient\API\Kitsu\Transformer\MangaHistoryTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\Ion\Json;
 
-/**
- * @internal
- */
 final class HistoryTransformerTest extends AnimeClientTestCase
 {
-	protected array $beforeTransform;
-
-	protected string $dir;
+	protected AnimeHistoryTransformer $transformer;
 
 	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
-		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-
-		$raw = Json::decodeFile("{$this->dir}/historyBeforeTransform.json");
-		$this->beforeTransform = $raw;
+		$this->transformer = new AnimeHistoryTransformer();
 	}
 
-	public function testAnimeTransform(): never
+	public function testTransform(): void
 	{
-		$this->markTestSkipped('Old test data');
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'libraryEvents' => [
+						'nodes' => [
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:00:00Z',
+								'changedData' => [
+									'progress' => [0, 1],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+									'episodeCount' => 12,
+								],
+							],
+							[
+								'kind' => 'updated',
+								'updatedAt' => '2026-02-12T13:00:00Z',
+								'changedData' => [
+									'status' => ['planned', 'current'],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+								],
+							],
+						],
+					],
+				],
+			],
+		];
 
-		$actual = new AnimeHistoryTransformer()->transform($this->beforeTransform);
-		$this->assertMatchesSnapshot($actual);
+		$result = $this->transformer->transform($data);
+		$this->assertCount(2, $result);
+		$this->assertEquals('Watched episode 1', $result[0]['action']);
+		$this->assertEquals('Currently Watching', $result[1]['action']);
 	}
 
-	public function testMangaTransform(): void
+	public function testAggregate(): void
 	{
-		$actual = new MangaHistoryTransformer()->transform($this->beforeTransform);
-		$this->assertMatchesSnapshot($actual);
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'libraryEvents' => [
+						'nodes' => [
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:00:00Z',
+								'changedData' => [
+									'progress' => [0, 1],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+									'episodeCount' => 12,
+								],
+							],
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:30:00Z',
+								'changedData' => [
+									'progress' => [1, 2],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+									'episodeCount' => 12,
+								],
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$result = $this->transformer->transform($data);
+		$this->assertCount(1, $result);
+		$this->assertTrue($result[0]['isAggregate']);
+		$this->assertEquals('Watched episodes 1-2', $result[0]['action']);
 	}
 }

@@ -61,6 +61,30 @@ final class AnimeCollectionTest extends AnimeClientTestCase
 		$this->assertArrayHasKey('Other', $types);
 	}
 
+	public function testGetGenreList(): void
+	{
+		$friend = new Friend($this->model);
+		$friend->db->set([
+			'hummingbird_id' => 123,
+			'slug' => 'test',
+			'title' => 'Test',
+		])->insert('anime_set');
+
+		$friend->db->set([
+			'id' => 1,
+			'genre' => 'Action',
+		])->insert('genres');
+
+		$friend->db->set([
+			'hummingbird_id' => 123,
+			'genre_id' => 1,
+		])->insert('anime_set_genre_link');
+
+		$genres = $this->model->getGenreList();
+		$this->assertArrayHasKey('123', $genres);
+		$this->assertContains('Action', $genres['123']);
+	}
+
 	public function testHas(): void
 	{
 		$friend = new Friend($this->model);

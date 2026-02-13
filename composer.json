@@ -58,7 +58,8 @@
 		"phpstan/phpstan": "^2.0.1",
 		"phpunit/phpunit": "^13.0.2",
 		"roave/security-advisories": "dev-master",
-		"spatie/phpunit-snapshot-assertions": "^5.0.1"
+		"spatie/phpunit-snapshot-assertions": "^5.0.1",
+		"dg/bypass-finals": "^1.9"
 	},
 	"scripts": {
 		"build:css": "cd frontEndSrc && npm run build:css && cd ..",

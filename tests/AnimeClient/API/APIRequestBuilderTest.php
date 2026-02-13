@@ -1,155 +1,68 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API;
 
 use Aviat\AnimeClient\API\APIRequestBuilder;
-use Aviat\Ion\Json;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\NullLogger;
 
-use function Amp\Promise\wait;
-use function Aviat\AnimeClient\getResponse;
-
-/**
- * @internal
- */
-final class APIRequestBuilderTest extends TestCase
+class APIRequestBuilderTest extends TestCase
 {
 	protected $builder;
 
-	#[\Override]
 	protected function setUp(): void
 	{
-		$this->builder = new class() extends APIRequestBuilder {
-			protected string $baseUrl = 'https://httpbin.org/';
-
-			protected array $defaultHeaders = ['User-Agent' => "Tim's Anime Client Testsuite / 4.0"];
-		};
-
-		$this->builder->setLogger(new NullLogger());
+		$this->builder = new class extends APIRequestBuilder {};
 	}
 
-	public function testGzipRequest(): never
+	public function testSimpleRequest(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$request = $this->builder->newRequest('GET', 'gzip')->getFullRequest();
-		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()->buffer()));
-		$this->assertTrue($body['gzipped']);
+		$request = APIRequestBuilder::simpleRequest('https://example.com');
+		$this->assertEquals('https://example.com', (string) $request->getUri());
+		$this->assertArrayHasKey('user-agent', $request->getHeaders());
 	}
 
-	public function testInvalidRequestMethod(): never
+	public function testNewRequest(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$this->expectException(InvalidArgumentException::class);
-		$this->builder->newRequest('FOO', 'gzip')->getFullRequest();
+		$this->builder->newRequest('POST', 'https://example.com/api');
+		$request = $this->builder->getFullRequest();
+		$this->assertEquals('POST', $request->getMethod());
+		$this->assertEquals('https://example.com/api', (string) $request->getUri());
 	}
 
-	public function testRequestWithBasicAuth(): never
+	public function testSetAuth(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$request = $this->builder
-			->newRequest('GET', 'headers')
-			->setBasicAuth('username', 'password')
-			->getFullRequest();
-
-		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()->buffer()));
-
-		$this->assertSame('Basic dXNlcm5hbWU6cGFzc3dvcmQ=', $body['headers']['Authorization']);
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setAuth('bearer', 'token123');
+		$request = $this->builder->getFullRequest();
+		$this->assertEquals('Bearer token123', $request->getHeader('Authorization'));
 	}
 
-	public function testRequestWithQueryString(): never
+	public function testSetBasicAuth(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$query = [
-			'foo' => 'bar',
-			'bar' => [
-				'foo' => 'bar',
-			],
-			'baz' => [
-				'bar' => 'foo',
-			],
-		];
-
-		$expected = [
-			'bar[foo]' => 'bar',
-			'baz[bar]' => 'foo',
-			'foo' => 'bar',
-		];
-
-		$request = $this->builder
-			->newRequest('GET', 'get')
-			->setQuery($query)
-			->getFullRequest();
-
-		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()->buffer()));
-
-		$this->assertSame($expected, $body['args']);
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setBasicAuth('user', 'pass');
+		$request = $this->builder->getFullRequest();
+		$expected = 'Basic ' . base64_encode('user:pass');
+		$this->assertEquals($expected, $request->getHeader('Authorization'));
 	}
 
-	public function testFormValueRequest(): never
+	public function testSetHeaders(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$formValues = [
-			'bar' => 'foo',
-			'foo' => 'bar',
-		];
-
-		$request = $this->builder
-			->newRequest('POST', 'post')
-			->setFormFields($formValues)
-			->getFullRequest();
-
-		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()->buffer()));
-
-		$this->assertSame($formValues, $body['form']);
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setHeaders([
+			'X-Test' => 'Foo',
+			'X-Another' => 'Bar',
+		]);
+		$request = $this->builder->getFullRequest();
+		$this->assertEquals('Foo', $request->getHeader('X-Test'));
+		$this->assertEquals('Bar', $request->getHeader('X-Another'));
 	}
 
-	public function testFullUrlRequest(): never
+	public function testSetQuery(): void
 	{
-		$this->markTestSkipped('Need new test API');
-
-		$data = [
-			'foo' => [
-				'bar' => 1,
-				'baz' => [2, 3, 4],
-				'bazbar' => [
-					'a' => 1,
-					'b' => 2,
-				],
-			],
-		];
-
-		$request = $this->builder
-			->newRequest('PUT', 'https://httpbin.org/put')
-			->setHeader('Content-Type', 'application/json')
-			->setJsonBody($data)
-			->getFullRequest();
-
-		$response = getResponse($request);
-		$body = Json::decode(wait($response->getBody()->buffer()));
-
-		$this->assertSame($data, $body['json']);
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setQuery(['foo' => 'bar', 'baz' => 'qux']);
+		$request = $this->builder->getFullRequest();
+		$this->assertEquals('https://example.com?foo=bar&baz=qux', (string) $request->getUri());
 	}
 }
