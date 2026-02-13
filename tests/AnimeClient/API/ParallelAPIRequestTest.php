@@ -17,14 +17,16 @@ final class ParallelAPIRequestTest extends AnimeClientTestCase
 		parent::setUp();
 
 		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
-		$client->method('request')->willReturnCallback(function () {
-			$response = $this->createMock(\Amp\Http\Client\Response::class);
-			$response->method('getStatus')->willReturn(200);
-			$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
-			$response->method('getBody')->willReturn($body);
+		$client
+			->method('request')
+			->willReturnCallback(function () {
+				$response = $this->createMock(\Amp\Http\Client\Response::class);
+				$response->method('getStatus')->willReturn(200);
+				$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+				$response->method('getBody')->willReturn($body);
 
-			return $response;
-		});
+				return $response;
+			});
 		\Aviat\AnimeClient\getApiClient($client);
 	}
 

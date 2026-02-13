@@ -83,97 +83,100 @@ final class MiscControllerTest extends AnimeClientTestCase
 		$this->assertTrue(true);
 	}
 
-		public function testClearCache(): void
-		{
-			$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
-			$auth->method('isAuthenticated')->willReturn(true);
-			$this->container->setInstance('auth', $auth);
-	
-			$controller = new MiscController($this->container);
-			
-			ob_start();
-			$controller->clearCache();
-			ob_end_clean();
-	
-			$this->assertTrue(true);
-		}
-	
-		public function testLoginAction(): void
-		{
-			$this->setSuperGlobals(['_POST' => ['password' => 'pass']]);
-			
-			$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
-			$auth->expects($this->once())
-				->method('authenticate')
-				->with('pass')
-				->willReturn(true);
-			$this->container->setInstance('auth', $auth);
-	
-			$controller = new MiscController($this->container);
-			
-			ob_start();
-			$controller->loginAction();
-			ob_end_clean();
-	
-			$this->assertTrue(true);
-		}
-	
-		public function testCharacter(): void
-		{
-			$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
-			$model->expects($this->once())
-				->method('getCharacter')
-				->with('test-slug')
-				->willReturn(['data' => ['findCharacterBySlug' => [
-					'id' => '1',
-					'slug' => 'test-slug',
-					'names' => [
-						'canonical' => 'Test',
-						'localized' => [],
-						'alternatives' => [],
-					],
-					'image' => ['original' => ['url' => 'test.jpg']],
-					'description' => ['en' => 'Test'],
-					'media' => ['nodes' => []],
-				]]]);
-			$this->container->setInstance('kitsu-model', $model);
-	
-			$controller = new MiscController($this->container);
-			
-			ob_start();
-			$controller->character('test-slug');
-			ob_end_clean();
-	
-			$this->assertTrue(true);
-		}
-	
-		public function testPerson(): void
-		{
-			$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
-			$model->expects($this->once())
-				->method('getPerson')
-				->with('test-slug')
-				->willReturn(['data' => ['findPersonBySlug' => [
-					'id' => '1',
-					'slug' => 'test-slug',
-					'names' => [
-						'canonical' => 'Test',
-						'localized' => ['Test' => 'Test Person'],
-					],
-					'image' => ['original' => ['url' => 'test.jpg']],
-					'birthday' => '1990-01-01',
-					'description' => ['en' => 'Test'],
-					'mediaStaff' => ['nodes' => []],
-					'voices' => ['nodes' => []],
-				]]]);
-			$this->container->setInstance('kitsu-model', $model);
-	
-			$controller = new MiscController($this->container);
-			
-			ob_start();
-			$controller->person('test-slug');
-			ob_end_clean();
-	
-			$this->assertTrue(true);
-		}
+	public function testClearCache(): void
+	{
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->clearCache();
+		ob_end_clean();
+
+		$this->assertTrue(true);
 	}
+
+	public function testLoginAction(): void
+	{
+		$this->setSuperGlobals(['_POST' => ['password' => 'pass']]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth
+			->expects($this->once())
+			->method('authenticate')
+			->with('pass')
+			->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->loginAction();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testCharacter(): void
+	{
+		$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
+		$model
+			->expects($this->once())
+			->method('getCharacter')
+			->with('test-slug')
+			->willReturn(['data' => ['findCharacterBySlug' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'names' => [
+					'canonical' => 'Test',
+					'localized' => [],
+					'alternatives' => [],
+				],
+				'image' => ['original' => ['url' => 'test.jpg']],
+				'description' => ['en' => 'Test'],
+				'media' => ['nodes' => []],
+			]]]);
+		$this->container->setInstance('kitsu-model', $model);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->character('test-slug');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testPerson(): void
+	{
+		$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
+		$model
+			->expects($this->once())
+			->method('getPerson')
+			->with('test-slug')
+			->willReturn(['data' => ['findPersonBySlug' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'names' => [
+					'canonical' => 'Test',
+					'localized' => ['Test' => 'Test Person'],
+				],
+				'image' => ['original' => ['url' => 'test.jpg']],
+				'birthday' => '1990-01-01',
+				'description' => ['en' => 'Test'],
+				'mediaStaff' => ['nodes' => []],
+				'voices' => ['nodes' => []],
+			]]]);
+		$this->container->setInstance('kitsu-model', $model);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->person('test-slug');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+}

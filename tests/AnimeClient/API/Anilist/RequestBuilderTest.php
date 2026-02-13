@@ -28,7 +28,7 @@ final class RequestBuilderTest extends AnimeClientTestCase
 			'body' => ['query' => 'test'],
 			'headers' => ['X-Foo' => 'Bar'],
 		]);
-		
+
 		$this->assertEquals('POST', $request->getMethod());
 		$this->assertEquals('https://example.com', (string) $request->getUri());
 		$this->assertTrue($request->hasHeader('Authorization'));

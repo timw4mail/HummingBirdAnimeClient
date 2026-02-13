@@ -226,8 +226,10 @@ final class ModelTest extends AnimeClientTestCase
 			->expects($this->once())
 			->method('getResponse')
 			->with('POST', K::AUTH_URL, $this->callback(function ($options) {
-				return $options['form_params']['grant_type'] === 'refresh_token'
-					&& $options['form_params']['refresh_token'] === 'old_token';
+				return (
+					$options['form_params']['grant_type'] === 'refresh_token'
+					&& $options['form_params']['refresh_token'] === 'old_token'
+				);
 			}))
 			->willReturn($response);
 
@@ -789,8 +791,7 @@ final class ModelTest extends AnimeClientTestCase
 	public function testGetFullOrganizedAnimeListCache(): void
 	{
 		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
-		$cache->method('get')
-			->willReturn(['cached' => 'data']);
+		$cache->method('get')->willReturn(['cached' => 'data']);
 		$this->model->setCache($cache);
 
 		$result = $this->model->getFullOrganizedAnimeList();
@@ -800,8 +801,7 @@ final class ModelTest extends AnimeClientTestCase
 	public function testGetFullOrganizedMangaListCache(): void
 	{
 		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
-		$cache->method('get')
-			->willReturn(['cached' => 'manga']);
+		$cache->method('get')->willReturn(['cached' => 'manga']);
 		$this->model->setCache($cache);
 
 		$result = $this->model->getFullOrganizedMangaList();

@@ -16,10 +16,10 @@ namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\RenderHelper;
 use Aviat\AnimeClient\UrlGenerator;
+use Aviat\Ion\Di\Container;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
-use Aviat\Ion\Di\Container;
 use Laminas\Diactoros\Response as HttpResponse;
 use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
@@ -145,21 +145,21 @@ class AnimeClientTestCase extends TestCase
 			ServerRequestFactory::fromGlobals(...),
 			array_values($combined),
 		);
-		
+
 		if ($this->container instanceof Container)
 		{
 			$this->container->clearInstance('request');
 			$this->container->setInstance('request', $request);
-			
+
 			$this->container->clearInstance('response');
 			$this->container->set('response', static fn () => new HttpResponse());
-			
+
 			// Reset dependent objects
 			$this->container->clearInstance('aura-router');
 			$this->container->clearInstance('url-generator');
 			$this->container->clearInstance('render-helper');
 			$this->container->clearInstance('dispatcher');
-			
+
 			if (! $this instanceof DispatcherTest)
 			{
 				$this->container->get('dispatcher');

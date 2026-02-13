@@ -55,13 +55,17 @@ final class RequestBuilderTest extends AnimeClientTestCase
 	public function testSetUpRequestFromSession(): void
 	{
 		$this->container->get('cache')->clear();
-		$this->container->get('session')
+		$this->container
+			->get('session')
 			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT)
 			->set('auth_token', 'session-token');
-		
+
 		$request = $this->builder->setUpRequest('GET', 'https://example.com');
 		$this->assertEquals('Bearer session-token', $request->getHeader('Authorization'));
-		$this->assertEquals('session-token', $this->container->get('cache')->get(\Aviat\AnimeClient\Kitsu::AUTH_TOKEN_CACHE_KEY));
+		$this->assertEquals(
+			'session-token',
+			$this->container->get('cache')->get(\Aviat\AnimeClient\Kitsu::AUTH_TOKEN_CACHE_KEY),
+		);
 	}
 
 	public function testRunQuery(): void

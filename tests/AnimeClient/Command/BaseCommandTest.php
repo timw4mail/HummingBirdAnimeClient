@@ -17,8 +17,8 @@ namespace Aviat\AnimeClient\Tests\Command;
 use Aviat\AnimeClient\Command\BaseCommand;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Di\Container;
-use Aviat\Ion\Friend;
 use Aviat\Ion\Di\ContainerInterface;
+use Aviat\Ion\Friend;
 use ConsoleKit\Console;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
@@ -149,6 +149,9 @@ final class BaseCommandTest extends AnimeClientTestCase
 				'file' => ':memory:',
 			],
 		];
-		$this->assertInstanceOf(ContainerInterface::class, $this->friend->_di($config, self::ROOT_DIR . '/app'));
+		$this->assertInstanceOf(ContainerInterface::class, $this->friend->_di(
+			$config,
+			self::ROOT_DIR . '/app',
+		));
 	}
 }

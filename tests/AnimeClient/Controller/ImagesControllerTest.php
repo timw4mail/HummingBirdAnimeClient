@@ -27,25 +27,29 @@ final class ImagesControllerTest extends AnimeClientTestCase
 		]);
 
 		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
-		$client->method('request')->willReturnCallback(function () {
-			$response = $this->createMock(\Amp\Http\Client\Response::class);
-			$response->method('getStatus')->willReturn(200);
-			$response->method('getHeader')->willReturn('image/jpeg');
-			
-			// A tiny valid JPEG
-			$data = base64_decode('/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAABAAEDAREAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAVAQEBAAAAAAAAAAAAAAAAAAAEBf/EABQRAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AVpkH/9k=');
-			$body = new \Amp\ByteStream\Payload($data);
-			$response->method('getBody')->willReturn($body);
+		$client
+			->method('request')
+			->willReturnCallback(function () {
+				$response = $this->createMock(\Amp\Http\Client\Response::class);
+				$response->method('getStatus')->willReturn(200);
+				$response->method('getHeader')->willReturn('image/jpeg');
 
-			return $response;
-		});
+				// A tiny valid JPEG
+				$data = base64_decode(
+					'/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAABAAEDAREAAhEBAxEB/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/xAAVAQEBAAAAAAAAAAAAAAAAAAAEBf/EABQRAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AVpkH/9k=',
+				);
+				$body = new \Amp\ByteStream\Payload($data);
+				$response->method('getBody')->willReturn($body);
+
+				return $response;
+			});
 		\Aviat\AnimeClient\getApiClient($client);
 	}
 
 	public function testCache(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('anime', '123.jpg');
 		ob_end_clean();
@@ -56,7 +60,7 @@ final class ImagesControllerTest extends AnimeClientTestCase
 	public function testCacheManga(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('manga', '456.jpg');
 		ob_end_clean();
@@ -67,7 +71,7 @@ final class ImagesControllerTest extends AnimeClientTestCase
 	public function testCacheAvatars(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('avatars', '123.jpg');
 		ob_end_clean();
@@ -78,7 +82,7 @@ final class ImagesControllerTest extends AnimeClientTestCase
 	public function testCacheCharacters(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('characters', '123.jpg');
 		ob_end_clean();
@@ -89,7 +93,7 @@ final class ImagesControllerTest extends AnimeClientTestCase
 	public function testCachePeople(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('people', '123.jpg');
 		ob_end_clean();
@@ -115,7 +119,7 @@ final class ImagesControllerTest extends AnimeClientTestCase
 	public function testCacheNoDisplay(): void
 	{
 		$controller = new ImagesController($this->container);
-		
+
 		ob_start();
 		$controller->cache('anime', '123.jpg', false);
 		ob_end_clean();

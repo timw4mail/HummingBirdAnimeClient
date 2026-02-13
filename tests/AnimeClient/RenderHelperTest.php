@@ -29,7 +29,8 @@ final class RenderHelperTest extends AnimeClientTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-		$this->container->get('session')
+		$this->container
+			->get('session')
 			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT)
 			->clear();
 		$this->helper = new RenderHelper($this->container);

@@ -108,13 +108,22 @@ final class KitsuTest extends TestCase
 
 	public function testGetPublishingStatus(): void
 	{
-		$this->assertEquals(MangaPublishingStatus::FINISHED, Kitsu::getPublishingStatus('2020-01-01', '2020-12-31'));
-		$this->assertEquals(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus('2020-01-01', 'next year'));
+		$this->assertEquals(MangaPublishingStatus::FINISHED, Kitsu::getPublishingStatus(
+			'2020-01-01',
+			'2020-12-31',
+		));
+		$this->assertEquals(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus(
+			'2020-01-01',
+			'next year',
+		));
 	}
 
 	public function testGetAiringStatus(): void
 	{
-		$this->assertEquals(AnimeAiringStatus::FINISHED_AIRING, Kitsu::getAiringStatus('2020-01-01', '2020-12-31'));
+		$this->assertEquals(AnimeAiringStatus::FINISHED_AIRING, Kitsu::getAiringStatus(
+			'2020-01-01',
+			'2020-12-31',
+		));
 		$this->assertEquals(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('2020-01-01', 'next year'));
 		$this->assertEquals(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus('next year'));
 	}

@@ -34,7 +34,8 @@ final class ListItemTest extends AnimeClientTestCase
 			'type' => 'anime',
 			'user_id' => '10',
 		];
-		$this->requestBuilder->expects($this->once())
+		$this->requestBuilder
+			->expects($this->once())
 			->method('mutateRequest')
 			->with('CreateLibraryItem', [
 				'id' => '1',
@@ -56,15 +57,28 @@ final class ListItemTest extends AnimeClientTestCase
 			'user_id' => '10',
 			'notes' => 'Notes',
 		];
-		
+
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('getAuthToken')->willReturn('token');
 		$this->container->setInstance('auth', $auth);
 
-		$this->requestBuilder->expects($this->once())->method('newRequest')->willReturnSelf();
-		$this->requestBuilder->expects($this->once())->method('setHeader')->with('Authorization', 'bearer token')->willReturnSelf();
-		$this->requestBuilder->expects($this->once())->method('setJsonBody')->willReturnSelf();
-		$this->requestBuilder->expects($this->once())->method('getFullRequest')->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+		$this->requestBuilder
+			->expects($this->once())
+			->method('newRequest')
+			->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('setHeader')
+			->with('Authorization', 'bearer token')
+			->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('setJsonBody')
+			->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('getFullRequest')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
 
 		$result = $this->listItem->createFull($data);
 		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
@@ -78,15 +92,24 @@ final class ListItemTest extends AnimeClientTestCase
 			'type' => 'anime',
 			'user_id' => '10',
 		];
-		
+
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('getAuthToken')->willReturn(null);
 		$this->container->setInstance('auth', $auth);
 
-		$this->requestBuilder->expects($this->once())->method('newRequest')->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('newRequest')
+			->willReturnSelf();
 		$this->requestBuilder->expects($this->never())->method('setHeader');
-		$this->requestBuilder->expects($this->once())->method('setJsonBody')->willReturnSelf();
-		$this->requestBuilder->expects($this->once())->method('getFullRequest')->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+		$this->requestBuilder
+			->expects($this->once())
+			->method('setJsonBody')
+			->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('getFullRequest')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
 
 		$result = $this->listItem->createFull($data);
 		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
@@ -94,7 +117,8 @@ final class ListItemTest extends AnimeClientTestCase
 
 	public function testDelete(): void
 	{
-		$this->requestBuilder->expects($this->once())
+		$this->requestBuilder
+			->expects($this->once())
 			->method('mutateRequest')
 			->with('DeleteLibraryItem', ['id' => '1'])
 			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
@@ -104,7 +128,8 @@ final class ListItemTest extends AnimeClientTestCase
 
 	public function testGet(): void
 	{
-		$this->requestBuilder->expects($this->once())
+		$this->requestBuilder
+			->expects($this->once())
 			->method('runQuery')
 			->with('GetLibraryItem', ['id' => '1'])
 			->willReturn([]);
@@ -115,7 +140,8 @@ final class ListItemTest extends AnimeClientTestCase
 	public function testIncrement(): void
 	{
 		$data = \Aviat\AnimeClient\Types\FormItemData::from(['progress' => 5]);
-		$this->requestBuilder->expects($this->once())
+		$this->requestBuilder
+			->expects($this->once())
 			->method('mutateRequest')
 			->with('IncrementLibraryItem', [
 				'id' => '1',
@@ -137,7 +163,8 @@ final class ListItemTest extends AnimeClientTestCase
 			'progress' => 12,
 			'ratingTwenty' => 16,
 		]);
-		$this->requestBuilder->expects($this->once())
+		$this->requestBuilder
+			->expects($this->once())
 			->method('mutateRequest')
 			->with('UpdateLibraryItem', [
 				'id' => '1',

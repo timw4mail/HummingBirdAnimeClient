@@ -314,7 +314,11 @@ final class DispatcherTest extends AnimeClientTestCase
 
 	public function testGetOutputRoutes(): void
 	{
-		$this->doSetUp($this->dataRoute()['anime_default_routing_anime']['config'], '/anime/watching', 'localhost');
+		$this->doSetUp(
+			$this->dataRoute()['anime_default_routing_anime']['config'],
+			'/anime/watching',
+			'localhost',
+		);
 		$routes = $this->router->getOutputRoutes();
 		$this->assertNotEmpty($routes);
 	}

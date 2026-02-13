@@ -135,11 +135,11 @@ final class AnimeHistoryTransformerTest extends AnimeClientTestCase
 					'posterImage' => ['original' => ['url' => 'test.jpg']],
 				],
 				'changedData' => [
-					'progress' => [$i-1, $i],
+					'progress' => [$i - 1, $i],
 				],
 			];
 		}
-		
+
 		$data = [
 			'data' => [
 				'findProfileBySlug' => [

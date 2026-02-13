@@ -87,7 +87,7 @@ class APIRequestBuilderTest extends TestCase
 		$this->builder->newRequest('GET', 'https://example.com');
 		$this->builder->setHeader('X-Test', 'Foo');
 		$this->assertEquals('Foo', $this->builder->getFullRequest()->getHeader('X-Test'));
-		
+
 		$this->builder->unsetHeader('X-Test');
 		$this->assertNull($this->builder->getFullRequest()->getHeader('X-Test'));
 	}
@@ -97,7 +97,7 @@ class APIRequestBuilderTest extends TestCase
 		$this->builder->newRequest('GET', 'https://example.com');
 		$this->builder->setHeader('X-Test', 'Foo');
 		$this->assertEquals('Foo', $this->builder->getFullRequest()->getHeader('X-Test'));
-		
+
 		$this->builder->setHeader('X-Test', null);
 		$this->assertNull($this->builder->getFullRequest()->getHeader('X-Test'));
 	}
