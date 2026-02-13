@@ -22,6 +22,7 @@ pipeline {
 				sh 'apt-get update \
 					&& apt-get install -yy libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
+					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
 					&& docker-php-ext-install zip \
 					&& pecl install pcov \
@@ -41,6 +42,7 @@ pipeline {
 				sh 'apt-get update \
 					&& apt-get install -yy libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
+					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
 					&& docker-php-ext-install zip \
 					&& pecl install pcov \
@@ -60,6 +62,7 @@ pipeline {
 				sh 'apt-get update \
 					&& apt-get install -yy libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
+					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
 					&& docker-php-ext-install zip \
 					&& pecl install pcov \
