@@ -50,7 +50,7 @@ pipeline {
 		stage('Coverage') {
 			agent {
 				docker {
-					image 'php-cli'
+					image 'php:8.5-cli'
 					args '-u root --privileged'
 				}
 			}
