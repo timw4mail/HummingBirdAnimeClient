@@ -55,6 +55,13 @@ class AnimeClientTestCase extends TestCase
 	{
 		parent::setUp();
 
+		$dbFile = __DIR__ . '/test_data/test.sqlite';
+		$activeDbFile = __DIR__ . '/test_data/active_test.sqlite';
+		if (file_exists($dbFile))
+		{
+			copy($dbFile, $activeDbFile);
+		}
+
 		$config_array = [
 			'root' => self::ROOT_DIR,
 			'asset_path' => '/assets',
@@ -65,33 +72,27 @@ class AnimeClientTestCase extends TestCase
 				'connection' => [],
 			],
 			'database' => [
-				'collection' => [
-					'type' => 'sqlite',
-					'host' => '',
-					'user' => '',
-					'pass' => '',
-					'port' => '',
-					'name' => 'default',
-					'database' => '',
-					'file' => ':memory:',
-				],
-				'cache' => [
-					'type' => 'sqlite',
-					'host' => '',
-					'user' => '',
-					'pass' => '',
-					'port' => '',
-					'name' => 'default',
-					'database' => '',
-					'file' => ':memory:',
-				],
+				'type' => 'sqlite',
+				'host' => '',
+				'user' => '',
+				'pass' => '',
+				'port' => '',
+				'name' => 'default',
+				'database' => '',
+				'file' => __DIR__ . '/test_data/active_test.sqlite',
 			],
-			'routes' => [],
+			'routes' => require __DIR__ . '/../../app/appConf/routes.php',
 		];
 
 		// Set up DI container
 		$di = require self::ROOT_DIR . '/app/bootstrap.php';
 		$container = $di($config_array);
+
+		// Initialize routes
+		if (! $this instanceof DispatcherTest)
+		{
+			$container->get('dispatcher');
+		}
 
 		// Use mock session handler
 		$container->set('session-handler', static function (): TestSessionHandler {

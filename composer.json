@@ -63,13 +63,13 @@
 	"scripts": {
 		"build:css": "cd frontEndSrc && npm run build:css && cd ..",
 		"build:js": "cd frontEndSrc && npm run build:js && cd ..",
-		"coverage": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit -c build",
-		"phpstan": "phpstan analyse -c phpstan.neon",
+		"coverage": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit -c build --coverage-text",
+		"phpstan": "phpstan analyse -c phpstan.neon --memory-limit 1G",
 		"watch:css": "cd public && npm run watch:css",
 		"watch:js": "cd public && npm run watch:js",
-		"test": "vendor/bin/phpunit -c build --no-coverage",
-		"test-update": "vendor/bin/phpunit -c build --no-coverage -d --update-snapshots",
-		"test-noisy": "vendor/bin/phpunit -c build --no-coverage --display-all-issues"
+		"test": "vendor/bin/phpunit --no-coverage",
+		"test-update": "vendor/bin/phpunit --no-coverage -d --update-snapshots",
+		"test-noisy": "vendor/bin/phpunit --no-coverage --display-all-issues"
 	},
 	"scripts-descriptions": {
 		"build:css": "Generate browser css",

@@ -155,3 +155,5 @@ tools/vendor/
 tools/phinx/vendor/
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
+
+!tests/AnimeClient/test_data/test.sqlite
