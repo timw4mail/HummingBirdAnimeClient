@@ -61,8 +61,8 @@
 		"spatie/phpunit-snapshot-assertions": "^5.0.1"
 	},
 	"scripts": {
-		"build:css": "cd public && npm run build:css && cd ..",
-		"build:js": "cd public && npm run build:js && cd ..",
+		"build:css": "cd frontEndSrc && npm run build:css && cd ..",
+		"build:js": "cd frontEndSrc && npm run build:js && cd ..",
 		"coverage": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit -c build",
 		"phpstan": "phpstan analyse -c phpstan.neon",
 		"watch:css": "cd public && npm run watch:css",
