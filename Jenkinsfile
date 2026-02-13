@@ -13,42 +13,39 @@ pipeline {
 		stage('PHP 8.4') {
 			agent {
 				docker {
-					image 'php:8.4-cli-alpine'
+					image 'php:8.4-cli'
 					args '-u root --privileged'
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git icu-dev'
-				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
+				sh 'apt-get update \
+						&& apt-get install -yy libzip-dev build-essential git \
+						&& docker-php-source extract \
+						&& docker-php-ext-install zip \
+						&& pecl install pcov \
+						&& docker-php-ext-enable pcov \
+						&& docker-php-source delete'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
 		stage('PHP 8.5') {
 			agent {
 				docker {
-					image 'php:8.5-cli-alpine'
+					image 'php:8.5-cli'
 					args '-u root --privileged'
 				}
 			}
 			steps {
-				sh 'apk add --no-cache git icu-dev'
-				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
+				sh 'apt-get update \
+                        && apt-get install -yy libzip-dev build-essential git \
+                        && docker-php-source extract \
+                        && docker-php-ext-install zip \
+                        && pecl install pcov \
+                        && docker-php-ext-enable pcov \
+                        && docker-php-source delete'
 				sh 'php ./vendor/bin/phpunit --colors=never'
 			}
 		}
-// 		stage('Latest PHP') {
-// 			agent {
-// 				docker {
-// 					image 'php:cli-alpine'
-// 					args '-u root --privileged'
-// 				}
-// 			}
-// 			steps {
-// 				sh 'apk add --no-cache git icu-dev'
-// 				sh 'docker-php-ext-configure intl && docker-php-ext-install intl'
-// 				sh 'php ./vendor/bin/phpunit --colors=never'
-// 			}
-// 		}
 		stage('Coverage') {
 			agent any
 			steps {
