@@ -39,4 +39,11 @@ final class RequestBuilderTest extends AnimeClientTestCase
 		$this->assertArrayHasKey('query', $body);
 		$this->assertStringContainsString('mutation', $body['query']);
 	}
+
+	public function testSetUpRequest(): void
+	{
+		$this->container->get('cache')->set(\Aviat\AnimeClient\Kitsu::AUTH_TOKEN_CACHE_KEY, 'test-token');
+		$request = $this->builder->setUpRequest('GET', 'https://example.com');
+		$this->assertEquals('Bearer test-token', $request->getHeader('Authorization'));
+	}
 }

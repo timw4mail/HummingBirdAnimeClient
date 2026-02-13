@@ -86,4 +86,81 @@ final class ModelTest extends AnimeClientTestCase
 		$kitsuId = $this->model->getKitsuIdFromMALId('0', 'anime');
 		$this->assertNull($kitsuId);
 	}
+
+	public function testGetCharacter(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('CharacterDetails', ['slug' => 'test-slug'])
+			->willReturn(['data' => []]);
+
+		$result = $this->model->getCharacter('test-slug');
+		$this->assertEquals(['data' => []], $result);
+	}
+
+	public function testGetPerson(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('PersonDetails', ['slug' => 'test-slug'])
+			->willReturn(['data' => []]);
+
+		$result = $this->model->getPerson('test-slug');
+		$this->assertEquals(['data' => []], $result);
+	}
+
+	public function testGetAnime(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('AnimeDetails', ['slug' => 'test-slug'])
+			->willReturn(['data' => ['findAnimeBySlug' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'categories' => ['nodes' => []],
+				'characters' => ['nodes' => []],
+				'staff' => ['nodes' => []],
+				'mappings' => ['nodes' => []],
+				'startDate' => '2020-01-01',
+				'endDate' => '2020-12-31',
+				'ageRating' => 'G',
+				'ageRatingGuide' => '',
+				'episodeCount' => 12,
+				'episodeLength' => 24,
+				'subtype' => 'TV',
+				'youtubeTrailerVideoId' => '',
+				'totalLength' => 0,
+				'streamingLinks' => ['nodes' => []],
+			]]]);
+
+		$result = $this->model->getAnime('test-slug');
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\Anime::class, $result);
+		$this->assertEquals('1', $result['id']);
+	}
+
+	public function testGetAnimeHistory(): void
+	{
+		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
+		$cache
+			->expects($this->once())
+			->method('get')
+			->with(\Aviat\AnimeClient\Kitsu::ANIME_HISTORY_LIST_CACHE_KEY)
+			->willReturn(null);
+
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('GetUserHistory', ['slug' => 'test_user'])
+			->willReturn(['data' => ['findProfileBySlug' => ['libraryEvents' => ['nodes' => []]]]]);
+
+		$this->model->setCache($cache);
+		$this->container->get('config')->set('kitsu_username', 'test_user');
+
+		$result = $this->model->getAnimeHistory();
+		$this->assertEquals([], $result);
+	}
 }

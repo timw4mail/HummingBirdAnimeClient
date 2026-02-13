@@ -50,16 +50,18 @@ class AnimeClientTestCase extends TestCase
 		array_map(unlink(...), $files);
 	}
 
+	protected string $testDbFile = '';
+
 	#[\Override]
 	protected function setUp(): void
 	{
 		parent::setUp();
 
 		$dbFile = __DIR__ . '/test_data/test.sqlite';
-		$activeDbFile = __DIR__ . '/test_data/active_test.sqlite';
+		$this->testDbFile = __DIR__ . '/test_data/test_' . uniqid() . '.sqlite';
 		if (file_exists($dbFile))
 		{
-			copy($dbFile, $activeDbFile);
+			copy($dbFile, $this->testDbFile);
 		}
 
 		$config_array = [
@@ -79,7 +81,7 @@ class AnimeClientTestCase extends TestCase
 				'port' => '',
 				'name' => 'default',
 				'database' => '',
-				'file' => __DIR__ . '/test_data/active_test.sqlite',
+				'file' => $this->testDbFile,
 			],
 			'routes' => require __DIR__ . '/../../app/appConf/routes.php',
 		];
@@ -103,6 +105,16 @@ class AnimeClientTestCase extends TestCase
 		});
 
 		$this->container = $container;
+	}
+
+	#[\Override]
+	protected function tearDown(): void
+	{
+		parent::tearDown();
+		if ($this->testDbFile !== '' && file_exists($this->testDbFile))
+		{
+			unlink($this->testDbFile);
+		}
 	}
 
 	/**

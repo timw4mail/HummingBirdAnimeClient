@@ -119,4 +119,28 @@ final class KitsuTest extends TestCase
 
 		$this->assertSame(['Foo the Movie'], $actual);
 	}
+
+	public function testFormatAirDates(): void
+	{
+		$this->assertEquals('January 01, 2020', Kitsu::formatAirDates('2020-01-01', '2020-01-01'));
+		$this->assertEquals('January 2020 - ', Kitsu::formatAirDates('2020-01-01'));
+		$this->assertEquals('January - February 2020', Kitsu::formatAirDates('2020-01-01', '2020-02-01'));
+		$this->assertEquals('January 2020 - January 2021', Kitsu::formatAirDates(
+			'2020-01-01',
+			'2021-01-01',
+		));
+	}
+
+	public function testMappingsToUrls(): void
+	{
+		$mappings = [
+			['externalSite' => 'MYANIMELIST_ANIME', 'externalId' => '1'],
+			['externalSite' => 'ANILIST_ANIME', 'externalId' => '2'],
+		];
+		$urls = Kitsu::mappingsToUrls($mappings, 'http://kitsu.example.com');
+		$this->assertArrayHasKey('MyAnimeList', $urls);
+		$this->assertArrayHasKey('Anilist', $urls);
+		$this->assertArrayHasKey('Kitsu', $urls);
+		$this->assertEquals('https://myanimelist.net/anime/1', $urls['MyAnimeList']);
+	}
 }

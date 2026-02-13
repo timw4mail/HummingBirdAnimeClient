@@ -86,4 +86,10 @@ final class UtilTest extends AnimeClientTestCase
 		$this->assertSame('true', Util::ariaCurrent(true));
 		$this->assertSame('false', Util::ariaCurrent(false));
 	}
+
+	public function testEq(): void
+	{
+		$this->assertTrue(Util::eq(1, 1));
+		$this->assertFalse(Util::eq(1, '1'));
+	}
 }

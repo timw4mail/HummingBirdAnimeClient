@@ -52,6 +52,29 @@ final class StringTypeTest extends IonTestCase
 		$this->assertEquals('bar', (string) $str->between('[', ']'));
 	}
 
+	public function testContainsAllAny(): void
+	{
+		$str = StringType::from('foo bar baz');
+		$this->assertTrue($str->containsAll(['foo', 'baz']));
+		$this->assertFalse($str->containsAll(['foo', 'qux']));
+		$this->assertTrue($str->containsAny(['qux', 'bar']));
+		$this->assertFalse($str->containsAny(['qux', 'quux']));
+	}
+
+	public function testCountSubstr(): void
+	{
+		$str = StringType::from('foo bar foo baz');
+		$this->assertEquals(2, $str->countSubstr('foo'));
+		$this->assertEquals(1, $str->countSubstr('bar'));
+	}
+
+	public function testEndsWithAny(): void
+	{
+		$str = StringType::from('foo bar baz');
+		$this->assertTrue($str->endsWithAny(['baz', 'qux']));
+		$this->assertFalse($str->endsWithAny(['foo', 'bar']));
+	}
+
 	public function testCamelize(): void
 	{
 		$str = StringType::from('foo_bar_baz');

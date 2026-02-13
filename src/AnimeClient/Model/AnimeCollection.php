@@ -388,7 +388,7 @@ final class AnimeCollection extends Collection
 			->get()
 			->fetch(PDO::FETCH_ASSOC);
 
-		return $row !== [];
+		return $row !== false;
 	}
 
 	/**

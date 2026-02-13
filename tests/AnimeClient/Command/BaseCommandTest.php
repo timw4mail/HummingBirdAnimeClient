@@ -43,4 +43,25 @@ final class BaseCommandTest extends AnimeClientTestCase
 		$container = $this->friend->setupContainer();
 		$this->assertInstanceOf(Container::class, $container);
 	}
+
+	public function testEcho(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console
+			->expects($this->once())
+			->method('writeln')
+			->with('Test message');
+
+		$base = new Command($console);
+		$base->echo('Test message');
+	}
+
+	public function testEchoSuccess(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->expects($this->once())->method('writeln');
+
+		$base = new Command($console);
+		$base->echoSuccess('Test success');
+	}
 }
