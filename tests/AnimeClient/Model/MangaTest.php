@@ -5,7 +5,12 @@ namespace Aviat\AnimeClient\Tests\Model;
 use Aviat\AnimeClient\Model\Manga as MangaModel;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\MangaPage;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+/**
+ * @internal
+ */
+#[AllowMockObjectsWithoutExpectations]
 final class MangaTest extends AnimeClientTestCase
 {
 	protected MangaModel $model;
@@ -54,7 +59,7 @@ final class MangaTest extends AnimeClientTestCase
 			->method('getMangaList')
 			->with('current')
 			->willReturn([
-				[
+				'1' => [
 					'id' => '1',
 					'reading_status' => 'current',
 					'manga' => ['title' => 'A Manga'],
@@ -87,5 +92,91 @@ final class MangaTest extends AnimeClientTestCase
 			->willReturn($history);
 
 		$this->assertSame($history, $this->model->getHistory());
+	}
+
+	public function testGetItem(): void
+	{
+		$this->kitsuModel
+			->expects($this->once())
+			->method('getListItem')
+			->with('123')
+			->willReturn(['id' => '123']);
+
+		$result = $this->model->getItem('123');
+		$this->assertEquals(['id' => '123'], $result);
+	}
+
+	public function testCreateItem(): void
+	{
+		$data = ['id' => '123'];
+		$this->kitsuModel
+			->expects($this->once())
+			->method('createListItem')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$this->assertTrue($this->model->createItem($data));
+	}
+
+	public function testIncrementItem(): void
+	{
+		$formItem = \Aviat\AnimeClient\Types\FormItem::from(['id' => '123']);
+		$this->kitsuModel
+			->expects($this->once())
+			->method('incrementListItem')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$result = $this->model->incrementItem($formItem);
+		$this->assertEquals(200, $result['statusCode']);
+	}
+
+	public function testUpdateItem(): void
+	{
+		$formItem = \Aviat\AnimeClient\Types\FormItem::from(['id' => '123']);
+		$this->kitsuModel
+			->expects($this->once())
+			->method('updateListItem')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$result = $this->model->updateItem($formItem);
+		$this->assertEquals(200, $result['statusCode']);
+	}
+
+	public function testDeleteItem(): void
+	{
+		$formItem = \Aviat\AnimeClient\Types\FormItem::from(['id' => '123']);
+		$this->kitsuModel
+			->expects($this->once())
+			->method('deleteItem')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$this->assertTrue($this->model->deleteItem($formItem));
 	}
 }

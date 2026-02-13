@@ -1,50 +1,72 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API;
 
 use Aviat\AnimeClient\API\ParallelAPIRequest;
-use Aviat\Ion\Friend;
-use PHPUnit\Framework\TestCase;
+use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * @internal
  */
-final class ParallelAPIRequestTest extends TestCase
+#[AllowMockObjectsWithoutExpectations]
+final class ParallelAPIRequestTest extends AnimeClientTestCase
 {
-	public function testAddStringUrlRequest()
+	public function testParallelRequest(): void
 	{
-		$requester = new ParallelAPIRequest();
-		$requester->addRequest('https://httpbin.org');
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$client
+			->method('request')
+			->willReturnCallback(function () {
+				$response = $this->createMock(\Amp\Http\Client\Response::class);
+				$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+				$response->method('getBody')->willReturn($body);
 
-		$friend = new Friend($requester);
+				return $response;
+			});
 
-		$this->assertSame($friend->requests, ['https://httpbin.org']);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$parallel = new ParallelAPIRequest();
+		$parallel->addRequest('https://example.com/1', 'first');
+		$parallel->addRequest('https://example.com/2', 'second');
+
+		$results = $parallel->makeRequests();
+
+		$this->assertCount(2, $results);
+		$this->assertEquals('{"data": "ok"}', $results['first']);
+		$this->assertEquals('{"data": "ok"}', $results['second']);
 	}
 
-	public function testAddStringUrlRequests()
+	public function testGetResponses(): void
 	{
-		$requests = [
-			'foo' => 'http://example.com',
-			'bar' => 'https://example.com',
-		];
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$client
+			->method('request')
+			->willReturnCallback(function () {
+				return $this->createMock(\Amp\Http\Client\Response::class);
+			});
 
-		$requester = new ParallelAPIRequest();
-		$requester->addRequests($requests);
+		\Aviat\AnimeClient\getApiClient($client);
 
-		$friend = new Friend($requester);
+		$parallel = new ParallelAPIRequest();
+		$parallel->addRequests([
+			'https://example.com/1',
+			'https://example.com/2',
+		]);
 
-		$this->assertSame($friend->requests, $requests);
+		$responses = $parallel->getResponses();
+
+		$this->assertCount(2, $responses);
+		$this->assertInstanceOf(\Amp\Http\Client\Response::class, $responses[0]);
+	}
+
+	public function testAddRequests(): void
+	{
+		$parallel = new ParallelAPIRequest();
+		$parallel->addRequests(['a', 'b']);
+
+		$friend = new \Aviat\Ion\Friend($parallel);
+		$this->assertCount(2, $friend->requests);
 	}
 }

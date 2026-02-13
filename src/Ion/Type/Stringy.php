@@ -746,7 +746,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	 *
 	 * @return bool Whether or not $str contains only lower case characters
 	 */
-	public function isUpperCase(): self
+	public function isUpperCase(): bool
 	{
 		return $this->matchesPattern('^[[:upper:]]*$');
 	}
@@ -789,7 +789,7 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	 */
 	public function lines(): array
 	{
-		$array = $this->split('[\r\n]{1,2}', $this->str);
+		$array = $this->split('[\r\n]{1,2}');
 		$arrayCount = count($array);
 
 		for ($i = 0; $i < $arrayCount; $i++)

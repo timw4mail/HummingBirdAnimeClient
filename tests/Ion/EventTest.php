@@ -28,4 +28,18 @@ final class EventTest extends TestCase
 		Event::on(EventType::TEST, $this->assertTrue(...));
 		Event::emit(EventType::TEST, [true]);
 	}
+
+	public function testMultipleListeners(): void
+	{
+		$count = 0;
+		Event::on(EventType::CLEAR_CACHE, function () use (&$count) {
+			$count++;
+		});
+		Event::on(EventType::CLEAR_CACHE, function () use (&$count) {
+			$count++;
+		});
+
+		Event::emit(EventType::CLEAR_CACHE);
+		$this->assertGreaterThanOrEqual(2, $count);
+	}
 }

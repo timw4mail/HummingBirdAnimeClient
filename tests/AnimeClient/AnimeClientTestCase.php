@@ -83,6 +83,7 @@ class AnimeClientTestCase extends TestCase
 				'database' => '',
 				'file' => $this->testDbFile,
 			],
+			'view_path' => self::TEST_VIEW_DIR,
 			'routes' => require __DIR__ . '/../../app/appConf/routes.php',
 		];
 

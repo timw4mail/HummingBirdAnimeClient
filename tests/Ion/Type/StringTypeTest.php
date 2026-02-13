@@ -355,6 +355,103 @@ final class StringTypeTest extends IonTestCase
 		$this->assertEquals('FooBar', (string) StringType::from('fooBar')->upperCaseFirst());
 	}
 
+	public function testChars(): void
+	{
+		$this->assertEquals(['f', 'o', 'o'], StringType::from('foo')->chars());
+	}
+
+	public function testCollapseWhitespace(): void
+	{
+		$this->assertEquals(
+			'foo bar baz',
+			(string) StringType::from('foo  bar   baz')->collapseWhitespace(),
+		);
+	}
+
+	public function testDelimit(): void
+	{
+		$this->assertEquals('foo*bar', (string) StringType::from('fooBar')->delimit('*'));
+	}
+
+	public function testHasCases(): void
+	{
+		$this->assertTrue(StringType::from('foo')->hasLowerCase());
+		$this->assertFalse(StringType::from('FOO')->hasLowerCase());
+		$this->assertTrue(StringType::from('FOO')->hasUpperCase());
+		$this->assertFalse(StringType::from('foo')->hasUpperCase());
+	}
+
+	public function testIndexOfLast(): void
+	{
+		$this->assertEquals(6, StringType::from('foobarfoo')->indexOfLast('foo'));
+	}
+
+	public function testInsert(): void
+	{
+		$this->assertEquals('foobar', (string) StringType::from('foo')->insert('bar', 3));
+	}
+
+	public function testIsChecks(): void
+	{
+		$this->assertTrue(StringType::from('Zm9v')->isBase64());
+		$this->assertTrue(StringType::from('abcdef0123')->isHexadecimal());
+		$this->assertTrue(StringType::from('s:3:"foo";')->isSerialized());
+		$this->assertTrue(StringType::from('FOO')->isUpperCase());
+	}
+
+	public function testLines(): void
+	{
+		$this->assertCount(2, StringType::from("foo\nbar")->lines());
+	}
+
+	public function testLongestCommon(): void
+	{
+		$this->assertEquals('fooba', (string) StringType::from('foobar')->longestCommonPrefix('foobaz'));
+		$this->assertEquals('bar', (string) StringType::from('foobar')->longestCommonSubstring('quxbar'));
+		$this->assertEquals('bar', (string) StringType::from('foobar')->longestCommonSuffix('quxbar'));
+	}
+
+	public function testStartsWith(): void
+	{
+		$this->assertTrue(StringType::from('foobar')->startsWith('foo'));
+		$this->assertTrue(StringType::from('foobar')->startsWithAny(['foo', 'qux']));
+	}
+
+	public function testToTitleCase(): void
+	{
+		$this->assertEquals('Foo Bar', (string) StringType::from('foo bar')->toTitleCase());
+	}
+
+	public function testArrayAccess(): void
+	{
+		$str = StringType::from('foo');
+		$this->assertTrue(isset($str[0]));
+		$this->assertEquals('f', $str[0]);
+		$this->assertFalse(isset($str[3]));
+	}
+
+	public function testCountable(): void
+	{
+		$this->assertCount(3, StringType::from('foo'));
+	}
+
+	public function testGetEncoding(): void
+	{
+		$this->assertEquals('UTF-8', StringType::from('foo')->getEncoding());
+	}
+
+	public function testGetIterator(): void
+	{
+		$str = StringType::from('foo');
+		$chars = [];
+		foreach ($str as $char)
+		{
+			$chars[] = $char;
+		}
+
+		$this->assertEquals(['f', 'o', 'o'], $chars);
+	}
+
 	public static function dataFuzzyCaseMatch(): array
 	{
 		return [

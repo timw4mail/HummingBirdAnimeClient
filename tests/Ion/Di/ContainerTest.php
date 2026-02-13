@@ -202,4 +202,17 @@ final class ContainerTest extends IonTestCase
 		$this->assertTrue($this->container->hasLogger('default'));
 		$this->assertTrue($this->container->hasLogger('test'));
 	}
+
+	public function testHas(): void
+	{
+		$this->assertFalse($this->container->has('foo'));
+		$this->container->set('foo', fn () => 'bar');
+		$this->assertTrue($this->container->has('foo'));
+	}
+
+	public function testSetSimple(): void
+	{
+		$this->container->setSimple('foo', FooTest2::class);
+		$this->assertInstanceOf(FooTest2::class, $this->container->get('foo'));
+	}
 }

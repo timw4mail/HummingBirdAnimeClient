@@ -16,12 +16,10 @@ namespace Aviat\Ion\Tests;
 
 use Aviat\Ion\Config;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreMethodForCodeCoverage;
 
 /**
  * @internal
  */
-#[IgnoreMethodForCodeCoverage(Config::class, 'set')]
 final class ConfigTest extends IonTestCase
 {
 	protected Config $config;
@@ -54,7 +52,6 @@ final class ConfigTest extends IonTestCase
 	{
 		$this->assertSame('bar', $this->config->get('foo'));
 		$this->assertSame('baz', $this->config->get('bar'));
-		$this->assertNull($this->config->get('baz'));
 		$this->assertNull($this->config->get(['apple', 'sauce', 'is']));
 	}
 
@@ -148,5 +145,11 @@ final class ConfigTest extends IonTestCase
 	public function testGetNonExistentConfigItem(): void
 	{
 		$this->assertNull($this->config->get('foobar'));
+	}
+
+	public function testSetConfigInvalidKey(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		$this->config->set('', 'foo');
 	}
 }

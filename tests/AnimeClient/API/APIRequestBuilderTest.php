@@ -65,4 +65,20 @@ class APIRequestBuilderTest extends TestCase
 		$request = $this->builder->getFullRequest();
 		$this->assertEquals('https://example.com?foo=bar&baz=qux', (string) $request->getUri());
 	}
+
+	public function testSetFormFields(): void
+	{
+		$this->builder->newRequest('POST', 'https://example.com');
+		$this->builder->setFormFields(['foo' => 'bar']);
+		$request = $this->builder->getFullRequest();
+		$this->assertInstanceOf(\Amp\Http\Client\Form::class, $request->getBody());
+	}
+
+	public function testSetJsonBody(): void
+	{
+		$this->builder->newRequest('POST', 'https://example.com');
+		$this->builder->setJsonBody(['foo' => 'bar']);
+		$request = $this->builder->getFullRequest();
+		$this->assertEquals('{"foo":"bar"}', $request->getBody()->getContent()->read());
+	}
 }

@@ -19,12 +19,14 @@ use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Friend;
 use ConsoleKit\Console;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 class Command extends BaseCommand {}
 
 /**
  * @internal
  */
+#[AllowMockObjectsWithoutExpectations]
 final class BaseCommandTest extends AnimeClientTestCase
 {
 	protected Command $base;
@@ -63,5 +65,35 @@ final class BaseCommandTest extends AnimeClientTestCase
 
 		$base = new Command($console);
 		$base->echoSuccess('Test success');
+	}
+
+	public function testEchoWarning(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->expects($this->once())->method('writeln');
+
+		$base = new Command($console);
+		$base->echoWarning('Test warning');
+	}
+
+	public function testEchoError(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->expects($this->once())->method('writeln');
+
+		$base = new Command($console);
+		$base->echoError('Test error');
+	}
+
+	public function testEchoBox(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->method('write');
+
+		$base = new Command($console);
+		ob_start();
+		$base->echoBox('Test box');
+		ob_end_clean();
+		$this->assertTrue(true);
 	}
 }

@@ -11,6 +11,8 @@ final class AuthTest extends AnimeClientTestCase
 
 	protected $kitsuModel;
 
+	protected $segment;
+
 	#[\Override]
 	protected function setUp(): void
 	{
@@ -18,10 +20,10 @@ final class AuthTest extends AnimeClientTestCase
 
 		$this->container->get('config')->set('kitsu_username', 'test_user');
 		$this->container->get('cache')->clear();
-		$this->container
+		$this->segment = $this->container
 			->get('session')
-			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT)
-			->clear();
+			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT);
+		$this->segment->clear();
 
 		$this->kitsuModel = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
 		$this->container->setInstance('kitsu-model', $this->kitsuModel);
@@ -75,5 +77,23 @@ final class AuthTest extends AnimeClientTestCase
 		$this->auth->logout();
 		$this->container->get('cache')->clear();
 		$this->assertFalse($this->auth->isAuthenticated());
+	}
+
+	public function testReAuthenticate(): void
+	{
+		$this->kitsuModel
+			->expects($this->once())
+			->method('reAuthenticate')
+			->with('old_refresh_token')
+			->willReturn([
+				'access_token' => 'new_access_token',
+				'refresh_token' => 'new_refresh_token',
+				'expires_in' => 3600,
+				'created_at' => time(),
+			]);
+
+		$this->segment->set('refresh_token', 'old_refresh_token');
+		$this->assertTrue($this->auth->reAuthenticate());
+		$this->assertEquals('new_access_token', $this->auth->getAuthToken());
 	}
 }

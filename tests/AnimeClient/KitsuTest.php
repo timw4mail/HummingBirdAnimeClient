@@ -143,4 +143,39 @@ final class KitsuTest extends TestCase
 		$this->assertArrayHasKey('Kitsu', $urls);
 		$this->assertEquals('https://myanimelist.net/anime/1', $urls['MyAnimeList']);
 	}
+
+	public function testGetImage(): void
+	{
+		$data = [
+			'image' => ['original' => ['url' => 'test.jpg']],
+		];
+		$this->assertEquals('test.jpg', Kitsu::getImage($data));
+		$this->assertEquals('/public/images/placeholder.png', Kitsu::getImage([]));
+	}
+
+	public function testGetTitles(): void
+	{
+		$input = [
+			'canonical' => 'foo',
+			'localized' => [
+				'en' => 'Foo',
+				'ja_jp' => 'Fu',
+			],
+		];
+		$actual = Kitsu::getTitles($input);
+		$this->assertContains('Foo', $actual);
+		$this->assertContains('Fu', $actual);
+	}
+
+	public function testGetPublishingStatus(): void
+	{
+		$this->assertEquals(MangaPublishingStatus::FINISHED, Kitsu::getPublishingStatus(
+			'2020-01-01',
+			'2020-12-31',
+		));
+		$this->assertEquals(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus(
+			'2020-01-01',
+			'next year',
+		));
+	}
 }

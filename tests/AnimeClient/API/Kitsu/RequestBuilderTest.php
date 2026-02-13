@@ -4,7 +4,12 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu;
 
 use Aviat\AnimeClient\API\Kitsu\RequestBuilder;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+/**
+ * @internal
+ */
+#[AllowMockObjectsWithoutExpectations]
 final class RequestBuilderTest extends AnimeClientTestCase
 {
 	protected RequestBuilder $builder;
@@ -45,5 +50,33 @@ final class RequestBuilderTest extends AnimeClientTestCase
 		$this->container->get('cache')->set(\Aviat\AnimeClient\Kitsu::AUTH_TOKEN_CACHE_KEY, 'test-token');
 		$request = $this->builder->setUpRequest('GET', 'https://example.com');
 		$this->assertEquals('Bearer test-token', $request->getHeader('Authorization'));
+	}
+
+	public function testRunQuery(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$response->method('getStatus')->willReturn(200);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$result = $this->builder->runQuery('GetUserId', ['slug' => 'test']);
+		$this->assertEquals(['data' => 'ok'], $result);
+	}
+
+	public function testMutate(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+		$response->method('getBody')->willReturn($body);
+		$response->method('getStatus')->willReturn(200);
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$result = $this->builder->mutate('CreateLibraryItem', ['id' => '1']);
+		$this->assertEquals(['data' => 'ok'], $result);
 	}
 }

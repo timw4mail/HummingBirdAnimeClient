@@ -5,7 +5,12 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu;
 use Aviat\AnimeClient\API\Kitsu\ListItem;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\AnimeClient\Types\FormItemData;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+/**
+ * @internal
+ */
+#[AllowMockObjectsWithoutExpectations]
 final class ListItemTest extends AnimeClientTestCase
 {
 	protected ListItem $listItem;
@@ -105,5 +110,34 @@ final class ListItemTest extends AnimeClientTestCase
 			]);
 
 		$this->listItem->update('123', $data);
+	}
+
+	public function testCreateFull(): void
+	{
+		$data = [
+			'id' => '123',
+			'status' => 'current',
+			'type' => 'anime',
+			'user_id' => '456',
+			'progress' => 10,
+			'notes' => 'Test notes',
+		];
+
+		$this->requestBuilder
+			->expects($this->once())
+			->method('newRequest')
+			->with('POST', 'library-entries')
+			->willReturnSelf();
+		$this->requestBuilder->method('setHeader')->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('setJsonBody')
+			->willReturnSelf();
+		$this->requestBuilder
+			->expects($this->once())
+			->method('getFullRequest')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$this->listItem->createFull($data);
 	}
 }

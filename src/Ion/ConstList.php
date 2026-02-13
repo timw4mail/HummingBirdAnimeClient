@@ -30,15 +30,7 @@ abstract class ConstList
 	 */
 	public static function getConstList(): array
 	{
-		static $self;
-
-		if ($self === null)
-		{
-			$class = static::class;
-			$self = new $class();
-		}
-
-		$reflect = new ReflectionClass($self);
+		$reflect = new ReflectionClass(static::class);
 
 		return $reflect->getConstants();
 	}

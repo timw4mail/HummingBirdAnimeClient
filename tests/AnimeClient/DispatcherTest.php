@@ -24,10 +24,12 @@ use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
  * @internal
  */
+#[AllowMockObjectsWithoutExpectations]
 final class DispatcherTest extends AnimeClientTestCase
 {
 	protected ContainerInterface $container;
@@ -262,5 +264,74 @@ final class DispatcherTest extends AnimeClientTestCase
 	{
 		$this->doSetUp($config, '/', 'localhost');
 		$this->assertEquals($expected, $this->router->getControllerList());
+	}
+
+	public function testInvoke(): void
+	{
+		$config = [
+			'routes' => [
+				'test' => [
+					'path' => '/test',
+					'controller' => 'anime',
+					'action' => 'index',
+				],
+			],
+			'config' => [
+				'default_list' => 'anime',
+			],
+		];
+		$this->doSetUp($config, '/test', 'localhost');
+
+		// We need to bypass the actual call because it will try to render
+		// But we can at least check if it gets through processRoute
+		$route = $this->router->getRoute();
+		$this->assertNotFalse($route);
+
+		// Using Friend to test protected processRoute
+		$friend = new \Aviat\Ion\Friend($this->router);
+		$parsed = $friend->processRoute(new \Aviat\Ion\Friend($route));
+
+		$this->assertEquals(\Aviat\AnimeClient\Controller\Anime::class, $parsed['controller_name']);
+		$this->assertEquals('index', $parsed['action_method']);
+	}
+
+	public function testInvokeNotFound(): void
+	{
+		$config = [
+			'routes' => [],
+			'config' => [
+				'default_list' => 'anime',
+			],
+		];
+		$this->doSetUp($config, '/not-found', 'localhost');
+
+		// Friend to test getErrorParams
+		$friend = new \Aviat\Ion\Friend($this->router);
+		$errorParams = $friend->getErrorParams();
+
+		$this->assertEquals(\Aviat\AnimeClient\NOT_FOUND_METHOD, $errorParams['action_method']);
+	}
+
+	public function testGetOutputRoutes(): void
+	{
+		$this->doSetUp(
+			$this->dataRoute()['anime_default_routing_anime']['config'],
+			'/anime/watching',
+			'localhost',
+		);
+		$routes = $this->router->getOutputRoutes();
+		$this->assertNotEmpty($routes);
+	}
+
+	public function testGetControllerAnime(): void
+	{
+		$this->doSetUp([], '/anime/watching', 'localhost');
+		$this->assertEquals('anime', $this->router->getController());
+	}
+
+	public function testGetControllerManga(): void
+	{
+		$this->doSetUp([], '/manga/reading', 'localhost');
+		$this->assertEquals('manga', $this->router->getController());
 	}
 }

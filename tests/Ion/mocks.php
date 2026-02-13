@@ -34,7 +34,7 @@ class MockErrorHandler
 // Ion Mocks
 // -----------------------------------------------------------------------------
 
-class TestConstList extends ConstList
+class IonTestConstList extends ConstList
 {
 	final public const FOO = 'bar';
 	final public const BAR = 'foo';

@@ -124,4 +124,109 @@ final class HistoryTransformerTest extends AnimeClientTestCase
 		$this->assertTrue($result[0]['isAggregate']);
 		$this->assertEquals('Watched episodes 1-2', $result[0]['action']);
 	}
+
+	public function testTransformReconsuming(): void
+	{
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'libraryEvents' => [
+						'nodes' => [
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:00:00Z',
+								'changedData' => [
+									'progress' => [0, 5],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => true,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+								],
+							],
+							[
+								'kind' => 'updated',
+								'updatedAt' => '2026-02-12T13:00:00Z',
+								'changedData' => [
+									'status' => ['current', 'completed'],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => true,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+								],
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$result = $this->transformer->transform($data);
+		$this->assertCount(2, $result);
+		$this->assertEquals('Rewatched episode 5', $result[0]['action']);
+		$this->assertEquals('Finished Rewatching', $result[1]['action']);
+	}
+
+	public function testTransformSkip(): void
+	{
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'libraryEvents' => [
+						'nodes' => [
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:00:00Z',
+								'changedData' => [
+									'progress' => [0, 0],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+								],
+							],
+							[
+								'kind' => 'progressed',
+								'updatedAt' => '2026-02-12T12:00:00Z',
+								'changedData' => [
+									'progress' => [11, 12],
+								],
+								'libraryEntry' => [
+									'private' => false,
+									'reconsuming' => false,
+								],
+								'media' => [
+									'__typename' => 'Anime',
+									'slug' => 'test-anime',
+									'titles' => ['canonical' => 'Test Anime'],
+									'posterImage' => ['original' => ['url' => 'test.jpg']],
+									'episodeCount' => 12,
+								],
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$result = $this->transformer->transform($data);
+		$this->assertCount(0, $result);
+	}
 }

@@ -3,7 +3,12 @@
 namespace Aviat\AnimeClient\Tests;
 
 use Aviat\AnimeClient\RenderHelper;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+/**
+ * @internal
+ */
+#[AllowMockObjectsWithoutExpectations]
 final class RenderHelperTest extends AnimeClientTestCase
 {
 	protected RenderHelper $helper;
@@ -12,6 +17,10 @@ final class RenderHelperTest extends AnimeClientTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
+		$this->container
+			->get('session')
+			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT)
+			->clear();
 		$this->helper = new RenderHelper($this->container);
 	}
 

@@ -204,9 +204,14 @@ function checkFolderPermissions(ConfigInterface $config): array
 /**
  * Get an API Client, with better defaults
  */
-function getApiClient(): HttpClient
+function getApiClient(null|HttpClient $newClient = null): HttpClient
 {
 	static $client;
+
+	if ($newClient !== null)
+	{
+		$client = $newClient;
+	}
 
 	if ($client === null)
 	{
