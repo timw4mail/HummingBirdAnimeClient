@@ -53,7 +53,7 @@ final class AnimeListTransformer extends AbstractTransformer
 		$MALid = null;
 
 		$mappings = $anime['mappings']['nodes'] ?? [];
-		if (! empty($mappings))
+		if ($mappings !== [])
 		{
 			foreach ($mappings as $mapping)
 			{

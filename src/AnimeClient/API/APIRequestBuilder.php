@@ -257,7 +257,7 @@ abstract class APIRequestBuilder
 		// Actually create the full url!
 		$this->buildUri();
 
-		if (! empty($this->defaultHeaders))
+		if ($this->defaultHeaders !== [])
 		{
 			$this->setHeaders($this->defaultHeaders);
 		}
@@ -274,7 +274,7 @@ abstract class APIRequestBuilder
 			? $this->path
 			: $this->baseUrl . $this->path;
 
-		if (! empty($this->query))
+		if ($this->query !== '')
 		{
 			$url .= '?' . $this->query;
 		}
@@ -289,7 +289,7 @@ abstract class APIRequestBuilder
 	 */
 	private function resetState(null|string $url, string $type = 'GET'): void
 	{
-		$requestUrl = $url ?: $this->baseUrl;
+		$requestUrl = $url ?? $this->baseUrl;
 
 		$this->path = '';
 		$this->query = '';

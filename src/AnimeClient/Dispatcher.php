@@ -167,7 +167,7 @@ final class Dispatcher extends RoutingBase
 			: NOT_FOUND_METHOD;
 
 		$params = [];
-		if (! empty($route->__get('tokens')))
+		if ($route->__get('tokens') !== [])
 		{
 			$tokens = array_keys($route->__get('tokens'));
 
@@ -207,12 +207,7 @@ final class Dispatcher extends RoutingBase
 		$logger = $this->container->getLogger();
 		$logger?->info('Controller: ' . $controller);
 
-		if (empty($controller))
-		{
-			$controller = $routeType;
-		}
-
-		return $controller ?? '';
+		return $controller ?? $routeType ?? '';
 	}
 
 	/**

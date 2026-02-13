@@ -54,7 +54,7 @@ final class AnimeTransformer extends AbstractTransformer
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
 				$type = mb_strtolower($rawCharacter['role']);
-				if (! isset($characters[$type]))
+				if (! array_key_exists($type, $characters))
 				{
 					$characters[$type] = [];
 				}
@@ -69,7 +69,7 @@ final class AnimeTransformer extends AbstractTransformer
 
 			foreach (array_keys($characters) as $type)
 			{
-				if (empty($characters[$type]))
+				if ($characters[$type] === [])
 				{
 					unset($characters[$type]);
 				}

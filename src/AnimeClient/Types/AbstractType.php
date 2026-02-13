@@ -58,6 +58,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	 */
 	final public function __isset(string $name): bool
 	{
+		// @mago-expect lint:no-isset
 		return property_exists($this, $name) && isset($this->{$name});
 	}
 
@@ -202,17 +203,8 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 	 */
 	final public function isEmpty(): bool
 	{
-		$self = $this->toArray();
-
-		foreach ($self as $value)
-		{
-			if (! empty($value))
-			{
-				return false;
-			}
-		}
-
-		return true;
+		// @mago-expect lint:no-empty
+		return array_all($this->toArray(), static fn ($value) => empty($value));
 	}
 
 	/**
@@ -232,7 +224,7 @@ abstract class AbstractType implements ArrayAccess, Countable, Stringable
 
 		foreach ($object as $key => $value)
 		{
-			$output[$key] = is_scalar($value) || empty($value)
+			$output[$key] = is_scalar($value)
 				? $value
 				: $this->fromObject((array) $value);
 		}

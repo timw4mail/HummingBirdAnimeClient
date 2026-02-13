@@ -80,7 +80,7 @@ final class Auth
 	{
 		$refreshToken ??= $this->getRefreshToken();
 
-		if (empty($refreshToken))
+		if ($refreshToken === '' || $refreshToken === null)
 		{
 			return false;
 		}

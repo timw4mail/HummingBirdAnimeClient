@@ -134,7 +134,7 @@ final class Manga extends BaseController
 			$this->redirect('manga/add', 303);
 		}
 
-		if (empty($data['mal_id']))
+		if ($data['mal_id'] === null)
 		{
 			unset($data['mal_id']);
 		}

@@ -50,8 +50,9 @@ final class Character extends BaseController
 	public function index(string $slug): void
 	{
 		$rawData = $this->model->getCharacter($slug);
+		$maybeCharacter = $rawData['data']['findCharacterBySlug'] ?? [];
 
-		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
+		if ($maybeCharacter === [])
 		{
 			$this->notFound(
 				$this->formatTitle(

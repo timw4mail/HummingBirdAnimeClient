@@ -81,7 +81,7 @@ final class Settings
 				{
 					foreach ($value['fields'] as $k => $field)
 					{
-						if (empty($values[$key][$k]))
+						if (! array_key_exists($k, $values[$key] ?? []))
 						{
 							unset($value['fields'][$k]);
 
@@ -142,35 +142,23 @@ final class Settings
 		{
 			if (is_scalar($val))
 			{
-				if ($val === '1')
+				$looseConfig[$key] = match ($val)
 				{
-					$looseConfig[$key] = true;
-				}
-				elseif ($val === '0')
-				{
-					$looseConfig[$key] = false;
-				}
-				else
-				{
-					$looseConfig[$key] = $val;
-				}
+					'1' => true,
+					'0' => false,
+					default => $val,
+				};
 			}
-			elseif (is_array($val) && ! empty($val))
+			elseif (is_array($val) && $val !== [])
 			{
 				foreach ($val as $k => $v)
 				{
-					if ($v === '1')
+					$keyedConfig[$key][$k] = match ($v)
 					{
-						$keyedConfig[$key][$k] = true;
-					}
-					elseif ($v === '0')
-					{
-						$keyedConfig[$key][$k] = false;
-					}
-					else
-					{
-						$keyedConfig[$key][$k] = $v;
-					}
+						'1' => true,
+						'0' => false,
+						default => $v,
+					};
 				}
 			}
 		}
@@ -209,9 +197,6 @@ final class Settings
 			$settings = $this->validateSettings($settings);
 		}
 		catch (UndefinedPropertyException $e) {
-			dump($e);
-			dump($settings);
-
 			return false;
 		}
 

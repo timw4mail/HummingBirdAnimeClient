@@ -50,11 +50,9 @@ final class People extends BaseController
 	public function index(string $slug): void
 	{
 		$rawData = $this->model->getPerson($slug);
-		$data = new PersonTransformer()
-			->transform($rawData)
-			->toArray();
+		$maybePerson = $rawData['data']['findPersonBySlug'] ?? [];
 
-		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
+		if ($maybePerson === [])
 		{
 			$this->notFound(
 				$this->formatTitle(
@@ -64,6 +62,10 @@ final class People extends BaseController
 				'Person Not Found',
 			);
 		}
+
+		$data = new PersonTransformer()
+			->transform($rawData)
+			->toArray();
 
 		$this->outputHTML('person/details', [
 			'title' => $this->formatTitle(

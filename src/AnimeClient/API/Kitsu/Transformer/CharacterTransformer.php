@@ -41,7 +41,7 @@ final class CharacterTransformer extends AbstractTransformer
 		);
 		$name = array_shift($names);
 
-		if (isset($data['media']['nodes']))
+		if ($data['media']['nodes'] !== [])
 		{
 			[$media, $castings] = $this->organizeMediaAndVoices($data['media']['nodes'] ?? []);
 		}
@@ -64,7 +64,7 @@ final class CharacterTransformer extends AbstractTransformer
 	 */
 	protected function organizeMediaAndVoices(array $data): array
 	{
-		if (empty($data))
+		if ($data === [])
 		{
 			return [[], []];
 		}
@@ -104,10 +104,10 @@ final class CharacterTransformer extends AbstractTransformer
 		// And now, reorganize voice actor relationships
 		$rawVoices = array_filter(
 			$data,
-			static fn ($item) => ! empty($item['voices']) && (array) $item['voices']['nodes'] !== [],
+			static fn ($item) => is_array($item['voices']) && (array) $item['voices']['nodes'] !== [],
 		);
 
-		if (empty($rawVoices))
+		if ($rawVoices === [])
 		{
 			return [$media, []];
 		}

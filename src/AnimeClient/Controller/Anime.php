@@ -149,7 +149,7 @@ final class Anime extends BaseController
 
 		$data = (array) $this->request->getParsedBody();
 
-		if (empty($data['mal_id']))
+		if ($data['mal_id'] === null)
 		{
 			unset($data['mal_id']);
 		}
@@ -254,7 +254,7 @@ final class Anime extends BaseController
 			? Json::decode((string) $this->request->getBody())
 			: (array) $this->request->getParsedBody();
 
-		if (empty($data))
+		if ($data === '' || $data === [] || $data === null)
 		{
 			$this->errorPage(400, 'Bad Request', '');
 

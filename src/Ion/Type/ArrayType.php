@@ -165,17 +165,17 @@ class ArrayType
 	/**
 	 * Find an array key by its associated value
 	 */
-	public function search(mixed $value, bool $strict = true): int|string|false|null
+	public function search(mixed $values): int|string|false|null
 	{
-		return array_search($value, $this->arr, $strict);
+		return array_search($values, $this->arr, true);
 	}
 
 	/**
 	 * Determine if the array has the passed value
 	 */
-	public function has(mixed $value, bool $strict = true): bool
+	public function has(mixed $value): bool
 	{
-		return in_array($value, $this->arr, $strict);
+		return in_array($value, $this->arr, true);
 	}
 
 	/**
@@ -223,12 +223,13 @@ class ArrayType
 
 		foreach ($key as $level)
 		{
-			if (empty($pos) || ! is_array($pos))
+			if ($pos === [] || ! is_array($pos))
 			{
 				// Directly returning a NULL value here will
 				// result in a reference error. This isn't
 				// excess code, just what's required for this
 				// unique situation.
+				// @mago-expect lint:inline-variable-return
 				$null = null;
 
 				return $null;
@@ -255,7 +256,7 @@ class ArrayType
 		// create the levels if they don't exist
 		foreach ($key as $level)
 		{
-			if (! \is_array($pos) && empty($pos))
+			if (! \is_array($pos))
 			{
 				$pos = [];
 				$pos[$level] = [];

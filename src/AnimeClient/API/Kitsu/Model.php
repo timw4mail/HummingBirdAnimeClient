@@ -92,17 +92,6 @@ final class Model
 		]);
 		$data = Json::decode($response->getBody()->buffer());
 
-		if (array_key_exists('error', $data))
-		{
-			dump([
-				'method' => self::class . '\\' . __METHOD__,
-				'error' => $data['error'],
-				'response' => $response,
-			]);
-
-			exit();
-		}
-
 		if (array_key_exists('access_token', $data))
 		{
 			return $data;
@@ -130,17 +119,6 @@ final class Model
 			],
 		]);
 		$data = Json::decode($response->getBody()->buffer());
-
-		if (array_key_exists('error', $data))
-		{
-			dump([
-				'method' => self::class . '\\' . __METHOD__,
-				'error' => $data['error'],
-				'response' => $response,
-			]);
-
-			exit();
-		}
 
 		if (array_key_exists('access_token', $data))
 		{
@@ -224,7 +202,7 @@ final class Model
 			'slug' => $slug,
 		]);
 
-		if (empty($baseData))
+		if ($baseData === [])
 		{
 			return Anime::from([]);
 		}
@@ -298,7 +276,7 @@ final class Model
 			$data = $this->getList(MediaType::ANIME, $status);
 
 			// Bail out on no data
-			if (empty($data))
+			if ($data === null || $data === [])
 			{
 				return [];
 			}
@@ -361,7 +339,7 @@ final class Model
 			'slug' => $slug,
 		]);
 
-		if (empty($baseData))
+		if ($baseData === [])
 		{
 			return MangaPage::from([]);
 		}
@@ -428,7 +406,7 @@ final class Model
 			$data = $this->getList(MediaType::MANGA, $status);
 
 			// Bail out on no data
-			if (empty($data))
+			if ($data === [])
 			{
 				return [];
 			}
@@ -556,7 +534,7 @@ final class Model
 	public function getListItem(string $listId): AnimeListItem|MangaListItem|array
 	{
 		$baseData = $this->listItem->get($listId);
-		if (! isset($baseData['data']['findLibraryEntryById']))
+		if ($baseData['data']['findLibraryEntryById'] === [])
 		{
 			// We need to get the errors...
 			return $baseData;
@@ -683,7 +661,7 @@ final class Model
 			$rawData = Json::decode($json);
 			$data = $rawData['data']['findProfileBySlug']['library']['all'] ?? [];
 			$page = $data['pageInfo'] ?? [];
-			if (empty($data))
+			if ($data === [])
 			{
 				// Clear session, in case the error is an invalid token.
 				$segment = $this->container->get('session')
@@ -691,9 +669,7 @@ final class Model
 				$segment->clear();
 
 				// @TODO Proper Error logging
-				dump($rawData);
-
-				exit();
+				// dump($rawData);
 			}
 
 			$cursor = $page['endCursor'];

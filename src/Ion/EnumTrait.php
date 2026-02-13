@@ -34,6 +34,6 @@ trait EnumTrait
 
 	public static function isValid(mixed $key): bool
 	{
-		return in_array($key, self::getConstList());
+		return in_array($key, self::getConstList(), true);
 	}
 }

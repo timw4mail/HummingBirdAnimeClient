@@ -221,6 +221,7 @@ abstract class BaseCommand extends Command
 		$container->set('aura-router', static fn () => new RouterContainer());
 
 		// Create Request/Response Objects
+		// @mago-expect lint:no-global
 		$container->set('request', static fn () => ServerRequestFactory::fromGlobals(
 			$GLOBALS['_SERVER'],
 			$_GET,

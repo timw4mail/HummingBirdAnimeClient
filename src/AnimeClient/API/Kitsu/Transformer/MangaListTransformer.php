@@ -62,7 +62,7 @@ final class MangaListTransformer extends AbstractTransformer
 		$MALid = null;
 
 		$mappings = $manga['mappings']['nodes'] ?? [];
-		if (! empty($mappings))
+		if ($mappings !== [])
 		{
 			foreach ($mappings as $mapping)
 			{

@@ -117,7 +117,7 @@ final class UserTransformer extends AbstractTransformer
 			];
 		}
 
-		if (! empty($data))
+		if ($data !== [])
 		{
 			$otherStats = [
 				'Posts:' => number_format($data['postsCount']),

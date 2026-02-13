@@ -25,7 +25,7 @@ abstract class API
 	 */
 	protected function sortByName(array &$array, string $sortKey): void
 	{
-		if (empty($array))
+		if ($array === [])
 		{
 			return;
 		}

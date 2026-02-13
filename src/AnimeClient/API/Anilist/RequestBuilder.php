@@ -21,7 +21,6 @@ use Aviat\AnimeClient\API\APIRequestBuilder;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
-use Aviat\Ion\JsonException;
 use LogicException;
 use Throwable;
 
@@ -121,7 +120,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if (! empty($variables))
+		if ($variables !== [])
 		{
 			$body['variables'] = [];
 
@@ -154,7 +153,7 @@ final class RequestBuilder extends APIRequestBuilder
 			'query' => $query,
 		];
 
-		if (! empty($variables))
+		if ($variables !== [])
 		{
 			$body['variables'] = [];
 
@@ -217,16 +216,13 @@ final class RequestBuilder extends APIRequestBuilder
 
 		$response = getResponse($request);
 
-		if ($logger !== null)
-		{
-			$logger->debug('Anilist response', [
-				'status' => $response->getStatus(),
-				'reason' => $response->getReason(),
-				'body' => $response->getBody(),
-				'headers' => $response->getHeaders(),
-				'requestHeaders' => $request->getHeaders(),
-			]);
-		}
+		$logger?->debug('Anilist response', [
+			'status' => $response->getStatus(),
+			'reason' => $response->getReason(),
+			'body' => $response->getBody(),
+			'headers' => $response->getHeaders(),
+			'requestHeaders' => $request->getHeaders(),
+		]);
 
 		return $response;
 	}
@@ -258,14 +254,6 @@ final class RequestBuilder extends APIRequestBuilder
 
 		$rawBody = $response->getBody()->buffer();
 
-		try {
-			return Json::decode($rawBody);
-		}
-		catch (JsonException $e) {
-			dump($e);
-			dump($rawBody);
-
-			exit();
-		}
+		return Json::decode($rawBody);
 	}
 }

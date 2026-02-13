@@ -20,6 +20,8 @@ use PDOException;
 
 /**
  * Model for getting anime collection data
+ *
+ * @mago-expect lint:no-empty-catch-clause
  */
 final class AnimeCollection extends Collection
 {
@@ -92,7 +94,7 @@ final class AnimeCollection extends Collection
 		$genres = $this->getGenreList();
 		$media = $this->getMediaList();
 
-		if (empty($rows))
+		if ($rows === [])
 		{
 			return [];
 		}
@@ -135,7 +137,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (empty($rows))
+		if ($rows === [])
 		{
 			return [];
 		}
@@ -216,7 +218,7 @@ final class AnimeCollection extends Collection
 
 		$row = $this->get($data['id']);
 
-		return ! empty($row);
+		return $row !== [];
 	}
 
 	/**
@@ -243,7 +245,7 @@ final class AnimeCollection extends Collection
 		// If updating from the 'add' page, there
 		// might be no data to actually update in
 		// the anime_set table
-		if (! empty($data))
+		if ($data !== [])
 		{
 			$this->db
 				->set($data)
@@ -359,7 +361,7 @@ final class AnimeCollection extends Collection
 			->get()
 			->fetchAll(PDO::FETCH_ASSOC);
 
-		if (empty($mediaRows))
+		if ($mediaRows === [])
 		{
 			return [];
 		}
@@ -386,7 +388,7 @@ final class AnimeCollection extends Collection
 			->get()
 			->fetch(PDO::FETCH_ASSOC);
 
-		return ! empty($row);
+		return $row !== [];
 	}
 
 	/**
@@ -413,7 +415,7 @@ final class AnimeCollection extends Collection
 				->from('anime_set_genre_link gl')
 				->join('genres g', 'g.id=gl.genre_id', 'left');
 
-			if (! empty($filter))
+			if ($filter !== [])
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
 			}
@@ -424,7 +426,7 @@ final class AnimeCollection extends Collection
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if (empty($rows))
+			if ($rows === [])
 			{
 				return [];
 			}
@@ -435,7 +437,7 @@ final class AnimeCollection extends Collection
 				$genre = $row['genre'];
 
 				// Empty genre names aren't useful
-				if (empty($genre))
+				if ($genre === null || $genre === '')
 				{
 					continue;
 				}
@@ -482,7 +484,7 @@ final class AnimeCollection extends Collection
 				->from('anime_set_media_link ml')
 				->join('media m', 'm.id=ml.media_id', 'left');
 
-			if (! empty($filter))
+			if ($filter !== [])
 			{
 				$this->db->whereIn('hummingbird_id', $filter);
 			}
@@ -493,7 +495,7 @@ final class AnimeCollection extends Collection
 				->get();
 
 			$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-			if (empty($rows))
+			if ($rows === [])
 			{
 				return [];
 			}
@@ -503,8 +505,8 @@ final class AnimeCollection extends Collection
 				$id = $row['hummingbird_id'];
 				$media = $row['media'];
 
-				// Empty genre names aren't useful
-				if (empty($media))
+				// Empty media types
+				if ($media === null || $media === '')
 				{
 					continue;
 				}
@@ -601,7 +603,7 @@ final class AnimeCollection extends Collection
 			}
 		}
 
-		if (! empty($linksToInsert))
+		if ($linksToInsert !== [])
 		{
 			try {
 				$this->db->insertBatch('anime_set_genre_link', $linksToInsert);
@@ -675,7 +677,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (empty($rows))
+		if ($rows === [])
 		{
 			return [];
 		}
@@ -708,7 +710,7 @@ final class AnimeCollection extends Collection
 			->get();
 
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (empty($rows))
+		if ($rows === [])
 		{
 			return [];
 		}
@@ -755,7 +757,7 @@ final class AnimeCollection extends Collection
 
 		// Add genres associated with each item
 		$rows = $query->fetchAll(PDO::FETCH_ASSOC);
-		if (empty($rows))
+		if ($rows === [])
 		{
 			return [];
 		}

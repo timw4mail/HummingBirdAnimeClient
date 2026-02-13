@@ -163,7 +163,7 @@ final class ListItem extends AbstractListItem
 		$auth = $this->getContainer()->get('auth');
 		$token = $auth->getAuthToken();
 
-		if (! empty($token))
+		if ($token !== null && $token !== '')
 		{
 			return "bearer {$token}";
 		}

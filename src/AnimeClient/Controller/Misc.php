@@ -138,7 +138,7 @@ final class Misc extends BaseController
 	{
 		$rawData = $this->model->getCharacter($slug);
 
-		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
+		if (! array_key_exists('data', $rawData) || $rawData['data'] === [])
 		{
 			$this->notFound(
 				$this->formatTitle(
@@ -173,7 +173,7 @@ final class Misc extends BaseController
 			->transform($rawData)
 			->toArray();
 
-		if (! array_key_exists('data', $rawData) || empty($rawData['data']))
+		if (! array_key_exists('data', $rawData) || $rawData['data'] === [])
 		{
 			$this->notFound(
 				$this->formatTitle(

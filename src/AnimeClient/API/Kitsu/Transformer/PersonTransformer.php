@@ -78,7 +78,7 @@ final class PersonTransformer extends AbstractTransformer
 
 			foreach ($data['mediaStaff']['nodes'] as $staffing)
 			{
-				if (empty($staffing['media']))
+				if ($staffing['media'] === [])
 				{
 					continue;
 				}
@@ -126,13 +126,13 @@ final class PersonTransformer extends AbstractTransformer
 					),
 				];
 
-				if (! isset($characters[$role][$charId]))
+				if (! array_key_exists($role, $characters))
 				{
-					if (! array_key_exists($role, $characters))
-					{
-						$characters[$role] = [];
-					}
+					$characters[$role] = [];
+				}
 
+				if (! array_key_exists($charId, $characters[$role]))
+				{
 					$characters[$role][$charId] = [
 						'character' => [
 							'id' => $character['id'],

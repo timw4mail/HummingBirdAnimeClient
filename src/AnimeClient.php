@@ -242,7 +242,7 @@ function getResponse(Request|string $request): Response
  */
 function getLocalImg(string $kitsuUrl, bool $webp = true): string
 {
-	if (empty($kitsuUrl))
+	if ($kitsuUrl === '')
 	{
 		return 'images/placeholder.webp';
 	}
@@ -299,6 +299,7 @@ function createPlaceholderImage(
  */
 function colNotEmpty(array $search, string $key): bool
 {
+	// @mago-expect lint:no-empty
 	$items = array_filter(array_column($search, $key), static fn ($x) => ! empty($x));
 
 	return $items !== [];
@@ -322,7 +323,7 @@ function clearCache(CacheInterface $cache): bool
 
 	$cleared = $cache->clear();
 
-	$saved = empty($userData) || $cache->setMultiple($userData);
+	$saved = $userData === [] || $cache->setMultiple($userData);
 
 	return $cleared && $saved;
 }
@@ -416,7 +417,7 @@ function friendlyTime(int $seconds, string $minUnit = 'second'): string
 
 	$last = array_pop($parts);
 
-	if (empty($parts))
+	if ($parts === [])
 	{
 		return $last;
 	}

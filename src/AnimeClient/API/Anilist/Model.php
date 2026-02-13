@@ -108,7 +108,7 @@ final class Model
 	public function createListItem(array $data, string $type = 'anime'): null|Request
 	{
 		$mediaId = $this->getMediaId($data, $type);
-		if (empty($mediaId))
+		if ($mediaId === null || $mediaId === '')
 		{
 			return null;
 		}
@@ -142,7 +142,7 @@ final class Model
 		$createData = $data['data'];
 		$mediaId = $this->getMediaId($data, $type);
 
-		if (empty($mediaId))
+		if ($mediaId === null || $mediaId === '')
 		{
 			throw new MissingIdException('No id mapping found');
 		}
@@ -236,7 +236,7 @@ final class Model
 			'userName' => $anilistUser,
 		]);
 
-		if (! empty($info['errors']))
+		if (array_key_exists('errors', $info))
 		{
 			return null;
 		}
@@ -250,7 +250,7 @@ final class Model
 	 */
 	private function getMediaId(array $data, string $type = 'ANIME'): null|string
 	{
-		return $data['anilist_id'] ?? (isset($data['mal_id'])
+		return $data['anilist_id'] ?? ($data['mal_id'] !== null
 			? $this->getMediaIdFromMalId($data['mal_id'], mb_strtoupper($type))
 			: null);
 	}

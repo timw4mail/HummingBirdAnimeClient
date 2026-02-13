@@ -52,6 +52,7 @@ final class RequestBuilder extends APIRequestBuilder
 		'Accept' => 'application/vnd.api+json',
 		'Content-Type' => 'application/vnd.api+json',
 		'CLIENT_ID' => 'dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd',
+		// @mago-expect lint:no-literal-password
 		'CLIENT_SECRET' => '54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151',
 	];
 
@@ -84,7 +85,7 @@ final class RequestBuilder extends APIRequestBuilder
 		elseif ($url !== K::AUTH_URL && $sessionSegment->get('auth_token') !== null)
 		{
 			$token = $sessionSegment->get('auth_token');
-			if (! empty($token))
+			if ($token !== null)
 			{
 				$cache->set(K::AUTH_TOKEN_CACHE_KEY, $token);
 			}
@@ -193,24 +194,7 @@ final class RequestBuilder extends APIRequestBuilder
 			throw new LogicException('GraphQL query file does not exist.');
 		}
 
-		$query = file_get_contents($file);
-		$body = [
-			'query' => $query,
-		];
-
-		if (! empty($variables))
-		{
-			$body['variables'] = [];
-
-			foreach ($variables as $key => $val)
-			{
-				$body['variables'][$key] = $val;
-			}
-		}
-
-		return $this->setUpRequest('POST', $this->baseUrl, [
-			'body' => $body,
-		]);
+		return $this->graphqlRequest($file, $variables);
 	}
 
 	/**
@@ -225,12 +209,22 @@ final class RequestBuilder extends APIRequestBuilder
 			throw new LogicException('GraphQL mutation file does not exist.');
 		}
 
+		return $this->graphqlRequest($file, $variables);
+	}
+
+	/**
+	 * @param string $file
+	 * @param array<string, mixed> $variables
+	 * @return Request
+	 */
+	private function graphqlRequest(string $file, array $variables = []): Request
+	{
 		$query = file_get_contents($file);
 		$body = [
 			'query' => $query,
 		];
 
-		if (! empty($variables))
+		if ($variables !== [])
 		{
 			$body['variables'] = [];
 

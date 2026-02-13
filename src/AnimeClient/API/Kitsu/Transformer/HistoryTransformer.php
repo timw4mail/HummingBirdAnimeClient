@@ -79,7 +79,7 @@ abstract class HistoryTransformer
 
 			$kind = strtolower($entry['kind']);
 
-			if ($kind === 'progressed' && ! empty($entry['changedData']['progress']))
+			if ($kind === 'progressed' && $entry['changedData']['progress'] !== null)
 			{
 				$transformed = $this->transformProgress($entry);
 				if ($transformed !== null)
@@ -204,7 +204,7 @@ abstract class HistoryTransformer
 		// Hide the last episode update (Anime)
 		foreach (['episodeCount', 'chapterCount'] as $count)
 		{
-			if (empty($entry['media'][$count]))
+			if (! array_key_exists($count, $entry['media']))
 			{
 				continue;
 			}

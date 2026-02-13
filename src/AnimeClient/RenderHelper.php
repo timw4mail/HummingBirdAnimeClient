@@ -157,6 +157,6 @@ class RenderHelper
 
 		$intersect = array_intersect($pageSegments, self::$formPages);
 
-		return empty($intersect);
+		return $intersect === [];
 	}
 }

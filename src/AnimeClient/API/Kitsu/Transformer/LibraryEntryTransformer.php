@@ -74,7 +74,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		$MALid = null;
 		$AnilistId = null;
 
-		if (isset($anime['mappings']['nodes']))
+		if ($anime['mappings']['nodes'] !== [])
 		{
 			foreach ($anime['mappings']['nodes'] as $mapping)
 			{
@@ -162,7 +162,7 @@ final class LibraryEntryTransformer extends AbstractTransformer
 		$MALid = null;
 		$AnilistId = null;
 
-		if (isset($manga['mappings']['nodes']))
+		if ($manga['mappings']['nodes'] !== [])
 		{
 			foreach ($manga['mappings']['nodes'] as $mapping)
 			{

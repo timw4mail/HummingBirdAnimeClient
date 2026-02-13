@@ -137,7 +137,7 @@ return static function (array $configArray = []): Container {
 	));
 
 	// Create session Object
-	$container->set('session', static fn () => (new SessionFactory())->newInstance($_COOKIE));
+	$container->set('session', static fn () => new SessionFactory()->newInstance($_COOKIE));
 
 	// Models
 	$container->set('kitsu-model', static function (ContainerInterface $container): Kitsu\Model {
