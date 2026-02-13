@@ -12,61 +12,72 @@ use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 #[AllowMockObjectsWithoutExpectations]
 final class ParallelAPIRequestTest extends AnimeClientTestCase
 {
-	public function testParallelRequest(): void
+	protected function setUp(): void
 	{
+		parent::setUp();
+
 		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
-		$client
-			->method('request')
-			->willReturnCallback(function () {
-				$response = $this->createMock(\Amp\Http\Client\Response::class);
-				$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
-				$response->method('getBody')->willReturn($body);
+		$client->method('request')->willReturnCallback(function () {
+			$response = $this->createMock(\Amp\Http\Client\Response::class);
+			$response->method('getStatus')->willReturn(200);
+			$body = new \Amp\ByteStream\Payload('{"data": "ok"}');
+			$response->method('getBody')->willReturn($body);
 
-				return $response;
-			});
-
+			return $response;
+		});
 		\Aviat\AnimeClient\getApiClient($client);
-
-		$parallel = new ParallelAPIRequest();
-		$parallel->addRequest('https://example.com/1', 'first');
-		$parallel->addRequest('https://example.com/2', 'second');
-
-		$results = $parallel->makeRequests();
-
-		$this->assertCount(2, $results);
-		$this->assertEquals('{"data": "ok"}', $results['first']);
-		$this->assertEquals('{"data": "ok"}', $results['second']);
 	}
 
-	public function testGetResponses(): void
+	public function testAddRequest(): void
 	{
-		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
-		$client
-			->method('request')
-			->willReturnCallback(function () {
-				return $this->createMock(\Amp\Http\Client\Response::class);
-			});
-
-		\Aviat\AnimeClient\getApiClient($client);
-
 		$parallel = new ParallelAPIRequest();
-		$parallel->addRequests([
-			'https://example.com/1',
-			'https://example.com/2',
-		]);
-
-		$responses = $parallel->getResponses();
-
-		$this->assertCount(2, $responses);
-		$this->assertInstanceOf(\Amp\Http\Client\Response::class, $responses[0]);
+		$parallel->addRequest('https://example.com', 'test');
+		$friend = new \Aviat\Ion\Friend($parallel);
+		$this->assertArrayHasKey('test', $friend->requests);
 	}
 
 	public function testAddRequests(): void
 	{
 		$parallel = new ParallelAPIRequest();
-		$parallel->addRequests(['a', 'b']);
-
+		$parallel->addRequests(['a' => 'url1', 'b' => 'url2']);
 		$friend = new \Aviat\Ion\Friend($parallel);
-		$this->assertCount(2, $friend->requests);
+		$this->assertArrayHasKey('a', $friend->requests);
+		$this->assertArrayHasKey('b', $friend->requests);
+	}
+
+	public function testMakeRequests(): void
+	{
+		$parallel = new ParallelAPIRequest();
+		$parallel->addRequest('https://example.com', 'test');
+		$result = $parallel->makeRequests();
+		$this->assertEquals(['test' => '{"data": "ok"}'], $result);
+	}
+
+	public function testGetResponses(): void
+	{
+		$parallel = new ParallelAPIRequest();
+		$parallel->addRequest('https://example.com', 'test');
+		$result = $parallel->getResponses();
+		$this->assertArrayHasKey('test', $result);
+		$this->assertInstanceOf(\Amp\Http\Client\Response::class, $result['test']);
+	}
+
+	public function testMakeRequestsWithObjects(): void
+	{
+		$parallel = new ParallelAPIRequest();
+		$request = new \Amp\Http\Client\Request('https://example.com');
+		$parallel->addRequest($request, 'test');
+		$result = $parallel->makeRequests();
+		$this->assertEquals(['test' => '{"data": "ok"}'], $result);
+	}
+
+	public function testGetResponsesWithObjects(): void
+	{
+		$parallel = new ParallelAPIRequest();
+		$request = new \Amp\Http\Client\Request('https://example.com');
+		$parallel->addRequest($request, 'test');
+		$result = $parallel->getResponses();
+		$this->assertArrayHasKey('test', $result);
+		$this->assertInstanceOf(\Amp\Http\Client\Response::class, $result['test']);
 	}
 }

@@ -84,6 +84,31 @@ final class ModelTest extends AnimeClientTestCase
 		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
 	}
 
+	public function testCreateListItemManga(): void
+	{
+		$data = [
+			'anilist_id' => '123',
+			'status' => 'current',
+		];
+
+		$this->listItem = $this->createMock(ListItem::class);
+		$this->model = new Model($this->listItem);
+		$this->model->setRequestBuilder($this->requestBuilder);
+		$this->model->setContainer($this->container);
+
+		$this->listItem
+			->expects($this->once())
+			->method('create')
+			->with([
+				'id' => '123',
+				'status' => 'CURRENT',
+			])
+			->willReturn(new \Amp\Http\Client\Request('https://example.com', 'POST'));
+
+		$result = $this->model->createListItem($data, 'MANGA');
+		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
+	}
+
 	public function testUpdateListItem(): void
 	{
 		$formItem = \Aviat\AnimeClient\Types\FormItem::from([
@@ -227,5 +252,51 @@ final class ModelTest extends AnimeClientTestCase
 
 		$result = $this->model->createFullListItem($data, 'ANIME');
 		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
+	}
+
+	public function testCreateListItemWithMalId(): void
+	{
+		$data = [
+			'mal_id' => '123',
+			'status' => 'current',
+		];
+
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('MediaIdByMalId', [
+				'id' => '123',
+				'type' => 'ANIME',
+			])
+			->willReturn(['data' => ['Media' => ['id' => '456']]]);
+
+		$this->listItem = $this->createMock(ListItem::class);
+		$this->model = new Model($this->listItem);
+		$this->model->setRequestBuilder($this->requestBuilder);
+		$this->model->setContainer($this->container);
+
+		$this->listItem
+			->expects($this->once())
+			->method('create')
+			->with([
+				'id' => '456',
+				'status' => 'CURRENT',
+			])
+			->willReturn(new \Amp\Http\Client\Request('https://example.com', 'POST'));
+
+		$result = $this->model->createListItem($data, 'ANIME');
+		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
+	}
+
+	public function testGetMediaIdFromMalIdError(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->willReturn(['errors' => []]);
+
+		$formItem = \Aviat\AnimeClient\Types\FormItem::from(['mal_id' => '123']);
+		$result = $this->model->getListIdFromData($formItem, 'ANIME');
+		$this->assertNull($result);
 	}
 }

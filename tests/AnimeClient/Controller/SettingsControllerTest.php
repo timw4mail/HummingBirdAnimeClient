@@ -34,16 +34,69 @@ final class SettingsControllerTest extends AnimeClientTestCase
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getSettingsForm')
 			->willReturn([]);
 		$this->container->setInstance('settings-model', $model);
 
 		$controller = new SettingsController($this->container);
-
+		
 		ob_start();
 		$controller->index();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testUpdate(): void
+	{
+		$this->setSuperGlobals(['_POST' => ['config' => []]]);
+		
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
+		$model->expects($this->once())
+			->method('saveSettingsFile')
+			->willReturn(true);
+		$this->container->setInstance('settings-model', $model);
+
+		$controller = new SettingsController($this->container);
+		
+		ob_start();
+		$controller->update();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testAnilistCallback(): void
+	{
+		$this->setSuperGlobals(['_GET' => ['code' => '123']]);
+		
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$anilistModel = $this->createMock(\Aviat\AnimeClient\API\Anilist\Model::class);
+		$anilistModel->expects($this->once())
+			->method('authenticate')
+			->with('123', 'https://localhost/anilist-oauth')
+			->willReturn(['access_token' => 'foo', 'expires_in' => 3600, 'refresh_token' => 'bar']);
+		$this->container->setInstance('anilist-model', $anilistModel);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
+		$model->method('getSettings')->willReturn(['anilist' => [], 'config' => []]);
+		$model->expects($this->once())
+			->method('saveSettingsFile')
+			->willReturn(true);
+		$this->container->setInstance('settings-model', $model);
+
+		$controller = new SettingsController($this->container);
+		
+		ob_start();
+		$controller->anilistCallback();
 		ob_end_clean();
 
 		$this->assertTrue(true);

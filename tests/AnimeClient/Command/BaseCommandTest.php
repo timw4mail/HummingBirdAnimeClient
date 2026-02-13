@@ -18,6 +18,7 @@ use Aviat\AnimeClient\Command\BaseCommand;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use Aviat\Ion\Di\Container;
 use Aviat\Ion\Friend;
+use Aviat\Ion\Di\ContainerInterface;
 use ConsoleKit\Console;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
@@ -36,6 +37,7 @@ final class BaseCommandTest extends AnimeClientTestCase
 	#[\Override]
 	protected function setUp(): void
 	{
+		parent::setUp();
 		$this->base = new Command(new Console());
 		$this->friend = new Friend($this->base);
 	}
@@ -43,7 +45,7 @@ final class BaseCommandTest extends AnimeClientTestCase
 	public function testSetupContainer(): void
 	{
 		$container = $this->friend->setupContainer();
-		$this->assertInstanceOf(Container::class, $container);
+		$this->assertInstanceOf(ContainerInterface::class, $container);
 	}
 
 	public function testEcho(): void
@@ -95,5 +97,58 @@ final class BaseCommandTest extends AnimeClientTestCase
 		$base->echoBox('Test box');
 		ob_end_clean();
 		$this->assertTrue(true);
+	}
+
+	public function testEchoWarningBox(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->method('write');
+
+		$base = new Command($console);
+		ob_start();
+		$base->echoWarningBox('Test warning box');
+		ob_end_clean();
+		$this->assertTrue(true);
+	}
+
+	public function testEchoErrorBox(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->method('write');
+
+		$base = new Command($console);
+		ob_start();
+		$base->echoErrorBox('Test error box');
+		ob_end_clean();
+		$this->assertTrue(true);
+	}
+
+	public function testClearLine(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->expects($this->once())->method('write')->with("\r\e[2K");
+
+		$base = new Command($console);
+		$base->clearLine();
+	}
+
+	public function testLine(): void
+	{
+		$console = $this->createMock(\ConsoleKit\Console::class);
+		$console->expects($this->once())->method('writeln')->with('test');
+		$base = new Command($console);
+		$friend = new Friend($base);
+		$friend->_line('test');
+	}
+
+	public function testDi(): void
+	{
+		$config = [
+			'database' => [
+				'type' => 'sqlite',
+				'file' => ':memory:',
+			],
+		];
+		$this->assertInstanceOf(ContainerInterface::class, $this->friend->_di($config, self::ROOT_DIR . '/app'));
 	}
 }

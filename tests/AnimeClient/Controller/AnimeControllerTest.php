@@ -30,44 +30,49 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	public function testAnimeList(): void
 	{
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getList')
 			->willReturn([]);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
-		// Capture output to avoid SapiEmitter issues
+		
 		ob_start();
 		$controller->index('watching', 'list');
 		ob_end_clean();
 
-		$this->assertTrue(true); // If it didn't throw, it's okay for now
+		$this->assertTrue(true);
 	}
 
 	public function testDetails(): void
 	{
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getAnime')
 			->with('test-slug')
-			->willReturn(\Aviat\AnimeClient\Types\Anime::from([
+			->willReturn(\Aviat\AnimeClient\Types\AnimePage::from([
+				'id' => '1',
 				'title' => 'Test',
 				'titles' => ['Test'],
+				'titles_more' => [],
 				'episode_count' => 12,
 				'episode_length' => 24,
 				'cover_image' => 'test.jpg',
 				'show_type' => 'TV',
 				'age_rating' => 'G',
+				'age_rating_guide' => '',
 				'genres' => [],
+				'characters' => [],
+				'staff' => [],
+				'links' => [],
+				'synopsis' => '',
+				'url' => '',
 				'streaming_links' => [],
 			]));
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->details('test-slug');
 		ob_end_clean();
@@ -82,7 +87,7 @@ final class AnimeControllerTest extends AnimeClientTestCase
 		$this->container->setInstance('auth', $auth);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->addForm();
 		ob_end_clean();
@@ -95,15 +100,14 @@ final class AnimeControllerTest extends AnimeClientTestCase
 		$this->setSuperGlobals(['_GET' => ['query' => 'Test']]);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('search')
 			->with('Test')
 			->willReturn([]);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->search();
 		ob_end_clean();
@@ -114,24 +118,31 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	public function testRandom(): void
 	{
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getRandomAnime')
-			->willReturn(\Aviat\AnimeClient\Types\Anime::from([
+			->willReturn(\Aviat\AnimeClient\Types\AnimePage::from([
+				'id' => '1',
 				'title' => 'Test',
 				'titles' => ['Test'],
+				'titles_more' => [],
 				'episode_count' => 12,
 				'episode_length' => 24,
 				'cover_image' => 'test.jpg',
 				'show_type' => 'TV',
 				'age_rating' => 'G',
+				'age_rating_guide' => '',
 				'genres' => [],
+				'characters' => [],
+				'staff' => [],
+				'links' => [],
+				'synopsis' => '',
+				'url' => '',
 				'streaming_links' => [],
 			]));
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->random();
 		ob_end_clean();
@@ -141,21 +152,20 @@ final class AnimeControllerTest extends AnimeClientTestCase
 
 	public function testAdd(): void
 	{
-		$this->setSuperGlobals(['_POST' => ['id' => '123', 'mal_id' => '456']]);
-
+		$this->setSuperGlobals(['_POST' => ['id' => '123']]);
+		
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('isAuthenticated')->willReturn(true);
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('createItem')
 			->willReturn(true);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->add();
 		ob_end_clean();
@@ -166,20 +176,19 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	public function testDelete(): void
 	{
 		$this->setSuperGlobals(['_POST' => ['id' => '123']]);
-
+		
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('isAuthenticated')->willReturn(true);
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('deleteItem')
 			->willReturn(true);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->delete();
 		ob_end_clean();
@@ -194,15 +203,14 @@ final class AnimeControllerTest extends AnimeClientTestCase
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getItem')
 			->with('123')
 			->willReturn(['id' => '123']);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->edit('123');
 		ob_end_clean();
@@ -214,24 +222,21 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	{
 		$this->setSuperGlobals([
 			'_POST' => ['id' => '123'],
-			'_SERVER' => array_merge($GLOBALS['_SERVER'], [
-				'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-			]),
+			'_SERVER' => ['CONTENT_TYPE' => 'application/x-www-form-urlencoded'],
 		]);
-
+		
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('isAuthenticated')->willReturn(true);
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('incrementItem')
 			->willReturn(['body' => [], 'statusCode' => 200]);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->increment();
 		ob_end_clean();
@@ -243,26 +248,28 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	{
 		$this->setSuperGlobals(['_POST' => [
 			'id' => '123',
+			'mal_id' => '456',
 			'watching_status' => 'completed',
+			'rewatching' => false,
 			'rewatched' => 0,
 			'notes' => '',
 			'episodes_watched' => 12,
 			'user_rating' => 8,
+			'private' => false,
 		]]);
-
+		
 		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
 		$auth->method('isAuthenticated')->willReturn(true);
 		$this->container->setInstance('auth', $auth);
 
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('updateItem')
 			->willReturn(['body' => [], 'statusCode' => 200]);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
 		$controller->formUpdate();
 		ob_end_clean();
@@ -273,16 +280,15 @@ final class AnimeControllerTest extends AnimeClientTestCase
 	public function testIndexCover(): void
 	{
 		$model = $this->createMock(\Aviat\AnimeClient\Model\Anime::class);
-		$model
-			->expects($this->once())
+		$model->expects($this->once())
 			->method('getList')
 			->willReturn([]);
 		$this->container->setInstance('anime-model', $model);
 
 		$controller = new AnimeController($this->container);
-
+		
 		ob_start();
-		$controller->index('watching', null);
+		$controller->index('watching', '');
 		ob_end_clean();
 
 		$this->assertTrue(true);

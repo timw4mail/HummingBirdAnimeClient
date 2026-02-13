@@ -52,6 +52,18 @@ final class RequestBuilderTest extends AnimeClientTestCase
 		$this->assertEquals('Bearer test-token', $request->getHeader('Authorization'));
 	}
 
+	public function testSetUpRequestFromSession(): void
+	{
+		$this->container->get('cache')->clear();
+		$this->container->get('session')
+			->getSegment(\Aviat\AnimeClient\SESSION_SEGMENT)
+			->set('auth_token', 'session-token');
+		
+		$request = $this->builder->setUpRequest('GET', 'https://example.com');
+		$this->assertEquals('Bearer session-token', $request->getHeader('Authorization'));
+		$this->assertEquals('session-token', $this->container->get('cache')->get(\Aviat\AnimeClient\Kitsu::AUTH_TOKEN_CACHE_KEY));
+	}
+
 	public function testRunQuery(): void
 	{
 		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
@@ -78,5 +90,17 @@ final class RequestBuilderTest extends AnimeClientTestCase
 
 		$result = $this->builder->mutate('CreateLibraryItem', ['id' => '1']);
 		$this->assertEquals(['data' => 'ok'], $result);
+	}
+
+	public function testGetResponse(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$response->method('getBody')->willReturn(new \Amp\ByteStream\Payload(''));
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$result = $this->builder->getResponse('GET', 'https://example.com');
+		$this->assertSame($response, $result);
 	}
 }

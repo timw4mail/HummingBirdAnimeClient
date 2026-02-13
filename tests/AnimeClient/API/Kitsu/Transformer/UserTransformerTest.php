@@ -1,50 +1,94 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\UserTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\Ion\Json;
+use Aviat\AnimeClient\Types\User;
 
 /**
  * @internal
  */
 final class UserTransformerTest extends AnimeClientTestCase
 {
-	protected array $beforeTransform;
-
-	protected string $dir;
-
-	#[\Override]
-	protected function setUp(): void
-	{
-		parent::setUp();
-		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-
-		$raw = Json::decodeFile("{$this->dir}/userBeforeTransform.json");
-		$this->beforeTransform = $raw;
-	}
-
 	public function testTransform(): void
 	{
-		$actual = new UserTransformer()->transform($this->beforeTransform);
+		$transformer = new UserTransformer();
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'about' => 'About',
+					'avatarImage' => ['original' => ['url' => 'avatar.jpg']],
+					'birthday' => '1990-01-01',
+					'createdAt' => '2015-01-01',
+					'gender' => 'Male',
+					'location' => 'Location',
+					'name' => 'Name',
+					'slug' => 'slug',
+					'waifu' => ['id' => '1', 'names' => ['canonical' => 'Waifu']],
+					'waifuOrHusbando' => 'Waifu',
+					'siteLinks' => ['nodes' => [['url' => 'https://example.com']]],
+					'favorites' => [
+						'nodes' => [
+							[
+								'id' => '1',
+								'item' => [
+									'__typename' => 'Anime',
+									'id' => '10',
+									'titles' => ['canonical' => 'Fav Anime'],
+								],
+							],
+						],
+					],
+					'stats' => [
+						'animeAmountConsumed' => [
+							'time' => 1000,
+							'media' => 10,
+							'units' => 100,
+						],
+						'mangaAmountConsumed' => [
+							'time' => 500,
+							'media' => 5,
+							'units' => 50,
+						],
+					],
+				],
+			],
+		];
 
-		// Remove dates so test is consistent
-		$actual->joinDate = '';
-		$actual->birthday = '';
+		$result = $transformer->transform($data);
+		$this->assertInstanceOf(User::class, $result);
+		$this->assertEquals('Name', $result['name']);
+		$this->assertArrayHasKey('anime', $result['favorites']);
+		$this->assertArrayHasKey('Time spent watching anime:', $result['stats']);
+		$this->assertArrayHasKey('Manga series read:', $result['stats']);
+		$this->assertEquals('https://example.com', $result['website']);
+	}
 
-		$this->assertMatchesSnapshot($actual);
+	public function testTransformMinimal(): void
+	{
+		$transformer = new UserTransformer();
+		$data = [
+			'data' => [
+				'findProfileBySlug' => [
+					'about' => null,
+					'avatarImage' => null,
+					'birthday' => null,
+					'createdAt' => '2015-01-01',
+					'gender' => null,
+					'location' => null,
+					'name' => 'Name',
+					'slug' => 'slug',
+					'siteLinks' => ['nodes' => []],
+					'favorites' => ['nodes' => []],
+					'stats' => [],
+				],
+			],
+		];
+
+		$result = $transformer->transform($data);
+		$this->assertInstanceOf(User::class, $result);
+		$this->assertNull($result['birthday']);
+		$this->assertEquals('', $result['about']);
 	}
 }

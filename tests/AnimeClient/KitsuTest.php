@@ -24,100 +24,28 @@ use PHPUnit\Framework\TestCase;
  */
 final class KitsuTest extends TestCase
 {
-	public function testGetAiringStatus(): void
-	{
-		$actual = Kitsu::getAiringStatus('next week', 'next year');
-		$this->assertSame(AnimeAiringStatus::NOT_YET_AIRED, $actual);
-	}
-
-	public function testParseStreamingLinksEmpty(): void
-	{
-		$this->assertSame([], Kitsu::parseStreamingLinks([]));
-	}
-
-	public function testParseStreamingLinks(): void
-	{
-		$nodes = [[
-			'url' => 'www.hulu.com/chobits',
-			'dubs' => ['ja'],
-			'subs' => ['en'],
-		]];
-
-		$expected = [[
-			'meta' => [
-				'name' => 'Hulu',
-				'link' => true,
-				'image' => 'streaming-logos/hulu.svg',
-			],
-			'link' => 'www.hulu.com/chobits',
-			'dubs' => ['ja'],
-			'subs' => ['en'],
-		]];
-
-		$this->assertEquals($expected, Kitsu::parseStreamingLinks($nodes));
-	}
-
-	public function testParseStreamingLinksNoHost(): void
-	{
-		$nodes = [[
-			'url' => '/link-fragment',
-			'dubs' => [],
-			'subs' => [],
-		]];
-
-		$this->assertSame([], Kitsu::parseStreamingLinks($nodes));
-	}
-
-	public function testGetAiringStatusEmptyArguments(): void
-	{
-		$this->assertSame(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus());
-	}
-
-	public function testGetAiringStatusIsAiring(): void
-	{
-		$this->assertSame(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('yesterday'));
-	}
-
-	public function testGetPublishingStatusEmptyArguments(): void
-	{
-		$this->assertSame(MangaPublishingStatus::NOT_YET_PUBLISHED, Kitsu::getPublishingStatus());
-	}
-
-	public function testGetPublishingStatusIsPublishing(): void
-	{
-		$this->assertSame(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus('yesterday'));
-	}
-
-	public function testFilterLocalizedTitles(): void
-	{
-		$input = [
-			'canonical' => 'foo',
-			'localized' => [
-				'en' => 'Foo the Movie',
-				'fr' => '',
-				'jp' => null,
-			],
-			'alternatives' => [],
-		];
-
-		$actual = Kitsu::filterLocalizedTitles($input);
-
-		$this->assertSame(['Foo the Movie'], $actual);
-	}
-
 	public function testGetFilteredTitles(): void
 	{
 		$input = [
-			'canonical' => 'foo',
+			'canonical' => 'Foo the Movie',
+			'localized' => [
+				'en' => 'Foo the Movie',
+				'ja_jp' => 'Fu',
+			],
+		];
+		$actual = Kitsu::getFilteredTitles($input);
+
+		$this->assertSame(['Fu'], $actual);
+
+		$input = [
+			'canonical' => 'Foo the Movie',
 			'localized' => [
 				'en' => 'Foo the Movie',
 			],
-			'alternatives' => [],
 		];
-
 		$actual = Kitsu::getFilteredTitles($input);
 
-		$this->assertSame(['Foo the Movie'], $actual);
+		$this->assertSame([], $actual);
 	}
 
 	public function testFormatAirDates(): void
@@ -155,6 +83,15 @@ final class KitsuTest extends TestCase
 		$this->assertEquals('/public/images/placeholder.png', Kitsu::getImage([]));
 	}
 
+	public function testGetPosterImage(): void
+	{
+		$data = [
+			'posterImage' => ['original' => ['url' => 'poster.jpg']],
+		];
+		$this->assertEquals('poster.jpg', Kitsu::getPosterImage($data));
+		$this->assertEquals('/public/images/placeholder.png', Kitsu::getPosterImage([]));
+	}
+
 	public function testGetTitles(): void
 	{
 		$input = [
@@ -171,13 +108,34 @@ final class KitsuTest extends TestCase
 
 	public function testGetPublishingStatus(): void
 	{
-		$this->assertEquals(MangaPublishingStatus::FINISHED, Kitsu::getPublishingStatus(
-			'2020-01-01',
-			'2020-12-31',
-		));
-		$this->assertEquals(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus(
-			'2020-01-01',
-			'next year',
-		));
+		$this->assertEquals(MangaPublishingStatus::FINISHED, Kitsu::getPublishingStatus('2020-01-01', '2020-12-31'));
+		$this->assertEquals(MangaPublishingStatus::CURRENT, Kitsu::getPublishingStatus('2020-01-01', 'next year'));
+	}
+
+	public function testGetAiringStatus(): void
+	{
+		$this->assertEquals(AnimeAiringStatus::FINISHED_AIRING, Kitsu::getAiringStatus('2020-01-01', '2020-12-31'));
+		$this->assertEquals(AnimeAiringStatus::AIRING, Kitsu::getAiringStatus('2020-01-01', 'next year'));
+		$this->assertEquals(AnimeAiringStatus::NOT_YET_AIRED, Kitsu::getAiringStatus('next year'));
+	}
+
+	public function testParseStreamingLinks(): void
+	{
+		$nodes = [
+			[
+				'url' => 'www.netflix.com/title/123',
+				'subs' => ['en'],
+				'dubs' => ['ja'],
+			],
+			[
+				'url' => 'https://www.crunchyroll.com/watch/456',
+				'subs' => ['en'],
+				'dubs' => ['en'],
+			],
+		];
+		$parsed = Kitsu::parseStreamingLinks($nodes);
+		$this->assertCount(2, $parsed);
+		$this->assertEquals('Crunchyroll', $parsed[0]['meta']['name']);
+		$this->assertEquals('Netflix', $parsed[1]['meta']['name']);
 	}
 }

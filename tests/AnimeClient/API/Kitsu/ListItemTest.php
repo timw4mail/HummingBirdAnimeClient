@@ -4,7 +4,6 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu;
 
 use Aviat\AnimeClient\API\Kitsu\ListItem;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\AnimeClient\Types\FormItemData;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
 /**
@@ -21,7 +20,6 @@ final class ListItemTest extends AnimeClientTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
-
 		$this->requestBuilder = $this->createMock(\Aviat\AnimeClient\API\Kitsu\RequestBuilder::class);
 		$this->listItem = new ListItem();
 		$this->listItem->setRequestBuilder($this->requestBuilder);
@@ -31,113 +29,128 @@ final class ListItemTest extends AnimeClientTestCase
 	public function testCreate(): void
 	{
 		$data = [
-			'id' => '123',
+			'id' => '1',
 			'status' => 'current',
 			'type' => 'anime',
-			'user_id' => '456',
+			'user_id' => '10',
 		];
-
-		$this->requestBuilder
-			->expects($this->once())
+		$this->requestBuilder->expects($this->once())
 			->method('mutateRequest')
 			->with('CreateLibraryItem', [
-				'id' => '123',
+				'id' => '1',
 				'status' => 'CURRENT',
 				'type' => 'ANIME',
-				'userId' => '456',
-			]);
+				'userId' => '10',
+			])
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
 
 		$this->listItem->create($data);
-	}
-
-	public function testDelete(): void
-	{
-		$this->requestBuilder
-			->expects($this->once())
-			->method('mutateRequest')
-			->with('DeleteLibraryItem', ['id' => '123']);
-
-		$this->listItem->delete('123');
-	}
-
-	public function testGet(): void
-	{
-		$this->requestBuilder
-			->expects($this->once())
-			->method('runQuery')
-			->with('GetLibraryItem', ['id' => '123'])
-			->willReturn(['data' => []]);
-
-		$result = $this->listItem->get('123');
-		$this->assertEquals(['data' => []], $result);
-	}
-
-	public function testIncrement(): void
-	{
-		$data = FormItemData::from(['progress' => 5]);
-		$this->requestBuilder
-			->expects($this->once())
-			->method('mutateRequest')
-			->with('IncrementLibraryItem', ['id' => '123', 'progress' => 5]);
-
-		$this->listItem->increment('123', $data);
-	}
-
-	public function testUpdate(): void
-	{
-		$data = FormItemData::from([
-			'notes' => 'Test notes',
-			'private' => true,
-			'reconsumeCount' => 1,
-			'reconsuming' => false,
-			'status' => 'current',
-			'progress' => 10,
-			'ratingTwenty' => 16,
-		]);
-
-		$this->requestBuilder
-			->expects($this->once())
-			->method('mutateRequest')
-			->with('UpdateLibraryItem', [
-				'id' => '123',
-				'notes' => 'Test notes',
-				'private' => true,
-				'reconsumeCount' => 1,
-				'reconsuming' => false,
-				'status' => 'CURRENT',
-				'progress' => 10,
-				'ratingTwenty' => 16,
-			]);
-
-		$this->listItem->update('123', $data);
 	}
 
 	public function testCreateFull(): void
 	{
 		$data = [
-			'id' => '123',
+			'id' => '1',
 			'status' => 'current',
 			'type' => 'anime',
-			'user_id' => '456',
-			'progress' => 10,
-			'notes' => 'Test notes',
+			'user_id' => '10',
+			'notes' => 'Notes',
 		];
+		
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('getAuthToken')->willReturn('token');
+		$this->container->setInstance('auth', $auth);
 
-		$this->requestBuilder
-			->expects($this->once())
-			->method('newRequest')
-			->with('POST', 'library-entries')
-			->willReturnSelf();
-		$this->requestBuilder->method('setHeader')->willReturnSelf();
-		$this->requestBuilder
-			->expects($this->once())
-			->method('setJsonBody')
-			->willReturnSelf();
-		$this->requestBuilder
-			->expects($this->once())
-			->method('getFullRequest')
+		$this->requestBuilder->expects($this->once())->method('newRequest')->willReturnSelf();
+		$this->requestBuilder->expects($this->once())->method('setHeader')->with('Authorization', 'bearer token')->willReturnSelf();
+		$this->requestBuilder->expects($this->once())->method('setJsonBody')->willReturnSelf();
+		$this->requestBuilder->expects($this->once())->method('getFullRequest')->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$result = $this->listItem->createFull($data);
+		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
+	}
+
+	public function testCreateFullNoAuth(): void
+	{
+		$data = [
+			'id' => '1',
+			'status' => 'current',
+			'type' => 'anime',
+			'user_id' => '10',
+		];
+		
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('getAuthToken')->willReturn(null);
+		$this->container->setInstance('auth', $auth);
+
+		$this->requestBuilder->expects($this->once())->method('newRequest')->willReturnSelf();
+		$this->requestBuilder->expects($this->never())->method('setHeader');
+		$this->requestBuilder->expects($this->once())->method('setJsonBody')->willReturnSelf();
+		$this->requestBuilder->expects($this->once())->method('getFullRequest')->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$result = $this->listItem->createFull($data);
+		$this->assertInstanceOf(\Amp\Http\Client\Request::class, $result);
+	}
+
+	public function testDelete(): void
+	{
+		$this->requestBuilder->expects($this->once())
+			->method('mutateRequest')
+			->with('DeleteLibraryItem', ['id' => '1'])
 			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
 
-		$this->listItem->createFull($data);
+		$this->listItem->delete('1');
+	}
+
+	public function testGet(): void
+	{
+		$this->requestBuilder->expects($this->once())
+			->method('runQuery')
+			->with('GetLibraryItem', ['id' => '1'])
+			->willReturn([]);
+
+		$this->listItem->get('1');
+	}
+
+	public function testIncrement(): void
+	{
+		$data = \Aviat\AnimeClient\Types\FormItemData::from(['progress' => 5]);
+		$this->requestBuilder->expects($this->once())
+			->method('mutateRequest')
+			->with('IncrementLibraryItem', [
+				'id' => '1',
+				'progress' => 5,
+			])
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$this->listItem->increment('1', $data);
+	}
+
+	public function testUpdate(): void
+	{
+		$data = \Aviat\AnimeClient\Types\FormItemData::from([
+			'notes' => 'Notes',
+			'private' => true,
+			'reconsumeCount' => 1,
+			'reconsuming' => false,
+			'status' => 'completed',
+			'progress' => 12,
+			'ratingTwenty' => 16,
+		]);
+		$this->requestBuilder->expects($this->once())
+			->method('mutateRequest')
+			->with('UpdateLibraryItem', [
+				'id' => '1',
+				'notes' => 'Notes',
+				'private' => true,
+				'reconsumeCount' => 1,
+				'reconsuming' => false,
+				'status' => 'COMPLETED',
+				'progress' => 12,
+				'ratingTwenty' => 16,
+			])
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$this->listItem->update('1', $data);
 	}
 }

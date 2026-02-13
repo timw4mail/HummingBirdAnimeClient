@@ -149,7 +149,7 @@ final class Anime extends BaseController
 
 		$data = (array) $this->request->getParsedBody();
 
-		if ($data['mal_id'] === null)
+		if (($data['mal_id'] ?? null) === null)
 		{
 			unset($data['mal_id']);
 		}

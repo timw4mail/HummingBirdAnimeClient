@@ -28,7 +28,7 @@ final class RequestBuilderTest extends AnimeClientTestCase
 			'body' => ['query' => 'test'],
 			'headers' => ['X-Foo' => 'Bar'],
 		]);
-
+		
 		$this->assertEquals('POST', $request->getMethod());
 		$this->assertEquals('https://example.com', (string) $request->getUri());
 		$this->assertTrue($request->hasHeader('Authorization'));
@@ -61,5 +61,18 @@ final class RequestBuilderTest extends AnimeClientTestCase
 
 		$result = $this->builder->mutate('UpdateMediaListEntry', ['id' => '1']);
 		$this->assertEquals(['data' => 'ok'], $result);
+	}
+
+	public function testGetResponseFromRequest(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$response->method('getBody')->willReturn(new \Amp\ByteStream\Payload(''));
+		$client->method('request')->willReturn($response);
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$request = new \Amp\Http\Client\Request('https://example.com');
+		$result = $this->builder->getResponseFromRequest($request);
+		$this->assertSame($response, $result);
 	}
 }

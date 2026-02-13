@@ -23,7 +23,7 @@ js:
 # -------------------------------------------------------------------
 
 # Check code grammar
-lint:
+lint: check-fmt
 	tools/vendor/bin/mago lint
 
 # Auto fix lint errors
@@ -41,12 +41,10 @@ check-fix:
 # Check code formatting
 check-fmt:
 	tools/vendor/bin/mago fmt --dry-run
-	#tools/vendor/bin/php-cs-fixer fix --dry-run --verbose
 
 # Fix code formatting
 fmt:
 	tools/vendor/bin/mago fmt
-	#tools/vendor/bin/php-cs-fixer fix --verbose
 
 # Runs phpstan code check
 phpstan:

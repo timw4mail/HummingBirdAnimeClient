@@ -91,14 +91,12 @@ final class UserTransformer extends AbstractTransformer
 
 	/**
 	 * @param array<string, mixed> $stats
-	 * @param array<string, mixed> $data
 	 * @return array<string, string>
 	 */
-	private function organizeStats(array $stats, array $data = []): array
+	private function organizeStats(array $stats): array
 	{
 		$animeStats = [];
 		$mangaStats = [];
-		$otherStats = [];
 
 		if (array_key_exists('animeAmountConsumed', $stats))
 		{
@@ -117,15 +115,6 @@ final class UserTransformer extends AbstractTransformer
 			];
 		}
 
-		if ($data !== [])
-		{
-			$otherStats = [
-				'Posts:' => number_format($data['postsCount']),
-				'Comments:' => number_format($data['commentsCount']),
-				'Media Rated:' => number_format($data['ratingsCount']),
-			];
-		}
-
-		return array_merge($animeStats, $mangaStats, $otherStats);
+		return array_merge($animeStats, $mangaStats);
 	}
 }

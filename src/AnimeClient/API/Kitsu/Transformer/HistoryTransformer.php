@@ -265,7 +265,14 @@ abstract class HistoryTransformer
 			]);
 		}
 
-		return HistoryItem::from($entry);
+		return HistoryItem::from([
+			'coverImg' => Kitsu::getPosterImage($data, 0),
+			'kind' => 'updated',
+			'original' => $entry,
+			'title' => $title,
+			'updated' => $this->parseDate($entry['updatedAt']),
+			'url' => $this->getUrl($data),
+		]);
 	}
 
 	/**

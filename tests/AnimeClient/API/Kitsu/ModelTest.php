@@ -15,6 +15,7 @@
 namespace Aviat\AnimeClient\Tests\API\Kitsu;
 
 use Aviat\AnimeClient\API\Kitsu\Model;
+use Aviat\AnimeClient\Kitsu as K;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
@@ -144,6 +145,36 @@ final class ModelTest extends AnimeClientTestCase
 		$this->assertEquals('1', $result['id']);
 	}
 
+	public function testGetAnimeById(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('AnimeDetailsById', ['id' => '1'])
+			->willReturn(['data' => ['findAnimeById' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'categories' => ['nodes' => []],
+				'characters' => ['nodes' => []],
+				'staff' => ['nodes' => []],
+				'mappings' => ['nodes' => []],
+				'startDate' => '2020-01-01',
+				'endDate' => '2020-12-31',
+				'ageRating' => 'G',
+				'ageRatingGuide' => '',
+				'episodeCount' => 12,
+				'episodeLength' => 24,
+				'subtype' => 'TV',
+				'youtubeTrailerVideoId' => '',
+				'totalLength' => 0,
+				'streamingLinks' => ['nodes' => []],
+			]]]);
+
+		$result = $this->model->getAnimeById('1');
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\Anime::class, $result);
+	}
+
 	public function testGetAnimeHistory(): void
 	{
 		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
@@ -182,6 +213,26 @@ final class ModelTest extends AnimeClientTestCase
 
 		$result = $this->model->authenticate('user', 'pass');
 		$this->assertEquals(['access_token' => 'foo'], $result);
+	}
+
+	public function testReAuthenticate(): void
+	{
+		$response = $this->createMock(\Amp\Http\Client\Response::class);
+		$body = new \Amp\ByteStream\Payload(json_encode(['access_token' => 'new_foo']));
+		$response->method('getStatus')->willReturn(200);
+		$response->method('getBody')->willReturn($body);
+
+		$this->requestBuilder
+			->expects($this->once())
+			->method('getResponse')
+			->with('POST', K::AUTH_URL, $this->callback(function ($options) {
+				return $options['form_params']['grant_type'] === 'refresh_token'
+					&& $options['form_params']['refresh_token'] === 'old_token';
+			}))
+			->willReturn($response);
+
+		$result = $this->model->reAuthenticate('old_token');
+		$this->assertEquals(['access_token' => 'new_foo'], $result);
 	}
 
 	public function testGetRandomAnime(): void
@@ -305,6 +356,109 @@ final class ModelTest extends AnimeClientTestCase
 		$result = $this->model->getFullOrganizedAnimeList();
 		$this->assertArrayHasKey('Currently Watching', $result);
 		$this->assertArrayHasKey('1', $result['Currently Watching']);
+	}
+
+	public function testGetManga(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('MangaDetails', ['slug' => 'test-slug'])
+			->willReturn(['data' => ['findMangaBySlug' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'categories' => ['nodes' => []],
+				'characters' => ['nodes' => []],
+				'staff' => ['nodes' => []],
+				'mappings' => ['nodes' => []],
+				'startDate' => '2020-01-01',
+				'endDate' => '2020-12-31',
+				'ageRating' => 'G',
+				'ageRatingGuide' => '',
+				'chapterCount' => 50,
+				'volumeCount' => 5,
+				'subtype' => 'MANGA',
+				'description' => ['en' => 'Test'],
+			]]]);
+
+		$result = $this->model->getManga('test-slug');
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\MangaPage::class, $result);
+		$this->assertEquals('1', $result['id']);
+	}
+
+	public function testGetMangaById(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('MangaDetailsById', ['id' => '1'])
+			->willReturn(['data' => ['findMangaById' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'categories' => ['nodes' => []],
+				'characters' => ['nodes' => []],
+				'staff' => ['nodes' => []],
+				'mappings' => ['nodes' => []],
+				'startDate' => '2020-01-01',
+				'endDate' => '2020-12-31',
+				'ageRating' => 'G',
+				'ageRatingGuide' => '',
+				'chapterCount' => 50,
+				'volumeCount' => 5,
+				'subtype' => 'MANGA',
+				'description' => ['en' => 'Test'],
+			]]]);
+
+		$result = $this->model->getMangaById('1');
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\MangaPage::class, $result);
+	}
+
+	public function testGetRandomManga(): void
+	{
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->with('RandomMedia', ['type' => 'MANGA'])
+			->willReturn(['data' => ['randomMedia' => [
+				'id' => '1',
+				'slug' => 'test-slug',
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'categories' => ['nodes' => []],
+				'characters' => ['nodes' => []],
+				'staff' => ['nodes' => []],
+				'mappings' => ['nodes' => []],
+				'startDate' => '2020-01-01',
+				'endDate' => '2020-12-31',
+				'ageRating' => 'G',
+				'ageRatingGuide' => '',
+				'chapterCount' => 50,
+				'volumeCount' => 5,
+				'subtype' => 'MANGA',
+				'description' => ['en' => 'Test'],
+			]]]);
+
+		$result = $this->model->getRandomManga();
+		$this->assertInstanceOf(\Aviat\AnimeClient\Types\MangaPage::class, $result);
+	}
+
+	public function testGetMangaHistory(): void
+	{
+		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
+		$cache
+			->method('get')
+			->willReturn(null);
+		$this->model->setCache($cache);
+		$this->container->get('config')->set('kitsu_username', 'test_user');
+
+		$this->requestBuilder
+			->expects($this->once())
+			->method('runQuery')
+			->willReturn(['data' => ['findProfileBySlug' => ['libraryEvents' => ['nodes' => []]]]]);
+
+		$result = $this->model->getMangaHistory();
+		$this->assertEquals([], $result);
 	}
 
 	public function testGetFullOrganizedMangaList(): void
@@ -602,5 +756,55 @@ final class ModelTest extends AnimeClientTestCase
 		$this->assertCount(2, $result);
 		$this->assertArrayHasKey('1', $result);
 		$this->assertArrayHasKey('2', $result);
+	}
+
+	public function testGetSyncList(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$jsonData = ['data' => ['findProfileBySlug' => ['library' => ['all' => [
+			'nodes' => [],
+			'pageInfo' => ['endCursor' => '', 'hasNextPage' => false],
+		]]]]];
+		$client
+			->method('request')
+			->willReturnCallback(function () use ($jsonData) {
+				$response = $this->createMock(\Amp\Http\Client\Response::class);
+				$body = new \Amp\ByteStream\Payload(json_encode($jsonData));
+				$response->method('getBody')->willReturn($body);
+
+				return $response;
+			});
+
+		\Aviat\AnimeClient\getApiClient($client);
+		$this->requestBuilder
+			->method('queryRequest')
+			->willReturn(new \Amp\Http\Client\Request('https://example.com'));
+
+		$this->container->get('config')->set('kitsu_username', 'test_user');
+
+		$result = $this->model->getSyncList('anime');
+		$this->assertEquals([], $result);
+	}
+
+	public function testGetFullOrganizedAnimeListCache(): void
+	{
+		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
+		$cache->method('get')
+			->willReturn(['cached' => 'data']);
+		$this->model->setCache($cache);
+
+		$result = $this->model->getFullOrganizedAnimeList();
+		$this->assertArrayHasKey('Currently Watching', $result);
+	}
+
+	public function testGetFullOrganizedMangaListCache(): void
+	{
+		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
+		$cache->method('get')
+			->willReturn(['cached' => 'manga']);
+		$this->model->setCache($cache);
+
+		$result = $this->model->getFullOrganizedMangaList();
+		$this->assertArrayHasKey('Currently Reading', $result);
 	}
 }

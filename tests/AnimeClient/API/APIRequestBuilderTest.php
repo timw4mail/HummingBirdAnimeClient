@@ -81,4 +81,31 @@ class APIRequestBuilderTest extends TestCase
 		$request = $this->builder->getFullRequest();
 		$this->assertEquals('{"foo":"bar"}', $request->getBody()->getContent()->read());
 	}
+
+	public function testUnsetHeader(): void
+	{
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setHeader('X-Test', 'Foo');
+		$this->assertEquals('Foo', $this->builder->getFullRequest()->getHeader('X-Test'));
+		
+		$this->builder->unsetHeader('X-Test');
+		$this->assertNull($this->builder->getFullRequest()->getHeader('X-Test'));
+	}
+
+	public function testSetHeaderNull(): void
+	{
+		$this->builder->newRequest('GET', 'https://example.com');
+		$this->builder->setHeader('X-Test', 'Foo');
+		$this->assertEquals('Foo', $this->builder->getFullRequest()->getHeader('X-Test'));
+		
+		$this->builder->setHeader('X-Test', null);
+		$this->assertNull($this->builder->getFullRequest()->getHeader('X-Test'));
+	}
+
+	public function testSetHeaderEmptyName(): void
+	{
+		$this->builder->newRequest('GET', 'https://example.com');
+		$ret = $this->builder->setHeader('', 'Foo');
+		$this->assertSame($this->builder, $ret);
+	}
 }

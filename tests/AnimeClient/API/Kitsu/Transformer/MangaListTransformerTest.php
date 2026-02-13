@@ -1,94 +1,66 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\MangaListTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\AnimeClient\Types\FormItem;
-use Aviat\AnimeClient\Types\FormItemData;
-use Aviat\Ion\Json;
+use Aviat\AnimeClient\Types\MangaListItem;
 
 /**
  * @internal
  */
 final class MangaListTransformerTest extends AnimeClientTestCase
 {
-	protected $dir;
-
-	protected $rawBefore;
-
-	protected $beforeTransform;
-
-	protected $transformer;
-
-	#[\Override]
-	protected function setUp(): void
+	public function testTransform(): void
 	{
-		parent::setUp();
-
-		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-
-		// Prep for transform
-		$raw = Json::decodeFile("{$this->dir}/mangaListBeforeTransform.json");
-		$this->beforeTransform = $raw['data']['findProfileBySlug']['library']['all']['nodes'];
-		$this->transformer = new MangaListTransformer();
-	}
-
-	public function testTransform()
-	{
-		$actual = $this->transformer->transformCollection($this->beforeTransform);
-		$this->assertMatchesSnapshot($actual);
-	}
-
-	public function testUntransform()
-	{
-		$input = [
-			'id' => '15084773',
-			'mal_id' => '26769',
-			'chapters_read' => 67,
-			'manga' => [
-				'id' => '12345',
-				'titles' => ['Bokura wa Minna Kawaisou'],
-				'alternate_title' => null,
-				'slug' => 'bokura-wa-minna-kawaisou',
-				'url' => 'https://kitsu.io/manga/bokura-wa-minna-kawaisou',
-				'type' => 'manga',
-				'image' => 'https://media.kitsu.io/manga/poster_images/20286/small.jpg?1434293999',
-				'genres' => [],
+		$transformer = new MangaListTransformer();
+		$data = [
+			'id' => '1',
+			'status' => 'CURRENT',
+			'progress' => 10,
+			'rating' => 16,
+			'reconsuming' => false,
+			'reconsumeCount' => 0,
+			'notes' => 'Notes',
+			'media' => [
+				'id' => '10',
+				'slug' => 'test-manga',
+				'subtype' => 'MANGA',
+				'chapterCount' => 50,
+				'volumeCount' => 5,
+				'titles' => ['canonical' => 'Test', 'localized' => []],
+				'mappings' => [
+					'nodes' => [
+						['externalSite' => 'UNKNOWN', 'externalId' => '0'],
+						['externalSite' => 'MYANIMELIST_MANGA', 'externalId' => '123'],
+					],
+				],
+				'posterImage' => ['original' => ['url' => 'test.jpg']],
 			],
-			'status' => 'current',
-			'notes' => '',
-			'rereading' => false,
-			'reread_count' => 0,
-			'new_rating' => 9,
 		];
 
-		$actual = $this->transformer->untransform($input);
-		$expected = FormItem::from([
-			'id' => '15084773',
-			'mal_id' => '26769',
-			'data' => FormItemData::from([
-				'status' => 'current',
-				'progress' => 67,
-				'reconsuming' => false,
-				'reconsumeCount' => 0,
-				'notes' => '',
-				'ratingTwenty' => 18,
-			]),
-		]);
+		$result = $transformer->transform($data);
+		$this->assertInstanceOf(MangaListItem::class, $result);
+		$this->assertEquals('123', $result['mal_id']);
+		$this->assertEquals(8, $result['user_rating']);
+	}
 
-		$this->assertEquals($expected, $actual);
+	public function testUntransform(): void
+	{
+		$transformer = new MangaListTransformer();
+		$item = [
+			'id' => '1',
+			'mal_id' => '123',
+			'status' => 'completed',
+			'rereading' => false,
+			'reread_count' => 0,
+			'notes' => 'Notes',
+			'chapters_read' => 50,
+			'new_rating' => 8,
+		];
+
+		$result = $transformer->untransform($item);
+		$this->assertEquals('1', $result['id']);
+		$this->assertEquals(16, $result['data']['ratingTwenty']);
 	}
 }

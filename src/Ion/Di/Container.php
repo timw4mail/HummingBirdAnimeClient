@@ -204,6 +204,22 @@ class Container implements ContainerInterface
 	}
 
 	/**
+	 * Remove an item from the container
+	 */
+	public function delete(string $id): void
+	{
+		unset($this->container[$id], $this->instances[$id]);
+	}
+
+	/**
+	 * Remove a cached instance from the container
+	 */
+	public function clearInstance(string $id): void
+	{
+		unset($this->instances[$id]);
+	}
+
+	/**
 	 * Retrieve a logger for the selected channel
 	 *
 	 * @param string $id The logger to retrieve

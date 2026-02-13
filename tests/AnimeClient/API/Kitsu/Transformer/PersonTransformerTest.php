@@ -1,45 +1,79 @@
 <?php declare(strict_types=1);
-/**
- * Hummingbird Anime List Client
- *
- * An API client for Kitsu to manage anime and manga watch lists
- *
- * PHP version 8.4
- *
- * @copyright   2015 - 2026  Timothy J. Warren <tim@timshome.page>
- * @license     http://www.opensource.org/licenses/mit-license.html  MIT License
- * @version     5.3
- * @link        https://git.timshomepage.net/timw4mail/HummingBirdAnimeClient
- */
 
 namespace Aviat\AnimeClient\Tests\API\Kitsu\Transformer;
 
 use Aviat\AnimeClient\API\Kitsu\Transformer\PersonTransformer;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
-use Aviat\Ion\Json;
+use Aviat\AnimeClient\Types\Person;
 
 /**
  * @internal
  */
 final class PersonTransformerTest extends AnimeClientTestCase
 {
-	protected array $beforeTransform;
-
-	protected string $dir;
-
-	#[\Override]
-	protected function setUp(): void
-	{
-		parent::setUp();
-		$this->dir = AnimeClientTestCase::TEST_DATA_DIR . '/Kitsu';
-
-		$raw = Json::decodeFile("{$this->dir}/personBeforeTransform.json");
-		$this->beforeTransform = $raw;
-	}
-
 	public function testTransform(): void
 	{
-		$actual = new PersonTransformer()->transform($this->beforeTransform);
-		$this->assertMatchesSnapshot($actual);
+		$transformer = new PersonTransformer();
+		$data = [
+			'data' => [
+				'findPersonBySlug' => [
+					'id' => '1',
+					'slug' => 'test-person',
+					'names' => [
+						'canonical' => 'Canonical Name',
+						'localized' => ['Canonical Name' => 'Actual Name'],
+					],
+					'image' => ['original' => ['url' => 'test.jpg']],
+					'birthday' => '1990-01-01',
+					'description' => ['en' => 'Test description'],
+					'mediaStaff' => [
+						'nodes' => [
+							[
+								'role' => 'Director',
+								'media' => [
+									'id' => '10',
+									'type' => 'ANIME',
+									'slug' => 'anime',
+									'titles' => ['canonical' => 'Anime Title', 'localized' => []],
+									'posterImage' => ['original' => ['url' => 'poster.jpg']],
+								],
+							],
+							[
+								'role' => 'Empty',
+								'media' => [],
+							],
+						],
+					],
+					'voices' => [
+						'nodes' => [
+							[
+								'mediaCharacter' => [
+									'role' => 'MAIN',
+									'character' => [
+										'id' => '100',
+										'slug' => 'char',
+										'names' => ['canonical' => 'Char Name'],
+										'image' => ['original' => ['url' => 'char.jpg']],
+									],
+									'media' => [
+										'id' => '10',
+										'slug' => 'anime',
+										'titles' => ['canonical' => 'Anime Title'],
+										'posterImage' => ['original' => ['url' => 'poster.jpg']],
+									],
+								],
+							],
+							null,
+						],
+					],
+				],
+			],
+		];
+
+		$result = $transformer->transform($data);
+		$this->assertInstanceOf(Person::class, $result);
+		$this->assertEquals('Actual Name', $result['name']);
+		$this->assertArrayHasKey('Director', $result['staff']);
+		$this->assertArrayHasKey('main', $result['characters']);
 	}
 }

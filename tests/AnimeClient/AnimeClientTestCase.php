@@ -14,9 +14,12 @@
 
 namespace Aviat\AnimeClient\Tests;
 
+use Aviat\AnimeClient\RenderHelper;
+use Aviat\AnimeClient\UrlGenerator;
 use Aviat\Ion\Di\ContainerAware;
 use Aviat\Ion\Di\ContainerInterface;
 use Aviat\Ion\Json;
+use Aviat\Ion\Di\Container;
 use Laminas\Diactoros\Response as HttpResponse;
 use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
@@ -126,19 +129,42 @@ class AnimeClientTestCase extends TestCase
 	public function setSuperGlobals($supers = []): void
 	{
 		$default = [
-			'_SERVER' => $GLOBALS['_SERVER'],
+			'_SERVER' => array_merge($GLOBALS['_SERVER'], [
+				'HTTP_HOST' => 'localhost',
+				'SERVER_NAME' => 'localhost',
+			]),
 			'_GET' => $_GET,
 			'_POST' => $_POST,
 			'_COOKIE' => $_COOKIE,
 			'_FILES' => $_FILES,
 		];
 
+		$combined = array_replace_recursive($default, $supers);
+
 		$request = call_user_func_array(
 			ServerRequestFactory::fromGlobals(...),
-			array_values(array_merge($default, $supers)),
+			array_values($combined),
 		);
-		$this->container->setInstance('request', $request);
-		$this->container->set('response', static fn () => new HttpResponse());
+		
+		if ($this->container instanceof Container)
+		{
+			$this->container->clearInstance('request');
+			$this->container->setInstance('request', $request);
+			
+			$this->container->clearInstance('response');
+			$this->container->set('response', static fn () => new HttpResponse());
+			
+			// Reset dependent objects
+			$this->container->clearInstance('aura-router');
+			$this->container->clearInstance('url-generator');
+			$this->container->clearInstance('render-helper');
+			$this->container->clearInstance('dispatcher');
+			
+			if (! $this instanceof DispatcherTest)
+			{
+				$this->container->get('dispatcher');
+			}
+		}
 	}
 
 	/**

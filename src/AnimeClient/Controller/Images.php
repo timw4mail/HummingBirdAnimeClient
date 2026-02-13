@@ -139,7 +139,7 @@ final class Images extends BaseController
 		}
 
 		[$origWidth] = $size;
-		$gdImg = imagecreatefromstring($data);
+		$gdImg = @imagecreatefromstring($data);
 		if ($gdImg === false)
 		{
 			return;
@@ -174,7 +174,7 @@ final class Images extends BaseController
 		{
 			$contentType = $ext === 'webp'
 				? 'image/webp'
-				: $response->getHeader('content-type')[0] ?? 'image/jpeg';
+				: $response->getHeader('content-type') ?? 'image/jpeg';
 
 			$outputFile = str_contains($file, '-original')
 				? "{$filePrefix}-original.{$ext}"

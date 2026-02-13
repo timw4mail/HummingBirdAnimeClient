@@ -204,12 +204,12 @@ final class DispatcherTest extends AnimeClientTestCase
 
 		$this->doSetUp($config, '/', 'localhost');
 		$this->assertSame(
-			'//localhost/manga/all',
+			'https://localhost/manga/all',
 			$this->urlGenerator->defaultUrl('manga'),
 			'Incorrect default url',
 		);
 		$this->assertSame(
-			'//localhost/anime/watching',
+			'https://localhost/anime/watching',
 			$this->urlGenerator->defaultUrl('anime'),
 			'Incorrect default url',
 		);
@@ -314,11 +314,7 @@ final class DispatcherTest extends AnimeClientTestCase
 
 	public function testGetOutputRoutes(): void
 	{
-		$this->doSetUp(
-			$this->dataRoute()['anime_default_routing_anime']['config'],
-			'/anime/watching',
-			'localhost',
-		);
+		$this->doSetUp($this->dataRoute()['anime_default_routing_anime']['config'], '/anime/watching', 'localhost');
 		$routes = $this->router->getOutputRoutes();
 		$this->assertNotEmpty($routes);
 	}
@@ -361,5 +357,16 @@ final class DispatcherTest extends AnimeClientTestCase
 		$parsed = $friend->processRoute(new \Aviat\Ion\Friend($route));
 
 		$this->assertEquals('123', $parsed['params']['id']);
+	}
+
+	public function testProcessRouteMissingController(): void
+	{
+		$this->expectException(\LogicException::class);
+		$this->doSetUp([], '/', 'localhost');
+		$friend = new \Aviat\Ion\Friend($this->router);
+		$route = $this->createMock(Route::class);
+		$routeFriend = new \Aviat\Ion\Friend($route);
+		$routeFriend->attributes = [];
+		$friend->processRoute($routeFriend);
 	}
 }
