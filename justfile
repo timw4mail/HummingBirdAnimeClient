@@ -72,6 +72,10 @@ test:
 test-update:
 	composer run-script test-update
 
+# Run tests, showing all deprecations and other issues
+test-noisy:
+	composer run-script test-noisy
+
 # Run unit tests and generate test-coverage report
 coverage:
 	composer run-script coverage

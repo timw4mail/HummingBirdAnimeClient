@@ -15,8 +15,6 @@
 namespace Aviat\AnimeClient\API;
 
 use Amp\Http\Client\Form;
-use Amp\Http\Client\HttpClientBuilder;
-use Amp\Http\Client\HttpException;
 use Amp\Http\Client\Request;
 use Aviat\Ion\Json;
 use InvalidArgumentException;

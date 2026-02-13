@@ -52,7 +52,7 @@ final class MangaTransformer extends AbstractTransformer
 			foreach ($base['characters']['nodes'] as $rawCharacter)
 			{
 				$type = mb_strtolower($rawCharacter['role']);
-				if ($characters[$type] === null)
+				if (! array_key_exists($type, $characters))
 				{
 					$characters[$type] = [];
 				}

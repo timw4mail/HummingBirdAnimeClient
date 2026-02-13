@@ -93,18 +93,14 @@ class Config implements ConfigInterface
 	#[\Override]
 	public function set(array|int|string $key, mixed $value): ConfigInterface
 	{
-		if (is_array($key))
+		match (true)
 		{
-			$this->map->setDeepKey($key, $value);
-		}
-		elseif (! empty($key))
-		{
-			$this->map->set($key, $value);
-		}
-		else
-		{
-			throw new InvalidArgumentException('Key must be integer, string, or array, and cannot be empty');
-		}
+			is_array($key) => $this->map->setDeepKey($key, $value),
+			is_string($key) && $key !== '', is_int($key) => $this->map->set($key, $value),
+			default => throw new InvalidArgumentException(
+				'Key must be integer, string, or array, and cannot be empty',
+			),
+		};
 
 		return $this;
 	}

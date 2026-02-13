@@ -229,7 +229,9 @@ class ArrayType
 				// result in a reference error. This isn't
 				// excess code, just what's required for this
 				// unique situation.
-				return null;
+				$null = null;
+
+				return $null;
 			}
 
 			$pos = &$pos[$level];

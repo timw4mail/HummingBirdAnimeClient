@@ -1,79 +1,80 @@
 {
-  "name": "aviat/hummingbird-anime-client",
-  "description": "A self-hosted anime/manga client for Kitsu.",
-  "license": "MIT",
-  "authors": [
-	{
-	  "name": "Timothy J. Warren",
-	  "email": "tim@timshomepage.net",
-	  "homepage": "https://timshomepage.net",
-	  "role": "Developer"
-	}
-  ],
-  "autoload": {
-	"files": [
-	  "src/Ion/functions.php",
-	  "src/AnimeClient.php",
-	  "src/AnimeClient/constants.php"
+	"name": "aviat/hummingbird-anime-client",
+	"description": "A self-hosted anime/manga client for Kitsu.",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Timothy J. Warren",
+			"email": "tim@timshomepage.net",
+			"homepage": "https://timshomepage.net",
+			"role": "Developer"
+		}
 	],
-	"psr-4": {
-	  "Aviat\\": "src/"
+	"autoload": {
+		"files": [
+			"src/Ion/functions.php",
+			"src/AnimeClient.php",
+			"src/AnimeClient/constants.php"
+		],
+		"psr-4": {
+			"Aviat\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Aviat\\AnimeClient\\Tests\\": "tests/AnimeClient",
+			"Aviat\\Ion\\Tests\\": "tests/Ion"
+		}
+	},
+	"config": {
+		"lock": false
+	},
+	"require": {
+		"amphp/http-client": "^v5.0.0",
+		"aura/html": "^2.5.0",
+		"aura/router": "^3.3.0",
+		"aura/session": "^4.0",
+		"aviat/banker": "^5.0.0",
+		"aviat/query": "^5.0.0",
+		"ext-dom": "*",
+		"ext-gd": "*",
+		"ext-intl": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"ext-pdo": "*",
+		"laminas/laminas-diactoros": "^3.0.0",
+		"laminas/laminas-httphandlerrunner": "^2.6.1",
+		"maximebf/consolekit": "^1.0.3",
+		"monolog/monolog": "^3.0.0",
+		"php": ">= 8.4.0",
+		"psr/http-message": "^1.0.1 || ^2.0.0",
+		"tracy/tracy": "^2.8.0",
+		"yosymfony/toml": "^1.0.4"
+	},
+	"replace": {
+		"symfony/polyfill-mbstring": "*"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^2.0.1",
+		"phpunit/phpunit": "^13.0.2",
+		"roave/security-advisories": "dev-master",
+		"spatie/phpunit-snapshot-assertions": "^5.0.1"
+	},
+	"scripts": {
+		"build:css": "cd public && npm run build:css && cd ..",
+		"build:js": "cd public && npm run build:js && cd ..",
+		"coverage": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit -c build",
+		"phpstan": "phpstan analyse -c phpstan.neon",
+		"watch:css": "cd public && npm run watch:css",
+		"watch:js": "cd public && npm run watch:js",
+		"test": "vendor/bin/phpunit -c build --no-coverage",
+		"test-update": "vendor/bin/phpunit -c build --no-coverage -d --update-snapshots",
+		"test-noisy": "vendor/bin/phpunit -c build --no-coverage --display-all-issues"
+	},
+	"scripts-descriptions": {
+		"build:css": "Generate browser css",
+		"coverage": "Generate a test coverage report",
+		"phpstan": "Run PHP Static analysis",
+		"test": "Run the unit tests"
 	}
-  },
-  "autoload-dev": {
-	"psr-4": {
-	  "Aviat\\AnimeClient\\Tests\\": "tests/AnimeClient",
-	  "Aviat\\Ion\\Tests\\": "tests/Ion"
-	}
-  },
-  "config": {
-	"lock": false
-  },
-  "require": {
-	"amphp/http-client": "^v5.0.0",
-	"aura/html": "^2.5.0",
-	"aura/router": "^3.3.0",
-	"aura/session": "^4.0",
-	"aviat/banker": "^5.0.0",
-	"aviat/query": "^5.0.0",
-	"ext-dom": "*",
-	"ext-gd": "*",
-	"ext-intl": "*",
-	"ext-json": "*",
-	"ext-mbstring": "*",
-	"ext-pdo": "*",
-	"laminas/laminas-diactoros": "^3.0.0",
-	"laminas/laminas-httphandlerrunner": "^2.6.1",
-	"maximebf/consolekit": "^1.0.3",
-	"monolog/monolog": "^3.0.0",
-	"php": ">= 8.4.0",
-	"psr/http-message": "^1.0.1 || ^2.0.0",
-	"tracy/tracy": "^2.8.0",
-	"yosymfony/toml": "^1.0.4"
-  },
-  "replace": {
-  	"symfony/polyfill-mbstring": "*"
-  },
-  "require-dev": {
-	"phpstan/phpstan": "^2.0.1",
-	"phpunit/phpunit": "^13.0.2",
-	"roave/security-advisories": "dev-master",
-	"spatie/phpunit-snapshot-assertions": "^5.0.1"
-  },
-  "scripts": {
-	"build:css": "cd public && npm run build:css && cd ..",
-	"build:js": "cd public && npm run build:js && cd ..",
-	"coverage": "php -dpcov.enabled=1 -dpcov.directory=. -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit -c build",
-	"phpstan": "phpstan analyse -c phpstan.neon",
-	"watch:css": "cd public && npm run watch:css",
-	"watch:js": "cd public && npm run watch:js",
-	"test": "vendor/bin/phpunit -c build --no-coverage --display-phpunit-deprecations",
-	"test-update": "vendor/bin/phpunit -c build --no-coverage -d --update-snapshots"
-  },
-  "scripts-descriptions": {
-	"build:css": "Generate browser css",
-	"coverage": "Generate a test coverage report",
-	"phpstan": "Run PHP Static analysis",
-	"test": "Run the unit tests"
-  }
 }

@@ -35,7 +35,7 @@ final class HtmlViewTest extends HttpViewTest
 	public function testRenderTemplate(): void
 	{
 		$path = _dir(self::TEST_VIEW_DIR, 'test_view.php');
-		$expected = '<tag>foo</tag>';
+		$expected = "<tag>foo</tag>\n";
 		$actual = $this->view->renderTemplate($path, [
 			'var' => 'foo',
 		]);

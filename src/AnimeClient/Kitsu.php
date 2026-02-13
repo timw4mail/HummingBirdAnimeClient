@@ -92,7 +92,7 @@ final class Kitsu
 		null|string $startDate = null,
 		null|string $endDate = null,
 	): string {
-		if (empty($startDate))
+		if ($startDate === null || $startDate === '')
 		{
 			return '';
 		}
@@ -119,7 +119,7 @@ final class Kitsu
 			return "{$monthMap[$startMonth]} {$startDay}, {$startYear}";
 		}
 
-		if (empty($endDate))
+		if ($endDate === null || $endDate === '')
 		{
 			return "{$monthMap[$startMonth]} {$startYear} - ";
 		}
@@ -213,7 +213,7 @@ final class Kitsu
 	 */
 	public static function parseStreamingLinks(array $nodes): array
 	{
-		if (empty($nodes))
+		if ($nodes === [])
 		{
 			return [];
 		}
@@ -388,7 +388,8 @@ final class Kitsu
 	{
 		$hostname = str_replace('www.', '', $hostname ?? '');
 
-		$serviceMap = [
+		return match ($hostname)
+		{
 			'animelab.com' => [
 				'name' => 'Animelab',
 				'link' => true,
@@ -424,11 +425,6 @@ final class Kitsu
 				'link' => true,
 				'image' => 'streaming-logos/hulu.svg',
 			],
-			'netflix.com' => [
-				'name' => 'Netflix',
-				'link' => false,
-				'image' => 'streaming-logos/netflix.svg',
-			],
 			'tubitv.com' => [
 				'name' => 'TubiTV',
 				'link' => true,
@@ -444,20 +440,14 @@ final class Kitsu
 				'link' => true,
 				'image' => 'streaming-logos/vrv.svg',
 			],
-		];
-
-		if (array_key_exists($hostname, $serviceMap))
-		{
-			return $serviceMap[$hostname];
-		}
-
-		// Default to Netflix, because the API links are broken,
-		// and there's no other real identifier for Netflix
-		return [
-			'name' => 'Netflix',
-			'link' => false,
-			'image' => 'streaming-logos/netflix.svg',
-		];
+			// Default to Netflix, because the API links are broken,
+			// and there's no other real identifier for Netflix
+			default => [
+				'name' => 'Netflix',
+				'link' => false,
+				'image' => 'streaming-logos/netflix.svg',
+			],
+		};
 	}
 
 	/**
@@ -466,7 +456,7 @@ final class Kitsu
 	 */
 	private static function titleIsUnique(null|string $title = '', array $existingTitles = []): bool
 	{
-		if (empty($title))
+		if ($title === '' || $title === null)
 		{
 			return false;
 		}

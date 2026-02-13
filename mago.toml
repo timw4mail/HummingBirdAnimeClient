@@ -40,6 +40,7 @@ null-type-hint = "null_pipe"
 
 [linter]
 integrations = ["phpunit"]
+excludes = ["tests/Animeclient/test_views", "tests/Ion/test_views", "tests/Ion/TestSessionHandler.php", "tests/Ion/Di/ContainerTest.php", "tests/AnimeClient/mocks.php"]
 
 [linter.rules]
 assertion-style = { enabled = false }
