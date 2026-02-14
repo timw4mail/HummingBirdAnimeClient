@@ -154,7 +154,7 @@ final class Images extends BaseController
 		if ($ext === 'gif')
 		{
 			file_put_contents("{$filePrefix}.gif", $data);
-			imagepalletetotruecolor($gdImg);
+			imagepalettetotruecolor($gdImg);
 		}
 
 		// save the webp versions
@@ -166,9 +166,6 @@ final class Images extends BaseController
 
 		// And the original
 		file_put_contents("{$filePrefix}-original.jpg", $data);
-
-		imagedestroy($gdImg);
-		imagedestroy($resizedImg);
 
 		if ($display)
 		{

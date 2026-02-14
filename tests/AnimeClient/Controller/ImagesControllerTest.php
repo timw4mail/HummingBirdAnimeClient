@@ -126,4 +126,54 @@ final class ImagesControllerTest extends AnimeClientTestCase
 
 		$this->assertTrue(true);
 	}
+
+	public function testCacheWebp(): void
+	{
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		@$controller->cache('anime', '123.webp', false);
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testCacheGif(): void
+	{
+		$client = $this->createMock(\Amp\Http\Client\HttpClient::class);
+		$client
+			->method('request')
+			->willReturnCallback(function () {
+				$response = $this->createMock(\Amp\Http\Client\Response::class);
+				$response->method('getStatus')->willReturn(200);
+				$response->method('getHeader')->willReturn('image/gif');
+
+				// A tiny valid GIF
+				$data = base64_decode('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+				$body = new \Amp\ByteStream\Payload($data);
+				$response->method('getBody')->willReturn($body);
+
+				return $response;
+			});
+		\Aviat\AnimeClient\getApiClient($client);
+
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		@$controller->cache('anime', '123.gif', false);
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testCacheInvalidType(): void
+	{
+		$controller = new ImagesController($this->container);
+
+		ob_start();
+		@$controller->cache('invalid', '123.jpg', false);
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
 }

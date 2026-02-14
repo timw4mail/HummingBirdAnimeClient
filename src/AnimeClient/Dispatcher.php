@@ -207,7 +207,12 @@ final class Dispatcher extends RoutingBase
 		$logger = $this->container->getLogger();
 		$logger?->info('Controller: ' . $controller);
 
-		return $controller ?? $routeType ?? '';
+		if ($controller === '')
+		{
+			return (string) $routeType;
+		}
+
+		return $controller;
 	}
 
 	/**
@@ -256,7 +261,14 @@ final class Dispatcher extends RoutingBase
 		$logger = $this->container->getLogger();
 
 		try {
-			$controller = new $controllerName($this->container);
+			$map = $this->getControllerList();
+			$containerKey = array_search($controllerName, $map, true) ?: $controllerName;
+
+			$controller = $this->container->has($containerKey)
+				? $this->container->get($containerKey)
+				: ($this->container->has($controllerName)
+					? $this->container->get($controllerName)
+					: new $controllerName($this->container));
 
 			// Run the appropriate controller method
 			$logger?->debug('Dispatcher - controller arguments', $params);
@@ -266,7 +278,9 @@ final class Dispatcher extends RoutingBase
 		}
 		catch (FailedResponseException) {
 			$controllerName = DEFAULT_CONTROLLER;
-			$controller = new $controllerName($this->container);
+			$controller = $this->container->has($controllerName)
+				? $this->container->get($controllerName)
+				: new $controllerName($this->container);
 			$controller->errorPage(
 				500,
 				'API request timed out',
@@ -327,11 +341,21 @@ final class Dispatcher extends RoutingBase
 	}
 
 	/**
+	 * Clear all existing routes from the router
+	 */
+	protected function clearRoutes(): void
+	{
+		$friend = new Friend($this->router);
+		$friend->routes = [];
+	}
+
+	/**
 	 * Select controller based on the current url, and apply its relevant routes
 	 * @return list<mixed>
 	 */
 	protected function setupRoutes(): array
 	{
+		$this->clearRoutes();
 		$routeType = $this->getController();
 
 		// Add routes
@@ -339,7 +363,7 @@ final class Dispatcher extends RoutingBase
 
 		foreach ($this->routes as $name => &$route)
 		{
-			$path = $route['path'];
+			$path = $route['path'] ?? '';
 			unset($route['path']);
 
 			$controllerMap = $this->getControllerList();

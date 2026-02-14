@@ -73,6 +73,83 @@ final class SettingsControllerTest extends AnimeClientTestCase
 		$this->assertTrue(true);
 	}
 
+	public function testUpdateFailure(): void
+	{
+		$this->setSuperGlobals(['_POST' => ['config' => []]]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
+		$model
+			->expects($this->once())
+			->method('saveSettingsFile')
+			->willReturn(false);
+		$this->container->setInstance('settings-model', $model);
+
+		$controller = new SettingsController($this->container);
+
+		ob_start();
+		$controller->update();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testAnilistCallbackNoCode(): void
+	{
+		$this->setSuperGlobals(['_GET' => ['code' => '']]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$anilistModel = $this->createMock(\Aviat\AnimeClient\API\Anilist\Model::class);
+		$anilistModel->method('authenticate')->willReturn([]);
+		$this->container->setInstance('anilist-model', $anilistModel);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
+		$model->method('getSettings')->willReturn(['anilist' => [], 'config' => []]);
+		$this->container->setInstance('settings-model', $model);
+
+		$controller = new SettingsController($this->container);
+
+		ob_start();
+		$controller->anilistCallback();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testAnilistCallbackFailure(): void
+	{
+		$this->setSuperGlobals(['_GET' => ['code' => '123']]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(true);
+		$this->container->setInstance('auth', $auth);
+
+		$anilistModel = $this->createMock(\Aviat\AnimeClient\API\Anilist\Model::class);
+		$anilistModel
+			->expects($this->once())
+			->method('authenticate')
+			->willReturn([]);
+		$this->container->setInstance('anilist-model', $anilistModel);
+
+		$model = $this->createMock(\Aviat\AnimeClient\Model\Settings::class);
+		$model->method('getSettings')->willReturn(['anilist' => [], 'config' => []]);
+		$this->container->setInstance('settings-model', $model);
+
+		$controller = new SettingsController($this->container);
+
+		ob_start();
+		$controller->anilistCallback();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
 	public function testAnilistCallback(): void
 	{
 		$this->setSuperGlobals(['_GET' => ['code' => '123']]);

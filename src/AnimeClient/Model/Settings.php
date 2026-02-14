@@ -200,8 +200,14 @@ final class Settings
 			return false;
 		}
 
-		$savePath = _dir(dirname(__DIR__, 3), 'app', 'config');
+		$root = $this->config->get('root') ?? dirname(__DIR__, 3);
+		$savePath = _dir($root, 'app', 'config');
 		$saveFile = _dir($savePath, 'admin-override.toml');
+
+		if (! is_dir($savePath))
+		{
+			return false;
+		}
 
 		$saved = file_put_contents($saveFile, arrayToToml($settings));
 

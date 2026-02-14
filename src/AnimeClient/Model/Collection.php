@@ -36,7 +36,14 @@ class Collection extends DB
 	public function __construct(ContainerInterface $container)
 	{
 		parent::__construct($container);
+		$this->init();
+	}
 
+	/**
+	 * Initialize the database connection
+	 */
+	protected function init(): void
+	{
 		try {
 			$this->db = Query($this->dbConfig);
 		}

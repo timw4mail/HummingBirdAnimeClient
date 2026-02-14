@@ -93,7 +93,7 @@ final class Manga extends BaseController
 			? [$statusTitle => $this->model->getList($statusTitle)]
 			: $this->model->getList('All');
 
-		$this->outputHTML('manga/' . $view_map[$view], [
+		$this->outputHTML('manga/' . ($view_map[$view] ?? 'cover'), [
 			'title' => $title,
 			'sections' => $data,
 		]);
@@ -162,8 +162,21 @@ final class Manga extends BaseController
 	{
 		$this->checkAuth();
 
-		$this->setSessionRedirect();
 		$item = $this->model->getItem($id);
+
+		if ($item === [])
+		{
+			$this->notFound(
+				$this->formatTitle(
+					$this->config->get('whose_list') . "'s Manga List",
+					'Edit',
+					'Series not found',
+				),
+				'Series Not Found',
+			);
+		}
+
+		$this->setSessionRedirect();
 		$title = $this->formatTitle(
 			$this->config->get('whose_list') . "'s Manga List",
 			'Edit',

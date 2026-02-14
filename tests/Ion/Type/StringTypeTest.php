@@ -443,6 +443,83 @@ final class StringTypeTest extends IonTestCase
 		$this->assertEquals(['f', 'o', 'o'], $chars);
 	}
 
+	public function testSafeTruncateEdgeCases(): void
+	{
+		$str = StringType::from('foo bar baz');
+		$this->assertEquals('foo bar', (string) $str->safeTruncate(7));
+		$this->assertEquals('foo...', (string) $str->safeTruncate(6, '...'));
+		$this->assertEquals('foo bar baz', (string) $str->safeTruncate(20));
+
+		// Test when the space is exactly at the length
+		$str2 = StringType::from('foo bar baz');
+		$this->assertEquals('foo bar', (string) $str2->safeTruncate(8));
+	}
+
+	public function testIsChecksExtra(): void
+	{
+		$this->assertFalse(StringType::from('invalid base64!')->isBase64());
+	}
+
+	public function testPadInvalidType(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		StringType::from('foo')->pad(5, ' ', 'invalid');
+	}
+
+	public function testOffsetSetException(): void
+	{
+		$this->expectException(\Exception::class);
+		$str = StringType::from('foo');
+		$str[0] = 'b';
+	}
+
+	public function testOffsetUnsetException(): void
+	{
+		$this->expectException(\Exception::class);
+		$str = StringType::from('foo');
+		unset($str[0]);
+	}
+
+	public function testOffsetGetOutOfBounds(): void
+	{
+		$this->expectException(\OutOfBoundsException::class);
+		$str = StringType::from('foo');
+		$val = $str[5];
+	}
+
+	public function testBetweenNotFound(): void
+	{
+		$str = StringType::from('foo bar baz');
+		$this->assertEquals('', (string) $str->between('qux', 'baz'));
+		$this->assertEquals('', (string) $str->between('foo', 'qux'));
+	}
+
+	public function testFirstLastNegative(): void
+	{
+		$str = StringType::from('foo');
+		$this->assertEquals('', (string) $str->first(-1));
+		$this->assertEquals('', (string) $str->last(-1));
+	}
+
+	public function testConstructorExceptions(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		new StringType([]);
+	}
+
+	public function testConstructorObjectException(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		new StringType(new \stdClass());
+	}
+
+	public function testSliceEdgeCases(): void
+	{
+		$str = StringType::from('foobar');
+		$this->assertEquals('', (string) $str->slice(3, 2));
+		$this->assertEquals('fo', (string) $str->slice(0, -4));
+	}
+
 	public static function dataFuzzyCaseMatch(): array
 	{
 		return [

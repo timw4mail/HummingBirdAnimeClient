@@ -737,7 +737,9 @@ abstract class Stringy implements Countable, IteratorAggregate, ArrayAccess, \St
 	 */
 	public function isBase64(): bool
 	{
-		return base64_encode(base64_decode($this->str, true)) === $this->str;
+		$decoded = base64_decode($this->str, true);
+
+		return false !== $decoded && base64_encode($decoded) === $this->str;
 	}
 
 	/**

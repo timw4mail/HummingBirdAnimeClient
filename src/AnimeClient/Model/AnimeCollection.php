@@ -264,16 +264,21 @@ final class AnimeCollection extends Collection
 	 */
 	public function wasUpdated(array $data): bool
 	{
-		if ($this->db === null)
+		if ($this->db === null || ! array_key_exists('hummingbird_id', $data))
 		{
 			return false;
 		}
 
 		$row = $this->get($data['hummingbird_id']);
 
+		if ($row === [])
+		{
+			return false;
+		}
+
 		foreach ($data as $key => $value)
 		{
-			if (is_array($row[$key]))
+			if (! array_key_exists($key, $row) || is_array($row[$key]))
 			{
 				continue;
 			}

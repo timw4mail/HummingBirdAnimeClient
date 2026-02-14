@@ -39,4 +39,49 @@ final class PictureTest extends AnimeClientTestCase
 		$html = $picture('test.tiff', 'webp');
 		$this->assertStringContainsString('<picture', $html);
 	}
+
+	public function testMimeTypes(): void
+	{
+		$picture = new Picture();
+		$picture->setContainer($this->container);
+
+		$simpleTypes = [
+			'gif',
+			'jpeg',
+			'jpg',
+			'png',
+		];
+
+		foreach ($simpleTypes as $ext)
+		{
+			$html = $picture("test.{$ext}", 'jpg');
+			$this->assertStringNotContainsString('<picture', $html);
+			$this->assertStringContainsString('<img', $html);
+		}
+
+		$complexTypes = [
+			'avif' => 'image/avif',
+			'apng' => 'image/vnd.mozilla.apng',
+			'bmp' => 'image/bmp',
+			'ico' => 'image/x-icon',
+			'svg' => 'image/svg+xml',
+			'webp' => 'image/webp',
+		];
+
+		foreach ($complexTypes as $ext => $mime)
+		{
+			$html = $picture("test.{$ext}", 'jpg');
+			$this->assertStringContainsString('<picture', $html);
+			$this->assertStringContainsString($mime, $html);
+		}
+	}
+
+	public function testPlaceholder(): void
+	{
+		$picture = new Picture();
+		$picture->setContainer($this->container);
+
+		$html = $picture('placeholder.webp', 'jpg');
+		$this->assertStringContainsString('image/png', $html);
+	}
 }

@@ -119,6 +119,52 @@ final class MiscControllerTest extends AnimeClientTestCase
 		$this->assertTrue(true);
 	}
 
+	public function testLoginActionFailure(): void
+	{
+		$this->setSuperGlobals(['_POST' => ['password' => 'wrong']]);
+
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth
+			->expects($this->once())
+			->method('authenticate')
+			->willReturn(false);
+		$this->container->setInstance('auth', $auth);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->loginAction();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testLoginWithStatus(): void
+	{
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->login('fail');
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
+	public function testHeartbeatUnauthenticated(): void
+	{
+		$auth = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Auth::class);
+		$auth->method('isAuthenticated')->willReturn(false);
+		$this->container->setInstance('auth', $auth);
+
+		$controller = new MiscController($this->container);
+
+		ob_start();
+		$controller->heartbeat();
+		ob_end_clean();
+
+		$this->assertTrue(true);
+	}
+
 	public function testCharacter(): void
 	{
 		$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);

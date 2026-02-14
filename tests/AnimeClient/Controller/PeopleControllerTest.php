@@ -6,6 +6,16 @@ use Aviat\AnimeClient\Controller\People as PeopleController;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+class MockPeopleController extends PeopleController
+{
+	public function notFound(
+		string $title = 'Sorry, page not found',
+		string $message = 'Page Not Found',
+	): never {
+		throw new \RuntimeException('Bypass exit');
+	}
+}
+
 /**
  * @internal
  */
@@ -56,5 +66,23 @@ final class PeopleControllerTest extends AnimeClientTestCase
 		ob_end_clean();
 
 		$this->assertTrue(true);
+	}
+
+	public function testIndexNotFound(): void
+	{
+		$model = $this->createMock(\Aviat\AnimeClient\API\Kitsu\Model::class);
+		$model
+			->expects($this->once())
+			->method('getPerson')
+			->with('missing-slug')
+			->willReturn(['data' => ['findPersonBySlug' => null]]);
+		$this->container->setInstance('kitsu-model', $model);
+
+		$controller = new MockPeopleController($this->container);
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Bypass exit');
+
+		$controller->index('missing-slug');
 	}
 }

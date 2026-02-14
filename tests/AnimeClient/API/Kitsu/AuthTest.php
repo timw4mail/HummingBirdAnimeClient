@@ -4,7 +4,9 @@ namespace Aviat\AnimeClient\Tests\API\Kitsu;
 
 use Aviat\AnimeClient\API\Kitsu\Auth;
 use Aviat\AnimeClient\Tests\AnimeClientTestCase;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 
+#[AllowMockObjectsWithoutExpectations]
 final class AuthTest extends AnimeClientTestCase
 {
 	protected Auth $auth;
@@ -94,6 +96,53 @@ final class AuthTest extends AnimeClientTestCase
 
 		$this->segment->set('refresh_token', 'old_refresh_token');
 		$this->assertTrue($this->auth->reAuthenticate());
+		$this->assertEquals('new_access_token', $this->auth->getAuthToken());
+	}
+
+	public function testReAuthenticateNoToken(): void
+	{
+		$this->assertFalse($this->auth->reAuthenticate());
+	}
+
+	public function testStoreAuthFailure(): void
+	{
+		$friend = new \Aviat\Ion\Friend($this->auth);
+		$this->assertFalse($friend->storeAuth(false));
+	}
+
+	public function testStoreAuthCacheFailure(): void
+	{
+		$cache = $this->createMock(\Psr\SimpleCache\CacheInterface::class);
+		$cache->method('setMultiple')->willReturn(false);
+		$this->container->setInstance('cache', $cache);
+
+		// Need to recreate auth because cache is set in constructor
+		$auth = new Auth($this->container);
+		$friend = new \Aviat\Ion\Friend($auth);
+
+		$this->assertFalse($friend->storeAuth([
+			'access_token' => 'foo',
+			'refresh_token' => 'bar',
+			'expires_in' => 3600,
+			'created_at' => time(),
+		]));
+	}
+
+	public function testUnauthorizedEvent(): void
+	{
+		$this->kitsuModel
+			->expects($this->once())
+			->method('reAuthenticate')
+			->willReturn([
+				'access_token' => 'new_access_token',
+				'refresh_token' => 'new_refresh_token',
+				'expires_in' => 3600,
+				'created_at' => time(),
+			]);
+
+		$this->segment->set('refresh_token', 'old_refresh_token');
+		\Aviat\Ion\Event::emit(\Aviat\Ion\Type\EventType::UNAUTHORIZED);
+
 		$this->assertEquals('new_access_token', $this->auth->getAuthToken());
 	}
 }

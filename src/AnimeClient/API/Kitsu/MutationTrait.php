@@ -32,7 +32,7 @@ trait MutationTrait
 	public function createListItem(array $data): null|Request
 	{
 		$data['user_id'] = $this->getUserId();
-		if ($data['id'] === null)
+		if (($data['id'] ?? null) === null)
 		{
 			return null;
 		}

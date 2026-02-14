@@ -106,7 +106,7 @@ final class Anime extends BaseController
 			? $this->model->getList(AnimeWatchingStatus::ROUTE_TO_KITSU[$status])
 			: $this->model->getAllLists();
 
-		$this->outputHTML('anime/' . $viewMap[$view ?? ''], [
+		$this->outputHTML('anime/' . ($viewMap[$view ?? ''] ?? 'cover'), [
 			'title' => $title,
 			'sections' => $data,
 		]);
@@ -183,6 +183,19 @@ final class Anime extends BaseController
 		$this->checkAuth();
 
 		$item = $this->model->getItem($id);
+
+		if ($item === [])
+		{
+			$this->notFound(
+				$this->formatTitle(
+					$this->config->get('whose_list') . "'s Anime List",
+					'Edit',
+					'Series not found',
+				),
+				'Series Not Found',
+			);
+		}
+
 		$this->setSessionRedirect();
 
 		$this->outputHTML('anime/edit', [

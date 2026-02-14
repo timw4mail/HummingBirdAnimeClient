@@ -35,11 +35,6 @@ class ImageBuilder
 		$this->_img = imagecreatetruecolor($this->width, $this->height);
 	}
 
-	public function __destruct()
-	{
-		$this->cleanup();
-	}
-
 	private function getImg(): GdImage
 	{
 		if ($this->_img instanceof GdImage)
@@ -153,15 +148,5 @@ class ImageBuilder
 	public function saveGif(string $savePath): bool
 	{
 		return imagegif($this->getImg(), $savePath);
-	}
-
-	public function cleanup(): void
-	{
-		$cleaned = imagedestroy($this->getImg());
-
-		if ($cleaned === false)
-		{
-			throw new ImageCreationException('Failed to clean up image resource');
-		}
 	}
 }

@@ -119,15 +119,23 @@ final class Settings extends BaseController
 	public function anilistCallback(): void
 	{
 		$query = $this->request->getQueryParams();
-		$authCode = $query['code'];
+		$authCode = $query['code'] ?? null;
+
+		if ($authCode === null || $authCode === '')
+		{
+			$this->redirect($this->url->generate('settings'), 303);
+
+			return;
+		}
+
 		$uri = $this->urlGenerator->url('/anilist-oauth');
 
 		$authData = $this->anilistModel->authenticate($authCode, $uri);
 		$settings = $this->settingsModel->getSettings();
 
-		if (array_key_exists('error', $authData))
+		if (array_key_exists('error', $authData) || ! array_key_exists('access_token', $authData))
 		{
-			$this->errorPage(400, 'Error Linking Account', $authData['hint']);
+			$this->errorPage(400, 'Error Linking Account', $authData['hint'] ?? 'Invalid auth code');
 
 			return;
 		}
@@ -140,14 +148,17 @@ final class Settings extends BaseController
 		];
 
 		$newSettings = $settings;
-		$newSettings['anilist'] = array_merge($settings['anilist'], $anilistSettings);
+		$newSettings['anilist'] = array_merge($settings['anilist'] ?? [], $anilistSettings);
 
-		foreach ($newSettings['config'] as $key => $value)
+		if (array_key_exists('config', $newSettings) && is_array($newSettings['config']))
 		{
-			$newSettings[$key] = $value;
-		}
+			foreach ($newSettings['config'] as $key => $value)
+			{
+				$newSettings[$key] = $value;
+			}
 
-		unset($newSettings['config']);
+			unset($newSettings['config']);
+		}
 
 		$saved = $this->settingsModel->saveSettingsFile($newSettings);
 
