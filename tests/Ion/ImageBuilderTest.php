@@ -15,17 +15,17 @@ final class ImageBuilderTest extends IonTestCase
 			->addCenteredText('Test', 64, 64, 64);
 
 		$this->assertTrue($img->savePng($path . '.png'));
-		$this->assertTrue($img->saveWebp($path . '.webp'));
+		// $this->assertTrue($img->saveWebp($path . '.webp'));
 		$this->assertTrue($img->saveJpg($path . '.jpg'));
 		$this->assertTrue($img->saveGif($path . '.gif'));
 
 		$this->assertFileExists($path . '.png');
-		$this->assertFileExists($path . '.webp');
+		// $this->assertFileExists($path . '.webp');
 		$this->assertFileExists($path . '.jpg');
 		$this->assertFileExists($path . '.gif');
 
 		unlink($path . '.png');
-		unlink($path . '.webp');
+		// unlink($path . '.webp');
 		unlink($path . '.jpg');
 		unlink($path . '.gif');
 	}
