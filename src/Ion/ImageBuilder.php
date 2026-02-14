@@ -137,19 +137,16 @@ class ImageBuilder
 
 	public function saveWebp(string $savePath): bool
 	{
-		if (\function_exists('imagewebp'))
-		{
-			return imagewebp($this->getImg(), $savePath);
-		}
+		return \function_exists('imagewebp') && imagewebp($this->getImg(), $savePath);
 	}
 
 	public function saveJpg(string $savePath): bool
 	{
-		return imagejpeg($this->getImg(), $savePath);
+		return \function_exists('imagejpeg') && imagejpeg($this->getImg(), $savePath);
 	}
 
 	public function saveGif(string $savePath): bool
 	{
-		return imagegif($this->getImg(), $savePath);
+		return \function_exists('imagegif') && imagegif($this->getImg(), $savePath);
 	}
 }
