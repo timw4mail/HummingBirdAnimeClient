@@ -411,7 +411,7 @@ final class Kitsu
 				'link' => true,
 				'image' => 'streaming-logos/tubitv.svg',
 			],
-			'youtube.con' => [
+			'youtube.com' => [
 				'name' => 'YouTube',
 				'link' => true,
 				'image' => 'streaming-logos/youtube.svg',
