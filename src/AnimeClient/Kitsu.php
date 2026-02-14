@@ -386,11 +386,6 @@ final class Kitsu
 
 		return match ($hostname)
 		{
-			'animelab.com' => [
-				'name' => 'Animelab',
-				'link' => true,
-				'image' => 'streaming-logos/animelab.svg',
-			],
 			'amazon.com' => [
 				'name' => 'Amazon Prime',
 				'link' => true,
@@ -400,16 +395,6 @@ final class Kitsu
 				'name' => 'Crunchyroll',
 				'link' => true,
 				'image' => 'streaming-logos/crunchyroll.svg',
-			],
-			'daisuki.net' => [
-				'name' => 'Daisuki',
-				'link' => true,
-				'image' => 'streaming-logos/daisuki.svg',
-			],
-			'funimation.com' => [
-				'name' => 'Funimation',
-				'link' => true,
-				'image' => 'streaming-logos/funimation.svg',
 			],
 			'hidive.com' => [
 				'name' => 'Hidive',
@@ -426,15 +411,10 @@ final class Kitsu
 				'link' => true,
 				'image' => 'streaming-logos/tubitv.svg',
 			],
-			'viewster.com' => [
-				'name' => 'Viewster',
+			'youtube.con' => [
+				'name' => 'YouTube',
 				'link' => true,
-				'image' => 'streaming-logos/viewster.svg',
-			],
-			'vrv.co' => [
-				'name' => 'VRV',
-				'link' => true,
-				'image' => 'streaming-logos/vrv.svg',
+				'image' => 'streaming-logos/youtube.svg',
 			],
 			// Default to Netflix, because the API links are broken,
 			// and there's no other real identifier for Netflix
