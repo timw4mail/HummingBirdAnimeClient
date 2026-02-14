@@ -20,7 +20,7 @@ pipeline {
 			}
 			steps {
 				sh 'apt-get update \
-					&& apt-get install -yy libpng-dev libicu-dev libzip-dev build-essential git \
+					&& apt-get install -yy libwebp-dev libpng-dev libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
 					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
@@ -40,7 +40,7 @@ pipeline {
 			}
 			steps {
 				sh 'apt-get update \
-					&& apt-get install -yy libpng-dev libicu-dev libzip-dev build-essential git \
+					&& apt-get install -yy libwebp-dev libpng-dev libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
 					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
@@ -60,7 +60,7 @@ pipeline {
 			}
 			steps {
 				sh 'apt-get update \
-					&& apt-get install -yy libpng-dev libicu-dev libzip-dev build-essential git \
+					&& apt-get install -yy libwebp-dev libpng-dev libicu-dev libzip-dev build-essential git \
 					&& docker-php-source extract \
 					&& docker-php-ext-install gd \
 					&& docker-php-ext-install intl \
