@@ -46,6 +46,11 @@ final class Images extends BaseController
 		$fileName = str_replace('-original', '', $file);
 		[$id, $ext] = explode('.', basename($fileName));
 
+		if (! \function_exists('imagewebp'))
+		{
+			return;
+		}
+
 		$baseSavePath = $this->config->get('img_cache_path');
 
 		// Kitsu doesn't serve webp, but for most use cases,
